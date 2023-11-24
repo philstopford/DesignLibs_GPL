@@ -19,8 +19,7 @@ namespace Veldrid.Sdl2
         }
 
         public static implicit operator IntPtr(SDL_Cursor Sdl2Cursor) => Sdl2Cursor.NativePointer;
-
-        public static implicit operator SDL_Cursor(IntPtr pointer) => new(pointer);
+        public static implicit operator SDL_Cursor(IntPtr pointer) => new SDL_Cursor(pointer);
     }
 
     /// <summary>

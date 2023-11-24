@@ -1,9 +1,8 @@
-using System;
 using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLResourceFactory : ResourceFactory
+    internal class MTLResourceFactory : ResourceFactory
     {
         private readonly MTLGraphicsDevice _gd;
 
@@ -15,71 +14,65 @@ namespace Veldrid.MTL
 
         public override GraphicsBackend BackendType => GraphicsBackend.Metal;
 
-        public override CommandList CreateCommandList(in CommandListDescription description)
+        public override CommandList CreateCommandList(ref CommandListDescription description)
         {
-            return new MTLCommandList(description, _gd);
+            return new MTLCommandList(ref description, _gd);
         }
 
-        public override Pipeline CreateComputePipeline(in ComputePipelineDescription description)
+        public override Pipeline CreateComputePipeline(ref ComputePipelineDescription description)
         {
-            return new MTLPipeline(description, _gd);
+            return new MTLPipeline(ref description, _gd);
         }
 
-        public override Framebuffer CreateFramebuffer(in FramebufferDescription description)
+        public override Framebuffer CreateFramebuffer(ref FramebufferDescription description)
         {
-            return new MTLFramebuffer(_gd, description);
+            return new MTLFramebuffer(_gd, ref description);
         }
 
-        public override Pipeline CreateGraphicsPipeline(in GraphicsPipelineDescription description)
+        protected override Pipeline CreateGraphicsPipelineCore(ref GraphicsPipelineDescription description)
         {
-            ValidateGraphicsPipeline(description);
-            return new MTLPipeline(description, _gd);
+            return new MTLPipeline(ref description, _gd);
         }
 
-        public override ResourceLayout CreateResourceLayout(in ResourceLayoutDescription description)
+        public override ResourceLayout CreateResourceLayout(ref ResourceLayoutDescription description)
         {
-            return new MTLResourceLayout(description, _gd);
+            return new MTLResourceLayout(ref description, _gd);
         }
 
-        public override ResourceSet CreateResourceSet(in ResourceSetDescription description)
+        public override ResourceSet CreateResourceSet(ref ResourceSetDescription description)
         {
-            ValidationHelpers.ValidateResourceSet(_gd, description);
-            return new MTLResourceSet(description, _gd);
+            ValidationHelpers.ValidateResourceSet(_gd, ref description);
+            return new MTLResourceSet(ref description, _gd);
         }
 
-        public override Sampler CreateSampler(in SamplerDescription description)
+        protected override Sampler CreateSamplerCore(ref SamplerDescription description)
         {
-            ValidateSampler(description);
-            return new MTLSampler(description, _gd);
+            return new MTLSampler(ref description, _gd);
         }
 
-        public override Shader CreateShader(in ShaderDescription description)
+        protected override Shader CreateShaderCore(ref ShaderDescription description)
         {
-            ValidateShader(description);
-            return new MTLShader(description, _gd);
+            return new MTLShader(ref description, _gd);
         }
 
-        public override DeviceBuffer CreateBuffer(in BufferDescription description)
+        protected override DeviceBuffer CreateBufferCore(ref BufferDescription description)
         {
-            ValidateBuffer(description);
-            return new MTLBuffer(description, _gd);
+            return new MTLBuffer(ref description, _gd);
         }
 
-        public override Texture CreateTexture(in TextureDescription description)
+        protected override Texture CreateTextureCore(ref TextureDescription description)
         {
-            ValidateTexture(description);
-            return new MTLTexture(description, _gd);
+            return new MTLTexture(ref description, _gd);
         }
 
-        public override Texture CreateTexture(ulong nativeTexture, in TextureDescription description)
+        protected override Texture CreateTextureCore(ulong nativeTexture, ref TextureDescription description)
         {
-            return new MTLTexture(nativeTexture, description);
+            return new MTLTexture(nativeTexture, ref description);
         }
 
-        public override TextureView CreateTextureView(in TextureViewDescription description)
+        protected override TextureView CreateTextureViewCore(ref TextureViewDescription description)
         {
-            ValidateTextureView(description);
-            return new MTLTextureView(description, _gd);
+            return new MTLTextureView(ref description, _gd);
         }
 
         public override Fence CreateFence(bool signaled)
@@ -87,9 +80,9 @@ namespace Veldrid.MTL
             return new MTLFence(signaled);
         }
 
-        public override Swapchain CreateSwapchain(in SwapchainDescription description)
+        public override Swapchain CreateSwapchain(ref SwapchainDescription description)
         {
-            return new MTLSwapchain(_gd, description);
+            return new MTLSwapchain(_gd, ref description);
         }
     }
 }

@@ -1,21 +1,21 @@
-﻿using System;
-using TerraFX.Interop.Vulkan;
+﻿using System.Collections.Generic;
+using Vulkan;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
-    internal abstract class VkFramebufferBase : Framebuffer, IResourceRefCountTarget
+    internal abstract class VkFramebufferBase : Framebuffer
     {
         public VkFramebufferBase(
             FramebufferAttachmentDescription? depthTexture,
-            ReadOnlySpan<FramebufferAttachmentDescription> colorTextures)
+            IReadOnlyList<FramebufferAttachmentDescription> colorTextures)
             : base(depthTexture, colorTextures)
         {
-            RefCount = new ResourceRefCount(this);
+            RefCount = new ResourceRefCount(DisposeCore);
         }
 
         public VkFramebufferBase()
         {
-            RefCount = new ResourceRefCount(this);
+            RefCount = new ResourceRefCount(DisposeCore);
         }
 
         public ResourceRefCount RefCount { get; }
@@ -30,17 +30,12 @@ namespace Veldrid.Vulkan
 
         protected abstract void DisposeCore();
 
-        public abstract TerraFX.Interop.Vulkan.VkFramebuffer CurrentFramebuffer { get; }
+        public abstract Vulkan.VkFramebuffer CurrentFramebuffer { get; }
         public abstract VkRenderPass RenderPassNoClear_Init { get; }
         public abstract VkRenderPass RenderPassNoClear_Load { get; }
         public abstract VkRenderPass RenderPassClear { get; }
         public abstract uint AttachmentCount { get; }
         public abstract void TransitionToIntermediateLayout(VkCommandBuffer cb);
-        public abstract void TransitionToFinalLayout(VkCommandBuffer cb, bool attachment);
-
-        void IResourceRefCountTarget.RefZeroed()
-        {
-            DisposeCore();
-        }
+        public abstract void TransitionToFinalLayout(VkCommandBuffer cb);
     }
 }

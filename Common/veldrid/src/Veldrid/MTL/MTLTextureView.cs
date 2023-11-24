@@ -1,20 +1,21 @@
+using System;
 using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLTextureView : TextureView
+    internal class MTLTextureView : TextureView
     {
         private readonly bool _hasTextureView;
         private bool _disposed;
 
         public MetalBindings.MTLTexture TargetDeviceTexture { get; }
 
-        public override string? Name { get; set; }
+        public override string Name { get; set; }
 
         public override bool IsDisposed => _disposed;
 
-        public MTLTextureView(in TextureViewDescription description, MTLGraphicsDevice gd)
-            : base(description)
+        public MTLTextureView(ref TextureViewDescription description, MTLGraphicsDevice gd)
+            : base(ref description)
         {
             MTLTexture targetMTLTexture = Util.AssertSubtype<Texture, MTLTexture>(description.Target);
             if (BaseMipLevel != 0 || MipLevels != Target.MipLevels
@@ -22,7 +23,7 @@ namespace Veldrid.MTL
                 || Format != Target.Format)
             {
                 _hasTextureView = true;
-                uint effectiveArrayLayers = (Target.Usage & TextureUsage.Cubemap) != 0 ? ArrayLayers * 6 : ArrayLayers;
+                var effectiveArrayLayers = Target.Usage.HasFlag(TextureUsage.Cubemap) ? ArrayLayers * 6 : ArrayLayers;
                 TargetDeviceTexture = targetMTLTexture.DeviceTexture.newTextureView(
                     MTLFormats.VdToMTLPixelFormat(Format, (description.Target.Usage & TextureUsage.DepthStencil) != 0),
                     targetMTLTexture.MTLTextureType,

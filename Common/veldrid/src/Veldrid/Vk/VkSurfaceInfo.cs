@@ -1,22 +1,23 @@
 ﻿using System;
-using TerraFX.Interop.Vulkan;
+using Vulkan;
+using Vulkan.Xlib;
+using static Veldrid.Vk.VulkanUtil;
+using static Vulkan.VulkanNative;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
     /// <summary>
-    /// An object which can be used to create a <see cref="VkSurfaceKHR"/>.
+    /// An object which can be used to create a VkSurfaceKHR.
     /// </summary>
     public abstract class VkSurfaceSource
     {
-        internal VkSurfaceSource()
-        {
-        }
+        internal VkSurfaceSource() { }
 
         /// <summary>
-        /// Creates a new <see cref="VkSurfaceKHR"/> attached to this source.
+        /// Creates a new VkSurfaceKHR attached to this source.
         /// </summary>
-        /// <param name="instance">The <see cref="VkInstance"/> to use.</param>
-        /// <returns>A new <see cref="VkSurfaceKHR"/>.</returns>
+        /// <param name="instance">The VkInstance to use.</param>
+        /// <returns>A new VkSurfaceKHR.</returns>
         public abstract VkSurfaceKHR CreateSurface(VkInstance instance);
 
         /// <summary>
@@ -24,38 +25,20 @@ namespace Veldrid.Vulkan
         /// </summary>
         /// <param name="hinstance">The Win32 instance handle.</param>
         /// <param name="hwnd">The Win32 window handle.</param>
-        /// <returns>A new <see cref="VkSurfaceSource"/>.</returns>
-        public static VkSurfaceSource CreateWin32(IntPtr hinstance, IntPtr hwnd)
-        {
-            return new Win32VkSurfaceInfo(hinstance, hwnd);
-        }
-
+        /// <returns>A new VkSurfaceSource.</returns>
+        public static VkSurfaceSource CreateWin32(IntPtr hinstance, IntPtr hwnd) => new Win32VkSurfaceInfo(hinstance, hwnd);
         /// <summary>
-        /// Creates a new <see cref="VkSurfaceSource"/> from the given Xlib information.
+        /// Creates a new VkSurfaceSource from the given Xlib information.
         /// </summary>
-        /// <param name="display">A pointer to the Xlib display.</param>
+        /// <param name="display">A pointer to the Xlib Display.</param>
         /// <param name="window">An Xlib window.</param>
-        /// <returns>A new <see cref="VkSurfaceSource"/>.</returns>
-        public static VkSurfaceSource CreateXlib(IntPtr display, IntPtr window)
-        {
-            return new XlibVkSurfaceInfo(display, window);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="VkSurfaceSource"/> from the given Wayland information.
-        /// </summary>
-        /// <param name="display">A pointer to the Wayland display.</param>
-        /// <param name="surface">A Wayland surface.</param>
-        /// <returns>A new <see cref="VkSurfaceSource"/>.</returns>
-        public static VkSurfaceSource CreateWayland(IntPtr display, IntPtr surface)
-        {
-            return new WaylandVkSurfaceInfo(display, surface);
-        }
+        /// <returns>A new VkSurfaceSource.</returns>
+        public unsafe static VkSurfaceSource CreateXlib(Display* display, Window window) => new XlibVkSurfaceInfo(display, window);
 
         internal abstract SwapchainSource GetSurfaceSource();
     }
 
-    internal sealed class Win32VkSurfaceInfo : VkSurfaceSource
+    internal class Win32VkSurfaceInfo : VkSurfaceSource
     {
         private readonly IntPtr _hinstance;
         private readonly IntPtr _hwnd;
@@ -66,9 +49,9 @@ namespace Veldrid.Vulkan
             _hwnd = hwnd;
         }
 
-        public override VkSurfaceKHR CreateSurface(VkInstance instance)
+        public unsafe override VkSurfaceKHR CreateSurface(VkInstance instance)
         {
-            return VkSurfaceUtil.CreateSurface(instance, GetSurfaceSource());
+            return VkSurfaceUtil.CreateSurface(null, instance, GetSurfaceSource());
         }
 
         internal override SwapchainSource GetSurfaceSource()
@@ -77,47 +60,25 @@ namespace Veldrid.Vulkan
         }
     }
 
-    internal sealed class XlibVkSurfaceInfo : VkSurfaceSource
+    internal class XlibVkSurfaceInfo : VkSurfaceSource
     {
-        private readonly IntPtr _display;
-        private readonly IntPtr _window;
+        private readonly unsafe Display* _display;
+        private readonly Window _window;
 
-        public XlibVkSurfaceInfo(IntPtr display, IntPtr window)
+        public unsafe XlibVkSurfaceInfo(Display* display, Window window)
         {
             _display = display;
             _window = window;
         }
 
-        public override VkSurfaceKHR CreateSurface(VkInstance instance)
+        public unsafe override VkSurfaceKHR CreateSurface(VkInstance instance)
         {
-            return VkSurfaceUtil.CreateSurface(instance, GetSurfaceSource());
+            return VkSurfaceUtil.CreateSurface(null, instance, GetSurfaceSource());
         }
 
-        internal override SwapchainSource GetSurfaceSource()
+        internal unsafe override SwapchainSource GetSurfaceSource()
         {
-            return new XlibSwapchainSource(_display, _window);
-        }
-    }
-
-    internal sealed class WaylandVkSurfaceInfo : VkSurfaceSource
-    {
-        private readonly IntPtr _display;
-        private readonly IntPtr _surface;
-
-        public WaylandVkSurfaceInfo(IntPtr display, IntPtr surface)
-        {
-            _display = display;
-            _surface = surface;
-        }
-
-        public override VkSurfaceKHR CreateSurface(VkInstance instance)
-        {
-            return VkSurfaceUtil.CreateSurface(instance, GetSurfaceSource());
-        }
-
-        internal override SwapchainSource GetSurfaceSource()
-        {
-            return new WaylandSwapchainSource(_display, _surface);
+            return new XlibSwapchainSource((IntPtr)_display, _window.Value);
         }
     }
 }

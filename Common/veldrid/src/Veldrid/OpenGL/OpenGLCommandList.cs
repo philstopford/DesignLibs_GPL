@@ -1,29 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Veldrid.OpenGL.EntryList;
+using Veldrid.OpenGL.NoAllocEntryList;
 
 namespace Veldrid.OpenGL
 {
-    internal sealed class OpenGLCommandList : CommandList
+    internal class OpenGLCommandList : CommandList
     {
         private readonly OpenGLGraphicsDevice _gd;
-        private OpenGLCommandEntryList _currentCommands = null!;
+        private OpenGLCommandEntryList _currentCommands;
         private bool _disposed;
 
         internal OpenGLCommandEntryList CurrentCommands => _currentCommands;
         internal OpenGLGraphicsDevice Device => _gd;
 
-        private readonly object _lock = new();
-        private readonly Stack<OpenGLCommandEntryList> _availableLists = new();
-        private readonly List<OpenGLCommandEntryList> _submittedLists = new();
+        private readonly object _lock = new object();
+        private readonly List<OpenGLCommandEntryList> _availableLists = new List<OpenGLCommandEntryList>();
+        private readonly List<OpenGLCommandEntryList> _submittedLists = new List<OpenGLCommandEntryList>();
 
-        public override string? Name { get; set; }
+        public override string Name { get; set; }
 
         public override bool IsDisposed => _disposed;
 
-        public OpenGLCommandList(OpenGLGraphicsDevice gd, in CommandListDescription description)
-            : base(description, gd.Features, gd.UniformBufferMinOffsetAlignment, gd.StructuredBufferMinOffsetAlignment)
+        public OpenGLCommandList(OpenGLGraphicsDevice gd, ref CommandListDescription description)
+            : base(ref description, gd.Features, gd.UniformBufferMinOffsetAlignment, gd.StructuredBufferMinOffsetAlignment)
         {
             _gd = gd;
         }
@@ -44,13 +44,15 @@ namespace Veldrid.OpenGL
         {
             lock (_lock)
             {
-                if (_availableLists.TryPop(out OpenGLCommandEntryList? ret))
+                if (_availableLists.Count > 0)
                 {
+                    OpenGLCommandEntryList ret = _availableLists[_availableLists.Count - 1];
+                    _availableLists.RemoveAt(_availableLists.Count - 1);
                     return ret;
                 }
                 else
                 {
-                    return new OpenGLCommandEntryList(this);
+                    return new OpenGLNoAllocCommandEntryList(this);
                 }
             }
         }
@@ -112,10 +114,6 @@ namespace Veldrid.OpenGL
 
         private protected override void SetIndexBufferCore(DeviceBuffer buffer, IndexFormat format, uint offset)
         {
-            if (_gd.IsDebug)
-            {
-                _gd.ThrowIfMapped(buffer, 0);
-            }
             _currentCommands.SetIndexBuffer(buffer, format, offset);
         }
 
@@ -124,14 +122,14 @@ namespace Veldrid.OpenGL
             _currentCommands.SetPipeline(pipeline);
         }
 
-        protected override void SetGraphicsResourceSetCore(uint slot, ResourceSet rs, ReadOnlySpan<uint> dynamicOffsets)
+        protected override void SetGraphicsResourceSetCore(uint slot, ResourceSet rs, uint dynamicOffsetCount, ref uint dynamicOffsets)
         {
-            _currentCommands.SetGraphicsResourceSet(slot, rs, dynamicOffsets);
+            _currentCommands.SetGraphicsResourceSet(slot, rs, dynamicOffsetCount, ref dynamicOffsets);
         }
 
-        protected override void SetComputeResourceSetCore(uint slot, ResourceSet rs, ReadOnlySpan<uint> dynamicOffsets)
+        protected override void SetComputeResourceSetCore(uint slot, ResourceSet rs, uint dynamicOffsetCount, ref uint dynamicOffsets)
         {
-            _currentCommands.SetComputeResourceSet(slot, rs, dynamicOffsets);
+            _currentCommands.SetComputeResourceSet(slot, rs, dynamicOffsetCount, ref dynamicOffsets);
         }
 
         public override void SetScissorRect(uint index, uint x, uint y, uint width, uint height)
@@ -141,16 +139,12 @@ namespace Veldrid.OpenGL
 
         private protected override void SetVertexBufferCore(uint index, DeviceBuffer buffer, uint offset)
         {
-            if (_gd.IsDebug)
-            {
-                _gd.ThrowIfMapped(buffer, 0);
-            }
             _currentCommands.SetVertexBuffer(index, buffer, offset);
         }
 
-        public override void SetViewport(uint index, in Viewport viewport)
+        public override void SetViewport(uint index, ref Viewport viewport)
         {
-            _currentCommands.SetViewport(index, viewport);
+            _currentCommands.SetViewport(index, ref viewport);
         }
 
         internal void Reset()
@@ -165,10 +159,12 @@ namespace Veldrid.OpenGL
 
         protected override void CopyBufferCore(
             DeviceBuffer source,
+            uint sourceOffset,
             DeviceBuffer destination,
-            ReadOnlySpan<BufferCopyCommand> commands)
+            uint destinationOffset,
+            uint sizeInBytes)
         {
-            _currentCommands.CopyBuffer(source, destination, commands);
+            _currentCommands.CopyBuffer(source, sourceOffset, destination, destinationOffset, sizeInBytes);
         }
 
         protected override void CopyTextureCore(
@@ -203,7 +199,7 @@ namespace Veldrid.OpenGL
 
         public void OnSubmitted(OpenGLCommandEntryList entryList)
         {
-            _currentCommands = null!;
+            _currentCommands = null;
             lock (_lock)
             {
                 Debug.Assert(!_submittedLists.Contains(entryList));
@@ -220,16 +216,16 @@ namespace Veldrid.OpenGL
                 entryList.Reset();
 
                 Debug.Assert(!_availableLists.Contains(entryList));
-                _availableLists.Push(entryList);
+                _availableLists.Add(entryList);
 
                 Debug.Assert(_submittedLists.Contains(entryList));
                 _submittedLists.Remove(entryList);
             }
         }
 
-        private protected override void PushDebugGroupCore(ReadOnlySpan<char> name)
+        private protected override void PushDebugGroupCore(string name)
         {
-            _currentCommands.PushDebugGroup(name.ToString());
+            _currentCommands.PushDebugGroup(name);
         }
 
         private protected override void PopDebugGroupCore()
@@ -237,9 +233,9 @@ namespace Veldrid.OpenGL
             _currentCommands.PopDebugGroup();
         }
 
-        private protected override void InsertDebugMarkerCore(ReadOnlySpan<char> name)
+        private protected override void InsertDebugMarkerCore(string name)
         {
-            _currentCommands.InsertDebugMarker(name.ToString());
+            _currentCommands.InsertDebugMarker(name);
         }
 
         public override void Dispose()

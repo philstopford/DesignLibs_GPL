@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Reflection;
 using System.IO;
-using System.Text;
 
 namespace Veldrid
 {
@@ -37,13 +36,14 @@ namespace Veldrid
         private Vector2 _scaleFactor = Vector2.One;
 
         // Image trackers
-        private readonly Dictionary<TextureView, ResourceSetInfo> _setsByView = new();
-        private readonly Dictionary<Texture, TextureView> _autoViewsByTexture = new();
-        private readonly Dictionary<IntPtr, ResourceSetInfo> _viewsById = new();
-        private readonly List<IDisposable> _ownedResources = new();
+        private readonly Dictionary<TextureView, ResourceSetInfo> _setsByView
+            = new Dictionary<TextureView, ResourceSetInfo>();
+        private readonly Dictionary<Texture, TextureView> _autoViewsByTexture
+            = new Dictionary<Texture, TextureView>();
+        private readonly Dictionary<IntPtr, ResourceSetInfo> _viewsById = new Dictionary<IntPtr, ResourceSetInfo>();
+        private readonly List<IDisposable> _ownedResources = new List<IDisposable>();
         private int _lastAssignedID = 100;
         private bool _frameBegun;
-        private bool _disposed;
 
         /// <summary>
         /// Constructs a new ImGuiRenderer.
@@ -53,9 +53,7 @@ namespace Veldrid
         /// <param name="width">The initial width of the rendering target. Can be resized.</param>
         /// <param name="height">The initial height of the rendering target. Can be resized.</param>
         public ImGuiRenderer(GraphicsDevice gd, OutputDescription outputDescription, int width, int height)
-            : this(gd, outputDescription, width, height, ColorSpaceHandling.Legacy)
-        {
-        }
+            : this(gd, outputDescription, width, height, ColorSpaceHandling.Legacy) { }
 
         /// <summary>
         /// Constructs a new ImGuiRenderer.
@@ -95,40 +93,22 @@ namespace Veldrid
 
         public void DestroyDeviceObjects()
         {
-            _vertexBuffer.Dispose();
-            _indexBuffer.Dispose();
-            _projMatrixBuffer.Dispose();
-            _fontTexture.Dispose();
-            _vertexShader.Dispose();
-            _fragmentShader.Dispose();
-            _layout.Dispose();
-            _textureLayout.Dispose();
-            _pipeline.Dispose();
-            _mainResourceSet.Dispose();
-            _fontTextureResourceSet.Dispose();
-
-            foreach (IDisposable resource in _ownedResources)
-            {
-                resource.Dispose();
-            }
+            Dispose();
         }
 
         public void CreateDeviceResources(GraphicsDevice gd, OutputDescription outputDescription)
-        {
-            CreateDeviceResources(gd, outputDescription, _colorSpaceHandling);
-        }
-
+            => CreateDeviceResources(gd, outputDescription, _colorSpaceHandling);
         public void CreateDeviceResources(GraphicsDevice gd, OutputDescription outputDescription, ColorSpaceHandling colorSpaceHandling)
         {
             _gd = gd;
             _colorSpaceHandling = colorSpaceHandling;
             ResourceFactory factory = gd.ResourceFactory;
-            _vertexBuffer = factory.CreateBuffer(new BufferDescription(10000, BufferUsage.VertexBuffer | BufferUsage.DynamicWrite));
+            _vertexBuffer = factory.CreateBuffer(new BufferDescription(10000, BufferUsage.VertexBuffer | BufferUsage.Dynamic));
             _vertexBuffer.Name = "ImGui.NET Vertex Buffer";
-            _indexBuffer = factory.CreateBuffer(new BufferDescription(2000, BufferUsage.IndexBuffer | BufferUsage.DynamicWrite));
+            _indexBuffer = factory.CreateBuffer(new BufferDescription(2000, BufferUsage.IndexBuffer | BufferUsage.Dynamic));
             _indexBuffer.Name = "ImGui.NET Index Buffer";
 
-            _projMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.DynamicWrite));
+            _projMatrixBuffer = factory.CreateBuffer(new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
             _projMatrixBuffer.Name = "ImGui.NET Projection Buffer";
 
             byte[] vertexShaderBytes = LoadEmbeddedShaderCode(gd.ResourceFactory, "imgui-vertex", ShaderStages.Vertex, _colorSpaceHandling);
@@ -148,14 +128,13 @@ namespace Veldrid
 
             _layout = factory.CreateResourceLayout(new ResourceLayoutDescription(
                 new ResourceLayoutElementDescription("ProjectionMatrixBuffer", ResourceKind.UniformBuffer, ShaderStages.Vertex),
-                new ResourceLayoutElementDescription("FontSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
+                new ResourceLayoutElementDescription("MainSampler", ResourceKind.Sampler, ShaderStages.Fragment)));
             _layout.Name = "ImGui.NET Resource Layout";
-
             _textureLayout = factory.CreateResourceLayout(new ResourceLayoutDescription(
-                new ResourceLayoutElementDescription("FontTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
+                new ResourceLayoutElementDescription("MainTexture", ResourceKind.TextureReadOnly, ShaderStages.Fragment)));
             _textureLayout.Name = "ImGui.NET Texture Layout";
 
-            GraphicsPipelineDescription pd = new(
+            GraphicsPipelineDescription pd = new GraphicsPipelineDescription(
                 BlendStateDescription.SingleAlphaBlend,
                 new DepthStencilStateDescription(false, false, ComparisonKind.Always),
                 new RasterizerStateDescription(FaceCullMode.None, PolygonFillMode.Solid, FrontFace.Clockwise, true, true),
@@ -171,7 +150,7 @@ namespace Veldrid
                 new ResourceLayout[] { _layout, _textureLayout },
                 outputDescription,
                 ResourceBindingModel.Default);
-            _pipeline = factory.CreateGraphicsPipeline(pd);
+            _pipeline = factory.CreateGraphicsPipeline(ref pd);
             _pipeline.Name = "ImGui.NET Pipeline";
 
             _mainResourceSet = factory.CreateResourceSet(new ResourceSetDescription(_layout,
@@ -204,8 +183,9 @@ namespace Veldrid
 
         public void RemoveImGuiBinding(TextureView textureView)
         {
-            if (_setsByView.Remove(textureView, out ResourceSetInfo rsi))
+            if (_setsByView.TryGetValue(textureView, out ResourceSetInfo rsi))
             {
+                _setsByView.Remove(textureView);
                 _viewsById.Remove(rsi.ImGuiBinding);
                 _ownedResources.Remove(rsi.ResourceSet);
                 rsi.ResourceSet.Dispose();
@@ -237,8 +217,9 @@ namespace Veldrid
 
         public void RemoveImGuiBinding(Texture texture)
         {
-            if (_autoViewsByTexture.Remove(texture, out TextureView textureView))
+            if (_autoViewsByTexture.TryGetValue(texture, out TextureView textureView))
             {
+                _autoViewsByTexture.Remove(texture);
                 _ownedResources.Remove(textureView);
                 textureView.Dispose();
                 RemoveImGuiBinding(textureView);
@@ -282,22 +263,19 @@ namespace Veldrid
             {
                 case GraphicsBackend.Direct3D11:
                 {
-                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy)
-                        name += "-legacy";
+                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy) { name += "-legacy"; }
                     string resourceName = name + ".hlsl.bytes";
                     return GetEmbeddedResourceBytes(resourceName);
                 }
                 case GraphicsBackend.OpenGL:
                 {
-                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy)
-                        name += "-legacy";
+                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy) { name += "-legacy"; }
                     string resourceName = name + ".glsl";
                     return GetEmbeddedResourceBytes(resourceName);
                 }
                 case GraphicsBackend.OpenGLES:
                 {
-                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy)
-                        name += "-legacy";
+                    if (stage == ShaderStages.Vertex && colorSpaceHandling == ColorSpaceHandling.Legacy) { name += "-legacy"; }
                     string resourceName = name + ".glsles";
                     return GetEmbeddedResourceBytes(resourceName);
                 }
@@ -316,25 +294,22 @@ namespace Veldrid
             }
         }
 
+        private string GetEmbeddedResourceText(string resourceName)
+        {
+            using (StreamReader sr = new StreamReader(_assembly.GetManifestResourceStream(resourceName)))
+            {
+                return sr.ReadToEnd();
+            }
+        }
+
         private byte[] GetEmbeddedResourceBytes(string resourceName)
         {
-            using Stream s = _assembly.GetManifestResourceStream(resourceName);
-            byte[] ret = new byte[s.Length];
-            int offset = 0;
-            do
+            using (Stream s = _assembly.GetManifestResourceStream(resourceName))
             {
-                int read = s.Read(ret, offset, ret.Length - offset);
-                offset += read;
-                if (read == 0)
-                    break;
+                byte[] ret = new byte[s.Length];
+                s.Read(ret, 0, (int)s.Length);
+                return ret;
             }
-            while (offset < ret.Length);
-
-            if (offset != ret.Length)
-            {
-                throw new EndOfStreamException();
-            }
-            return ret;
         }
 
         /// <summary>
@@ -444,9 +419,9 @@ namespace Veldrid
             io.DeltaTime = deltaSeconds; // DeltaTime is in seconds.
         }
 
-        private static bool TryMapKey(Key key, out ImGuiKey result)
+        private bool TryMapKey(Key key, out ImGuiKey result)
         {
-            static ImGuiKey keyToImGuiKeyShortcut(Key keyToConvert, Key startKey1, ImGuiKey startKey2)
+            ImGuiKey keyToImGuiKeyShortcut(Key keyToConvert, Key startKey1, ImGuiKey startKey2)
             {
                 int changeFromStart1 = (int)keyToConvert - (int)startKey1;
                 return startKey2 + changeFromStart1;
@@ -467,28 +442,28 @@ namespace Veldrid
                 result = keyToImGuiKeyShortcut(key, Key.A, ImGuiKey.A);
                 return true;
             }
-            else if (key >= Key.Num0 && key <= Key.Num9)
+            else if (key >= Key.Number0 && key <= Key.Number9)
             {
-                result = keyToImGuiKeyShortcut(key, Key.Num0, ImGuiKey._0);
+                result = keyToImGuiKeyShortcut(key, Key.Number0, ImGuiKey._0);
                 return true;
             }
 
             switch (key)
             {
-                case Key.LeftShift:
-                case Key.RightShift:
+                case Key.ShiftLeft:
+                case Key.ShiftRight:
                     result = ImGuiKey.ModShift;
                     return true;
-                case Key.LeftControl:
-                case Key.RightControl:
+                case Key.ControlLeft:
+                case Key.ControlRight:
                     result = ImGuiKey.ModCtrl;
                     return true;
-                case Key.LeftAlt:
-                case Key.RightAlt:
+                case Key.AltLeft:
+                case Key.AltRight:
                     result = ImGuiKey.ModAlt;
                     return true;
-                case Key.LeftGui:
-                case Key.RightGui:
+                case Key.WinLeft:
+                case Key.WinRight:
                     result = ImGuiKey.ModSuper;
                     return true;
                 case Key.Menu:
@@ -506,7 +481,7 @@ namespace Veldrid
                 case Key.Right:
                     result = ImGuiKey.RightArrow;
                     return true;
-                case Key.Return:
+                case Key.Enter:
                     result = ImGuiKey.Enter;
                     return true;
                 case Key.Escape:
@@ -518,7 +493,7 @@ namespace Veldrid
                 case Key.Tab:
                     result = ImGuiKey.Tab;
                     return true;
-                case Key.Backspace:
+                case Key.BackSpace:
                     result = ImGuiKey.Backspace;
                     return true;
                 case Key.Insert:
@@ -551,7 +526,7 @@ namespace Veldrid
                 case Key.Pause:
                     result = ImGuiKey.Pause;
                     return true;
-                case Key.NumLockClear:
+                case Key.NumLock:
                     result = ImGuiKey.NumLock;
                     return true;
                 case Key.KeypadDivide:
@@ -560,10 +535,10 @@ namespace Veldrid
                 case Key.KeypadMultiply:
                     result = ImGuiKey.KeypadMultiply;
                     return true;
-                case Key.KeypadMemorySubtract:
+                case Key.KeypadSubtract:
                     result = ImGuiKey.KeypadSubtract;
                     return true;
-                case Key.KeypadMemoryAdd:
+                case Key.KeypadAdd:
                     result = ImGuiKey.KeypadAdd;
                     return true;
                 case Key.KeypadDecimal:
@@ -572,25 +547,25 @@ namespace Veldrid
                 case Key.KeypadEnter:
                     result = ImGuiKey.KeypadEnter;
                     return true;
-                case Key.Grave:
+                case Key.Tilde:
                     result = ImGuiKey.GraveAccent;
                     return true;
                 case Key.Minus:
                     result = ImGuiKey.Minus;
                     return true;
-                case Key.KeypadPlus:
+                case Key.Plus:
                     result = ImGuiKey.Equal;
                     return true;
-                case Key.LeftBracket:
+                case Key.BracketLeft:
                     result = ImGuiKey.LeftBracket;
                     return true;
-                case Key.RightBracket:
+                case Key.BracketRight:
                     result = ImGuiKey.RightBracket;
                     return true;
                 case Key.Semicolon:
                     result = ImGuiKey.Semicolon;
                     return true;
-                case Key.Apostrophe:
+                case Key.Quote:
                     result = ImGuiKey.Apostrophe;
                     return true;
                 case Key.Comma:
@@ -602,8 +577,8 @@ namespace Veldrid
                 case Key.Slash:
                     result = ImGuiKey.Slash;
                     return true;
-                case Key.Backslash:
-                case Key.NonUsBackslash:
+                case Key.BackSlash:
+                case Key.NonUSBackSlash:
                     result = ImGuiKey.Backslash;
                     return true;
                 default:
@@ -612,31 +587,26 @@ namespace Veldrid
             }
         }
 
-        private static void UpdateImGuiInput(InputSnapshot snapshot)
+        private unsafe void UpdateImGuiInput(InputSnapshot snapshot)
         {
             ImGuiIOPtr io = ImGui.GetIO();
+            io.AddMousePosEvent(snapshot.MousePosition.X, snapshot.MousePosition.Y);
+            io.AddMouseButtonEvent(0, snapshot.IsMouseDown(MouseButton.Left));
+            io.AddMouseButtonEvent(1, snapshot.IsMouseDown(MouseButton.Right));
+            io.AddMouseButtonEvent(2, snapshot.IsMouseDown(MouseButton.Middle));
+            io.AddMouseButtonEvent(3, snapshot.IsMouseDown(MouseButton.Button1));
+            io.AddMouseButtonEvent(4, snapshot.IsMouseDown(MouseButton.Button2));
+            io.AddMouseWheelEvent(0f, snapshot.WheelDelta);
 
-            Vector2 mousePos = snapshot.MousePosition;
-            io.AddMousePosEvent(mousePos.X, mousePos.Y);
-
-            MouseButton snapMouseDown = snapshot.MouseDown;
-            io.AddMouseButtonEvent(0, (snapMouseDown & MouseButton.Left) != 0);
-            io.AddMouseButtonEvent(1, (snapMouseDown & MouseButton.Right) != 0);
-            io.AddMouseButtonEvent(2, (snapMouseDown & MouseButton.Middle) != 0);
-            io.AddMouseButtonEvent(3, (snapMouseDown & MouseButton.Button1) != 0);
-            io.AddMouseButtonEvent(4, (snapMouseDown & MouseButton.Button2) != 0);
-
-            Vector2 wheelDelta = snapshot.WheelDelta;
-            io.AddMouseWheelEvent(wheelDelta.X, wheelDelta.Y);
-
-            foreach (Rune rune in snapshot.InputEvents)
+            for (int i = 0; i < snapshot.KeyCharPresses.Count; i++)
             {
-                io.AddInputCharacter((uint)rune.Value);
+                io.AddInputCharacter(snapshot.KeyCharPresses[i]);
             }
 
-            foreach(KeyEvent keyEvent in snapshot.KeyEvents)
+            for (int i = 0; i < snapshot.KeyEvents.Count; i++)
             {
-                if (TryMapKey(keyEvent.Physical, out ImGuiKey imguikey))
+                KeyEvent keyEvent = snapshot.KeyEvents[i];
+                if (TryMapKey(keyEvent.Key, out ImGuiKey imguikey))
                 {
                     io.AddKeyEvent(imguikey, keyEvent.Down);
                 }
@@ -656,19 +626,17 @@ namespace Veldrid
             uint totalVBSize = (uint)(draw_data.TotalVtxCount * sizeof(ImDrawVert));
             if (totalVBSize > _vertexBuffer.SizeInBytes)
             {
-                string name = _vertexBuffer.Name;
                 _vertexBuffer.Dispose();
-                _vertexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalVBSize * 1.5f), BufferUsage.VertexBuffer | BufferUsage.DynamicWrite));
-                _vertexBuffer.Name = name;
+                _vertexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalVBSize * 1.5f), BufferUsage.VertexBuffer | BufferUsage.Dynamic));
+                _vertexBuffer.Name = $"ImGui.NET Vertex Buffer";
             }
 
             uint totalIBSize = (uint)(draw_data.TotalIdxCount * sizeof(ushort));
             if (totalIBSize > _indexBuffer.SizeInBytes)
             {
-                string name = _indexBuffer.Name;
                 _indexBuffer.Dispose();
-                _indexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalIBSize * 1.5f), BufferUsage.IndexBuffer | BufferUsage.DynamicWrite));
-                _indexBuffer.Name = name;
+                _indexBuffer = gd.ResourceFactory.CreateBuffer(new BufferDescription((uint)(totalIBSize * 1.5f), BufferUsage.IndexBuffer | BufferUsage.Dynamic));
+                _indexBuffer.Name = $"ImGui.NET Index Buffer";
             }
 
             for (int i = 0; i < draw_data.CmdListsCount; i++)
@@ -693,7 +661,7 @@ namespace Veldrid
 
             // Setup orthographic projection matrix into our constant buffer
             {
-                ImGuiIOPtr io = ImGui.GetIO();
+                var io = ImGui.GetIO();
 
                 Matrix4x4 mvp = Matrix4x4.CreateOrthographicOffCenter(
                     0f,
@@ -703,7 +671,7 @@ namespace Veldrid
                     -1.0f,
                     1.0f);
 
-                cl.UpdateBuffer(_projMatrixBuffer, 0, ref mvp);
+                _gd.UpdateBuffer(_projMatrixBuffer, 0, ref mvp);
             }
 
             cl.SetVertexBuffer(0, _vertexBuffer);
@@ -756,6 +724,28 @@ namespace Veldrid
             }
         }
 
+        /// <summary>
+        /// Frees all graphics resources used by the renderer.
+        /// </summary>
+        public void Dispose()
+        {
+            _vertexBuffer.Dispose();
+            _indexBuffer.Dispose();
+            _projMatrixBuffer.Dispose();
+            _fontTexture.Dispose();
+            _vertexShader.Dispose();
+            _fragmentShader.Dispose();
+            _layout.Dispose();
+            _textureLayout.Dispose();
+            _pipeline.Dispose();
+            _mainResourceSet.Dispose();
+            _fontTextureResourceSet.Dispose();
+
+            foreach (IDisposable resource in _ownedResources)
+            {
+                resource.Dispose();
+            }
+        }
 
         private struct ResourceSetInfo
         {
@@ -767,28 +757,6 @@ namespace Veldrid
                 ImGuiBinding = imGuiBinding;
                 ResourceSet = resourceSet;
             }
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    DestroyDeviceObjects();
-                }
-
-                _disposed = true;
-            }
-        }
-
-        /// <summary>
-        /// Frees all graphics resources used by the renderer.
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 }

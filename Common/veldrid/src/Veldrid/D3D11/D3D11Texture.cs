@@ -4,18 +4,29 @@ using Vortice.Direct3D11;
 
 namespace Veldrid.D3D11
 {
-    internal sealed class D3D11Texture : Texture
+    internal class D3D11Texture : Texture
     {
-        private string? _name;
+        private readonly ID3D11Device _device;
+        private string _name;
 
+        public override uint Width { get; }
+        public override uint Height { get; }
+        public override uint Depth { get; }
+        public override uint MipLevels { get; }
+        public override uint ArrayLayers { get; }
+        public override PixelFormat Format { get; }
+        public override TextureUsage Usage { get; }
+        public override TextureType Type { get; }
+        public override TextureSampleCount SampleCount { get; }
         public override bool IsDisposed => DeviceTexture.NativePointer == IntPtr.Zero;
 
         public ID3D11Resource DeviceTexture { get; }
         public Vortice.DXGI.Format DxgiFormat { get; }
         public Vortice.DXGI.Format TypelessDxgiFormat { get; }
 
-        public D3D11Texture(ID3D11Device device, in TextureDescription description)
+        public D3D11Texture(ID3D11Device device, ref TextureDescription description)
         {
+            _device = device;
             Width = description.Width;
             Height = description.Height;
             Depth = description.Depth;
@@ -81,7 +92,7 @@ namespace Veldrid.D3D11
 
             if (Type == TextureType.Texture1D)
             {
-                Texture1DDescription desc1D = new()
+                Texture1DDescription desc1D = new Texture1DDescription()
                 {
                     Width = roundedWidth,
                     MipLevels = (int)description.MipLevels,
@@ -97,7 +108,7 @@ namespace Veldrid.D3D11
             }
             else if (Type == TextureType.Texture2D)
             {
-                Texture2DDescription deviceDescription = new()
+                Texture2DDescription deviceDescription = new Texture2DDescription()
                 {
                     Width = roundedWidth,
                     Height = roundedHeight,
@@ -116,7 +127,7 @@ namespace Veldrid.D3D11
             else
             {
                 Debug.Assert(Type == TextureType.Texture3D);
-                Texture3DDescription desc3D = new()
+                Texture3DDescription desc3D = new Texture3DDescription()
                 {
                     Width = roundedWidth,
                     Height = roundedHeight,
@@ -135,6 +146,7 @@ namespace Veldrid.D3D11
 
         public D3D11Texture(ID3D11Texture2D existingTexture, TextureType type, PixelFormat format)
         {
+            _device = existingTexture.Device;
             DeviceTexture = existingTexture;
             Width = (uint)existingTexture.Description.Width;
             Height = (uint)existingTexture.Description.Height;
@@ -157,18 +169,18 @@ namespace Veldrid.D3D11
 
         private protected override TextureView CreateFullTextureView(GraphicsDevice gd)
         {
-            TextureViewDescription desc = new(this);
+            TextureViewDescription desc = new TextureViewDescription(this);
             D3D11GraphicsDevice d3d11GD = Util.AssertSubtype<GraphicsDevice, D3D11GraphicsDevice>(gd);
-            return new D3D11TextureView(d3d11GD, desc);
+            return new D3D11TextureView(d3d11GD, ref desc);
         }
 
-        public override string? Name
+        public override string Name
         {
             get => _name;
             set
             {
                 _name = value;
-                DeviceTexture.DebugName = value!;
+                DeviceTexture.DebugName = value;
             }
         }
 

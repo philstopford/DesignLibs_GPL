@@ -1,18 +1,16 @@
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using System;
 using System.Threading;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
-    [DebuggerDisplay($"ResourceRefCount@{{{nameof(_refCount)}}} ({{{nameof(_target)},nq}})")]
-    internal sealed class ResourceRefCount
+    internal class ResourceRefCount
     {
-        private readonly IResourceRefCountTarget _target;
+        private readonly Action _disposeAction;
         private int _refCount;
 
-        public ResourceRefCount(IResourceRefCountTarget target)
+        public ResourceRefCount(Action disposeAction)
         {
-            _target = target;
+            _disposeAction = disposeAction;
             _refCount = 1;
         }
 
@@ -22,7 +20,7 @@ namespace Veldrid.Vulkan
 #if VALIDATE_USAGE
             if (ret == 0)
             {
-                ThrowObjectDisposed();
+                throw new VeldridException("An attempt was made to reference a disposed resource.");
             }
 #endif
             return ret;
@@ -33,16 +31,10 @@ namespace Veldrid.Vulkan
             int ret = Interlocked.Decrement(ref _refCount);
             if (ret == 0)
             {
-                _target.RefZeroed();
+                _disposeAction();
             }
 
             return ret;
-        }
-
-        [DoesNotReturn]
-        private static void ThrowObjectDisposed()
-        {
-            throw new VeldridException("An attempt was made to reference a disposed resource.");
         }
     }
 }

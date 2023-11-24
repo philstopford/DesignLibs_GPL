@@ -6,9 +6,10 @@ using Vortice.Direct3D11;
 
 namespace Veldrid.D3D11
 {
-    internal sealed class D3D11Shader : Shader
+    internal class D3D11Shader : Shader
     {
-        private string? _name;
+        private readonly ID3D11Device _device;
+        private string _name;
 
         public ID3D11DeviceChild DeviceShader { get; }
         public byte[] Bytecode { get; internal set; }
@@ -16,6 +17,8 @@ namespace Veldrid.D3D11
         public D3D11Shader(ID3D11Device device, ShaderDescription description)
             : base(description.Stage, description.EntryPoint)
         {
+            _device = device;
+
             if (description.ShaderBytes.Length > 4
                 && description.ShaderBytes[0] == 0x44
                 && description.ShaderBytes[1] == 0x58
@@ -29,42 +32,62 @@ namespace Veldrid.D3D11
                 Bytecode = CompileCode(description);
             }
 
-            DeviceShader = description.Stage switch
+            switch (description.Stage)
             {
-                ShaderStages.Vertex => device.CreateVertexShader(Bytecode),
-                ShaderStages.Geometry => device.CreateGeometryShader(Bytecode),
-                ShaderStages.TessellationControl => device.CreateHullShader(Bytecode),
-                ShaderStages.TessellationEvaluation => device.CreateDomainShader(Bytecode),
-                ShaderStages.Fragment => device.CreatePixelShader(Bytecode),
-                ShaderStages.Compute => device.CreateComputeShader(Bytecode),
-                _ => throw Illegal.Value<ShaderStages>(),
-            };
+                case ShaderStages.Vertex:
+                    DeviceShader = device.CreateVertexShader(Bytecode);
+                    break;
+                case ShaderStages.Geometry:
+                    DeviceShader = device.CreateGeometryShader(Bytecode);
+                    break;
+                case ShaderStages.TessellationControl:
+                    DeviceShader = device.CreateHullShader(Bytecode);
+                    break;
+                case ShaderStages.TessellationEvaluation:
+                    DeviceShader = device.CreateDomainShader(Bytecode);
+                    break;
+                case ShaderStages.Fragment:
+                    DeviceShader = device.CreatePixelShader(Bytecode);
+                    break;
+                case ShaderStages.Compute:
+                    DeviceShader = device.CreateComputeShader(Bytecode);
+                    break;
+                default:
+                    throw Illegal.Value<ShaderStages>();
+            }
         }
 
         private byte[] CompileCode(ShaderDescription description)
         {
-            string profile = description.Stage switch
+            string profile;
+            switch (description.Stage)
             {
-                ShaderStages.Vertex => "vs_5_0",
-                ShaderStages.Geometry => "gs_5_0",
-                ShaderStages.TessellationControl => "hs_5_0",
-                ShaderStages.TessellationEvaluation => "ds_5_0",
-                ShaderStages.Fragment => "ps_5_0",
-                ShaderStages.Compute => "cs_5_0",
-                _ => throw Illegal.Value<ShaderStages>(),
-            };
+                case ShaderStages.Vertex:
+                    profile = _device.FeatureLevel >= FeatureLevel.Level_11_0 ? "vs_5_0" : "vs_4_0";
+                    break;
+                case ShaderStages.Geometry:
+                    profile = _device.FeatureLevel >= FeatureLevel.Level_11_0 ? "gs_5_0" : "gs_4_0";
+                    break;
+                case ShaderStages.TessellationControl:
+                    profile = _device.FeatureLevel >= FeatureLevel.Level_11_0 ? "hs_5_0" : "hs_4_0";
+                    break;
+                case ShaderStages.TessellationEvaluation:
+                    profile = _device.FeatureLevel >= FeatureLevel.Level_11_0 ? "ds_5_0" : "ds_4_0";
+                    break;
+                case ShaderStages.Fragment:
+                    profile = _device.FeatureLevel >= FeatureLevel.Level_11_0 ? "ps_5_0" : "ps_4_0";
+                    break;
+                case ShaderStages.Compute:
+                    profile = _device.FeatureLevel >= FeatureLevel.Level_11_0 ? "cs_5_0" : "cs_4_0";
+                    break;
+                default:
+                    throw Illegal.Value<ShaderStages>();
+            }
 
             ShaderFlags flags = description.Debug ? ShaderFlags.Debug : ShaderFlags.OptimizationLevel3;
-            Compiler.Compile(
-                description.ShaderBytes,
-                null!,
-                null!,
-                description.EntryPoint,
-                null!,
-                profile,
-                flags,
-                out Blob result,
-                out Blob error);
+            Compiler.Compile(description.ShaderBytes, null, null,
+                             description.EntryPoint, null,
+                             profile, flags, out Blob result, out Blob error);
 
             if (result == null)
             {
@@ -74,13 +97,13 @@ namespace Veldrid.D3D11
             return result.AsBytes();
         }
 
-        public override string? Name
+        public override string Name
         {
             get => _name;
             set
             {
                 _name = value;
-                DeviceShader.DebugName = value!;
+                DeviceShader.DebugName = value;
             }
         }
 

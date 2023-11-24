@@ -1,4 +1,6 @@
-﻿using Vortice.Direct3D11;
+﻿using SharpGen.Runtime;
+using Vortice.Direct3D11;
+using Vortice.DXGI;
 
 namespace Veldrid.D3D11
 {
@@ -17,7 +19,7 @@ namespace Veldrid.D3D11
             uint layerCount,
             PixelFormat format)
         {
-            ShaderResourceViewDescription srvDesc = new();
+            ShaderResourceViewDescription srvDesc = new ShaderResourceViewDescription();
             srvDesc.Format = D3D11Formats.GetViewFormat(
                 D3D11Formats.ToDxgiFormat(format, (tex.Usage & TextureUsage.DepthStencil) != 0));
 

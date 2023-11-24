@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using static Veldrid.Sdl2.Sdl2Native;
 
 namespace Veldrid.Sdl2
 {
     internal static class Sdl2WindowRegistry
     {
-        public static readonly object Lock = new();
-        private static readonly Dictionary<uint, Sdl2Window> _eventsByWindowID = new();
+        public static readonly object Lock = new object();
+        private static readonly Dictionary<uint, Sdl2Window> _eventsByWindowID
+            = new Dictionary<uint, Sdl2Window>();
         private static bool _firstInit;
 
         public static void RegisterWindow(Sdl2Window window)
@@ -32,7 +38,7 @@ namespace Veldrid.Sdl2
 
         private static unsafe void ProcessWindowEvent(ref SDL_Event ev)
         {
-            bool handled;
+            bool handled = false;
             uint windowID = 0;
             switch (ev.type)
             {
@@ -65,7 +71,7 @@ namespace Veldrid.Sdl2
             }
 
 
-            if (handled && _eventsByWindowID.TryGetValue(windowID, out Sdl2Window? window))
+            if (handled && _eventsByWindowID.TryGetValue(windowID, out Sdl2Window window))
             {
                 window.AddEvent(ev);
             }

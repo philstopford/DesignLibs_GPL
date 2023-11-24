@@ -25,18 +25,19 @@ namespace Veldrid
         public GraphicsDeviceFeatures Features { get; }
 
         /// <summary>
+        /// Creates a new <see cref="Pipeline"/>.
+        /// </summary>
+        /// <param name="description">The desired properties of the created object.</param>
+        /// <returns>A new <see cref="Pipeline"/>.</returns>
+        public Pipeline CreateGraphicsPipeline(GraphicsPipelineDescription description) => CreateGraphicsPipeline(ref description);
+        /// <summary>
         /// Creates a new <see cref="Pipeline"/> object.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Pipeline"/> which, when bound to a CommandList, is used to dispatch draw commands.</returns>
-        public abstract Pipeline CreateGraphicsPipeline(in GraphicsPipelineDescription description);
-
-        /// <summary>
-        /// Validates parameters for a new <see cref="Pipeline"/> object.
-        /// </summary>
-        /// <param name="description">The desired properties of the created object.</param>
-        protected virtual void ValidateGraphicsPipeline(in GraphicsPipelineDescription description)
+        public Pipeline CreateGraphicsPipeline(ref GraphicsPipelineDescription description)
         {
+#if VALIDATE_USAGE
             if (!description.RasterizerState.DepthClipEnabled && !Features.DepthClipDisable)
             {
                 throw new VeldridException(
@@ -62,7 +63,7 @@ namespace Veldrid
                     }
                 }
             }
-            foreach (VertexLayoutDescription layoutDesc in description.ShaderSet.VertexLayouts.AsSpan())
+            foreach (VertexLayoutDescription layoutDesc in description.ShaderSet.VertexLayouts)
             {
                 bool hasExplicitLayout = false;
                 uint minOffset = 0;
@@ -90,35 +91,56 @@ namespace Veldrid
                         $"The vertex layout's stride ({layoutDesc.Stride}) is less than the full size of the vertex ({minOffset})");
                 }
             }
+#endif
+            return CreateGraphicsPipelineCore(ref description);
         }
+
+        /// <summary></summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract Pipeline CreateGraphicsPipelineCore(ref GraphicsPipelineDescription description);
 
         /// <summary>
         /// Creates a new compute <see cref="Pipeline"/> object.
         /// </summary>
         /// <param name="description">The desirede properties of the created object.</param>
         /// <returns>A new <see cref="Pipeline"/> which, when bound to a CommandList, is used to dispatch compute commands.</returns>
-        public abstract Pipeline CreateComputePipeline(in ComputePipelineDescription description);
+        public Pipeline CreateComputePipeline(ComputePipelineDescription description) => CreateComputePipeline(ref description);
+
+        /// <summary>
+        /// Creates a new compute <see cref="Pipeline"/> object.
+        /// </summary>
+        /// <param name="description">The desirede properties of the created object.</param>
+        /// <returns>A new <see cref="Pipeline"/> which, when bound to a CommandList, is used to dispatch compute commands.</returns>
+        public abstract Pipeline CreateComputePipeline(ref ComputePipelineDescription description);
 
         /// <summary>
         /// Creates a new <see cref="Framebuffer"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Framebuffer"/>.</returns>
-        public abstract Framebuffer CreateFramebuffer(in FramebufferDescription description);
+        public Framebuffer CreateFramebuffer(FramebufferDescription description) => CreateFramebuffer(ref description);
+        /// <summary>
+        /// Creates a new <see cref="Framebuffer"/>.
+        /// </summary>
+        /// <param name="description">The desired properties of the created object.</param>
+        /// <returns>A new <see cref="Framebuffer"/>.</returns>
+        public abstract Framebuffer CreateFramebuffer(ref FramebufferDescription description);
 
         /// <summary>
         /// Creates a new <see cref="Texture"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Texture"/>.</returns>
-        public abstract Texture CreateTexture(in TextureDescription description);
-
+        public Texture CreateTexture(TextureDescription description) => CreateTexture(ref description);
         /// <summary>
-        /// Validates parameters for a new <see cref="Texture"/>.
+        /// Creates a new <see cref="Texture"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
-        protected virtual void ValidateTexture(in TextureDescription description)
+        /// <returns>A new <see cref="Texture"/>.</returns>
+        public Texture CreateTexture(ref TextureDescription description)
         {
+#if VALIDATE_USAGE
             if (description.Width == 0 || description.Height == 0 || description.Depth == 0)
             {
                 throw new VeldridException("Width, Height, and Depth must be non-zero.");
@@ -147,6 +169,8 @@ namespace Veldrid
                 throw new VeldridException(
                     $"{nameof(TextureUsage)}.{nameof(TextureUsage.DepthStencil)} and {nameof(TextureUsage)}.{nameof(TextureUsage.GenerateMipmaps)} cannot be combined.");
             }
+#endif
+            return CreateTextureCore(ref description);
         }
 
         /// <summary>
@@ -166,31 +190,62 @@ namespace Veldrid
         /// The properties of the Texture will be determined from the <see cref="TextureDescription"/> passed in. These
         /// properties must match the true properties of the existing native texture.
         /// </remarks>
-        public abstract Texture CreateTexture(ulong nativeTexture, in TextureDescription description);
+        public Texture CreateTexture(ulong nativeTexture, TextureDescription description)
+            => CreateTextureCore(nativeTexture, ref description);
+
+        /// <summary>
+        /// Creates a new <see cref="Texture"/> from an existing native texture.
+        /// </summary>
+        /// <param name="nativeTexture">A backend-specific handle identifying an existing native texture. See remarks.</param>
+        /// <param name="description">The properties of the existing Texture.</param>
+        /// <returns>A new <see cref="Texture"/> wrapping the existing native texture.</returns>
+        /// <remarks>
+        /// The nativeTexture parameter is backend-specific, and the type of data passed in depends on which graphics API is
+        /// being used.
+        /// When using the Vulkan backend, nativeTexture must be a valid VkImage handle.
+        /// When using the Metal backend, nativeTexture must be a valid MTLTexture pointer.
+        /// When using the D3D11 backend, nativeTexture must be a valid pointer to an ID3D11Texture1D, ID3D11Texture2D, or
+        /// ID3D11Texture3D.
+        /// When using the OpenGL backend, nativeTexture must be a valid OpenGL texture name.
+        /// The properties of the Texture will be determined from the <see cref="TextureDescription"/> passed in. These
+        /// properties must match the true properties of the existing native texture.
+        /// </remarks>
+        public Texture CreateTexture(ulong nativeTexture, ref TextureDescription description)
+            => CreateTextureCore(nativeTexture, ref description);
+
+        /// <summary></summary>
+        /// <param name="nativeTexture"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract Texture CreateTextureCore(ulong nativeTexture, ref TextureDescription description);
+
+        // TODO: private protected
+        /// <summary>
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract Texture CreateTextureCore(ref TextureDescription description);
 
         /// <summary>
         /// Creates a new <see cref="TextureView"/>.
         /// </summary>
         /// <param name="target">The target <see cref="Texture"/> used in the new view.</param>
         /// <returns>A new <see cref="TextureView"/>.</returns>
-        public TextureView CreateTextureView(Texture target)
-        {
-            return CreateTextureView(new TextureViewDescription(target));
-        }
-
+        public TextureView CreateTextureView(Texture target) => CreateTextureView(new TextureViewDescription(target));
         /// <summary>
         /// Creates a new <see cref="TextureView"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="TextureView"/>.</returns>
-        public abstract TextureView CreateTextureView(in TextureViewDescription description);
-
+        public TextureView CreateTextureView(TextureViewDescription description) => CreateTextureView(ref description);
         /// <summary>
-        /// Validates parameters for a new <see cref="TextureView"/>.
+        /// Creates a new <see cref="TextureView"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
-        protected virtual void ValidateTextureView(in TextureViewDescription description)
+        /// <returns>A new <see cref="TextureView"/>.</returns>
+        public TextureView CreateTextureView(ref TextureViewDescription description)
         {
+#if VALIDATE_USAGE
             if (description.MipLevels == 0 || description.ArrayLayers == 0
                 || (description.BaseMipLevel + description.MipLevels) > description.Target.MipLevels
                 || (description.BaseArrayLayer + description.ArrayLayers) > description.Target.ArrayLayers)
@@ -220,21 +275,32 @@ namespace Veldrid
                         $"components as the underlying Texture's format, or the same format.");
                 }
             }
+#endif
+
+            return CreateTextureViewCore(ref description);
         }
+
+        // TODO: private protected
+        /// <summary>
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract TextureView CreateTextureViewCore(ref TextureViewDescription description);
 
         /// <summary>
         /// Creates a new <see cref="DeviceBuffer"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="DeviceBuffer"/>.</returns>
-        public abstract DeviceBuffer CreateBuffer(in BufferDescription description);
-
+        public DeviceBuffer CreateBuffer(BufferDescription description) => CreateBuffer(ref description);
         /// <summary>
-        /// Validates parameters for a new <see cref="DeviceBuffer"/>.
+        /// Creates a new <see cref="DeviceBuffer"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
-        protected void ValidateBuffer(in BufferDescription description)
+        /// <returns>A new <see cref="DeviceBuffer"/>.</returns>
+        public DeviceBuffer CreateBuffer(ref BufferDescription description)
         {
+#if VALIDATE_USAGE
             BufferUsage usage = description.Usage;
             if ((usage & BufferUsage.StructuredBufferReadOnly) == BufferUsage.StructuredBufferReadOnly
                 || (usage & BufferUsage.StructuredBufferReadWrite) == BufferUsage.StructuredBufferReadWrite)
@@ -244,7 +310,7 @@ namespace Veldrid
                     throw new VeldridException("GraphicsDevice does not support structured buffers.");
                 }
 
-                if (!description.RawBuffer && description.StructureByteStride == 0)
+                if (description.StructureByteStride == 0)
                 {
                     throw new VeldridException("Structured Buffer objects must have a non-zero StructureByteStride.");
                 }
@@ -266,7 +332,7 @@ namespace Veldrid
             {
                 throw new VeldridException("Non-structured Buffers must have a StructureByteStride of zero.");
             }
-            if ((usage & BufferUsage.StagingReadWrite) != 0 && (usage & ~BufferUsage.StagingReadWrite) != 0)
+            if ((usage & BufferUsage.Staging) != 0 && usage != BufferUsage.Staging)
             {
                 throw new VeldridException("Buffers with Staging Usage must not specify any other Usage flags.");
             }
@@ -274,21 +340,31 @@ namespace Veldrid
             {
                 throw new VeldridException($"Uniform buffer size must be a multiple of 16 bytes.");
             }
+#endif
+            return CreateBufferCore(ref description);
         }
+
+        // TODO: private protected
+        /// <summary>
+        /// </summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract DeviceBuffer CreateBufferCore(ref BufferDescription description);
 
         /// <summary>
         /// Creates a new <see cref="Sampler"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Sampler"/>.</returns>
-        public abstract Sampler CreateSampler(in SamplerDescription description);
-
+        public Sampler CreateSampler(SamplerDescription description) => CreateSampler(ref description);
         /// <summary>
-        /// Validates parameters for a new <see cref="Sampler"/>.
+        /// Creates a new <see cref="Sampler"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
-        protected virtual void ValidateSampler(in SamplerDescription description)
+        /// <returns>A new <see cref="Sampler"/>.</returns>
+        public Sampler CreateSampler(ref SamplerDescription description)
         {
+#if VALIDATE_USAGE
             if (!Features.SamplerLodBias && description.LodBias != 0)
             {
                 throw new VeldridException(
@@ -299,21 +375,30 @@ namespace Veldrid
                 throw new VeldridException(
                     "SamplerFilter.Anisotropic cannot be used unless GraphicsDeviceFeatures.SamplerAnisotropy is supported.");
             }
+#endif
+
+            return CreateSamplerCore(ref description);
         }
+
+        /// <summary></summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract Sampler CreateSamplerCore(ref SamplerDescription description);
 
         /// <summary>
         /// Creates a new <see cref="Shader"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Shader"/>.</returns>
-        public abstract Shader CreateShader(in ShaderDescription description);
-
+        public Shader CreateShader(ShaderDescription description) => CreateShader(ref description);
         /// <summary>
-        /// Validates parameters for a new <see cref="Shader"/>.
+        /// Creates a new <see cref="Shader"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
-        protected virtual void ValidateShader(in ShaderDescription description)
+        /// <returns>A new <see cref="Shader"/>.</returns>
+        public Shader CreateShader(ref ShaderDescription description)
         {
+#if VALIDATE_USAGE
             if (!Features.ComputeShader && description.Stage == ShaderStages.Compute)
             {
                 throw new VeldridException("GraphicsDevice does not support Compute Shaders.");
@@ -328,37 +413,58 @@ namespace Veldrid
             {
                 throw new VeldridException("GraphicsDevice does not support Tessellation Shaders.");
             }
+#endif
+            return CreateShaderCore(ref description);
         }
+
+        /// <summary></summary>
+        /// <param name="description"></param>
+        /// <returns></returns>
+        protected abstract Shader CreateShaderCore(ref ShaderDescription description);
 
         /// <summary>
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>
         /// <returns>A new <see cref="CommandList"/>.</returns>
-        public CommandList CreateCommandList()
-        {
-            return CreateCommandList(new CommandListDescription());
-        }
-
+        public CommandList CreateCommandList() => CreateCommandList(new CommandListDescription());
         /// <summary>
         /// Creates a new <see cref="CommandList"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="CommandList"/>.</returns>
-        public abstract CommandList CreateCommandList(in CommandListDescription description);
+        public CommandList CreateCommandList(CommandListDescription description) => CreateCommandList(ref description);
+        /// <summary>
+        /// Creates a new <see cref="CommandList"/>.
+        /// </summary>
+        /// <param name="description">The desired properties of the created object.</param>
+        /// <returns>A new <see cref="CommandList"/>.</returns>
+        public abstract CommandList CreateCommandList(ref CommandListDescription description);
 
         /// <summary>
         /// Creates a new <see cref="ResourceLayout"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="ResourceLayout"/>.</returns>
-        public abstract ResourceLayout CreateResourceLayout(in ResourceLayoutDescription description);
+        public ResourceLayout CreateResourceLayout(ResourceLayoutDescription description) => CreateResourceLayout(ref description);
+        /// <summary>
+        /// Creates a new <see cref="ResourceLayout"/>.
+        /// </summary>
+        /// <param name="description">The desired properties of the created object.</param>
+        /// <returns>A new <see cref="ResourceLayout"/>.</returns>
+        public abstract ResourceLayout CreateResourceLayout(ref ResourceLayoutDescription description);
 
         /// <summary>
         /// Creates a new <see cref="ResourceSet"/>.
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="ResourceSet"/>.</returns>
-        public abstract ResourceSet CreateResourceSet(in ResourceSetDescription description);
+        public ResourceSet CreateResourceSet(ResourceSetDescription description) => CreateResourceSet(ref description);
+        /// <summary>
+        /// Creates a new <see cref="ResourceSet"/>.
+        /// </summary>
+        /// <param name="description">The desired properties of the created object.</param>
+        /// <returns>A new <see cref="ResourceSet"/>.</returns>
+        public abstract ResourceSet CreateResourceSet(ref ResourceSetDescription description);
 
         /// <summary>
         /// Creates a new <see cref="Fence"/> in the given state.
@@ -372,6 +478,12 @@ namespace Veldrid
         /// </summary>
         /// <param name="description">The desired properties of the created object.</param>
         /// <returns>A new <see cref="Swapchain"/>.</returns>
-        public abstract Swapchain CreateSwapchain(in SwapchainDescription description);
+        public Swapchain CreateSwapchain(SwapchainDescription description) => CreateSwapchain(ref description);
+        /// <summary>
+        /// Creates a new <see cref="Swapchain"/>.
+        /// </summary>
+        /// <param name="description">The desired properties of the created object.</param>
+        /// <returns>A new <see cref="Swapchain"/>.</returns>
+        public abstract Swapchain CreateSwapchain(ref SwapchainDescription description);
     }
 }

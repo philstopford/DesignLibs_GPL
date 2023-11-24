@@ -1,4 +1,4 @@
-﻿namespace Veldrid.Vulkan
+﻿namespace Veldrid.Vk
 {
     internal struct DescriptorResourceCounts
     {

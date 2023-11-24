@@ -8,12 +8,12 @@ namespace Veldrid.OpenGL
     /// <summary>
     /// A utility class managing the relationships between textures, samplers, and their binding locations.
     /// </summary>
-    internal sealed unsafe class OpenGLTextureSamplerManager
+    internal unsafe class OpenGLTextureSamplerManager
     {
         private readonly bool _dsaAvailable;
         private readonly int _maxTextureUnits;
         private readonly uint _lastTextureUnit;
-        private readonly OpenGLTextureView?[] _textureUnitTextures;
+        private readonly OpenGLTextureView[] _textureUnitTextures;
         private readonly BoundSamplerStateInfo[] _textureUnitSamplers;
         private uint _currentActiveUnit = 0;
 
@@ -39,14 +39,14 @@ namespace Veldrid.OpenGL
                 if (_dsaAvailable)
                 {
                     glBindTextureUnit(textureUnit, textureID);
+                    CheckLastError();
                 }
                 else
                 {
                     SetActiveTextureUnit(textureUnit);
-
                     glBindTexture(textureView.TextureTarget, textureID);
+                    CheckLastError();
                 }
-                CheckLastError();
 
                 EnsureSamplerMipmapState(textureUnit, textureView.MipLevels > 1);
                 _textureUnitTextures[textureUnit] = textureView;
@@ -57,17 +57,16 @@ namespace Veldrid.OpenGL
         {
             _textureUnitTextures[_lastTextureUnit] = null;
             SetActiveTextureUnit(_lastTextureUnit);
-
             glBindTexture(target, texture);
             CheckLastError();
         }
 
         public void SetSampler(uint textureUnit, OpenGLSampler sampler)
         {
-            OpenGLTextureView? texBinding = _textureUnitTextures[textureUnit];
             if (_textureUnitSamplers[textureUnit].Sampler != sampler)
             {
                 bool mipmapped = false;
+                OpenGLTextureView texBinding = _textureUnitTextures[textureUnit];
                 if (texBinding != null)
                 {
                     mipmapped = texBinding.MipLevels > 1;
@@ -79,9 +78,9 @@ namespace Veldrid.OpenGL
 
                 _textureUnitSamplers[textureUnit] = new BoundSamplerStateInfo(sampler, mipmapped);
             }
-            else if (texBinding != null)
+            else if (_textureUnitTextures[textureUnit] != null)
             {
-                EnsureSamplerMipmapState(textureUnit, texBinding.MipLevels > 1);
+                EnsureSamplerMipmapState(textureUnit, _textureUnitTextures[textureUnit].MipLevels > 1);
             }
         }
 

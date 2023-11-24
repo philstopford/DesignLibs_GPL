@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Veldrid.OpenGL
 {
-    internal sealed unsafe class OpenGLTexture : Texture, OpenGLDeferredResource
+    internal unsafe class OpenGLTexture : Texture, OpenGLDeferredResource
     {
         private readonly OpenGLGraphicsDevice _gd;
         private uint _texture;
@@ -16,14 +16,14 @@ namespace Veldrid.OpenGL
         private bool _disposeRequested;
         private bool _disposed;
 
-        private string? _name;
+        private string _name;
         private bool _nameChanged;
-
-        public override string? Name { get => _name; set { _name = value; _nameChanged = true; } }
+        
+        public override string Name { get => _name; set { _name = value; _nameChanged = true; } }
 
         public uint Texture => _texture;
 
-        public OpenGLTexture(OpenGLGraphicsDevice gd, in TextureDescription description)
+        public OpenGLTexture(OpenGLGraphicsDevice gd, ref TextureDescription description)
         {
             _gd = gd;
 
@@ -86,7 +86,7 @@ namespace Veldrid.OpenGL
             }
         }
 
-        public OpenGLTexture(OpenGLGraphicsDevice gd, uint nativeTexture, in TextureDescription description)
+        public OpenGLTexture(OpenGLGraphicsDevice gd, uint nativeTexture, ref TextureDescription description)
         {
             _gd = gd;
             _texture = nativeTexture;
@@ -151,6 +151,24 @@ namespace Veldrid.OpenGL
             Created = true;
         }
 
+        public override uint Width { get; }
+
+        public override uint Height { get; }
+
+        public override uint Depth { get; }
+
+        public override PixelFormat Format { get; }
+
+        public override uint MipLevels { get; }
+
+        public override uint ArrayLayers { get; }
+
+        public override TextureUsage Usage { get; }
+
+        public override TextureType Type { get; }
+
+        public override TextureSampleCount SampleCount { get; }
+
         public override bool IsDisposed => _disposeRequested;
 
         public GLPixelFormat GLPixelFormat { get; }
@@ -188,10 +206,8 @@ namespace Veldrid.OpenGL
             }
             else
             {
-                uint texture;
-                glGenTextures(1, &texture);
+                glGenTextures(1, out _texture);
                 CheckLastError();
-                _texture = texture;
 
                 _gd.TextureSamplerManager.SetTextureTransient(TextureTarget, _texture);
                 CheckLastError();
@@ -593,10 +609,8 @@ namespace Veldrid.OpenGL
                     ? FramebufferTarget.DrawFramebuffer
                     : FramebufferTarget.ReadFramebuffer;
 
-                uint fb;
-                glGenFramebuffers(1, &fb);
+                glGenFramebuffers(1, out _framebuffers[subresource]);
                 CheckLastError();
-                _framebuffers[subresource] = fb;
 
                 glBindFramebuffer(framebufferTarget, _framebuffers[subresource]);
                 CheckLastError();
@@ -641,10 +655,8 @@ namespace Veldrid.OpenGL
             Debug.Assert(Created);
             if (_pbos[subresource] == 0)
             {
-                uint pb;
-                glGenBuffers(1, &pb);
+                glGenBuffers(1, out _pbos[subresource]);
                 CheckLastError();
-                _pbos[subresource] = pb;
 
                 glBindBuffer(BufferTarget.CopyWriteBuffer, _pbos[subresource]);
                 CheckLastError();
@@ -684,28 +696,22 @@ namespace Veldrid.OpenGL
             {
                 _disposed = true;
 
-                uint tex = _texture;
-                glDeleteTextures(1, &tex);
+                glDeleteTextures(1, ref _texture);
                 CheckLastError();
-                _texture = tex;
 
                 for (int i = 0; i < _framebuffers.Length; i++)
                 {
-                    uint fb = _framebuffers[i];
-                    if (fb != 0)
+                    if (_framebuffers[i] != 0)
                     {
-                        glDeleteFramebuffers(1, &fb);
-                        _framebuffers[i] = fb;
+                        glDeleteFramebuffers(1, ref _framebuffers[i]);
                     }
                 }
 
                 for (int i = 0; i < _pbos.Length; i++)
                 {
-                    uint pb = _pbos[i];
-                    if (pb != 0)
+                    if (_pbos[i] != 0)
                     {
-                        glDeleteBuffers(1, &pb);
-                        _pbos[i] = pb;
+                        glDeleteBuffers(1, ref _pbos[i]);
                     }
                 }
             }

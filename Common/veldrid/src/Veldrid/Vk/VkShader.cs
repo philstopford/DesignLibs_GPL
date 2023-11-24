@@ -1,43 +1,37 @@
-﻿using System;
-using TerraFX.Interop.Vulkan;
-using static TerraFX.Interop.Vulkan.Vulkan;
-using static Veldrid.Vulkan.VulkanUtil;
+﻿using Vulkan;
+using static Vulkan.VulkanNative;
+using static Veldrid.Vk.VulkanUtil;
+using System;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
-    internal sealed unsafe class VkShader : Shader
+    internal unsafe class VkShader : Shader
     {
         private readonly VkGraphicsDevice _gd;
         private readonly VkShaderModule _shaderModule;
         private bool _disposed;
-        private string? _name;
+        private string _name;
 
         public VkShaderModule ShaderModule => _shaderModule;
 
         public override bool IsDisposed => _disposed;
 
-        public VkShader(VkGraphicsDevice gd, in ShaderDescription description)
+        public VkShader(VkGraphicsDevice gd, ref ShaderDescription description)
             : base(description.Stage, description.EntryPoint)
         {
             _gd = gd;
 
+            VkShaderModuleCreateInfo shaderModuleCI = VkShaderModuleCreateInfo.New();
             fixed (byte* codePtr = description.ShaderBytes)
             {
-                VkShaderModuleCreateInfo shaderModuleCI = new()
-                {
-                    sType = VkStructureType.VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO,
-                    codeSize = (UIntPtr)description.ShaderBytes.Length,
-                    pCode = (uint*)codePtr
-                };
-
-                VkShaderModule shaderModule;
-                VkResult result = vkCreateShaderModule(gd.Device, &shaderModuleCI, null, &shaderModule);
+                shaderModuleCI.codeSize = (UIntPtr)description.ShaderBytes.Length;
+                shaderModuleCI.pCode = (uint*)codePtr;
+                VkResult result = vkCreateShaderModule(gd.Device, ref shaderModuleCI, null, out _shaderModule);
                 CheckResult(result);
-                _shaderModule = shaderModule;
             }
         }
 
-        public override string? Name
+        public override string Name
         {
             get => _name;
             set

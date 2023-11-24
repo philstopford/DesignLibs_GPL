@@ -3,54 +3,59 @@ using System.Runtime.CompilerServices;
 
 namespace Veldrid.Utilities
 {
-    public struct BoundingFrustum
+    public unsafe struct BoundingFrustum
     {
-        public Plane Left;
-        public Plane Right;
-        public Plane Bottom;
-        public Plane Top;
-        public Plane Near;
-        public Plane Far;
+        private SixPlane _planes;
 
-        public BoundingFrustum(in Matrix4x4 m)
+        private struct SixPlane
+        {
+            public Plane Left;
+            public Plane Right;
+            public Plane Bottom;
+            public Plane Top;
+            public Plane Near;
+            public Plane Far;
+        }
+
+        public BoundingFrustum(Matrix4x4 m)
         {
             // Plane computations: http://gamedevs.org/uploads/fast-extraction-viewing-frustum-planes-from-world-view-projection-matrix.pdf
-            Left = Plane.Normalize(
+            _planes.Left = Plane.Normalize(
                 new Plane(
                     m.M14 + m.M11,
                     m.M24 + m.M21,
                     m.M34 + m.M31,
                     m.M44 + m.M41));
 
-            Right = Plane.Normalize(
+            _planes.Right = Plane.Normalize(
                 new Plane(
                     m.M14 - m.M11,
                     m.M24 - m.M21,
                     m.M34 - m.M31,
                     m.M44 - m.M41));
 
-            Bottom = Plane.Normalize(
+            _planes.Bottom = Plane.Normalize(
                 new Plane(
                     m.M14 + m.M12,
                     m.M24 + m.M22,
                     m.M34 + m.M32,
                     m.M44 + m.M42));
 
-            Top = Plane.Normalize(
+            _planes.Top = Plane.Normalize(
                 new Plane(
                     m.M14 - m.M12,
                     m.M24 - m.M22,
                     m.M34 - m.M32,
                     m.M44 - m.M42));
 
-            Near = Plane.Normalize(
+            _planes.Near = Plane.Normalize(
                 new Plane(
                     m.M13,
                     m.M23,
                     m.M33,
                     m.M43));
 
-            Far = Plane.Normalize(
+            _planes.Far = Plane.Normalize(
                 new Plane(
                     m.M14 - m.M13,
                     m.M24 - m.M23,
@@ -60,21 +65,22 @@ namespace Veldrid.Utilities
 
         public BoundingFrustum(Plane left, Plane right, Plane bottom, Plane top, Plane near, Plane far)
         {
-            Left = left;
-            Right = right;
-            Bottom = bottom;
-            Top = top;
-            Near = near;
-            Far = far;
+            _planes.Left = left;
+            _planes.Right = right;
+            _planes.Bottom = bottom;
+            _planes.Top = top;
+            _planes.Near = near;
+            _planes.Far = far;
         }
 
-        public readonly ContainmentType Contains(Vector3 point)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ContainmentType Contains(Vector3 point)
         {
-            ref Plane planes = ref Unsafe.AsRef(Left);
+            Plane* planes = (Plane*)Unsafe.AsPointer(ref _planes); // Is this safe?
 
-            for (nuint i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
-                if (Plane.DotCoordinate(Unsafe.Add(ref planes, i), point) < 0)
+                if (Plane.DotCoordinate(planes[i], point) < 0)
                 {
                     return ContainmentType.Disjoint;
                 }
@@ -83,14 +89,30 @@ namespace Veldrid.Utilities
             return ContainmentType.Contains;
         }
 
-        public readonly ContainmentType Contains(BoundingSphere sphere)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ContainmentType Contains(Vector3* point)
         {
-            ref Plane planes = ref Unsafe.AsRef(Left);
+            Plane* planes = (Plane*)Unsafe.AsPointer(ref _planes); // Is this safe?
+
+            for (int i = 0; i < 6; i++)
+            {
+                if (Plane.DotCoordinate(planes[i], *point) < 0)
+                {
+                    return ContainmentType.Disjoint;
+                }
+            }
+
+            return ContainmentType.Contains;
+        }
+
+        public ContainmentType Contains(BoundingSphere sphere)
+        {
+            Plane* planes = (Plane*)Unsafe.AsPointer(ref _planes);
 
             ContainmentType result = ContainmentType.Contains;
-            for (nuint i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
-                float distance = Plane.DotCoordinate(Unsafe.Add(ref planes, i), sphere.Center);
+                float distance = Plane.DotCoordinate(planes[i], sphere.Center);
                 if (distance < -sphere.Radius)
                 {
                     return ContainmentType.Disjoint;
@@ -104,19 +126,22 @@ namespace Veldrid.Utilities
             return result;
         }
 
-        public readonly ContainmentType Contains(BoundingBox box)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ContainmentType Contains(BoundingBox box) => Contains(ref box);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ContainmentType Contains(ref BoundingBox box)
         {
-            ref Plane planes = ref Unsafe.AsRef(Left);
+            Plane* planes = (Plane*)Unsafe.AsPointer(ref _planes);
 
             ContainmentType result = ContainmentType.Contains;
-            for (nuint i = 0; i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
-                Plane plane = Unsafe.Add(ref planes, i);
+                Plane plane = planes[i];
 
                 // Approach: http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
 
-                Vector3 positive = new(box.Min.X, box.Min.Y, box.Min.Z);
-                Vector3 negative = new(box.Max.X, box.Max.Y, box.Max.Z);
+                Vector3 positive = new Vector3(box.Min.X, box.Min.Y, box.Min.Z);
+                Vector3 negative = new Vector3(box.Max.X, box.Max.Y, box.Max.Z);
 
                 if (plane.Normal.X >= 0)
                 {
@@ -154,14 +179,15 @@ namespace Veldrid.Utilities
             return result;
         }
 
-        public readonly unsafe ContainmentType Contains(in BoundingFrustum other)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public unsafe ContainmentType Contains(ref BoundingFrustum other)
         {
             int pointsContained = 0;
-            other.GetCorners(out FrustumCorners corners);
+            FrustumCorners corners = other.GetCorners();
             Vector3* cornersPtr = (Vector3*)&corners;
-            for (nuint i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
-                if (Contains(cornersPtr[i]) != ContainmentType.Disjoint)
+                if (Contains(&cornersPtr[i]) != ContainmentType.Disjoint)
                 {
                     pointsContained++;
                 }
@@ -181,26 +207,27 @@ namespace Veldrid.Utilities
             }
         }
 
-        public readonly FrustumCorners GetCorners()
+        public FrustumCorners GetCorners()
         {
-            GetCorners(out FrustumCorners corners);
+            FrustumCorners corners;
+            GetCorners(out corners);
             return corners;
         }
 
-        public readonly void GetCorners(out FrustumCorners corners)
+        public void GetCorners(out FrustumCorners corners)
         {
-            PlaneIntersection(Near, Top, Left, out corners.NearTopLeft);
-            PlaneIntersection(Near, Top, Right, out corners.NearTopRight);
-            PlaneIntersection(Near, Bottom, Left, out corners.NearBottomLeft);
-            PlaneIntersection(Near, Bottom, Right, out corners.NearBottomRight);
-            PlaneIntersection(Far, Top, Left, out corners.FarTopLeft);
-            PlaneIntersection(Far, Top, Right, out corners.FarTopRight);
-            PlaneIntersection(Far, Bottom, Left, out corners.FarBottomLeft);
-            PlaneIntersection(Far, Bottom, Right, out corners.FarBottomRight);
+            PlaneIntersection(ref _planes.Near, ref _planes.Top, ref _planes.Left, out corners.NearTopLeft);
+            PlaneIntersection(ref _planes.Near, ref _planes.Top, ref _planes.Right, out corners.NearTopRight);
+            PlaneIntersection(ref _planes.Near, ref _planes.Bottom, ref _planes.Left, out corners.NearBottomLeft);
+            PlaneIntersection(ref _planes.Near, ref _planes.Bottom, ref _planes.Right, out corners.NearBottomRight);
+            PlaneIntersection(ref _planes.Far, ref _planes.Top, ref _planes.Left, out corners.FarTopLeft);
+            PlaneIntersection(ref _planes.Far, ref _planes.Top, ref _planes.Right, out corners.FarTopRight);
+            PlaneIntersection(ref _planes.Far, ref _planes.Bottom, ref _planes.Left, out corners.FarBottomLeft);
+            PlaneIntersection(ref _planes.Far, ref _planes.Bottom, ref _planes.Right, out corners.FarBottomRight);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void PlaneIntersection(Plane p1, Plane p2, Plane p3, out Vector3 intersection)
+        private static void PlaneIntersection(ref Plane p1, ref Plane p2, ref Plane p3, out Vector3 intersection)
         {
             // Formula: http://geomalgorithms.com/a05-_intersect-1.html
             // The formula assumes that there is only a single intersection point.

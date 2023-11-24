@@ -33,6 +33,11 @@ namespace Veldrid.ImageSharp
         public PixelFormat Format { get; }
 
         /// <summary>
+        /// The size of each pixel, in bytes.
+        /// </summary>
+        public uint PixelSizeInBytes => sizeof(byte) * 4;
+
+        /// <summary>
         /// The number of levels in the mipmap chain. This is equal to the length of the Images array.
         /// </summary>
         public uint MipLevels => (uint)Images.Length;
@@ -75,24 +80,24 @@ namespace Veldrid.ImageSharp
             for (uint level = 0; level < MipLevels; level++)
             {
                 Image<Rgba32> image = Images[level];
-                if (!image.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> pixels))
+                if (!image.TryGetSinglePixelSpan(out Span<Rgba32> pixelSpan))
                 {
                     throw new VeldridException("Unable to get image pixelspan.");
                 }
-                fixed (void* pixelPtr = pixels.Span)
+                fixed (void* pin = &MemoryMarshal.GetReference(pixelSpan))
                 {
                     MappedResource map = gd.Map(staging, MapMode.Write, level);
                     uint rowWidth = (uint)(image.Width * 4);
                     if (rowWidth == map.RowPitch)
                     {
-                        Unsafe.CopyBlock(map.Data.ToPointer(), pixelPtr, (uint)(image.Width * image.Height * 4));
+                        Unsafe.CopyBlock(map.Data.ToPointer(), pin, (uint)(image.Width * image.Height * 4));
                     }
                     else
                     {
                         for (uint y = 0; y < image.Height; y++)
                         {
                             byte* dstStart = (byte*)map.Data.ToPointer() + y * map.RowPitch;
-                            byte* srcStart = (byte*)pixelPtr + y * rowWidth;
+                            byte* srcStart = (byte*)pin + y * rowWidth;
                             Unsafe.CopyBlock(dstStart, srcStart, rowWidth);
                         }
                     }
@@ -118,54 +123,27 @@ namespace Veldrid.ImageSharp
         {
             Texture tex = factory.CreateTexture(TextureDescription.Texture2D(
                 Width, Height, MipLevels, 1, Format, TextureUsage.Sampled));
-
             for (int level = 0; level < MipLevels; level++)
             {
                 Image<Rgba32> image = Images[level];
-
-                if (image.DangerousTryGetSinglePixelMemory(out Memory<Rgba32> pixels))
+                if (!image.TryGetSinglePixelSpan(out Span<Rgba32> pixelSpan))
                 {
-                    fixed (void* pixelPtr = pixels.Span)
-                    {
-                        gd.UpdateTexture(
-                            tex,
-                            (IntPtr)pixelPtr,
-                            (uint)(sizeof(Rgba32) * image.Width * image.Height),
-                            0,
-                            0,
-                            0,
-                            (uint)image.Width,
-                            (uint)image.Height,
-                            1,
-                            (uint)level,
-                            0);
-                    }
+                    throw new VeldridException("Unable to get image pixelspan.");
                 }
-                else
+                fixed (void* pin = &MemoryMarshal.GetReference(pixelSpan))
                 {
-                    image.ProcessPixelRows((pixels) =>
-                    {
-                        for (int y = 0; y < pixels.Height; y++)
-                        {
-                            Span<Rgba32> span = pixels.GetRowSpan(y);
-
-                            fixed (void* pixelPtr = span)
-                            {
-                                gd.UpdateTexture(
-                                    tex,
-                                    (IntPtr)pixelPtr,
-                                    (uint)(sizeof(Rgba32) * image.Width),
-                                    0,
-                                    (uint)y,
-                                    0,
-                                    (uint)pixels.Width,
-                                    height: 1,
-                                    depth: 1,
-                                    (uint)level,
-                                    0);
-                            }
-                        }
-                    });
+                    gd.UpdateTexture(
+                        tex,
+                        (IntPtr)pin,
+                        (uint)(PixelSizeInBytes * image.Width * image.Height),
+                        0,
+                        0,
+                        0,
+                        (uint)image.Width,
+                        (uint)image.Height,
+                        1,
+                        (uint)level,
+                        0);
                 }
             }
 

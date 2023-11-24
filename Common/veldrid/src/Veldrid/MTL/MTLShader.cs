@@ -1,21 +1,22 @@
 using System;
+using System.Diagnostics;
 using System.Text;
 using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLShader : Shader
+    internal class MTLShader : Shader
     {
         private readonly MTLGraphicsDevice _device;
         private bool _disposed;
 
         public MTLLibrary Library { get; private set; }
         public MTLFunction Function { get; private set; }
-        public override string? Name { get; set; }
+        public override string Name { get; set; }
         public bool HasFunctionConstants { get; }
         public override bool IsDisposed => _disposed;
 
-        public unsafe MTLShader(in ShaderDescription description, MTLGraphicsDevice gd)
+        public unsafe MTLShader(ref ShaderDescription description, MTLGraphicsDevice gd)
             : base(description.Stage, description.EntryPoint)
         {
             _device = gd;
@@ -46,7 +47,7 @@ namespace Veldrid.MTL
             }
             else
             {
-                string source = MTLUtil.UTF8.GetString(description.ShaderBytes);
+                string source = Encoding.UTF8.GetString(description.ShaderBytes);
                 MTLCompileOptions compileOptions = MTLCompileOptions.New();
                 Library = gd.Device.newLibraryWithSource(source, compileOptions);
                 ObjectiveCRuntime.release(compileOptions);

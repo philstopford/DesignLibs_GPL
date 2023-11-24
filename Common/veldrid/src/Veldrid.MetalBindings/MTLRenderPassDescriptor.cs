@@ -7,10 +7,8 @@ namespace Veldrid.MetalBindings
     [StructLayout(LayoutKind.Sequential)]
     public struct MTLRenderPassDescriptor
     {
-        private static readonly ObjCClass s_class = new(nameof(MTLRenderPassDescriptor));
-
+        private static readonly ObjCClass s_class = new ObjCClass(nameof(MTLRenderPassDescriptor));
         public readonly IntPtr NativePtr;
-
         public static MTLRenderPassDescriptor New() => s_class.AllocInit<MTLRenderPassDescriptor>();
 
         public MTLRenderPassColorAttachmentDescriptorArray colorAttachments

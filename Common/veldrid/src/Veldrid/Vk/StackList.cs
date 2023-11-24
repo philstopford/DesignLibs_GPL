@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
     /// <summary>
     /// A super-dangerous stack-only list which can hold up to 256 bytes of blittable data.
@@ -11,6 +11,7 @@ namespace Veldrid.Vulkan
     internal unsafe struct StackList<T> where T : struct
     {
         public const int CapacityInBytes = 256;
+        private static readonly int s_sizeofT = Unsafe.SizeOf<T>();
 
         private fixed byte _storage[CapacityInBytes];
         private uint _count;
@@ -21,9 +22,9 @@ namespace Veldrid.Vulkan
         public void Add(T item)
         {
             byte* basePtr = (byte*)Data;
-            int offset = (int)(_count * Unsafe.SizeOf<T>());
+            int offset = (int)(_count * s_sizeofT);
 #if DEBUG
-            Debug.Assert((offset + Unsafe.SizeOf<T>()) <= CapacityInBytes);
+            Debug.Assert((offset + s_sizeofT) <= CapacityInBytes);
 #endif
             Unsafe.Write(basePtr + offset, item);
 
@@ -35,7 +36,7 @@ namespace Veldrid.Vulkan
             get
             {
                 byte* basePtr = (byte*)Unsafe.AsPointer(ref this);
-                int offset = (int)(index * Unsafe.SizeOf<T>());
+                int offset = (int)(index * s_sizeofT);
                 return ref Unsafe.AsRef<T>(basePtr + offset);
             }
         }
@@ -45,7 +46,7 @@ namespace Veldrid.Vulkan
             get
             {
                 byte* basePtr = (byte*)Unsafe.AsPointer(ref this);
-                int offset = index * Unsafe.SizeOf<T>();
+                int offset = index * s_sizeofT;
                 return ref Unsafe.AsRef<T>(basePtr + offset);
             }
         }
@@ -58,6 +59,8 @@ namespace Veldrid.Vulkan
     /// <typeparam name="TSize">A type parameter dictating the capacity of the list.</typeparam>
     internal unsafe struct StackList<T, TSize> where T : struct where TSize : struct
     {
+        private static readonly int s_sizeofT = Unsafe.SizeOf<T>();
+
 #pragma warning disable 0169 // Unused field. This is used implicity because it controls the size of the structure on the stack.
         private TSize _storage;
 #pragma warning restore 0169
@@ -70,8 +73,8 @@ namespace Veldrid.Vulkan
         {
             ref T dest = ref Unsafe.Add(ref Unsafe.As<TSize, T>(ref _storage), (int)_count);
 #if DEBUG
-            int offset = (int)(_count * Unsafe.SizeOf<T>());
-            Debug.Assert((offset + Unsafe.SizeOf<T>()) <= Unsafe.SizeOf<TSize>());
+            int offset = (int)(_count * s_sizeofT);
+            Debug.Assert((offset + s_sizeofT) <= Unsafe.SizeOf<TSize>());
 #endif
             dest = item;
 

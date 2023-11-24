@@ -1,39 +1,44 @@
-﻿using System;
+﻿using NativeLibraryLoader;
+using System;
 using System.Diagnostics;
-using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Veldrid.Sdl2
 {
     public static unsafe partial class Sdl2Native
     {
-        private static readonly IntPtr s_sdl2Lib = LoadSdl2();
-
-        private static IntPtr LoadSdl2()
+        private static readonly NativeLibrary s_sdl2Lib = LoadSdl2();
+        private static NativeLibrary LoadSdl2()
         {
-            string name;
+            string[] names;
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                name = "SDL2.dll";
+                names = new[] { "SDL2.dll" };
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                name = "libSDL2-2.0.so";
+                names = new[]
+                {
+                    "libSDL2-2.0.so",
+                    "libSDL2-2.0.so.0",
+                    "libSDL2-2.0.so.1",
+                };
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
             {
-                name = "libsdl2.dylib";
+                names = new[]
+                {
+                    "libsdl2.dylib"
+                };
             }
             else
             {
                 Debug.WriteLine("Unknown SDL platform. Attempting to load \"SDL2\"");
-                name = "SDL2.dll";
+                names = new[] { "SDL2.dll" };
             }
 
-            return NativeLibrary.Load(
-                name,
-                Assembly.GetExecutingAssembly(),
-                DllImportSearchPath.SafeDirectories);
+            NativeLibrary lib = new NativeLibrary(names);
+            return lib;
         }
 
         /// <summary>
@@ -42,10 +47,21 @@ namespace Veldrid.Sdl2
         /// <typeparam name="T">The delegate type of the function to load.</typeparam>
         /// <param name="name">The name of the exported native function.</param>
         /// <returns>A delegate which can be used to invoke the native function.</returns>
+        /// <exception cref="System.InvalidOperationException">Thrown when no function with the given name is exported by SDL2.
+        /// </exception>
         public static T LoadFunction<T>(string name)
         {
-            IntPtr export = NativeLibrary.GetExport(s_sdl2Lib, name);
-            return Marshal.GetDelegateForFunctionPointer<T>(export);
+            try
+            {
+                return s_sdl2Lib.LoadFunction<T>(name);
+            }
+            catch
+            {
+                Debug.WriteLine(
+                    $"Unable to load SDL2 function \"{name}\". " +
+                    $"Attempting to call this function will cause an exception to be thrown.");
+                return default(T);
+            }
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]

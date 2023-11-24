@@ -13,8 +13,8 @@ namespace Veldrid.MetalBindings
 
         public static MTLRenderPipelineDescriptor New()
         {
-            ObjCClass cls = new("MTLRenderPipelineDescriptor");
-            MTLRenderPipelineDescriptor ret = cls.AllocInit<MTLRenderPipelineDescriptor>();
+            var cls = new ObjCClass("MTLRenderPipelineDescriptor");
+            var ret = cls.AllocInit<MTLRenderPipelineDescriptor>();
             return ret;
         }
 

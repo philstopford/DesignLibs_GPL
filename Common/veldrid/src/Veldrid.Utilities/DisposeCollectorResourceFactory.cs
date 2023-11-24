@@ -1,5 +1,3 @@
-using System;
-
 namespace Veldrid.Utilities
 {
     public class DisposeCollectorResourceFactory : ResourceFactory
@@ -21,79 +19,79 @@ namespace Veldrid.Utilities
 
         public override GraphicsBackend BackendType => Factory.BackendType;
 
-        public override CommandList CreateCommandList(in CommandListDescription description)
+        public override CommandList CreateCommandList(ref CommandListDescription description)
         {
-            CommandList cl = Factory.CreateCommandList(description);
+            CommandList cl = Factory.CreateCommandList(ref description);
             DisposeCollector.Add(cl);
             return cl;
         }
 
-        public override Framebuffer CreateFramebuffer(in FramebufferDescription description)
+        public override Framebuffer CreateFramebuffer(ref FramebufferDescription description)
         {
-            Framebuffer fb = Factory.CreateFramebuffer(description);
+            Framebuffer fb = Factory.CreateFramebuffer(ref description);
             DisposeCollector.Add(fb);
             return fb;
         }
 
-        public override DeviceBuffer CreateBuffer(in BufferDescription description)
+        protected override DeviceBuffer CreateBufferCore(ref BufferDescription description)
         {
-            DeviceBuffer buffer = Factory.CreateBuffer(description);
+            DeviceBuffer buffer = Factory.CreateBuffer(ref description);
             DisposeCollector.Add(buffer);
             return buffer;
         }
 
-        public override Pipeline CreateGraphicsPipeline(in GraphicsPipelineDescription description)
+        protected override Pipeline CreateGraphicsPipelineCore(ref GraphicsPipelineDescription description)
         {
-            Pipeline pipeline = Factory.CreateGraphicsPipeline(description);
+            Pipeline pipeline = Factory.CreateGraphicsPipeline(ref description);
             DisposeCollector.Add(pipeline);
             return pipeline;
         }
 
-        public override Pipeline CreateComputePipeline(in ComputePipelineDescription description)
+        public override Pipeline CreateComputePipeline(ref ComputePipelineDescription description)
         {
-            Pipeline pipeline = Factory.CreateComputePipeline(description);
+            Pipeline pipeline = Factory.CreateComputePipeline(ref description);
             DisposeCollector.Add(pipeline);
             return pipeline;
         }
 
-        public override ResourceLayout CreateResourceLayout(in ResourceLayoutDescription description)
+        public override ResourceLayout CreateResourceLayout(ref ResourceLayoutDescription description)
         {
-            ResourceLayout layout = Factory.CreateResourceLayout(description);
+            ResourceLayout layout = Factory.CreateResourceLayout(ref description);
             DisposeCollector.Add(layout);
             return layout;
         }
 
-        public override ResourceSet CreateResourceSet(in ResourceSetDescription description)
+        public override ResourceSet CreateResourceSet(ref ResourceSetDescription description)
         {
-            ResourceSet rs = Factory.CreateResourceSet(description);
+            ResourceSet rs = Factory.CreateResourceSet(ref description);
             DisposeCollector.Add(rs);
             return rs;
         }
 
-        public override Sampler CreateSampler(in SamplerDescription description)
+        protected override Sampler CreateSamplerCore(ref SamplerDescription description)
         {
-            Sampler sampler = Factory.CreateSampler(description);
+            Sampler sampler = Factory.CreateSampler(ref description);
             DisposeCollector.Add(sampler);
             return sampler;
         }
 
-        public override Shader CreateShader(in ShaderDescription description)
+        protected override Shader CreateShaderCore(ref ShaderDescription description)
         {
-            Shader shader = Factory.CreateShader(description);
+            Shader shader = Factory.CreateShader(ref description);
             DisposeCollector.Add(shader);
             return shader;
         }
 
-        public override Texture CreateTexture(in TextureDescription description)
+        protected override Texture CreateTextureCore(ref TextureDescription description)
         {
-            Texture tex = Factory.CreateTexture(description);
+            Texture tex = Factory.CreateTexture(ref description);
             DisposeCollector.Add(tex);
             return tex;
         }
 
-        public override TextureView CreateTextureView(in TextureViewDescription description)
+        protected override TextureView CreateTextureViewCore(ref TextureViewDescription description)
         {
-            TextureView texView = Factory.CreateTextureView(description);
+            TextureView texView = Factory.CreateTextureView(ref description);
             DisposeCollector.Add(texView);
             return texView;
         }
@@ -105,16 +103,16 @@ namespace Veldrid.Utilities
             return f;
         }
 
-        public override Swapchain CreateSwapchain(in SwapchainDescription description)
+        public override Swapchain CreateSwapchain(ref SwapchainDescription description)
         {
-            Swapchain sc = Factory.CreateSwapchain(description);
+            Swapchain sc = Factory.CreateSwapchain(ref description);
             DisposeCollector.Add(sc);
             return sc;
         }
 
-        public override Texture CreateTexture(ulong nativeTexture, in TextureDescription description)
+        protected override Texture CreateTextureCore(ulong nativeTexture, ref TextureDescription description)
         {
-            Texture tex = Factory.CreateTexture(nativeTexture, description);
+            Texture tex = Factory.CreateTexture(nativeTexture, ref description);
             DisposeCollector.Add(tex);
             return tex;
         }

@@ -6,13 +6,13 @@ using System.Runtime.InteropServices;
 
 namespace Veldrid.OpenGL
 {
-    internal sealed unsafe class StagingMemoryPool : IDisposable
+    internal unsafe sealed class StagingMemoryPool : IDisposable
     {
         private const uint MinimumCapacity = 128;
 
         private readonly List<StagingBlock> _storage;
         private readonly SortedList<uint, uint> _availableBlocks;
-        private object _lock = new();
+        private object _lock = new object();
         private bool _disposed;
 
         public StagingMemoryPool()
@@ -79,7 +79,7 @@ namespace Veldrid.OpenGL
             _storage.Add(stagingBlock);
         }
 
-        public void Free(in StagingBlock block)
+        public void Free(StagingBlock block)
         {
             lock (_lock)
             {
@@ -96,7 +96,7 @@ namespace Veldrid.OpenGL
             lock (_lock)
             {
                 _availableBlocks.Clear();
-                foreach (ref StagingBlock block in CollectionsMarshal.AsSpan(_storage))
+                foreach (StagingBlock block in _storage)
                 {
                     Marshal.FreeHGlobal((IntPtr)block.Data);
                 }
@@ -105,7 +105,7 @@ namespace Veldrid.OpenGL
             }
         }
 
-        private sealed class CapacityComparer : IComparer<uint>
+        private class CapacityComparer : IComparer<uint>
         {
             public int Compare(uint x, uint y)
             {

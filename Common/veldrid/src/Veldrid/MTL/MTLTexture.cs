@@ -3,7 +3,7 @@ using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLTexture : Texture
+    internal class MTLTexture : Texture
     {
         private bool _disposed;
 
@@ -16,14 +16,32 @@ namespace Veldrid.MTL
         /// </summary>
         public MetalBindings.MTLBuffer StagingBuffer { get; }
 
-        public override string? Name { get; set; }
+        public unsafe void* StagingBufferPointer { get; private set; }
 
+        public override PixelFormat Format { get; }
+
+        public override uint Width { get; }
+
+        public override uint Height { get; }
+
+        public override uint Depth { get; }
+
+        public override uint MipLevels { get; }
+
+        public override uint ArrayLayers { get; }
+
+        public override TextureUsage Usage { get; }
+
+        public override TextureType Type { get; }
+
+        public override TextureSampleCount SampleCount { get; }
+        public override string Name { get; set; }
         public override bool IsDisposed => _disposed;
-
         public MTLPixelFormat MTLPixelFormat { get; }
         public MTLTextureType MTLTextureType { get; }
+        public MTLStorageMode MTLStorageMode { get; }
 
-        public MTLTexture(in TextureDescription description, MTLGraphicsDevice _gd)
+        public MTLTexture(ref TextureDescription description, MTLGraphicsDevice _gd)
         {
             Width = description.Width;
             Height = description.Height;
@@ -42,8 +60,11 @@ namespace Veldrid.MTL
                     ArrayLayers,
                     SampleCount != TextureSampleCount.Count1,
                     (Usage & TextureUsage.Cubemap) != 0);
+
             if (Usage != TextureUsage.Staging)
             {
+                MTLStorageMode = isDepth && _gd.PreferMemorylessDepthTargets ? MTLStorageMode.Memoryless : MTLStorageMode.Private;
+
                 MTLTextureDescriptor texDescriptor = MTLTextureDescriptor.New();
                 texDescriptor.width = (UIntPtr)Width;
                 texDescriptor.height = (UIntPtr)Height;
@@ -54,7 +75,7 @@ namespace Veldrid.MTL
                 texDescriptor.textureType = MTLTextureType;
                 texDescriptor.pixelFormat = MTLPixelFormat;
                 texDescriptor.textureUsage = MTLFormats.VdToMTLTextureUsage(Usage);
-                texDescriptor.storageMode = MTLStorageMode.Private;
+                texDescriptor.storageMode = MTLStorageMode;
 
                 DeviceTexture = _gd.Device.newTextureWithDescriptor(texDescriptor);
                 ObjectiveCRuntime.release(texDescriptor.NativePtr);
@@ -78,10 +99,15 @@ namespace Veldrid.MTL
                 StagingBuffer = _gd.Device.newBufferWithLengthOptions(
                     (UIntPtr)totalStorageSize,
                     MTLResourceOptions.StorageModeShared);
+
+                unsafe
+                {
+                    StagingBufferPointer = StagingBuffer.contents();
+                }
             }
         }
 
-        public MTLTexture(ulong nativeTexture, in TextureDescription description)
+        public MTLTexture(ulong nativeTexture, ref TextureDescription description)
         {
             DeviceTexture = new MetalBindings.MTLTexture((IntPtr)nativeTexture);
             Width = description.Width;
@@ -101,6 +127,45 @@ namespace Veldrid.MTL
                     ArrayLayers,
                     SampleCount != TextureSampleCount.Count1,
                     (Usage & TextureUsage.Cubemap) != 0);
+        }
+
+        public MTLTexture(CAMetalDrawable drawable, CGSize size, PixelFormat format)
+        {
+            DeviceTexture = drawable.texture;
+            Width = (uint)size.width;
+            Height = (uint)size.height;
+            Depth = 1;
+            ArrayLayers = 1;
+            MipLevels = 1;
+            Format = format;
+            Usage = TextureUsage.RenderTarget;
+            Type = TextureType.Texture2D;
+            SampleCount = TextureSampleCount.Count1;
+
+            MTLPixelFormat = MTLFormats.VdToMTLPixelFormat(Format, false);
+            MTLTextureType = MTLTextureType.Type2D;
+        }
+
+        internal uint GetSubresourceSize(uint mipLevel, uint arrayLayer)
+        {
+            uint blockSize = FormatHelpers.IsCompressedFormat(Format) ? 4u : 1u;
+            Util.GetMipDimensions(this, mipLevel, out uint width, out uint height, out uint depth);
+            uint storageWidth = Math.Max(blockSize, width);
+            uint storageHeight = Math.Max(blockSize, height);
+            return depth * FormatHelpers.GetDepthPitch(
+                FormatHelpers.GetRowPitch(storageWidth, Format),
+                storageHeight,
+                Format);
+        }
+
+        internal void GetSubresourceLayout(uint mipLevel, uint arrayLayer, out uint rowPitch, out uint depthPitch)
+        {
+            uint blockSize = FormatHelpers.IsCompressedFormat(Format) ? 4u : 1u;
+            Util.GetMipDimensions(this, mipLevel, out uint mipWidth, out uint mipHeight, out uint mipDepth);
+            uint storageWidth = Math.Max(blockSize, mipWidth);
+            uint storageHeight = Math.Max(blockSize, mipHeight);
+            rowPitch = FormatHelpers.GetRowPitch(storageWidth, Format);
+            depthPitch = FormatHelpers.GetDepthPitch(rowPitch, storageHeight, Format);
         }
 
         private protected override void DisposeCore()

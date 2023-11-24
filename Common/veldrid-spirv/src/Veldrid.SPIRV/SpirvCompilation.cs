@@ -8,6 +8,11 @@ namespace Veldrid.SPIRV
     /// </summary>
     public static class SpirvCompilation
     {
+        static SpirvCompilation()
+        {
+            VeldridSpirvNative.SetupLibraryResolvers();
+        }
+
         /// <summary>
         /// Cross-compiles the given vertex-fragment pair into some target language.
         /// </summary>

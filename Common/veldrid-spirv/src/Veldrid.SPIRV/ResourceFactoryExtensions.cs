@@ -53,8 +53,8 @@ namespace Veldrid.SPIRV
 
                 return new Shader[]
                 {
-                    factory.CreateShader(in vertexShaderDescription),
-                    factory.CreateShader(in fragmentShaderDescription)
+                    factory.CreateShader(ref vertexShaderDescription),
+                    factory.CreateShader(ref fragmentShaderDescription)
                 };
             }
 
@@ -122,7 +122,7 @@ namespace Veldrid.SPIRV
             if (backend == GraphicsBackend.Vulkan)
             {
                 computeShaderDescription.ShaderBytes = EnsureSpirv(computeShaderDescription);
-                return factory.CreateShader(in computeShaderDescription);
+                return factory.CreateShader(ref computeShaderDescription);
             }
 
             CrossCompileTarget target = GetCompilationTarget(factory.BackendType);

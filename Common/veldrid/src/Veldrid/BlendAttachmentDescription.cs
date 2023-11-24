@@ -11,38 +11,31 @@ namespace Veldrid
         /// Controls whether blending is enabled for the color attachment.
         /// </summary>
         public bool BlendEnabled;
-
         /// <summary>
         /// Controls which components of the color will be written to the framebuffer.
-        /// If <c>null</c>, the mask will be set to <see cref="ColorWriteMask.All"/>.
+        /// If <c>null</c>, the mask will be set to <see cref="Veldrid.ColorWriteMask.All"/>.
         /// </summary>
         public ColorWriteMask? ColorWriteMask;
-
         /// <summary>
         /// Controls the source color's influence on the blend result.
         /// </summary>
         public BlendFactor SourceColorFactor;
-
         /// <summary>
         /// Controls the destination color's influence on the blend result.
         /// </summary>
         public BlendFactor DestinationColorFactor;
-
         /// <summary>
         /// Controls the function used to combine the source and destination color factors.
         /// </summary>
         public BlendFunction ColorFunction;
-
         /// <summary>
         /// Controls the source alpha's influence on the blend result.
         /// </summary>
         public BlendFactor SourceAlphaFactor;
-
         /// <summary>
         /// Controls the destination alpha's influence on the blend result.
         /// </summary>
         public BlendFactor DestinationAlphaFactor;
-
         /// <summary>
         /// Controls the function used to combine the source and destination alpha factors.
         /// </summary>
@@ -120,7 +113,7 @@ namespace Veldrid
         ///     DestinationAlphaFactor = BlendFactor.Zero
         ///     AlphaFunction = BlendFunction.Add
         /// </summary>
-        public static readonly BlendAttachmentDescription OverrideBlend = new()
+        public static readonly BlendAttachmentDescription OverrideBlend = new BlendAttachmentDescription
         {
             BlendEnabled = true,
             SourceColorFactor = BlendFactor.One,
@@ -143,7 +136,7 @@ namespace Veldrid
         ///     DestinationAlphaFactor = BlendFactor.InverseSourceAlpha
         ///     AlphaFunction = BlendFunction.Add
         /// </summary>
-        public static readonly BlendAttachmentDescription AlphaBlend = new()
+        public static readonly BlendAttachmentDescription AlphaBlend = new BlendAttachmentDescription
         {
             BlendEnabled = true,
             SourceColorFactor = BlendFactor.SourceAlpha,
@@ -166,7 +159,7 @@ namespace Veldrid
         ///     DestinationAlphaFactor = BlendFactor.One
         ///     AlphaFunction = BlendFunction.Add
         /// </summary>
-        public static readonly BlendAttachmentDescription AdditiveBlend = new()
+        public static readonly BlendAttachmentDescription AdditiveBlend = new BlendAttachmentDescription
         {
             BlendEnabled = true,
             SourceColorFactor = BlendFactor.SourceAlpha,
@@ -189,7 +182,7 @@ namespace Veldrid
         ///     DestinationAlphaFactor = BlendFactor.Zero
         ///     AlphaFunction = BlendFunction.Add
         /// </summary>
-        public static readonly BlendAttachmentDescription Disabled = new()
+        public static readonly BlendAttachmentDescription Disabled = new BlendAttachmentDescription
         {
             BlendEnabled = false,
             SourceColorFactor = BlendFactor.One,
@@ -207,8 +200,8 @@ namespace Veldrid
         /// <returns>True if all elements and all array elements are equal; false otherswise.</returns>
         public bool Equals(BlendAttachmentDescription other)
         {
-            return BlendEnabled.Equals(other.BlendEnabled)
-                && ColorWriteMask.Equals(other.ColorWriteMask)
+            return BlendEnabled == other.BlendEnabled
+                && ColorWriteMask == other.ColorWriteMask
                 && SourceColorFactor == other.SourceColorFactor
                 && DestinationColorFactor == other.DestinationColorFactor && ColorFunction == other.ColorFunction
                 && SourceAlphaFactor == other.SourceAlphaFactor && DestinationAlphaFactor == other.DestinationAlphaFactor

@@ -18,7 +18,6 @@ namespace Veldrid.Sdl2
         }
 
         public static implicit operator IntPtr(SDL_Renderer Sdl2Window) => Sdl2Window.NativePointer;
-
-        public static implicit operator SDL_Renderer(IntPtr pointer) => new(pointer);
+        public static implicit operator SDL_Renderer(IntPtr pointer) => new SDL_Renderer(pointer);
     }
 }

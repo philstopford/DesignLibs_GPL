@@ -5,9 +5,9 @@ using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLFeatureSupport : IReadOnlyCollection<MTLFeatureSet>
+    internal class MTLFeatureSupport : IReadOnlyCollection<MTLFeatureSet>
     {
-        private readonly HashSet<MTLFeatureSet> _supportedFeatureSets = new();
+        private readonly HashSet<MTLFeatureSet> _supportedFeatureSets = new HashSet<MTLFeatureSet>();
 
         public bool IsMacOS { get; }
 
@@ -17,7 +17,7 @@ namespace Veldrid.MTL
 
         public MTLFeatureSupport(MTLDevice device)
         {
-            foreach (MTLFeatureSet set in Enum.GetValues<MTLFeatureSet>())
+            foreach (MTLFeatureSet set in Enum.GetValues(typeof(MTLFeatureSet)))
             {
                 if (device.supportsFeatureSet(set))
                 {

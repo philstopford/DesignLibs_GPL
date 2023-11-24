@@ -1,36 +1,20 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Text;
 
 namespace Veldrid.Sdl2
 {
     internal static class Utilities
     {
-        public static Encoding UTF8 { get; } = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
-
-        public static unsafe IntPtr GetNullTerminatedUtf8(ReadOnlySpan<char> text, ref Span<byte> utf8Buffer)
+        public static unsafe string GetString(byte* stringStart)
         {
-            IntPtr heapPtr = IntPtr.Zero;
-            int byteCount = UTF8.GetMaxByteCount(text.Length) + 1;
-            if (utf8Buffer.Length < byteCount)
+            if (stringStart == null) { return null; }
+
+            int characters = 0;
+            while (stringStart[characters] != 0)
             {
-                byteCount = UTF8.GetByteCount(text) + 1;
-                heapPtr = Marshal.AllocHGlobal(byteCount);
-                utf8Buffer = new Span<byte>((void*)heapPtr, byteCount);
+                characters++;
             }
 
-            int bytesWritten = UTF8.GetBytes(text, utf8Buffer);
-            utf8Buffer[bytesWritten] = 0; // Add null terminator.
-
-            return heapPtr;
-        }
-
-        public static void FreeUtf8(IntPtr ptr)
-        {
-            if (ptr != IntPtr.Zero)
-            {
-                Marshal.FreeHGlobal(ptr);
-            }
+            return Encoding.UTF8.GetString(stringStart, characters);
         }
     }
 }

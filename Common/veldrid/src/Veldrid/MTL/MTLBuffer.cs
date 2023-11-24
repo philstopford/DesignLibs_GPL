@@ -3,12 +3,17 @@ using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLBuffer : DeviceBuffer
+    internal class MTLBuffer : DeviceBuffer
     {
-        private string? _name;
+        private string _name;
         private bool _disposed;
 
-        public override string? Name
+        public override uint SizeInBytes { get; }
+        public override BufferUsage Usage { get; }
+
+        public uint ActualCapacity { get; }
+
+        public override string Name
         {
             get => _name;
             set
@@ -24,20 +29,26 @@ namespace Veldrid.MTL
 
         public MetalBindings.MTLBuffer DeviceBuffer { get; private set; }
 
-        public unsafe MTLBuffer(in BufferDescription bd, MTLGraphicsDevice gd) : base(bd)
+        public unsafe void* Pointer { get; private set; }
+
+        public MTLBuffer(ref BufferDescription bd, MTLGraphicsDevice gd)
         {
-            if (bd.InitialData == IntPtr.Zero)
+            SizeInBytes = bd.SizeInBytes;
+            uint roundFactor = (4 - (SizeInBytes % 4)) % 4;
+            ActualCapacity = SizeInBytes + roundFactor;
+            Usage = bd.Usage;
+
+            var sharedMemory = Usage == BufferUsage.Staging || (Usage & BufferUsage.Dynamic) == BufferUsage.Dynamic;
+            var bufferOptions = sharedMemory ? MTLResourceOptions.StorageModeShared : MTLResourceOptions.StorageModePrivate;
+
+            DeviceBuffer = gd.Device.newBufferWithLengthOptions(
+                (UIntPtr)ActualCapacity,
+                bufferOptions);
+
+            unsafe
             {
-                DeviceBuffer = gd.Device.newBufferWithLengthOptions(
-                    SizeInBytes,
-                    0);
-            }
-            else
-            {
-                DeviceBuffer = gd.Device.newBuffer(
-                    (void*)bd.InitialData,
-                    SizeInBytes,
-                    0);
+                if (sharedMemory)
+                    Pointer = DeviceBuffer.contents();
             }
         }
 

@@ -1,16 +1,15 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Numerics;
-using System.Text;
 
 namespace Veldrid
 {
     public interface InputSnapshot
     {
-        ReadOnlySpan<Rune> InputEvents { get; }
-        ReadOnlySpan<KeyEvent> KeyEvents { get; }
-        ReadOnlySpan<MouseButtonEvent> MouseEvents { get; }
+        IReadOnlyList<KeyEvent> KeyEvents { get; }
+        IReadOnlyList<MouseEvent> MouseEvents { get; }
+        IReadOnlyList<char> KeyCharPresses { get; }
+        bool IsMouseDown(MouseButton button);
         Vector2 MousePosition { get; }
-        Vector2 WheelDelta { get; }
-        MouseButton MouseDown { get; }
+        float WheelDelta { get; }
     }
 }

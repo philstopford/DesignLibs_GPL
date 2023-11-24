@@ -1,21 +1,23 @@
-using System;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Veldrid.MetalBindings
 {
     public static class MTLUtil
     {
-        public static Encoding UTF8 { get; } = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
-
         public static unsafe string GetUtf8String(byte* stringStart)
         {
-            return Marshal.PtrToStringUTF8((IntPtr)stringStart) ?? "";
+            int characters = 0;
+            while (stringStart[characters] != 0)
+            {
+                characters++;
+            }
+
+            return Encoding.UTF8.GetString(stringStart, characters);
         }
 
         public static T AllocInit<T>(string typeName) where T : struct
         {
-            ObjCClass cls = new(typeName);
+            var cls = new ObjCClass(typeName);
             return cls.AllocInit<T>();
         }
     }

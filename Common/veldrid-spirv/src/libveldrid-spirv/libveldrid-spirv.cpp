@@ -223,6 +223,7 @@ Compiler *GetCompiler(std::vector<uint32_t> spirvBytes, const CrossCompileInfo &
     {
         auto ret = new CompilerMSL(spirvBytes);
         CompilerMSL::Options opts = {};
+        opts.enable_decoration_binding = true;
         ret->set_msl_options(opts);
         CompilerGLSL::Options commonOpts;
         commonOpts.vertex.flip_vert_y = info.InvertY;
@@ -442,12 +443,18 @@ CompilationResult *CompileVertexFragment(const CrossCompileInfo &info)
     if (info.Target == GLSL && usesStorageResource)
     {
         std::string key = "#version 330";
-        vsText.replace(vsText.find(key), key.length(), "#version 430");
+        std::size_t idx = vsText.find(key);
+
+        if (idx != std::string::npos)
+            vsText.replace(idx, key.length(), "#version 430");
     }
     else if (info.Target == ESSL && usesStorageResource)
     {
         std::string key = "#version 300";
-        vsText.replace(vsText.find(key), key.length(), "#version 310");
+        std::size_t idx = vsText.find(key);
+
+        if (idx != std::string::npos)
+            vsText.replace(idx, key.length(), "#version 310");
     }
 
     std::string fsText = fsCompiler->compile();
@@ -456,12 +463,18 @@ CompilationResult *CompileVertexFragment(const CrossCompileInfo &info)
     if (info.Target == GLSL && usesStorageResource)
     {
         std::string key = "#version 330";
-        fsText.replace(vsText.find(key), key.length(), "#version 430");
+        std::size_t idx = fsText.find(key);
+
+        if (idx != std::string::npos)
+            fsText.replace(idx, key.length(), "#version 430");
     }
     else if (info.Target == ESSL && usesStorageResource)
     {
         std::string key = "#version 300";
-        fsText.replace(vsText.find(key), key.length(), "#version 310");
+        std::size_t idx = fsText.find(key);
+
+        if (idx != std::string::npos)
+            fsText.replace(idx, key.length(), "#version 310");
     }
 
     CompilationResult *result = new CompilationResult();

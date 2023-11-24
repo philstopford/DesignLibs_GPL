@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
 using Veldrid.MetalBindings;
 
 namespace Veldrid.MTL
 {
-    internal sealed class MTLSwapchain : Swapchain
+    internal class MTLSwapchain : Swapchain
     {
         private readonly MTLSwapchainFramebuffer _framebuffer;
         private CAMetalLayer _metalLayer;
@@ -27,13 +28,13 @@ namespace Veldrid.MTL
             }
         }
 
-        public override string? Name { get; set; }
+        public override string Name { get; set; }
 
         public override bool IsDisposed => _disposed;
 
         public CAMetalDrawable CurrentDrawable => _drawable;
 
-        public MTLSwapchain(MTLGraphicsDevice gd, in SwapchainDescription description)
+        public MTLSwapchain(MTLGraphicsDevice gd, ref SwapchainDescription description)
         {
             _gd = gd;
             _syncToVerticalBlank = description.SyncToVerticalBlank;
@@ -44,7 +45,7 @@ namespace Veldrid.MTL
             SwapchainSource source = description.Source;
             if (source is NSWindowSwapchainSource nsWindowSource)
             {
-                NSWindow nswindow = new(nsWindowSource.NSWindow);
+                NSWindow nswindow = new NSWindow(nsWindowSource.NSWindow);
                 NSView contentView = nswindow.contentView;
                 CGSize windowContentSize = contentView.frame.size;
                 width = (uint)windowContentSize.width;
@@ -59,7 +60,7 @@ namespace Veldrid.MTL
             }
             else if (source is NSViewSwapchainSource nsViewSource)
             {
-                NSView contentView = new(nsViewSource.NSView);
+                NSView contentView = new NSView(nsViewSource.NSView);
                 CGSize windowContentSize = contentView.frame.size;
                 width = (uint)windowContentSize.width;
                 height = (uint)windowContentSize.height;
@@ -73,13 +74,10 @@ namespace Veldrid.MTL
             }
             else if (source is UIViewSwapchainSource uiViewSource)
             {
-                UIScreen mainScreen = UIScreen.mainScreen;
-                CGFloat nativeScale = mainScreen.nativeScale;
-
                 _uiView = new UIView(uiViewSource.UIView);
                 CGSize viewSize = _uiView.frame.size;
-                width = (uint)(viewSize.width * nativeScale);
-                height = (uint)(viewSize.height * nativeScale);
+                width = (uint)viewSize.width;
+                height = (uint)viewSize.height;
 
                 if (!CAMetalLayer.TryCast(_uiView.layer, out _metalLayer))
                 {
@@ -105,18 +103,16 @@ namespace Veldrid.MTL
 
             SetSyncToVerticalBlank(_syncToVerticalBlank);
 
-            GetNextDrawable();
-
             _framebuffer = new MTLSwapchainFramebuffer(
                 gd,
                 this,
-                width,
-                height,
                 description.DepthFormat,
                 format);
+
+            getNextDrawable();
         }
 
-        public void GetNextDrawable()
+        private bool getNextDrawable()
         {
             if (!_drawable.IsNull)
             {
@@ -126,29 +122,34 @@ namespace Veldrid.MTL
             using (NSAutoreleasePool.Begin())
             {
                 _drawable = _metalLayer.nextDrawable();
-                ObjectiveCRuntime.retain(_drawable.NativePtr);
+
+                if (!_drawable.IsNull)
+                {
+                    ObjectiveCRuntime.retain(_drawable.NativePtr);
+                    _framebuffer.UpdateTextures(_drawable, _metalLayer.drawableSize);
+                    return true;
+                }
+
+                return false;
             }
         }
 
         public override void Resize(uint width, uint height)
         {
             if (_uiView.NativePtr != IntPtr.Zero)
-            {
-                UIScreen mainScreen = UIScreen.mainScreen;
-                CGFloat nativeScale = mainScreen.nativeScale;
-                width = (uint)(width * nativeScale);
-                height = (uint)(height * nativeScale);
-
                 _metalLayer.frame = _uiView.frame;
-            }
 
-            _framebuffer.Resize(width, height);
             _metalLayer.drawableSize = new CGSize(width, height);
-            if (_uiView.NativePtr != IntPtr.Zero)
-            {
-                _metalLayer.frame = _uiView.frame;
-            }
-            GetNextDrawable();
+
+            getNextDrawable();
+        }
+
+        public bool EnsureDrawableAvailable() => !_drawable.IsNull || getNextDrawable();
+
+        public void InvalidateDrawable()
+        {
+            ObjectiveCRuntime.release(_drawable.NativePtr);
+            _drawable = default;
         }
 
         private void SetSyncToVerticalBlank(bool value)
@@ -167,7 +168,7 @@ namespace Veldrid.MTL
         {
             if (_drawable.NativePtr != IntPtr.Zero)
             {
-                ObjectiveCRuntime.objc_msgSend(_drawable.NativePtr, "release");
+                ObjectiveCRuntime.release(_drawable.NativePtr);
             }
             _framebuffer.Dispose();
             ObjectiveCRuntime.release(_metalLayer.NativePtr);

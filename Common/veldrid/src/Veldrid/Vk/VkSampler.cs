@@ -1,31 +1,29 @@
-﻿using TerraFX.Interop.Vulkan;
-using static TerraFX.Interop.Vulkan.Vulkan;
-using VulkanSampler = TerraFX.Interop.Vulkan.VkSampler;
+﻿using Vulkan;
+using static Vulkan.VulkanNative;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
-    internal sealed unsafe class VkSampler : Sampler, IResourceRefCountTarget
+    internal unsafe class VkSampler : Sampler
     {
         private readonly VkGraphicsDevice _gd;
-        private readonly VulkanSampler _sampler;
+        private readonly Vulkan.VkSampler _sampler;
         private bool _disposed;
-        private string? _name;
+        private string _name;
 
-        public VulkanSampler DeviceSampler => _sampler;
+        public Vulkan.VkSampler DeviceSampler => _sampler;
 
         public ResourceRefCount RefCount { get; }
 
         public override bool IsDisposed => _disposed;
 
-        public VkSampler(VkGraphicsDevice gd, in SamplerDescription description)
+        public VkSampler(VkGraphicsDevice gd, ref SamplerDescription description)
         {
             _gd = gd;
-            VkFormats.GetFilterParams(
-                description.Filter, out VkFilter minFilter, out VkFilter magFilter, out VkSamplerMipmapMode mipmapMode);
+            VkFormats.GetFilterParams(description.Filter, out VkFilter minFilter, out VkFilter magFilter, out VkSamplerMipmapMode mipmapMode);
 
-            VkSamplerCreateInfo samplerCI = new()
+            VkSamplerCreateInfo samplerCI = new VkSamplerCreateInfo
             {
-                sType = VkStructureType.VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO,
+                sType = VkStructureType.SamplerCreateInfo,
                 addressModeU = VkFormats.VdToVkSamplerAddressMode(description.AddressModeU),
                 addressModeV = VkFormats.VdToVkSamplerAddressMode(description.AddressModeV),
                 addressModeW = VkFormats.VdToVkSamplerAddressMode(description.AddressModeW),
@@ -35,7 +33,7 @@ namespace Veldrid.Vulkan
                 compareEnable = description.ComparisonKind != null,
                 compareOp = description.ComparisonKind != null
                     ? VkFormats.VdToVkCompareOp(description.ComparisonKind.Value)
-                    : VkCompareOp.VK_COMPARE_OP_NEVER,
+                    : VkCompareOp.Never,
                 anisotropyEnable = description.Filter == SamplerFilter.Anisotropic,
                 maxAnisotropy = description.MaximumAnisotropy,
                 minLod = description.MinimumLod,
@@ -44,13 +42,11 @@ namespace Veldrid.Vulkan
                 borderColor = VkFormats.VdToVkSamplerBorderColor(description.BorderColor)
             };
 
-            VulkanSampler sampler;
-            vkCreateSampler(_gd.Device, &samplerCI, null, &sampler);
-            _sampler = sampler;
-            RefCount = new ResourceRefCount(this);
+            vkCreateSampler(_gd.Device, ref samplerCI, null, out _sampler);
+            RefCount = new ResourceRefCount(DisposeCore);
         }
 
-        public override string? Name
+        public override string Name
         {
             get => _name;
             set
@@ -65,7 +61,7 @@ namespace Veldrid.Vulkan
             RefCount.Decrement();
         }
 
-        void IResourceRefCountTarget.RefZeroed()
+        private void DisposeCore()
         {
             if (!_disposed)
             {

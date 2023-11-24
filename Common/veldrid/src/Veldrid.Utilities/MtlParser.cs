@@ -12,7 +12,9 @@ namespace Veldrid.Utilities
     /// </summary>
     public class MtlParser
     {
-        private readonly ParseContext _pc = new();
+        private static readonly string[] s_newline = new string[] { "\n" };
+
+        private readonly ParseContext _pc = new ParseContext();
 
         /// <summary>
         /// Parses a <see cref="MtlFile"/> from the given array of text lines.
@@ -38,13 +40,13 @@ namespace Veldrid.Utilities
         public MtlFile Parse(Stream s)
         {
             string text;
-            using (StreamReader sr = new(s))
+            using (StreamReader sr = new StreamReader(s))
             {
                 text = sr.ReadToEnd();
             }
 
             int lineStart = 0;
-            int lineEnd;
+            int lineEnd = -1;
             while ((lineEnd = text.IndexOf('\n', lineStart)) != -1)
             {
                 string line;
@@ -55,7 +57,7 @@ namespace Veldrid.Utilities
                 }
                 else
                 {
-                    line = text[lineStart..lineEnd];
+                    line = text.Substring(lineStart, lineEnd - lineStart);
                 }
 
                 _pc.Process(line);
@@ -70,11 +72,11 @@ namespace Veldrid.Utilities
         {
             private static readonly char[] s_whitespaceChars = new char[] { ' ' };
 
-            private readonly List<MaterialDefinition> _definitions = new();
-            private MaterialDefinition? _currentDefinition;
+            private readonly List<MaterialDefinition> _definitions = new List<MaterialDefinition>();
+            private MaterialDefinition _currentDefinition;
 
             private int _currentLine;
-            private string? _currentLineText;
+            private string _currentLineText;
 
             public void Process(string line)
             {
@@ -93,92 +95,76 @@ namespace Veldrid.Utilities
                         FinalizeCurrentMaterial();
                         _currentDefinition = new MaterialDefinition(pieces[1]);
                         break;
-
                     case "ka":
                         ExpectExactly(pieces, 3, "Ka");
-                        GetCurrentDefinition().AmbientReflectivity = ParseVector3(pieces[1], pieces[2], pieces[3], "Ka");
+                        _currentDefinition.AmbientReflectivity = ParseVector3(pieces[1], pieces[2], pieces[3], "Ka");
                         break;
-
                     case "kd":
                         ExpectExactly(pieces, 3, "Kd");
-                        GetCurrentDefinition().DiffuseReflectivity = ParseVector3(pieces[1], pieces[2], pieces[3], "Kd");
+                        _currentDefinition.DiffuseReflectivity = ParseVector3(pieces[1], pieces[2], pieces[3], "Kd");
                         break;
-
                     case "ks":
                         ExpectExactly(pieces, 3, "Ks");
-                        GetCurrentDefinition().SpecularReflectivity = ParseVector3(pieces[1], pieces[2], pieces[3], "Ks");
+                        _currentDefinition.SpecularReflectivity = ParseVector3(pieces[1], pieces[2], pieces[3], "Ks");
                         break;
-
                     case "ke": // Non-standard?
                         ExpectExactly(pieces, 3, "Ke");
-                        GetCurrentDefinition().EmissiveCoefficient = ParseVector3(pieces[1], pieces[2], pieces[3], "Ks");
+                        _currentDefinition.EmissiveCoefficient = ParseVector3(pieces[1], pieces[2], pieces[3], "Ks");
                         break;
-
                     case "tf":
                         ExpectExactly(pieces, 3, "Tf");
-                        GetCurrentDefinition().TransmissionFilter = ParseVector3(pieces[1], pieces[2], pieces[3], "Tf");
+                        _currentDefinition.TransmissionFilter = ParseVector3(pieces[1], pieces[2], pieces[3], "Tf");
                         break;
-
                     case "illum":
                         ExpectExactly(pieces, 1, "illum");
-                        GetCurrentDefinition().IlluminationModel = ParseInt(pieces[1], "illum");
+                        _currentDefinition.IlluminationModel = ParseInt(pieces[1], "illum");
                         break;
-
                     case "d": // "Dissolve", or opacity
                         ExpectExactly(pieces, 1, "d");
-                        GetCurrentDefinition().Opacity = ParseFloat(pieces[1], "d");
+                        _currentDefinition.Opacity = ParseFloat(pieces[1], "d");
                         break;
-
                     case "tr": // Transparency
                         ExpectExactly(pieces, 1, "Tr");
-                        GetCurrentDefinition().Opacity = 1 - ParseFloat(pieces[1], "Tr");
+                        _currentDefinition.Opacity = 1 - ParseFloat(pieces[1], "Tr");
                         break;
-
                     case "ns":
                         ExpectExactly(pieces, 1, "Ns");
-                        GetCurrentDefinition().SpecularExponent = ParseFloat(pieces[1], "Ns");
+                        _currentDefinition.SpecularExponent = ParseFloat(pieces[1], "Ns");
                         break;
-
                     case "sharpness":
                         ExpectExactly(pieces, 1, "sharpness");
-                        GetCurrentDefinition().Sharpness = ParseFloat(pieces[1], "sharpness");
+                        _currentDefinition.Sharpness = ParseFloat(pieces[1], "sharpness");
                         break;
-
                     case "ni": // "Index of refraction"
                         ExpectExactly(pieces, 1, "Ni");
-                        GetCurrentDefinition().OpticalDensity = ParseFloat(pieces[1], "Ni");
+                        _currentDefinition.OpticalDensity = ParseFloat(pieces[1], "Ni");
                         break;
-
                     case "map_ka":
                         ExpectExactly(pieces, 1, "map_ka");
-                        GetCurrentDefinition().AmbientTexture = pieces[1];
+                        _currentDefinition.AmbientTexture = pieces[1];
                         break;
-
                     case "map_kd":
                         ExpectExactly(pieces, 1, "map_kd");
-                        GetCurrentDefinition().DiffuseTexture = pieces[1];
+                        _currentDefinition.DiffuseTexture = pieces[1];
                         break;
-
                     case "map_ks":
-                        ExpectExactly(pieces, 1, "map_ks");
-                        GetCurrentDefinition().SpecularColorTexture = pieces[1];
+                        ExpectExactly (pieces, 1, "map_ks");
+                        _currentDefinition.SpecularColorTexture = pieces [1];
                         break;
-
                     case "map_bump":
                     case "bump":
                         ExpectExactly(pieces, 1, "map_bump");
-                        GetCurrentDefinition().BumpMap = pieces[1];
+                        _currentDefinition.BumpMap = pieces[1];
                         break;
-
                     case "map_d":
                         ExpectExactly(pieces, 1, "map_d");
-                        GetCurrentDefinition().AlphaMap = pieces[1];
+                        _currentDefinition.AlphaMap = pieces[1];
                         break;
-
                     case "map_ns":
                         ExpectExactly(pieces, 1, "map_ns");
-                        GetCurrentDefinition().SpecularHighlightTexture = pieces[1];
+                        _currentDefinition.SpecularHighlightTexture = pieces[1];
                         break;
+
 
                     default:
                         throw new ObjParseException(
@@ -187,15 +173,6 @@ namespace Veldrid.Utilities
                             _currentLine,
                             _currentLineText));
                 }
-            }
-
-            private MaterialDefinition GetCurrentDefinition()
-            {
-                if (_currentDefinition == null)
-                {
-                    throw new InvalidDataException();
-                }
-                return _currentDefinition;
             }
 
             private void FinalizeCurrentMaterial()
@@ -365,13 +342,13 @@ namespace Veldrid.Utilities
         public float Sharpness { get; internal set; }
         public float OpticalDensity { get; internal set; }
 
-        public string? AmbientTexture { get; internal set; }
-        public string? DiffuseTexture { get; internal set; }
-        public string? SpecularColorTexture { get; internal set; }
-        public string? SpecularHighlightTexture { get; internal set; }
-        public string? AlphaMap { get; internal set; }
-        public string? BumpMap { get; internal set; }
-        public string? DisplacementMap { get; internal set; }
-        public string? StencilDecalTexture { get; internal set; }
+        public string AmbientTexture { get; internal set; }
+        public string DiffuseTexture { get; internal set; }
+        public string SpecularColorTexture { get; internal set; }
+        public string SpecularHighlightTexture { get; internal set; }
+        public string AlphaMap { get; internal set; }
+        public string BumpMap { get; internal set; }
+        public string DisplacementMap { get; internal set; }
+        public string StencilDecalTexture { get; internal set; }
     }
 }

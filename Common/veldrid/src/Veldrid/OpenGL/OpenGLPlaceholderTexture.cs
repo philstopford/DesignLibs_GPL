@@ -1,7 +1,9 @@
 ﻿namespace Veldrid.OpenGL
 {
-    internal sealed class OpenGLPlaceholderTexture : Texture
+    internal class OpenGLPlaceholderTexture : Texture
     {
+        private uint _height;
+        private uint _width;
         private bool _disposed;
 
         public OpenGLPlaceholderTexture(
@@ -11,24 +13,38 @@
             TextureUsage usage,
             TextureSampleCount sampleCount)
         {
-            Width = width;
-            Height = height;
+            _width = width;
+            _height = height;
             Format = format;
             Usage = usage;
             SampleCount = sampleCount;
-            Depth = 1;
-            MipLevels = 1;
-            ArrayLayers = 1;
-            Type = TextureType.Texture2D;
         }
 
         public void Resize(uint width, uint height)
         {
-            Width = width;
-            Height = height;
+            _width = width;
+            _height = height;
         }
 
-        public override string? Name { get; set; }
+        public override PixelFormat Format { get; }
+
+        public override uint Width => _width;
+
+        public override uint Height => _height;
+
+        public override uint Depth => 1;
+
+        public override uint MipLevels => 1;
+
+        public override uint ArrayLayers => 1;
+
+        public override TextureUsage Usage { get; }
+
+        public override TextureSampleCount SampleCount { get; }
+
+        public override TextureType Type => TextureType.Texture2D;
+
+        public override string Name { get; set; }
 
         public override bool IsDisposed => _disposed;
 

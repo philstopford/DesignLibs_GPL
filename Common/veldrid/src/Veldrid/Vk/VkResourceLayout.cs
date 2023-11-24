@@ -1,16 +1,16 @@
-﻿using TerraFX.Interop.Vulkan;
-using static TerraFX.Interop.Vulkan.Vulkan;
-using static Veldrid.Vulkan.VulkanUtil;
+﻿using Vulkan;
+using static Vulkan.VulkanNative;
+using static Veldrid.Vk.VulkanUtil;
 
-namespace Veldrid.Vulkan
+namespace Veldrid.Vk
 {
-    internal sealed unsafe class VkResourceLayout : ResourceLayout
+    internal unsafe class VkResourceLayout : ResourceLayout
     {
         private readonly VkGraphicsDevice _gd;
         private readonly VkDescriptorSetLayout _dsl;
         private readonly VkDescriptorType[] _descriptorTypes;
         private bool _disposed;
-        private string? _name;
+        private string _name;
 
         public VkDescriptorSetLayout DescriptorSetLayout => _dsl;
         public VkDescriptorType[] DescriptorTypes => _descriptorTypes;
@@ -19,10 +19,11 @@ namespace Veldrid.Vulkan
 
         public override bool IsDisposed => _disposed;
 
-        public VkResourceLayout(VkGraphicsDevice gd, in ResourceLayoutDescription description)
-            : base(description)
+        public VkResourceLayout(VkGraphicsDevice gd, ref ResourceLayoutDescription description)
+            : base(ref description)
         {
             _gd = gd;
+            VkDescriptorSetLayoutCreateInfo dslCI = VkDescriptorSetLayoutCreateInfo.New();
             ResourceLayoutElementDescription[] elements = description.Elements;
             _descriptorTypes = new VkDescriptorType[elements.Length];
             VkDescriptorSetLayoutBinding* bindings = stackalloc VkDescriptorSetLayoutBinding[elements.Length];
@@ -51,25 +52,25 @@ namespace Veldrid.Vulkan
 
                 switch (descriptorType)
                 {
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_SAMPLER:
+                    case VkDescriptorType.Sampler:
                         samplerCount += 1;
                         break;
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE:
+                    case VkDescriptorType.SampledImage:
                         sampledImageCount += 1;
                         break;
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_STORAGE_IMAGE:
+                    case VkDescriptorType.StorageImage:
                         storageImageCount += 1;
                         break;
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER:
+                    case VkDescriptorType.UniformBuffer:
                         uniformBufferCount += 1;
                         break;
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC:
+                    case VkDescriptorType.UniformBufferDynamic:
                         uniformBufferDynamicCount += 1;
                         break;
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_STORAGE_BUFFER:
+                    case VkDescriptorType.StorageBuffer:
                         storageBufferCount += 1;
                         break;
-                    case VkDescriptorType.VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC:
+                    case VkDescriptorType.StorageBufferDynamic:
                         storageBufferDynamicCount += 1;
                         break;
                 }
@@ -84,20 +85,14 @@ namespace Veldrid.Vulkan
                 storageBufferDynamicCount,
                 storageImageCount);
 
-            VkDescriptorSetLayoutCreateInfo dslCI = new()
-            {
-                sType = VkStructureType.VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-                bindingCount = (uint)elements.Length,
-                pBindings = bindings
-            };
+            dslCI.bindingCount = (uint)elements.Length;
+            dslCI.pBindings = bindings;
 
-            VkDescriptorSetLayout dsl;
-            VkResult result = vkCreateDescriptorSetLayout(_gd.Device, &dslCI, null, &dsl);
+            VkResult result = vkCreateDescriptorSetLayout(_gd.Device, ref dslCI, null, out _dsl);
             CheckResult(result);
-            _dsl = dsl;
         }
 
-        public override string? Name
+        public override string Name
         {
             get => _name;
             set

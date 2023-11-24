@@ -227,7 +227,7 @@ namespace Veldrid.MetalBindings
         public static extern void objc_msgSend_stret(void* retPtr, IntPtr receiver, Selector selector);
         public static T objc_msgSend_stret<T>(IntPtr receiver, Selector selector) where T : struct
         {
-            T ret = default;
+            T ret = default(T);
             objc_msgSend_stret(Unsafe.AsPointer(ref ret), receiver, selector);
             return ret;
         }
@@ -275,8 +275,13 @@ namespace Veldrid.MetalBindings
 
         [DllImport(ObjCLibrary)]
         public static extern void free(IntPtr receiver);
-        public static void retain(IntPtr receiver) => objc_msgSend(receiver, "retain");
-        public static void release(IntPtr receiver) => objc_msgSend(receiver, "release");
-        public static ulong GetRetainCount(IntPtr receiver) => (ulong)UIntPtr_objc_msgSend(receiver, "retainCount");
+
+        public static void retain(IntPtr receiver) => objc_msgSend(receiver, sel_retain);
+        public static void release(IntPtr receiver) => objc_msgSend(receiver, sel_release);
+        public static ulong GetRetainCount(IntPtr receiver) => (ulong)UIntPtr_objc_msgSend(receiver, sel_retainCount);
+
+        private static readonly Selector sel_retain = "retain";
+        private static readonly Selector sel_release = "release";
+        private static readonly Selector sel_retainCount = "retainCount";
     }
 }

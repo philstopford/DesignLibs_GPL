@@ -6,9 +6,8 @@ namespace Veldrid.Sdl2
 {
     public static class Sdl2Events
     {
-        private static readonly object s_lock = new();
-        private static readonly List<SDLEventHandler> s_processors = new();
-
+        private static readonly object s_lock = new object();
+        private static readonly List<SDLEventHandler> s_processors = new List<SDLEventHandler>();
         public static void Subscribe(SDLEventHandler processor)
         {
             lock (s_lock)
@@ -30,10 +29,10 @@ namespace Veldrid.Sdl2
         /// </summary>
         public static unsafe void ProcessEvents()
         {
-            SDL_Event ev;
-            while (SDL_PollEvent(&ev) == 1)
+            lock (s_lock)
             {
-                lock (s_lock)
+                SDL_Event ev;
+                while (SDL_PollEvent(&ev) == 1)
                 {
                     foreach (SDLEventHandler processor in s_processors)
                     {

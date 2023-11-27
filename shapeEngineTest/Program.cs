@@ -28,6 +28,8 @@ internal class Program
         lTest();
         lInnerRoundingTest();
         lOuterRoundingTest();
+        lInnerOuterRoundingTest();
+        sTest();
     }
 
     private static void rectangleTest()
@@ -144,7 +146,8 @@ internal class Program
         Assert.AreEqual(15, bounds.Width);
         Assert.AreEqual(20, bounds.Height);
     }
-    
+
+
     private static void lInnerRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
@@ -201,5 +204,69 @@ internal class Program
         RectD bounds = Clipper.GetBounds(out_);
         Assert.AreEqual(15, bounds.Width);
         Assert.AreEqual(20, bounds.Height);
+    }
+    
+    private static void lInnerOuterRoundingTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 5.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 10);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 5);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "l_innerouter.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(59, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        Assert.LessOrEqual(Math.Abs(-228 - area), 0.015);
+        RectD bounds = Clipper.GetBounds(out_);
+        Assert.AreEqual(15, bounds.Width);
+        Assert.AreEqual(20, bounds.Height);
+    }
+    
+    private static void sTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 15.0m, 2);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 2);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 7.0m, 1);
+        // 45 based on pushing the second subshape against the wall of the outer.
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
+        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "s.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(309, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area), 0.0001);
+        RectD bounds = Clipper.GetBounds(clean);
+        Assert.AreEqual(60, bounds.Width);
+        Assert.AreEqual(60, bounds.Height);
     }
 }

@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Common\shapeEngine\shapeEngine.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="nunit.framework">
+        <HintPath>..\..\..\..\home\phil\.nuget\packages\nunit\3.14.0\lib\netstandard2.0\nunit.framework.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+</Project>

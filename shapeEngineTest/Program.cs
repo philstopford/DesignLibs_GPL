@@ -43,6 +43,7 @@ internal class Program
         biasTest();
         sBiasTest();
         lTipTest();
+        lTipVarTest();
     }
 
     private static void rectangleTest()
@@ -804,5 +805,107 @@ internal class Program
         RectD bounds = Clipper.GetBounds(out_);
         Assert.AreEqual(66, bounds.Width);
         Assert.AreEqual(72, bounds.Height);
+    }
+    
+    private static void lTipVarTest()
+    {
+        ShapeSettings shapeSettings_ref = new ShapeSettings();
+        shapeSettings_ref.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
+        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 0);
+        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.horLength, 40.0m, 1);
+        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.hTBias, 6m);
+        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.vTBias, 12m);
+        shapeSettings_ref.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, (int)ShapeSettings.tipLocations.T);
+        shapeSettings_ref.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
+        ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
+        shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape_ref.computeCage(0,0, 0);
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_ref.shapeIndex);
+        PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
+        // Ortho check
+        // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
+        bool orthogonal_ref = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_ref), 0.001);
+        Assert.AreEqual(true, orthogonal_ref);
+        // Corners can have duplicate points.
+        PathD clean_ref = GeoWrangler.removeDuplicates(out_ref);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(277, clean_ref.Count);
+        // Check expected area
+        double area_ref = Clipper.Area(out_ref);
+        Assert.AreEqual(-2360, area_ref);
+        RectD bounds_ref = Clipper.GetBounds(out_ref);
+        Assert.AreEqual(66, bounds_ref.Width);
+        Assert.AreEqual(72, bounds_ref.Height);
+        
+        ShapeSettings shapeSettings_htv = new ShapeSettings();
+        shapeSettings_htv.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
+        shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 0);
+        shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.horLength, 40.0m, 1);
+        shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.hTBias, 0);
+        shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.vTBias, 12m);
+        shapeSettings_htv.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, (int)ShapeSettings.tipLocations.T);
+        shapeSettings_htv.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
+        ShapeLibrary shape_htv = new ShapeLibrary(shapeTable, shapeSettings_htv);
+        shape_htv.setShape(shapeSettings_htv.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape_htv.computeCage(0,6, 0);
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_htv.shapeIndex);
+        PathD out_htv = shape_htv.processCorners(false, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_htv }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "l_tipvarh.svg", FillRule.NonZero, 800, 800, 10);
+        // Ortho check
+        // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
+        bool orthogonal_htv = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_htv), 0.001);
+        Assert.AreEqual(true, orthogonal_htv);
+        // Corners can have duplicate points.
+        PathD clean_htv = GeoWrangler.removeDuplicates(out_htv);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(277, clean_htv.Count);
+        // Check expected area
+        double area_htv = Clipper.Area(out_htv);
+        Assert.AreEqual(area_ref, area_htv);
+        RectD bounds_htv = Clipper.GetBounds(out_htv);
+        Assert.AreEqual(66, bounds_htv.Width);
+        Assert.AreEqual(72, bounds_htv.Height);
+        
+        ShapeSettings shapeSettings_vtv = new ShapeSettings();
+        shapeSettings_vtv.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
+        shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 0);
+        shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.horLength, 40.0m, 1);
+        shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.hTBias, 6m);
+        shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.vTBias, 0m);
+        shapeSettings_vtv.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, (int)ShapeSettings.tipLocations.T);
+        shapeSettings_vtv.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
+        ShapeLibrary shape_vtv = new ShapeLibrary(shapeTable, shapeSettings_vtv);
+        shape_vtv.setShape(shapeSettings_vtv.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape_vtv.computeCage(12,0, 0);
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_vtv.shapeIndex);
+        PathD out_vtv = shape_vtv.processCorners(false, false, 90, 1, 1);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new() { out_vtv }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "l_tipvarv.svg", FillRule.NonZero, 800, 800, 10);
+        // Ortho check
+        // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
+        bool orthogonal_vtv = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_vtv), 0.001);
+        Assert.AreEqual(true, orthogonal_vtv);
+        // Corners can have duplicate points.
+        PathD clean_vtv = GeoWrangler.removeDuplicates(out_vtv);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(277, clean_vtv.Count);
+        // Check expected area
+        double area_vtv = Clipper.Area(out_vtv);
+        Assert.AreEqual(-2360, area_vtv);
+        RectD bounds_vtv = Clipper.GetBounds(out_vtv);
+        Assert.AreEqual(66, bounds_vtv.Width);
+        Assert.AreEqual(72, bounds_vtv.Height);
     }
 }

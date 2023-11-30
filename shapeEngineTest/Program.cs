@@ -9,7 +9,7 @@ internal class Program
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/shapeengine_out/";
 
-    static int[] shapeTable = new[] {
+    static int[] shapeTable = {
         (int)ShapeLibrary.shapeNames_all.none,
         (int)ShapeLibrary.shapeNames_all.rect,
         (int)ShapeLibrary.shapeNames_all.Lshape,
@@ -44,6 +44,7 @@ internal class Program
         sBiasTest();
         lTipTest();
         lTipVarTest();
+        sTipTest();
     }
 
     private static void rectangleTest()
@@ -907,5 +908,85 @@ internal class Program
         RectD bounds_vtv = Clipper.GetBounds(out_vtv);
         Assert.AreEqual(66, bounds_vtv.Width);
         Assert.AreEqual(72, bounds_vtv.Height);
+    }
+    
+    private static void sTipTest()
+    {
+        ShapeSettings shapeSettings_1 = new ShapeSettings();
+        shapeSettings_1.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 1);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.horLength, 15.0m, 2);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 2);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.verOffset, 7.0m, 1);
+        // 45 based on pushing the second subshape against the wall of the outer.
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
+        // Tips
+        shapeSettings_1.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.BL);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.hTBias, 5);
+        shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.vTBias, 2);
+        ShapeLibrary shape_1 = new ShapeLibrary(shapeTable, shapeSettings_1);
+        shape_1.setShape(shapeSettings_1.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape_1.computeCage();
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_1.shapeIndex);
+        PathD out_1 = shape_1.processCorners(false, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_1 }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "s_bltips.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean_1 = GeoWrangler.removeDuplicates(out_1);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(309, clean_1.Count);
+        // Check expected area
+        double area_1 = Clipper.Area(out_1);
+        // In this this, the BL tip setting moves the lower edge upwards, reducing the notch vertically.
+        // The left tip setting has no effect on the horizontal dimension.
+        Assert.LessOrEqual(Math.Abs(-(3600-((20*18)+(10*15))) - area_1), 0.0001);
+        RectD bounds_1 = Clipper.GetBounds(clean_1);
+        Assert.AreEqual(60, bounds_1.Width);
+        Assert.AreEqual(60, bounds_1.Height);
+        
+        ShapeSettings shapeSettings_2 = new ShapeSettings();
+        shapeSettings_2.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 1);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.horLength, 15.0m, 2);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 2);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.verOffset, 7.0m, 1);
+        // 45 based on pushing the second subshape against the wall of the outer.
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
+        // Tips
+        shapeSettings_2.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.BR);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.hTBias, 5);
+        shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.vTBias, 2);
+        ShapeLibrary shape_2 = new ShapeLibrary(shapeTable, shapeSettings_2);
+        shape_2.setShape(shapeSettings_2.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape_2.computeCage();
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_2.shapeIndex);
+        PathD out_2 = shape_2.processCorners(false, false, 90, 1, 1);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new() { out_2 }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "s_brtips.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean_2 = GeoWrangler.removeDuplicates(out_2);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(297, clean_2.Count);
+        // Check expected area
+        double area_2 = Clipper.Area(out_2);
+        // In this this, the BR tip setting moves the lower edge upwards, reducing the notch vertically.
+        // The right tip setting reduces the notch width.
+        Assert.LessOrEqual(Math.Abs(-(3600-((15*18)+(10*15))) - area_2), 0.0001);
+        RectD bounds_2 = Clipper.GetBounds(clean_2);
+        Assert.AreEqual(60, bounds_2.Width);
+        Assert.AreEqual(60, bounds_2.Height);
+
     }
 }

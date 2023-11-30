@@ -107,7 +107,7 @@ internal class Program
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, 7);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage(0, 0, 0);
+        shape.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
         PathD out_ = shape.processCorners(true, false, 90, 1, 1);
@@ -139,7 +139,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "notL.svg", FillRule.NonZero, 800, 800, 10);

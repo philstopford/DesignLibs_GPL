@@ -1981,9 +1981,14 @@ public class ShapeLibrary
 #endif
     }
 
-    private void computeTips(double hTipBiasType, double vTipBiasType, double gTipBias /*double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
-        double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar*/)
+    // Supplied values due to potential for variation in the user call from that in the defined shape.
+    private void computeTips(double vTipBiasOffset, double hTipBiasOffset)
     {
+        // Get our bias from the shape and then apply the variation
+        double vTipBias = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
+        double hTipBias = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
+        vTipBias += vTipBiasOffset;
+        hTipBias += hTipBiasOffset;
         // Wrangle the tips.
         for (int cp = 0;
              cp < Vertex.Length - 1;
@@ -1999,75 +2004,34 @@ public class ShapeLibrary
             // Values below are correlated in the MCControl system for simulations. In preview mode, these are all zero.
             if (Vertex[cp].direction == typeDirection.down1 && Vertex[cp].yBiasApplied == false)
             {
-                Vertex[cp].Y -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
-                Vertex[cp].Y -= Convert.ToDouble(gTipBias);
-                if (vTipBiasType < 0.5) // Need to use our negative variation value
-                {
-                    Vertex[cp].Y -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTNVar));
-                }
-                else
-                {
-                    Vertex[cp].Y -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTPVar));
-                }
-
+                Vertex[cp].Y -= Convert.ToDouble(vTipBias);
                 Vertex[cp].yBiasApplied = true;
             }
 
             if (Vertex[cp].direction == typeDirection.up1 && Vertex[cp].yBiasApplied == false)
             {
-                Vertex[cp].Y += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
-                Vertex[cp].Y += gTipBias;
-                if (vTipBiasType < 0.5) // Need to use our negative variation value
-                {
-                    Vertex[cp].Y += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTNVar));
-                }
-                else
-                {
-                    Vertex[cp].Y += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTPVar));
-                }
-
+                Vertex[cp].Y += vTipBias;
                 Vertex[cp].yBiasApplied = true;
             }
 
             if (Vertex[cp].direction == typeDirection.left1 && Vertex[cp].xBiasApplied == false)
             {
-                Vertex[cp].X -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
-                Vertex[cp].X -= gTipBias;
-                if (hTipBiasType < 0.5) // Need to use our negative variation value
-                {
-                    Vertex[cp].X -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTNVar));
-                }
-                else
-                {
-                    Vertex[cp].X -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTPVar));
-                }
-
+                Vertex[cp].X -= hTipBias;
                 Vertex[cp].xBiasApplied = true;
             }
 
-            if (Vertex[cp].direction != typeDirection.right1 || Vertex[cp].xBiasApplied)
+            if (Vertex[cp].direction == typeDirection.right1 && Vertex[cp].xBiasApplied == false)
             {
-                continue;
+                Vertex[cp].X += hTipBias;
+                Vertex[cp].xBiasApplied = true;
             }
-
-            Vertex[cp].X += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
-            Vertex[cp].X += gTipBias;
-            if (hTipBiasType < 0.5) // Need to use our negative variation value
-            {
-                Vertex[cp].X += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTNVar));
-            }
-            else
-            {
-                Vertex[cp].X += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTPVar));
-            }
-
-            Vertex[cp].xBiasApplied = true;
         }
     }
 
-    private void computeBias()
+    private void computeBias(double sideBiasOffset)
     {
-        double gSideBias = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.sBias));
+        double sideBias = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.sBias));
+        sideBias += sideBiasOffset;
         // Global bias for anything that isn't a tip.
         for (int cp = 0;
              cp < Vertex.Length - 1;
@@ -2078,10 +2042,10 @@ public class ShapeLibrary
                 switch (Vertex[cp].direction)
                 {
                     case typeDirection.left1:
-                        Vertex[cp].X -= gSideBias;
+                        Vertex[cp].X -= sideBias;
                         break;
                     case typeDirection.right1:
-                        Vertex[cp].X += gSideBias;
+                        Vertex[cp].X += sideBias;
                         break;
                 }
             }
@@ -2091,10 +2055,10 @@ public class ShapeLibrary
                 switch (Vertex[cp].direction)
                 {
                     case typeDirection.up1:
-                        Vertex[cp].Y += gSideBias;
+                        Vertex[cp].Y += sideBias;
                         break;
                     case typeDirection.down1:
-                        Vertex[cp].Y -= gSideBias;
+                        Vertex[cp].Y -= sideBias;
                         break;
                 }
             }
@@ -2117,12 +2081,10 @@ public class ShapeLibrary
     }
 
     // This greatly simplifies the call-site usage compared to the sequence of calls from before.
-    public void computeCage(double hTipBiasType, double vTipBiasType, double gTipBias /*double gSideBias, double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
-    double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar, int edgeSlide, double eTension*/)
+    public void computeCage(double vTipBiasOffset = 0, double hTipBiasOffset = 0, double sideBiasOffset = 0)
     {
-        computeTips(hTipBiasType, vTipBiasType, gTipBias /*gTipBias, hTipBias, hTipBiasType, hTipBiasNegVar,
-            hTipBiasPosVar, vTipBias, vTipBiasType, vTipBiasNegVar, vTipBiasPosVar*/);
-        computeBias();
+        computeTips(vTipBiasOffset, hTipBiasOffset);
+        computeBias(sideBiasOffset);
         edgeMidpoints();
     }
     
@@ -2275,26 +2237,19 @@ public class ShapeLibrary
             }
         }
     }
-
-    // Simpler call where variation is not needed and shape settings suffice.
-    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments,
-        int optimizeCorners, double resolution)
+    
+    // Here we end up with a little confusion because we use this corner processing in two distinct ways in a major client application.
+    // In PA search mode (inner corner with iCPA, outer corner with oCPA), the shape iCR setting has the variation already applied. We therefore use this value with the scalar.
+    // In regular mode, iCV has the user-defined 3-sigma variation. We add the iCV value, scaled, to the ICR value.
+    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners, double resolution,
+        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0, double oCVariation_scalar = 0
+        )
     {
-        return processCorners(previewMode, cornerCheck, true,
-            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0)),
-            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0)),
-            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR)),
-            0, 0, false,
-            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR)),
-            0, 0, false,
-            cornerSegments, optimizeCorners, resolution
-        );
-    }
-
-    public PathD processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
-        double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation,
-        bool oCPA, int cornerSegments, int optimizeCorners, double resolution)
-    {
+        bool doPASearch = iCPA || oCPA;
+        double s0HO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
+        double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
+        double iCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+        double oCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
         Fragmenter fragment = new Fragmenter(resolution);
         PathD mcPoints = new();
         PathD
@@ -2369,7 +2324,7 @@ public class ShapeLibrary
                     // Add our random variation based on rounding type :
                     bool paSearchSetsCornerRoundingForThisCorner = false;
 
-                    if (ignoreCV)
+                    if (doPASearch)
                     {
                         // Are we on a corner that has a PA-defined rounding value?
                         switch (startInnerRounding)
@@ -2388,13 +2343,13 @@ public class ShapeLibrary
                     {
                         if (startInnerRounding)
                         {
-                            hRadius = iCVariation * iCR;
-                            vRadius = iCVariation * iCR;
+                            hRadius = iCVariation_scalar * iCR;
+                            vRadius = iCVariation_scalar * iCR;
                         }
                         else
                         {
-                            hRadius = oCVariation * oCR;
-                            vRadius = oCVariation * oCR;
+                            hRadius = oCVariation_scalar * oCR;
+                            vRadius = oCVariation_scalar * oCR;
                         }
                     }
                     else
@@ -2403,13 +2358,13 @@ public class ShapeLibrary
                         {
                             if (startInnerRounding)
                             {
-                                hRadius += iCVariation * iCV;
-                                vRadius += iCVariation * iCV;
+                                hRadius += iCVariation_scalar * iCV;
+                                vRadius += iCVariation_scalar * iCV;
                             }
                             else
                             {
-                                hRadius += oCVariation * oCV;
-                                vRadius += oCVariation * oCV;
+                                hRadius += oCVariation_scalar * oCV;
+                                vRadius += oCVariation_scalar * oCV;
                             }
                         }
                     }
@@ -2596,7 +2551,7 @@ public class ShapeLibrary
                     // Add our random variation based on rounding type :
 
                     paSearchSetsCornerRoundingForThisCorner = false;
-                    if (ignoreCV)
+                    if (doPASearch)
                     {
                         switch (startInnerRounding)
                         {
@@ -2613,13 +2568,13 @@ public class ShapeLibrary
                     {
                         if (startInnerRounding)
                         {
-                            hRadius = iCVariation * iCR;
-                            vRadius = iCVariation * iCR;
+                            hRadius = iCVariation_scalar * iCR;
+                            vRadius = iCVariation_scalar * iCR;
                         }
                         else
                         {
-                            hRadius = oCVariation * oCR;
-                            vRadius = oCVariation * oCR;
+                            hRadius = oCVariation_scalar * oCR;
+                            vRadius = oCVariation_scalar * oCR;
                         }
                     }
                     else
@@ -2629,13 +2584,13 @@ public class ShapeLibrary
                         {
                             if (endInnerRounding)
                             {
-                                hRadius += iCVariation * iCV;
-                                vRadius += iCVariation * iCV;
+                                hRadius += iCVariation_scalar * iCV;
+                                vRadius += iCVariation_scalar * iCV;
                             }
                             else
                             {
-                                hRadius += oCVariation * oCV;
-                                vRadius += oCVariation * oCV;
+                                hRadius += oCVariation_scalar * oCV;
+                                vRadius += oCVariation_scalar * oCV;
                             }
                         }
                     }

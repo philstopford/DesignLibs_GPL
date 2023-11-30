@@ -39,6 +39,7 @@ internal class Program
         xRoundingTest();
         biasTest();
         sBiasTest();
+        lTipTest();
     }
 
     private static void rectangleTest()
@@ -51,7 +52,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rectangle.svg", FillRule.NonZero, 800, 800, 10);
@@ -78,7 +79,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, .5);
+        PathD out_ = shape.processCorners(true, false, 90, 1, .5);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rectangle_rounding.svg", FillRule.NonZero, 800, 800, 10);
@@ -106,17 +107,17 @@ internal class Program
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, 7);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage(5, 0 ,0, 0, 0, 0, 0, 0, 0, 0, 0 ,0);
+        shape.computeCage(0, 0, 0);
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "rectangle.svg_bias", FillRule.NonZero, 800, 800, 10);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rectangle_bias.svg", FillRule.NonZero, 800, 800, 10);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(61, clean.Count);
+        Assert.AreEqual(105, clean.Count);
         // Check expected area
         double area = Clipper.Area(out_);
         Assert.AreEqual(-22*30, area);
@@ -166,7 +167,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "l.svg", FillRule.NonZero, 800, 800, 10);
@@ -199,7 +200,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "l_inner.svg", FillRule.NonZero, 800, 800, 10);
@@ -228,7 +229,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "l_outer.svg", FillRule.NonZero, 800, 800, 10);
@@ -258,7 +259,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "l_innerouter.svg", FillRule.NonZero, 800, 800, 10);
@@ -292,7 +293,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "s.svg", FillRule.NonZero, 800, 800, 10);
@@ -328,7 +329,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "s_innerouter.svg", FillRule.NonZero, 800, 800, 10);
@@ -359,7 +360,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Tshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "t.svg", FillRule.NonZero, 800, 800, 10);
@@ -392,7 +393,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Tshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "t_innerouter.svg", FillRule.NonZero, 800, 800, 10);
@@ -422,7 +423,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "u.svg", FillRule.NonZero, 800, 800, 10);
@@ -458,7 +459,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "u_innerouter.svg", FillRule.NonZero, 800, 800, 10);
@@ -493,7 +494,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Xshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "x.svg", FillRule.NonZero, 800, 800, 10);
@@ -526,7 +527,7 @@ internal class Program
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Xshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "x_innerouter.svg", FillRule.NonZero, 800, 800, 10);
@@ -556,27 +557,14 @@ internal class Program
         // 45 based on pushing the second subshape against the wall of the outer.
         shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
         shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
-        shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.sBias, 1);
+        // shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.sBias, 1);
         
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_ref.shapeIndex);
-        PathD out_ref = shape_ref.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
-        SvgWriter svgSrc = new SvgWriter();
-        SvgUtils.AddSolution(svgSrc, new() { out_ref }, true);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "s.svg", FillRule.NonZero, 800, 800, 10);
-        // Corners can have duplicate points.
-        PathD clean_ref = GeoWrangler.removeDuplicates(out_ref);
-        // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean_ref.Count);
-        // Check expected area
-        double area_ref = Clipper.Area(out_ref);
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_ref), 0.0001);
-        RectD bounds_ref = Clipper.GetBounds(clean_ref);
-        Assert.AreEqual(60, bounds_ref.Width);
-        Assert.AreEqual(60, bounds_ref.Height);
-        
+        PathD out_ref = shape_ref.processCorners(true, false, 90, 1, 1);
+
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
@@ -593,14 +581,12 @@ internal class Program
         
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage(2.0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0.5);
+        shape.computeCage(0,0,0);
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
-        PathD out_ = shape.processCorners(true, false, true, 0, 0, 0, 0, 0, false, 0, 0, 0, false, 90, 1, 1);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
 
-        svgSrc.ClearAll();
+        SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ref }, true);
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "s_sbias.svg", FillRule.NonZero, 800, 800, 10);
@@ -609,11 +595,48 @@ internal class Program
         // Check point count - start and end points are the same.
         Assert.AreEqual(325, clean.Count);
         // Check expected area
+        double area_ref = Clipper.Area(out_ref);
         double area = Clipper.Area(out_);
         Assert.LessOrEqual(636 - Math.Abs(area_ref - area), 0.0001);
         RectD bounds = Clipper.GetBounds(clean);
         Assert.AreEqual(64, bounds.Width);
         Assert.AreEqual(64, bounds.Height);
     }
-    
+
+    private static void lTipTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 40.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, 6m);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, 12m);
+        shapeSettings.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, (int)ShapeSettings.tipLocations.T);
+        shapeSettings.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape.computeCage(0,0, 0);
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        PathD out_ = shape.processCorners(true, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "l_tip.svg", FillRule.NonZero, 800, 800, 10);
+        // Ortho check
+        // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
+        bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
+        Assert.AreEqual(true, orthogonal);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(277, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        Assert.AreEqual(-2360, area);
+        RectD bounds = Clipper.GetBounds(out_);
+        Assert.AreEqual(66, bounds.Width);
+        Assert.AreEqual(72, bounds.Height);
+    }
 }

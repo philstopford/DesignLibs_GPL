@@ -1981,8 +1981,8 @@ public class ShapeLibrary
 #endif
     }
 
-    private void computeTips(double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
-        double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar)
+    private void computeTips(double hTipBiasType, double vTipBiasType, double gTipBias /*double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
+        double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar*/)
     {
         // Wrangle the tips.
         for (int cp = 0;
@@ -1999,15 +1999,15 @@ public class ShapeLibrary
             // Values below are correlated in the MCControl system for simulations. In preview mode, these are all zero.
             if (Vertex[cp].direction == typeDirection.down1 && Vertex[cp].yBiasApplied == false)
             {
-                Vertex[cp].Y -= vTipBias;
+                Vertex[cp].Y -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
                 Vertex[cp].Y -= Convert.ToDouble(gTipBias);
                 if (vTipBiasType < 0.5) // Need to use our negative variation value
                 {
-                    Vertex[cp].Y -= vTipBiasNegVar;
+                    Vertex[cp].Y -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTNVar));
                 }
                 else
                 {
-                    Vertex[cp].Y -= vTipBiasPosVar;
+                    Vertex[cp].Y -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTPVar));
                 }
 
                 Vertex[cp].yBiasApplied = true;
@@ -2015,15 +2015,15 @@ public class ShapeLibrary
 
             if (Vertex[cp].direction == typeDirection.up1 && Vertex[cp].yBiasApplied == false)
             {
-                Vertex[cp].Y += vTipBias;
+                Vertex[cp].Y += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
                 Vertex[cp].Y += gTipBias;
                 if (vTipBiasType < 0.5) // Need to use our negative variation value
                 {
-                    Vertex[cp].Y += vTipBiasNegVar;
+                    Vertex[cp].Y += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTNVar));
                 }
                 else
                 {
-                    Vertex[cp].Y += vTipBiasPosVar;
+                    Vertex[cp].Y += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.vTPVar));
                 }
 
                 Vertex[cp].yBiasApplied = true;
@@ -2031,15 +2031,15 @@ public class ShapeLibrary
 
             if (Vertex[cp].direction == typeDirection.left1 && Vertex[cp].xBiasApplied == false)
             {
-                Vertex[cp].X -= hTipBias;
+                Vertex[cp].X -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
                 Vertex[cp].X -= gTipBias;
                 if (hTipBiasType < 0.5) // Need to use our negative variation value
                 {
-                    Vertex[cp].X -= hTipBiasNegVar;
+                    Vertex[cp].X -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTNVar));
                 }
                 else
                 {
-                    Vertex[cp].X -= hTipBiasPosVar;
+                    Vertex[cp].X -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTPVar));
                 }
 
                 Vertex[cp].xBiasApplied = true;
@@ -2050,23 +2050,24 @@ public class ShapeLibrary
                 continue;
             }
 
-            Vertex[cp].X += hTipBias;
+            Vertex[cp].X += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
             Vertex[cp].X += gTipBias;
             if (hTipBiasType < 0.5) // Need to use our negative variation value
             {
-                Vertex[cp].X += hTipBiasNegVar;
+                Vertex[cp].X += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTNVar));
             }
             else
             {
-                Vertex[cp].X += hTipBiasPosVar;
+                Vertex[cp].X += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.hTPVar));
             }
 
             Vertex[cp].xBiasApplied = true;
         }
     }
 
-    private void computeBias(double gSideBias)
+    private void computeBias()
     {
+        double gSideBias = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.sBias));
         // Global bias for anything that isn't a tip.
         for (int cp = 0;
              cp < Vertex.Length - 1;
@@ -2116,17 +2117,19 @@ public class ShapeLibrary
     }
 
     // This greatly simplifies the call-site usage compared to the sequence of calls from before.
-    public void computeCage(double gSideBias, double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
-    double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar, int edgeSlide, double eTension)
+    public void computeCage(double hTipBiasType, double vTipBiasType, double gTipBias /*double gSideBias, double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
+    double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar, int edgeSlide, double eTension*/)
     {
-        computeTips(gTipBias, hTipBias, hTipBiasType, hTipBiasNegVar,
-            hTipBiasPosVar, vTipBias, vTipBiasType, vTipBiasNegVar, vTipBiasPosVar);
-        computeBias(gSideBias);
-        edgeMidpoints(edgeSlide, eTension);
+        computeTips(hTipBiasType, vTipBiasType, gTipBias /*gTipBias, hTipBias, hTipBiasType, hTipBiasNegVar,
+            hTipBiasPosVar, vTipBias, vTipBiasType, vTipBiasNegVar, vTipBiasPosVar*/);
+        computeBias();
+        edgeMidpoints();
     }
     
-    private void edgeMidpoints(int edgeSlide, double eTension)
+    private void edgeMidpoints()
     {
+        int edgeSlide = layerSettings.getInt(ShapeSettings.properties_i.edgeSlide);
+        double eTension = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.eTension));
         // Set the midpoints of the edges to the average between the two corners
         for (int corner = 0; corner < round1.Length; corner++)
         {
@@ -2271,6 +2274,21 @@ public class ShapeLibrary
                 }
             }
         }
+    }
+
+    // Simpler call where variation is not needed and shape settings suffice.
+    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments,
+        int optimizeCorners, double resolution)
+    {
+        return processCorners(previewMode, cornerCheck, true,
+            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0)),
+            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0)),
+            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR)),
+            0, 0, false,
+            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR)),
+            0, 0, false,
+            cornerSegments, optimizeCorners, resolution
+        );
     }
 
     public PathD processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,

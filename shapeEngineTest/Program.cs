@@ -44,6 +44,7 @@ internal class Program
         sBiasTest();
         lTipTest();
         lTipVarTest();
+        uTipTest();
         sTipTest();
     }
 
@@ -908,6 +909,45 @@ internal class Program
         RectD bounds_vtv = Clipper.GetBounds(out_vtv);
         Assert.AreEqual(66, bounds_vtv.Width);
         Assert.AreEqual(72, bounds_vtv.Height);
+    }
+
+    private static void uTipTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Ushape);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 40.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 30m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 30m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, 5m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 10m, 1);
+        shapeSettings.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.BR);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, 5);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, 10);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        shape.computeCage();
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "u_brtip.svg", FillRule.NonZero, 800, 800, 10);
+        // Ortho check
+        // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
+        bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
+        Assert.AreEqual(true, orthogonal);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(239, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        // Tip configuration reduces width and height
+        Assert.AreEqual(-((60*40) - (25*20)), area);
+        RectD bounds = Clipper.GetBounds(out_);
+        Assert.AreEqual(60, bounds.Width);
+        Assert.AreEqual(40, bounds.Height);
     }
     
     private static void sTipTest()

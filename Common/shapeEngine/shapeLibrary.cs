@@ -211,6 +211,7 @@ public class ShapeLibrary
                 default:
                     throw new Exception();
             }
+            computeCage();
         }
         catch (Exception)
         {

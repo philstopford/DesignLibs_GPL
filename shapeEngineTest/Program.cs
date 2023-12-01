@@ -114,7 +114,6 @@ internal class Program
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, 7);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
@@ -459,7 +458,6 @@ internal class Program
         shapeSettings_0.setDecimal(ShapeSettings.properties_decimal.eTension, 0);
         ShapeLibrary shape_0 = new ShapeLibrary(shapeTable, shapeSettings_0);
         shape_0.setShape(shapeSettings_0.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_0.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_0.shapeIndex);
         PathD out_0 = shape_0.processCorners(false, false, 90, 1, 1);
@@ -489,7 +487,6 @@ internal class Program
         shapeSettings_05.setDecimal(ShapeSettings.properties_decimal.eTension, 0.5m);
         ShapeLibrary shape_05 = new ShapeLibrary(shapeTable, shapeSettings_05);
         shape_05.setShape(shapeSettings_05.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_05.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_05.shapeIndex);
         PathD out_05 = shape_05.processCorners(false, false, 90, 1, 1);
@@ -519,7 +516,6 @@ internal class Program
         shapeSettings_10.setDecimal(ShapeSettings.properties_decimal.eTension, 1);
         ShapeLibrary shape_10 = new ShapeLibrary(shapeTable, shapeSettings_10);
         shape_10.setShape(shapeSettings_10.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_10.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_10.shapeIndex);
         PathD out_10 = shape_10.processCorners(false, false, 90, 1, 1);
@@ -844,7 +840,6 @@ internal class Program
         
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage(0,0,0);
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
@@ -880,7 +875,6 @@ internal class Program
         shapeSettings.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage(0,0, 0);
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
@@ -917,7 +911,6 @@ internal class Program
         shapeSettings_ref.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_ref.computeCage(0,0, 0);
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_ref.shapeIndex);
         PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
@@ -1020,7 +1013,6 @@ internal class Program
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, 10);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
@@ -1064,7 +1056,6 @@ internal class Program
         shapeSettings_1.setDecimal(ShapeSettings.properties_decimal.vTBias, 2);
         ShapeLibrary shape_1 = new ShapeLibrary(shapeTable, shapeSettings_1);
         shape_1.setShape(shapeSettings_1.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_1.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_1.shapeIndex);
         PathD out_1 = shape_1.processCorners(false, false, 90, 1, 1);
@@ -1102,7 +1093,6 @@ internal class Program
         shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.vTBias, 2);
         ShapeLibrary shape_2 = new ShapeLibrary(shapeTable, shapeSettings_2);
         shape_2.setShape(shapeSettings_2.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_2.computeCage();
         // Check the shape settings are in the shape.
         Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_2.shapeIndex);
         PathD out_2 = shape_2.processCorners(false, false, 90, 1, 1);

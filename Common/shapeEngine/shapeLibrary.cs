@@ -14,6 +14,8 @@ public class ShapeLibrary
         "Text", "Bounding", "Layout"
     };
 
+    public string last_error = "";
+
     public enum shapeNames_all
     {
         none,
@@ -32,6 +34,8 @@ public class ShapeLibrary
 
     // Client sends an array that has mapping of the client shape index to the ShapeLibrary index.
     private int[] shapeMapping_fromClient;
+
+    private bool cageComputed = false;
 
     public void shapesForClient(int[] clientShapeDefinition)
     {
@@ -199,22 +203,22 @@ public class ShapeLibrary
                     Sshape();
                     break;
                 case (int)shapeNames_all.GEOCORE:
-                    if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) == 1)
+                    if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) != 1)
                     {
-                        customShape(sourcePoly);
+                        throw new Exception("Custom shape requires gCSEngine set on");
                     }
-
+                    customShape(sourcePoly);
                     break;
                 case (int)shapeNames_all.complex:
                     customShape(sourcePoly);
                     break;
                 default:
-                    throw new Exception();
+                    throw new Exception("Shape index not matched");
             }
-            computeCage();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            last_error = ex.Message;
             Vertex = new MyVertex[1];
             tips = new[] { false };
             layerSettings = new();
@@ -2087,6 +2091,7 @@ public class ShapeLibrary
         computeTips(vTipBiasOffset, hTipBiasOffset);
         computeBias(sideBiasOffset);
         edgeMidpoints();
+        cageComputed = true;
     }
     
     private void edgeMidpoints()
@@ -2246,6 +2251,10 @@ public class ShapeLibrary
         bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0, double oCVariation_scalar = 0
         )
     {
+        if (!cageComputed)
+        {
+            computeCage();
+        }
         bool doPASearch = iCPA || oCPA;
         double s0HO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
         double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));

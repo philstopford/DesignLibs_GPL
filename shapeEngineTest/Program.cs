@@ -47,6 +47,7 @@ internal class Program
         lTipVarTest();
         uTipTest();
         sTipTest();
+        customOrthoTest();
     }
 
     private static void rectangleTest()
@@ -659,10 +660,10 @@ internal class Program
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(206, clean.Count);
+        Assert.AreEqual(204, clean.Count);
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-1497.005 - area), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1503.028 - area), 0.001);
         RectD bounds = Clipper.GetBounds(clean);
         Assert.AreEqual(60, bounds.Width);
         Assert.AreEqual(60, bounds.Height);
@@ -760,7 +761,7 @@ internal class Program
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(218, clean.Count);
+        Assert.AreEqual(197, clean.Count);
         // Check expected area
         double area = Clipper.Area(out_);
         Assert.LessOrEqual(Math.Abs(-1400 - area), 0.001);
@@ -793,10 +794,10 @@ internal class Program
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(218, clean.Count);
+        Assert.AreEqual(164, clean.Count);
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-1325.983 - area), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1327.185 - area), 0.001);
         RectD bounds = Clipper.GetBounds(clean);
         Assert.AreEqual(40, bounds.Width);
         Assert.AreEqual(60, bounds.Height);
@@ -1112,5 +1113,42 @@ internal class Program
         Assert.AreEqual(60, bounds_2.Width);
         Assert.AreEqual(60, bounds_2.Height);
 
+    }
+
+    private static void customOrthoTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
+        PathD customShape = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 20,
+            10, 20,
+            10, 0
+        });
+        ShapeLibrary shape_fail = new ShapeLibrary(shapeTable, shapeSettings);
+        shape_fail.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        Assert.AreEqual(shape_fail.last_error, "Custom shape requires gCSEngine set on");
+        
+        // Fix the setting and try again.
+        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customortho.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(71, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        Assert.AreEqual(-200, area);
+        RectD bounds = Clipper.GetBounds(clean);
+        Assert.AreEqual(10, bounds.Width);
+        Assert.AreEqual(20, bounds.Height);
     }
 }

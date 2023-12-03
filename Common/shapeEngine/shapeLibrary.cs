@@ -35,7 +35,7 @@ public class ShapeLibrary
     // Client sends an array that has mapping of the client shape index to the ShapeLibrary index.
     private int[] shapeMapping_fromClient;
 
-    private bool cageComputed = false;
+    private bool cageComputed;
 
     public void shapesForClient(int[] clientShapeDefinition)
     {
@@ -1710,7 +1710,7 @@ public class ShapeLibrary
     private void customShape_orthogonal(PathD sourcePoly)
     {
         int sCount = sourcePoly.Count;
-        int vertexCount = sCount * 2; // assumes no point in midpoint of edges, and 1 to close.
+        int vertexCount = 1 + ((sCount-1) * 2); // assumes no point in midpoint of edges, and 1 to close.
         Vertex = new MyVertex[vertexCount];
         tips = new bool[vertexCount];
         int vertexCounter = 0; // set up our vertex counter.
@@ -1727,7 +1727,7 @@ public class ShapeLibrary
         );
 #endif
 
-        int roundCount = sourcePoly.Count + 1;
+        int roundCount = sourcePoly.Count;
         round1 = new MyRound[roundCount];
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, roundCount, i =>

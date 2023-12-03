@@ -108,6 +108,18 @@ internal class Program
         Assert.AreEqual(7, shapes2.IndexOf(availableShapes_all[9]));
         Assert.AreEqual(8, shapes2.IndexOf(availableShapes_all[10]));
         Assert.AreEqual(9, shapes2.IndexOf(availableShapes_all[11]));
+        
+        // Do we get the correct shape from the engine?
+        ShapeSettings shapeSettings1 = new ShapeSettings();
+        shapeSettings1.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.bounding);
+        shapeSettings1.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
+        shapeSettings1.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 0);
+
+        ShapeLibrary shape = new ShapeLibrary(shapeTable2, 8, shapeSettings1);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "bounding_lookup_test.svg", FillRule.NonZero, 800, 800, 10);
     }
     
     private static void rectangleTest()

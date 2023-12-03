@@ -115,10 +115,10 @@ internal class Program
         shapeSettings1.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
         shapeSettings1.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 0);
 
-        ShapeLibrary shape = new ShapeLibrary(shapeTable2, 8, shapeSettings1);
-        PathD out_ = shape.processCorners(false, false, 90, 1, 1);
+        ShapeLibrary shape1 = new ShapeLibrary(shapeTable2, shapes2.IndexOf("Bounding"), shapeSettings1);
+        PathD out_1 = shape1.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
-        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.AddSolution(svgSrc, new() { out_1 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "bounding_lookup_test.svg", FillRule.NonZero, 800, 800, 10);
     }
     

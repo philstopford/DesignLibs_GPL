@@ -9,6 +9,13 @@ internal class Program
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/shapeengine_out/";
 
+    // Copied from the private content of ShapeLibrary, for testing.
+    private static readonly List<string> availableShapes_all = new()
+    {
+        "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "GDS/Oasis", "Boolean",
+        "Text", "Bounding", "Layout"
+    };
+
     static int[] shapeTable = {
         (int)ShapeLibrary.shapeNames_all.none,
         (int)ShapeLibrary.shapeNames_all.rect,
@@ -20,8 +27,24 @@ internal class Program
         (int)ShapeLibrary.shapeNames_all.GEOCORE,
         (int)ShapeLibrary.shapeNames_all.BOOLEAN
     };
+
+    private static int[] shapeTable2 = new[]
+    {
+        (int)ShapeLibrary.shapeNames_all.none,
+        (int)ShapeLibrary.shapeNames_all.rect,
+        (int)ShapeLibrary.shapeNames_all.Lshape,
+        (int)ShapeLibrary.shapeNames_all.Tshape,
+        (int)ShapeLibrary.shapeNames_all.Xshape,
+        (int)ShapeLibrary.shapeNames_all.Ushape,
+        (int)ShapeLibrary.shapeNames_all.Sshape,
+        (int)ShapeLibrary.shapeNames_all.text,
+        (int)ShapeLibrary.shapeNames_all.bounding,
+        (int)ShapeLibrary.shapeNames_all.complex
+    };
+
     private static void Main(string[] args)
     {
+        shapeLookupTest();
         rectangleTest();
         rectangleRoundingTest();
         notLTest();
@@ -53,6 +76,40 @@ internal class Program
         customOrthoTipsTest();
     }
 
+    private static void shapeLookupTest()
+    {
+        // Check our mapping.
+        List<string> shapes = ShapeLibrary.getAvailableShapes(shapeTable);
+        List<string> shapes2 = ShapeLibrary.getAvailableShapes(shapeTable2);
+        Assert.AreEqual(shapeTable.Length, shapes.Count);
+        Assert.AreEqual(shapeTable2.Length, shapes2.Count);
+        Assert.AreEqual(0, shapes.IndexOf(availableShapes_all[0]));
+        Assert.AreEqual(1, shapes.IndexOf(availableShapes_all[1]));
+        Assert.AreEqual(2, shapes.IndexOf(availableShapes_all[2]));
+        Assert.AreEqual(3, shapes.IndexOf(availableShapes_all[3]));
+        Assert.AreEqual(4, shapes.IndexOf(availableShapes_all[4]));
+        Assert.AreEqual(5, shapes.IndexOf(availableShapes_all[5]));
+        Assert.AreEqual(6, shapes.IndexOf(availableShapes_all[6]));
+        Assert.AreEqual(7, shapes.IndexOf(availableShapes_all[7]));
+        Assert.AreEqual(8, shapes.IndexOf(availableShapes_all[8]));
+        Assert.AreEqual(-1, shapes.IndexOf(availableShapes_all[9]));
+        Assert.AreEqual(-1, shapes.IndexOf(availableShapes_all[10]));
+        Assert.AreEqual(-1, shapes.IndexOf(availableShapes_all[11]));
+        
+        Assert.AreEqual(0, shapes2.IndexOf(availableShapes_all[0]));
+        Assert.AreEqual(1, shapes2.IndexOf(availableShapes_all[1]));
+        Assert.AreEqual(2, shapes2.IndexOf(availableShapes_all[2]));
+        Assert.AreEqual(3, shapes2.IndexOf(availableShapes_all[3]));
+        Assert.AreEqual(4, shapes2.IndexOf(availableShapes_all[4]));
+        Assert.AreEqual(5, shapes2.IndexOf(availableShapes_all[5]));
+        Assert.AreEqual(6, shapes2.IndexOf(availableShapes_all[6]));
+        Assert.AreEqual(-1, shapes2.IndexOf(availableShapes_all[7]));
+        Assert.AreEqual(-1, shapes2.IndexOf(availableShapes_all[8]));
+        Assert.AreEqual(7, shapes2.IndexOf(availableShapes_all[9]));
+        Assert.AreEqual(8, shapes2.IndexOf(availableShapes_all[10]));
+        Assert.AreEqual(9, shapes2.IndexOf(availableShapes_all[11]));
+    }
+    
     private static void rectangleTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();

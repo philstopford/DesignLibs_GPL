@@ -1198,12 +1198,6 @@ internal class Program
             10, 20,
             10, 0
         });
-        ShapeLibrary shape_fail = new ShapeLibrary(shapeTable, shapeSettings);
-        shape_fail.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
-        Assert.AreEqual(shape_fail.last_error, "Custom shape requires gCSEngine set on");
-        
-        // Fix the setting and try again.
-        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
         // Check the shape settings are in the shape.
@@ -1235,7 +1229,6 @@ internal class Program
             20, 20,
             20, 0
         });
-        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 10);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
@@ -1270,7 +1263,6 @@ internal class Program
             15, 0
         });
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 5);
-        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
         // Check the shape settings are in the shape.
@@ -1302,7 +1294,6 @@ internal class Program
             10, 20,
             10, 0
         });
-        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
         shapeSettings.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, (int)ShapeSettings.tipLocations.TL);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, 7);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, 5);

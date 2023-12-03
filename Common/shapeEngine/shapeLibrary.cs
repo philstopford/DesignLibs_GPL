@@ -203,12 +203,6 @@ public class ShapeLibrary
                     Sshape();
                     break;
                 case (int)shapeNames_all.GEOCORE:
-                    if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) != 1)
-                    {
-                        throw new Exception("Custom shape requires gCSEngine set on");
-                    }
-                    customShape(sourcePoly);
-                    break;
                 case (int)shapeNames_all.complex:
                     customShape(sourcePoly);
                     break;

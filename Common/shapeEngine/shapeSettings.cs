@@ -90,7 +90,6 @@ public class ShapeSettings
     private static readonly int default_subShape3TipLocIndex = 0;
     
     private static readonly int default_enabled = 0;
-    private static readonly int default_geoCoreShapeEngine = 0;
 
     private static readonly int default_shapeIndex = (int)typeShapes_mode0.none;
     private static readonly int default_subShapeRefIndex = 0;
@@ -110,7 +109,6 @@ public class ShapeSettings
 
     private int enabled = default_enabled;
     private int shapeIndex = default_shapeIndex;
-    private int gCSEngine = default_geoCoreShapeEngine;
     private int subShapeTipLocIndex = default_subShapeTipLocIndex;
     private int subShape2TipLocIndex = default_subShape2TipLocIndex;
     private int subShape3TipLocIndex = default_subShape3TipLocIndex;
@@ -132,7 +130,6 @@ public class ShapeSettings
     {
         enabled,
         shapeIndex,
-        gCSEngine,
         subShapeTipLocIndex, subShape2TipLocIndex, subShape3TipLocIndex,
         subShapeRefIndex,posInSubShapeIndex,
         edgeSlide,
@@ -156,9 +153,6 @@ public class ShapeSettings
                 break;
             case properties_i.shapeIndex:
                 ret = shapeIndex;
-                break;
-            case properties_i.gCSEngine:
-                ret = gCSEngine;
                 break;
             case properties_i.subShapeTipLocIndex:
                 ret = subShapeTipLocIndex;
@@ -222,9 +216,6 @@ public class ShapeSettings
             case properties_i.shapeIndex:
                 shapeIndex = val;
                 break;
-            case properties_i.gCSEngine:
-                gCSEngine = val;
-                break;
             case properties_i.subShapeTipLocIndex:
                 subShapeTipLocIndex = val;
                 break;
@@ -284,9 +275,6 @@ public class ShapeSettings
                 break;
             case properties_i.shapeIndex:
                 shapeIndex = default_shapeIndex;
-                break;
-            case properties_i.gCSEngine:
-                gCSEngine = default_geoCoreShapeEngine;
                 break;
             case properties_i.subShapeTipLocIndex:
                 subShapeTipLocIndex = default_subShapeTipLocIndex;
@@ -348,9 +336,6 @@ public class ShapeSettings
                 break;
             case properties_i.shapeIndex:
                 val = default_shapeIndex;
-                break;
-            case properties_i.gCSEngine:
-                val = default_geoCoreShapeEngine;
                 break;
             case properties_i.subShapeTipLocIndex:
                 val = default_subShapeTipLocIndex;

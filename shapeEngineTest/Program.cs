@@ -48,7 +48,8 @@ internal class Program
         uTipTest();
         sTipTest();
         customOrthoTest();
-        customOrthoRoundingTest();
+        customOrthoOuterRoundingTest();
+        customOrthoInnerRoundingTest();
     }
 
     private static void rectangleTest()
@@ -1153,7 +1154,7 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
     
-    private static void customOrthoRoundingTest()
+    private static void customOrthoOuterRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
@@ -1173,7 +1174,7 @@ internal class Program
         PathD out_ = shape.processCorners(false, false, 90, 1, .5);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "customortho_rounding.svg", FillRule.NonZero, 800, 800, 10);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customortho_outer.svg", FillRule.NonZero, 800, 800, 10);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         Assert.AreEqual(121, clean.Count);
@@ -1184,4 +1185,40 @@ internal class Program
         Assert.AreEqual(20, bounds.Width);
         Assert.AreEqual(20, bounds.Height);
     }
+    
+    private static void customOrthoInnerRoundingTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
+        PathD customShape = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 20,
+            10, 20,
+            10, 10,
+            15, 10,
+            15, 0
+        });
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 5);
+        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customortho_inner.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(68, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        Assert.LessOrEqual(Math.Abs(-252.8 - area), 0.01);
+        RectD bounds = Clipper.GetBounds(out_);
+        Assert.AreEqual(15, bounds.Width);
+        Assert.AreEqual(20, bounds.Height);
+    }
+
 }

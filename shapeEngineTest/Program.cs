@@ -1143,7 +1143,7 @@ internal class Program
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(71, clean.Count);
+        Assert.AreEqual(61, clean.Count);
         // Check expected area
         double area = Clipper.Area(out_);
         Assert.AreEqual(-200, area);

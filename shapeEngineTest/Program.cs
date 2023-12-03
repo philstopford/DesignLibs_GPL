@@ -48,6 +48,7 @@ internal class Program
         uTipTest();
         sTipTest();
         customOrthoTest();
+        customOrthoRoundingTest();
     }
 
     private static void rectangleTest()
@@ -1149,6 +1150,38 @@ internal class Program
         Assert.AreEqual(-200, area);
         RectD bounds = Clipper.GetBounds(clean);
         Assert.AreEqual(10, bounds.Width);
+        Assert.AreEqual(20, bounds.Height);
+    }
+    
+    private static void customOrthoRoundingTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
+        PathD customShape = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 20,
+            20, 20,
+            20, 0
+        });
+        shapeSettings.setInt(ShapeSettings.properties_i.gCSEngine, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 10);
+        ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        PathD out_ = shape.processCorners(false, false, 90, 1, .5);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customortho_rounding.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean = GeoWrangler.removeDuplicates(out_);
+        Assert.AreEqual(121, clean.Count);
+        // Check expected area
+        double area = Clipper.Area(out_);
+        Assert.LessOrEqual(Math.Abs(-(Math.PI * 10 * 10) - area), 0.15);
+        RectD bounds = Clipper.GetBounds(clean);
+        Assert.AreEqual(20, bounds.Width);
         Assert.AreEqual(20, bounds.Height);
     }
 }

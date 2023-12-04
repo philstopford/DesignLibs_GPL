@@ -7,12 +7,15 @@ namespace GeoWranglerTest;
 
 internal static class Program
 {
+    private static string root_loc = "/d/development/DesignLibs_GPL/geowrangler_test/";
+
     private static void Main()
     {
         grassfire_test();
         unidirectional_bias();
         test_strip_collinear();
         test_fragmentPath();
+        proximity();
     }
 
     private static void grassfire_test()
@@ -35,7 +38,7 @@ internal static class Program
         
         SvgUtils.AddSubject(svg, original);
         SvgUtils.AddOpenSolution(svg, new PathsD() {median}, true);
-        SvgUtils.SaveToFile(svg, "median.svg", FillRule.NonZero, 5500,5500, 10);
+        SvgUtils.SaveToFile(svg, root_loc + "median.svg", FillRule.NonZero, 5500,5500, 10);
 
         Assert.AreEqual(6, median.Count);
         Assert.AreEqual(77.5, median[0].x);
@@ -63,7 +66,7 @@ internal static class Program
         
         SvgUtils.AddSubject(svg, test);
         SvgUtils.AddSolution(svg, Clipper.Union(res, new() {test}, FillRule.Positive), true);
-        SvgUtils.SaveToFile(svg, "curious.svg", FillRule.NonZero, 5500,5500, 10);
+        SvgUtils.SaveToFile(svg, root_loc + "unidirectional1.svg", FillRule.NonZero, 5500,5500, 10);
         
         Assert.AreEqual(4500000, Clipper.Area(res));
 
@@ -108,7 +111,7 @@ internal static class Program
         
         SvgUtils.AddSubject(svg, original_);
         SvgUtils.AddSolution(svg, Clipper.Union(result, original_, FillRule.Positive, 2), true);
-        SvgUtils.SaveToFile(svg, "tmp.svg", FillRule.NonZero, 150,150, 10);
+        SvgUtils.SaveToFile(svg, root_loc + "unidirectional2.svg", FillRule.NonZero, 150,150, 10);
 
         Assert.AreEqual(3167, Clipper.Area(result));
 
@@ -120,62 +123,9 @@ internal static class Program
         svg2.FillRule = FillRule.EvenOdd;
         SvgUtils.AddSubject(svg2, subject);
         SvgUtils.AddSolution(svg2, Clipper.Union(result2, subject, FillRule.Positive, 2), true);
-        SvgUtils.SaveToFile(svg2, "tmp2.svg", FillRule.NonZero, 150,150, 10);
+        SvgUtils.SaveToFile(svg2, root_loc + "unidirectional3.svg", FillRule.NonZero, 150,150, 10);
         
         Assert.LessOrEqual(Clipper.Area(result2) - 785.5610, 0.001);
-    }
-
-    internal static double CrossProduct(Point64 pt1, Point64 pt2, Point64 pt3)
-    {
-        // typecast to double to avoid potential int overflow
-        return ((double) (pt2.X - pt1.X) * (pt3.Y - pt2.Y) -
-                (double) (pt2.Y - pt1.Y) * (pt3.X - pt2.X));
-    }
-
-    internal static double DotProduct(Point64 pt1, Point64 pt2, Point64 pt3)
-    {
-        // typecast to double to avoid potential int overflow
-        return ((double) (pt2.X - pt1.X) * (pt3.X - pt2.X) +
-                (double) (pt2.Y - pt1.Y) * (pt3.Y - pt2.Y));
-    }
-
-    internal static double CrossProduct(PointD vec1, PointD vec2)
-    {
-        return (vec1.y * vec2.x - vec2.y * vec1.x);
-    }
-
-    internal static double DotProduct(PointD vec1, PointD vec2)
-    {
-        return (vec1.x * vec2.x + vec1.y * vec2.y);
-    }
-
-    internal static double CrossProduct(PointD pt1, PointD pt2, PointD pt3)
-    {
-        // typecast to double to avoid potential int overflow
-        return ((pt2.x - pt1.x) * (pt3.y - pt2.y) -
-                (pt2.y - pt1.y) * (pt3.x - pt2.x));
-    }
-
-    internal static double DotProduct(PointD pt1, PointD pt2, PointD pt3)
-    {
-        // typecast to double to avoid potential int overflow
-        return ((pt2.x - pt1.x) * (pt3.x - pt2.x) +
-                (pt2.y - pt1.y) * (pt3.y - pt2.y));
-    }
-
-    private static double varOffset(Path64 path, PathD norms, int pt, int prevPt)
-    {
-        // sin(A) < 0: right turning
-        // cos(A) < 0: change in angle is more than 90 degree
-        int nextPt = pt + 1;
-        if (nextPt == path.Count)
-        {
-            nextPt = 0;
-        }
-        double sinA = CrossProduct(norms[nextPt], norms[pt], norms[prevPt]);
-        double cosA = DotProduct(norms[nextPt], norms[pt], norms[prevPt]);
-
-        return Math.Pow(norms[pt].y + norms[prevPt].y, 2) * 10;
     }
     
     private static void test_fragmentPath()
@@ -294,5 +244,235 @@ internal static class Program
 
         PathD cleaned = GeoWrangler.stripCollinear(source, precision:6);
         Assert.AreEqual(71, cleaned.Count);
+    }
+
+    private static void proximity()
+    {
+        PathsD input = new ();
+        input.Add(Clipper.MakePath(new [] {
+        -5, -15,
+        -4.97, -13.950000000000001,
+        -4.89, -12.91,
+        -4.75, -11.870000000000001,
+        -4.5600000000000005, -10.84,
+        -4.32, -9.82,
+        -4.0200000000000005, -8.82,
+        -3.67, -7.83,
+        -3.27, -6.87,
+        -2.82, -5.92,
+        -2.32, -5,
+        -1.77, -4.11,
+        -1.18, -3.24,
+        -0.54, -2.41,
+        0.14, -1.62,
+        0.86, -0.86,
+        1.62, -0.14,
+        2.41, 0.54,
+        3.24, 1.18,
+        4.11, 1.77,
+        5, 2.32,
+        5.92, 2.82,
+        6.87, 3.27,
+        7.83, 3.67,
+        8.82, 4.0200000000000005,
+        9.82, 4.32,
+        10.84, 4.5600000000000005,
+        11.870000000000001, 4.75,
+        12.91, 4.89,
+        13.950000000000001, 4.97,
+        15, 5,
+        16.05, 4.97,
+        17.09, 4.89,
+        18.13, 4.75,
+        19.16, 4.5600000000000005,
+        20.18, 4.32,
+        21.18, 4.0200000000000005,
+        22.17, 3.67,
+        23.13, 3.27,
+        24.080000000000002, 2.82,
+        25, 2.32,
+        25.89, 1.77,
+        26.76, 1.18,
+        27.59, 0.54,
+        28.38, -0.14,
+        29.14, -0.86,
+        29.86, -1.62,
+        30.54, -2.41,
+        31.18, -3.24,
+        31.77, -4.11,
+        32.32, -5,
+        32.82, -5.92,
+        33.27, -6.87,
+        33.67, -7.83,
+        34.02, -8.82,
+        34.32, -9.82,
+        34.56, -10.84,
+        34.75, -11.870000000000001,
+        34.89, -12.91,
+        34.97, -13.950000000000001,
+        35, -15,
+        34.99, -16.05,
+        34.96, -17.09,
+        34.910000000000004, -18.13,
+        34.84, -19.16,
+        34.74, -20.18,
+        34.63, -21.18,
+        34.45, -22.490000000000002,
+        34.24, -23.77,
+        34, -25,
+        33.72, -26.18,
+        33.410000000000004, -27.310000000000002,
+        33.07, -28.38,
+        32.71, -29.39,
+        32.32, -30.32,
+        31.8, -31.38,
+        31.25, -32.32,
+        30.55, -33.27,
+        29.82, -34.02,
+        28.93, -34.63,
+        27.89, -34.97,
+        27.5, -35,
+        26.46, -34.93,
+        25.43, -34.71,
+        24.45, -34.35,
+        23.53, -33.86,
+        22.68, -33.25,
+        21.93, -32.52,
+        21.28, -31.69,
+        20.76, -30.79,
+        20.37, -29.82,
+        20.11, -28.8,
+        20, -27.76,
+        20, -27.5,
+        20.05, -26.46,
+        20.19, -25.43,
+        20.43, -24.45,
+        20.81, -23.42,
+        21.28, -22.48,
+        21.92, -21.59,
+        22.650000000000002, -20.88,
+        23.54, -20.330000000000002,
+        24.560000000000002, -20.03,
+        25, -20,
+        26.04, -19.89,
+        27.03, -19.57,
+        27.94, -19.05,
+        28.72, -18.35,
+        29.330000000000002, -17.5,
+        29.76, -16.55,
+        29.97, -15.52,
+        30, -15,
+        29.89, -13.96,
+        29.57, -12.97,
+        29.05, -12.06,
+        28.35, -11.28,
+        27.5, -10.67,
+        26.55, -10.24,
+        25.52, -10.03,
+        25, -10,
+        23.96, -9.89,
+        22.97, -9.57,
+        22.06, -9.05,
+        21.28, -8.35,
+        20.67, -7.5,
+        20.240000000000002, -6.55,
+        20.03, -5.5200000000000005,
+        20, -5,
+        19.89, -3.96,
+        19.57, -2.97,
+        19.05, -2.06,
+        18.35, -1.28,
+        17.5, -0.67,
+        16.55, -0.24,
+        15.52, -0.03,
+        15, 0,
+        13.96, -0.11,
+        12.97, -0.43,
+        12.06, -0.9500000000000001,
+        11.28, -1.6500000000000001,
+        10.67, -2.5,
+        10.24, -3.45,
+        10.03, -4.48,
+        10, -5,
+        9.89, -6.04,
+        9.57, -7.03,
+        9.05, -7.94,
+        8.35, -8.72,
+        7.5, -9.33,
+        6.55, -9.76,
+        5.5200000000000005, -9.97,
+        5, -10,
+        3.96, -10.11,
+        2.97, -10.43,
+        2.06, -10.950000000000001,
+        1.28, -11.65,
+        0.67, -12.5,
+        0.24, -13.450000000000001,
+        0.03, -14.48,
+        0, -15,
+        0.11, -16.04,
+        0.43, -17.03,
+        0.9500000000000001, -17.94,
+        1.6500000000000001, -18.72,
+        2.5, -19.330000000000002,
+        3.45, -19.76,
+        4.48, -19.97,
+        5, -20,
+        6.04, -20.16,
+        6.95, -20.6,
+        7.8, -21.28,
+        8.47, -22.1,
+        8.99, -22.990000000000002,
+        9.41, -23.98,
+        9.73, -25.060000000000002,
+        9.91, -26.07,
+        9.99, -27.11,
+        10, -27.5,
+        9.93, -28.54,
+        9.71, -29.57,
+        9.35, -30.55,
+        8.86, -31.470000000000002,
+        8.25, -32.32,
+        7.5200000000000005, -33.07,
+        6.69, -33.72,
+        5.79, -34.24,
+        4.82, -34.63,
+        3.8000000000000003, -34.89,
+        2.7600000000000002, -35,
+        2.5, -35,
+        1.46, -34.81,
+        0.56, -34.32,
+        -0.31, -33.54,
+        -1.02, -32.660000000000004,
+        -1.58, -31.77,
+        -2.12, -30.76,
+        -2.61, -29.63,
+        -2.99, -28.64,
+        -3.33, -27.59,
+        -3.64, -26.47,
+        -3.93, -25.3,
+        -4.18, -24.080000000000002,
+        -4.4, -22.81,
+        -4.59, -21.51,
+        -4.71, -20.51,
+        -4.8100000000000005, -19.5,
+        -4.89, -18.47,
+        -4.94, -17.44,
+        -4.98, -16.4,
+        -5, -15.35,
+        -5, -15,
+        }));
+
+        GeometryResult res = Proximity.proximityBias(input, new() { false }, 5, 60, 64, 0, 1, 1.03m, 1, false, 1000);
+        
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, input);
+        SvgUtils.AddSolution(svgSrc, res.geometry, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "proximity.svg", FillRule.NonZero, 800, 800, 10);
+        
+        Assert.AreEqual(1, res.geometry.Count);
+        double area = Clipper.Area(res.geometry[0]);
+        Assert.AreEqual(211, res.geometry[0].Count);
+        Assert.LessOrEqual(area - 1539.759, 0.001);
     }
 }

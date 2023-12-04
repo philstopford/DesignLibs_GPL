@@ -23,6 +23,22 @@ public static class Proximity
 
         bool debug = false;
         bool linear = false;
+        
+        /*
+        // Helper code to dump input for offline Clipper review if needed.
+        List<string> debuglines = new();
+        debuglines.Add("PathsD debug = new ();");
+        foreach (PathD p in input)
+        {
+            debuglines.Add("input.Add(Clipper.MakePath(new double[] {");
+            foreach (PointD pp in p)
+            {
+                debuglines.Add(pp.x + ", " + pp.y + ",");
+            }
+            debuglines.Add("});");
+        }
+        System.IO.File.WriteAllLines("/d/development/debugprox.txt", debuglines);
+        */
 
         PathsD preOverlapMergePolys = new();
 

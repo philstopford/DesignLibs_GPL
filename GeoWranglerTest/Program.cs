@@ -17,6 +17,7 @@ internal static class Program
         test_fragmentPath();
         proximity();
         proximity2();
+        customBoolean();
     }
 
     private static void grassfire_test()
@@ -643,5 +644,63 @@ internal static class Program
         Assert.AreEqual(73, res.geometry[0].Count);
         Assert.AreEqual(73, res.geometry[1].Count);
         Assert.LessOrEqual(area - 1179.626, 0.001);
+    }
+
+    // This tests the complex boolean engine in GeoWrangler, which should deliver a keyholed representation of the 
+    // boolean output, if needed.
+    // This is a little more sophisticated than just calling Clipper directly - it pulls in various GeoWrangler 
+    // systems to work its magic, so this is something of an integrated test.
+    // Note that some area is lost due to the keyholed representation.
+    private static void customBoolean()
+    {
+        PathsD layerAPaths = new();
+        layerAPaths.Add(Clipper.MakePath(new double []
+        {
+            0,0,
+            0,80,
+            80,80,
+            80,0
+        }));
+        double aArea = Clipper.Area(layerAPaths);
+
+        PathsD layerBPaths = new();
+        layerBPaths.Add(Clipper.MakePath(new double[]
+        {
+            10,10,
+            10,70,
+            20,70,
+            20, 10
+        }));
+        layerBPaths.Add(Clipper.MakePath(new double[]
+        {
+            60, 10,
+            60, 70,
+            70, 70,
+            70, 10
+        }));
+        double bArea = Clipper.Area(layerBPaths);
+        
+        // Subtract layerBPaths from layerAPaths
+        PathsD booleanPaths = GeoWrangler.customBoolean(
+            firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
+            firstLayer: layerAPaths, 
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT, 
+            secondLayer: layerBPaths, 
+            booleanFlag: (int)GeoWrangler.booleanOperation.AND,
+            resolution: 1.0,
+            extension: 1.03
+            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
+        );
+
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, layerAPaths);
+        SvgUtils.AddClip(svgSrc, layerBPaths);
+        SvgUtils.AddSolution(svgSrc, booleanPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not.svg", FillRule.NonZero, 800, 800, 10);
+        
+        double notArea_expected = aArea - bArea;
+        double notArea = Clipper.Area(booleanPaths);
+        Assert.AreEqual(1, booleanPaths.Count);
+        Assert.LessOrEqual(notArea_expected - notArea, 1);
     }
 }

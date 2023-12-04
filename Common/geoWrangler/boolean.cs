@@ -6,6 +6,18 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
+    public enum LayerFlag
+    {
+        none,
+        NOT
+    }
+
+    public enum booleanOperation
+    {
+        AND,
+        OR
+    }
+
     public static PathsD customBoolean(int firstLayerOperator, PathsD firstLayer, int secondLayerOperator, PathsD secondLayer, int booleanFlag, double resolution, double extension)
     {
         PathsD ret = pCustomBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, resolution, extension);

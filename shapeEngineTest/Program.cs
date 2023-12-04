@@ -70,6 +70,7 @@ internal class Program
         lTipVarTest();
         uTipTest();
         sTipTest();
+        subShapePositioningTest();
         customOrthoTest();
         customOrthoOuterRoundingTest();
         customOrthoInnerRoundingTest();
@@ -1185,6 +1186,127 @@ internal class Program
         Assert.AreEqual(60, bounds_2.Width);
         Assert.AreEqual(60, bounds_2.Height);
 
+    }
+
+    // The inversion of the Y offset value is due to the inverted Y coordinate system in Clipper.
+    private static void subShapePositioningTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 60.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 1);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 15.0m, 2);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 2);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 7.0m, 1);
+        // 45 based on pushing the second subshape against the wall of the outer.
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
+        
+        shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 0);
+
+        PointD offset_0 = shapeOffsets.doOffsets(0, shapeSettings);
+        Assert.AreEqual(0, offset_0.x);
+        Assert.AreEqual(0, offset_0.y);
+        
+        ShapeLibrary shape_0 = new ShapeLibrary(shapeTable, shapeSettings);
+        shape_0.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_0.shapeIndex);
+        PathD out_0 = shape_0.processCorners(false, false, 90, 1, 1);
+        out_0 = GeoWrangler.move(out_0, offset_0.x, -offset_0.y);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new() { out_0 }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "subshape0_pos_bl.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean_0 = GeoWrangler.removeDuplicates(out_0);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(309, clean_0.Count);
+        // Check expected area
+        double area_0 = Clipper.Area(out_0);
+        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_0), 0.0001);
+        RectD bounds_0 = Clipper.GetBounds(clean_0);
+        Assert.AreEqual(0, bounds_0.left);
+        Assert.AreEqual(0, bounds_0.top);
+        
+        // Change our reference to subshape 1
+        shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 1);
+        PointD offset_1 = shapeOffsets.doOffsets(0, shapeSettings);
+        Assert.AreEqual(0, offset_1.x);
+        Assert.AreEqual(7, offset_1.y);
+
+        ShapeLibrary shape_1 = new ShapeLibrary(shapeTable, shapeSettings);
+        shape_1.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_1.shapeIndex);
+        PathD out_1 = shape_1.processCorners(false, false, 90, 1, 1);
+        out_1 = GeoWrangler.move(out_1, offset_1.x, -offset_1.y);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new() { out_1 }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "subshape1_pos_bl.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean_1 = GeoWrangler.removeDuplicates(out_1);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(309, clean_1.Count);
+        // Check expected area
+        double area_1 = Clipper.Area(out_1);
+        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_1), 0.0001);
+        RectD bounds_1 = Clipper.GetBounds(clean_1);
+        Assert.AreEqual(0, bounds_1.left);
+        Assert.AreEqual(-7, bounds_1.top);
+
+        // Change our reference to subshape 2
+        shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 2);
+        PointD offset_2 = shapeOffsets.doOffsets(0, shapeSettings);
+        Assert.AreEqual(-45, offset_2.x);
+        Assert.AreEqual(41, offset_2.y);
+
+        ShapeLibrary shape_2 = new ShapeLibrary(shapeTable, shapeSettings);
+        shape_2.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_2.shapeIndex);
+        PathD out_2 = shape_2.processCorners(false, false, 90, 1, 1);
+        out_2 = GeoWrangler.move(out_2, offset_2.x, -offset_2.y);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new() { out_2 }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "subshape2_pos_bl.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean_2 = GeoWrangler.removeDuplicates(out_2);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(309, clean_2.Count);
+        // Check expected area
+        double area_2 = Clipper.Area(out_2);
+        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_2), 0.0001);
+        RectD bounds_2 = Clipper.GetBounds(clean_2);
+        Assert.AreEqual(-45, bounds_2.left);
+        Assert.AreEqual(-41, bounds_2.top);
+        
+        // Change our reference to subshape 2
+        shapeSettings.setInt(ShapeSettings.properties_i.posInSubShapeIndex, (int)ShapeSettings.subShapeLocations.TR);
+        PointD offset_3 = shapeOffsets.doOffsets(0, shapeSettings);
+        Assert.AreEqual(-60, offset_3.x);
+        Assert.AreEqual(51, offset_3.y);
+
+        ShapeLibrary shape_3 = new ShapeLibrary(shapeTable, shapeSettings);
+        shape_3.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+        // Check the shape settings are in the shape.
+        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_3.shapeIndex);
+        PathD out_3 = shape_3.processCorners(false, false, 90, 1, 1);
+        out_3 = GeoWrangler.move(out_3, offset_3.x, -offset_3.y);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new() { out_3 }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "subshape2_pos_tr.svg", FillRule.NonZero, 800, 800, 10);
+        // Corners can have duplicate points.
+        PathD clean_3 = GeoWrangler.removeDuplicates(out_3);
+        // Check point count - start and end points are the same.
+        Assert.AreEqual(309, clean_3.Count);
+        // Check expected area
+        double area_3 = Clipper.Area(out_3);
+        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_3), 0.0001);
+        RectD bounds_3 = Clipper.GetBounds(clean_3);
+        Assert.AreEqual(-60, bounds_3.left);
+        Assert.AreEqual(-51, bounds_3.top);
     }
 
     private static void customOrthoTest()

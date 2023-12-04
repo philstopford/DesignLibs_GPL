@@ -70,6 +70,7 @@ internal class Program
         lTipVarTest();
         uTipTest();
         sTipTest();
+        globalOffsetTest();
         subShapePositioningTest();
         customOrthoTest();
         customOrthoOuterRoundingTest();
@@ -1188,6 +1189,23 @@ internal class Program
 
     }
 
+    private static void globalOffsetTest()
+    {
+        ShapeSettings shapeSettings = new ShapeSettings();
+        shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 20.0m, 0);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.gHorOffset, 10);
+        shapeSettings.setDecimal(ShapeSettings.properties_decimal.gVerOffset, 20);
+
+        PointD offset = shapeOffsets.doOffsets(0, shapeSettings);
+        
+        Assert.AreEqual(10, offset.x);
+        // Inverse due to Clipper Y axis inversion
+        Assert.AreEqual(-20, offset.y);
+    }
+
+    
     // The inversion of the Y offset value is due to the inverted Y coordinate system in Clipper.
     private static void subShapePositioningTest()
     {

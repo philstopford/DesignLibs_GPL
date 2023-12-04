@@ -2251,7 +2251,7 @@ public class ShapeLibrary
         }
         bool doPASearch = iCPA || oCPA;
         double s0HO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
-        double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
+        double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0));
         double iCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
         double oCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
         Fragmenter fragment = new Fragmenter(resolution);

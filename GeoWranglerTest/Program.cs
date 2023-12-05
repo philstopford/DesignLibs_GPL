@@ -18,6 +18,8 @@ internal static class Program
         proximity();
         proximity2();
         customBoolean();
+        customBoolean2();
+        customBoolean3();
     }
 
     private static void grassfire_test()
@@ -661,6 +663,13 @@ internal static class Program
             80,80,
             80,0
         }));
+        layerAPaths.Add(Clipper.MakePath(new double []
+        {
+            90,0,
+            90,80,
+            100,80,
+            100,0
+        }));
         double aArea = Clipper.Area(layerAPaths);
 
         PathsD layerBPaths = new();
@@ -700,7 +709,145 @@ internal static class Program
         
         double notArea_expected = aArea - bArea;
         double notArea = Clipper.Area(booleanPaths);
-        Assert.AreEqual(1, booleanPaths.Count);
+        Assert.AreEqual(2, booleanPaths.Count);
         Assert.LessOrEqual(notArea_expected - notArea, 1);
+    }
+    
+    private static void customBoolean2()
+    {
+        PathsD layerAPaths = new();
+        layerAPaths.Add(Clipper.MakePath(new double []
+        {
+            0,0,
+            0,80,
+            80,80,
+            80,0
+        }));
+        layerAPaths.Add(Clipper.MakePath(new double []
+        {
+            -10,30,
+            -10,50,
+            90,50,
+            90,30
+        }));
+
+        PathsD layerBPaths = new();
+        layerBPaths.Add(Clipper.MakePath(new double[]
+        {
+            10,10,
+            10,70,
+            20,70,
+            20, 10
+        }));
+        layerBPaths.Add(Clipper.MakePath(new double[]
+        {
+            60, 10,
+            60, 70,
+            70, 70,
+            70, 10
+        }));
+        
+        // Subtract layerBPaths from layerAPaths
+        PathsD booleanPaths = GeoWrangler.customBoolean(
+            firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
+            firstLayer: layerAPaths, 
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT, 
+            secondLayer: layerBPaths, 
+            booleanFlag: (int)GeoWrangler.booleanOperation.AND,
+            resolution: 1.0,
+            extension: 1.03
+            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
+        );
+
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, layerAPaths);
+        SvgUtils.AddClip(svgSrc, layerBPaths);
+        SvgUtils.AddSolution(svgSrc, booleanPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not2.svg", FillRule.NonZero, 800, 800, 10);
+        
+        double notArea_expected = -5598;
+        double notArea = Clipper.Area(booleanPaths);
+        Assert.AreEqual(1, booleanPaths.Count);
+        Assert.LessOrEqual(notArea_expected - notArea, 0.001);
+    }
+    
+    private static void customBoolean3()
+    {
+        PathsD layerAPaths = new();
+        layerAPaths.Add(Clipper.MakePath(new double []
+        {
+            0,0,
+            0,80,
+            80,80,
+            80,0
+        }));
+        layerAPaths.Add(Clipper.MakePath(new double []
+        {
+            90,0,
+            90,80,
+            100,80,
+            100,0
+        }));
+        double aArea = Clipper.Area(layerAPaths);
+
+        PathsD layerBPaths = new();
+        layerBPaths.Add(Clipper.MakePath(new double[]
+        {
+            10,10,
+            10,70,
+            20,70,
+            20, 10
+        }));
+        layerBPaths.Add(Clipper.MakePath(new double[]
+        {
+            60, 10,
+            60, 70,
+            70, 70,
+            70, 10
+        }));
+        double bArea = Clipper.Area(layerBPaths);
+        
+        // Subtract layerBPaths from layerAPaths
+        PathsD tmpPaths = GeoWrangler.customBoolean(
+            firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
+            firstLayer: layerAPaths, 
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT, 
+            secondLayer: layerBPaths, 
+            booleanFlag: (int)GeoWrangler.booleanOperation.AND,
+            resolution: 1.0,
+            extension: 1.03
+            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
+        );
+
+        PathsD cPaths = new();
+        cPaths.Add(Clipper.MakePath(new double []
+        {
+            -10,30,
+            -10,35,
+            90,35,
+            90,30
+        }));
+
+        PathsD booleanPaths = GeoWrangler.customBoolean(
+            firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
+            firstLayer: tmpPaths, 
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.none, 
+            secondLayer: cPaths, 
+            booleanFlag: (int)GeoWrangler.booleanOperation.OR,
+            resolution: 1.0,
+            extension: 1.03
+            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
+        );
+
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, layerAPaths);
+        SvgUtils.AddClip(svgSrc, layerBPaths);
+        SvgUtils.AddSolution(svgSrc, booleanPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not3.svg", FillRule.NonZero, 800, 800, 10);
+        
+        double notArea_expected = -6796;
+        double notArea = Clipper.Area(booleanPaths);
+        Assert.AreEqual(1, booleanPaths.Count);
+        Assert.LessOrEqual(notArea_expected - notArea, 0.001);
     }
 }

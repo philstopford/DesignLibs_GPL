@@ -698,7 +698,6 @@ internal static class Program
             booleanFlag: (int)GeoWrangler.booleanOperation.AND,
             resolution: 1.0,
             extension: 1.03
-            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
         );
 
         SvgWriter svgSrc = new SvgWriter();
@@ -756,7 +755,6 @@ internal static class Program
             booleanFlag: (int)GeoWrangler.booleanOperation.AND,
             resolution: 1.0,
             extension: 1.03
-            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
         );
 
         SvgWriter svgSrc = new SvgWriter();
@@ -816,7 +814,6 @@ internal static class Program
             booleanFlag: (int)GeoWrangler.booleanOperation.AND,
             resolution: 1.0,
             extension: 1.03
-            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
         );
 
         PathsD cPaths = new();
@@ -836,7 +833,6 @@ internal static class Program
             booleanFlag: (int)GeoWrangler.booleanOperation.OR,
             resolution: 1.0,
             extension: 1.03
-            // fragmenter:new Fragmenter(fragment, CentralProperties.scaleFactorForOperation)
         );
 
         SvgWriter svgSrc = new SvgWriter();

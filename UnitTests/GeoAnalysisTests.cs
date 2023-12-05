@@ -1,12 +1,12 @@
-﻿using Clipper2Lib;
+using Clipper2Lib;
 using geoAnalysis;
-using NUnit.Framework;
 
-namespace geoAnalysisTest;
+namespace UnitTests;
 
-internal class Program
+public class GeoAnalysisTests
 {
-    private static void Main(string[] args)
+    [SetUp]
+    public static void GeoAnalysisSetup()
     {
         testAreaHandler();
         testAreaHandler_perPoly();
@@ -16,7 +16,8 @@ internal class Program
         testAngleHandler();
     }
 
-    static void testAreaHandler()
+    [Test]
+    public static void testAreaHandler()
     {
         PathsD aPaths = new()
         {
@@ -42,7 +43,8 @@ internal class Program
         Assert.AreEqual(100*100, aH.area);
     }
 
-    static void testAreaHandler_perPoly()
+    [Test]
+    public static void testAreaHandler_perPoly()
     {
         PathsD aPaths = new()
         {
@@ -75,7 +77,8 @@ internal class Program
         Assert.AreEqual(10*10, aH.area);
     }
 
-    static void testDistanceHandler()
+    [Test]
+    public static void testDistanceHandler()
     {
         PathsD aPaths = new()
         {
@@ -110,7 +113,8 @@ internal class Program
         Assert.AreEqual("-14.142135623730951", dH4.distanceString);
     }
     
-    static void testDistanceHandler_multi()
+    [Test]
+    public static void testDistanceHandler_multi()
     {
         PathsD aPaths = new()
         {
@@ -152,7 +156,8 @@ internal class Program
         Assert.AreEqual("5.830951894845301", dH4.distanceString);
     }
     
-    static void testChordHandler()
+    [Test]
+    public static void testChordHandler()
     {
         PathsD aPaths = new()
         {
@@ -196,7 +201,8 @@ internal class Program
         Assert.AreEqual(40, cH3.bChordLengths[1]);
     }
 
-    static void testAngleHandler()
+    [Test]
+    public static void testAngleHandler()
     {
         PathsD aPaths = new()
         {
@@ -225,5 +231,4 @@ internal class Program
         angleHandler aH = new angleHandler(aPaths, bPaths);
         Assert.LessOrEqual(Math.Abs(45.0 - aH.minimumIntersectionAngle), 0.001);
     }
-    
 }

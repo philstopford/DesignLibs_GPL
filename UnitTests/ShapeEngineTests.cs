@@ -1,11 +1,10 @@
-﻿using Clipper2Lib;
+using Clipper2Lib;
 using geoWrangler;
-using NUnit.Framework;
 using shapeEngine;
 
-namespace shapeEngineTest;
+namespace UnitTests;
 
-internal class Program
+public class ShapeEngineTests
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/shapeengine_out/";
 
@@ -42,7 +41,8 @@ internal class Program
         (int)ShapeLibrary.shapeNames_all.complex
     };
 
-    private static void Main(string[] args)
+    [SetUp]
+    public static void ShapeEngineSetup()
     {
         shapeLookupTest();
         rectangleTest();
@@ -78,7 +78,8 @@ internal class Program
         customOrthoTipsTest();
     }
 
-    private static void shapeLookupTest()
+    [Test]
+    public static void shapeLookupTest()
     {
         // Check our mapping.
         List<string> shapes = ShapeLibrary.getAvailableShapes(shapeTable);
@@ -124,7 +125,8 @@ internal class Program
         SvgUtils.SaveToFile(svgSrc, root_loc + "bounding_lookup_test.svg", FillRule.NonZero, 800, 800, 10);
     }
     
-    private static void rectangleTest()
+    [Test]
+    public static void rectangleTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
@@ -150,7 +152,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
     
-    private static void rectangleRoundingTest()
+    [Test]
+    public static void rectangleRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
@@ -178,7 +181,8 @@ internal class Program
         Assert.LessOrEqual(Math.Abs(-(Math.PI * 10 * 10) - area), 0.15);
     }
     
-    private static void biasTest()
+    [Test]
+    public static void biasTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
@@ -208,7 +212,8 @@ internal class Program
     }
 
     // Set for L, but it's a rectangle. We should get the rectangle.
-    private static void notLTest()
+    [Test]
+    public static void notLTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
@@ -236,7 +241,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void lTest()
+    [Test]
+    public static void lTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -268,7 +274,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void lInnerRoundingTest()
+    [Test]
+    public static void lInnerRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -297,7 +304,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
     
-    private static void lInnerRoundingVarTest()
+    [Test]
+    public static void lInnerRoundingVarTest()
     {
         ShapeSettings shapeSettings_ref = new ShapeSettings();
         shapeSettings_ref.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -351,7 +359,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
     
-    private static void lOuterRoundingTest()
+    [Test]
+    public static void lOuterRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -380,7 +389,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void lOuterRoundingVarTest()
+    [Test]
+    public static void lOuterRoundingVarTest()
     {
         ShapeSettings shapeSettings_ref = new ShapeSettings();
         shapeSettings_ref.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -434,7 +444,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void lInnerOuterRoundingTest()
+    [Test]
+    public static void lInnerOuterRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -464,7 +475,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void lInnerOuterRoundingVarTest()
+    [Test]
+    public static void lInnerOuterRoundingVarTest()
     {
         ShapeSettings shapeSettings_ref = new ShapeSettings();
         shapeSettings_ref.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -519,7 +531,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void lInnerRoundingTensionTest()
+    [Test]
+    public static void lInnerRoundingTensionTest()
     {
         ShapeSettings shapeSettings_0 = new ShapeSettings();
         shapeSettings_0.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -609,7 +622,8 @@ internal class Program
         Assert.AreEqual(20, bounds_10.Height);
     }
 
-    private static void sTest()
+    [Test]
+    public static void sTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
@@ -643,7 +657,8 @@ internal class Program
         Assert.AreEqual(60, bounds.Height);
     }
 
-    private static void sRoundingTest()
+    [Test]
+    public static void sRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
@@ -679,7 +694,8 @@ internal class Program
         Assert.AreEqual(60, bounds.Height);
     }
 
-    private static void tTest()
+    [Test]
+    public static void tTest()
     {
         ShapeSettings shapeSettings = new();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Tshape);
@@ -710,7 +726,8 @@ internal class Program
         Assert.AreEqual(60, bounds.Height);
     }
     
-    private static void tRoundingTest()
+    [Test]
+    public static void tRoundingTest()
     {
         ShapeSettings shapeSettings = new();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Tshape);
@@ -743,7 +760,8 @@ internal class Program
         Assert.AreEqual(60, bounds.Height);
     }
 
-    private static void uTest()
+    [Test]
+    public static void uTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Ushape);
@@ -777,7 +795,8 @@ internal class Program
         Assert.AreEqual(40, bounds.Height);
     }
     
-    private static void uRoundingTest()
+    [Test]
+    public static void uRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Ushape);
@@ -813,7 +832,8 @@ internal class Program
         Assert.AreEqual(40, bounds.Height);
     }
     
-    private static void xTest()
+    [Test]
+    public static void xTest()
     {
         ShapeSettings shapeSettings = new();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Xshape);
@@ -844,7 +864,8 @@ internal class Program
         Assert.AreEqual(60, bounds.Height);
     }
     
-    private static void xRoundingTest()
+    [Test]
+    public static void xRoundingTest()
     {
         ShapeSettings shapeSettings = new();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Xshape);
@@ -877,7 +898,8 @@ internal class Program
         Assert.AreEqual(60, bounds.Height);
     }
     
-    private static void sBiasTest()
+    [Test]
+    public static void sBiasTest()
     {
         ShapeSettings shapeSettings_ref = new ShapeSettings();
         shapeSettings_ref.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
@@ -936,7 +958,8 @@ internal class Program
         Assert.AreEqual(64, bounds.Height);
     }
 
-    private static void lTipTest()
+    [Test]
+    public static void lTipTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -972,7 +995,8 @@ internal class Program
         Assert.AreEqual(72, bounds.Height);
     }
     
-    private static void lTipVarTest()
+    [Test]
+    public static void lTipVarTest()
     {
         ShapeSettings shapeSettings_ref = new ShapeSettings();
         shapeSettings_ref.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -1073,7 +1097,8 @@ internal class Program
         Assert.AreEqual(72, bounds_vtv.Height);
     }
 
-    private static void uTipTest()
+    [Test]
+    public static void uTipTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Ushape);
@@ -1111,7 +1136,8 @@ internal class Program
         Assert.AreEqual(40, bounds.Height);
     }
     
-    private static void sTipTest()
+    [Test]
+    public static void sTipTest()
     {
         ShapeSettings shapeSettings_1 = new ShapeSettings();
         shapeSettings_1.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
@@ -1189,7 +1215,8 @@ internal class Program
 
     }
 
-    private static void globalOffsetTest()
+    [Test]
+    public static void globalOffsetTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
@@ -1207,7 +1234,8 @@ internal class Program
 
     
     // The inversion of the Y offset value is due to the inverted Y coordinate system in Clipper.
-    private static void subShapePositioningTest()
+    [Test]
+    public static void subShapePositioningTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
@@ -1327,7 +1355,8 @@ internal class Program
         Assert.AreEqual(-51, bounds_3.top);
     }
 
-    private static void customOrthoTest()
+    [Test]
+    public static void customOrthoTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
@@ -1358,7 +1387,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
     
-    private static void customOrthoOuterRoundingTest()
+    [Test]
+    public static void customOrthoOuterRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
@@ -1389,7 +1419,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
     
-    private static void customOrthoInnerRoundingTest()
+    [Test]
+    public static void customOrthoInnerRoundingTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);
@@ -1423,7 +1454,8 @@ internal class Program
         Assert.AreEqual(20, bounds.Height);
     }
 
-    private static void customOrthoTipsTest()
+    [Test]
+    public static void customOrthoTipsTest()
     {
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.GEOCORE);

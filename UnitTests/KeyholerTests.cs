@@ -1,12 +1,10 @@
-﻿using System;
 using Clipper2Lib;
 using geoWrangler;
-using NUnit.Framework;
 using utility;
 
-namespace KeyHolerTest;
+namespace UnitTests;
 
-internal class Program
+public class KeyholerTests
 {
     /*
      *
@@ -60,7 +58,8 @@ internal class Program
 
     private static string root_loc = "/d/development/DesignLibs_GPL/keyhole_out/";
     
-    private static void Main(string[] args)
+    [SetUp]
+    public static void KeyholeeSetup()
     {
         singleTest();
         spiralTest();
@@ -74,7 +73,8 @@ internal class Program
         multiHoleTest();
     }
 
-    private static void singleTest()
+    [Test]
+    public static void singleTest()
     {
         PathD outer = Clipper.MakePath(new double[]
         {
@@ -153,7 +153,8 @@ internal class Program
         Assert.AreEqual(40000, Clipper.Area(sR));
     }
 
-    private static void spiralTest()
+    [Test]
+    public static void spiralTest()
     {
         PathD spiral = Clipper.MakePath(new double[]
         {
@@ -199,7 +200,8 @@ internal class Program
         SvgUtils.SaveToFile(svgSrc, root_loc + "spiral.svg", FillRule.NonZero, 800, 800, 10);
     }
 
-    private static void multiTest()
+    [Test]
+    public static void multiTest()
     {
         PathD outer = Clipper.MakePath(new double[]
         {
@@ -277,7 +279,8 @@ internal class Program
         Assert.AreEqual(40000, Clipper.Area(sR));
     }
 
-    private static void multiCutTest()
+    [Test]
+    public static void multiCutTest()
     {
         PathD outer = new()
         {
@@ -409,7 +412,8 @@ internal class Program
         Assert.AreEqual(20000, Clipper.Area(sR2), 0.001);
     }
 
-    private static void selfOverlapTest()
+    [Test]
+    public static void selfOverlapTest()
     {
         PathD outer = new()
         {
@@ -668,7 +672,8 @@ internal class Program
         Assert.AreEqual(-29994.9975, Clipper.Area(intRes2NZc_kH), 0.001);
     }
 
-    private static void selfOverlapTest_reversed()
+    [Test]
+    public static void selfOverlapTest_reversed()
     {
         PathD outer = Clipper.MakePath(new double[]
         {
@@ -923,7 +928,8 @@ internal class Program
         Assert.AreEqual(-29994.9975, Clipper.Area(intRes2NZc_kH), 0.001);
     }
 
-    private static void comboTest()
+    [Test]
+    public static void comboTest()
     {
         // Manually create the sliver.
         PathD outer = Clipper.MakePath(new double[]
@@ -983,7 +989,8 @@ internal class Program
         Assert.AreEqual(-179989.9975, Clipper.Area(sR), 0.001);
     }
 
-    private static void simple_islandTest()
+    [Test]
+    public static void simple_islandTest()
     {
         PathD outer1 = Clipper.MakePath(new double[]
         {
@@ -1067,7 +1074,8 @@ internal class Program
         Assert.AreEqual(80000, Clipper.Area(sR));
     }
 
-    private static void complex_islandTest()
+    [Test]
+    public static void complex_islandTest()
     {
         // Island 1 - mix of sliver and gap at the end.
         // Manually create the sliver.
@@ -1291,7 +1299,8 @@ internal class Program
         Assert.AreEqual(-499959.989, Clipper.Area(sR), 0.001);
     }
 
-    private static void multiHoleTest()
+    [Test]
+    public static void multiHoleTest()
     {
         PathsD kHSource = new();
         PathD path_1 = Clipper.MakePath(new double[]

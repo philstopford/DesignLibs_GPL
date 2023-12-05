@@ -1,16 +1,16 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using Clipper2Lib;
-using geoWrangler;
 using geoCoreLib;
+using geoWrangler;
 using PartitionTestGeometrySource;
-using NUnit.Framework;
-using utility;
 
-namespace partitionTest;
+namespace UnitTests;
 
-internal class Program
+public class DecompositionTests
 {
-    private static void Main(string[] args)
+    private static string root_loc = "/d/development/DesignLibs_GPL/decomposition_out/";
+    [SetUp]
+    public static void DecompositionSetup()
     {
         Console.WriteLine("Part One");
         partOne();
@@ -19,16 +19,23 @@ internal class Program
         partTwo();
 
         Console.WriteLine("Part Three (complex decomposition tests, lengthy)");
-        partThree();
+        partThree_moderatelycomplex();
+        partThree_morecomplex();
+        partThree_evenmorecomplex();
+        partThree_canarycomplex();
+        partThree_gainingacomplex();
+        partThree_extremelycomplex();
 
         Console.WriteLine("Part Four (takes less time than part three)");
-        partFour();
+        partFour_1();
+        partFour_2();
         
         Console.WriteLine("Part Five");
         partFive();
     }
     
-    private static void partOne()
+    [Test]
+    public static void partOne()
     {
         // L
         PathD L = TestGeometry.getL();
@@ -455,7 +462,8 @@ internal class Program
         Assert.AreEqual(-50, s1[3][4].y);
     }
 
-    private static void partTwo()
+    [Test]
+    public static void partTwo()
     {
         PathsD incoming = new();
         PathD lPieces = new ()
@@ -487,18 +495,9 @@ internal class Program
         PathsD ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
     }
-
-    private static void partThree()
-    {
-        partThree_moderatelycomplex();
-        partThree_morecomplex();
-        partThree_evenmorecomplex();
-        partThree_canarycomplex();
-        partThree_gainingacomplex();
-        partThree_extremelycomplex();
-    }
     
-    private static void partThree_moderatelycomplex()
+    [Test]
+    public static void partThree_moderatelycomplex()
     {
         Stopwatch sw = new();
         int rayLength = 1000;
@@ -558,7 +557,8 @@ internal class Program
         Console.WriteLine("  Done.");
     }
 
-    private static void partThree_morecomplex()
+    [Test]
+    public static void partThree_morecomplex()
     {
         Stopwatch sw = new();
         int rayLength = 1000;
@@ -617,7 +617,8 @@ internal class Program
 
         Console.WriteLine("  Done.");
     }
-    private static void partThree_evenmorecomplex()
+    [Test]
+    public static void partThree_evenmorecomplex()
     {
         Stopwatch sw = new();
         int rayLength = 1000;
@@ -678,7 +679,8 @@ internal class Program
     }
 
     // This test corresponds to a detected failure from coincident edges and was the 'minimal' case where it started.
-    private static void partThree_canarycomplex()
+    [Test]
+    public static void partThree_canarycomplex()
     {
         Stopwatch sw = new();
         int rayLength = 1000;
@@ -718,7 +720,8 @@ internal class Program
         Console.WriteLine("  Done.");
     }
     
-    private static void partThree_gainingacomplex()
+    [Test]
+    public static void partThree_gainingacomplex()
     {
         Stopwatch sw = new();
         int rayLength = 1000;
@@ -777,7 +780,8 @@ internal class Program
 
         Console.WriteLine("  Done.");
     }
-    private static void partThree_extremelycomplex()
+    [Test]
+    public static void partThree_extremelycomplex()
     {
         Stopwatch sw = new();
         int rayLength = 1000;
@@ -835,7 +839,8 @@ internal class Program
         Console.WriteLine("  Done.");
     }
 
-    private static void partFour()
+    [Test]
+    public static void partFour_1()
     {
         Stopwatch sw = new();
         Console.WriteLine(" Part 1....");
@@ -847,7 +852,12 @@ internal class Program
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         partFour_do(points_1, "complex_loop");
+    }
 
+    [Test]
+    public static void partFour_2()
+    {
+        Stopwatch sw = new();
         Console.WriteLine(" Part 2....");
         Console.WriteLine("  Preparing....");
         sw.Start();
@@ -869,7 +879,7 @@ internal class Program
         // Give the keyholder a whirl:
         sw.Restart();
         PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true, customSizing: GeoWrangler.decomp_keyhole_sizing)[0];
-        writeToLayout("loop_kh_ref", points, new PathsD{toDecomp});
+        writeToLayout(baseString + "_kh", points, new PathsD{toDecomp});
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -910,7 +920,8 @@ internal class Program
         sw.Stop();
     }
 
-    private static void partFive()
+    [Test]
+    public static void partFive()
     {
         bool vertical = true;
         bool abort = false;
@@ -1045,7 +1056,6 @@ internal class Program
         Assert.AreEqual(Clipper.Area(out_decomp), 13843.0);
     }
 
-
     private static void writeToLayout(string filename, PathD orig, PathsD decomped)
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
@@ -1096,10 +1106,10 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, "../../../../../decomp_out/" + filename + "_partitiontest.gds");
+        gds.gdsWriter gw = new(g, root_loc + filename + "_partitiontest.gds");
         gw.save();
 
-        oasis.oasWriter ow = new(g, "../../../../../decomp_out/" + filename + "_partitiontest.oas");
+        oasis.oasWriter ow = new(g, root_loc + filename + "_partitiontest.oas");
         ow.save();
     }
 }

@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 
-decomp_out/
+decomposition_out/
 geocore_test/out/
 geowrangler_test/
 keyhole_out/

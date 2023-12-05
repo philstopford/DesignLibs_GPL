@@ -1,44 +1,56 @@
-﻿using geoCoreLib;
-using System;
 using System.Buffers.Binary;
-using System.Collections.Generic;
-using System.IO;
 using Clipper2Lib;
+using geoCoreLib;
 using utility;
-using NUnit.Framework;
 
-namespace geoCoreTest;
+namespace UnitTests;
 
-internal class Program
+public class GeoCoreTests
 {
-    private static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
+    static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
+    static string outDir = baseDir + "out/";
 
-    private static void Main(string[] args)
+    [SetUp]
+    public static void GeoCoreSetUp()
     {
-        valid_test(baseDir + "out/");
-        box_test(baseDir + "out/");
-        test_circle(baseDir + "out/");
-        test_box(baseDir + "out/");
+        valid_test();
+        box_test();
+        test_circle();
+        test_box();
         consistency_from_oasis();
         consistency_from_gds();
-        test_1();
+
+        defineAndWrite_Polygon();
+        defineAndWrite_Cellref();
+        defineAndWrite_CellrefArray();
+        defineAndWrite_Circle();
+        defineAndWrite_Path();
+        defineAndWrite_Text();
+        defineAndWrite_CTrapezoid();
+        defineAndWrite_Trapezoid();
+        defineAndWrite_manyCellrefs();
+
+        defineAndWrite_Box_LayerDataType();
+        
         test_cellrefarray_basic();
         test_cellrefarray_nested();
         test_cell_export();
         test_cell_export_complex();
+        
     }
 
-    private static void valid_test(string outDir)
+    [Test]
+    public static void valid_test()
     {
         GeoCore g = new();
         g.reset();
-        if (File.Exists(outDir + "/should_fail.gds"))
+        if (File.Exists(outDir + "should_fail.gds"))
         {
-            File.Delete(outDir + "/should_fail.gds");
+            File.Delete(outDir + "should_fail.gds");
         }
-        if (File.Exists(outDir + "/should_fail.oas"))
+        if (File.Exists(outDir + "should_fail.oas"))
         {
-            File.Delete(outDir + "/should_fail.oas");
+            File.Delete(outDir + "should_fail.oas");
         }
         // These should fail because the GeoCore set-up is invalid.
         try
@@ -101,7 +113,8 @@ internal class Program
         }
     }
     
-    private static void box_test(string outDir)
+    [Test]
+    public static void box_test()
     {
         int dimension = 10;
         int scale_from_nm = 1; // makes a um scale feature.
@@ -233,29 +246,9 @@ internal class Program
         ow.save();
         Assert.True(File.Exists(out_filename));
     }
-
-    private static void number_conversion()
-    {
-        uint a = 6;
-
-        uint tmp = BinaryPrimitives.ReverseEndianness(a);
-        
-        byte[] bytes = BitConverter.GetBytes(tmp);
-
-        uint a_2 = BinaryPrimitives.ReadUInt32BigEndian(bytes);
-        Assert.AreEqual(a, a_2);
-        
-        int b = -63;
-        
-        int tmp2 = BinaryPrimitives.ReverseEndianness(b);
-        
-        bytes = BitConverter.GetBytes(tmp2);
-
-        int b_2 = BinaryPrimitives.ReadInt32BigEndian(bytes);
-        Assert.AreEqual(b, b_2);
-    }
-
-    private static void test_circle(string outDir)
+    
+    [Test]
+    public static void test_circle()
     {
         int numberOfPoints = 60;
 
@@ -344,7 +337,8 @@ internal class Program
         Assert.True(File.Exists(outDir + "poly10_circle11.oas"));
     }
 
-    private static void test_box(string outDir)
+    [Test]
+    public static void test_box()
     {
 
         int scale = 100; // for 0.01 nm resolution.
@@ -422,7 +416,9 @@ internal class Program
         ow.save();
         Assert.True(File.Exists(outDir + "box.oas"));
     }
-    private static void test_cell_export()
+
+    [Test]
+    public static void test_cell_export()
     {
         // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.
         string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
@@ -636,7 +632,8 @@ internal class Program
         Assert.AreEqual(t3[15].pointarray[6], new Point64(330,330,0));
     }
 
-    private static void consistency_from_oasis()
+    [Test]
+    public static void consistency_from_oasis()
     {
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(baseDir + "/consistency/triage.oas", GeoCore.fileType.oasis);
@@ -662,7 +659,8 @@ internal class Program
         Assert.True(File.Exists(outFile2));
     }
 
-    private static void consistency_from_gds()
+    [Test]
+    public static void consistency_from_gds()
     {
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.gds);
@@ -688,7 +686,8 @@ internal class Program
         Assert.True(File.Exists(outFile2));
     }
 
-    private static void test_cell_export_complex()
+    [Test]
+    public static void test_cell_export_complex()
     {
         // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.
         string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
@@ -806,7 +805,8 @@ internal class Program
         Assert.AreEqual(Utils.GetSHA256Hash(t3b), Utils.GetSHA256Hash(t4b));
     }
 
-    private static void test_cellrefarray_basic()
+    [Test]
+    public static void test_cellrefarray_basic()
     {
         string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
 
@@ -889,7 +889,8 @@ internal class Program
         Assert.LessOrEqual(Math.Abs(geo[3][6].y - (0 + y_adjust)), 1E-13);
     }
 
-    private static void test_cellrefarray_nested()
+    [Test]
+    public static void test_cellrefarray_nested()
     {
         string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
 
@@ -910,46 +911,8 @@ internal class Program
         Assert.AreEqual(Utils.GetSHA256Hash(geo2), "9Y7vZPon4aFRZ07yD8a3dzuaTq9n1mMnHJaE89C3fb0=");
     }
 
-    private static void test_1()
-    {
-        string outDir = baseDir + "out" + Path.DirectorySeparatorChar;
-
-        // Basic tests.
-        defineAndWrite_Box(outDir);
-        defineAndWrite_Polygon(outDir);
-        defineAndWrite_Cellref(outDir);
-        defineAndWrite_CellrefArray(outDir);
-        defineAndWrite_Circle(outDir);
-        defineAndWrite_Path(outDir);
-        defineAndWrite_Text(outDir);
-        defineAndWrite_CTrapezoid(outDir);
-        defineAndWrite_Trapezoid(outDir);
-
-        defineAndWrite_Box_LayerDataType(1, 0, outDir);
-        defineAndWrite_Box_LayerDataType(128, 0, outDir);
-        defineAndWrite_Box_LayerDataType(255, 0, outDir);
-        defineAndWrite_Box_LayerDataType(256, 0, outDir);
-        defineAndWrite_Box_LayerDataType(511, 0, outDir);
-        defineAndWrite_Box_LayerDataType(512, 0, outDir);
-        defineAndWrite_Box_LayerDataType(16383, 0, outDir);
-        defineAndWrite_Box_LayerDataType(16384, 0, outDir);
-        defineAndWrite_Box_LayerDataType(32767, 0, outDir);
-        defineAndWrite_Box_LayerDataType(32768, 0, outDir);
-        defineAndWrite_Box_LayerDataType(1, 128, outDir);
-        defineAndWrite_Box_LayerDataType(1, 255, outDir);
-        defineAndWrite_Box_LayerDataType(1, 256, outDir);
-        defineAndWrite_Box_LayerDataType(1, 511, outDir);
-        defineAndWrite_Box_LayerDataType(1, 512, outDir);
-        defineAndWrite_Box_LayerDataType(1, 32767, outDir);
-        defineAndWrite_Box_LayerDataType(1, 32768, outDir);
-
-        defineAndWrite_manyCellrefs(4, outDir);
-
-        // string baseName = "paisley";
-        // loadSaveTest(baseName, gdsDir, oasDir, outDir);
-    }
-
-    private static void loadSaveTest(string baseName, string gdsDir, string oasDir, string outDir)
+    /*
+    public static void loadSaveTest(string baseName, string gdsDir, string oasDir, string outDir)
     {
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsDir + baseName + ".gds", GeoCore.fileType.gds);
@@ -975,60 +938,10 @@ internal class Program
         gds.gdsWriter ogw = new(gcOAS, outDir + baseName + "_OASout.gds");
         ogw.save();
     }
-
-    private static void defineAndWrite_Box(string outDir)
-    {
-        // Can the system define geometry and write it correctly to Oasis and GDS files.
-        GeoCore g = new();
-        g.reset();
-        GCDrawingfield drawing_ = new("")
-        {
-            accyear = 2018,
-            accmonth = 12,
-            accday = 5,
-            acchour = 2,
-            accmin = 10,
-            accsec = 10,
-            modyear = 2018,
-            modmonth = 12,
-            modday = 5,
-            modhour = 2,
-            modmin = 10,
-            modsec = 10,
-            databaseunits = 1000,
-            userunits = 1E-3, // 0.001 / 1E-6;
-            libname = "noname"
-        };
-
-        GCCell gcell = drawing_.addCell();
-        gcell.accyear = 2018;
-        gcell.accmonth = 12;
-        gcell.accday = 5;
-        gcell.acchour = 2;
-        gcell.accmin = 10;
-        gcell.accsec = 10;
-        gcell.modyear = 2018;
-        gcell.modmonth = 12;
-        gcell.modday = 5;
-        gcell.modhour = 2;
-        gcell.modmin = 10;
-        gcell.modsec = 10;
-
-        gcell.cellName = "test";
-
-        gcell.addBox(0, 0, 10, 20, 1, 0);
-
-        g.setDrawing(drawing_);
-        g.setValid(true);
-
-        gds.gdsWriter gw = new(g, outDir + "simple_box.gds");
-        gw.save();
-
-        oasis.oasWriter ow = new(g, outDir + "simple_box.oas");
-        ow.save();
-    }
-
-    private static void defineAndWrite_Polygon(string outDir)
+    */
+    
+    [Test]
+    public static void defineAndWrite_Polygon()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1118,14 +1031,122 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_polygon.gds");
+        string gdsFile = outDir + "simple_polygon.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
 
-        oasis.oasWriter ow = new(g, outDir + "simple_polygon.oas");
+        Assert.True(File.Exists(gdsFile));
+        
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test");
+
+        // L
+        Assert.AreEqual(true, cell_gds.elementList[0].isPolygon());
+        Assert.AreEqual(1, cell_gds.elementList[0].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[0].datatype_nr);
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(7, polys_gds[0].pointarray.Count);
+
+        // Triangle
+        Assert.AreEqual(true, cell_gds.elementList[1].isPolygon());
+        Assert.AreEqual(2, cell_gds.elementList[1].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[1].datatype_nr);
+        polys_gds = cell_gds.elementList[1].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(4, polys_gds[0].pointarray.Count);
+
+        // Pentagram
+        Assert.AreEqual(true, cell_gds.elementList[2].isPolygon());
+        Assert.AreEqual(3, cell_gds.elementList[2].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[2].datatype_nr);
+        polys_gds = cell_gds.elementList[2].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(6, polys_gds[0].pointarray.Count);
+
+        // Trapezoid
+        Assert.AreEqual(true, cell_gds.elementList[3].isPolygon());
+        Assert.AreEqual(4, cell_gds.elementList[3].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[3].datatype_nr);
+        polys_gds = cell_gds.elementList[3].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(5, polys_gds[0].pointarray.Count);
+
+        // Parallelogram
+        Assert.AreEqual(true, cell_gds.elementList[4].isPolygon());
+        Assert.AreEqual(5, cell_gds.elementList[4].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[4].datatype_nr);
+        polys_gds = cell_gds.elementList[4].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(5, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_polygon.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test");
+
+        // L
+        Assert.AreEqual(true, cell_oas.elementList[0].isPolygon());
+        Assert.AreEqual(1, cell_oas.elementList[0].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[0].datatype_nr);
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(7, polys_oas[0].pointarray.Count);
+
+        // Triangle
+        Assert.AreEqual(true, cell_oas.elementList[1].isPolygon());
+        Assert.AreEqual(2, cell_oas.elementList[1].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[1].datatype_nr);
+        polys_oas = cell_oas.elementList[1].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(4, polys_oas[0].pointarray.Count);
+
+        // Pentagram
+        Assert.AreEqual(true, cell_oas.elementList[2].isPolygon());
+        Assert.AreEqual(3, cell_oas.elementList[2].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[2].datatype_nr);
+        polys_oas = cell_oas.elementList[2].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(6, polys_oas[0].pointarray.Count);
+
+        // Trapezoid
+        Assert.AreEqual(true, cell_oas.elementList[3].isPolygon());
+        Assert.AreEqual(4, cell_oas.elementList[3].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[3].datatype_nr);
+        polys_oas = cell_oas.elementList[3].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(5, polys_oas[0].pointarray.Count);
+
+        // Parallelogram
+        Assert.AreEqual(true, cell_oas.elementList[4].isPolygon());
+        Assert.AreEqual(5, cell_oas.elementList[4].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[4].datatype_nr);
+        polys_oas = cell_oas.elementList[4].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(5, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_Path(string outDir)
+    [Test]
+    public static void defineAndWrite_Path()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1179,14 +1200,55 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_path.gds");
+        string gdsFile = outDir + "simple_path.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "simple_path.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test");
+
+        Assert.AreEqual(true, cell_gds.elementList[0].isPath());
+        Assert.AreEqual(1, cell_gds.elementList[0].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[0].datatype_nr);
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(12, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_path.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test");
+
+        Assert.AreEqual(true, cell_oas.elementList[0].isPath());
+        Assert.AreEqual(1, cell_oas.elementList[0].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[0].datatype_nr);
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(12, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_Circle(string outDir)
+    [Test]
+    public static void defineAndWrite_Circle()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1232,14 +1294,55 @@ internal class Program
         g.setValid(true);
 
         // GDS looks janky for circles; no special category unlike the Oasis format. Snaps to grid and looks ugly.
-        gds.gdsWriter gw = new(g, outDir + "simple_circle.gds");
+        string gdsFile = outDir + "simple_circle.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "simple_circle.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test");
+
+        Assert.AreEqual(true, cell_gds.elementList[0].isPolygon());
+        Assert.AreEqual(1, cell_gds.elementList[0].layer_nr);
+        Assert.AreEqual(0, cell_gds.elementList[0].datatype_nr);
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(3600, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_circle.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test");
+
+        Assert.AreEqual(true, cell_oas.elementList[0].isPolygon());
+        Assert.AreEqual(1, cell_oas.elementList[0].layer_nr);
+        Assert.AreEqual(0, cell_oas.elementList[0].datatype_nr);
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(3600, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_Cellref(string outDir)
+    [Test]
+    public static void defineAndWrite_Cellref()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1333,6 +1436,7 @@ internal class Program
 
         mirror_x = true;
         gcell = drawing_.addCell();
+        gcell.cellName = "test_cellref";
         gcell.addCellref();
         gcell.elementList[^1].setPos(new (20, 20));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test2"));
@@ -1349,14 +1453,51 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_cellref.gds");
+        string gdsFile = outDir + "simple_cellref.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "simple_cellref.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellref");
+
+        Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(7, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_cellref.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellref");
+
+        Assert.AreEqual(true, cell_oas.elementList[^1].isCellref());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(7, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_CellrefArray(string outDir)
+    [Test]
+    public static void defineAndWrite_CellrefArray()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1416,6 +1557,7 @@ internal class Program
 
         bool mirror_x = false;
         gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray";
         gcell.addCellref(drawing_.findCell("test"), new (0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
         gcell.elementList[^1].setPos(new (0, 0));
@@ -1432,14 +1574,51 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_cellrefarray.gds");
+        string gdsFile = outDir + "simple_cellrefarray.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "simple_cellrefarray.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray");
+
+        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+        Assert.AreEqual(7, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_cellrefarray.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray");
+
+        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        Assert.AreEqual(7, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_Text(string outDir)
+    [Test]
+    public static void defineAndWrite_Text()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1484,14 +1663,45 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_text.gds");
+        string gdsFile = outDir + "simple_text.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "simple_text.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test");
+
+        Assert.AreEqual(true, cell_gds.elementList[^1].isText());
+
+        string oasFile = outDir + "simple_text.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test");
+
+        Assert.AreEqual(true, cell_oas.elementList[^1].isText());
     }
 
-    private static void defineAndWrite_CTrapezoid(string outDir)
+    [Test]
+    public static void defineAndWrite_CTrapezoid()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1620,14 +1830,51 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_ctrapezoid.gds");
+        string gdsFile = outDir + "simple_ctrapezoid.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "simple_ctrapezoid.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test");
+
+        Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(5, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_ctrapezoid.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test");
+
+        Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(5, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_Trapezoid(string outDir)
+    [Test]
+    public static void defineAndWrite_Trapezoid()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1727,67 +1974,187 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + "simple_trapezoid.gds");
-        gw.save();
-
-        oasis.oasWriter ow = new(g, outDir + "simple_trapezoid.oas");
-        ow.save();
-    }
-
-    private static void defineAndWrite_Box_LayerDataType(int layer, int datatype, string outDir)
-    {
-        // Can the system define geometry and write it correctly to Oasis and GDS files.
-        GeoCore g = new();
-        g.reset();
-        GCDrawingfield drawing_ = new("")
+        string gdsFile = outDir + "simple_trapezoid.gds";
+        if (File.Exists(gdsFile))
         {
-            accyear = 2018,
-            accmonth = 12,
-            accday = 5,
-            acchour = 2,
-            accmin = 10,
-            accsec = 10,
-            modyear = 2018,
-            modmonth = 12,
-            modday = 5,
-            modhour = 2,
-            modmin = 10,
-            modsec = 10,
-            databaseunits = 1000,
-            userunits = 1E-3, // 0.001 / 1E-6;
-            libname = "noname"
-        };
-
-        GCCell gcell = drawing_.addCell();
-        gcell.accyear = 2018;
-        gcell.accmonth = 12;
-        gcell.accday = 5;
-        gcell.acchour = 2;
-        gcell.accmin = 10;
-        gcell.accsec = 10;
-        gcell.modyear = 2018;
-        gcell.modmonth = 12;
-        gcell.modday = 5;
-        gcell.modhour = 2;
-        gcell.modmin = 10;
-        gcell.modsec = 10;
-
-        gcell.cellName = "test";
-
-        gcell.addBox(0, 0, 10, 20, layer, datatype);
-
-        g.setDrawing(drawing_);
-        g.setValid(true);
-
-        gds.gdsWriter gw = new(g, outDir + "L" + layer + "D" + datatype + "_box.gds");
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + "L" + layer + "D" + datatype + "_box.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test");
+
+        Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_gds.Count);
+        Assert.AreEqual(5, polys_gds[0].pointarray.Count);
+
+        string oasFile = outDir + "simple_trapezoid.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test");
+
+        Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+        Assert.AreEqual(1, polys_oas.Count);
+        Assert.AreEqual(5, polys_oas[0].pointarray.Count);
     }
 
-    private static void defineAndWrite_manyCellrefs(int edge, string outDir)
+    public static void defineAndWrite_Box_LayerDataType()
     {
+        int[] values = { 1, 128, 255, 256, 511, 512, 16383, 16384, 32767, 32768 };
+        foreach (int layer in values)
+        {
+            int datatype = 0;
+            // Can the system define geometry and write it correctly to Oasis and GDS files.
+            GeoCore g = new();
+            g.reset();
+            GCDrawingfield drawing_ = new("")
+            {
+                accyear = 2018,
+                accmonth = 12,
+                accday = 5,
+                acchour = 2,
+                accmin = 10,
+                accsec = 10,
+                modyear = 2018,
+                modmonth = 12,
+                modday = 5,
+                modhour = 2,
+                modmin = 10,
+                modsec = 10,
+                databaseunits = 1000,
+                userunits = 1E-3, // 0.001 / 1E-6;
+                libname = "noname"
+            };
+
+            GCCell gcell = drawing_.addCell();
+            gcell.accyear = 2018;
+            gcell.accmonth = 12;
+            gcell.accday = 5;
+            gcell.acchour = 2;
+            gcell.accmin = 10;
+            gcell.accsec = 10;
+            gcell.modyear = 2018;
+            gcell.modmonth = 12;
+            gcell.modday = 5;
+            gcell.modhour = 2;
+            gcell.modmin = 10;
+            gcell.modsec = 10;
+
+            gcell.cellName = "test";
+
+            gcell.addBox(0, 0, 10, 20, layer, datatype);
+
+            g.setDrawing(drawing_);
+            g.setValid(true);
+
+            string gdsFile = outDir + "L" + layer + "D" + datatype + "_box.gds";
+            if (File.Exists(gdsFile))
+            {
+                File.Delete(gdsFile);
+            }
+            gds.gdsWriter gw = new(g, gdsFile);
+            gw.save();
+            Assert.True(File.Exists(gdsFile));
+
+            string oasFile = outDir + "L" + layer + "D" + datatype + "_box.oas";
+            if (File.Exists(oasFile))
+            {
+                File.Delete(oasFile);
+            }
+            oasis.oasWriter ow = new(g, oasFile);
+            ow.save();
+            Assert.True(File.Exists(oasFile));
+        }
+        
+        foreach (int datatype in values)
+        {
+            int layer = 1;
+            // Can the system define geometry and write it correctly to Oasis and GDS files.
+            GeoCore g = new();
+            g.reset();
+            GCDrawingfield drawing_ = new("")
+            {
+                accyear = 2018,
+                accmonth = 12,
+                accday = 5,
+                acchour = 2,
+                accmin = 10,
+                accsec = 10,
+                modyear = 2018,
+                modmonth = 12,
+                modday = 5,
+                modhour = 2,
+                modmin = 10,
+                modsec = 10,
+                databaseunits = 1000,
+                userunits = 1E-3, // 0.001 / 1E-6;
+                libname = "noname"
+            };
+
+            GCCell gcell = drawing_.addCell();
+            gcell.accyear = 2018;
+            gcell.accmonth = 12;
+            gcell.accday = 5;
+            gcell.acchour = 2;
+            gcell.accmin = 10;
+            gcell.accsec = 10;
+            gcell.modyear = 2018;
+            gcell.modmonth = 12;
+            gcell.modday = 5;
+            gcell.modhour = 2;
+            gcell.modmin = 10;
+            gcell.modsec = 10;
+
+            gcell.cellName = "test";
+
+            gcell.addBox(0, 0, 10, 20, layer, datatype);
+
+            g.setDrawing(drawing_);
+            g.setValid(true);
+
+            string gdsFile = outDir + "L" + layer + "D" + datatype + "_box.gds";
+            if (File.Exists(gdsFile))
+            {
+                File.Delete(gdsFile);
+            }
+            gds.gdsWriter gw = new(g, gdsFile);
+            gw.save();
+            Assert.True(File.Exists(gdsFile));
+
+            string oasFile = outDir + "L" + layer + "D" + datatype + "_box.oas";
+            if (File.Exists(oasFile))
+            {
+                File.Delete(oasFile);
+            }
+            oasis.oasWriter ow = new(g, oasFile);
+            ow.save();
+            Assert.True(File.Exists(oasFile));
+        }
+    }
+
+    [Test]
+    public static void defineAndWrite_manyCellrefs()
+    {
+        int edge = 4;
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
         g.reset();
@@ -1858,10 +2225,52 @@ internal class Program
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        gds.gdsWriter gw = new(g, outDir + edge + "_cellref.gds");
+        string gdsFile = outDir + edge + "_cellref.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
+        Assert.True(File.Exists(gdsFile));
 
-        oasis.oasWriter ow = new(g, outDir + edge + "_cellref.oas");
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        for (int i = 0; i < edge * edge; i++)
+        {
+            GCCell cell_gds = drawing_gds.findCell("test" + i);
+
+            Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+            List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+            Assert.AreEqual(1, polys_gds.Count);
+            Assert.AreEqual(7, polys_gds[0].pointarray.Count);
+        }
+
+        string oasFile = outDir + edge + "_cellref.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
         ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        for (int i = 0; i < edge * edge; i++)
+        {
+            GCCell cell_oas = drawing_oas.findCell("test" + i);
+
+            Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+            List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+            Assert.AreEqual(1, polys_oas.Count);
+            Assert.AreEqual(7, polys_oas[0].pointarray.Count);
+        }
     }
 }

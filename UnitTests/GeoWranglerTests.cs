@@ -1,28 +1,30 @@
-﻿using System;
 using Clipper2Lib;
 using geoWrangler;
-using NUnit.Framework;
 
-namespace GeoWranglerTest;
+namespace UnitTests;
 
-internal static class Program
+public class GeoWranglerTests
 {
-    private static string root_loc = "/d/development/DesignLibs_GPL/geowrangler_test/";
+    private static string root_loc = "/d/development/DesignLibs_GPL/geowrangler_out/";
 
-    private static void Main()
+    [SetUp]
+    public static void GeoWranglerSetup()
     {
-        grassfire_test();
-        unidirectional_bias();
-        test_strip_collinear();
-        test_fragmentPath();
-        proximity();
-        proximity2();
-        customBoolean();
-        customBoolean2();
-        customBoolean3();
+        {
+            grassfire_test();
+            unidirectional_bias();
+            test_strip_collinear();
+            test_fragmentPath();
+            proximity();
+            proximity2();
+            customBoolean();
+            customBoolean2();
+            customBoolean3();
+        }
     }
 
-    private static void grassfire_test()
+    [Test]
+    public static void grassfire_test()
     {
         PathD original = new()
         {
@@ -57,7 +59,8 @@ internal static class Program
         Assert.AreEqual(13.33, median[4].y);
     }
 
-    private static void unidirectional_bias()
+    [Test]
+    public static void unidirectional_bias()
     {
         SvgWriter svg = new();
         svg.FillRule = FillRule.EvenOdd;
@@ -132,7 +135,8 @@ internal static class Program
         Assert.LessOrEqual(Clipper.Area(result2) - 785.5610, 0.001);
     }
     
-    private static void test_fragmentPath()
+    [Test]
+    public static void test_fragmentPath()
     {
         PathD original = new()
         {
@@ -169,7 +173,8 @@ internal static class Program
         Assert.AreEqual(41, refragmented_10.Count);
     }
 
-    private static void test_strip_collinear()
+    [Test]
+    public static void test_strip_collinear()
     {
         PathD source = new () {
             new(0.02985, 0.18999),
@@ -250,7 +255,8 @@ internal static class Program
         Assert.AreEqual(71, cleaned.Count);
     }
 
-    private static void proximity()
+    [Test]
+    public static void proximity()
     {
         PathsD input = new ();
         input.Add(Clipper.MakePath(new [] {
@@ -480,7 +486,8 @@ internal static class Program
         Assert.LessOrEqual(area - 1539.759, 0.001);
     }
     
-    private static void proximity2()
+    [Test]
+    public static void proximity2()
     {
         PathsD input = new ();
         input.Add(Clipper.MakePath(new double[] {
@@ -653,7 +660,8 @@ internal static class Program
     // This is a little more sophisticated than just calling Clipper directly - it pulls in various GeoWrangler 
     // systems to work its magic, so this is something of an integrated test.
     // Note that some area is lost due to the keyholed representation.
-    private static void customBoolean()
+    [Test]
+    public static void customBoolean()
     {
         PathsD layerAPaths = new();
         layerAPaths.Add(Clipper.MakePath(new double []
@@ -712,7 +720,8 @@ internal static class Program
         Assert.LessOrEqual(notArea_expected - notArea, 1);
     }
     
-    private static void customBoolean2()
+    [Test]
+    public static void customBoolean2()
     {
         PathsD layerAPaths = new();
         layerAPaths.Add(Clipper.MakePath(new double []
@@ -769,7 +778,8 @@ internal static class Program
         Assert.LessOrEqual(notArea_expected - notArea, 0.001);
     }
     
-    private static void customBoolean3()
+    [Test]
+    public static void customBoolean3()
     {
         PathsD layerAPaths = new();
         layerAPaths.Add(Clipper.MakePath(new double []

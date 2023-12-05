@@ -359,4 +359,9 @@ public class GCPath : GCElement
                 break;
         }
     }
+
+    public override bool isPath()
+    {
+        return true;
+    }
 }

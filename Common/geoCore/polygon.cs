@@ -1270,4 +1270,8 @@ public class GCPolygon : GCElement
         return name;
     }
 
+    public override bool isPolygon()
+    {
+        return true;
+    }
 }

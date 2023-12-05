@@ -3082,7 +3082,7 @@ public class ClipperTests
         c.AddOpenSubject(t);
         c.AddClip(lPoly);
 
-        Clipper2Lib.PolyTree64 pt = new();
+        PolyTree64 pt = new();
         Paths64 p = new();
 
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, pt, p);
@@ -3124,7 +3124,7 @@ public class ClipperTests
         Clipper2Lib.Clipper64 c = new ();
         c.AddOpenSubject(rays);
         c.AddClip(collisionPaths);
-        Clipper2Lib.PolyTree64 pt = new ();
+        PolyTree64 pt = new ();
         Paths64 solution = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, pt, solution);
         

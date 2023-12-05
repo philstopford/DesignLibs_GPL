@@ -61,7 +61,7 @@ public static partial class GeoWrangler
         // Clipper strips terminating points, so force closed.
         firstLayer = close(firstLayer);
         secondLayer = close(secondLayer);
-        PathsD ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
+        PathsD ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveCollinear: false);
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
         ret = new (gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
@@ -153,19 +153,19 @@ public static partial class GeoWrangler
     }
 
     public static PathsD LayerBoolean(int firstLayerOperator, PathsD firstLayerPaths, int secondLayerOperator,
-        PathsD secondLayerPaths, int booleanFlag, bool preserveColinear)
+        PathsD secondLayerPaths, int booleanFlag, bool preserveCollinear)
     {
         return pLayerBoolean(firstLayerOperator, firstLayerPaths, secondLayerOperator,
-            secondLayerPaths, booleanFlag, preserveColinear);
+            secondLayerPaths, booleanFlag, preserveCollinear);
     }
-    private static PathsD pLayerBoolean(int firstLayerOperator, PathsD firstLayerPaths_, int secondLayerOperator, PathsD secondLayerPaths_, int booleanFlag, bool preserveColinear)
+    private static PathsD pLayerBoolean(int firstLayerOperator, PathsD firstLayerPaths_, int secondLayerOperator, PathsD secondLayerPaths_, int booleanFlag, bool preserveCollinear)
     {
         PathsD firstLayerPaths = new(firstLayerPaths_);
-        if (firstLayerOperator == 1) // NOT layer handling
+        if (firstLayerOperator == (int)LayerFlag.NOT)
         {
             try
             {
-                firstLayerPaths = new (invertTone(firstLayerPaths_, preserveColinear: preserveColinear));
+                firstLayerPaths = new (invertTone(firstLayerPaths_, preserveCollinear: preserveCollinear));
             }
             catch (Exception)
             {
@@ -175,11 +175,11 @@ public static partial class GeoWrangler
         }
 
         PathsD secondLayerPaths = new(secondLayerPaths_);
-        if (secondLayerOperator == 1) // NOT layer handling
+        if (secondLayerOperator == (int)LayerFlag.NOT)
         {
             try
             {
-                secondLayerPaths = new (invertTone(secondLayerPaths, preserveColinear: preserveColinear));
+                secondLayerPaths = new (invertTone(secondLayerPaths, preserveCollinear: preserveCollinear));
             }
             catch (Exception)
             {
@@ -192,36 +192,30 @@ public static partial class GeoWrangler
         {
             return new (secondLayerPaths);
         }
-        return secondLayerPaths[0].Count <= 1 ? new (firstLayerPaths) : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveColinear: preserveColinear);
+        return secondLayerPaths[0].Count <= 1 ? new (firstLayerPaths) : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveCollinear: preserveCollinear);
     }
 
-    public static PathsD LayerBoolean(PathsD firstPaths, PathsD secondPaths, int booleanFlag, bool preserveColinear = true)
+    public static PathsD LayerBoolean(PathsD firstPaths, PathsD secondPaths, int booleanFlag, bool preserveCollinear = true)
     {
-        return pLayerBoolean(firstPaths, secondPaths, booleanFlag, preserveColinear);
+        return pLayerBoolean(firstPaths, secondPaths, booleanFlag, preserveCollinear);
 
     }
-    private static PathsD pLayerBoolean(PathsD firstPaths, PathsD secondPaths, int booleanFlag, bool preserveColinear = true)
+    private static PathsD pLayerBoolean(PathsD firstPaths, PathsD secondPaths, int booleanFlag, bool preserveCollinear = true)
     {
-        string booleanType = "AND";
-        if (booleanFlag == 1)
-        {
-            booleanType = "OR";
-        }
-
         // important - if we don't do this, we lose the fragmentation on straight edges.
-        ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = preserveColinear};
+        ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = preserveCollinear};
 
         c.AddSubject(firstPaths);
         c.AddClip(secondPaths);
 
         PathsD outputPoints = new();
 
-        switch (booleanType)
+        switch (booleanFlag)
         {
-            case "AND":
+            case (int)booleanOperation.AND:
                 c.Execute(ClipType.Intersection, FillRule.EvenOdd, outputPoints);
                 break;
-            case "OR":
+            case (int)booleanOperation.OR:
                 c.Execute(ClipType.Union, FillRule.EvenOdd, outputPoints);
                 break;
         }

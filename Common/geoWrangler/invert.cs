@@ -5,17 +5,17 @@ namespace geoWrangler;
 public static partial class GeoWrangler
 {
     // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
-    public static PathsD invertTone(PathD source, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static PathsD invertTone(PathD source, bool preserveCollinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pInvertTone(new PathsD { source }, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds);
+        return pInvertTone(new PathsD { source }, preserveCollinear: preserveCollinear, useTriangulation: useTriangulation, useBounds: useBounds);
     }
 
-    public static PathsD invertTone(PathsD source, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static PathsD invertTone(PathsD source, bool preserveCollinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pInvertTone(source, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds);
+        return pInvertTone(source, preserveCollinear: preserveCollinear, useTriangulation: useTriangulation, useBounds: useBounds);
     }
     
-    private static PathsD pInvertTone(PathsD sourcePaths, bool preserveColinear, bool useTriangulation, bool useBounds)
+    private static PathsD pInvertTone(PathsD sourcePaths, bool preserveCollinear, bool useTriangulation, bool useBounds)
     {
         PathD firstLayerBP = new();
         switch (useBounds)
@@ -39,7 +39,7 @@ public static partial class GeoWrangler
             }
         }
 
-        ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = preserveColinear};
+        ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = preserveCollinear};
 
         c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths

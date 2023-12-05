@@ -424,7 +424,7 @@ public static partial class GeoWrangler
 
         ret = pReorderXY(ret);
 
-        // ret = stripColinear(ret);
+        // ret = stripCollinear(ret);
 
         // Validate orientations.
         bool gR_orient_gw = isClockwise(ret[0]);

@@ -5,11 +5,6 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static PathsD makeArray2(PathD source, int xCount, double xPitch, int yCount, double yPitch)
-    {
-        return pMakeArray(source, xCount, xPitch, yCount, yPitch);
-    }
-    
     public static PathsD makeArray(PathD source, int xCount, decimal xPitch, int yCount, decimal yPitch)
     {
         return pMakeArray(source, xCount, Convert.ToDouble(xPitch), yCount, Convert.ToDouble(yPitch));

@@ -710,7 +710,7 @@ public class GeoCore
         GeoData postArray = new();
         for (int i = 0; i < ret.geo.Count; i++)
         {
-            postArray.geo = GeoWrangler.makeArray2(ret.geo[i], xCount, xSpace, yCount, ySpace);
+            postArray.geo = GeoWrangler.makeArray(ret.geo[i], xCount, xSpace, yCount, ySpace);
             postArray.ld = new List<string>();
             postArray.isText = new List<bool>();
             for (int j = 0; j < postArray.geo.Count; j++)

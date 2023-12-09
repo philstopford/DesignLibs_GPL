@@ -12,23 +12,25 @@ public class GeoWranglerTests
     {
         {
             array_test();
-            clockwise_test();
-            reorder_test();
             close_test();
+            customBoolean();
+            customBoolean2();
+            customBoolean3();
+            fragmenter_test();
+            grassfire_test();
             inflate_test();
             invert_test();
             meas_angle_test();
             meas_distance_test();
-            query_enclosed_test();
-            grassfire_test();
-            unidirectional_bias();
-            test_fragmentPath();
-            test_strip_collinear();
             proximity();
             proximity2();
-            customBoolean();
-            customBoolean2();
-            customBoolean3();
+            query_angles_test();
+            query_clockwise_test();
+            query_enclosed_test();
+            query_extents_test();
+            reorder_test();
+            strip_collinear_test();
+            unidirectional_bias();
         }
     }
 
@@ -65,91 +67,6 @@ public class GeoWranglerTests
         Assert.AreEqual(0, bounds_arrayed.top);
         Assert.AreEqual(70, bounds_arrayed.right);
         Assert.AreEqual(170, bounds_arrayed.bottom);
-    }
-
-    [Test]
-    public static void clockwise_test()
-    {
-        PathD source = new()
-        {
-            new(10, 0),
-            new(10, 30),
-            new(0, 30),
-            new(0, 0),
-        };
-
-        Assert.IsFalse(GeoWrangler.isClockwise(source));
-
-        PathD clockwise_path = GeoWrangler.clockwise(source);
-        
-        Assert.IsTrue(GeoWrangler.isClockwise(clockwise_path));
-        
-        PathD source_cw = new()
-        {
-            new(10, 10),
-            new(6, 15),
-            new(4, 15),
-            new(0, 10),
-            new(-15, 6),
-            new(-15, 4),
-            new(0, 0),
-            new(4, -5),
-            new(6, -5),
-            new PointD(10, 0),
-            new PointD(15, 4),
-            new PointD(15, 6)
-        };
-
-        // Should get minimum X value, then minimum Y
-        PathD xy_cw = GeoWrangler.clockwiseAndReorderXY(source_cw);
-        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw));
-        Assert.AreEqual(-15, xy_cw[0].x);
-        Assert.AreEqual(4, xy_cw[0].y);
-        
-        // Should get minimum Y value, then minimum X
-        PathD yx_cw = GeoWrangler.clockwiseAndReorderYX(source_cw);
-        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw));
-        Assert.AreEqual(4, yx_cw[0].x);
-        Assert.AreEqual(-5, yx_cw[0].y);
-
-        PathsD paths = new()
-        {
-            GeoWrangler.Rotate(new (5, 13), source, 45.0),
-
-            new()
-            {
-                new(10, 10),
-                new(6, 15),
-                new(4, 15),
-                new(0, 10),
-                new(-15, 6),
-                new(-15, 4),
-                new(0, 0),
-                new(4, -5),
-                new(6, -5),
-                new PointD(10, 0),
-                new PointD(15, 4),
-                new PointD(15, 6)
-            },
-        };
-        
-        // Should get minimum X value, then minimum Y, clockwise.
-        PathsD xy_cw_paths = GeoWrangler.clockwiseAndReorderXY(paths);
-        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[0]));
-        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[1]));
-        Assert.LessOrEqual(-10.556 - xy_cw_paths[0][0].x, 0.001);
-        Assert.LessOrEqual(21.485 - xy_cw_paths[0][0].y, 0.001);
-        Assert.AreEqual(-15, xy_cw_paths[1][0].x);
-        Assert.AreEqual(4, xy_cw_paths[1][0].y);
-        
-        // Should get minimum Y value, then minimum X, clockwise
-        PathsD yx_cw_paths= GeoWrangler.clockwiseAndReorderYX(paths);
-        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[0]));
-        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[1]));
-        Assert.LessOrEqual(10.656 - yx_cw_paths[0][0].x, 0.001);
-        Assert.LessOrEqual(0.272 - yx_cw_paths[0][0].y, 0.001);
-        Assert.AreEqual(4, yx_cw_paths[1][0].x);
-        Assert.AreEqual(-5, yx_cw_paths[1][0].y);
     }
 
     [Test]
@@ -503,41 +420,6 @@ public class GeoWranglerTests
         Assert.LessOrEqual(Math.Abs(90 - angle_3i), 0.001);
         Assert.LessOrEqual(Math.Abs(45 - angle_4i), 0.001);
         Assert.LessOrEqual(Math.Abs(45 - angle_5i), 0.001);
-
-        PathD square = Clipper.MakePath(new double[]
-        {
-            0, 0,
-            0, 10,
-            10, 10,
-            10, 0,
-        });
-        PathD square_rev = Clipper.MakePath(new double[]
-        {
-            0, 0,
-            10, 0,
-            10, 10,
-            0, 10,
-        });
-        PathD rot_square = GeoWrangler.Rotate(new(5, 5), square, 45);
-        PathD rot_square_rev = GeoWrangler.Rotate(new(5, 5), square_rev, 45);
-
-        double[] angles_1 = GeoWrangler.angles(square, true);
-        double[] angles_2 = GeoWrangler.angles(square_rev, true);
-        double[] angles_3 = GeoWrangler.angles(rot_square, true);
-        double[] angles_4 = GeoWrangler.angles(rot_square_rev, true);
-        Assert.AreEqual(4, angles_1.Count());
-        Assert.AreEqual(4, angles_2.Count());
-        Assert.AreEqual(4, angles_3.Count());
-        Assert.AreEqual(4, angles_4.Count());
-        // Should only have one distinct value, 90, due to pure orthogonal input
-        Assert.AreEqual(1, angles_1.Distinct().Count());
-        Assert.AreEqual(1, angles_2.Distinct().Count());
-        Assert.AreEqual(1, angles_3.Distinct().Count());
-        Assert.AreEqual(1, angles_4.Distinct().Count());
-        Assert.AreEqual(90, angles_1[0]);
-        Assert.AreEqual(90, angles_2[0]);
-        Assert.AreEqual(90, angles_3[0]);
-        Assert.AreEqual(90, angles_4[0]);
     }
 
     [Test]
@@ -627,6 +509,134 @@ public class GeoWranglerTests
     }
 
     [Test]
+    public static void query_angles_test()
+    {
+        PathD square = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 10,
+            10, 10,
+            10, 0,
+        });
+        PathD square_rev = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            10, 0,
+            10, 10,
+            0, 10,
+        });
+        PathD rot_square = GeoWrangler.Rotate(new(5, 5), square, 45);
+        PathD rot_square_rev = GeoWrangler.Rotate(new(5, 5), square_rev, 45);
+
+        double[] angles_1 = GeoWrangler.angles(square, true);
+        double[] angles_2 = GeoWrangler.angles(square_rev, true);
+        double[] angles_3 = GeoWrangler.angles(rot_square, true);
+        double[] angles_4 = GeoWrangler.angles(rot_square_rev, true);
+        Assert.AreEqual(4, angles_1.Count());
+        Assert.AreEqual(4, angles_2.Count());
+        Assert.AreEqual(4, angles_3.Count());
+        Assert.AreEqual(4, angles_4.Count());
+        // Should only have one distinct value, 90, due to pure orthogonal input
+        Assert.AreEqual(1, angles_1.Distinct().Count());
+        Assert.AreEqual(1, angles_2.Distinct().Count());
+        Assert.AreEqual(1, angles_3.Distinct().Count());
+        Assert.AreEqual(1, angles_4.Distinct().Count());
+        Assert.AreEqual(90, angles_1[0]);
+        Assert.AreEqual(90, angles_2[0]);
+        Assert.AreEqual(90, angles_3[0]);
+        Assert.AreEqual(90, angles_4[0]);
+    }
+
+    [Test]
+    public static void query_clockwise_test()
+    {
+        PathD source = new()
+        {
+            new(10, 0),
+            new(10, 30),
+            new(0, 30),
+            new(0, 0),
+        };
+
+        Assert.IsFalse(GeoWrangler.isClockwise(source));
+        // Clipper's cooordinate system is Y-inverted, so this will be true, annoyingly.
+        Assert.IsTrue(Clipper.IsPositive(source));
+
+        PathD clockwise_path = GeoWrangler.clockwise(source);
+        
+        Assert.IsTrue(GeoWrangler.isClockwise(clockwise_path));
+        // Clipper's cooordinate system is Y-inverted, so this will be false, annoyingly.
+        Assert.IsFalse(Clipper.IsPositive(clockwise_path));
+        
+        PathD source_cw = new()
+        {
+            new(10, 10),
+            new(6, 15),
+            new(4, 15),
+            new(0, 10),
+            new(-15, 6),
+            new(-15, 4),
+            new(0, 0),
+            new(4, -5),
+            new(6, -5),
+            new PointD(10, 0),
+            new PointD(15, 4),
+            new PointD(15, 6)
+        };
+
+        // Should get minimum X value, then minimum Y
+        PathD xy_cw = GeoWrangler.clockwiseAndReorderXY(source_cw);
+        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw));
+        Assert.AreEqual(-15, xy_cw[0].x);
+        Assert.AreEqual(4, xy_cw[0].y);
+        
+        // Should get minimum Y value, then minimum X
+        PathD yx_cw = GeoWrangler.clockwiseAndReorderYX(source_cw);
+        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw));
+        Assert.AreEqual(4, yx_cw[0].x);
+        Assert.AreEqual(-5, yx_cw[0].y);
+
+        PathsD paths = new()
+        {
+            GeoWrangler.Rotate(new (5, 13), source, 45.0),
+
+            new()
+            {
+                new(10, 10),
+                new(6, 15),
+                new(4, 15),
+                new(0, 10),
+                new(-15, 6),
+                new(-15, 4),
+                new(0, 0),
+                new(4, -5),
+                new(6, -5),
+                new PointD(10, 0),
+                new PointD(15, 4),
+                new PointD(15, 6)
+            },
+        };
+        
+        // Should get minimum X value, then minimum Y, clockwise.
+        PathsD xy_cw_paths = GeoWrangler.clockwiseAndReorderXY(paths);
+        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[0]));
+        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[1]));
+        Assert.LessOrEqual(-10.556 - xy_cw_paths[0][0].x, 0.001);
+        Assert.LessOrEqual(21.485 - xy_cw_paths[0][0].y, 0.001);
+        Assert.AreEqual(-15, xy_cw_paths[1][0].x);
+        Assert.AreEqual(4, xy_cw_paths[1][0].y);
+        
+        // Should get minimum Y value, then minimum X, clockwise
+        PathsD yx_cw_paths= GeoWrangler.clockwiseAndReorderYX(paths);
+        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[0]));
+        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[1]));
+        Assert.LessOrEqual(10.656 - yx_cw_paths[0][0].x, 0.001);
+        Assert.LessOrEqual(0.272 - yx_cw_paths[0][0].y, 0.001);
+        Assert.AreEqual(4, yx_cw_paths[1][0].x);
+        Assert.AreEqual(-5, yx_cw_paths[1][0].y);
+    }
+
+    [Test]
     public static void query_enclosed_test()
     {
         PathD small = Clipper.MakePath(new double[]
@@ -687,6 +697,32 @@ public class GeoWranglerTests
         Assert.False(enc2_2_r);
         Assert.False(enc3_1_r);
         Assert.False(enc3_2_r);
+    }
+
+    [Test]
+    public static void query_extents_test()
+    {
+        PathD test1 = Clipper.MakePath(new double[]
+        {
+            -15, -30,
+            -5, 0,
+            -15, 30,
+            0, 5,
+            15, 30,
+            5, 0,
+            15, -30,
+            0, -5
+        });
+
+        PointD test1_extents = GeoWrangler.getExtents(test1);
+        Assert.AreEqual(30, test1_extents.x);
+        Assert.AreEqual(60, test1_extents.y);
+
+        PathD test2 = GeoWrangler.move(test1, 30m, 30);
+        
+        PointD test2_extents = GeoWrangler.getExtents(test2);
+        Assert.AreEqual(30, test2_extents.x);
+        Assert.AreEqual(60, test2_extents.y);
     }
     
     [Test]
@@ -802,7 +838,7 @@ public class GeoWranglerTests
     }
     
     [Test]
-    public static void test_fragmentPath()
+    public static void fragmenter_test()
     {
         PathD original = new()
         {
@@ -840,7 +876,7 @@ public class GeoWranglerTests
     }
 
     [Test]
-    public static void test_strip_collinear()
+    public static void strip_collinear_test()
     {
         PathD source = new () {
             new(0.02985, 0.18999),

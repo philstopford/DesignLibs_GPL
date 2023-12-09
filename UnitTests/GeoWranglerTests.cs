@@ -18,6 +18,7 @@ public class GeoWranglerTests
             inflate_test();
             invert_test();
             meas_angle_test();
+            meas_distance_test();
             grassfire_test();
             unidirectional_bias();
             test_fragmentPath();
@@ -484,6 +485,23 @@ public class GeoWranglerTests
         Assert.LessOrEqual(Math.Abs(90 - angle_3), 0.001);
         Assert.LessOrEqual(Math.Abs(45 - angle_4), 0.001);
         Assert.LessOrEqual(Math.Abs(45 - angle_5), 0.001);
+        
+        // Compare with integer handling.
+        Path64 _90i = Clipper.ScalePath64(_90, 1.0);
+        Path64 _m90i = Clipper.ScalePath64(_m90, 1.0);
+        Path64 _r90i = Clipper.ScalePath64(_r90, 1.0);
+        Path64 _r45i = Clipper.ScalePath64(_r45, 1.0);
+        Path64 _mr45i = Clipper.ScalePath64(_mr45, 1.0);
+        double angle_1i = GeoWrangler.angleBetweenPoints(_90i[0], _90i[2], _90i[1], true);
+        double angle_2i = GeoWrangler.angleBetweenPoints(_m90i[0], _m90i[2], _m90i[1], true);
+        double angle_3i = GeoWrangler.angleBetweenPoints(_r90i[0], _r90i[2], _r90i[1], true);
+        double angle_4i = GeoWrangler.angleBetweenPoints(_r45i[0], _r45i[2], _r45i[1], true);
+        double angle_5i = GeoWrangler.angleBetweenPoints(_mr45i[0], _mr45i[2], _mr45i[1], true);
+        Assert.LessOrEqual(Math.Abs(90 - angle_1i), 0.001);
+        Assert.LessOrEqual(Math.Abs(90 - angle_2i), 0.001);
+        Assert.LessOrEqual(Math.Abs(90 - angle_3i), 0.001);
+        Assert.LessOrEqual(Math.Abs(45 - angle_4i), 0.001);
+        Assert.LessOrEqual(Math.Abs(45 - angle_5i), 0.001);
 
         PathD square = Clipper.MakePath(new double[]
         {
@@ -519,6 +537,54 @@ public class GeoWranglerTests
         Assert.AreEqual(90, angles_2[0]);
         Assert.AreEqual(90, angles_3[0]);
         Assert.AreEqual(90, angles_4[0]);
+    }
+
+    [Test]
+    public static void meas_distance_test()
+    {
+        PointD p1 = new(0, 0);
+        PointD p2 = new(0, 1);
+        PointD p3 = new(1, 1);
+        PointD p4 = new(0, -1);
+        PointD p5 = new(1, -1);
+        PointD p6 = new(-1, -1);
+
+        double d2 = GeoWrangler.distanceBetweenPoints(p1, p2);
+        double d3 = GeoWrangler.distanceBetweenPoints(p1, p3);
+        double d4 = GeoWrangler.distanceBetweenPoints(p1, p4);
+        double d5 = GeoWrangler.distanceBetweenPoints(p1, p5);
+        double d6 = GeoWrangler.distanceBetweenPoints(p1, p6);
+        double d7 = GeoWrangler.distanceBetweenPoints(p3, p6);
+
+        double hyp = Math.Sqrt(2);
+        Assert.AreEqual(1, d2);
+        Assert.AreEqual(hyp, d3);
+        Assert.AreEqual(1, d4);
+        Assert.AreEqual(hyp, d5);
+        Assert.AreEqual(hyp, d6);
+        Assert.AreEqual(2 * hyp, d7);
+        
+        // Compare with integer handling.
+        Point64 p1i = new(0, 0);
+        Point64 p2i = new(0, 1);
+        Point64 p3i = new(1, 1);
+        Point64 p4i = new(0, -1);
+        Point64 p5i = new(1, -1);
+        Point64 p6i = new(-1, -1);
+
+        double d2i = GeoWrangler.distanceBetweenPoints(p1i, p2i);
+        double d3i = GeoWrangler.distanceBetweenPoints(p1i, p3i);
+        double d4i = GeoWrangler.distanceBetweenPoints(p1i, p4i);
+        double d5i = GeoWrangler.distanceBetweenPoints(p1i, p5i);
+        double d6i = GeoWrangler.distanceBetweenPoints(p1i, p6i);
+        double d7i = GeoWrangler.distanceBetweenPoints(p3i, p6i);
+
+        Assert.AreEqual(1, d2i);
+        Assert.AreEqual(hyp, d3i);
+        Assert.AreEqual(1, d4i);
+        Assert.AreEqual(hyp, d5i);
+        Assert.AreEqual(hyp, d6i);
+        Assert.AreEqual(2 * hyp, d7i);
     }
     
     [Test]

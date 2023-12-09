@@ -723,6 +723,28 @@ public class GeoWranglerTests
         PointD test2_extents = GeoWrangler.getExtents(test2);
         Assert.AreEqual(30, test2_extents.x);
         Assert.AreEqual(60, test2_extents.y);
+        
+        Path64 test1i = Clipper.MakePath(new int[]
+        {
+            -15, -30,
+            -5, 0,
+            -15, 30,
+            0, 5,
+            15, 30,
+            5, 0,
+            15, -30,
+            0, -5
+        });
+
+        Point64 test1i_extents = GeoWrangler.getExtents(test1i);
+        Assert.AreEqual(30, test1i_extents.X);
+        Assert.AreEqual(60, test1i_extents.Y);
+
+        Path64 test2i = GeoWrangler.move(test1i, 30, 30);
+        
+        Point64 test2i_extents = GeoWrangler.getExtents(test2i);
+        Assert.AreEqual(30, test2i_extents.X);
+        Assert.AreEqual(60, test2i_extents.Y);
     }
     
     [Test]

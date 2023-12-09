@@ -275,6 +275,7 @@ public class GeoWranglerTests
     [Test]
     public static void invert_test()
     {
+        double unbounded_area = (double)(Int32.MaxValue) * Int32.MaxValue * 4;
         PathD simple_box = Clipper.MakePath(new double[]
         {
             0, 0,
@@ -329,7 +330,7 @@ public class GeoWranglerTests
         Assert.AreEqual(10, inverted_box[1][2].y);
         
         double ib_area = Clipper.Area(inverted_box);
-        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - (10*10), ib_area);
+        Assert.AreEqual(unbounded_area - (10*10), ib_area);
 
         // Stripped collinear points
         Assert.AreEqual(2, inverted_fragmented_box.Count);
@@ -342,7 +343,7 @@ public class GeoWranglerTests
         Assert.AreEqual(5, inverted_fragmented_box[1].Count);
 
         double ifb_area = Clipper.Area(inverted_fragmented_box);
-        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - (10*10), ifb_area);
+        Assert.AreEqual(unbounded_area - (10*10), ifb_area);
 
         // Retained collinear points
         Assert.AreEqual(2, inverted_fragmented_box_cl.Count);
@@ -359,7 +360,7 @@ public class GeoWranglerTests
         Assert.AreEqual(41, inverted_fragmented_box_cl[1].Count);
         
         double ifbcl_area = Clipper.Area(inverted_fragmented_box_cl);
-        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - (10*10), ifbcl_area);
+        Assert.AreEqual(unbounded_area - (10*10), ifbcl_area);
 
         // Triangulation tests.
 
@@ -415,22 +416,24 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, inverted_boxes_cl_bounds_tri, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl_bounds_tri.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        // Do we have the area reduction that we expect?
+        double area_reduction = 10 * 10 * 2;
         double ibx_area = Clipper.Area(inverted_boxes);
-        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibx_area);
+        Assert.AreEqual(unbounded_area - area_reduction, ibx_area);
         double ibxcl_area = Clipper.Area(inverted_boxes_cl);
-        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibxcl_area);
+        Assert.AreEqual(unbounded_area - area_reduction, ibxcl_area);
         double ibxb_area = Clipper.Area(inverted_boxes_bounds);
-        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxb_area);
+        Assert.AreEqual((40 * 40) - area_reduction, ibxb_area);
         double ibxclb_area = Clipper.Area(inverted_boxes_cl_bounds);
-        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxclb_area);
+        Assert.AreEqual((40 * 40) - area_reduction, ibxclb_area);
         double ibx_area_tri = Clipper.Area(inverted_boxes_tri);
-        Assert.AreEqual(-((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibx_area_tri);
+        Assert.AreEqual(-unbounded_area - area_reduction, ibx_area_tri);
         double ibxcl_area_tri = Clipper.Area(inverted_boxes_cl_tri);
-        Assert.AreEqual(-((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibxcl_area_tri);
+        Assert.AreEqual(-unbounded_area - area_reduction, ibxcl_area_tri);
         double ibxb_area_tri = Clipper.Area(inverted_boxes_bounds_tri);
-        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxb_area_tri);
+        Assert.AreEqual((40 * 40) - area_reduction, ibxb_area_tri);
         double ibxclb_area_tri = Clipper.Area(inverted_boxes_cl_bounds_tri);
-        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxclb_area_tri);
+        Assert.AreEqual((40 * 40) - area_reduction, ibxclb_area_tri);
     }
 
     [Test]

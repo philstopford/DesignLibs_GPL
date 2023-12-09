@@ -11,10 +11,17 @@ public class GeoWranglerTests
     public static void GeoWranglerSetup()
     {
         {
+            array_test();
+            clockwise_test();
+            reorder_test();
+            close_test();
+            inflate_test();
+            invert_test();
+            meas_angle_test();
             grassfire_test();
             unidirectional_bias();
-            test_strip_collinear();
             test_fragmentPath();
+            test_strip_collinear();
             proximity();
             proximity2();
             customBoolean();
@@ -23,6 +30,333 @@ public class GeoWranglerTests
         }
     }
 
+    [Test]
+    public static void array_test()
+    {
+        PathD source = new()
+        {
+            new(0, 0),
+            new(0, 30),
+            new(10, 30),
+            new(10, 0)
+        };
+
+        PathsD arrayed = GeoWrangler.makeArray(source, 2, 20m, 3, 10m);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, arrayed, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "arrayed.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(6, arrayed.Count);
+        RectD bounds = Clipper.GetBounds(arrayed);
+        Assert.AreEqual(0, bounds.left);
+        Assert.AreEqual(0, bounds.top);
+        Assert.AreEqual(30, bounds.right);
+        Assert.AreEqual(50, bounds.bottom);
+        
+        PathsD arrayed_arrayed = GeoWrangler.makeArray(arrayed, 2, 40m, 3, 60m);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, arrayed_arrayed, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "arrayed_arrayed.svg", FillRule.NonZero, 800, 800, 10);
+        
+        Assert.AreEqual(6 * 6, arrayed_arrayed.Count);
+        RectD bounds_arrayed = Clipper.GetBounds(arrayed_arrayed);
+        Assert.AreEqual(0, bounds_arrayed.left);
+        Assert.AreEqual(0, bounds_arrayed.top);
+        Assert.AreEqual(70, bounds_arrayed.right);
+        Assert.AreEqual(170, bounds_arrayed.bottom);
+    }
+
+    [Test]
+    public static void clockwise_test()
+    {
+        PathD source = new()
+        {
+            new(10, 0),
+            new(10, 30),
+            new(0, 30),
+            new(0, 0),
+        };
+
+        Assert.IsFalse(GeoWrangler.isClockwise(source));
+
+        PathD clockwise_path = GeoWrangler.clockwise(source);
+        
+        Assert.IsTrue(GeoWrangler.isClockwise(clockwise_path));
+        
+        PathD source_cw = new()
+        {
+            new(10, 10),
+            new(6, 15),
+            new(4, 15),
+            new(0, 10),
+            new(-15, 6),
+            new(-15, 4),
+            new(0, 0),
+            new(4, -5),
+            new(6, -5),
+            new PointD(10, 0),
+            new PointD(15, 4),
+            new PointD(15, 6)
+        };
+
+        // Should get minimum X value, then minimum Y
+        PathD xy_cw = GeoWrangler.clockwiseAndReorderXY(source_cw);
+        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw));
+        Assert.AreEqual(-15, xy_cw[0].x);
+        Assert.AreEqual(4, xy_cw[0].y);
+        
+        // Should get minimum Y value, then minimum X
+        PathD yx_cw = GeoWrangler.clockwiseAndReorderYX(source_cw);
+        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw));
+        Assert.AreEqual(4, yx_cw[0].x);
+        Assert.AreEqual(-5, yx_cw[0].y);
+
+        PathsD paths = new()
+        {
+            GeoWrangler.Rotate(new (5, 13), source, 45.0),
+
+            new()
+            {
+                new(10, 10),
+                new(6, 15),
+                new(4, 15),
+                new(0, 10),
+                new(-15, 6),
+                new(-15, 4),
+                new(0, 0),
+                new(4, -5),
+                new(6, -5),
+                new PointD(10, 0),
+                new PointD(15, 4),
+                new PointD(15, 6)
+            },
+        };
+        
+        // Should get minimum X value, then minimum Y, clockwise.
+        PathsD xy_cw_paths = GeoWrangler.clockwiseAndReorderXY(paths);
+        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[0]));
+        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[1]));
+        Assert.LessOrEqual(-10.556 - xy_cw_paths[0][0].x, 0.001);
+        Assert.LessOrEqual(21.485 - xy_cw_paths[0][0].y, 0.001);
+        Assert.AreEqual(-15, xy_cw_paths[1][0].x);
+        Assert.AreEqual(4, xy_cw_paths[1][0].y);
+        
+        // Should get minimum Y value, then minimum X, clockwise
+        PathsD yx_cw_paths= GeoWrangler.clockwiseAndReorderYX(paths);
+        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[0]));
+        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[1]));
+        Assert.LessOrEqual(10.656 - yx_cw_paths[0][0].x, 0.001);
+        Assert.LessOrEqual(0.272 - yx_cw_paths[0][0].y, 0.001);
+        Assert.AreEqual(4, yx_cw_paths[1][0].x);
+        Assert.AreEqual(-5, yx_cw_paths[1][0].y);
+    }
+
+    [Test]
+    public static void reorder_test()
+    {
+        PathD source_cw = new()
+        {
+            new(10, 10),
+            new(6, 15),
+            new(4, 15),
+            new(0, 10),
+            new(-15, 6),
+            new(-15, 4),
+            new(0, 0),
+            new(4, -5),
+            new(6, -5),
+            new PointD(10, 0),
+            new PointD(15, 4),
+            new PointD(15, 6)
+        };
+        bool orig_orientation = GeoWrangler.isClockwise(source_cw);
+
+        // Should get minimum X value, then minimum Y, maintaining original orientation.
+        PathD xy_reordered = GeoWrangler.reOrderXY(source_cw);
+        Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(xy_reordered));
+        Assert.AreEqual(-15, xy_reordered[0].x);
+        Assert.AreEqual(4, xy_reordered[0].y);
+
+        
+        // Should get minimum Y value, then minimum X, maintaining original orientation.
+        PathD yx_reordered = GeoWrangler.reOrderYX(source_cw);
+        Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(yx_reordered));
+        Assert.AreEqual(4, yx_reordered[0].x);
+        Assert.AreEqual(-5, yx_reordered[0].y);
+    }
+
+    [Test]
+    public static void close_test()
+    {
+        PathD source = new()
+        {
+            new(10, 0),
+            new(10, 30),
+            new(0, 30),
+            new(0, 0),
+        };
+
+        PathD closed = GeoWrangler.close(source);
+        Assert.AreEqual(4, source.Count);
+        Assert.AreEqual(5, closed.Count);
+        Assert.AreEqual(closed[0].x, closed[^1].x);
+        Assert.AreEqual(closed[0].y, closed[^1].y);
+        
+        PathD source2 = new()
+        {
+            new(0, 0),
+            new(10, 0),
+            new(10, 30),
+            new(0, 30),
+        };
+
+        PathD closed2 = GeoWrangler.close(source2);
+        Assert.AreEqual(4, source2.Count);
+        Assert.AreEqual(5, closed.Count);
+        Assert.AreEqual(closed2[0].x, closed2[^1].x);
+        Assert.AreEqual(closed2[0].y, closed2[^1].y);
+        
+        source.Add(new(10, 0));
+        PathD closed3 = GeoWrangler.close(source);
+        Assert.AreEqual(5, source.Count);
+        Assert.AreEqual(5, closed3.Count);
+        Assert.AreEqual(closed3[0].x, closed3[^1].x);
+        Assert.AreEqual(closed3[0].y, closed3[^1].y);
+        
+        source2.Add(new(0, 0));
+        PathD closed4 = GeoWrangler.close(source2);
+        Assert.AreEqual(5, source2.Count);
+        Assert.AreEqual(5, closed4.Count);
+        Assert.AreEqual(closed4[0].x, closed4[^1].x);
+        Assert.AreEqual(closed4[0].y, closed4[^1].y);
+    }
+
+    [Test]
+    public static void inflate_test()
+    {
+        PathD ray = new()
+        {
+            new(-10, 0),
+            new(-10, 10)
+        };
+
+        PathD width_1 = GeoWrangler.inflatePath(ray, 100);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, new () {width_1}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_1.svg", FillRule.NonZero, 800, 800, 10);
+        RectD bounds_1 = Clipper.GetBounds(width_1);
+        Assert.AreEqual(1, bounds_1.Width);
+        Assert.AreEqual(11, bounds_1.Height);
+        Assert.AreEqual(-0.5, bounds_1.top);
+        Assert.AreEqual(10.5, bounds_1.bottom);
+
+        PathD resized = GeoWrangler.resize(width_1, 2.0);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new () {resized}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_resized.svg", FillRule.NonZero, 800, 800, 10);
+        RectD bounds_2 = Clipper.GetBounds(resized);
+        Assert.AreEqual(2 * bounds_1.Width, bounds_2.Width);
+        Assert.AreEqual(2 * bounds_1.Height, bounds_2.Height);
+
+        PathD ray2 = new()
+        {
+            new(-10, -10),
+            new(10, 10)
+        };
+        PathD width_2 = GeoWrangler.inflatePath(ray2, 1);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, new () {width_2}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_2.svg", FillRule.NonZero, 800, 800, 10);
+        RectD bounds_3 = Clipper.GetBounds(width_2);
+        Assert.AreEqual(1, bounds_3.Width);
+        // Line vertical dimension should not have changed.
+        Assert.AreEqual(10, bounds_3.Height);
+    }
+
+    [Test]
+    public static void invert_test()
+    {
+        PathD simple_box = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 10,
+            10, 10,
+            10, 0,
+            0, 0
+        });
+
+        Fragmenter f = new(1);
+        PathD fragmented_box = f.fragmentPath(simple_box);
+
+        PathsD inverted_box = GeoWrangler.invertTone(simple_box, false);
+        PathsD inverted_fragmented_box = GeoWrangler.invertTone(fragmented_box, false);
+        PathsD inverted_fragmented_box_cl = GeoWrangler.invertTone(fragmented_box, true);
+
+        PathsD boxes = new();
+        boxes.Add(f.fragmentPath(simple_box));
+        boxes.Add(f.fragmentPath(Clipper.MakePath(new double[]
+        {
+            30, 30,
+            30, 40,
+            40, 40,
+            40, 30,
+            30, 30
+        })));
+
+        PathsD inverted_boxes = GeoWrangler.invertTone(boxes, false, true);
+        PathsD inverted_boxes_cl = GeoWrangler.invertTone(boxes, true, true);
+        PathsD inverted_boxes_bounds = GeoWrangler.invertTone(boxes, false, true, true);
+        PathsD inverted_boxes_cl_bounds = GeoWrangler.invertTone(boxes, true, true, true);
+        
+        Assert.Fail("Missing checks");
+    }
+
+    [Test]
+    public static void meas_angle_test()
+    {
+        PathD _90 = Clipper.MakePath(new double[]
+        {
+            0, 1,
+            0, 0,
+            1, 0
+        });
+        
+        PathD _m90 = Clipper.MakePath(new double[]
+        {
+            0, 1,
+            0, 0,
+            -1, 0
+        });
+
+        PathD _r90 = Clipper.MakePath(new double[]
+        {
+            -1, 1,
+            0, 0,
+            1, 1
+        });
+        
+        PathD _r45 = Clipper.MakePath(new double[]
+        {
+            -0.5, 1,
+            0, 0,
+            1, 1
+        });
+        
+        PathD _mr45 = Clipper.MakePath(new double[]
+        {
+            -1, 1,
+            0, 0,
+            0.5, 1
+        });
+
+        double[] angle1 = GeoWrangler.angles(_90, true);
+        double[] angle2 = GeoWrangler.angles(_m90, true);
+        double[] angle3 = GeoWrangler.angles(_r90, true);
+        double[] angle4 = GeoWrangler.angles(_r45, true);
+        double[] angle5 = GeoWrangler.angles(_mr45, true);
+        
+        Assert.Fail("Missing test conditions");
+    }
+    
     [Test]
     public static void grassfire_test()
     {

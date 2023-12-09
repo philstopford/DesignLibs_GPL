@@ -55,7 +55,7 @@ public static partial class GeoWrangler
             case false:
                 return cutters;
             default:
-                return pMakeKeyHole(sourcePaths, reverseEval:false, biDirectionalEval:true);
+                return pMakeKeyHole(cutters, reverseEval:false, biDirectionalEval:true);
         }
     }
 }

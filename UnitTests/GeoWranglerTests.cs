@@ -555,6 +555,12 @@ public class GeoWranglerTests
         double d5 = GeoWrangler.distanceBetweenPoints(p1, p5);
         double d6 = GeoWrangler.distanceBetweenPoints(p1, p6);
         double d7 = GeoWrangler.distanceBetweenPoints(p3, p6);
+        PointD d2d = GeoWrangler.PointD_distanceBetweenPoints(p1, p2);
+        PointD d3d = GeoWrangler.PointD_distanceBetweenPoints(p1, p3);
+        PointD d4d = GeoWrangler.PointD_distanceBetweenPoints(p1, p4);
+        PointD d5d = GeoWrangler.PointD_distanceBetweenPoints(p1, p5);
+        PointD d6d = GeoWrangler.PointD_distanceBetweenPoints(p1, p6);
+        PointD d7d = GeoWrangler.PointD_distanceBetweenPoints(p3, p6);
 
         double hyp = Math.Sqrt(2);
         Assert.AreEqual(1, d2);
@@ -563,7 +569,20 @@ public class GeoWranglerTests
         Assert.AreEqual(hyp, d5);
         Assert.AreEqual(hyp, d6);
         Assert.AreEqual(2 * hyp, d7);
-        
+
+        Assert.AreEqual(0, d2d.x);
+        Assert.AreEqual(-1, d2d.y);
+        Assert.AreEqual(-1, d3d.x);
+        Assert.AreEqual(-1, d3d.y);
+        Assert.AreEqual(0, d4d.x);
+        Assert.AreEqual(1, d4d.y);
+        Assert.AreEqual(-1, d5d.x);
+        Assert.AreEqual(1, d5d.y);
+        Assert.AreEqual(1, d6d.x);
+        Assert.AreEqual(1, d6d.y);
+        Assert.AreEqual(2, d7d.x);
+        Assert.AreEqual(2, d7d.y);
+
         // Compare with integer handling.
         Point64 p1i = new(0, 0);
         Point64 p2i = new(0, 1);
@@ -578,6 +597,12 @@ public class GeoWranglerTests
         double d5i = GeoWrangler.distanceBetweenPoints(p1i, p5i);
         double d6i = GeoWrangler.distanceBetweenPoints(p1i, p6i);
         double d7i = GeoWrangler.distanceBetweenPoints(p3i, p6i);
+        Point64 d2p = GeoWrangler.Point64_distanceBetweenPoints(p1i, p2i);
+        Point64 d3p = GeoWrangler.Point64_distanceBetweenPoints(p1i, p3i);
+        Point64 d4p = GeoWrangler.Point64_distanceBetweenPoints(p1i, p4i);
+        Point64 d5p = GeoWrangler.Point64_distanceBetweenPoints(p1i, p5i);
+        Point64 d6p = GeoWrangler.Point64_distanceBetweenPoints(p1i, p6i);
+        Point64 d7p = GeoWrangler.Point64_distanceBetweenPoints(p3i, p6i);
 
         Assert.AreEqual(1, d2i);
         Assert.AreEqual(hyp, d3i);
@@ -585,6 +610,19 @@ public class GeoWranglerTests
         Assert.AreEqual(hyp, d5i);
         Assert.AreEqual(hyp, d6i);
         Assert.AreEqual(2 * hyp, d7i);
+        
+        Assert.AreEqual(-0, d2p.X);
+        Assert.AreEqual(-1, d2p.Y);
+        Assert.AreEqual(-1, d3p.X);
+        Assert.AreEqual(-1, d3p.Y);
+        Assert.AreEqual(0, d4p.X);
+        Assert.AreEqual(1, d4p.Y);
+        Assert.AreEqual(-1, d5p.X);
+        Assert.AreEqual(1, d5p.Y);
+        Assert.AreEqual(1, d6p.X);
+        Assert.AreEqual(1, d6p.Y);
+        Assert.AreEqual(2, d7p.X);
+        Assert.AreEqual(2, d7p.Y);
     }
     
     [Test]

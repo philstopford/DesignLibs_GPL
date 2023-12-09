@@ -626,7 +626,6 @@ public class GeoWranglerTests
         Assert.AreEqual(2, d7p.Y);
     }
 
-    // FIXME : This test appears to suggest this library function is flawed!
     [Test]
     public static void query_enclosed_test()
     {
@@ -676,19 +675,18 @@ public class GeoWranglerTests
         bool enc3_1_r = GeoWrangler.enclosed(outer, new() { small3 }, false); 
         bool enc3_2_r = GeoWrangler.enclosed(outer, new() { small3 }, true); 
 
-        // FIXME: The results are not as expected, but papering over for now until the library function is reviewed.
         Assert.True(enc_1);
         Assert.True(enc_2);
         Assert.False(enc2_1);
         Assert.False(enc2_2);
-        Assert.True(enc3_1);
-        Assert.True(enc3_2);
+        Assert.False(enc3_1);
+        Assert.False(enc3_2);
         Assert.True(enc_1_r);
         Assert.True(enc_2_r);
         Assert.False(enc2_1_r);
         Assert.False(enc2_2_r);
-        Assert.True(enc3_1_r);
-        Assert.True(enc3_2_r);
+        Assert.False(enc3_1_r);
+        Assert.False(enc3_2_r);
     }
     
     [Test]

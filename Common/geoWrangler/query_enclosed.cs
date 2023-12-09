@@ -61,6 +61,17 @@ public static partial class GeoWrangler
         c.AddSubject(rationalizedFirstLayer);
         c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
 
+        // Do we have the same area after the union as before?
+        double intersectionArea = Math.Abs(Clipper.Area(intersectionPaths));
+        double originalArea = Math.Abs(Clipper.Area(rationalizedFirstLayer)) +
+                              Math.Abs(Clipper.Area(rationalizedSecondLayer));
+
+        // If areas are equivalent then there was no enclosure because nothing is 'lost' in the union.
+        if (Math.Abs(intersectionArea - originalArea) < 0.001)
+        {
+            return false;
+        }
+        
         intersectionPaths = pReorderXY(intersectionPaths);
 
         // Force clockwise.

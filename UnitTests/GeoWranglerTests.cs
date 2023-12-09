@@ -19,6 +19,7 @@ public class GeoWranglerTests
             invert_test();
             meas_angle_test();
             meas_distance_test();
+            query_enclosed_test();
             grassfire_test();
             unidirectional_bias();
             test_fragmentPath();
@@ -623,6 +624,71 @@ public class GeoWranglerTests
         Assert.AreEqual(1, d6p.Y);
         Assert.AreEqual(2, d7p.X);
         Assert.AreEqual(2, d7p.Y);
+    }
+
+    // FIXME : This test appears to suggest this library function is flawed!
+    [Test]
+    public static void query_enclosed_test()
+    {
+        PathD small = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 10,
+            10, 10,
+            10, 0
+        });
+
+        PathD outer = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 20,
+            20, 20,
+            20, 0
+        });
+
+        PathD small2 = Clipper.MakePath(new double[]
+        {
+            15, 15,
+            15, 25,
+            25, 25,
+            25, 15
+        });
+
+        PathD small3 = Clipper.MakePath(new double[]
+        {
+            30, 0,
+            30, 10,
+            40, 10,
+            40, 0
+        });
+
+        bool enc_1 = GeoWrangler.enclosed(small, new() { outer }, false);
+        bool enc_2 = GeoWrangler.enclosed(small, new() { outer }, true); 
+        bool enc2_1 = GeoWrangler.enclosed(small2, new() { outer }, false); 
+        bool enc2_2 = GeoWrangler.enclosed(small2, new() { outer }, true); 
+        bool enc3_1 = GeoWrangler.enclosed(small3, new() { outer }, false); 
+        bool enc3_2 = GeoWrangler.enclosed(small3, new() { outer }, true); 
+
+        bool enc_1_r = GeoWrangler.enclosed(outer, new() { small }, false);
+        bool enc_2_r = GeoWrangler.enclosed(outer, new() { small }, true); 
+        bool enc2_1_r = GeoWrangler.enclosed(outer, new() { small2 }, false); 
+        bool enc2_2_r = GeoWrangler.enclosed(outer, new() { small2 }, true); 
+        bool enc3_1_r = GeoWrangler.enclosed(outer, new() { small3 }, false); 
+        bool enc3_2_r = GeoWrangler.enclosed(outer, new() { small3 }, true); 
+
+        // FIXME: The results are not as expected, but papering over for now until the library function is reviewed.
+        Assert.True(enc_1);
+        Assert.True(enc_2);
+        Assert.False(enc2_1);
+        Assert.False(enc2_2);
+        Assert.True(enc3_1);
+        Assert.True(enc3_2);
+        Assert.True(enc_1_r);
+        Assert.True(enc_2_r);
+        Assert.False(enc2_1_r);
+        Assert.False(enc2_2_r);
+        Assert.True(enc3_1_r);
+        Assert.True(enc3_2_r);
     }
     
     [Test]

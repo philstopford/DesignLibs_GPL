@@ -910,35 +910,6 @@ public class GeoCoreTests
         // Use previously computed hash to check that our long list is aligned with expectations.
         Assert.AreEqual(Utils.GetSHA256Hash(geo2), "9Y7vZPon4aFRZ07yD8a3dzuaTq9n1mMnHJaE89C3fb0=");
     }
-
-    /*
-    public static void loadSaveTest(string baseName, string gdsDir, string oasDir, string outDir)
-    {
-        GeoCoreHandler gH_GDS = new();
-        gH_GDS.updateGeoCoreHandler(gdsDir + baseName + ".gds", GeoCore.fileType.gds);
-        GeoCore gcGDS = gH_GDS.getGeo();
-
-        // Can we write consistent with what was read.
-        gds.gdsWriter gw = new(gcGDS, outDir + baseName + "_out.gds");
-        gw.save();
-
-        // Check that we can write out the GDS-sourced drawing to Oasis, proving the internal drawing is handled consistently.
-        oasis.oasWriter gow = new(gcGDS, outDir + baseName + "_GDSout.oas");
-        gow.save();
-
-        GeoCoreHandler gH_OAS = new();
-        gH_OAS.updateGeoCoreHandler(oasDir + baseName + ".oas", GeoCore.fileType.oasis);
-        GeoCore gcOAS = gH_OAS.getGeo();
-
-        // Can we write consistent with what was read.
-        oasis.oasWriter ow = new(gcOAS, outDir + baseName + "_out.oas");
-        ow.save();
-
-        // Check that we can write out the OAS-sourced drawing to GDS, proving the internal drawing is handled consistently.
-        gds.gdsWriter ogw = new(gcOAS, outDir + baseName + "_OASout.gds");
-        ogw.save();
-    }
-    */
     
     [Test]
     public static void defineAndWrite_Polygon()
@@ -2017,7 +1988,7 @@ public class GeoCoreTests
         Assert.AreEqual(5, polys_oas[0].pointarray.Count);
     }
 
-    public static void defineAndWrite_Box_LayerDataType()
+    private static void defineAndWrite_Box_LayerDataType()
     {
         int[] values = { 1, 128, 255, 256, 511, 512, 16383, 16384, 32767, 32768 };
         foreach (int layer in values)

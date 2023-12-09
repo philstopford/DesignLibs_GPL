@@ -462,25 +462,63 @@ public class GeoWranglerTests
         
         PathD _r45 = Clipper.MakePath(new double[]
         {
-            -0.5, 1,
+            1, 1,
             0, 0,
-            1, 1
+            1, 0
         });
         
         PathD _mr45 = Clipper.MakePath(new double[]
         {
             -1, 1,
             0, 0,
-            0.5, 1
+            -1, 0
         });
 
-        double[] angle1 = GeoWrangler.angles(_90, true);
-        double[] angle2 = GeoWrangler.angles(_m90, true);
-        double[] angle3 = GeoWrangler.angles(_r90, true);
-        double[] angle4 = GeoWrangler.angles(_r45, true);
-        double[] angle5 = GeoWrangler.angles(_mr45, true);
-        
-        Assert.Fail("Missing test conditions");
+        double angle_1 = GeoWrangler.angleBetweenPoints(_90[0], _90[2], _90[1], true);
+        double angle_2 = GeoWrangler.angleBetweenPoints(_m90[0], _m90[2], _m90[1], true);
+        double angle_3 = GeoWrangler.angleBetweenPoints(_r90[0], _r90[2], _r90[1], true);
+        double angle_4 = GeoWrangler.angleBetweenPoints(_r45[0], _r45[2], _r45[1], true);
+        double angle_5 = GeoWrangler.angleBetweenPoints(_mr45[0], _mr45[2], _mr45[1], true);
+        Assert.LessOrEqual(Math.Abs(90 - angle_1), 0.001);
+        Assert.LessOrEqual(Math.Abs(90 - angle_2), 0.001);
+        Assert.LessOrEqual(Math.Abs(90 - angle_3), 0.001);
+        Assert.LessOrEqual(Math.Abs(45 - angle_4), 0.001);
+        Assert.LessOrEqual(Math.Abs(45 - angle_5), 0.001);
+
+        PathD square = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            0, 10,
+            10, 10,
+            10, 0,
+        });
+        PathD square_rev = Clipper.MakePath(new double[]
+        {
+            0, 0,
+            10, 0,
+            10, 10,
+            0, 10,
+        });
+        PathD rot_square = GeoWrangler.Rotate(new(5, 5), square, 45);
+        PathD rot_square_rev = GeoWrangler.Rotate(new(5, 5), square_rev, 45);
+
+        double[] angles_1 = GeoWrangler.angles(square, true);
+        double[] angles_2 = GeoWrangler.angles(square_rev, true);
+        double[] angles_3 = GeoWrangler.angles(rot_square, true);
+        double[] angles_4 = GeoWrangler.angles(rot_square_rev, true);
+        Assert.AreEqual(4, angles_1.Count());
+        Assert.AreEqual(4, angles_2.Count());
+        Assert.AreEqual(4, angles_3.Count());
+        Assert.AreEqual(4, angles_4.Count());
+        // Should only have one distinct value, 90, due to pure orthogonal input
+        Assert.AreEqual(1, angles_1.Distinct().Count());
+        Assert.AreEqual(1, angles_2.Distinct().Count());
+        Assert.AreEqual(1, angles_3.Distinct().Count());
+        Assert.AreEqual(1, angles_4.Distinct().Count());
+        Assert.AreEqual(90, angles_1[0]);
+        Assert.AreEqual(90, angles_2[0]);
+        Assert.AreEqual(90, angles_3[0]);
+        Assert.AreEqual(90, angles_4[0]);
     }
     
     [Test]

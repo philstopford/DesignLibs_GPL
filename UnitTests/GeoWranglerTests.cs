@@ -267,9 +267,9 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, new () {width_2}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_3 = Clipper.GetBounds(width_2);
-        Assert.AreEqual(1, bounds_3.Width);
+        Assert.AreEqual(20.02, bounds_3.Width);
         // Line vertical dimension should not have changed.
-        Assert.AreEqual(10, bounds_3.Height);
+        Assert.AreEqual(20.02, bounds_3.Height);
     }
 
     [Test]
@@ -290,6 +290,78 @@ public class GeoWranglerTests
         PathsD inverted_box = GeoWrangler.invertTone(simple_box, false);
         PathsD inverted_fragmented_box = GeoWrangler.invertTone(fragmented_box, false);
         PathsD inverted_fragmented_box_cl = GeoWrangler.invertTone(fragmented_box, true);
+        PathsD inverted_box_tri = GeoWrangler.invertTone(simple_box, false, true);
+        PathsD inverted_fragmented_box_tri = GeoWrangler.invertTone(fragmented_box, false, true);
+        PathsD inverted_fragmented_box_cl_tri = GeoWrangler.invertTone(fragmented_box, true, true);
+
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSolution(svgSrc, inverted_box, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_box.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_fragmented_box, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_fragmented_box.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_fragmented_box_cl, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_fragmented_box_cl.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_box_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_box_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_fragmented_box_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_fragmented_box_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_fragmented_box_cl_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_fragmented_box_cl_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        Assert.AreEqual(2, inverted_box.Count);
+        Assert.AreEqual(-Int32.MaxValue, inverted_box[0][0].x);
+        Assert.AreEqual(-Int32.MaxValue, inverted_box[0][0].y);
+        Assert.AreEqual(Int32.MaxValue, inverted_box[0][1].x);
+        Assert.AreEqual(-Int32.MaxValue, inverted_box[0][1].y);
+        Assert.AreEqual(Int32.MaxValue, inverted_box[0][2].x);
+        Assert.AreEqual(Int32.MaxValue, inverted_box[0][2].y);
+
+        Assert.AreEqual(0, inverted_box[1][0].x);
+        Assert.AreEqual(0, inverted_box[1][0].y);
+        Assert.AreEqual(0, inverted_box[1][1].x);
+        Assert.AreEqual(10, inverted_box[1][1].y);
+        Assert.AreEqual(10, inverted_box[1][2].x);
+        Assert.AreEqual(10, inverted_box[1][2].y);
+        
+        double ib_area = Clipper.Area(inverted_box);
+        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - (10*10), ib_area);
+
+        // Stripped collinear points
+        Assert.AreEqual(2, inverted_fragmented_box.Count);
+        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box[0][0].x);
+        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box[0][0].y);
+        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box[0][1].x);
+        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box[0][1].y);
+        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box[0][2].x);
+        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box[0][2].y);
+        Assert.AreEqual(5, inverted_fragmented_box[1].Count);
+
+        double ifb_area = Clipper.Area(inverted_fragmented_box);
+        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - (10*10), ifb_area);
+
+        // Retained collinear points
+        Assert.AreEqual(2, inverted_fragmented_box_cl.Count);
+        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box_cl[0][0].x);
+        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box_cl[0][0].y);
+        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box_cl[0][1].x);
+        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box_cl[0][1].y);
+        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box_cl[0][2].x);
+        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box_cl[0][2].y);
+        Assert.AreEqual(0, inverted_fragmented_box_cl[1][0].x);
+        Assert.AreEqual(0, inverted_fragmented_box_cl[1][0].y);
+        Assert.AreEqual(0, inverted_fragmented_box_cl[1][1].x);
+        Assert.AreEqual(1, inverted_fragmented_box_cl[1][1].y);
+        Assert.AreEqual(41, inverted_fragmented_box_cl[1].Count);
+        
+        double ifbcl_area = Clipper.Area(inverted_fragmented_box_cl);
+        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - (10*10), ifbcl_area);
+
+        // Triangulation tests.
 
         PathsD boxes = new();
         boxes.Add(f.fragmentPath(simple_box));
@@ -302,12 +374,63 @@ public class GeoWranglerTests
             30, 30
         })));
 
-        PathsD inverted_boxes = GeoWrangler.invertTone(boxes, false, true);
-        PathsD inverted_boxes_cl = GeoWrangler.invertTone(boxes, true, true);
-        PathsD inverted_boxes_bounds = GeoWrangler.invertTone(boxes, false, true, true);
-        PathsD inverted_boxes_cl_bounds = GeoWrangler.invertTone(boxes, true, true, true);
+        PathsD inverted_boxes = GeoWrangler.invertTone(boxes, false, false);
+        PathsD inverted_boxes_cl = GeoWrangler.invertTone(boxes, true, false);
+        PathsD inverted_boxes_bounds = GeoWrangler.invertTone(boxes, false, false, true);
+        PathsD inverted_boxes_cl_bounds = GeoWrangler.invertTone(boxes, true, false, true);
+        PathsD inverted_boxes_tri = GeoWrangler.invertTone(boxes, false, true);
+        PathsD inverted_boxes_cl_tri = GeoWrangler.invertTone(boxes, true, true);
+        PathsD inverted_boxes_bounds_tri = GeoWrangler.invertTone(boxes, false, true, true);
+        PathsD inverted_boxes_cl_bounds_tri = GeoWrangler.invertTone(boxes, true, true, true);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes.svg", FillRule.EvenOdd, 800, 800, 10);
         
-        Assert.Fail("Missing checks");
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_cl, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_bounds, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_bounds.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_cl_bounds, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl_bounds.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_cl_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_bounds_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_bounds_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, inverted_boxes_cl_bounds_tri, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl_bounds_tri.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        double ibx_area = Clipper.Area(inverted_boxes);
+        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibx_area);
+        double ibxcl_area = Clipper.Area(inverted_boxes_cl);
+        Assert.AreEqual(((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibxcl_area);
+        double ibxb_area = Clipper.Area(inverted_boxes_bounds);
+        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxb_area);
+        double ibxclb_area = Clipper.Area(inverted_boxes_cl_bounds);
+        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxclb_area);
+        double ibx_area_tri = Clipper.Area(inverted_boxes_tri);
+        Assert.AreEqual(-((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibx_area_tri);
+        double ibxcl_area_tri = Clipper.Area(inverted_boxes_cl_tri);
+        Assert.AreEqual(-((double)(Int32.MaxValue) * Int32.MaxValue * 4) - ((10*10) * 2), ibxcl_area_tri);
+        double ibxb_area_tri = Clipper.Area(inverted_boxes_bounds_tri);
+        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxb_area_tri);
+        double ibxclb_area_tri = Clipper.Area(inverted_boxes_cl_bounds_tri);
+        Assert.AreEqual((40 * 40) - ((10*10) * 2), ibxclb_area_tri);
     }
 
     [Test]

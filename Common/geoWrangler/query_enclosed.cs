@@ -6,6 +6,40 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
+    public static bool anyOverlap(PathsD a, PathsD b)
+    {
+        double a_area = Clipper.Area(a);
+        double b_area = Clipper.Area(b);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
+
+        PathsD rationalizedFirstLayer = clockwise(a);
+        // Force to clockwise as a safety measure.
+
+        PathsD rationalizedSecondLayer = clockwise(b);
+
+        // Intersection should not matter based on order.
+        PathsD intersectionPaths = new();
+        c.AddClip(rationalizedFirstLayer);
+        c.AddSubject(rationalizedSecondLayer);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, intersectionPaths);
+
+        double intersectionArea = Math.Abs(Clipper.Area(intersectionPaths));
+        // We have an intersection, let's check for any full enclosure scenario.
+        if (intersectionArea > 0)
+        {
+            if ((Math.Abs(intersectionArea) == Math.Abs(a_area)) || 
+                (Math.Abs(intersectionArea) == Math.Abs(b_area)))
+            {
+                // Totally enclosed.
+                return false;
+            }
+            // Partial overlap
+            return true;
+        }
+
+        // Default to no partial overlap.
+        return false;
+    }
     public static bool enclosed(PathD a, PathsD b, bool strict = false)
     {
         return pEnclosed(a, b, strict);
@@ -47,13 +81,17 @@ public static partial class GeoWrangler
         }
 
         bool result = false;
-            
-        ClipperD c = new(Constants.roundingDecimalPrecision);
-
-        PathsD rationalizedFirstLayer = clockwise(a);
+        
         // Force to clockwise as a safety measure.
-
+        PathsD rationalizedFirstLayer = clockwise(a);
         PathsD rationalizedSecondLayer = clockwise(b);
+
+        if (!anyOverlap(rationalizedFirstLayer, rationalizedSecondLayer))
+        {
+            return false;
+        }
+
+        ClipperD c = new(Constants.roundingDecimalPrecision);
 
         // Intersection should not matter based on order.
         PathsD intersectionPaths = new();
@@ -61,17 +99,6 @@ public static partial class GeoWrangler
         c.AddSubject(rationalizedFirstLayer);
         c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
 
-        // Do we have the same area after the union as before?
-        double intersectionArea = Math.Abs(Clipper.Area(intersectionPaths));
-        double originalArea = Math.Abs(Clipper.Area(rationalizedFirstLayer)) +
-                              Math.Abs(Clipper.Area(rationalizedSecondLayer));
-
-        // If areas are equivalent then there was no enclosure because nothing is 'lost' in the union.
-        if (Math.Abs(intersectionArea - originalArea) < 0.001)
-        {
-            return false;
-        }
-        
         intersectionPaths = pReorderXY(intersectionPaths);
 
         // Force clockwise.

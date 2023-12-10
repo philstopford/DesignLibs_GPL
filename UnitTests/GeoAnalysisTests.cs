@@ -1,5 +1,6 @@
 using Clipper2Lib;
 using geoAnalysis;
+using geoWrangler;
 
 namespace UnitTests;
 
@@ -176,6 +177,10 @@ public class GeoAnalysisTests
                 110, -10,
             })
         };
+
+        bool overlap = GeoWrangler.anyOverlap(aPaths, bPaths);
+        bool overlap2 = GeoWrangler.anyOverlap(bPaths, aPaths);
+        
         DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSubject(svgSrc, aPaths);

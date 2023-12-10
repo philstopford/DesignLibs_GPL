@@ -863,7 +863,28 @@ public class GeoWranglerTests
         Assert.False(enc2_2_r);
         Assert.False(enc3_1_r);
         Assert.False(enc3_2_r);
-        
+        Assert.False(olap);
+        Assert.True(olap2);
+        Assert.False(olap3);
+        Assert.False(olap_r);
+        Assert.True(olap2_r);
+        Assert.False(olap3_r);
+        Assert.True(enc_multi_1);
+        Assert.True(enc_multi_2);
+        Assert.True(enc_multi_3);
+        Assert.True(enc_multi_4);
+        Assert.False(olap_multi_1);
+        Assert.False(olap_multi_2);
+        Assert.False(olap_multi_3);
+        Assert.False(olap_multi_4);
+        Assert.False(enc_multi_5);
+        Assert.False(enc_multi_6);
+        Assert.False(enc_multi_7);
+        Assert.False(enc_multi_8);
+        Assert.True(olap_multi_5);
+        Assert.True(olap_multi_6);
+        Assert.True(olap_multi_7);
+        Assert.True(olap_multi_8);
     }
 
     [Test]

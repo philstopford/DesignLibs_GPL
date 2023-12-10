@@ -17,7 +17,6 @@ public class GeoWranglerTests
             customBoolean2();
             customBoolean3();
             fragmenter_test();
-            grassfire_test();
             inflate_test();
             invert_test();
             meas_angle_test();
@@ -31,6 +30,7 @@ public class GeoWranglerTests
             query_midpoint_test();
             query_orthogonal_test();
             reorder_test();
+            skeleton_test();
             strip_collinear_test();
             unidirectional_bias();
         }
@@ -884,7 +884,7 @@ public class GeoWranglerTests
     }
     
     [Test]
-    public static void grassfire_test()
+    public static void skeleton_test()
     {
         PathD original = new()
         {

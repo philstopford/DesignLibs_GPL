@@ -30,6 +30,7 @@ public class GeoWranglerTests
             query_midpoint_test();
             query_orthogonal_test();
             reorder_test();
+            rotate_test();
             skeleton_test();
             strip_collinear_test();
             unidirectional_bias();
@@ -741,18 +742,8 @@ public class GeoWranglerTests
         PointD test2_extents = GeoWrangler.getExtents(test2);
         Assert.AreEqual(30, test2_extents.x);
         Assert.AreEqual(60, test2_extents.y);
-        
-        Path64 test1i = Clipper.MakePath(new int[]
-        {
-            -15, -30,
-            -5, 0,
-            -15, 30,
-            0, 5,
-            15, 30,
-            5, 0,
-            15, -30,
-            0, -5
-        });
+
+        Path64 test1i = Clipper.ScalePath64(test1, 1);
 
         Point64 test1i_extents = GeoWrangler.getExtents(test1i);
         Assert.AreEqual(30, test1i_extents.X);
@@ -789,18 +780,8 @@ public class GeoWranglerTests
         PointD test2_midpoint = GeoWrangler.midPoint(test2);
         Assert.AreEqual(30, test2_midpoint.x);
         Assert.AreEqual(60, test2_midpoint.y);
-        
-        Path64 test1i = Clipper.MakePath(new int[]
-        {
-            -15, -30,
-            -5, 0,
-            -15, 30,
-            0, 5,
-            15, 30,
-            5, 0,
-            15, -30,
-            0, -5
-        });
+
+        Path64 test1i = Clipper.ScalePath64(test1, 1);
 
         PointD test1i_midpoint = GeoWrangler.midPoint(test1i);
         Assert.AreEqual(0, test1i_midpoint.x);
@@ -881,6 +862,75 @@ public class GeoWranglerTests
         Assert.True(GeoWrangler.orthogonal(test10, 0.001));
         Assert.True(GeoWrangler.orthogonal(test11, 0.001));
         Assert.True(GeoWrangler.orthogonal(test12, 0.001));
+    }
+
+    [Test]
+    public static void rotate_test()
+    {
+        PathD init = Clipper.MakePath(new double[]
+        {
+            -15, -10,
+            -15,35,
+            5, 35,
+            5, 0,
+            25, 0,
+            25, -10
+        });
+
+        RectD init_b = Clipper.GetBounds(init);
+        Assert.AreEqual(35, init_b.bottom);
+        Assert.AreEqual(-15, init_b.left);
+        Assert.AreEqual(40, init_b.Width);
+        Assert.AreEqual(45, init_b.Height);
+
+        PointD init_m = GeoWrangler.midPoint(init);
+        Assert.AreEqual(5, init_m.x);
+        Assert.AreEqual(12.5, init_m.y);
+
+        PathD test1 = GeoWrangler.Rotate(init_m, init, 90);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, new () {test1}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_1.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test1_b = Clipper.GetBounds(test1);
+        Assert.AreEqual(32.5, test1_b.bottom);
+        Assert.AreEqual(-17.5, test1_b.left);
+        Assert.AreEqual(45, test1_b.Width);
+        Assert.AreEqual(40, test1_b.Height);
+        
+        PathD test2 = GeoWrangler.Rotate(init[0], init, -90);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, new () {test2}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_2.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test2_b = Clipper.GetBounds(test2);
+        Assert.LessOrEqual(-10 - test2_b.bottom, 0.001);
+        Assert.AreEqual(-15, test2_b.left);
+        Assert.AreEqual(45, test2_b.Width);
+        Assert.AreEqual(40, test2_b.Height);
+
+        Path64 init_i = Clipper.ScalePath64(init, 1);
+        PathD test1_i = GeoWrangler.Rotate(init_m, init_i, 90);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init_i);
+        SvgUtils.AddSolution(svgSrc, new () {test1_i}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_1_i.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test1_i_b = Clipper.GetBounds(test1_i);
+        Assert.AreEqual(32.5, test1_i_b.bottom);
+        Assert.AreEqual(-17.5, test1_i_b.left);
+        Assert.AreEqual(45, test1_i_b.Width);
+        Assert.AreEqual(40, test1_i_b.Height);
+        
+        PathD test2_i = GeoWrangler.Rotate(new PointD(init_i[0]), init_i, -90);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init_i);
+        SvgUtils.AddSolution(svgSrc, new () {test2_i}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_2.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test2_i_b = Clipper.GetBounds(test2_i);
+        Assert.LessOrEqual(-10 - test2_i_b.bottom, 0.001);
+        Assert.AreEqual(-15, test2_i_b.left);
+        Assert.AreEqual(45, test2_i_b.Width);
+        Assert.AreEqual(40, test2_i_b.Height);
     }
     
     [Test]

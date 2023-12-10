@@ -60,4 +60,58 @@ public static partial class GeoWrangler
 
         return new(x, y, point.Z);
     }
+    
+    public static PathD Rotate(PointD pivot, Path64 pointList, double angleDegree)
+    {
+        return pRotate(pivot, pointList, angleDegree);
+    }
+
+    private static PathD pRotate(PointD pivot, Path64 pointList, double angleDegree)
+    {
+        switch (Math.Abs(angleDegree))
+        {
+            // essentially a zero rotation clamp at 0.01 degrees
+            case < 1E-2:
+                return new(Clipper.ScalePathD(pointList, 1));
+        }
+
+        int pointListLength = pointList.Count;
+        PathD returnList = Helper.initedPathD(pointListLength);
+
+#if !GWSINGLETHREADED
+        Parallel.For(0, pointListLength, i =>
+#else
+            for (Int32 i = 0; i < pointList.Count(); i++)
+#endif
+            {
+                returnList[i] = Rotate(pivot, pointList[i], angleDegree);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return returnList;
+    }
+    
+    public static PointD Rotate(PointD pivot, Point64 point, double angleDegree)
+    {
+        return pRotate(pivot, point, angleDegree);
+    }
+
+    private static PointD pRotate(PointD pivot, Point64 point, double angleDegree)
+    {
+        switch (Math.Abs(angleDegree))
+        {
+            // essentially a zero rotation clamp at 0.01 degrees
+            case < 1E-2:
+                return new(point);
+        }
+
+        double angle = Utils.toRadians(angleDegree);
+        double x = pivot.x + ((point.X - pivot.x) * Math.Cos(angle) -
+                              (point.Y - pivot.y) * Math.Sin(angle));
+        double y = pivot.y + ((point.X - pivot.x) * Math.Sin(angle) +
+                              (point.Y - pivot.y) * Math.Cos(angle));
+
+        return new(x, y, point.Z);
+    }
 }

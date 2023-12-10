@@ -102,6 +102,22 @@ public class GeoWranglerTests
         Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(yx_reordered));
         Assert.AreEqual(4, yx_reordered[0].x);
         Assert.AreEqual(-5, yx_reordered[0].y);
+
+        Path64 source_cw_i = Clipper.ScalePath64(source_cw, 1);
+        bool orig_orientation_i = GeoWrangler.isClockwise(source_cw_i);
+
+        // Should get minimum X value, then minimum Y, maintaining original orientation.
+        Path64 xy_reordered_i = GeoWrangler.reOrderXY(source_cw_i);
+        Assert.AreEqual(orig_orientation_i, GeoWrangler.isClockwise(xy_reordered_i));
+        Assert.AreEqual(-15, xy_reordered_i[0].X);
+        Assert.AreEqual(4, xy_reordered_i[0].Y);
+
+        
+        // Should get minimum Y value, then minimum X, maintaining original orientation.
+        Path64 yx_reordered_i = GeoWrangler.reOrderYX(source_cw_i);
+        Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(yx_reordered_i));
+        Assert.AreEqual(4, yx_reordered_i[0].X);
+        Assert.AreEqual(-5, yx_reordered_i[0].Y);
     }
 
     [Test]

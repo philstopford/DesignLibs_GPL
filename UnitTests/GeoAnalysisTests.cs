@@ -5,6 +5,8 @@ namespace UnitTests;
 
 public class GeoAnalysisTests
 {
+    private static string root_loc = "/d/development/DesignLibs_GPL/shapeanalysis_out/";
+
     [SetUp]
     public static void GeoAnalysisSetup()
     {
@@ -40,6 +42,12 @@ public class GeoAnalysisTests
             })
         };
         AreaHandler aH = new AreaHandler(aPaths, bPaths, true, false);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, aH.listOfOutputPoints, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "area.svg", FillRule.NonZero, 800, 800, 10);
+
         Assert.AreEqual(100*100, aH.area);
     }
 
@@ -74,6 +82,11 @@ public class GeoAnalysisTests
             })
         };
         AreaHandler aH = new AreaHandler(aPaths, bPaths, true, true);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, aH.listOfOutputPoints, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "area_perpoly.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual(10*10, aH.area);
     }
 
@@ -101,15 +114,35 @@ public class GeoAnalysisTests
             })
         };
         DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance1.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("14.142135623730951", dH.distanceString);
         
         DistanceHandler dH2 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacingOld, false);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH2.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance2.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("14.142135623730951", dH2.distanceString);
         
         DistanceHandler dH3 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosure, false);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH3.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance3.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("-14.142135623730951", dH3.distanceString);
 
         DistanceHandler dH4 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosureOld, false);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH4.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance4.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("-14.142135623730951", dH4.distanceString);
     }
     
@@ -144,15 +177,35 @@ public class GeoAnalysisTests
             })
         };
         DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance1_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("-5.830951894845301", dH.distanceString);
         
         DistanceHandler dH2 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacingOld, false);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH2.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance2_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("-5.830951894845301", dH2.distanceString);
         
         DistanceHandler dH3 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosure, false);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH3.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance3_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("5.830951894845301", dH3.distanceString);
         
         DistanceHandler dH4 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosureOld, false);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, aPaths);
+        SvgUtils.AddClip(svgSrc, bPaths);
+        SvgUtils.AddSolution(svgSrc, dH4.resultPaths, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "distance4_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual("5.830951894845301", dH4.distanceString);
     }
     

@@ -29,6 +29,7 @@ public class GeoWranglerTests
             query_enclosed_test();
             query_extents_test();
             query_midpoint_test();
+            query_orthogonal_test();
             reorder_test();
             strip_collinear_test();
             unidirectional_bias();
@@ -812,6 +813,76 @@ public class GeoWranglerTests
         Assert.AreEqual(60, test2i_midpoint.y);
     }
 
+    [Test]
+    public static void query_orthogonal_test()
+    {
+        PathD test1 = Clipper.MakePath(new double[]
+        {
+            -15, -30,
+            -5, 0,
+            -15, 30,
+            0, 5,
+            15, 30,
+            5, 0,
+            15, -30,
+            0, -5
+        });
+
+        PathD test2 = GeoWrangler.Rotate(GeoWrangler.midPoint(test1), test1, 45);
+
+        Path64 test3 = Clipper.ScalePath64(test1, 1);
+
+        PathD test4 = new(test1);
+        test4.Reverse();
+
+        PathD test5 = new(test2);
+        test5.Reverse();
+
+        Path64 test6 = new(test3);
+        test6.Reverse();
+
+        PathD test7 = Clipper.MakePath(new double[]
+        {
+            -50, -50,
+            -50, 100,
+            50, 100,
+            50, 0,
+            100, 0,
+            100, -50,
+            0, -50,
+            0, -75,
+            -25, -75,
+            -25, -50
+        });
+
+        PathD test8 = GeoWrangler.Rotate(GeoWrangler.midPoint(test7), test7, 45);
+
+        Path64 test9 = Clipper.ScalePath64(test7, 1);
+
+        PathD test10 = new(test7);
+        test4.Reverse();
+
+        PathD test11 = new(test8);
+        test5.Reverse();
+
+        Path64 test12 = new(test9);
+        test6.Reverse();
+
+        Assert.False(GeoWrangler.orthogonal(test1, 0.001));
+        Assert.False(GeoWrangler.orthogonal(test2, 0.001));
+        Assert.False(GeoWrangler.orthogonal(test3, 0.001));
+        Assert.False(GeoWrangler.orthogonal(test4, 0.001));
+        Assert.False(GeoWrangler.orthogonal(test5, 0.001));
+        Assert.False(GeoWrangler.orthogonal(test6, 0.001));
+        
+        Assert.True(GeoWrangler.orthogonal(test7, 0.001));
+        Assert.True(GeoWrangler.orthogonal(test8, 0.001));
+        Assert.True(GeoWrangler.orthogonal(test9, 0.001));
+        Assert.True(GeoWrangler.orthogonal(test10, 0.001));
+        Assert.True(GeoWrangler.orthogonal(test11, 0.001));
+        Assert.True(GeoWrangler.orthogonal(test12, 0.001));
+    }
+    
     [Test]
     public static void grassfire_test()
     {

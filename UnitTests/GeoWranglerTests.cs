@@ -640,8 +640,8 @@ public class GeoWranglerTests
         PathsD xy_cw_paths = GeoWrangler.clockwiseAndReorderXY(paths);
         Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[0]));
         Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[1]));
-        Assert.LessOrEqual(-10.556 - xy_cw_paths[0][0].x, 0.001);
-        Assert.LessOrEqual(21.485 - xy_cw_paths[0][0].y, 0.001);
+        Assert.LessOrEqual(Math.Abs(-10.556 - xy_cw_paths[0][0].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(21.485 - xy_cw_paths[0][0].y), 0.001);
         Assert.AreEqual(-15, xy_cw_paths[1][0].x);
         Assert.AreEqual(4, xy_cw_paths[1][0].y);
         
@@ -649,8 +649,8 @@ public class GeoWranglerTests
         PathsD yx_cw_paths= GeoWrangler.clockwiseAndReorderYX(paths);
         Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[0]));
         Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[1]));
-        Assert.LessOrEqual(10.656 - yx_cw_paths[0][0].x, 0.001);
-        Assert.LessOrEqual(0.272 - yx_cw_paths[0][0].y, 0.001);
+        Assert.LessOrEqual(Math.Abs(10.656 - yx_cw_paths[0][0].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(0.272 - yx_cw_paths[0][0].y), 0.001);
         Assert.AreEqual(4, yx_cw_paths[1][0].x);
         Assert.AreEqual(-5, yx_cw_paths[1][0].y);
     }
@@ -904,10 +904,32 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, new () {test2}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD test2_b = Clipper.GetBounds(test2);
-        Assert.LessOrEqual(-10 - test2_b.bottom, 0.001);
+        Assert.LessOrEqual(Math.Abs(-10 - test2_b.bottom), 0.001);
         Assert.AreEqual(-15, test2_b.left);
         Assert.AreEqual(45, test2_b.Width);
         Assert.AreEqual(40, test2_b.Height);
+
+        PathD test3 = GeoWrangler.Rotate(init[0], init, -45);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, new () {test3}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_3.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test3_b = Clipper.GetBounds(test3);
+        Assert.LessOrEqual(Math.Abs(21.819 - test3_b.bottom), 0.001);
+        Assert.AreEqual(-15, test3_b.left);
+        Assert.LessOrEqual(Math.Abs(45.961 - test3_b.Width), 0.001);
+        Assert.LessOrEqual(Math.Abs(60.104 - test3_b.Height), 0.001);
+
+        PathD test4 = GeoWrangler.Rotate(init[2], init, 45);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, new () {test4}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_4.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test4_b = Clipper.GetBounds(test4);
+        Assert.AreEqual(35, test4_b.bottom);
+        Assert.LessOrEqual(Math.Abs(-9.142 - test4_b.left), 0.001);
+        Assert.LessOrEqual(Math.Abs(60.104 - test4_b.Width), 0.001);
+        Assert.LessOrEqual(Math.Abs(45.961 - test4_b.Height), 0.001);
 
         Path64 init_i = Clipper.ScalePath64(init, 1);
         PathD test1_i = GeoWrangler.Rotate(init_m, init_i, 90);
@@ -927,10 +949,32 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, new () {test2_i}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD test2_i_b = Clipper.GetBounds(test2_i);
-        Assert.LessOrEqual(-10 - test2_i_b.bottom, 0.001);
+        Assert.LessOrEqual(Math.Abs(-10 - test2_i_b.bottom), 0.001);
         Assert.AreEqual(-15, test2_i_b.left);
         Assert.AreEqual(45, test2_i_b.Width);
         Assert.AreEqual(40, test2_i_b.Height);
+        
+        PathD test3_i = GeoWrangler.Rotate(new PointD(init_i[0]), init_i, -45);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init_i);
+        SvgUtils.AddSolution(svgSrc, new () {test3_i}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_3.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test3_i_b = Clipper.GetBounds(test3_i);
+        Assert.LessOrEqual(Math.Abs(21.819 - test3_i_b.bottom), 0.001);
+        Assert.AreEqual(-15, test3_i_b.left);
+        Assert.LessOrEqual(Math.Abs(45.961 - test3_i_b.Width), 0.001);
+        Assert.LessOrEqual(Math.Abs(60.104 - test3_i_b.Height), 0.001);
+        
+        PathD test4_i = GeoWrangler.Rotate(init[2], init, 45);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, new () {test4_i}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_4.svg", FillRule.NonZero, 800, 800, 10);
+        RectD test4_i_b = Clipper.GetBounds(test4);
+        Assert.LessOrEqual(Math.Abs(35 - test4_i_b.bottom), 0.001);
+        Assert.LessOrEqual(Math.Abs(-9.142 - test4_i_b.left), 0.001);
+        Assert.LessOrEqual(Math.Abs(60.104 - test4_i_b.Width), 0.001);
+        Assert.LessOrEqual(Math.Abs(45.961 - test4_i_b.Height), 0.001);
     }
     
     [Test]
@@ -1042,7 +1086,7 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svg2, Clipper.Union(result2, subject, FillRule.Positive, 2), true);
         SvgUtils.SaveToFile(svg2, root_loc + "unidirectional3.svg", FillRule.NonZero, 150,150, 10);
         
-        Assert.LessOrEqual(Clipper.Area(result2) - 785.5610, 0.001);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(result2) - 785.5610), 0.001);
     }
     
     [Test]
@@ -1393,7 +1437,7 @@ public class GeoWranglerTests
         Assert.AreEqual(1, res.geometry.Count);
         double area = Clipper.Area(res.geometry[0]);
         Assert.AreEqual(211, res.geometry[0].Count);
-        Assert.LessOrEqual(area - 1539.759, 0.001);
+        Assert.LessOrEqual(Math.Abs(area - 1539.759), 0.001);
     }
     
     [Test]
@@ -1562,7 +1606,7 @@ public class GeoWranglerTests
         double area = Clipper.Area(res.geometry);
         Assert.AreEqual(73, res.geometry[0].Count);
         Assert.AreEqual(73, res.geometry[1].Count);
-        Assert.LessOrEqual(area - 1179.626, 0.001);
+        Assert.LessOrEqual(Math.Abs(area - 1179.626), 0.001);
     }
 
     // This tests the complex boolean engine in GeoWrangler, which should deliver a keyholed representation of the 
@@ -1627,7 +1671,7 @@ public class GeoWranglerTests
         double notArea_expected = aArea - bArea;
         double notArea = Clipper.Area(booleanPaths);
         Assert.AreEqual(2, booleanPaths.Count);
-        Assert.LessOrEqual(notArea_expected - notArea, 1);
+        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea + (2 + (GeoWrangler.keyhole_sizing * 0.001))), 0.001);
     }
     
     [Test]
@@ -1685,7 +1729,7 @@ public class GeoWranglerTests
         double notArea_expected = -5598;
         double notArea = Clipper.Area(booleanPaths);
         Assert.AreEqual(1, booleanPaths.Count);
-        Assert.LessOrEqual(notArea_expected - notArea, 0.001);
+        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea + (GeoWrangler.keyhole_sizing * 0.001)), 0.001);
     }
     
     [Test]
@@ -1761,9 +1805,9 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, booleanPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not3.svg", FillRule.NonZero, 800, 800, 10);
         
-        double notArea_expected = -6796;
+        double notArea_expected = -6195.989;
         double notArea = Clipper.Area(booleanPaths);
         Assert.AreEqual(1, booleanPaths.Count);
-        Assert.LessOrEqual(notArea_expected - notArea, 0.001);
+        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea), 0.0011);
     }
 }

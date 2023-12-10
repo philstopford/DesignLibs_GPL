@@ -952,7 +952,7 @@ public class ShapeEngineTests
         // Check expected area
         double area_ref = Clipper.Area(out_ref);
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(636 - Math.Abs(area_ref - area), 0.0001);
+        Assert.LessOrEqual(Math.Abs(636 - Math.Abs(area_ref - area)), 0.0001);
         RectD bounds = Clipper.GetBounds(clean);
         Assert.AreEqual(64, bounds.Width);
         Assert.AreEqual(64, bounds.Height);
@@ -1483,7 +1483,7 @@ public class ShapeEngineTests
         Assert.AreEqual(83, clean.Count);
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(-((10+5) * (20+7)) - area, 0.001);
+        Assert.LessOrEqual(Math.Abs(-((10+5) * (20+7)) - area), 0.001);
         RectD bounds = Clipper.GetBounds(clean);
         Assert.AreEqual(15, bounds.Width);
         Assert.AreEqual(27, bounds.Height);

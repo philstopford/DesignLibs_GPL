@@ -178,8 +178,8 @@ public class GeoAnalysisTests
             })
         };
 
-        bool overlap = GeoWrangler.anyOverlap(aPaths, bPaths);
-        bool overlap2 = GeoWrangler.anyOverlap(bPaths, aPaths);
+        bool overlap = GeoWrangler.anyPartialOverlap(aPaths, bPaths);
+        bool overlap2 = GeoWrangler.anyPartialOverlap(bPaths, aPaths);
         
         DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
         SvgWriter svgSrc = new SvgWriter();

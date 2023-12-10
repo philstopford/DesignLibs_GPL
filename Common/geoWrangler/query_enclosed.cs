@@ -6,7 +6,7 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static bool anyOverlap(PathsD a, PathsD b)
+    public static bool anyPartialOverlap(PathsD a, PathsD b)
     {
         double a_area = Clipper.Area(a);
         double b_area = Clipper.Area(b);
@@ -74,30 +74,33 @@ public static partial class GeoWrangler
 
     private static bool pEnclosed(PathsD a, PathsD b, bool strict)
     {
-
         if (a.Count == 0 || b.Count == 0)
+        {
+            return false;
+        }
+
+        // Force to clockwise as a safety measure.
+        PathsD rationalizedFirstLayer = clockwise(a);
+        PathsD rationalizedSecondLayer = clockwise(b);
+
+        if (anyPartialOverlap(rationalizedFirstLayer, rationalizedSecondLayer))
         {
             return false;
         }
 
         bool result = false;
         
-        // Force to clockwise as a safety measure.
-        PathsD rationalizedFirstLayer = clockwise(a);
-        PathsD rationalizedSecondLayer = clockwise(b);
-
-        if (!anyOverlap(rationalizedFirstLayer, rationalizedSecondLayer))
-        {
-            return false;
-        }
-
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
         // Intersection should not matter based on order.
         PathsD intersectionPaths = new();
         c.AddClip(rationalizedSecondLayer);
         c.AddSubject(rationalizedFirstLayer);
-        c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, intersectionPaths);
+        if (!intersectionPaths.Any())
+        {
+            return false;
+        }
 
         intersectionPaths = pReorderXY(intersectionPaths);
 

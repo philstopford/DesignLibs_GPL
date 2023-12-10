@@ -57,14 +57,9 @@ public class DistanceHandler
         {
             invert = RayCast.inversionMode.x;
             // Experimental check to see whether we can simplify this approach.
-            bool isEnclosed = true; // GeoWrangler.enclosed(aPaths, bPaths);
+            // bool isEnclosed = true; // GeoWrangler.enclosed(aPaths, bPaths);
 
-            bool anyOverlap = GeoWrangler.anyOverlap(aPaths, bPaths);
-
-            if (anyOverlap != isEnclosed)
-            {
-                int xxx = 3;
-            }
+            bool anyOverlap = GeoWrangler.anyPartialOverlap(aPaths, bPaths);
 
             if (anyOverlap)
             {

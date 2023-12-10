@@ -12,11 +12,13 @@ public class GeoWranglerTests
     {
         {
             array_test();
+            clean_and_flatten_test();
             close_test();
             customBoolean();
             customBoolean2();
             customBoolean3();
             fragmenter_test();
+            from_soup_test();
             inflate_test();
             invert_test();
             meas_angle_test();
@@ -72,6 +74,58 @@ public class GeoWranglerTests
         Assert.AreEqual(170, bounds_arrayed.bottom);
     }
 
+    [Test]
+    public static void from_soup_test()
+    {
+        PathsD init = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0,0,
+                0,80,
+                80,80,
+                80, 0
+            }),
+            Clipper.MakePath(new double[]
+            {
+                40,40,
+                0,40,
+                0,20,
+                40, 20
+            })
+        };
+
+        PathsD fromSoup = GeoWrangler.fromSoup(init);
+        Assert.AreEqual(1, fromSoup.Count);
+        Assert.AreEqual((80*80) - (40*20), Clipper.Area(fromSoup));
+    }
+    
+    [Test]
+    public static void clean_and_flatten_test()
+    {
+        PathsD init = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0,0,
+                0,80,
+                80,80,
+                80, 0
+            }),
+            Clipper.MakePath(new double[]
+            {
+                40,40,
+                0,40,
+                0,20,
+                40, 20
+            })
+        };
+
+        PathsD clean_flat = GeoWrangler.clean_and_flatten(init);
+        Assert.AreEqual(1, clean_flat.Count);
+        Assert.AreEqual((80*80) - (40*20), Clipper.Area(clean_flat));
+    }
+    
     [Test]
     public static void reorder_test()
     {

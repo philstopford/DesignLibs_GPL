@@ -28,6 +28,7 @@ public class GeoWranglerTests
             query_clockwise_test();
             query_enclosed_test();
             query_extents_test();
+            query_midpoint_test();
             reorder_test();
             strip_collinear_test();
             unidirectional_bias();
@@ -747,6 +748,54 @@ public class GeoWranglerTests
         Assert.AreEqual(60, test2i_extents.Y);
     }
     
+    [Test]
+    public static void query_midpoint_test()
+    {
+        PathD test1 = Clipper.MakePath(new double[]
+        {
+            -15, -30,
+            -5, 0,
+            -15, 30,
+            0, 5,
+            15, 30,
+            5, 0,
+            15, -30,
+            0, -5
+        });
+
+        PointD test1_midpoint = GeoWrangler.midPoint(test1);
+        Assert.AreEqual(0, test1_midpoint.x);
+        Assert.AreEqual(0, test1_midpoint.y);
+
+        PathD test2 = GeoWrangler.move(test1, 30m, 60);
+        
+        PointD test2_midpoint = GeoWrangler.midPoint(test2);
+        Assert.AreEqual(30, test2_midpoint.x);
+        Assert.AreEqual(60, test2_midpoint.y);
+        
+        Path64 test1i = Clipper.MakePath(new int[]
+        {
+            -15, -30,
+            -5, 0,
+            -15, 30,
+            0, 5,
+            15, 30,
+            5, 0,
+            15, -30,
+            0, -5
+        });
+
+        PointD test1i_midpoint = GeoWrangler.midPoint(test1i);
+        Assert.AreEqual(0, test1i_midpoint.x);
+        Assert.AreEqual(0, test1i_midpoint.y);
+
+        Path64 test2i = GeoWrangler.move(test1i, 30, 60);
+        
+        PointD test2i_midpoint = GeoWrangler.midPoint(test2i);
+        Assert.AreEqual(30, test2i_midpoint.x);
+        Assert.AreEqual(60, test2i_midpoint.y);
+    }
+
     [Test]
     public static void grassfire_test()
     {

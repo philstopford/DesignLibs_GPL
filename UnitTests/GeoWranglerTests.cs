@@ -96,6 +96,10 @@ public class GeoWranglerTests
         };
 
         PathsD fromSoup = GeoWrangler.fromSoup(init);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, fromSoup, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "from_soup.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual(1, fromSoup.Count);
         Assert.AreEqual((80*80) - (40*20), Clipper.Area(fromSoup));
     }
@@ -122,6 +126,10 @@ public class GeoWranglerTests
         };
 
         PathsD clean_flat = GeoWrangler.clean_and_flatten(init);
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, init);
+        SvgUtils.AddSolution(svgSrc, clean_flat, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "clean_flat.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual(1, clean_flat.Count);
         Assert.AreEqual((80*80) - (40*20), Clipper.Area(clean_flat));
     }

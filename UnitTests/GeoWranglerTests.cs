@@ -1940,7 +1940,7 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
         
-        RayCast rc_reversed_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_reversed_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_reversed_project_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_reversed_nY_horizontal_rays_clipped = rc_reversed_nY_horizontal.getClippedRays();
@@ -1956,6 +1956,229 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_source);
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        PathsD input = new ();
+        input.Add(Clipper.MakePath(new double[] {
+            0, -25,
+            0, -24,
+            0, -23,
+            0, -22,
+            0, -21,
+            0, -20,
+            0, -19,
+            0, -18,
+            0, -17,
+            0, -16,
+            0, -15,
+            0, -14,
+            0, -13,
+            0, -12,
+            0, -11,
+            0, -10,
+            0, -9,
+            0, -8,
+            0, -7,
+            0, -6,
+            0, -5,
+            0.11, -3.96,
+            0.43, -2.97,
+            0.9500000000000001, -2.06,
+            1.6500000000000001, -1.28,
+            2.5, -0.67,
+            3.45, -0.24,
+            4.48, -0.03,
+            5, 0,
+            6.04, -0.11,
+            7.03, -0.43,
+            7.94, -0.9500000000000001,
+            8.72, -1.6500000000000001,
+            9.33, -2.5,
+            9.76, -3.45,
+            9.97, -4.48,
+            10, -5,
+            10, -6,
+            10, -7,
+            10, -8,
+            10, -9,
+            10, -10,
+            10, -11,
+            10, -12,
+            10, -13,
+            10, -14,
+            10, -15,
+            10, -16,
+            10, -17,
+            10, -18,
+            10, -19,
+            10, -20,
+            10, -21,
+            10, -22,
+            10, -23,
+            10, -24,
+            10, -25,
+            9.89, -26.04,
+            9.57, -27.03,
+            9.05, -27.94,
+            8.35, -28.72,
+            7.5, -29.330000000000002,
+            6.55, -29.76,
+            5.5200000000000005, -29.97,
+            5, -30,
+            3.96, -29.89,
+            2.97, -29.57,
+            2.06, -29.05,
+            1.28, -28.35,
+            0.67, -27.5,
+            0.24, -26.55,
+            0.03, -25.52,
+            0, -25,
+        }));
+        input.Add(Clipper.MakePath(new double[] {
+            20, -25,
+            20, -24,
+            20, -23,
+            20, -22,
+            20, -21,
+            20, -20,
+            20, -19,
+            20, -18,
+            20, -17,
+            20, -16,
+            20, -15,
+            20, -14,
+            20, -13,
+            20, -12,
+            20, -11,
+            20, -10,
+            20, -9,
+            20, -8,
+            20, -7,
+            20, -6,
+            20, -5,
+            20.11, -3.96,
+            20.43, -2.97,
+            20.95, -2.06,
+            21.650000000000002, -1.28,
+            22.5, -0.67,
+            23.45, -0.24,
+            24.48, -0.03,
+            25, 0,
+            26.04, -0.11,
+            27.03, -0.43,
+            27.94, -0.9500000000000001,
+            28.72, -1.6500000000000001,
+            29.330000000000002, -2.5,
+            29.76, -3.45,
+            29.97, -4.48,
+            30, -5,
+            30, -6,
+            30, -7,
+            30, -8,
+            30, -9,
+            30, -10,
+            30, -11,
+            30, -12,
+            30, -13,
+            30, -14,
+            30, -15,
+            30, -16,
+            30, -17,
+            30, -18,
+            30, -19,
+            30, -20,
+            30, -21,
+            30, -22,
+            30, -23,
+            30, -24,
+            30, -25,
+            29.89, -26.04,
+            29.57, -27.03,
+            29.05, -27.94,
+            28.35, -28.72,
+            27.5, -29.330000000000002,
+            26.55, -29.76,
+            25.52, -29.97,
+            25, -30,
+            23.96, -29.89,
+            22.97, -29.57,
+            22.06, -29.05,
+            21.28, -28.35,
+            20.67, -27.5,
+            20.240000000000002, -26.55,
+            20.03, -25.52,
+            20, -25,
+        }));
+
+        RectD bounds0 = Clipper.GetBounds(input[0]);
+        PathD bounds = Clipper.MakePath(new double[]
+        {
+            bounds0.left, bounds0.bottom,
+            bounds0.left, bounds0.top,
+            bounds0.right, bounds0.top,
+            bounds0.right, bounds0.bottom
+        });
+        bounds = Clipper.ScalePath(bounds, 2);
+        
+        RayCast rc_kidney = new RayCast(input[0], bounds, 128);
+
+        PathsD rc_kidney_rays = rc_kidney.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, input[0]);
+        SvgUtils.AddClip(svgSrc, bounds);
+        SvgUtils.AddOpenSolution(svgSrc, rc_kidney_rays, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_kidney_nX = new RayCast(input[0], bounds, 128, invert: RayCast.inversionMode.x);
+
+        PathsD rc_kidney_nX_rays = rc_kidney_nX.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, input[0]);
+        SvgUtils.AddClip(svgSrc, bounds);
+        SvgUtils.AddOpenSolution(svgSrc, rc_kidney_nX_rays, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_nX_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_kidney_nY = new RayCast(input[0], bounds, 128, invert: RayCast.inversionMode.y);
+
+        PathsD rc_kidney_nY_rays = rc_kidney_nY.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, input[0]);
+        SvgUtils.AddClip(svgSrc, bounds);
+        SvgUtils.AddOpenSolution(svgSrc, rc_kidney_nY_rays, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_nY_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        input[0].Reverse();
+        RayCast rc_kidney_reversed = new RayCast(input[0], bounds, 128);
+
+        PathsD rc_kidney_reversed_rays = rc_kidney_reversed.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, input[0]);
+        SvgUtils.AddClip(svgSrc, bounds);
+        SvgUtils.AddOpenSolution(svgSrc, rc_kidney_reversed_rays, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_reversed_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_kidney_nX_reversed = new RayCast(input[0], bounds, 128, invert: RayCast.inversionMode.x);
+
+        PathsD rc_kidney_nX_reversed_rays = rc_kidney_nX_reversed.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, input[0]);
+        SvgUtils.AddClip(svgSrc, bounds);
+        SvgUtils.AddOpenSolution(svgSrc, rc_kidney_nX_reversed_rays, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_nX_reversed_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_kidney_nY_reversed = new RayCast(input[0], bounds, 128, invert: RayCast.inversionMode.y);
+
+        PathsD rc_kidney_nY_reversed_rays = rc_kidney_nY_reversed.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, input[0]);
+        SvgUtils.AddClip(svgSrc, bounds);
+        SvgUtils.AddOpenSolution(svgSrc, rc_kidney_nY_reversed_rays, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_nY_reversed_rays.svg", FillRule.EvenOdd, 800, 800, 10);
     }
     
     [Test]

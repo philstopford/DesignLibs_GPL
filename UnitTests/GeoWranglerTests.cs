@@ -1667,6 +1667,15 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_coll);
         SvgUtils.AddOpenSolution(svgSrc, rc_project_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        Assert.AreEqual(5, rc_project_rays_clipped.Count);
+        for (int i = 0; i < rc_project_rays_clipped.Count; i++)
+        {
+            Assert.AreEqual(rect_source[i].x, rc_project_rays_clipped[i][0].x);
+            Assert.AreEqual(rect_source[i].y, rc_project_rays_clipped[i][0].y);
+            Assert.AreEqual(0, rc_project_rays_clipped[i][1].x);
+            Assert.AreEqual(0, rc_project_rays_clipped[i][1].y);
+        }
 
         RayCast rc_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x);
         RayCast rc_project_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x);
@@ -1684,7 +1693,53 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_coll);
         SvgUtils.AddOpenSolution(svgSrc, rc_project_nX_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nX.svg", FillRule.EvenOdd, 800, 800, 10);
-        
+
+        Assert.AreEqual(5, rc_nX_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_nX_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_nX_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_nX_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_nX_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_nX_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_nX_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_nX_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_nX_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_nX_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_nX_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_nX_rays_clipped[0][1].x);
+        Assert.AreEqual(45, rc_nX_rays_clipped[0][1].y);
+        Assert.AreEqual(25, rc_nX_rays_clipped[1][1].x);
+        Assert.AreEqual(-25, rc_nX_rays_clipped[1][1].y);
+        Assert.AreEqual(-25, rc_nX_rays_clipped[2][1].x);
+        Assert.AreEqual(-25, rc_nX_rays_clipped[2][1].y);
+        Assert.LessOrEqual(Math.Abs(-30 - rc_nX_rays_clipped[3][1].x), 00.001);
+        Assert.LessOrEqual(Math.Abs(30 - rc_nX_rays_clipped[3][1].y), 0.001);
+        Assert.AreEqual(45, rc_nX_rays_clipped[4][1].x);
+        Assert.AreEqual(45, rc_nX_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_nX_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_nX_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_nX_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_nX_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_nX_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_project_nX_rays_clipped[0][1].x);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[0][1].y);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_project_nX_rays_clipped[1][1].y);
+        Assert.AreEqual(-30, rc_project_nX_rays_clipped[2][1].x);
+        Assert.AreEqual(20, rc_project_nX_rays_clipped[2][1].y);
+        Assert.AreEqual(20, rc_project_nX_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_project_nX_rays_clipped[3][1].y);
+        Assert.AreEqual(45, rc_project_nX_rays_clipped[4][1].x);
+        Assert.AreEqual(-20, rc_project_nX_rays_clipped[4][1].y);
+
         RayCast rc_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y);
         RayCast rc_project_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y);
 
@@ -1701,7 +1756,53 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_coll);
         SvgUtils.AddOpenSolution(svgSrc, rc_project_nY_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nY.svg", FillRule.EvenOdd, 800, 800, 10);
-        
+
+        Assert.AreEqual(5, rc_nY_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_nY_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_nY_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_nY_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_nY_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_nY_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_nY_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_nY_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_nY_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_nY_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_nY_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-25, rc_nY_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_nY_rays_clipped[0][1].y);
+        Assert.LessOrEqual(Math.Abs(-30 - rc_nY_rays_clipped[1][1].x), 00.001);
+        Assert.LessOrEqual(Math.Abs(30 - rc_nY_rays_clipped[1][1].y), 0.001);
+        Assert.AreEqual(45, rc_nY_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_nY_rays_clipped[2][1].y);
+        Assert.AreEqual(25, rc_nY_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_nY_rays_clipped[3][1].y);
+        Assert.AreEqual(-25, rc_nY_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_nY_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_nY_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_nY_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_nY_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_nY_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_nY_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_project_nY_rays_clipped[0][1].x);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[0][1].y);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_project_nY_rays_clipped[1][1].y);
+        Assert.AreEqual(-30, rc_project_nY_rays_clipped[2][1].x);
+        Assert.AreEqual(20, rc_project_nY_rays_clipped[2][1].y);
+        Assert.AreEqual(20, rc_project_nY_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_project_nY_rays_clipped[3][1].y);
+        Assert.AreEqual(45, rc_project_nY_rays_clipped[4][1].x);
+        Assert.AreEqual(-20, rc_project_nY_rays_clipped[4][1].y);
+
         RayCast rc_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.vertical );
         RayCast rc_project_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.vertical);
 
@@ -1719,6 +1820,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_project_vertical_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
 
+        Assert.AreEqual(5, rc_rays_vertical_clipped.Count);
+        Assert.AreEqual(-20, rc_rays_vertical_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_rays_vertical_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_rays_vertical_clipped[1][0].x);
+        Assert.AreEqual(20, rc_rays_vertical_clipped[1][0].y);
+        Assert.AreEqual(20, rc_rays_vertical_clipped[2][0].x);
+        Assert.AreEqual(20, rc_rays_vertical_clipped[2][0].y);
+        Assert.AreEqual(20, rc_rays_vertical_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_rays_vertical_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_rays_vertical_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_rays_vertical_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_rays_vertical_clipped[0][1].x);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[0][1].y);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[1][1].x);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[1][1].y);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[2][1].x);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[2][1].y);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[3][1].x);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[3][1].y);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[4][1].x);
+        Assert.AreEqual(0, rc_rays_vertical_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_vertical_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(0, rc_project_vertical_rays_clipped[4][1].y);
+        
         RayCast rc_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_project_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
 
@@ -1735,6 +1882,52 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_coll);
         SvgUtils.AddOpenSolution(svgSrc, rc_project_nX_vertical_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nX_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        Assert.AreEqual(5, rc_nX_vertical_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_nX_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_nX_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_nX_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_nX_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_nX_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_nX_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_nX_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_nX_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_nX_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_nX_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_nX_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(45, rc_nX_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(25, rc_nX_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(-25, rc_nX_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(-25, rc_nX_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(-25, rc_nX_vertical_rays_clipped[2][1].y);
+        Assert.LessOrEqual(Math.Abs(-30 - rc_nX_vertical_rays_clipped[3][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(30 - rc_nX_vertical_rays_clipped[3][1].y), 0.001);
+        Assert.AreEqual(45, rc_nX_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(45, rc_nX_vertical_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_nX_vertical_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_nX_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_nX_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_nX_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_nX_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_project_nX_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(-25, rc_project_nX_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_project_nX_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(20, rc_project_nX_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(20, rc_project_nX_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(45, rc_project_nX_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_project_nX_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-20, rc_project_nX_vertical_rays_clipped[4][1].y);
         
         RayCast rc_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_project_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
@@ -1753,6 +1946,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_project_nY_vertical_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nY_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_nY_vertical_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_nY_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_nY_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_nY_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_nY_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_nY_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_nY_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_nY_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_nY_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_nY_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_nY_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-25, rc_nY_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_nY_vertical_rays_clipped[0][1].y);
+        Assert.LessOrEqual(Math.Abs(-30 - rc_nY_vertical_rays_clipped[1][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(30 - rc_nY_vertical_rays_clipped[1][1].y), 0.001);
+        Assert.AreEqual(45, rc_nY_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_nY_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(25, rc_nY_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_nY_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(-25, rc_nY_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_nY_vertical_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_nY_vertical_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_nY_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_nY_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_nY_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_nY_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_project_nY_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(-25, rc_project_nY_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_project_nY_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(20, rc_project_nY_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(20, rc_project_nY_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(45, rc_project_nY_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_project_nY_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-20, rc_project_nY_vertical_rays_clipped[4][1].y);
+
         RayCast rc_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.horizontal );
         RayCast rc_project_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.horizontal);
 
@@ -1769,6 +2008,52 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_coll);
         SvgUtils.AddOpenSolution(svgSrc, rc_project_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        Assert.AreEqual(5, rc_rays_horizontal_clipped.Count);
+        Assert.AreEqual(-20, rc_rays_horizontal_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_rays_horizontal_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_rays_horizontal_clipped[1][0].x);
+        Assert.AreEqual(20, rc_rays_horizontal_clipped[1][0].y);
+        Assert.AreEqual(20, rc_rays_horizontal_clipped[2][0].x);
+        Assert.AreEqual(20, rc_rays_horizontal_clipped[2][0].y);
+        Assert.AreEqual(20, rc_rays_horizontal_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_rays_horizontal_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_rays_horizontal_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_rays_horizontal_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[0][1].x);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[0][1].y);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[1][1].x);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[1][1].y);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[2][1].x);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[2][1].y);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[3][1].x);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[3][1].y);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[4][1].x);
+        Assert.AreEqual(0, rc_rays_horizontal_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(0, rc_project_horizontal_rays_clipped[4][1].y);
 
         RayCast rc_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_project_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
@@ -1787,6 +2072,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_project_nX_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_nX_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_nX_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_nX_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_nX_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_nX_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_nX_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_nX_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_nX_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_nX_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_nX_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_nX_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_nX_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(45, rc_nX_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(25, rc_nX_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(-25, rc_nX_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(-25, rc_nX_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(-25, rc_nX_horizontal_rays_clipped[2][1].y);
+        Assert.LessOrEqual(Math.Abs(-30 -  rc_nX_horizontal_rays_clipped[3][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(30 - rc_nX_horizontal_rays_clipped[3][1].y), 0.001);
+        Assert.AreEqual(45, rc_nX_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(45, rc_nX_horizontal_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_nX_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_nX_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_nX_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_nX_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_nX_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_project_nX_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_project_nX_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(-30, rc_project_nX_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(20, rc_project_nX_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(20, rc_project_nX_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_project_nX_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(45, rc_project_nX_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-20, rc_project_nX_horizontal_rays_clipped[4][1].y);
+
         RayCast rc_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_project_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
 
@@ -1804,6 +2135,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_project_nY_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_nY_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_nY_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_nY_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_nY_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_nY_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_nY_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_nY_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_nY_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_nY_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_nY_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_nY_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-25, rc_nY_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_nY_horizontal_rays_clipped[0][1].y);
+        Assert.LessOrEqual(Math.Abs(-30 -  rc_nY_horizontal_rays_clipped[1][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(30 - rc_nY_horizontal_rays_clipped[1][1].y), 0.001);
+        Assert.AreEqual(45, rc_nY_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_nY_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(25, rc_nY_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_nY_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(-25, rc_nY_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_nY_horizontal_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_project_nY_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(20, rc_project_nY_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(20, rc_project_nY_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(20, rc_project_nY_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(20, rc_project_nY_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(45, rc_project_nY_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_project_nY_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(-30, rc_project_nY_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(20, rc_project_nY_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(20, rc_project_nY_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_project_nY_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(45, rc_project_nY_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-20, rc_project_nY_horizontal_rays_clipped[4][1].y);
+
         RayCast rc_reversed = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false );
         RayCast rc_reversed_project = new RayCast(rect_coll, rect_source, Int32.MaxValue);
 
@@ -1821,6 +2198,41 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project.svg", FillRule.EvenOdd, 800, 800, 10);
 
+        Assert.AreEqual(5, rc_reversed_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_clipped[4][0].y);
+
+        Assert.AreEqual(5, rc_reversed_project_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_rays_clipped[4][0].y);
+
+        Assert.AreEqual(2147483617, rc_reversed_project_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_rays_clipped[1][1].x);
+        Assert.AreEqual(-2147483602, rc_reversed_project_rays_clipped[1][1].y);
+        Assert.AreEqual(-2147483602, rc_reversed_project_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_rays_clipped[3][1].x);
+        Assert.AreEqual(2147483622, rc_reversed_project_rays_clipped[3][1].y);
+        Assert.AreEqual(2147483617, rc_reversed_project_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_rays_clipped[4][1].y);
+
         RayCast rc_reversed_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x);
         RayCast rc_reversed_project_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x);
 
@@ -1837,7 +2249,53 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_source);
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX.svg", FillRule.EvenOdd, 800, 800, 10);
-        
+
+        Assert.AreEqual(5, rc_reversed_nX_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_nX_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_nX_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_nX_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_nX_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_nX_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_nX_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_nX_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_rays_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[0][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[0][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[1][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[1][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[2][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[2][1].y);
+        Assert.AreEqual(0,  rc_reversed_nX_rays_clipped[3][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[3][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[4][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_reversed_project_nX_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_nX_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_project_nX_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_rays_clipped[4][1].y);
+
         RayCast rc_reversed_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y);
         RayCast rc_reversed_project_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y);
 
@@ -1872,6 +2330,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_vertical_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
 
+        Assert.AreEqual(5, rc_reversed_rays_vertical_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_rays_vertical_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_vertical_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_rays_vertical_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_rays_vertical_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_rays_vertical_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_rays_vertical_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_rays_vertical_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_vertical_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_rays_vertical_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_vertical_clipped[4][0].y);
+
+        Assert.LessOrEqual(Math.Abs(-1465267314.6978002 - rc_reversed_rays_vertical_clipped[0][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1569929258.6048 - rc_reversed_rays_vertical_clipped[0][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1465267314.6978002 - rc_reversed_rays_vertical_clipped[1][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(1569929278.6048 - rc_reversed_rays_vertical_clipped[1][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(1465267329.6978002 - rc_reversed_rays_vertical_clipped[2][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(1569929278.6048 - rc_reversed_rays_vertical_clipped[2][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(1465267329.6978002 - rc_reversed_rays_vertical_clipped[3][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1569929258.6048 - rc_reversed_rays_vertical_clipped[3][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1465267314.6978002 - rc_reversed_rays_vertical_clipped[4][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1569929258.6048 - rc_reversed_rays_vertical_clipped[4][1].y), 0.001);
+
+        Assert.AreEqual(5, rc_reversed_project_vertical_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(2147483617, rc_reversed_project_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(-2147483602, rc_reversed_project_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(-2147483602, rc_reversed_project_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(2147483622, rc_reversed_project_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(2147483617, rc_reversed_project_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_vertical_rays_clipped[4][1].y);
+
         RayCast rc_reversed_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_reversed_project_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
 
@@ -1889,6 +2393,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_vertical_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_reversed_nX_vertical_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_nX_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_nX_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_nX_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_nX_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_nX_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_nX_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_nX_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_vertical_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_reversed_project_nX_vertical_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_nX_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_project_nX_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_vertical_rays_clipped[4][1].y);
+
         RayCast rc_reversed_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_reversed_project_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
 
@@ -1906,6 +2456,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_vertical_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_reversed_nY_vertical_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_nY_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_nY_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_nY_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_nY_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_nY_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_nY_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_nY_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_nY_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_nY_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_nY_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_nY_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_nY_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_nY_vertical_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_reversed_project_nY_vertical_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_nY_vertical_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_vertical_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_vertical_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_vertical_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_vertical_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_vertical_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_project_nY_vertical_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_vertical_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_vertical_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_vertical_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_vertical_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_vertical_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_vertical_rays_clipped[4][1].y);
+
         RayCast rc_reversed_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.horizontal );
         RayCast rc_reversed_project_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.horizontal);
 
@@ -1922,6 +2518,52 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_source);
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        Assert.AreEqual(5, rc_reversed_rays_horizontal_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_rays_horizontal_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_horizontal_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_rays_horizontal_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_rays_horizontal_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_rays_horizontal_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_rays_horizontal_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_rays_horizontal_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_horizontal_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_rays_horizontal_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_rays_horizontal_clipped[4][0].y);
+
+        Assert.LessOrEqual(Math.Abs(-1465267314.6978 - rc_reversed_rays_horizontal_clipped[0][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1569929258.6048 - rc_reversed_rays_horizontal_clipped[0][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1465267314.6978 - rc_reversed_rays_horizontal_clipped[1][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(1569929278.6048 - rc_reversed_rays_horizontal_clipped[1][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(1465267329.6978 - rc_reversed_rays_horizontal_clipped[2][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(1569929278.6048 - rc_reversed_rays_horizontal_clipped[2][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(1465267329.6978 - rc_reversed_rays_horizontal_clipped[3][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1569929258.6048 - rc_reversed_rays_horizontal_clipped[3][1].y), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1465267314.6978 - rc_reversed_rays_horizontal_clipped[4][1].x), 0.001);
+        Assert.LessOrEqual(Math.Abs(-1569929258.6048 - rc_reversed_rays_horizontal_clipped[4][1].y), 0.001);
+
+        Assert.AreEqual(5, rc_reversed_project_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(2147483617, rc_reversed_project_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(-2147483602, rc_reversed_project_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(-2147483602, rc_reversed_project_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(2147483622, rc_reversed_project_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(2147483617, rc_reversed_project_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_horizontal_rays_clipped[4][1].y);
 
         RayCast rc_reversed_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_reversed_project_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
@@ -1940,6 +2582,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_reversed_nX_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_nX_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_nX_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_nX_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_nX_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_nX_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_nX_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_nX_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_nX_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(0, rc_reversed_nX_horizontal_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_reversed_project_nX_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_nX_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_project_nX_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nX_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nX_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nX_horizontal_rays_clipped[4][1].y);
+
         RayCast rc_reversed_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_reversed_project_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
 
@@ -1957,6 +2645,52 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_horizontal_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
         
+        Assert.AreEqual(5, rc_reversed_nY_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_nY_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_nY_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_nY_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_nY_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_nY_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_nY_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_nY_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_nY_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_nY_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_nY_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_nY_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_nY_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_nY_horizontal_rays_clipped[4][1].y);
+
+        Assert.AreEqual(5, rc_reversed_project_nY_horizontal_rays_clipped.Count);
+        Assert.AreEqual(-30, rc_reversed_project_nY_horizontal_rays_clipped[0][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_horizontal_rays_clipped[0][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_horizontal_rays_clipped[1][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[1][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[2][0].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[2][0].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[3][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_horizontal_rays_clipped[3][0].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_horizontal_rays_clipped[4][0].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_horizontal_rays_clipped[4][0].y);
+
+        Assert.AreEqual(-30, rc_reversed_project_nY_horizontal_rays_clipped[0][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_horizontal_rays_clipped[0][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_horizontal_rays_clipped[1][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[1][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[2][1].x);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[2][1].y);
+        Assert.AreEqual(45, rc_reversed_project_nY_horizontal_rays_clipped[3][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_horizontal_rays_clipped[3][1].y);
+        Assert.AreEqual(-30, rc_reversed_project_nY_horizontal_rays_clipped[4][1].x);
+        Assert.AreEqual(-25, rc_reversed_project_nY_horizontal_rays_clipped[4][1].y);
+
         PathsD input = new ();
         input.Add(Clipper.MakePath(new double[] {
             0, -25,

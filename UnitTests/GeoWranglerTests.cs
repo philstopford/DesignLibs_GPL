@@ -23,6 +23,7 @@ public class GeoWranglerTests
             invert_test();
             meas_angle_test();
             meas_distance_test();
+            min_max_test();
             proximity();
             proximity2();
             query_angles_test();
@@ -35,6 +36,7 @@ public class GeoWranglerTests
             rotate_test();
             skeleton_test();
             strip_collinear_test();
+            translate_test();
             unidirectional_bias();
         }
     }
@@ -590,6 +592,52 @@ public class GeoWranglerTests
     }
 
     [Test]
+    public static void min_max_test()
+    {
+        PathD path = Clipper.MakePath(new double[]
+        {
+            -5, 5,
+            5, 10,
+            15, 10,
+            5, 5
+        });
+
+        Path64 pathi = Clipper.ScalePath64(path, 1);
+
+        // Indices of point in path matching query.
+        int min_x = GeoWrangler.MinX(path);
+        int min_xi = GeoWrangler.MinX(pathi);
+        int max_x = GeoWrangler.MaxX(path);
+        int max_xi = GeoWrangler.MaxX(pathi);
+        int min_y = GeoWrangler.MinY(path);
+        int min_yi = GeoWrangler.MinY(pathi);
+        int max_y = GeoWrangler.MaxY(path);
+        int max_yi = GeoWrangler.MaxY(pathi);
+        Assert.AreEqual(2, max_x);
+        Assert.AreEqual(2, max_xi);
+        Assert.AreEqual(0, min_x);
+        Assert.AreEqual(0, min_xi);
+        Assert.AreEqual(1, max_y);
+        Assert.AreEqual(1, max_yi);
+        Assert.AreEqual(0, min_y);
+        Assert.AreEqual(0, min_yi);
+        
+        PointD max = GeoWrangler.getMaximumPoint(path);
+        Point64 maxi = GeoWrangler.getMaximumPoint(pathi);
+        PointD min = GeoWrangler.getMinimumPoint(path);
+        Point64 mini = GeoWrangler.getMinimumPoint(pathi);
+        
+        Assert.AreEqual(15, max.x);
+        Assert.AreEqual(15, maxi.X);
+        Assert.AreEqual(-5, min.x);
+        Assert.AreEqual(-5, mini.X);
+        Assert.AreEqual(10, max.y);
+        Assert.AreEqual(10, maxi.Y);
+        Assert.AreEqual(5, min.y);
+        Assert.AreEqual(5, mini.Y);
+    }
+    
+    [Test]
     public static void query_angles_test()
     {
         PathD square = Clipper.MakePath(new double[]
@@ -781,110 +829,258 @@ public class GeoWranglerTests
             })
         };
 
+        PathsD inners3 = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                -30, 0,
+                -30, 10,
+                -20, 10,
+                -20, 0
+            }),
+            Clipper.MakePath(new double[]
+            {
+                85, 10,
+                85, 20,
+                95, 20,
+                95, 10
+            })
+        };
+
+        PathsD inners4 = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                -30, 0,
+                -30, 10,
+                -20, 10,
+                -20, 0
+            }),
+            Clipper.MakePath(new double[]
+            {
+                75, 75,
+                75, 85,
+                85, 85,
+                85, 75
+            })
+        };
+
+        PathsD inners5 = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                -30, 0,
+                -30, 10,
+                -20, 10,
+                -20, 0
+            }),
+            Clipper.MakePath(new double[]
+            {
+                30, 0,
+                30, 10,
+                40, 10,
+                40, 0
+            })
+        };
+
+        // Full enclosure
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSubject(svgSrc, small);
         SvgUtils.AddClip(svgSrc, outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc1__enc2.svg", FillRule.NonZero, 800, 800, 10);
-        bool olap = GeoWrangler.anyPartialOverlap(new() { small }, new() { outer });
-        bool enc_1 = GeoWrangler.enclosed(small, new() { outer }, false);
-        bool enc_2 = GeoWrangler.enclosed(small, new() { outer }, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_small-in-outer.svg", FillRule.NonZero, 800, 800, 10);
+        // Overlap? Overlap means no enclosure
+        bool olap_small_in_outer = GeoWrangler.anyPartialOverlap(new() { small }, new() { outer });
+        // Is small enclosed by outer? Enclosure means no overlap.
+        bool enc_small_in_outer = GeoWrangler.enclosed(small, new() { outer }, false);
+        bool enc_small_in_outer_strict = GeoWrangler.enclosed(small, new() { outer }, true);
+
+        // Overlap
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small2);
         SvgUtils.AddClip(svgSrc, outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc2_1__enc2_2.svg", FillRule.NonZero, 800, 800, 10);
-        bool olap2 = GeoWrangler.anyPartialOverlap(new() {small2}, new() { outer });
-        bool enc2_1 = GeoWrangler.enclosed(small2, new() { outer }, false); 
-        bool enc2_2 = GeoWrangler.enclosed(small2, new() { outer }, true); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_small2-in-outer.svg", FillRule.NonZero, 800, 800, 10);
+        // Overlap? Overlap means no enclosure
+        bool olap_small2_in_outer = GeoWrangler.anyPartialOverlap(new() {small2}, new() { outer });
+        // Is small2 enclosed by outer? Enclosure means no overlap.
+        bool enc_small2_in_outer = GeoWrangler.enclosed(small2, new() { outer }, false); 
+        bool enc_small2_in_outer_strict = GeoWrangler.enclosed(small2, new() { outer }, true); 
+
+        // No overlap
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small3);
         SvgUtils.AddClip(svgSrc, outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc3_1__enc3_2.svg", FillRule.NonZero, 800, 800, 10);
-        bool olap3 = GeoWrangler.anyPartialOverlap(new() {small3}, new() { outer });
-        bool enc3_1 = GeoWrangler.enclosed(small3, new() { outer }, false); 
-        bool enc3_2 = GeoWrangler.enclosed(small3, new() { outer }, true); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_small3-in-outer.svg", FillRule.NonZero, 800, 800, 10);
+        // Overlap? Overlap means no enclosure
+        bool olap_small3_in_outer = GeoWrangler.anyPartialOverlap(new() {small3}, new() { outer });
+        // Is small3 enclosed by outer? Enclosure means no overlap.
+        bool enc_small3_in_outer = GeoWrangler.enclosed(small3, new() { outer }, false); 
+        bool enc_small3_in_outer_strict = GeoWrangler.enclosed(small3, new() { outer }, true); 
 
+        // Reversed queries
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small);
         SvgUtils.AddClip(svgSrc, outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc1_r__enc2_r.svg", FillRule.NonZero, 800, 800, 10);
-        bool olap_r = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small });
-        bool enc_1_r = GeoWrangler.enclosed(outer, new() { small }, false);
-        bool enc_2_r = GeoWrangler.enclosed(outer, new() { small }, true); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_outer-in-small.svg", FillRule.NonZero, 800, 800, 10);
+        // Overlap? Overlap means no enclosure
+        bool olap_outer_in_small = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small });
+        // Is outer enclosed by small? Enclosure means no overlap.
+        bool enc_outer_in_small = GeoWrangler.enclosed(outer, new() { small }, false);
+        bool enc_outer_in_small_strict = GeoWrangler.enclosed(outer, new() { small }, true); 
+
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small2);
         SvgUtils.AddClip(svgSrc, outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc2_1_r__enc2_2_r.svg", FillRule.NonZero, 800, 800, 10);
-        bool olap2_r = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small2 });
-        bool enc2_1_r = GeoWrangler.enclosed(outer, new() { small2 }, false); 
-        bool enc2_2_r = GeoWrangler.enclosed(outer, new() { small2 }, true); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_outer-in-small2.svg", FillRule.NonZero, 800, 800, 10);
+        // Overlap? Overlap means no enclosure
+        bool olap_outer_in_small2 = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small2 });
+        // Is outer enclosed by small2? Enclosure means no overlap.
+        bool enc_outer_in_small2 = GeoWrangler.enclosed(outer, new() { small2 }, false); 
+        bool enc_outer_in_small2_strict = GeoWrangler.enclosed(outer, new() { small2 }, true); 
+
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small3);
         SvgUtils.AddClip(svgSrc, outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc3_1_r__enc3_2_r.svg", FillRule.NonZero, 800, 800, 10);
-        bool olap3_r = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small3 });
-        bool enc3_1_r = GeoWrangler.enclosed(outer, new() { small3 }, false); 
-        bool enc3_2_r = GeoWrangler.enclosed(outer, new() { small3 }, true); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_outer-in-small3.svg", FillRule.NonZero, 800, 800, 10);
+        // Overlap? Overlap means no enclosure
+        bool olap_outer_in_small3 = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small3 });
+        // Is outer enclosed by small3? Enclosure means no overlap.
+        bool enc_outer_in_small3 = GeoWrangler.enclosed(outer, new() { small3 }, false); 
+        bool enc_outer_in_small3_strict = GeoWrangler.enclosed(outer, new() { small3 }, true); 
 
+        // Multi-polygon tests
+        // Both inners here are fully enclosed in the large outer
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, inners);
         SvgUtils.AddClip(svgSrc, large_outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_multi.svg", FillRule.NonZero, 800, 800, 10);
-        bool enc_multi_1 = GeoWrangler.enclosed(large_outer, inners, false);
-        bool enc_multi_2 = GeoWrangler.enclosed(large_outer, inners, true); 
-        bool enc_multi_3 = GeoWrangler.enclosed(inners, large_outer, false);
-        bool enc_multi_4 = GeoWrangler.enclosed(inners, large_outer, true); 
-        bool olap_multi_1 = GeoWrangler.anyPartialOverlap(large_outer, inners);
-        bool olap_multi_2 = GeoWrangler.anyPartialOverlap(large_outer, inners); 
-        bool olap_multi_3 = GeoWrangler.anyPartialOverlap(inners, large_outer);
-        bool olap_multi_4 = GeoWrangler.anyPartialOverlap(inners, large_outer); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
+        bool enc_largeouter_in_inners = GeoWrangler.enclosed(large_outer, inners, false);
+        bool enc_largeouter_in_inners_strict = GeoWrangler.enclosed(large_outer, inners, true); 
+        bool enc_inners_in_largeouter = GeoWrangler.enclosed(inners, large_outer, false);
+        bool enc_inners_in_largeouter_strict = GeoWrangler.enclosed(inners, large_outer, true); 
+        bool olap_inners_in_largeouter = GeoWrangler.anyPartialOverlap(inners, large_outer);
+        bool olap_largeouter_in_inners = GeoWrangler.anyPartialOverlap(large_outer, inners);
 
+        // One inner is fully enclosed, the other has a partial overlap
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, inners2);
         SvgUtils.AddClip(svgSrc, large_outer);
-        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_multi_2.svg", FillRule.NonZero, 800, 800, 10);
-        bool enc_multi_5 = GeoWrangler.enclosed(large_outer, inners2, false);
-        bool enc_multi_6 = GeoWrangler.enclosed(large_outer, inners2, true); 
-        bool enc_multi_7 = GeoWrangler.enclosed(inners2, large_outer, false);
-        bool enc_multi_8 = GeoWrangler.enclosed(inners2, large_outer, true); 
-        bool olap_multi_5 = GeoWrangler.anyPartialOverlap(large_outer, inners2);
-        bool olap_multi_6 = GeoWrangler.anyPartialOverlap(large_outer, inners2); 
-        bool olap_multi_7 = GeoWrangler.anyPartialOverlap(inners2, large_outer);
-        bool olap_multi_8 = GeoWrangler.anyPartialOverlap(inners2, large_outer); 
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners2-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
+        bool enc_largeouter_in_inners2 = GeoWrangler.enclosed(large_outer, inners2, false);
+        bool enc_largeouter_in_inners2_strict = GeoWrangler.enclosed(large_outer, inners2, true); 
+        bool enc_inners2_in_largeouter = GeoWrangler.enclosed(inners2, large_outer, false);
+        bool enc_inners2_in_largeouter_strict = GeoWrangler.enclosed(inners2, large_outer, true); 
+        bool olap_inners2_in_largeouter = GeoWrangler.anyPartialOverlap(inners2, large_outer);
+        bool olap_largeouter_in_inners2 = GeoWrangler.anyPartialOverlap(large_outer, inners2);
+        
+        // No inner is within the large outer.
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, inners3);
+        SvgUtils.AddClip(svgSrc, large_outer);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners3-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
+        bool enc_largeouter_in_inners3 = GeoWrangler.enclosed(large_outer, inners3, false);
+        bool enc_largeouter_in_inners3_strict = GeoWrangler.enclosed(large_outer, inners3, true); 
+        bool enc_inners3_in_largeouter = GeoWrangler.enclosed(inners3, large_outer, false);
+        bool enc_inners3_in_largeouter_strict = GeoWrangler.enclosed(inners3, large_outer, true); 
+        bool olap_inners3_in_largeouter = GeoWrangler.anyPartialOverlap(inners3, large_outer);
+        bool olap_largeouter_in_inners3 = GeoWrangler.anyPartialOverlap(large_outer, inners3);
+        
+        // One inner is outside the large outer. One has a partial overlap
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, inners4);
+        SvgUtils.AddClip(svgSrc, large_outer);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners4-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
+        bool enc_largeouter_in_inners4 = GeoWrangler.enclosed(large_outer, inners4, false);
+        bool enc_largeouter_in_inners4_strict = GeoWrangler.enclosed(large_outer, inners4, true); 
+        bool enc_inners4_in_largeouter = GeoWrangler.enclosed(inners4, large_outer, false);
+        bool enc_inners4_in_largeouter_strict = GeoWrangler.enclosed(inners4, large_outer, true); 
+        bool olap_inners4_in_largeouter = GeoWrangler.anyPartialOverlap(inners4, large_outer);
+        bool olap_largeouter_in_inners4 = GeoWrangler.anyPartialOverlap(large_outer, inners4);
 
-        Assert.True(enc_1);
-        Assert.True(enc_2);
-        Assert.False(enc2_1);
-        Assert.False(enc2_2);
-        Assert.False(enc3_1);
-        Assert.False(enc3_2);
-        Assert.True(enc_1_r);
-        Assert.True(enc_2_r);
-        Assert.False(enc2_1_r);
-        Assert.False(enc2_2_r);
-        Assert.False(enc3_1_r);
-        Assert.False(enc3_2_r);
-        Assert.False(olap);
-        Assert.True(olap2);
-        Assert.False(olap3);
-        Assert.False(olap_r);
-        Assert.True(olap2_r);
-        Assert.False(olap3_r);
-        Assert.True(enc_multi_1);
-        Assert.True(enc_multi_2);
-        Assert.True(enc_multi_3);
-        Assert.True(enc_multi_4);
-        Assert.False(olap_multi_1);
-        Assert.False(olap_multi_2);
-        Assert.False(olap_multi_3);
-        Assert.False(olap_multi_4);
-        Assert.False(enc_multi_5);
-        Assert.False(enc_multi_6);
-        Assert.False(enc_multi_7);
-        Assert.False(enc_multi_8);
-        Assert.True(olap_multi_5);
-        Assert.True(olap_multi_6);
-        Assert.True(olap_multi_7);
-        Assert.True(olap_multi_8);
+        // One inner is outside the large outer. One has a full enclosure
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, inners5);
+        SvgUtils.AddClip(svgSrc, large_outer);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners5-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
+        bool enc_largeouter_in_inners5 = GeoWrangler.enclosed(large_outer, inners5, false);
+        bool enc_largeouter_in_inners5_strict = GeoWrangler.enclosed(large_outer, inners5, true); 
+        bool enc_inners5_in_largeouter = GeoWrangler.enclosed(inners5, large_outer, false);
+        bool enc_inners5_in_largeouter_strict = GeoWrangler.enclosed(inners5, large_outer, true); 
+        bool olap_inners5_in_largeouter = GeoWrangler.anyPartialOverlap(inners5, large_outer);
+        bool olap_largeouter_in_inners5 = GeoWrangler.anyPartialOverlap(large_outer, inners5);
+
+        // Enclosure means no overlap, overlap means no enclosure.
+        // As such, these queries should give an opposite signal for any case where there is some form of common area.
+        Assert.False(olap_small_in_outer);
+        Assert.True(enc_small_in_outer);
+        Assert.True(enc_small_in_outer_strict);
+
+        Assert.True(olap_small2_in_outer);
+        Assert.False(enc_small2_in_outer);
+        Assert.False(enc_small2_in_outer_strict);
+
+        // No common area - thus same response.
+        Assert.False(olap_small3_in_outer);
+        Assert.False(enc_small3_in_outer);
+        Assert.False(enc_small3_in_outer_strict);
+
+        // Reversed queries
+        Assert.False(olap_outer_in_small);
+        Assert.True(enc_outer_in_small);
+        Assert.True(enc_outer_in_small_strict);
+
+        Assert.True(olap_outer_in_small2);
+        Assert.False(enc_outer_in_small2);
+        Assert.False(enc_outer_in_small2_strict);
+
+        // No common area - thus same response.
+        Assert.False(olap_outer_in_small3);
+        Assert.False(enc_outer_in_small3);
+        Assert.False(enc_outer_in_small3_strict);
+
+        // Multi-polygon case where both inners are fully enclosed.
+        Assert.False(olap_inners_in_largeouter);
+        Assert.True(enc_inners_in_largeouter);
+        Assert.True(enc_inners_in_largeouter_strict);
+        // Reverse query
+        Assert.False(olap_largeouter_in_inners);
+        Assert.True(enc_largeouter_in_inners);
+        Assert.True(enc_largeouter_in_inners_strict);
+
+        // Multi-polygon case where there is an overlap for one inner and full enclosure for the other.
+        Assert.True(olap_inners2_in_largeouter);
+        Assert.False(enc_inners2_in_largeouter);
+        Assert.False(enc_inners2_in_largeouter_strict);
+        // Reverse query
+        Assert.True(olap_largeouter_in_inners2);
+        Assert.False(enc_largeouter_in_inners2);
+        Assert.False(enc_largeouter_in_inners2_strict);
+        
+        // Multi-polygon case where there is no common area
+        Assert.False(olap_inners3_in_largeouter);
+        Assert.False(enc_inners3_in_largeouter);
+        Assert.False(enc_inners3_in_largeouter_strict);
+        // Reverse query
+        Assert.False(olap_largeouter_in_inners3);
+        Assert.False(enc_largeouter_in_inners3);
+        Assert.False(enc_largeouter_in_inners3_strict);
+        
+        // Multi-polygon case where there is one inner with partial overlap
+        Assert.True(olap_inners4_in_largeouter);
+        Assert.False(enc_inners4_in_largeouter);
+        Assert.False(enc_inners4_in_largeouter_strict);
+        // Reverse query
+        Assert.True(olap_largeouter_in_inners4);
+        Assert.False(enc_largeouter_in_inners4);
+        Assert.False(enc_largeouter_in_inners4_strict);
+        
+        // Multi-polygon case where there is one inner with full enclosure
+        Assert.True(olap_inners5_in_largeouter);
+        Assert.False(enc_inners5_in_largeouter);
+        Assert.False(enc_inners5_in_largeouter_strict);
+        // Reverse query
+        Assert.True(olap_largeouter_in_inners5);
+        Assert.False(enc_largeouter_in_inners5);
+        Assert.False(enc_largeouter_in_inners5_strict);
     }
 
     [Test]
@@ -1376,6 +1572,55 @@ public class GeoWranglerTests
 
         PathD cleaned = GeoWrangler.stripCollinear(source, precision:6);
         Assert.AreEqual(71, cleaned.Count);
+    }
+
+    [Test]
+    public static void translate_test() 
+    {
+        PathD path = Clipper.MakePath(new double[]
+        {
+            -5, 5,
+            5, 10,
+            15, 10,
+            5, 5
+        });
+
+        Path64 pathi = Clipper.ScalePath64(path, 1);
+
+        path = GeoWrangler.move(path, 10m, 20);
+
+        pathi = GeoWrangler.move(pathi, 10, 20);
+
+        int min_x = GeoWrangler.MinX(path);
+        int min_xi = GeoWrangler.MinX(pathi);
+        int max_x = GeoWrangler.MaxX(path);
+        int max_xi = GeoWrangler.MaxX(pathi);
+        int min_y = GeoWrangler.MinY(path);
+        int min_yi = GeoWrangler.MinY(pathi);
+        int max_y = GeoWrangler.MaxY(path);
+        int max_yi = GeoWrangler.MaxY(pathi);
+        Assert.AreEqual(2, max_x);
+        Assert.AreEqual(2, max_xi);
+        Assert.AreEqual(0, min_x);
+        Assert.AreEqual(0, min_xi);
+        Assert.AreEqual(1, max_y);
+        Assert.AreEqual(1, max_yi);
+        Assert.AreEqual(0, min_y);
+        Assert.AreEqual(0, min_yi);
+        
+        PointD max = GeoWrangler.getMaximumPoint(path);
+        Point64 maxi = GeoWrangler.getMaximumPoint(pathi);
+        PointD min = GeoWrangler.getMinimumPoint(path);
+        Point64 mini = GeoWrangler.getMinimumPoint(pathi);
+        
+        Assert.AreEqual(25, max.x);
+        Assert.AreEqual(25, maxi.X);
+        Assert.AreEqual(5, min.x);
+        Assert.AreEqual(5, mini.X);
+        Assert.AreEqual(30, max.y);
+        Assert.AreEqual(30, maxi.Y);
+        Assert.AreEqual(25, min.y);
+        Assert.AreEqual(25, mini.Y);
     }
 
     [Test]

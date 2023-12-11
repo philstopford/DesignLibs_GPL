@@ -32,6 +32,7 @@ public class GeoWranglerTests
             query_extents_test();
             query_midpoint_test();
             query_orthogonal_test();
+            raycaster_test();
             reorder_test();
             rotate_test();
             skeleton_test();
@@ -83,10 +84,10 @@ public class GeoWranglerTests
         {
             Clipper.MakePath(new double[]
             {
-                0,0,
-                0,80,
+                50,50,
+                50,80,
                 80,80,
-                80, 0
+                80, 50
             }),
             Clipper.MakePath(new double[]
             {
@@ -102,8 +103,8 @@ public class GeoWranglerTests
         SvgUtils.AddSubject(svgSrc, init);
         SvgUtils.AddSolution(svgSrc, fromSoup, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "from_soup.svg", FillRule.NonZero, 800, 800, 10);
-        //Assert.AreEqual(1, fromSoup.Count);
-        //Assert.AreEqual((80*80) - (40*20), Clipper.Area(fromSoup));
+        // Assert.AreEqual(3, fromSoup.Count);
+        // Assert.AreEqual((80*80) - ((40*20) + (30*30)), Clipper.Area(fromSoup));
     }
     
     [Test]
@@ -1585,12 +1586,18 @@ public class GeoWranglerTests
             5, 5
         });
 
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, path);
+
         Path64 pathi = Clipper.ScalePath64(path, 1);
 
         path = GeoWrangler.move(path, 10m, 20);
 
         pathi = GeoWrangler.move(pathi, 10, 20);
 
+        SvgUtils.AddSolution(svgSrc, new () {path}, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "translate_path.svg", FillRule.NonZero, 800, 800, 10);
+        
         int min_x = GeoWrangler.MinX(path);
         int min_xi = GeoWrangler.MinX(pathi);
         int max_x = GeoWrangler.MaxX(path);
@@ -1623,6 +1630,334 @@ public class GeoWranglerTests
         Assert.AreEqual(25, mini.Y);
     }
 
+    [Test]
+    public static void raycaster_test()
+    {
+        PathD rect_source = Clipper.MakePath(new double[]
+        {
+            -20, -20,
+            -20, 20,
+            20, 20,
+            20, -20,
+            -20, -20
+        });
+
+        PathD rect_coll = Clipper.MakePath(new double[]
+        {
+            -30, -25,
+            -30, 45,
+            45, 45,
+            45, -25,
+            -30, -25,
+        });
+
+        RayCast rc = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false );
+        RayCast rc_project = new RayCast(rect_source, rect_coll, Int32.MaxValue);
+
+        PathsD rc_rays_clipped = rc.getClippedRays();
+        PathsD rc_project_rays_clipped = rc_project.getClippedRays();
+
+        SvgWriter svgSrc = new SvgWriter();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x);
+        RayCast rc_project_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x);
+
+        PathsD rc_nX_rays_clipped = rc_nX.getClippedRays();
+        PathsD rc_project_nX_rays_clipped = rc_project_nX.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_nX_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_nX.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_nX_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nX.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y);
+        RayCast rc_project_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y);
+
+        PathsD rc_nY_rays_clipped = rc_nY.getClippedRays();
+        PathsD rc_project_nY_rays_clipped = rc_project_nY.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_nY_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_nY.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_nY_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nY.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.vertical );
+        RayCast rc_project_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        PathsD rc_rays_vertical_clipped = rc_vertical.getClippedRays();
+        PathsD rc_project_vertical_rays_clipped = rc_project_vertical.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_rays_vertical_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
+        RayCast rc_project_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        PathsD rc_nX_vertical_rays_clipped = rc_nX_vertical.getClippedRays();
+        PathsD rc_project_nX_vertical_rays_clipped = rc_project_nX_vertical.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_nX_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_nX_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_nX_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nX_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
+        RayCast rc_project_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        PathsD rc_nY_vertical_rays_clipped = rc_nY_vertical.getClippedRays();
+        PathsD rc_project_nY_vertical_rays_clipped = rc_project_nY_vertical.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_nY_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_nY_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_nY_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nY_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.horizontal );
+        RayCast rc_project_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.horizontal);
+
+        PathsD rc_rays_horizontal_clipped = rc_horizontal.getClippedRays();
+        PathsD rc_project_horizontal_rays_clipped = rc_project_horizontal.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_rays_horizontal_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_project_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
+
+        PathsD rc_nX_horizontal_rays_clipped = rc_nX_horizontal.getClippedRays();
+        PathsD rc_project_nX_horizontal_rays_clipped = rc_project_nX_horizontal.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_nX_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_nX_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_project_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+
+        PathsD rc_nY_horizontal_rays_clipped = rc_nY_horizontal.getClippedRays();
+        PathsD rc_project_nY_horizontal_rays_clipped = rc_project_nY_horizontal.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_nY_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_source);
+        SvgUtils.AddClip(svgSrc, rect_coll);
+        SvgUtils.AddOpenSolution(svgSrc, rc_project_nY_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_rays_project_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_reversed = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false );
+        RayCast rc_reversed_project = new RayCast(rect_coll, rect_source, Int32.MaxValue);
+
+        PathsD rc_reversed_rays_clipped = rc_reversed.getClippedRays();
+        PathsD rc_reversed_project_rays_clipped = rc_reversed_project.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_reversed_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x);
+        RayCast rc_reversed_project_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x);
+
+        PathsD rc_reversed_nX_rays_clipped = rc_reversed_nX.getClippedRays();
+        PathsD rc_reversed_project_nX_rays_clipped = rc_reversed_project_nX.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_nX_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_nX.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_reversed_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y);
+        RayCast rc_reversed_project_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y);
+
+        PathsD rc_reversed_nY_rays_clipped = rc_reversed_nY.getClippedRays();
+        PathsD rc_reversed_project_nY_rays_clipped = rc_reversed_project_nY.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_nY_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_nY.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_reversed_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.vertical );
+        RayCast rc_reversed_project_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        PathsD rc_reversed_rays_vertical_clipped = rc_reversed_vertical.getClippedRays();
+        PathsD rc_reversed_project_vertical_rays_clipped = rc_reversed_project_vertical.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_rays_vertical_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_reversed_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
+        RayCast rc_reversed_project_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        PathsD rc_reversed_nX_vertical_rays_clipped = rc_reversed_nX_vertical.getClippedRays();
+        PathsD rc_reversed_project_nX_vertical_rays_clipped = rc_reversed_project_nX_vertical.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_nX_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_nX_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_reversed_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
+        RayCast rc_reversed_project_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        PathsD rc_reversed_nY_vertical_rays_clipped = rc_reversed_nY_vertical.getClippedRays();
+        PathsD rc_reversed_project_nY_vertical_rays_clipped = rc_reversed_project_nY_vertical.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_nY_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_nY_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_vertical_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY_vertical.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_reversed_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.horizontal );
+        RayCast rc_reversed_project_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.horizontal);
+
+        PathsD rc_reversed_rays_horizontal_clipped = rc_reversed_horizontal.getClippedRays();
+        PathsD rc_reversed_project_horizontal_rays_clipped = rc_reversed_project_horizontal.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_rays_horizontal_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+
+        RayCast rc_reversed_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_reversed_project_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
+
+        PathsD rc_reversed_nX_horizontal_rays_clipped = rc_reversed_nX_horizontal.getClippedRays();
+        PathsD rc_reversed_project_nX_horizontal_rays_clipped = rc_reversed_project_nX_horizontal.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_nX_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nX_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nX_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        
+        RayCast rc_reversed_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_reversed_project_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+
+        PathsD rc_reversed_nY_horizontal_rays_clipped = rc_reversed_nY_horizontal.getClippedRays();
+        PathsD rc_reversed_project_nY_horizontal_rays_clipped = rc_reversed_project_nY_horizontal.getClippedRays();
+
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_nY_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+        svgSrc.ClearAll();
+        SvgUtils.AddSubject(svgSrc, rect_coll);
+        SvgUtils.AddClip(svgSrc, rect_source);
+        SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_horizontal_rays_clipped, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY_horizontal.svg", FillRule.EvenOdd, 800, 800, 10);
+    }
+    
     [Test]
     public static void proximity()
     {

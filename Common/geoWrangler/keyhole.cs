@@ -9,8 +9,8 @@ public static partial class GeoWrangler
 {
     // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
     // Use of a custom value will cause headaches.
-    public const double keyhole_sizing = 5;
-    private const double keyhole_extension_default = 1.03;
+    public const double keyhole_sizing = 2.5;
+    private const double keyhole_extension_default = 2.06;
 
     public static PathsD makeKeyHole(PathsD outers, PathsD cutters, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {

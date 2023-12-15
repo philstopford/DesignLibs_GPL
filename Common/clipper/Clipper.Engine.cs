@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  24 October 2023                                                 *
+* Date      :  1 December 2023                                                 *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2023                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -1527,7 +1527,11 @@ namespace Clipper2Lib
 
       if (IsJoined(ae)) Split(ae, ae.bot);
 
-      if (IsHorizontal(ae)) return;
+      if (IsHorizontal(ae)) 
+      {
+        if (!IsOpen(ae)) TrimHorz(ae, PreserveCollinear);
+        return; 
+      }
       InsertScanline(ae.top.Y);
 
       CheckJoinLeft(ae, ae.bot);
@@ -2079,13 +2083,6 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool HorzIsSpike(Active horz)
-    {
-      Point64 nextPt = NextVertex(horz).pt;
-      return (horz.bot.X < horz.top.X) != (horz.top.X < nextPt.X);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void TrimHorz(Active horzEdge, bool preserveCollinear)
     {
       bool wasTrimmed = false;
@@ -2146,12 +2143,6 @@ private void DoHorizontal(Active horz)
       Vertex? vertex_max = horzIsOpen ?
         GetCurrYMaximaVertex_Open(horz) :
         GetCurrYMaximaVertex(horz);
-
-      // remove 180 deg.spikes and also simplify
-      // consecutive horizontals when PreserveCollinear = true
-      if (vertex_max != null &&
-        !horzIsOpen && vertex_max != horz.vertexTop)
-        TrimHorz(horz, PreserveCollinear);
 
       bool isLeftToRight =
         ResetHorzDirection(horz, vertex_max, out long leftX, out long rightX);
@@ -2270,9 +2261,6 @@ private void DoHorizontal(Active horz)
           AddOutPt(horz, horz.top);
 
         UpdateEdgeIntoAEL(horz);
-
-        if (PreserveCollinear && !horzIsOpen && HorzIsSpike(horz))
-          TrimHorz(horz, true);
 
         isLeftToRight = ResetHorzDirection(horz,
           vertex_max, out leftX, out rightX);
@@ -2405,8 +2393,10 @@ private void DoHorizontal(Active horz)
       Point64 pt, bool checkCurrX = false)
     {
       Active? prev = e.prevInAEL;
-      if (prev == null || IsOpen(e) || IsOpen(prev) ||
-        !IsHotEdge(e) || !IsHotEdge(prev)) return;
+      if (prev == null || 
+        !IsHotEdge(e) || !IsHotEdge(prev) || 
+        IsHorizontal(e) || IsHorizontal(prev) ||
+        IsOpen(e) || IsOpen(prev)) return;
       if ((pt.Y < e.top.Y + 2 || pt.Y < prev.top.Y + 2) &&  // avoid trivial joins
         ((e.bot.Y > pt.Y) || (prev.bot.Y > pt.Y))) return;  // (#490)
 
@@ -2432,8 +2422,10 @@ private void DoHorizontal(Active horz)
       Point64 pt, bool checkCurrX = false)
     {
       Active? next = e.nextInAEL;
-      if (IsOpen(e) || !IsHotEdge(e) || IsJoined(e) ||
-        next == null || IsOpen(next) || !IsHotEdge(next)) return; 
+      if (next == null || 
+        !IsHotEdge(e) || !IsHotEdge(next) || 
+        IsHorizontal(e) || IsHorizontal(next) ||
+        IsOpen(e) || IsOpen(next)) return; 
       if ((pt.Y < e.top.Y + 2 || pt.Y < next.top.Y + 2) &&  // avoid trivial joins
         ((e.bot.Y > pt.Y) || (next.bot.Y > pt.Y)))  return; // (#490)
 

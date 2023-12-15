@@ -901,7 +901,7 @@ public class DecompositionTests
         writeToLayout(baseString, points, decompOut);
         
         Assert.AreEqual(480, decompOut.Count);
-        Assert.AreEqual(147410, Clipper.Area(decompOut));
+        Assert.AreEqual(147399, Clipper.Area(decompOut));
 
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -913,8 +913,8 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout(baseString + "_horizontal", points, decompOut);
 
-        Assert.AreEqual(481, decompOut.Count);
-        Assert.AreEqual(147410, Clipper.Area(decompOut));
+        Assert.AreEqual(482, decompOut.Count);
+        Assert.AreEqual(147399, Clipper.Area(decompOut));
         Console.WriteLine("  Done.");
 
         sw.Stop();

@@ -2195,7 +2195,7 @@ public class ClipperTests
         Clipper2Lib.ClipperOffset co = new(miterLimit:2, arcTolerance:0.25);
         co.AddPath(sourcePath, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
         Paths64 resizedPolyData = new();
-        co.Execute(50, resizedPolyData);
+        co.Execute(25, resizedPolyData);
 
         double area = resizedPolyData.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(86501.5, area);
@@ -2864,7 +2864,7 @@ public class ClipperTests
         Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(edge, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
         Paths64 p = new();
-        co.Execute(500, p);
+        co.Execute(250, p);
         
         double area = p.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(-50750000, area);
@@ -3031,7 +3031,7 @@ public class ClipperTests
         co.AddPaths(t, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
 
         Paths64 cutters = new();
-        co.Execute(2.0, cutters);
+        co.Execute(1.0, cutters);
 
         double area = cutters.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(-600004, area);
@@ -3202,7 +3202,7 @@ public class ClipperTests
         co.AddPaths(newEdges, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
         Paths64 cutters = new();
-        co.Execute( 2.0, cutters);
+        co.Execute( 1.0, cutters);
         
         double area = cutters.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(-400004, area);

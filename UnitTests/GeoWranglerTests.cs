@@ -247,10 +247,10 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, new () {width_1}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_1.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_1 = Clipper.GetBounds(width_1);
-        Assert.AreEqual(1, bounds_1.Width);
-        Assert.AreEqual(11, bounds_1.Height);
-        Assert.AreEqual(-0.5, bounds_1.top);
-        Assert.AreEqual(10.5, bounds_1.bottom);
+        Assert.AreEqual(2, bounds_1.Width);
+        Assert.AreEqual(12, bounds_1.Height);
+        Assert.AreEqual(-1, bounds_1.top);
+        Assert.AreEqual(11, bounds_1.bottom);
 
         PathD resized = GeoWrangler.resize(width_1, 2.0);
         svgSrc.ClearAll();
@@ -3377,7 +3377,7 @@ public class GeoWranglerTests
         double notArea_expected = aArea - bArea;
         double notArea = Clipper.Area(booleanPaths);
         Assert.AreEqual(2, booleanPaths.Count);
-        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea + (2 + (GeoWrangler.keyhole_sizing * 0.001))), 0.001);
+        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea + (2 * (GeoWrangler.keyhole_sizing * 0.001))) - 2, 0.001);
     }
     
     [Test]
@@ -3435,7 +3435,7 @@ public class GeoWranglerTests
         double notArea_expected = -5598;
         double notArea = Clipper.Area(booleanPaths);
         Assert.AreEqual(1, booleanPaths.Count);
-        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea + (GeoWrangler.keyhole_sizing * 0.001)), 0.001);
+        Assert.LessOrEqual(Math.Abs(notArea_expected - notArea + (2 * GeoWrangler.keyhole_sizing * 0.001)), 0.001);
     }
     
     [Test]

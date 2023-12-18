@@ -418,7 +418,7 @@ public static partial class GeoWrangler
                 ClipperOffset co = new();
                 co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
                 Paths64 inflated = new();
-                co.Execute(2.0, inflated);
+                co.Execute(1.0, inflated);
 
                 double orig_area = Clipper.Area(inflated);
                 Paths64 intersect = Clipper.Intersect(inflated, new Paths64() {Clipper.ScalePath64(lPoly, 1.0)}, FillRule.EvenOdd);
@@ -465,7 +465,7 @@ public static partial class GeoWrangler
 
                     // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
                     Paths64 cutters = new();
-                    co.Execute(2.0, cutters);
+                    co.Execute(1.0, cutters);
 
                     Clipper64 c1 = new();
                     c1.AddSubject(_pPath64FromPathD(lPoly, Constants.scalar_1E2));

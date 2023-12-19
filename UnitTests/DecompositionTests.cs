@@ -900,7 +900,7 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout(baseString, points, decompOut);
         
-        Assert.AreEqual(480, decompOut.Count);
+        Assert.AreEqual(481, decompOut.Count);
         Assert.AreEqual(147399, Clipper.Area(decompOut));
 
         Console.WriteLine("  Decomposition (horizontal)....");

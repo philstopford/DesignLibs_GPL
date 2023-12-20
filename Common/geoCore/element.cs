@@ -564,6 +564,7 @@ public class GCElement
     public virtual bool isBox() { return false; }
     public virtual GCBox getBox() { return null; }
     public virtual GCBox convertToBox() { return null; }
+    public virtual int getHeight() { return 0; }
 
     // Polygon
     public virtual bool isPolygon() { return false; }
@@ -607,7 +608,7 @@ public class GCElement
     public virtual GCPath getPath() { return null; }
     public virtual void expandCaps(double a, double b) { }
 
-    // Path and text
+    // Path, box/rect and text
     public virtual void setWidth(int width) { }
     public virtual int getWidth() { return 0; }
     public virtual GCPolygon closeToPolygon() { return null; }

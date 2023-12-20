@@ -280,4 +280,24 @@ public class GCBox : GCElement
                 break;
         }
     }
+
+    public override bool isBox()
+    {
+        return true;
+    }
+
+    public override Point64 getPos()
+    {
+        return new (rect.X, rect.Y);
+    }
+
+    public override int getWidth()
+    {
+        return rect.Width;
+    }
+    
+    public override int getHeight()
+    {
+        return rect.Height;
+    }
 }

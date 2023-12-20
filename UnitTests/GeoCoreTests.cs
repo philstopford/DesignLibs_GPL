@@ -164,6 +164,8 @@ public class GeoCoreTests
                 gcell.cellName = "test";
 
                 gcell.addBox(x * scale_from_nm * scale, y * scale_from_nm * scale, dimension * scale_from_nm * scale, dimension * scale_from_nm * scale, 1, 1);
+                
+                Assert.True(gcell.elementList[^1].isBox());
 
                 g.setDrawing(drawing_);
                 g.setValid(true);
@@ -198,6 +200,8 @@ public class GeoCoreTests
                 drawing_gds.userunits = 0.001 / scale;
                 GCCell cell_gds = drawing_gds.findCell("test");
                 int elementCount = cell_gds.elementList.Count;
+                Assert.AreEqual(1, elementCount);
+                Assert.True(cell_gds.elementList[^1].isBox());
 
                 string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
                 save_gdsii(gcGDS, out_filename);
@@ -215,6 +219,8 @@ public class GeoCoreTests
                 drawing_oas.userunits = 0.001 / scale;
                 GCCell cell_oas = drawing_oas.findCell("test");
                 elementCount = cell_oas.elementList.Count;
+                Assert.AreEqual(1, elementCount);
+                Assert.True(cell_oas.elementList[^1].isBox());
 
                 out_filename = outDir + "/" + filename + "_resave_from_oas.gds";
                 save_gdsii(gcOAS, out_filename);
@@ -225,28 +231,6 @@ public class GeoCoreTests
         }
     }
 
-    private static void save_gdsii(GeoCore gc, string out_filename)
-    {
-        if (File.Exists(out_filename))
-        {
-            File.Delete(out_filename);
-        }
-        gds.gdsWriter ow = new(gc, out_filename);
-        ow.save();
-        Assert.True(File.Exists(out_filename));
-    }
-
-    private static void save_oasis(GeoCore gc, string out_filename)
-    {
-        if (File.Exists(out_filename))
-        {
-            File.Delete(out_filename);
-        }
-        oasis.oasWriter ow = new(gc, out_filename);
-        ow.save();
-        Assert.True(File.Exists(out_filename));
-    }
-    
     [Test]
     public static void test_circle()
     {
@@ -1988,6 +1972,288 @@ public class GeoCoreTests
         Assert.AreEqual(5, polys_oas[0].pointarray.Count);
     }
 
+    [Test]
+    public static void defineAndWrite_manyCellrefs()
+    {
+        int edge = 4;
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        bool mirror_x = false;
+        GCCell master_gcell = drawing_.addCell();
+
+        for (int i = 0; i < edge * edge; i++)
+        {
+            GCCell gcell = drawing_.addCell();
+            gcell.accyear = 2018;
+            gcell.accmonth = 12;
+            gcell.accday = 5;
+            gcell.acchour = 2;
+            gcell.accmin = 10;
+            gcell.accsec = 10;
+            gcell.modyear = 2018;
+            gcell.modmonth = 12;
+            gcell.modday = 5;
+            gcell.modhour = 2;
+            gcell.modmin = 10;
+            gcell.modsec = 10;
+
+            gcell.cellName = "test" + i;
+
+            Path64 poly = Helper.initedPath64(6);
+            poly[0] = new (0, 0);
+            poly[1] = new (0, 20);
+            poly[2] = new (10, 20);
+            poly[3] = new (10, 10);
+            poly[4] = new (20, 10);
+            poly[5] = new (20, 0);
+
+            gcell.addPolygon(poly, 1, 0);
+
+            master_gcell.addCellref();
+            GCElement cellref = master_gcell.elementList[^1];
+            cellref.setPos(new (40 * (i % edge), 40 * Math.Floor((double)i / edge)));
+            cellref.setCellRef(drawing_.findCell("test" + i));
+            cellref.setName("test" + i);
+            cellref.rotate(0);
+            cellref.scale(1);
+            switch (mirror_x)
+            {
+                case true:
+                    cellref.setMirrorx();
+                    break;
+            }
+        }
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + edge + "_cellref.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        for (int i = 0; i < edge * edge; i++)
+        {
+            GCCell cell_gds = drawing_gds.findCell("test" + i);
+
+            Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+            List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
+            Assert.AreEqual(1, polys_gds.Count);
+            Assert.AreEqual(7, polys_gds[0].pointarray.Count);
+        }
+
+        string oasFile = outDir + edge + "_cellref.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        for (int i = 0; i < edge * edge; i++)
+        {
+            GCCell cell_oas = drawing_oas.findCell("test" + i);
+
+            Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+            List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
+            Assert.AreEqual(1, polys_oas.Count);
+            Assert.AreEqual(7, polys_oas[0].pointarray.Count);
+        }
+    }
+
+    [Test]
+    public static void move_box_test()
+    {
+        int dimension = 10;
+        string filename = "move_box_" + 10 + "_" + 20;
+        int scale = 100; // for 0.01 nm resolution.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("test")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000 * scale,
+            userunits = 0.001 / scale,
+            libname = "noname"
+        };
+        Assert.AreEqual(drawing_.accyear, 2018);
+
+        GCCell gcell = drawing_.addCell();
+        // Force the below for comparison sake
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        gcell.addBox(0 * scale, 0 * scale, dimension * scale, dimension * scale, 1, 1);
+        GCElement content = gcell.elementList[^1];
+
+        Assert.True(content.isBox());
+        Assert.AreEqual(0, content.getPos().X);
+        Assert.AreEqual(0, content.getPos().Y);
+        List<GCPolygon> polys = content.convertToPolygons();
+        Int64 minx = Int64.MaxValue;
+        Int64 miny = Int64.MaxValue;
+        foreach (GCPolygon pl in polys)
+        {
+            Int64 tmp = pl.pointarray.MinBy(p => p.X).X;
+            if (tmp < minx)
+            {
+                minx = tmp;
+            }
+            tmp = pl.pointarray.MinBy(p => p.Y).Y;
+            if (tmp < miny)
+            {
+                miny = tmp;
+            }
+        }
+        Assert.AreEqual(-(dimension/2)*scale, minx);
+        Assert.AreEqual(-(dimension/2)*scale, miny);
+
+        int move_x = 10;
+        int move_y = 20;
+        content.move(new (move_x * scale, move_y * scale));
+        Assert.AreEqual(move_x * scale, content.getPos().X);
+        Assert.AreEqual(move_y * scale, content.getPos().Y);
+        minx = Int64.MaxValue;
+        miny = Int64.MaxValue;
+        foreach (GCPolygon pl in polys)
+        {
+            Int64 tmp = pl.pointarray.MinBy(p => p.X).X;
+            if (tmp < minx)
+            {
+                minx = tmp;
+            }
+            tmp = pl.pointarray.MinBy(p => p.Y).Y;
+            if (tmp < miny)
+            {
+                miny = tmp;
+            }
+        }
+        Assert.AreEqual((move_x-(dimension/2))*scale, minx);
+        Assert.AreEqual((move_y-(dimension/2))*scale, miny);
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        if (File.Exists(outDir + "/" + filename + ".gds"))
+        {
+            File.Delete(outDir + "/" + filename + ".gds");
+        }
+
+        gds.gdsWriter gw = new(g, outDir + "/" + filename + ".gds");
+        gw.save();
+        Assert.True(File.Exists(outDir + "/" + filename + ".gds"));
+
+        if (File.Exists(outDir + "/" + filename + ".oas"))
+        {
+            File.Delete(outDir + "/" + filename + ".oas");
+        }
+
+        oasis.oasWriter ow = new(g, outDir + "/" + filename + ".oas");
+        ow.save();
+        Assert.True(File.Exists(outDir + "/" + filename + ".oas"));
+
+        // Load the files in to see what we have.
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(outDir + "/" + filename + ".gds", GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        drawing_gds.databaseunits = 1000 * scale;
+        drawing_gds.userunits = 0.001 / scale;
+        GCCell cell_gds = drawing_gds.findCell("test");
+        int elementCount = cell_gds.elementList.Count;
+        Assert.AreEqual(1, elementCount);
+        Assert.True(cell_gds.elementList[^1].isBox());
+        Assert.AreEqual(1000, cell_gds.elementList[^1].getPos().X);
+        Assert.AreEqual(2000, cell_gds.elementList[^1].getPos().Y);
+
+        string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
+        save_gdsii(gcGDS, out_filename);
+
+        out_filename = outDir + "/" + filename + "_resave_from_gds.oas";
+        save_oasis(gcGDS, out_filename);
+
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(outDir + "/" + filename + ".oas", GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        drawing_oas.databaseunits = 1000 * scale;
+        drawing_oas.userunits = 0.001 / scale;
+        GCCell cell_oas = drawing_oas.findCell("test");
+        elementCount = cell_oas.elementList.Count;
+        Assert.AreEqual(1, elementCount);
+        Assert.True(cell_oas.elementList[^1].isBox());
+        Assert.AreEqual(1000, cell_oas.elementList[^1].getPos().X);
+        Assert.AreEqual(2000, cell_oas.elementList[^1].getPos().Y);
+
+        out_filename = outDir + "/" + filename + "_resave_from_oas.gds";
+        save_gdsii(gcOAS, out_filename);
+
+        out_filename = outDir + "/" + filename + "_resave_from_oas.oas";
+        save_oasis(gcOAS, out_filename);
+    }
+
     private static void defineAndWrite_Box_LayerDataType()
     {
         int[] values = { 1, 128, 255, 256, 511, 512, 16383, 16384, 32767, 32768 };
@@ -2122,126 +2388,25 @@ public class GeoCoreTests
         }
     }
 
-    [Test]
-    public static void defineAndWrite_manyCellrefs()
+    private static void save_gdsii(GeoCore gc, string out_filename)
     {
-        int edge = 4;
-        // Can the system define geometry and write it correctly to Oasis and GDS files.
-        GeoCore g = new();
-        g.reset();
-        GCDrawingfield drawing_ = new("")
+        if (File.Exists(out_filename))
         {
-            accyear = 2018,
-            accmonth = 12,
-            accday = 5,
-            acchour = 2,
-            accmin = 10,
-            accsec = 10,
-            modyear = 2018,
-            modmonth = 12,
-            modday = 5,
-            modhour = 2,
-            modmin = 10,
-            modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
-            libname = "noname"
-        };
-
-        bool mirror_x = false;
-        GCCell master_gcell = drawing_.addCell();
-
-        for (int i = 0; i < edge * edge; i++)
-        {
-            GCCell gcell = drawing_.addCell();
-            gcell.accyear = 2018;
-            gcell.accmonth = 12;
-            gcell.accday = 5;
-            gcell.acchour = 2;
-            gcell.accmin = 10;
-            gcell.accsec = 10;
-            gcell.modyear = 2018;
-            gcell.modmonth = 12;
-            gcell.modday = 5;
-            gcell.modhour = 2;
-            gcell.modmin = 10;
-            gcell.modsec = 10;
-
-            gcell.cellName = "test" + i;
-
-            Path64 poly = Helper.initedPath64(6);
-            poly[0] = new (0, 0);
-            poly[1] = new (0, 20);
-            poly[2] = new (10, 20);
-            poly[3] = new (10, 10);
-            poly[4] = new (20, 10);
-            poly[5] = new (20, 0);
-
-            gcell.addPolygon(poly, 1, 0);
-
-            master_gcell.addCellref();
-            GCElement cellref = master_gcell.elementList[^1];
-            cellref.setPos(new (40 * (i % edge), 40 * Math.Floor((double)i / edge)));
-            cellref.setCellRef(drawing_.findCell("test" + i));
-            cellref.setName("test" + i);
-            cellref.rotate(0);
-            cellref.scale(1);
-            switch (mirror_x)
-            {
-                case true:
-                    cellref.setMirrorx();
-                    break;
-            }
+            File.Delete(out_filename);
         }
-        g.setDrawing(drawing_);
-        g.setValid(true);
-
-        string gdsFile = outDir + edge + "_cellref.gds";
-        if (File.Exists(gdsFile))
-        {
-            File.Delete(gdsFile);
-        }
-        gds.gdsWriter gw = new(g, gdsFile);
-        gw.save();
-        Assert.True(File.Exists(gdsFile));
-
-        GeoCoreHandler gH_GDS = new();
-        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
-        GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
-        GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        for (int i = 0; i < edge * edge; i++)
-        {
-            GCCell cell_gds = drawing_gds.findCell("test" + i);
-
-            Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
-            List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
-            Assert.AreEqual(1, polys_gds.Count);
-            Assert.AreEqual(7, polys_gds[0].pointarray.Count);
-        }
-
-        string oasFile = outDir + edge + "_cellref.oas";
-        if (File.Exists(oasFile))
-        {
-            File.Delete(oasFile);
-        }
-        oasis.oasWriter ow = new(g, oasFile);
+        gds.gdsWriter ow = new(gc, out_filename);
         ow.save();
-        Assert.True(File.Exists(oasFile));
-        
-        GeoCoreHandler gH_OAS = new();
-        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
-        GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
-        GCDrawingfield drawing_oas = gcOAS.getDrawing();
-        for (int i = 0; i < edge * edge; i++)
-        {
-            GCCell cell_oas = drawing_oas.findCell("test" + i);
+        Assert.True(File.Exists(out_filename));
+    }
 
-            Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
-            List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
-            Assert.AreEqual(1, polys_oas.Count);
-            Assert.AreEqual(7, polys_oas[0].pointarray.Count);
+    private static void save_oasis(GeoCore gc, string out_filename)
+    {
+        if (File.Exists(out_filename))
+        {
+            File.Delete(out_filename);
         }
+        oasis.oasWriter ow = new(gc, out_filename);
+        ow.save();
+        Assert.True(File.Exists(out_filename));
     }
 }

@@ -69,9 +69,7 @@ public class DecompositionTests
 
         // Complex 3
         PathD C3 = TestGeometry.getComplex3();
-
-        // C3 = GeoWrangler.clockwiseAndReorder(C3);
-
+        
         bool orth = GeoWrangler.orthogonal(C2, angularTolerance: 0);
         bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 

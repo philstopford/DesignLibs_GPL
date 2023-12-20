@@ -221,7 +221,7 @@ public class GCCellRefArray : GCElement
     {
         //SRef
         gw.bw.Write((ushort)4);
-        gw.bw.Write(gdsValues.sSREF);
+        gw.bw.Write(gdsValues.sAREF);
         gw.writeString(cell_ref.cellName, 0x12);
         int strans_ = 0;
         switch (trans.mirror_x)

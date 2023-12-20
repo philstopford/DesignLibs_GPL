@@ -717,6 +717,50 @@ public class DecompositionTests
 
         Console.WriteLine("  Done.");
     }
+
+    // This test case decomposes properly, but seems to trigger an issue in GDS output where a box ends up zero height
+    // in the horizontal decomposition case. OASIS is fine.
+    [Test]
+    public static void partThree_canarycomplex2()
+    {
+        Stopwatch sw = new();
+        int rayLength = 1000;
+
+        Console.WriteLine(" CanaryComplex2");
+        Console.WriteLine("  Preparing....");
+        sw.Start();
+
+        bool abort = false;
+
+        PathD canary = Clipper.MakePath(new double[]
+        {
+            0.06000, 0.44000,
+            0.06000, 0.45000,
+            0.07000, 0.45000,
+            0.07000, 0.46000,
+            0.00000, 0.46000,
+            0.00000, 0.47000,
+            0.07900, 0.47000,
+            0.07900, 0.45900,
+            0.08000, 0.45900,
+            0.08000, 0.45000,
+            0.09000, 0.45000,
+            0.09000, 0.44000,
+            0.06000, 0.44000
+        });
+
+        canary = Clipper.ScalePath(canary, 1000);
+        
+        Console.WriteLine("  Decomposition (horizontal)....");
+        sw.Restart();
+        PathsD test = GeoWrangler.rectangular_decomposition(ref abort, canary, maxRayLength: rayLength, vertical:false);
+        sw.Stop();
+        Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
+        
+        Console.WriteLine("  Writing....");
+        writeToLayout("canarycomplex2_horizontal", canary, test);
+        Console.WriteLine("  Done.");
+    }
     
     [Test]
     public static void partThree_gainingacomplex()

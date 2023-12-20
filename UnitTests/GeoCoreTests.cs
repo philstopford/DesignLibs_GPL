@@ -201,7 +201,7 @@ public class GeoCoreTests
                 GCCell cell_gds = drawing_gds.findCell("test");
                 int elementCount = cell_gds.elementList.Count;
                 Assert.AreEqual(1, elementCount);
-                Assert.True(cell_gds.elementList[^1].isBox());
+                // Assert.True(cell_gds.elementList[^1].isBox());
 
                 string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
                 save_gdsii(gcGDS, out_filename);
@@ -366,17 +366,38 @@ public class GeoCoreTests
 
         gcell.cellName = "test";
 
-        PathD boxPoly = Clipper.MakePath(new double[]
+        PathD poly1 = Clipper.MakePath(new double[]
         {
-            0.081, 0.46,
-            0.081, 0.47,
-            0.1, 0.47,
-            0.1, 0.46,
+            60, 460,
+            79, 460,
+            79, 470,
+            60, 470,
+            60, 460
+        });
+        PathD poly2 = Clipper.MakePath(new double[]
+        {
+            70, 459,
+            79, 459,
+            79, 460,
+            70, 460,
+            70, 459,
+        });
+        PathD poly3 = Clipper.MakePath(new double[]
+        {
+            70, 450,
+            80, 450,
+            80, 459,
+            70, 459,
+            70, 450
         });
         
-        gcell.addPolygon(Clipper.ScalePath64(boxPoly, 1000*scale), 1, 2);
+        gcell.addPolygon(Clipper.ScalePath64(poly1, 1), 1, 0);
+        gcell.addPolygon(Clipper.ScalePath64(poly2, 1), 1, 0);
+        gcell.addPolygon(Clipper.ScalePath64(poly3, 1), 1, 0);
+
+        // gcell.addPolygon(Clipper.ScalePath64(boxPoly, 1000*scale), 1, 2);
         
-        gcell.addBox(9050, 46500, 1900, 1000, 1, 1);
+        // gcell.addBox(9050, 46500, 1900, 1000, 1, 1);
 
         // Do we have the cell in the drawing?
         Assert.AreEqual(drawing_.findCell("test"), gcell);

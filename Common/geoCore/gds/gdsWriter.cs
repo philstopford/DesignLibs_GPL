@@ -92,12 +92,11 @@ public partial class gdsWriter
     private void pSave_write()
     {
         bw.Write((ushort)6);
-        bw.Write((ushort)2);
+        bw.Write(gdsValues.sHEADER);
         bw.Write((ushort)600);
         // bgnlib
         bw.Write((ushort)28);
-        bw.Write((byte)1);
-        bw.Write((byte)2);
+        bw.Write(gdsValues.sBGNLIB);
 
         // Get date and time.
 
@@ -121,8 +120,7 @@ public partial class gdsWriter
 
         //units
         bw.Write((ushort)20);
-        bw.Write((byte)3);
-        bw.Write((byte)5);
+        bw.Write(gdsValues.sUNITS);
         write8ByteReal(drawing_.userunits);
         write8ByteReal(1E-6 / drawing_.databaseunits);
 
@@ -178,8 +176,7 @@ public partial class gdsWriter
             //endlib
             case false:
                 bw.Write((ushort)4);
-                bw.Write((byte)4);
-                bw.Write((byte)0);
+                bw.Write(gdsValues.sENDLIB);
                 break;
         }
 

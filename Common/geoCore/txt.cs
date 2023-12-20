@@ -189,27 +189,22 @@ public class GCTxt : GCElement
     {
         //text
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x0C);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sTEXT);
         //layer
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x0D);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sLAYER);
         gw.bw.Write((short)layer_nr);
         //datatype
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x16);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sDATATYPE);
         gw.bw.Write((short)datatype_nr);
         //presentation
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x17);
-        gw.bw.Write((byte)1);
+        gw.bw.Write(gdsValues.sPRESENTATION);
         gw.bw.Write((short)presentation);
         //width
         gw.bw.Write((ushort)8);
-        gw.bw.Write((byte)0x0F);
-        gw.bw.Write((byte)3);
+        gw.bw.Write(gdsValues.sWIDTH);
         gw.bw.Write(width);
         int strans_ = 0;
         switch (trans.mirror_x)
@@ -220,18 +215,15 @@ public class GCTxt : GCElement
         }
         //STRANS
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x1A);
-        gw.bw.Write((byte)1);
+        gw.bw.Write(gdsValues.sSTRANS);
         gw.bw.Write((short)strans_);
         //mag
         gw.bw.Write((ushort)12);
-        gw.bw.Write((byte)0x1B);
-        gw.bw.Write((byte)5);
+        gw.bw.Write(gdsValues.sMAG);
         gw.write8ByteReal(trans.mag);
         //angle
         gw.bw.Write((ushort)12);
-        gw.bw.Write((byte)0x1C);
-        gw.bw.Write((byte)5);
+        gw.bw.Write(gdsValues.sANGLE);
         switch (trans.mirror_x)
         {
             case true when trans.angle != 0:
@@ -244,15 +236,13 @@ public class GCTxt : GCElement
         //xy
         const int val = 1 * 2 * 4 + 4;
         gw.bw.Write((ushort)val);
-        gw.bw.Write((byte)0x10);
-        gw.bw.Write((byte)3);
+        gw.bw.Write(gdsValues.sXY);
         gw.bw.Write((int)point.X);
         gw.bw.Write((int)point.Y);
         gw.writeString(name, 0x19);
         // endel
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x11);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sENDEL);
     }
 
     public override void saveOASIS(oasWriter ow)

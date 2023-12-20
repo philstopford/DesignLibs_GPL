@@ -296,8 +296,7 @@ public class GCCellref : GCElement
         }
         //SRef
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x0A);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sSREF);
         gw.writeString(cell_ref.cellName, 0x12);
         int strans_ = 0;
         switch (trans.mirror_x)
@@ -308,18 +307,15 @@ public class GCCellref : GCElement
         }
         //STRANS
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x1A);
-        gw.bw.Write((byte)1);
+        gw.bw.Write(gdsValues.sSTRANS);
         gw.bw.Write((short)strans_);
         //mag
         gw.bw.Write((ushort)12);
-        gw.bw.Write((byte)0x1B);
-        gw.bw.Write((byte)5);
+        gw.bw.Write(gdsValues.sMAG);
         gw.write8ByteReal(trans.mag);
         //angle
         gw.bw.Write((ushort)12);
-        gw.bw.Write((byte)0x1C);
-        gw.bw.Write((byte)5);
+        gw.bw.Write(gdsValues.sANGLE);
         switch (trans.mirror_x)
         {
             case true when trans.angle != 0:
@@ -331,14 +327,12 @@ public class GCCellref : GCElement
         }
         //xy
         gw.bw.Write((ushort)(2 * 4 + 4));
-        gw.bw.Write((byte)0x10);
-        gw.bw.Write((byte)3);
+        gw.bw.Write(gdsValues.sXY);
         gw.bw.Write((int)point.X);
         gw.bw.Write((int)point.Y);
         // endel
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x11);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sENDEL);
     }
 
     public override void saveOASIS(oasWriter ow)

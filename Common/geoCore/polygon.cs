@@ -553,17 +553,14 @@ public class GCPolygon : GCElement
         {
             // polygon (boundary)
             gw.bw.Write((ushort)4);
-            gw.bw.Write((byte)8);
-            gw.bw.Write((byte)0);
+            gw.bw.Write(gdsValues.sBOUNDARY);
             //layer
             gw.bw.Write((ushort)6);
-            gw.bw.Write((byte)0x0D);
-            gw.bw.Write((byte)2);
+            gw.bw.Write(gdsValues.sLAYER);
             gw.bw.Write((short)layer_nr);
             //datatype
             gw.bw.Write((ushort)6);
-            gw.bw.Write((byte)0x0E);
-            gw.bw.Write((byte)2);
+            gw.bw.Write(gdsValues.sDATATYPE);
             gw.bw.Write((short)datatype_nr);
 
             Path64 cleaned = GeoWrangler.removeDuplicates(pointarray);
@@ -579,8 +576,7 @@ public class GCPolygon : GCElement
             // Add one to the point-list length value (i) to mark the closed shape, if needed.
             int val = (closedGeometry ? i: i + 1) * 2 * 4 + 4;
             gw.bw.Write((ushort)val);
-            gw.bw.Write((byte)0x10);
-            gw.bw.Write((byte)3);
+            gw.bw.Write(gdsValues.sXY);
 
             for (int k = 0; k < i; k++)
             {
@@ -597,8 +593,7 @@ public class GCPolygon : GCElement
 
             // endel
             gw.bw.Write((ushort)4);
-            gw.bw.Write((byte)0x11);
-            gw.bw.Write((byte)0);
+            gw.bw.Write(gdsValues.sENDEL);
         }
     }
 

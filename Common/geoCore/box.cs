@@ -145,22 +145,19 @@ public class GCBox : GCElement
     {
         // box
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x2D);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sBOUNDARY);
         //layer
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x0D);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sLAYER);
         gw.bw.Write((short)layer_nr);
         //boxtype
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x2E);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sDATATYPE);
         gw.bw.Write((short)datatype_nr);
         //xy 
-        gw.bw.Write((ushort)(5 * 2 * 4 + 4));
-        gw.bw.Write((byte)0x10);
-        gw.bw.Write((byte)3);
+        // 5 points (last must match first). 2 values per point. 4 bytes per value.
+        gw.bw.Write((ushort)(4 + 5 * 2 * 4));
+        gw.bw.Write(gdsValues.sXY);
         gw.bw.Write(rect.Left);
         gw.bw.Write(rect.Top);
         gw.bw.Write(rect.Right);
@@ -173,8 +170,7 @@ public class GCBox : GCElement
         gw.bw.Write(rect.Top);
         // endel
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x11);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sENDEL);
     }
 
     public override void saveOASIS(oasWriter ow)

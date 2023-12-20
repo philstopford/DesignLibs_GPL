@@ -754,8 +754,7 @@ public class GCCell
     {
         //bgnstr
         gw.bw.Write((ushort)28);
-        gw.bw.Write((byte)5);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sBGNSTR);
         // Get date and time.
 
         // Modification
@@ -783,8 +782,7 @@ public class GCCell
         }
         //endstr
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)7);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sENDSTR);
         saved = true;
     }
 

@@ -205,22 +205,18 @@ public class GCPath : GCElement
     {
         // path 
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)9);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sPATH);
         //layer
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x0D);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sLAYER);
         gw.bw.Write((short)layer_nr);
         //datatype
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x0E);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sDATATYPE);
         gw.bw.Write((short)datatype_nr);
         //pathtype
         gw.bw.Write((ushort)6);
-        gw.bw.Write((byte)0x21);
-        gw.bw.Write((byte)2);
+        gw.bw.Write(gdsValues.sPATHTYPE);
         switch (isRound)
         {
             case false:
@@ -232,8 +228,7 @@ public class GCPath : GCElement
         }
         //width
         gw.bw.Write((ushort)8);
-        gw.bw.Write((byte)0x0F);
-        gw.bw.Write((byte)3);
+        gw.bw.Write(gdsValues.sWIDTH);
         gw.bw.Write(width);
 
         int i = pointarray.Count;
@@ -245,8 +240,7 @@ public class GCPath : GCElement
         //xy 
         int val = i * 2 * 4 + 4;
         gw.bw.Write((ushort)val);
-        gw.bw.Write((byte)0x10);
-        gw.bw.Write((byte)3);
+        gw.bw.Write(gdsValues.sXY);
         for (int k = 0; k < i; k++)
         {
             gw.bw.Write((int)pointarray[k].X);
@@ -254,8 +248,7 @@ public class GCPath : GCElement
         }
         // endel
         gw.bw.Write((ushort)4);
-        gw.bw.Write((byte)0x11);
-        gw.bw.Write((byte)0);
+        gw.bw.Write(gdsValues.sENDEL);
     }
 
     public override void saveOASIS(oasWriter ow)

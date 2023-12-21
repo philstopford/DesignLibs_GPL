@@ -200,6 +200,35 @@ public class GCCellRefArray : GCElement
         point = p;
     }
 
+    public override double getScale()
+    {
+        return pGetScale();
+    }
+
+    private double pGetScale()
+    {
+        return trans.mag;
+    }
+
+    public override double getAngle()
+    {
+        return pGetAngle();
+    }
+
+    private double pGetAngle()
+    {
+        return trans.angle;
+    }
+
+    public override bool getMirrorX()
+    {
+        return pGetMirrorX();
+    }
+
+    private bool pGetMirrorX()
+    {
+        return trans.mirror_x;
+    }
     public override void setCellRef(GCCell cellRef)
     {
         pSetCellRef(cellRef);

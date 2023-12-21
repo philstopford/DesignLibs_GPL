@@ -592,6 +592,13 @@ public class GCElement
     public virtual void setPos(Point64 p) { }
 
     public virtual Point64 getPos() { return new(0,0); }
+    
+    public virtual double getScale() { return 1; }
+
+    public virtual double getAngle() { return 1; }
+
+    public virtual bool getMirrorX() { return false; }
+
     public virtual List<GCElement> flatSelect() { return null; }
     // and txt;
     public virtual void setName(string s) { }
@@ -605,7 +612,7 @@ public class GCElement
 
     // Path
     public virtual bool isPath() { return false; }
-    public virtual GCPath getPath() { return null; }
+    public virtual Path64 getPath() { return null; }
     public virtual void expandCaps(double a, double b) { }
 
     // Path, box/rect and text

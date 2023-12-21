@@ -251,6 +251,36 @@ public class GCCellref : GCElement
         point = new ((int)(point.X * factor), (int)(point.Y * factor));
     }
 
+    public override double getScale()
+    {
+        return pGetScale();
+    }
+
+    private double pGetScale()
+    {
+        return trans.mag;
+    }
+
+    public override double getAngle()
+    {
+        return pGetAngle();
+    }
+
+    private double pGetAngle()
+    {
+        return trans.angle;
+    }
+
+    public override bool getMirrorX()
+    {
+        return pGetMirrorX();
+    }
+
+    private bool pGetMirrorX()
+    {
+        return trans.mirror_x;
+    }
+
     public override bool isCellref()
     {
         return pIsCellref();
@@ -410,15 +440,6 @@ public class GCCellref : GCElement
 
     private List<GCPolygon> pConvertToPolygons()
     {
-        /*
-        List<GCPolygon> ret = new List<GCPolygon>();
-
-        for (int element = 0; element < cell_ref.elementList.Count; element++)
-        {
-            List<GCPolygon> tmp = cell_ref.elementList[element].convertToPolygons();
-            ret.AddRange(tmp);
-        }
-        */
         List<GCPolygon> ret = cell_ref.convertToPolygons();
 
 

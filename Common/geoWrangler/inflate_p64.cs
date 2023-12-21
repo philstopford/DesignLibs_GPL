@@ -81,12 +81,12 @@ public static partial class GeoWrangler
         return edge;
     }
     
-    public static Path64 inflatePath(Path64 source, int width)
+    public static Path64 inflatePath(Path64 source, double width)
     {
         return pInflatePath(source, width);
     }
 
-    private static Path64 pInflatePath(Path64 source, int width)
+    private static Path64 pInflatePath(Path64 source, double width)
     {
         switch (width)
         {

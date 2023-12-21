@@ -9,7 +9,7 @@ namespace geoCoreLib;
 
 public class GCPath : GCElement
 {
-    private Path64 pointarray;
+    public Path64 pointarray;
     private int width;
     private int cap;
     private bool isRound;
@@ -173,6 +173,16 @@ public class GCPath : GCElement
         cap = cap_;
     }
 
+    public override Path64 getPath()
+    {
+        return pGetPath();
+    }
+
+    private Path64 pGetPath()
+    {
+        return pointarray;
+    }
+
     public override List<GCPolygon> convertToPolygons()
     {
         return pConvertToPolygons();
@@ -181,7 +191,7 @@ public class GCPath : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        Path64 tmp = GeoWrangler.inflatePath(pointarray, width);
+        Path64 tmp = GeoWrangler.inflatePath(pointarray, (double)width / 2);
         ret.Add(new GCPolygon(tmp, layer_nr, datatype_nr));
         return ret;
     }

@@ -16,7 +16,7 @@ using SvgUtils = Clipper2Lib.SvgUtils;
 
 public class ClipperTests
 {
-    [SetUp]
+    // [SetUp]
     public static void ClipperTest()
     {
         // Clipper1 tests

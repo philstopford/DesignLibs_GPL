@@ -5,7 +5,7 @@ namespace UnitTests;
 public class RNGTests
 {
     private static int sampleCount = 25000;
-    [SetUp]
+    // [SetUp]
     public static void RNGTest()
     {
         CryptoRNGTest();

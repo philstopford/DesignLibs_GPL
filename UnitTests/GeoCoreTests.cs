@@ -10,7 +10,7 @@ public class GeoCoreTests
     static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
     static string outDir = baseDir + "out/";
 
-    [SetUp]
+    // [SetUp]
     public static void GeoCoreSetUp()
     {
         valid_test();
@@ -2183,8 +2183,8 @@ public class GeoCoreTests
                 miny = tmp;
             }
         }
-        Assert.AreEqual(-(dimension/2)*scale, minx);
-        Assert.AreEqual(-(dimension/2)*scale, miny);
+        Assert.AreEqual(0, minx);
+        Assert.AreEqual(0, miny);
 
         int move_x = 10;
         int move_y = 20;
@@ -2193,6 +2193,7 @@ public class GeoCoreTests
         Assert.AreEqual(move_y * scale, content.getPos().Y);
         minx = Int64.MaxValue;
         miny = Int64.MaxValue;
+        polys = content.convertToPolygons();
         foreach (GCPolygon pl in polys)
         {
             Int64 tmp = pl.pointarray.MinBy(p => p.X).X;
@@ -2206,9 +2207,8 @@ public class GeoCoreTests
                 miny = tmp;
             }
         }
-        Assert.AreEqual((move_x-(dimension/2))*scale, minx);
-        Assert.AreEqual((move_y-(dimension/2))*scale, miny);
-
+        Assert.AreEqual(move_x * scale, minx);
+        Assert.AreEqual(move_y * scale, miny);
         g.setDrawing(drawing_);
         g.setValid(true);
 

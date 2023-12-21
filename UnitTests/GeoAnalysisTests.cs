@@ -8,7 +8,7 @@ public class GeoAnalysisTests
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/shapeanalysis_out/";
 
-    [SetUp]
+    // [SetUp]
     public static void GeoAnalysisSetup()
     {
         testAreaHandler();

@@ -58,8 +58,8 @@ public class KeyholerTests
 
     private static string root_loc = "/d/development/DesignLibs_GPL/keyhole_out/";
     
-    [SetUp]
-    public static void KeyholeeSetup()
+    // [SetUp]
+    public static void KeyholerSetup()
     {
         singleTest();
         spiralTest();

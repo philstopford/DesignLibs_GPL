@@ -41,7 +41,7 @@ public class ShapeEngineTests
         (int)ShapeLibrary.shapeNames_all.complex
     };
 
-    [SetUp]
+    // [SetUp]
     public static void ShapeEngineSetup()
     {
         shapeLookupTest();

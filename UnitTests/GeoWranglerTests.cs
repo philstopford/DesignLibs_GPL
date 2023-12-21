@@ -7,7 +7,7 @@ public class GeoWranglerTests
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/geowrangler_out/";
 
-    [SetUp]
+    // [SetUp]
     public static void GeoWranglerSetup()
     {
         {

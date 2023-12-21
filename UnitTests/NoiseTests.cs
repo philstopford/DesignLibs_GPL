@@ -4,7 +4,7 @@ namespace UnitTests;
 
 public class NoiseTests
 {
-    [SetUp]
+    // [SetUp]
     public static void NoiseSetup()
     {
         OpenSimplexNoiseTest();

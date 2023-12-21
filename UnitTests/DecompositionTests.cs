@@ -9,7 +9,7 @@ namespace UnitTests;
 public class DecompositionTests
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/decomposition_out/";
-    [SetUp]
+    // [SetUp]
     public static void DecompositionSetup()
     {
         Console.WriteLine("Part One");
@@ -1113,6 +1113,8 @@ public class DecompositionTests
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
         g.reset();
+        int scale = 100; // for 0.01 nm resolution.
+
         GCDrawingfield drawing_ = new("")
         {
             accyear = 2018,
@@ -1127,8 +1129,8 @@ public class DecompositionTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 1E-3, // 0.001 / 1E-6;
+            databaseunits = 1000 * scale,
+            userunits = 0.001 / scale,
             libname = "noname"
         };
 

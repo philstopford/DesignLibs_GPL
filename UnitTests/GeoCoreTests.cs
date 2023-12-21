@@ -1641,20 +1641,20 @@ public class GeoCoreTests
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
-        Assert.AreEqual(0, polys_gds[0].pointarray[0].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[0].Y);
-        Assert.AreEqual(0, polys_gds[0].pointarray[1].X);
-        Assert.AreEqual(40, polys_gds[0].pointarray[1].Y);
-        Assert.AreEqual(20, polys_gds[0].pointarray[2].X);
-        Assert.AreEqual(40, polys_gds[0].pointarray[2].Y);
-        Assert.AreEqual(20, polys_gds[0].pointarray[3].X);
-        Assert.AreEqual(20, polys_gds[0].pointarray[3].Y);
-        Assert.AreEqual(40, polys_gds[0].pointarray[4].X);
-        Assert.AreEqual(20, polys_gds[0].pointarray[4].Y);
-        Assert.AreEqual(40, polys_gds[0].pointarray[5].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[5].Y);
-        Assert.AreEqual(0, polys_gds[0].pointarray[6].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + 40, polys_gds[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + 20, polys_gds[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + 40, polys_gds[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + 20, polys_gds[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + 20, polys_gds[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + 40, polys_gds[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + 20, polys_gds[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 40, polys_gds[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[6].Y);
 
         cell_gds = drawing_gds.findCell("test_cellref1_mx");
         Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
@@ -1667,20 +1667,20 @@ public class GeoCoreTests
         polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
-        Assert.AreEqual(0, polys_gds[0].pointarray[0].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[0].Y);
-        Assert.AreEqual(0, polys_gds[0].pointarray[1].X);
-        Assert.AreEqual(-40, polys_gds[0].pointarray[1].Y);
-        Assert.AreEqual(20, polys_gds[0].pointarray[2].X);
-        Assert.AreEqual(-40, polys_gds[0].pointarray[2].Y);
-        Assert.AreEqual(20, polys_gds[0].pointarray[3].X);
-        Assert.AreEqual(-20, polys_gds[0].pointarray[3].Y);
-        Assert.AreEqual(40, polys_gds[0].pointarray[4].X);
-        Assert.AreEqual(-20, polys_gds[0].pointarray[4].Y);
-        Assert.AreEqual(40, polys_gds[0].pointarray[5].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[5].Y);
-        Assert.AreEqual(0, polys_gds[0].pointarray[6].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + -40, polys_gds[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + 20, polys_gds[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + -40, polys_gds[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + 20, polys_gds[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + -20, polys_gds[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + 40, polys_gds[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + -20, polys_gds[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 40, polys_gds[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[6].Y);
 
         cell_gds = drawing_gds.findCell("test_cellref2");
         Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
@@ -1693,20 +1693,20 @@ public class GeoCoreTests
         polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
-        Assert.AreEqual(80, polys_gds[0].pointarray[0].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[0].Y);
-        Assert.AreEqual(20, polys_gds[0].pointarray[1].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[1].Y);
-        Assert.AreEqual(20, polys_gds[0].pointarray[2].X);
-        Assert.AreEqual(20, polys_gds[0].pointarray[2].Y);
-        Assert.AreEqual(60, polys_gds[0].pointarray[3].X);
-        Assert.AreEqual(20, polys_gds[0].pointarray[3].Y);
-        Assert.AreEqual(60, polys_gds[0].pointarray[4].X);
-        Assert.AreEqual(40, polys_gds[0].pointarray[4].Y);
-        Assert.AreEqual(80, polys_gds[0].pointarray[5].X);
-        Assert.AreEqual(40, polys_gds[0].pointarray[5].Y);
-        Assert.AreEqual(80, polys_gds[0].pointarray[6].X);
-        Assert.AreEqual(0, polys_gds[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 80, polys_gds[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + 20, polys_gds[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + 20, polys_gds[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + 20, polys_gds[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + 60, polys_gds[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + 20, polys_gds[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + 60, polys_gds[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + 40, polys_gds[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 80, polys_gds[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 40, polys_gds[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 80, polys_gds[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[6].Y);
 
         cell_gds = drawing_gds.findCell("test_cellref2_mx");
         Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
@@ -1719,20 +1719,20 @@ public class GeoCoreTests
         polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
-        Assert.AreEqual(0, polys_gds[0].pointarray[0].X);
-        Assert.AreEqual(80, polys_gds[0].pointarray[0].Y);
-        Assert.AreEqual(-60, polys_gds[0].pointarray[1].X);
-        Assert.AreEqual(80, polys_gds[0].pointarray[1].Y);
-        Assert.AreEqual(-60, polys_gds[0].pointarray[2].X);
-        Assert.AreEqual(60, polys_gds[0].pointarray[2].Y);
-        Assert.AreEqual(-20, polys_gds[0].pointarray[3].X);
-        Assert.AreEqual(60, polys_gds[0].pointarray[3].Y);
-        Assert.AreEqual(-20, polys_gds[0].pointarray[4].X);
-        Assert.AreEqual(40, polys_gds[0].pointarray[4].Y);
-        Assert.AreEqual(0, polys_gds[0].pointarray[5].X);
-        Assert.AreEqual(40, polys_gds[0].pointarray[5].Y);
-        Assert.AreEqual(0, polys_gds[0].pointarray[6].X);
-        Assert.AreEqual(80, polys_gds[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 80, polys_gds[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + -60, polys_gds[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + 80, polys_gds[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + -60, polys_gds[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + 60, polys_gds[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + -20, polys_gds[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + 60, polys_gds[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + -20, polys_gds[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + 40, polys_gds[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 40, polys_gds[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 0, polys_gds[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 80, polys_gds[0].pointarray[6].Y);
 
         string oasFile = outDir + "simple_cellref.oas";
         if (File.Exists(oasFile))
@@ -1758,20 +1758,20 @@ public class GeoCoreTests
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
-        Assert.AreEqual(0, polys_oas[0].pointarray[0].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[0].Y);
-        Assert.AreEqual(0, polys_oas[0].pointarray[1].X);
-        Assert.AreEqual(40, polys_oas[0].pointarray[1].Y);
-        Assert.AreEqual(20, polys_oas[0].pointarray[2].X);
-        Assert.AreEqual(40, polys_oas[0].pointarray[2].Y);
-        Assert.AreEqual(20, polys_oas[0].pointarray[3].X);
-        Assert.AreEqual(20, polys_oas[0].pointarray[3].Y);
-        Assert.AreEqual(40, polys_oas[0].pointarray[4].X);
-        Assert.AreEqual(20, polys_oas[0].pointarray[4].Y);
-        Assert.AreEqual(40, polys_oas[0].pointarray[5].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[5].Y);
-        Assert.AreEqual(0, polys_oas[0].pointarray[6].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + 40, polys_oas[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + 20, polys_oas[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + 40, polys_oas[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + 20, polys_oas[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + 20, polys_oas[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + 40, polys_oas[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + 20, polys_oas[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 40, polys_oas[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[6].Y);
 
         cell_oas = drawing_oas.findCell("test_cellref1_mx");
         pos = cell_oas.elementList[^1].getPos();
@@ -1783,20 +1783,20 @@ public class GeoCoreTests
         polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
-        Assert.AreEqual(0, polys_oas[0].pointarray[0].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[0].Y);
-        Assert.AreEqual(0, polys_oas[0].pointarray[1].X);
-        Assert.AreEqual(-40, polys_oas[0].pointarray[1].Y);
-        Assert.AreEqual(20, polys_oas[0].pointarray[2].X);
-        Assert.AreEqual(-40, polys_oas[0].pointarray[2].Y);
-        Assert.AreEqual(20, polys_oas[0].pointarray[3].X);
-        Assert.AreEqual(-20, polys_oas[0].pointarray[3].Y);
-        Assert.AreEqual(40, polys_oas[0].pointarray[4].X);
-        Assert.AreEqual(-20, polys_oas[0].pointarray[4].Y);
-        Assert.AreEqual(40, polys_oas[0].pointarray[5].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[5].Y);
-        Assert.AreEqual(0, polys_oas[0].pointarray[6].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + -40, polys_oas[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + 20, polys_oas[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + -40, polys_oas[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + 20, polys_oas[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + -20, polys_oas[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + 40, polys_oas[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + -20, polys_oas[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 40, polys_oas[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[6].Y);
         
         cell_oas = drawing_gds.findCell("test_cellref2");
         Assert.AreEqual(true, cell_oas.elementList[^1].isCellref());
@@ -1809,20 +1809,20 @@ public class GeoCoreTests
         polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
-        Assert.AreEqual(80, polys_oas[0].pointarray[0].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[0].Y);
-        Assert.AreEqual(20, polys_oas[0].pointarray[1].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[1].Y);
-        Assert.AreEqual(20, polys_oas[0].pointarray[2].X);
-        Assert.AreEqual(20, polys_oas[0].pointarray[2].Y);
-        Assert.AreEqual(60, polys_oas[0].pointarray[3].X);
-        Assert.AreEqual(20, polys_oas[0].pointarray[3].Y);
-        Assert.AreEqual(60, polys_oas[0].pointarray[4].X);
-        Assert.AreEqual(40, polys_oas[0].pointarray[4].Y);
-        Assert.AreEqual(80, polys_oas[0].pointarray[5].X);
-        Assert.AreEqual(40, polys_oas[0].pointarray[5].Y);
-        Assert.AreEqual(80, polys_oas[0].pointarray[6].X);
-        Assert.AreEqual(0, polys_oas[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 80, polys_oas[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + 20, polys_oas[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + 20, polys_oas[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + 20, polys_oas[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + 60, polys_oas[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + 20, polys_oas[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + 60, polys_oas[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + 40, polys_oas[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 80, polys_oas[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 40, polys_oas[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 80, polys_oas[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[6].Y);
         
         cell_oas = drawing_gds.findCell("test_cellref2_mx");
         Assert.AreEqual(true, cell_oas.elementList[^1].isCellref());
@@ -1835,20 +1835,20 @@ public class GeoCoreTests
         polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
-        Assert.AreEqual(0, polys_oas[0].pointarray[0].X);
-        Assert.AreEqual(80, polys_oas[0].pointarray[0].Y);
-        Assert.AreEqual(-60, polys_oas[0].pointarray[1].X);
-        Assert.AreEqual(80, polys_oas[0].pointarray[1].Y);
-        Assert.AreEqual(-60, polys_oas[0].pointarray[2].X);
-        Assert.AreEqual(60, polys_oas[0].pointarray[2].Y);
-        Assert.AreEqual(-20, polys_oas[0].pointarray[3].X);
-        Assert.AreEqual(60, polys_oas[0].pointarray[3].Y);
-        Assert.AreEqual(-20, polys_oas[0].pointarray[4].X);
-        Assert.AreEqual(40, polys_oas[0].pointarray[4].Y);
-        Assert.AreEqual(0, polys_oas[0].pointarray[5].X);
-        Assert.AreEqual(40, polys_oas[0].pointarray[5].Y);
-        Assert.AreEqual(0, polys_oas[0].pointarray[6].X);
-        Assert.AreEqual(80, polys_oas[0].pointarray[6].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[0].X);
+        Assert.AreEqual(pos.Y + 80, polys_oas[0].pointarray[0].Y);
+        Assert.AreEqual(pos.X + -60, polys_oas[0].pointarray[1].X);
+        Assert.AreEqual(pos.Y + 80, polys_oas[0].pointarray[1].Y);
+        Assert.AreEqual(pos.X + -60, polys_oas[0].pointarray[2].X);
+        Assert.AreEqual(pos.Y + 60, polys_oas[0].pointarray[2].Y);
+        Assert.AreEqual(pos.X + -20, polys_oas[0].pointarray[3].X);
+        Assert.AreEqual(pos.Y + 60, polys_oas[0].pointarray[3].Y);
+        Assert.AreEqual(pos.X + -20, polys_oas[0].pointarray[4].X);
+        Assert.AreEqual(pos.Y + 40, polys_oas[0].pointarray[4].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[5].X);
+        Assert.AreEqual(pos.Y + 40, polys_oas[0].pointarray[5].Y);
+        Assert.AreEqual(pos.X + 0, polys_oas[0].pointarray[6].X);
+        Assert.AreEqual(pos.Y + 80, polys_oas[0].pointarray[6].Y);
     }
 
     [Test]
@@ -1910,7 +1910,6 @@ public class GeoCoreTests
         array[1] = new (100, 0);
         array[2] = new (0, 80);
 
-        bool mirror_x = false;
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray1";
         gcell.addCellref(drawing_.findCell("test"), new (0, 0));
@@ -1919,12 +1918,6 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray2";
@@ -1934,12 +1927,6 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray3";
@@ -1949,12 +1936,6 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(1);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray4";
@@ -1964,12 +1945,6 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(2);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray5";
@@ -1979,14 +1954,7 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(2);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
 
-        mirror_x = true;
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray1_mx";
         gcell.addCellref(drawing_.findCell("test"), new (0, 0));
@@ -1995,12 +1963,7 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
+        gcell.elementList[^1].setMirrorx();
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray2_mx";
@@ -2010,12 +1973,7 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
+        gcell.elementList[^1].setMirrorx();
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray3_mx";
@@ -2025,12 +1983,7 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(1);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
+        gcell.elementList[^1].setMirrorx();
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray4_mx";
@@ -2040,12 +1993,7 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(2);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
+        gcell.elementList[^1].setMirrorx();
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray5_mx";
@@ -2055,12 +2003,8 @@ public class GeoCoreTests
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(2);
-        switch (mirror_x)
-        {
-            case true:
-                gcell.elementList[^1].setMirrorx();
-                break;
-        }
+        gcell.elementList[^1].setMirrorx();
+
         g.setDrawing(drawing_);
         g.setValid(true);
 
@@ -2078,12 +2022,173 @@ public class GeoCoreTests
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.AreEqual(gcGDS.isValid(), true);
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray");
-
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray1");
         Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 pitch = cell_gds.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
         List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_gds.Count);
-        Assert.AreEqual(7, polys_gds[0].pointarray.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        
+        cell_gds = drawing_gds.findCell("test_cellrefarray2");
+        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_gds.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+
+        cell_gds = drawing_gds.findCell("test_cellrefarray3");
+        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_gds.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(-10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(-10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(30 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(0 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(30 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(0 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(40 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(40 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+
+        cell_gds = drawing_gds.findCell("test_cellrefarray4");
+        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_gds.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(2, scale);
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
 
         string oasFile = outDir + "simple_cellrefarray.oas";
         if (File.Exists(oasFile))
@@ -2099,12 +2204,173 @@ public class GeoCoreTests
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.AreEqual(gcOAS.isValid(), true);
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
-        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray");
-
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray1");
         Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_oas.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
-        Assert.AreEqual(7, polys_oas[0].pointarray.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        
+        cell_oas = drawing_oas.findCell("test_cellrefarray2");
+        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_oas.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        
+        cell_oas = drawing_oas.findCell("test_cellrefarray3");
+        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_oas.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(90, cell_oas.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(-10 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(-10 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(30 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(0 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(30 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(0 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(40 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(40 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        
+        cell_oas = drawing_oas.findCell("test_cellrefarray4");
+        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_oas.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(2, scale);
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
     }
 
     [Test]

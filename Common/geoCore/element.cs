@@ -581,6 +581,9 @@ public class GCElement
     public virtual bool isCellrefArray() { return false; }
     public virtual GCCell getCellref() { return null; }
     public virtual GCCellRefArray getCellrefArray() { return null; }
+
+    public virtual Point64 getCount() { return new (0,0); }
+    public virtual Point64 getPitch() { return new(0, 0); }
     public virtual void setMirrorx() { }
     public virtual void clearMirrorx() { }
     public virtual void toggleMirrorx() { }

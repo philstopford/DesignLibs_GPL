@@ -463,8 +463,9 @@ public class GCCellref : GCElement
             for (int poly = 0; poly < ret.Count; poly++)
 #endif
             {
+                ret[poly].move(point);
                 ret[poly].rotate(trans.angle, point);
-                ret[poly].scale(trans.mag);
+                ret[poly].scale(point, trans.mag);
             }
 #if !GCSINGLETHREADED
         );

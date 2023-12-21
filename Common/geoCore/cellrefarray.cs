@@ -66,6 +66,16 @@ public class GCCellRefArray : GCElement
         return cell_ref;
     }
 
+    public override void scale(double factor)
+    {
+        trans.mag = factor;
+    }
+
+    public override void rotate(double angle)
+    {
+        trans.angle = angle;
+    }
+
     public override void minimum(ref Point64 p)
     {
         pMinimum(ref p);
@@ -237,6 +247,16 @@ public class GCCellRefArray : GCElement
     private void pSetCellRef(GCCell cellRef)
     {
         cell_ref = cellRef;
+    }
+
+    public override Point64 getPitch()
+    {
+        return new(pitch);
+    }
+
+    public override Point64 getCount()
+    {
+        return new(count_x, count_y);
     }
 
     public override void saveGDS(gdsWriter gw)
@@ -473,6 +493,7 @@ public class GCCellRefArray : GCElement
                 }
             }
         }
+        
 
         if (trans.mirror_x)
         {
@@ -494,8 +515,9 @@ public class GCCellRefArray : GCElement
             for (int poly = 0; poly < ret.Count; poly++)
 #endif
             {
+                ret[poly].move(point);
                 ret[poly].rotate(trans.angle, point);
-                ret[poly].scale(trans.mag);
+                ret[poly].scale(point, trans.mag);
             }
 #if !GCSINGLETHREADED
         );

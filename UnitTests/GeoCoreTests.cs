@@ -1274,6 +1274,8 @@ public class GeoCoreTests
         path[4] = new (0, 40);
 
         gcell.addPath(path, 1, 0);
+        // This 5 width becomes an issue with coarse layout grids because it resolves to 3 each side (rather than 2.5), which is observed below.
+        // Finer grid resolution will avoid this problem.
         gcell.elementList[^1].setWidth(5); // note that Oasis only supports factors of 2, so this gets rounded down to make a 4 unit path at the writer (for Oasis).
         gcell.elementList[^1].setCap(2); // extend the path by half the width at the line ends.
 

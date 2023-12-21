@@ -98,8 +98,7 @@ internal partial class oasReader
 
     private void addBox()
     {
-        // OASIS puts XY in lower-left corner.... We have XY at the center
-        cell_.addBox(modal.geometry_x + (modal.geometry_w/2), modal.geometry_y + (modal.geometry_h/2), modal.geometry_w, modal.geometry_h, modal.layer, modal.datatype);
+        cell_.addBox(modal.geometry_x, modal.geometry_y, modal.geometry_w, modal.geometry_h, modal.layer, modal.datatype);
         registerLayerDatatype();
     }
 

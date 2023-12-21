@@ -4,12 +4,6 @@ namespace geoLib;
 
 public class GeoLibRectangle
 {
-    public int X { get; set; }
-    public int Y { get; set; }
-    public int Left { get; set; }
-    public int Right { get; set; }
-    public int Top { get; set; }
-    public int Bottom { get; set; }
     public Point64 Location { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
@@ -31,11 +25,9 @@ public class GeoLibRectangle
 
     private void pGeoLibRectangle(int x, int y, int width, int height)
     {
-        X = x;
-        Y = y;
+        Location = new(x, y);
         Width = width;
         Height = height;
-        setOtherProps();
     }
 
     public GeoLibRectangle(GeoLibRectangle source)
@@ -45,22 +37,11 @@ public class GeoLibRectangle
 
     private void pGeoLibRectangle(GeoLibRectangle source)
     {
-        X = source.X;
-        Y = source.Y;
+        Location = new(source.Location);
         Width = source.Width;
         Height = source.Height;
-        setOtherProps();
     }
-
-    private void setOtherProps()
-    {
-        Left = X - (int)(Width * 0.5);
-        Bottom = Y - (int)(Height * 0.5);
-        Location = new Point64(X, Y);
-        Top = Y + (int)(Height * 0.5);
-        Right = X + (int)(Width *0.5);
-    }
-
+    
     public void Offset(Point64 offset)
     {
         pOffset(offset);
@@ -68,20 +49,12 @@ public class GeoLibRectangle
 
     private void pOffset(Point64 offset)
     {
-        X += (int)offset.X;
-        Y += (int)offset.Y;
-        setOtherProps();
+        Location = new(Location.X + offset.X, Location.Y + offset.Y);
     }
 }
 
 public class GeoLibRectangleF
 {
-    public double X { get; set; }
-    public double Y { get; set; }
-    public double Left { get; set; }
-    public double Right { get; set; }
-    public double Top { get; set; }
-    public double Bottom { get; set; }
     public PointD Location { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
@@ -103,11 +76,9 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(int x, int y, int width, int height)
     {
-        X = x;
-        Y = y;
+        Location = new(x, y);
         Width = width;
         Height = height;
-        setOtherProps();
     }
 
     public GeoLibRectangleF(float x, float y, float width, float height)
@@ -117,11 +88,9 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(float x, float y, float width, float height)
     {
-        X = x;
-        Y = y;
+        Location = new(x, y);
         Width = width;
         Height = height;
-        setOtherProps();
     }
 
     public GeoLibRectangleF(double x, double y, double width, double height)
@@ -131,11 +100,9 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(double x, double y, double width, double height)
     {
-        X = (float)x;
-        Y = (float)y;
+        Location = new(x, y);
         Width = (float)width;
         Height = (float)height;
-        setOtherProps();
     }
 
     public GeoLibRectangleF(GeoLibRectangle source)
@@ -145,11 +112,9 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(GeoLibRectangle source)
     {
-        X = source.X;
-        Y = source.Y;
+        Location = new(source.Location);
         Width = source.Width;
         Height = source.Height;
-        setOtherProps();
     }
 
     public GeoLibRectangleF(GeoLibRectangleF source)
@@ -159,22 +124,11 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(GeoLibRectangleF source)
     {
-        X = source.X;
-        Y = source.Y;
+        Location = new(source.Location);
         Width = source.Width;
         Height = source.Height;
-        setOtherProps();
     }
-
-    private void setOtherProps()
-    {
-        Left = X - (Width * 0.5);
-        Top = Y - (Height * 0.5);
-        Location = new (X, Y);
-        Bottom = Top + Height;
-        Right = Left + Width;
-    }
-
+    
     public void Offset(Point64 offset)
     {
         pOffset(offset);
@@ -182,9 +136,7 @@ public class GeoLibRectangleF
 
     private void pOffset(Point64 offset)
     {
-        X += offset.X;
-        Y += offset.Y;
-        setOtherProps();
+        Location = new(Location.x + offset.X, Location.y + offset.Y);
     }
 
     public void Offset(PointD offset)
@@ -194,8 +146,6 @@ public class GeoLibRectangleF
 
     private void pOffset(PointD offset)
     {
-        X += offset.x;
-        Y += offset.y;
-        setOtherProps();
+        Location = new(Location.x + offset.x, Location.y + offset.y);
     }
 }

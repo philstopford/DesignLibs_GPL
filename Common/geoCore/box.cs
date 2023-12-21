@@ -1,4 +1,5 @@
-﻿using gds;
+﻿using System;
+using gds;
 using geoLib;
 using oasis;
 using System.Collections.Generic;
@@ -49,33 +50,33 @@ public class GCBox : GCElement
 
     private bool pCorrect()
     {
-        if (rect.Left == rect.Right)
+        if (rect.Width == 0)
         {
             return false;
         }
-        return rect.Top != rect.Bottom;
+        return rect.Height != 0;
     }
 
-    public override void maximum(Point64 p)
+    public override void maximum(ref Point64 p)
     {
-        pMaximum(p);
+        pMaximum(ref p);
     }
 
-    private void pMaximum(Point64 p)
+    private void pMaximum(ref Point64 p)
     {
-        p.X = rect.Right;
-        p.Y = rect.Top;
+        p.X = rect.Location.X + rect.Width;
+        p.Y = rect.Location.Y + rect.Height;
     }
 
-    public override void minimum(Point64 p)
+    public override void minimum(ref Point64 p)
     {
-        pMinimum(p);
+        pMinimum(ref p);
     }
 
-    private void pMinimum(Point64 p)
+    private void pMinimum(ref Point64 p)
     {
-        p.X = rect.Left;
-        p.Y = rect.Bottom;
+        p.X = rect.Location.X;
+        p.Y = rect.Location.Y;
     }
 
     public override void move(Point64 pos)
@@ -111,8 +112,8 @@ public class GCBox : GCElement
     private void pResize(double size)
     {
         rect = new GeoLibRectangle(
-            (int)(rect.X * size),
-            (int)(rect.Y * size),
+            (int)(rect.Location.X * size),
+            (int)(rect.Location.Y * size),
             (int)(rect.Width * size),
             (int)(rect.Height * size)
         );
@@ -127,11 +128,15 @@ public class GCBox : GCElement
     {
         List<GCPolygon> ret = new();
         Path64 points = Helper.initedPath64(5);
-        points[0] = new (rect.Left, rect.Top);
-        points[1] = new (rect.Right, rect.Top);
-        points[2] = new (rect.Right, rect.Bottom);
-        points[3] = new (rect.Left, rect.Bottom);
-        points[4] = new (rect.Left, rect.Top);
+        Int64 left = rect.Location.X;
+        Int64 bottom = rect.Location.Y;
+        Int64 right = left + rect.Width;
+        Int64 top = bottom + rect.Height;
+        points[0] = new (left, top);
+        points[1] = new (right, top);
+        points[2] = new (right, bottom);
+        points[3] = new (left, bottom);
+        points[4] = new (left, top);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
         return ret;
     }
@@ -143,6 +148,11 @@ public class GCBox : GCElement
 
     private void pSaveGDS(gdsWriter gw)
     {
+        int left = (int)rect.Location.X;
+        int bottom = (int)rect.Location.Y;
+        int right = left + rect.Width;
+        int top = bottom + rect.Height;
+
         // box
         gw.bw.Write((ushort)4);
         gw.bw.Write(gdsValues.sBOUNDARY);
@@ -158,16 +168,16 @@ public class GCBox : GCElement
         // 5 points (last must match first). 2 values per point. 4 bytes per value.
         gw.bw.Write((ushort)(4 + 5 * 2 * 4));
         gw.bw.Write(gdsValues.sXY);
-        gw.bw.Write(rect.Left);
-        gw.bw.Write(rect.Top);
-        gw.bw.Write(rect.Right);
-        gw.bw.Write(rect.Top);
-        gw.bw.Write(rect.Right);
-        gw.bw.Write(rect.Bottom);
-        gw.bw.Write(rect.Left);
-        gw.bw.Write(rect.Bottom);
-        gw.bw.Write(rect.Left);
-        gw.bw.Write(rect.Top);
+        gw.bw.Write(left);
+        gw.bw.Write(top);
+        gw.bw.Write(right);
+        gw.bw.Write(top);
+        gw.bw.Write(right);
+        gw.bw.Write(bottom);
+        gw.bw.Write(left);
+        gw.bw.Write(bottom);
+        gw.bw.Write(left);
+        gw.bw.Write(top);
         // endel
         gw.bw.Write((ushort)4);
         gw.bw.Write(gdsValues.sENDEL);
@@ -195,11 +205,11 @@ public class GCBox : GCElement
         {
             info_byte += 2;
         }
-        if (rect.Left != ow.modal.geometry_x)
+        if (rect.Location.X != ow.modal.geometry_x)
         {
             info_byte += 16;
         }
-        if (rect.Bottom != ow.modal.geometry_y)
+        if (rect.Location.Y != ow.modal.geometry_y)
         {
             info_byte += 8;
         }
@@ -262,16 +272,14 @@ public class GCBox : GCElement
         switch (info_byte & 16)
         {
             case > 0:
-                // OASIS puts X at the lower left corner
-                ow.modal.geometry_x = rect.Left;
+                ow.modal.geometry_x = (int)rect.Location.X;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                // OASIS puts Y at the lower left corner
-                ow.modal.geometry_y = rect.Bottom;
+                ow.modal.geometry_y = (int)rect.Location.Y;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;
         }
@@ -284,7 +292,7 @@ public class GCBox : GCElement
 
     public override Point64 getPos()
     {
-        return new (rect.X, rect.Y);
+        return new (rect.Location);
     }
 
     public override int getWidth()

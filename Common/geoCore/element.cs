@@ -544,8 +544,8 @@ public class GCElement
         return array;
     }
 
-    public virtual void minimum(Point64 p) { }
-    public virtual void maximum(Point64 p) { }
+    public virtual void minimum(ref Point64 p) { }
+    public virtual void maximum(ref Point64 p) { }
     public virtual void deleteSelect() { }
     public virtual void moveSelect(Point64 p) { }
     public virtual void move(Point64 p) { }

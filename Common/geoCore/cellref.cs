@@ -77,12 +77,12 @@ public class GCCellref : GCElement
         return point;
     }
 
-    public override void minimum(Point64 p)
+    public override void minimum(ref Point64 p)
     {
-        pMinimum(p);
+        pMinimum(ref p);
     }
 
-    private void pMinimum(Point64 p)
+    private void pMinimum(ref Point64 p)
     {
         Point64 pos1 = new(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
@@ -98,8 +98,8 @@ public class GCCellref : GCElement
                 break;
         }
         Point64 pos2 = pos1;
-        cell_ref.maximum(pos1);
-        cell_ref.minimum(pos2);
+        cell_ref.maximum(ref pos1);
+        cell_ref.minimum(ref pos2);
         switch (trans.mirror_x)
         {
             case true:
@@ -149,12 +149,12 @@ public class GCCellref : GCElement
         trans.angle = angle;
     }
 
-    public override void maximum(Point64 p)
+    public override void maximum(ref Point64 p)
     {
-        pMaximum(p);
+        pMaximum(ref p);
     }
 
-    private void pMaximum(Point64 p)
+    private void pMaximum(ref Point64 p)
     {
         Point64 pos1 = new(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
@@ -170,8 +170,8 @@ public class GCCellref : GCElement
                 break;
         }
         Point64 pos2 = pos1;
-        cell_ref.maximum(pos1);
-        cell_ref.minimum(pos2);
+        cell_ref.maximum(ref pos1);
+        cell_ref.minimum(ref pos2);
         switch (trans.mirror_x)
         {
             case true:

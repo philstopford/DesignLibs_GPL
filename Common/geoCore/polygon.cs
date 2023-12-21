@@ -147,12 +147,12 @@ public class GCPolygon : GCElement
         m.matrix.TransformPoints(pointarray);
     }
 
-    public override void minimum(Point64 pos)
+    public override void minimum(ref Point64 pos)
     {
-        pMinimum(pos);
+        pMinimum(ref pos);
     }
 
-    private void pMinimum(Point64 pos)
+    private void pMinimum(ref Point64 pos)
     {
         Point64 t = GeoWrangler.getMinimumPoint(pointarray);
 
@@ -160,12 +160,12 @@ public class GCPolygon : GCElement
         pos.Y = Math.Min(pos.Y, t.Y);
     }
 
-    public override void maximum(Point64 pos)
+    public override void maximum(ref Point64 pos)
     {
-        pMaximum(pos);
+        pMaximum(ref pos);
     }
 
-    private void pMaximum(Point64 pos)
+    private void pMaximum(ref Point64 pos)
     {
         Point64 t = GeoWrangler.getMaximumPoint(pointarray);
 

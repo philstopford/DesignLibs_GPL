@@ -40,12 +40,12 @@ public class GCTxt : GCElement
         width = 10;
     }
 
-    public override void minimum(Point64 pos)
+    public override void minimum(ref Point64 pos)
     {
-        pMinimum(pos);
+        pMinimum(ref pos);
     }
 
-    private void pMinimum(Point64 pos)
+    private void pMinimum(ref Point64 pos)
     {
         if (point.X < pos.X)
         {
@@ -57,12 +57,12 @@ public class GCTxt : GCElement
         }
     }
 
-    public override void maximum(Point64 pos)
+    public override void maximum(ref Point64 pos)
     {
-        pMaximum(pos);
+        pMaximum(ref pos);
     }
 
-    private void pMaximum(Point64 pos)
+    private void pMaximum(ref Point64 pos)
     {
         if (point.X > pos.X)
         {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;
+using geoWrangler;
 
 namespace geoCoreLib;
 
@@ -149,8 +150,8 @@ public class GCCell
             case true:
                 int box_width = x2 - x1;
                 int box_height = y2 - y1;
-                int box_x = x1 + (int)(0.5 * box_width);
-                int box_y = y1 + (int)(0.5 * box_height);
+                int box_x = x1;
+                int box_y = y1;
                 e = new GCBox(box_x, box_y, box_width, box_height, layer, datatype);
                 pAddElement(e);
                 break;
@@ -202,8 +203,32 @@ public class GCCell
 
     private void pAddPolygon(Path64 points, int layer, int datatype)
     {
-        GCElement e = new GCPolygon(points, layer, datatype);
-        pAddElement(e);
+        // Might this be a box?
+        bool box = false;
+        // Box is defined by 5 points
+        if (points.Count == 5)
+        {
+            // Check that the distances are equi-distant on each side, using the diagonal opposite
+            if (Math.Abs(points[0].X - points[2].X) == Math.Abs(points[0].Y - points[2].Y))
+            {
+                double[] angles = GeoWrangler.angles(points, true).Distinct().ToArray();
+                if (angles.Length == 1)
+                {
+                    box = true;
+                }
+            }
+        }
+
+        GCElement e;
+        if (box)
+        {
+            pAddBox(points, layer, datatype);
+        }
+        else
+        {
+            e = new GCPolygon(points, layer, datatype);
+            pAddElement(e);
+        }
     }
 
     public void addCellref(GCCell c, Point64 pos)
@@ -649,32 +674,32 @@ public class GCCell
 #endif
     }
         
-    public void minimum(Point64 pos)
+    public void minimum(ref Point64 pos)
     {
-        pMinimum(pos);
+        pMinimum(ref pos);
     }
 
-    private void pMinimum(Point64 pos)
+    private void pMinimum(ref Point64 pos)
     {
         foreach (GCElement el in elementList)
         {
             if (el != null)
             {
-                el.minimum(pos);
+                el.minimum(ref pos);
             }
         }
     }
 
-    public void maximum(Point64 pos)
+    public void maximum(ref Point64 pos)
     {
-        pMaximum(pos);
+        pMaximum(ref pos);
     }
 
-    private void pMaximum(Point64 pos)
+    private void pMaximum(ref Point64 pos)
     {
         foreach (GCElement el in elementList)
         {
-            el?.maximum(pos);
+            el?.maximum(ref pos);
         }
     }
 

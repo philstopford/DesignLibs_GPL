@@ -442,6 +442,20 @@ public class GCCellref : GCElement
     {
         List<GCPolygon> ret = cell_ref.convertToPolygons();
 
+        if (trans.mirror_x)
+        {
+            foreach (GCPolygon poly in ret)
+            {
+                Path64 flipped = new();
+                foreach (Point64 pt in poly.pointarray)
+                {
+                    flipped.Add(new (pt.X, -pt.Y));
+                }
+                poly.pointarray.Clear();
+                poly.pointarray.AddRange(flipped);
+            }
+        }
+
 
 #if !GCSINGLETHREADED
         Parallel.For(0, ret.Count, (poly, loopstate) =>

@@ -1803,7 +1803,7 @@ public class GeoCoreTests
 
         bool mirror_x = false;
         gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray";
+        gcell.cellName = "test_cellrefarray1";
         gcell.addCellref(drawing_.findCell("test"), new (0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
         gcell.elementList[^1].setPos(new (0, 0));
@@ -1817,6 +1817,141 @@ public class GeoCoreTests
                 break;
         }
 
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray2";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray3";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(1);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray4";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(2);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray5";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(2);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        mirror_x = true;
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray1_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (0, 0));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray2_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray3_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(1);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray4_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(2);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray5_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(2);
+        switch (mirror_x)
+        {
+            case true:
+                gcell.elementList[^1].setMirrorx();
+                break;
+        }
         g.setDrawing(drawing_);
         g.setValid(true);
 

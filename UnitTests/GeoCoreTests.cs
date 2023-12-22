@@ -2475,6 +2475,7 @@ public class GeoCoreTests
         */
     }
 
+    // FIXME : This needs the test conditions added to ensure we can read what we write, etc.
     [Test]
     public static void defineAndWrite_CellrefArray_irregular()
     {
@@ -2525,8 +2526,6 @@ public class GeoCoreTests
 
         gcell.addPolygon(poly, 1, 0);
 
-        // Cellrefarrays also have to resolve to integer placement.
-        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
         array[0] = new (0, 0);
         array[1] = new (30, 50);
@@ -2562,6 +2561,8 @@ public class GeoCoreTests
         ow.save();
         Assert.True(File.Exists(oasFile));
     }
+    
+    // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.
 
     [Test]
     public static void defineAndWrite_Text()

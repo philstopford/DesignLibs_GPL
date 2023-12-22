@@ -348,7 +348,7 @@ public partial class oasWriter
         writeUnsignedInteger((uint)w);
     }
 
-    private void writeGDelta(PointD p)
+    public void writeGDelta(PointD p)
     {
         switch (p.y)
         {

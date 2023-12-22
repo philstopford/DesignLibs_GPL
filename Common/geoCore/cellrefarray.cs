@@ -16,6 +16,11 @@ public class GCCellRefArray : GCElement
     public Point64 rowVector, columnVector;
     public GCCell cell_ref { get; set; }
     public GCStrans trans { get; set; }
+    
+    // Used for OASIS
+    private enum repetition_types { Rectangular, Regular, Explicitx, Explicity, Explicit }
+
+    public int repetition_type;
 
     public GCCellRefArray(GCCell c, Path64 array, int xCount, int yCount)
     {
@@ -26,6 +31,11 @@ public class GCCellRefArray : GCElement
         int pitch_y = 0;
         rowVector = new(array[1].X - array[0].X, array[1].Y - array[0].Y);
         columnVector = new(array[2].X - array[0].X, array[2].Y - array[0].Y);
+        repetition_type = (int)repetition_types.Rectangular;
+        if (((rowVector.X != 0) && (rowVector.Y != 0)) || ((columnVector.X != 0) && (columnVector.Y != 0)))
+        {
+            repetition_type = (int)repetition_types.Regular;
+        }
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -418,6 +428,103 @@ public class GCCellRefArray : GCElement
         }
         switch (info_byte & 8)
         {
+            default:
+                switch (repetition_type)
+                {
+                    case (int)repetition_types.Rectangular:
+                        if ((count_x > 1) && (count_y > 1))
+                        {
+                            ow.modal.x_dimension = count_x;
+                            ow.modal.y_dimension = count_y;
+                            ow.modal.x_space = (int)(columnVector.X + rowVector.X);
+                            ow.modal.y_space = (int)(columnVector.Y + rowVector.Y);
+                            if (((columnVector.X + rowVector.X) >= 0) && ((columnVector.Y + rowVector.Y) >= 0))
+                            {
+                                ow.writeUnsignedInteger(1);
+                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                ow.writeUnsignedInteger((uint)ow.modal.x_space);
+                                ow.writeUnsignedInteger((uint)ow.modal.y_space);
+                            }
+                            else
+                            {
+                                ow.writeUnsignedInteger(8);
+                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                ow.writeGDelta(new (ow.modal.x_space, 0));
+                                ow.writeGDelta(new(0, ow.modal.y_space));
+                            }
+                        }
+                        else if (count_x > 1)
+                        {
+                            ow.modal.x_dimension = count_x;
+                            ow.modal.x_space = (int)(columnVector.X + rowVector.X);
+                            if ((columnVector.X + rowVector.X) >= 0)
+                            {
+                                ow.writeUnsignedInteger(2);
+                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                ow.writeUnsignedInteger((uint)ow.modal.x_space);
+                            }
+                            else
+                            {
+                                ow.writeUnsignedInteger(9);
+                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                ow.writeGDelta(new (ow.modal.x_space, 0));
+                            }
+                        }
+                        else
+                        {
+                            ow.modal.y_dimension = count_y;
+                            ow.modal.y_space = (int)rowVector.Y;
+                            if ((columnVector.Y + rowVector.Y) >= 0)
+                            {
+                                ow.writeUnsignedInteger(3);
+                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                ow.writeUnsignedInteger((uint)ow.modal.y_space);
+                            }
+                            else
+                            {
+                                ow.writeUnsignedInteger(9);
+                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                ow.writeGDelta(new(0, ow.modal.y_space));
+                            }
+                        }
+                        break;
+                    case (int)repetition_types.Regular:
+                        if ((count_x > 1) && (count_y > 1))
+                        {
+                            ow.modal.x_dimension = count_x;
+                            ow.modal.y_dimension = count_y;
+                            ow.writeUnsignedInteger(8);
+                            ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                            ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                            ow.writeGDelta(new (columnVector));
+                            ow.writeGDelta(new(rowVector));
+                        }
+                        else if (count_x > 1)
+                        {
+                            ow.modal.x_dimension = count_x;
+                            ow.writeUnsignedInteger(9);
+                            ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                            ow.writeGDelta(new (columnVector));
+                        }
+                        else
+                        {
+                            ow.modal.y_dimension = count_y;
+                            ow.writeUnsignedInteger(9);
+                            ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                            ow.writeGDelta(new(rowVector));
+                        }
+                        break;
+                    case (int)repetition_types.Explicitx:
+                    case (int)repetition_types.Explicity:
+                    case (int)repetition_types.Explicit:
+                        throw new("Not immplemented.");
+                        break;
+                }
+
+                break;
+            /*
             case > 0 when count_x == 1:
                 ow.writeUnsignedInteger(3);
                 ow.modal.y_dimension = count_y;
@@ -443,6 +550,7 @@ public class GCCellRefArray : GCElement
                 ow.writeUnsignedInteger((uint)rowVector.X);
                 ow.writeUnsignedInteger((uint)rowVector.Y);
                 break;
+                */
         }
     }
 

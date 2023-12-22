@@ -26,22 +26,22 @@ public class GCCellRefArray : GCElement
         int pitch_y = 0;
         if (xCount > 1)
         {
-            if (array[1].X == 0)
+            if (array[1].X == array[0].X)
             {
                 pitch_x = (int)(array[2].X - array[0].X);
             }
-            if (array[2].X == 0)
+            if (array[2].X == array[0].X)
             {
                 pitch_x = (int)(array[1].X - array[0].X);
             }
         }
         if (yCount > 1)
         {
-            if (array[1].Y == 0)
+            if (array[1].Y == array[0].Y)
             {
                 pitch_y = (int)(array[2].Y - array[0].Y);
             }
-            if (array[2].Y == 0)
+            if (array[2].Y == array[0].Y)
             {
                 pitch_y = (int)(array[1].Y - array[0].Y);
             }

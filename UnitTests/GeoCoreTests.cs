@@ -144,7 +144,7 @@ public class GeoCoreTests
                     userunits = 0.001 / scale,
                     libname = "noname"
                 };
-                Assert.AreEqual(drawing_.accyear, 2018);
+                Assert.AreEqual(2018, drawing_.accyear);
 
                 GCCell gcell = drawing_.addCell();
                 // Force the below for comparison sake
@@ -276,7 +276,7 @@ public class GeoCoreTests
             userunits = 0.001 / scale,
             libname = "noname"
         };
-        Assert.AreEqual(drawing_.accyear, 2018);
+        Assert.AreEqual(2018, drawing_.accyear);
 
         GCCell gcell = drawing_.addCell();
         gcell.accyear = 2018;
@@ -299,7 +299,7 @@ public class GeoCoreTests
         gcell.addCircle(1, 1, new(0,0), 500);
 
         // Do we have the cell in the drawing?
-        Assert.AreEqual(drawing_.findCell("test"), gcell);
+        Assert.AreEqual(gcell, drawing_.findCell("test"));
        
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -324,7 +324,6 @@ public class GeoCoreTests
     [Test]
     public static void test_box()
     {
-
         int scale = 100; // for 0.01 nm resolution.
         
         // Can the system define geometry and write it correctly to Oasis and GDS files.
@@ -348,7 +347,7 @@ public class GeoCoreTests
             userunits = 0.001 / scale,
             libname = "noname"
         };
-        Assert.AreEqual(drawing_.accyear, 2018);
+        Assert.AreEqual(2018, drawing_.accyear);
 
         GCCell gcell = drawing_.addCell();
         gcell.accyear = 2018;
@@ -400,7 +399,7 @@ public class GeoCoreTests
         // gcell.addBox(9050, 46500, 1900, 1000, 1, 1);
 
         // Do we have the cell in the drawing?
-        Assert.AreEqual(drawing_.findCell("test"), gcell);
+        Assert.AreEqual(gcell, drawing_.findCell("test"));
        
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -431,72 +430,72 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
 
         // Simple cell.
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("r");
-        Assert.AreEqual(gcGDS.activeStructure, 0);
+        Assert.AreEqual(0, gcGDS.activeStructure);
 
         // Only a single layer datatype.
         gcGDS.activeLD = gcGDS.getActiveStructureLDList().IndexOf("L1D0");
-        Assert.AreEqual(gcGDS.activeLD, 0);
+        Assert.AreEqual(0, gcGDS.activeLD);
 
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         List<GCPolygon> t1 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
-        Assert.AreEqual(t1.Count, 1);
-        Assert.AreEqual(t1[0].layer_nr, 1);
-        Assert.AreEqual(t1[0].datatype_nr, 0);
-        Assert.AreEqual(t1[0].pointarray.Count, 7);
-        Assert.AreEqual(t1[0].pointarray[0], new Point64(0,0,0));
-        Assert.AreEqual(t1[0].pointarray[1], new Point64(0,100,0));
-        Assert.AreEqual(t1[0].pointarray[2], new Point64(40,100,0));
-        Assert.AreEqual(t1[0].pointarray[3], new Point64(40,40,0));
-        Assert.AreEqual(t1[0].pointarray[4], new Point64(100,40,0));
-        Assert.AreEqual(t1[0].pointarray[5], new Point64(100,0,0));
-        Assert.AreEqual(t1[0].pointarray[6], new Point64(0,0,0));
+        Assert.AreEqual(1, t1.Count);
+        Assert.AreEqual(1, t1[0].layer_nr);
+        Assert.AreEqual(0, t1[0].datatype_nr);
+        Assert.AreEqual(7, t1[0].pointarray.Count);
+        Assert.AreEqual(new Point64(0,0,0), t1[0].pointarray[0]);
+        Assert.AreEqual(new Point64(0,100,0), t1[0].pointarray[1]);
+        Assert.AreEqual(new Point64(40,100,0), t1[0].pointarray[2]);
+        Assert.AreEqual(new Point64(40,40,0), t1[0].pointarray[3]);
+        Assert.AreEqual(new Point64(100,40,0), t1[0].pointarray[4]);
+        Assert.AreEqual(new Point64(100,0,0), t1[0].pointarray[5]);
+        Assert.AreEqual(new Point64(0,0,0), t1[0].pointarray[6]);
 
         // Array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("a");
-        Assert.AreEqual(gcGDS.activeStructure, 1);
+        Assert.AreEqual(1, gcGDS.activeStructure);
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         List<GCPolygon> t2 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
-        Assert.AreEqual(t2.Count, 4);
-        Assert.AreEqual(t2[0].layer_nr, 1);
-        Assert.AreEqual(t2[0].datatype_nr, 0);
-        Assert.AreEqual(t2[0].pointarray.Count, 7);
-        Assert.AreEqual(t2[0].pointarray[0], new Point64(0,0,0));
-        Assert.AreEqual(t2[0].pointarray[1], new Point64(0,100,0));
-        Assert.AreEqual(t2[0].pointarray[2], new Point64(40,100,0));
-        Assert.AreEqual(t2[0].pointarray[3], new Point64(40,40,0));
-        Assert.AreEqual(t2[0].pointarray[4], new Point64(100,40,0));
-        Assert.AreEqual(t2[0].pointarray[5], new Point64(100,0,0));
-        Assert.AreEqual(t2[0].pointarray[6], new Point64(0,0,0));
-        Assert.AreEqual(t2[1].pointarray.Count, 7);
-        Assert.AreEqual(t2[1].pointarray[0], new Point64(0,110,0));
-        Assert.AreEqual(t2[1].pointarray[1], new Point64(0,210,0));
-        Assert.AreEqual(t2[1].pointarray[2], new Point64(40,210,0));
-        Assert.AreEqual(t2[1].pointarray[3], new Point64(40,150,0));
-        Assert.AreEqual(t2[1].pointarray[4], new Point64(100,150,0));
-        Assert.AreEqual(t2[1].pointarray[5], new Point64(100,110,0));
-        Assert.AreEqual(t2[1].pointarray[6], new Point64(0,110,0));
-        Assert.AreEqual(t2[2].pointarray.Count, 7);
-        Assert.AreEqual(t2[2].pointarray[0], new Point64(110,0,0));
-        Assert.AreEqual(t2[2].pointarray[1], new Point64(110,100,0));
-        Assert.AreEqual(t2[2].pointarray[2], new Point64(150,100,0));
-        Assert.AreEqual(t2[2].pointarray[3], new Point64(150,40,0));
-        Assert.AreEqual(t2[2].pointarray[4], new Point64(210,40,0));
-        Assert.AreEqual(t2[2].pointarray[5], new Point64(210,0,0));
-        Assert.AreEqual(t2[2].pointarray[6], new Point64(110,0,0));
-        Assert.AreEqual(t2[3].pointarray.Count, 7);
-        Assert.AreEqual(t2[3].pointarray[0], new Point64(110,110,0));
-        Assert.AreEqual(t2[3].pointarray[1], new Point64(110,210,0));
-        Assert.AreEqual(t2[3].pointarray[2], new Point64(150,210,0));
-        Assert.AreEqual(t2[3].pointarray[3], new Point64(150,150,0));
-        Assert.AreEqual(t2[3].pointarray[4], new Point64(210,150,0));
-        Assert.AreEqual(t2[3].pointarray[5], new Point64(210,110,0));
-        Assert.AreEqual(t2[3].pointarray[6], new Point64(110,110,0));
+        Assert.AreEqual(4, t2.Count);
+        Assert.AreEqual(1, t2[0].layer_nr);
+        Assert.AreEqual(0, t2[0].datatype_nr);
+        Assert.AreEqual(7, t2[0].pointarray.Count);
+        Assert.AreEqual(new Point64(0,0,0), t2[0].pointarray[0]);
+        Assert.AreEqual(new Point64(0,100,0), t2[0].pointarray[1]);
+        Assert.AreEqual(new Point64(40,100,0), t2[0].pointarray[2]);
+        Assert.AreEqual(new Point64(40,40,0), t2[0].pointarray[3]);
+        Assert.AreEqual(new Point64(100,40,0), t2[0].pointarray[4]);
+        Assert.AreEqual(new Point64(100,0,0), t2[0].pointarray[5]);
+        Assert.AreEqual(new Point64(0,0,0), t2[0].pointarray[6]);
+        Assert.AreEqual(7, t2[1].pointarray.Count);
+        Assert.AreEqual(new Point64(0,110,0), t2[1].pointarray[0]);
+        Assert.AreEqual(new Point64(0,210,0), t2[1].pointarray[1]);
+        Assert.AreEqual(new Point64(40,210,0), t2[1].pointarray[2]);
+        Assert.AreEqual(new Point64(40,150,0), t2[1].pointarray[3]);
+        Assert.AreEqual(new Point64(100,150,0), t2[1].pointarray[4]);
+        Assert.AreEqual(new Point64(100,110,0), t2[1].pointarray[5]);
+        Assert.AreEqual(new Point64(0,110,0), t2[1].pointarray[6]);
+        Assert.AreEqual(7, t2[2].pointarray.Count);
+        Assert.AreEqual(new Point64(110,0,0), t2[2].pointarray[0]);
+        Assert.AreEqual(new Point64(110,100,0), t2[2].pointarray[1]);
+        Assert.AreEqual(new Point64(150,100,0), t2[2].pointarray[2]);
+        Assert.AreEqual(new Point64(150,40,0), t2[2].pointarray[3]);
+        Assert.AreEqual(new Point64(210,40,0), t2[2].pointarray[4]);
+        Assert.AreEqual(new Point64(210,0,0), t2[2].pointarray[5]);
+        Assert.AreEqual(new Point64(110,0,0), t2[2].pointarray[6]);
+        Assert.AreEqual(7, t2[3].pointarray.Count);
+        Assert.AreEqual(new Point64(110,110,0), t2[3].pointarray[0]);
+        Assert.AreEqual(new Point64(110,210,0), t2[3].pointarray[1]);
+        Assert.AreEqual(new Point64(150,210,0), t2[3].pointarray[2]);
+        Assert.AreEqual(new Point64(150,150,0), t2[3].pointarray[3]);
+        Assert.AreEqual(new Point64(210,150,0), t2[3].pointarray[4]);
+        Assert.AreEqual(new Point64(210,110,0), t2[3].pointarray[5]);
+        Assert.AreEqual(new Point64(110,110,0), t2[3].pointarray[6]);
         
         // Nested array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("b");
@@ -504,137 +503,137 @@ public class GeoCoreTests
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         List<GCPolygon> t3 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
-        Assert.AreEqual(t3.Count, 16);
-        Assert.AreEqual(t3[0].layer_nr, 1);
-        Assert.AreEqual(t3[0].datatype_nr, 0);
-        Assert.AreEqual(t3[0].pointarray.Count, 7);
-        Assert.AreEqual(t3[0].pointarray[0], new Point64(0,0,0));
-        Assert.AreEqual(t3[0].pointarray[1], new Point64(0,100,0));
-        Assert.AreEqual(t3[0].pointarray[2], new Point64(40,100,0));
-        Assert.AreEqual(t3[0].pointarray[3], new Point64(40,40,0));
-        Assert.AreEqual(t3[0].pointarray[4], new Point64(100,40,0));
-        Assert.AreEqual(t3[0].pointarray[5], new Point64(100,0,0));
-        Assert.AreEqual(t3[0].pointarray[6], new Point64(0,0,0));
-        Assert.AreEqual(t3[1].pointarray.Count, 7);
-        Assert.AreEqual(t3[1].pointarray[0], new Point64(0,110,0));
-        Assert.AreEqual(t3[1].pointarray[1], new Point64(0,210,0));
-        Assert.AreEqual(t3[1].pointarray[2], new Point64(40,210,0));
-        Assert.AreEqual(t3[1].pointarray[3], new Point64(40,150,0));
-        Assert.AreEqual(t3[1].pointarray[4], new Point64(100,150,0));
-        Assert.AreEqual(t3[1].pointarray[5], new Point64(100,110,0));
-        Assert.AreEqual(t3[1].pointarray[6], new Point64(0,110,0));
-        Assert.AreEqual(t3[2].pointarray.Count, 7);
-        Assert.AreEqual(t3[2].pointarray[0], new Point64(110,0,0));
-        Assert.AreEqual(t3[2].pointarray[1], new Point64(110,100,0));
-        Assert.AreEqual(t3[2].pointarray[2], new Point64(150,100,0));
-        Assert.AreEqual(t3[2].pointarray[3], new Point64(150,40,0));
-        Assert.AreEqual(t3[2].pointarray[4], new Point64(210,40,0));
-        Assert.AreEqual(t3[2].pointarray[5], new Point64(210,0,0));
-        Assert.AreEqual(t3[2].pointarray[6], new Point64(110,0,0));
-        Assert.AreEqual(t3[3].pointarray.Count, 7);
-        Assert.AreEqual(t3[3].pointarray[0], new Point64(110,110,0));
-        Assert.AreEqual(t3[3].pointarray[1], new Point64(110,210,0));
-        Assert.AreEqual(t3[3].pointarray[2], new Point64(150,210,0));
-        Assert.AreEqual(t3[3].pointarray[3], new Point64(150,150,0));
-        Assert.AreEqual(t3[3].pointarray[4], new Point64(210,150,0));
-        Assert.AreEqual(t3[3].pointarray[5], new Point64(210,110,0));
-        Assert.AreEqual(t3[3].pointarray[6], new Point64(110,110,0));
-        Assert.AreEqual(t3[4].pointarray.Count, 7);
-        Assert.AreEqual(t3[4].pointarray[0], new Point64(0,220,0));
-        Assert.AreEqual(t3[4].pointarray[1], new Point64(0,320,0));
-        Assert.AreEqual(t3[4].pointarray[2], new Point64(40,320,0));
-        Assert.AreEqual(t3[4].pointarray[3], new Point64(40,260,0));
-        Assert.AreEqual(t3[4].pointarray[4], new Point64(100,260,0));
-        Assert.AreEqual(t3[4].pointarray[5], new Point64(100,220,0));
-        Assert.AreEqual(t3[4].pointarray[6], new Point64(0,220,0));
-        Assert.AreEqual(t3[5].pointarray.Count, 7);
-        Assert.AreEqual(t3[5].pointarray[0], new Point64(0,330,0));
-        Assert.AreEqual(t3[5].pointarray[1], new Point64(0,430,0));
-        Assert.AreEqual(t3[5].pointarray[2], new Point64(40,430,0));
-        Assert.AreEqual(t3[5].pointarray[3], new Point64(40,370,0));
-        Assert.AreEqual(t3[5].pointarray[4], new Point64(100,370,0));
-        Assert.AreEqual(t3[5].pointarray[5], new Point64(100,330,0));
-        Assert.AreEqual(t3[5].pointarray[6], new Point64(0,330,0));
-        Assert.AreEqual(t3[6].pointarray.Count, 7);
-        Assert.AreEqual(t3[6].pointarray[0], new Point64(110,220,0));
-        Assert.AreEqual(t3[6].pointarray[1], new Point64(110,320,0));
-        Assert.AreEqual(t3[6].pointarray[2], new Point64(150,320,0));
-        Assert.AreEqual(t3[6].pointarray[3], new Point64(150,260,0));
-        Assert.AreEqual(t3[6].pointarray[4], new Point64(210,260,0));
-        Assert.AreEqual(t3[6].pointarray[5], new Point64(210,220,0));
-        Assert.AreEqual(t3[6].pointarray[6], new Point64(110,220,0));
-        Assert.AreEqual(t3[7].pointarray.Count, 7);
-        Assert.AreEqual(t3[7].pointarray[0], new Point64(110,330,0));
-        Assert.AreEqual(t3[7].pointarray[1], new Point64(110,430,0));
-        Assert.AreEqual(t3[7].pointarray[2], new Point64(150,430,0));
-        Assert.AreEqual(t3[7].pointarray[3], new Point64(150,370,0));
-        Assert.AreEqual(t3[7].pointarray[4], new Point64(210,370,0));
-        Assert.AreEqual(t3[7].pointarray[5], new Point64(210,330,0));
-        Assert.AreEqual(t3[7].pointarray[6], new Point64(110,330,0));
-        Assert.AreEqual(t3[8].pointarray.Count, 7);
-        Assert.AreEqual(t3[8].pointarray[0], new Point64(220,0,0));
-        Assert.AreEqual(t3[8].pointarray[1], new Point64(220,100,0));
-        Assert.AreEqual(t3[8].pointarray[2], new Point64(260,100,0));
-        Assert.AreEqual(t3[8].pointarray[3], new Point64(260,40,0));
-        Assert.AreEqual(t3[8].pointarray[4], new Point64(320,40,0));
-        Assert.AreEqual(t3[8].pointarray[5], new Point64(320,0,0));
-        Assert.AreEqual(t3[8].pointarray[6], new Point64(220,0,0));
-        Assert.AreEqual(t3[9].pointarray.Count, 7);
-        Assert.AreEqual(t3[9].pointarray[0], new Point64(220,110,0));
-        Assert.AreEqual(t3[9].pointarray[1], new Point64(220,210,0));
-        Assert.AreEqual(t3[9].pointarray[2], new Point64(260,210,0));
-        Assert.AreEqual(t3[9].pointarray[3], new Point64(260,150,0));
-        Assert.AreEqual(t3[9].pointarray[4], new Point64(320,150,0));
-        Assert.AreEqual(t3[9].pointarray[5], new Point64(320,110,0));
-        Assert.AreEqual(t3[9].pointarray[6], new Point64(220,110,0));
-        Assert.AreEqual(t3[10].pointarray.Count, 7);
-        Assert.AreEqual(t3[10].pointarray[0], new Point64(330,0,0));
-        Assert.AreEqual(t3[10].pointarray[1], new Point64(330,100,0));
-        Assert.AreEqual(t3[10].pointarray[2], new Point64(370,100,0));
-        Assert.AreEqual(t3[10].pointarray[3], new Point64(370,40,0));
-        Assert.AreEqual(t3[10].pointarray[4], new Point64(430,40,0));
-        Assert.AreEqual(t3[10].pointarray[5], new Point64(430,0,0));
-        Assert.AreEqual(t3[10].pointarray[6], new Point64(330,0,0));
-        Assert.AreEqual(t3[11].pointarray.Count, 7);
-        Assert.AreEqual(t3[11].pointarray[0], new Point64(330,110,0));
-        Assert.AreEqual(t3[11].pointarray[1], new Point64(330,210,0));
-        Assert.AreEqual(t3[11].pointarray[2], new Point64(370,210,0));
-        Assert.AreEqual(t3[11].pointarray[3], new Point64(370,150,0));
-        Assert.AreEqual(t3[11].pointarray[4], new Point64(430,150,0));
-        Assert.AreEqual(t3[11].pointarray[5], new Point64(430,110,0));
-        Assert.AreEqual(t3[11].pointarray[6], new Point64(330,110,0));
-        Assert.AreEqual(t3[12].pointarray.Count, 7);
-        Assert.AreEqual(t3[12].pointarray[0], new Point64(220,220,0));
-        Assert.AreEqual(t3[12].pointarray[1], new Point64(220,320,0));
-        Assert.AreEqual(t3[12].pointarray[2], new Point64(260,320,0));
-        Assert.AreEqual(t3[12].pointarray[3], new Point64(260,260,0));
-        Assert.AreEqual(t3[12].pointarray[4], new Point64(320,260,0));
-        Assert.AreEqual(t3[12].pointarray[5], new Point64(320,220,0));
-        Assert.AreEqual(t3[12].pointarray[6], new Point64(220,220,0));
-        Assert.AreEqual(t3[13].pointarray.Count, 7);
-        Assert.AreEqual(t3[13].pointarray[0], new Point64(220,330,0));
-        Assert.AreEqual(t3[13].pointarray[1], new Point64(220,430,0));
-        Assert.AreEqual(t3[13].pointarray[2], new Point64(260,430,0));
-        Assert.AreEqual(t3[13].pointarray[3], new Point64(260,370,0));
-        Assert.AreEqual(t3[13].pointarray[4], new Point64(320,370,0));
-        Assert.AreEqual(t3[13].pointarray[5], new Point64(320,330,0));
-        Assert.AreEqual(t3[13].pointarray[6], new Point64(220,330,0));
-        Assert.AreEqual(t3[14].pointarray.Count, 7);
-        Assert.AreEqual(t3[14].pointarray[0], new Point64(330,220,0));
-        Assert.AreEqual(t3[14].pointarray[1], new Point64(330,320,0));
-        Assert.AreEqual(t3[14].pointarray[2], new Point64(370,320,0));
-        Assert.AreEqual(t3[14].pointarray[3], new Point64(370,260,0));
-        Assert.AreEqual(t3[14].pointarray[4], new Point64(430,260,0));
-        Assert.AreEqual(t3[14].pointarray[5], new Point64(430,220,0));
-        Assert.AreEqual(t3[14].pointarray[6], new Point64(330,220,0));
-        Assert.AreEqual(t3[15].pointarray.Count, 7);
-        Assert.AreEqual(t3[15].pointarray[0], new Point64(330,330,0));
-        Assert.AreEqual(t3[15].pointarray[1], new Point64(330,430,0));
-        Assert.AreEqual(t3[15].pointarray[2], new Point64(370,430,0));
-        Assert.AreEqual(t3[15].pointarray[3], new Point64(370,370,0));
-        Assert.AreEqual(t3[15].pointarray[4], new Point64(430,370,0));
-        Assert.AreEqual(t3[15].pointarray[5], new Point64(430,330,0));
-        Assert.AreEqual(t3[15].pointarray[6], new Point64(330,330,0));
+        Assert.AreEqual(16, t3.Count);
+        Assert.AreEqual(1, t3[0].layer_nr);
+        Assert.AreEqual(0, t3[0].datatype_nr);
+        Assert.AreEqual(7, t3[0].pointarray.Count);
+        Assert.AreEqual(new Point64(0,0,0), t3[0].pointarray[0]);
+        Assert.AreEqual(new Point64(0,100,0), t3[0].pointarray[1]);
+        Assert.AreEqual(new Point64(40,100,0), t3[0].pointarray[2]);
+        Assert.AreEqual(new Point64(40,40,0), t3[0].pointarray[3]);
+        Assert.AreEqual(new Point64(100,40,0), t3[0].pointarray[4]);
+        Assert.AreEqual(new Point64(100,0,0), t3[0].pointarray[5]);
+        Assert.AreEqual(new Point64(0,0,0), t3[0].pointarray[6]);
+        Assert.AreEqual(7, t3[1].pointarray.Count);
+        Assert.AreEqual(new Point64(0,110,0), t3[1].pointarray[0]);
+        Assert.AreEqual(new Point64(0,210,0), t3[1].pointarray[1]);
+        Assert.AreEqual(new Point64(40,210,0), t3[1].pointarray[2]);
+        Assert.AreEqual(new Point64(40,150,0), t3[1].pointarray[3]);
+        Assert.AreEqual(new Point64(100,150,0), t3[1].pointarray[4]);
+        Assert.AreEqual(new Point64(100,110,0), t3[1].pointarray[5]);
+        Assert.AreEqual(new Point64(0,110,0), t3[1].pointarray[6]);
+        Assert.AreEqual(7, t3[2].pointarray.Count);
+        Assert.AreEqual(new Point64(110,0,0), t3[2].pointarray[0]);
+        Assert.AreEqual(new Point64(110,100,0), t3[2].pointarray[1]);
+        Assert.AreEqual(new Point64(150,100,0), t3[2].pointarray[2]);
+        Assert.AreEqual(new Point64(150,40,0), t3[2].pointarray[3]);
+        Assert.AreEqual(new Point64(210,40,0), t3[2].pointarray[4]);
+        Assert.AreEqual(new Point64(210,0,0), t3[2].pointarray[5]);
+        Assert.AreEqual(new Point64(110,0,0), t3[2].pointarray[6]);
+        Assert.AreEqual(7, t3[3].pointarray.Count);
+        Assert.AreEqual(new Point64(110,110,0), t3[3].pointarray[0]);
+        Assert.AreEqual(new Point64(110,210,0), t3[3].pointarray[1]);
+        Assert.AreEqual(new Point64(150,210,0), t3[3].pointarray[2]);
+        Assert.AreEqual(new Point64(150,150,0), t3[3].pointarray[3]);
+        Assert.AreEqual(new Point64(210,150,0), t3[3].pointarray[4]);
+        Assert.AreEqual(new Point64(210,110,0), t3[3].pointarray[5]);
+        Assert.AreEqual(new Point64(110,110,0), t3[3].pointarray[6]);
+        Assert.AreEqual(7, t3[4].pointarray.Count);
+        Assert.AreEqual(new Point64(0,220,0), t3[4].pointarray[0]);
+        Assert.AreEqual(new Point64(0,320,0), t3[4].pointarray[1]);
+        Assert.AreEqual(new Point64(40,320,0), t3[4].pointarray[2]);
+        Assert.AreEqual(new Point64(40,260,0), t3[4].pointarray[3]);
+        Assert.AreEqual(new Point64(100,260,0), t3[4].pointarray[4]);
+        Assert.AreEqual(new Point64(100,220,0), t3[4].pointarray[5]);
+        Assert.AreEqual(new Point64(0,220,0), t3[4].pointarray[6]);
+        Assert.AreEqual(7, t3[5].pointarray.Count);
+        Assert.AreEqual(new Point64(0,330,0), t3[5].pointarray[0]);
+        Assert.AreEqual(new Point64(0,430,0), t3[5].pointarray[1]);
+        Assert.AreEqual(new Point64(40,430,0), t3[5].pointarray[2]);
+        Assert.AreEqual(new Point64(40,370,0), t3[5].pointarray[3]);
+        Assert.AreEqual(new Point64(100,370,0), t3[5].pointarray[4]);
+        Assert.AreEqual(new Point64(100,330,0), t3[5].pointarray[5]);
+        Assert.AreEqual(new Point64(0,330,0), t3[5].pointarray[6]);
+        Assert.AreEqual(7, t3[6].pointarray.Count);
+        Assert.AreEqual(new Point64(110,220,0), t3[6].pointarray[0]);
+        Assert.AreEqual(new Point64(110,320,0), t3[6].pointarray[1]);
+        Assert.AreEqual(new Point64(150,320,0), t3[6].pointarray[2]);
+        Assert.AreEqual(new Point64(150,260,0), t3[6].pointarray[3]);
+        Assert.AreEqual(new Point64(210,260,0), t3[6].pointarray[4]);
+        Assert.AreEqual(new Point64(210,220,0), t3[6].pointarray[5]);
+        Assert.AreEqual(new Point64(110,220,0), t3[6].pointarray[6]);
+        Assert.AreEqual(7, t3[7].pointarray.Count);
+        Assert.AreEqual(new Point64(110,330,0), t3[7].pointarray[0]);
+        Assert.AreEqual(new Point64(110,430,0), t3[7].pointarray[1]);
+        Assert.AreEqual(new Point64(150,430,0), t3[7].pointarray[2]);
+        Assert.AreEqual(new Point64(150,370,0), t3[7].pointarray[3]);
+        Assert.AreEqual(new Point64(210,370,0), t3[7].pointarray[4]);
+        Assert.AreEqual(new Point64(210,330,0), t3[7].pointarray[5]);
+        Assert.AreEqual(new Point64(110,330,0), t3[7].pointarray[6]);
+        Assert.AreEqual(7, t3[8].pointarray.Count);
+        Assert.AreEqual(new Point64(220,0,0), t3[8].pointarray[0]);
+        Assert.AreEqual(new Point64(220,100,0), t3[8].pointarray[1]);
+        Assert.AreEqual(new Point64(260,100,0), t3[8].pointarray[2]);
+        Assert.AreEqual(new Point64(260,40,0), t3[8].pointarray[3]);
+        Assert.AreEqual(new Point64(320,40,0), t3[8].pointarray[4]);
+        Assert.AreEqual(new Point64(320,0,0), t3[8].pointarray[5]);
+        Assert.AreEqual(new Point64(220,0,0), t3[8].pointarray[6]);
+        Assert.AreEqual(7, t3[9].pointarray.Count);
+        Assert.AreEqual(new Point64(220,110,0), t3[9].pointarray[0]);
+        Assert.AreEqual(new Point64(220,210,0), t3[9].pointarray[1]);
+        Assert.AreEqual(new Point64(260,210,0), t3[9].pointarray[2]);
+        Assert.AreEqual(new Point64(260,150,0), t3[9].pointarray[3]);
+        Assert.AreEqual(new Point64(320,150,0), t3[9].pointarray[4]);
+        Assert.AreEqual(new Point64(320,110,0), t3[9].pointarray[5]);
+        Assert.AreEqual(new Point64(220,110,0), t3[9].pointarray[6]);
+        Assert.AreEqual(7, t3[10].pointarray.Count);
+        Assert.AreEqual(new Point64(330,0,0), t3[10].pointarray[0]);
+        Assert.AreEqual(new Point64(330,100,0), t3[10].pointarray[1]);
+        Assert.AreEqual(new Point64(370,100,0), t3[10].pointarray[2]);
+        Assert.AreEqual(new Point64(370,40,0), t3[10].pointarray[3]);
+        Assert.AreEqual(new Point64(430,40,0), t3[10].pointarray[4]);
+        Assert.AreEqual(new Point64(430,0,0), t3[10].pointarray[5]);
+        Assert.AreEqual(new Point64(330,0,0), t3[10].pointarray[6]);
+        Assert.AreEqual(7, t3[11].pointarray.Count);
+        Assert.AreEqual(new Point64(330,110,0), t3[11].pointarray[0]);
+        Assert.AreEqual(new Point64(330,210,0), t3[11].pointarray[1]);
+        Assert.AreEqual(new Point64(370,210,0), t3[11].pointarray[2]);
+        Assert.AreEqual(new Point64(370,150,0), t3[11].pointarray[3]);
+        Assert.AreEqual(new Point64(430,150,0), t3[11].pointarray[4]);
+        Assert.AreEqual(new Point64(430,110,0), t3[11].pointarray[5]);
+        Assert.AreEqual(new Point64(330,110,0), t3[11].pointarray[6]);
+        Assert.AreEqual(7, t3[12].pointarray.Count);
+        Assert.AreEqual(new Point64(220,220,0), t3[12].pointarray[0]);
+        Assert.AreEqual(new Point64(220,320,0), t3[12].pointarray[1]);
+        Assert.AreEqual(new Point64(260,320,0), t3[12].pointarray[2]);
+        Assert.AreEqual(new Point64(260,260,0), t3[12].pointarray[3]);
+        Assert.AreEqual(new Point64(320,260,0), t3[12].pointarray[4]);
+        Assert.AreEqual(new Point64(320,220,0), t3[12].pointarray[5]);
+        Assert.AreEqual(new Point64(220,220,0), t3[12].pointarray[6]);
+        Assert.AreEqual(7, t3[13].pointarray.Count);
+        Assert.AreEqual(new Point64(220,330,0), t3[13].pointarray[0]);
+        Assert.AreEqual(new Point64(220,430,0), t3[13].pointarray[1]);
+        Assert.AreEqual(new Point64(260,430,0), t3[13].pointarray[2]);
+        Assert.AreEqual(new Point64(260,370,0), t3[13].pointarray[3]);
+        Assert.AreEqual(new Point64(320,370,0), t3[13].pointarray[4]);
+        Assert.AreEqual(new Point64(320,330,0), t3[13].pointarray[5]);
+        Assert.AreEqual(new Point64(220,330,0), t3[13].pointarray[6]);
+        Assert.AreEqual(7, t3[14].pointarray.Count);
+        Assert.AreEqual(new Point64(330,220,0), t3[14].pointarray[0]);
+        Assert.AreEqual(new Point64(330,320,0), t3[14].pointarray[1]);
+        Assert.AreEqual(new Point64(370,320,0), t3[14].pointarray[2]);
+        Assert.AreEqual(new Point64(370,260,0), t3[14].pointarray[3]);
+        Assert.AreEqual(new Point64(430,260,0), t3[14].pointarray[4]);
+        Assert.AreEqual(new Point64(430,220,0), t3[14].pointarray[5]);
+        Assert.AreEqual(new Point64(330,220,0), t3[14].pointarray[6]);
+        Assert.AreEqual(7, t3[15].pointarray.Count);
+        Assert.AreEqual(new Point64(330,330,0), t3[15].pointarray[0]);
+        Assert.AreEqual(new Point64(330,430,0), t3[15].pointarray[1]);
+        Assert.AreEqual(new Point64(370,430,0), t3[15].pointarray[2]);
+        Assert.AreEqual(new Point64(370,370,0), t3[15].pointarray[3]);
+        Assert.AreEqual(new Point64(430,370,0), t3[15].pointarray[4]);
+        Assert.AreEqual(new Point64(430,330,0), t3[15].pointarray[5]);
+        Assert.AreEqual(new Point64(330,330,0), t3[15].pointarray[6]);
     }
 
     [Test]
@@ -643,7 +642,7 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(baseDir + "/consistency/triage.oas", GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
 
         string outFile = baseDir + "/out/c3_consistency_from_oas.gds";
         if (File.Exists(outFile))
@@ -670,7 +669,7 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
 
         string outFile = baseDir + "/out/c3_consistency_from_gds.gds";
         if (File.Exists(outFile))
@@ -700,95 +699,95 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested_2.gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
 
         // Simple cell.
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("r");
-        Assert.AreEqual(gcGDS.activeStructure, 0);
+        Assert.AreEqual(0, gcGDS.activeStructure);
 
         // Only a single layer datatype.
         gcGDS.activeLD = gcGDS.getActiveStructureLDList().IndexOf("L1D0");
-        Assert.AreEqual(gcGDS.activeLD, 0);
+        Assert.AreEqual(0, gcGDS.activeLD);
 
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         List<GCPolygon> t1 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
-        Assert.AreEqual(t1.Count, 1);
-        Assert.AreEqual(t1[0].layer_nr, 1);
-        Assert.AreEqual(t1[0].datatype_nr, 0);
-        Assert.AreEqual(t1[0].pointarray.Count, 7);
-        Assert.AreEqual(t1[0].pointarray[0], new Point64(0,0,0));
-        Assert.AreEqual(t1[0].pointarray[1], new Point64(0,100,0));
-        Assert.AreEqual(t1[0].pointarray[2], new Point64(40,100,0));
-        Assert.AreEqual(t1[0].pointarray[3], new Point64(40,40,0));
-        Assert.AreEqual(t1[0].pointarray[4], new Point64(100,40,0));
-        Assert.AreEqual(t1[0].pointarray[5], new Point64(100,0,0));
-        Assert.AreEqual(t1[0].pointarray[6], new Point64(0,0,0));
+        Assert.AreEqual(1, t1.Count);
+        Assert.AreEqual(1, t1[0].layer_nr);
+        Assert.AreEqual(0, t1[0].datatype_nr);
+        Assert.AreEqual(7, t1[0].pointarray.Count);
+        Assert.AreEqual(new Point64(0,0,0), t1[0].pointarray[0]);
+        Assert.AreEqual(new Point64(0,100,0), t1[0].pointarray[1]);
+        Assert.AreEqual(new Point64(40,100,0), t1[0].pointarray[2]);
+        Assert.AreEqual(new Point64(40,40,0), t1[0].pointarray[3]);
+        Assert.AreEqual(new Point64(100,40,0), t1[0].pointarray[4]);
+        Assert.AreEqual(new Point64(100,0,0), t1[0].pointarray[5]);
+        Assert.AreEqual(new Point64(0,0,0), t1[0].pointarray[6]);
 
         // Array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("a");
-        Assert.AreEqual(gcGDS.activeStructure, 1);
+        Assert.AreEqual(1, gcGDS.activeStructure);
 
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         List<GCPolygon> t2 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons();
-        Assert.AreEqual(t2.Count, 6);
-        Assert.AreEqual(t2[0].layer_nr, 1);
-        Assert.AreEqual(t2[0].datatype_nr, 0);
-        Assert.AreEqual(t2[0].pointarray.Count, 7);
-        Assert.AreEqual(t2[0].pointarray[0], new Point64(0,0,0));
-        Assert.AreEqual(t2[0].pointarray[1], new Point64(0,100,0));
-        Assert.AreEqual(t2[0].pointarray[2], new Point64(40,100,0));
-        Assert.AreEqual(t2[0].pointarray[3], new Point64(40,40,0));
-        Assert.AreEqual(t2[0].pointarray[4], new Point64(100,40,0));
-        Assert.AreEqual(t2[0].pointarray[5], new Point64(100,0,0));
-        Assert.AreEqual(t2[0].pointarray[6], new Point64(0,0,0));
-        Assert.AreEqual(t2[1].layer_nr, 1);
-        Assert.AreEqual(t2[1].datatype_nr, 0);
-        Assert.AreEqual(t2[1].pointarray.Count, 7);
-        Assert.AreEqual(t2[1].pointarray[0], new Point64(0,110,0));
-        Assert.AreEqual(t2[1].pointarray[1], new Point64(0,210,0));
-        Assert.AreEqual(t2[1].pointarray[2], new Point64(40,210,0));
-        Assert.AreEqual(t2[1].pointarray[3], new Point64(40,150,0));
-        Assert.AreEqual(t2[1].pointarray[4], new Point64(100,150,0));
-        Assert.AreEqual(t2[1].pointarray[5], new Point64(100,110,0));
-        Assert.AreEqual(t2[1].pointarray[6], new Point64(0,110,0));
-        Assert.AreEqual(t2[2].layer_nr, 1);
-        Assert.AreEqual(t2[2].datatype_nr, 0);
-        Assert.AreEqual(t2[2].pointarray.Count, 7);
-        Assert.AreEqual(t2[2].pointarray[0], new Point64(110,0,0));
-        Assert.AreEqual(t2[2].pointarray[1], new Point64(110,100,0));
-        Assert.AreEqual(t2[2].pointarray[2], new Point64(150,100,0));
-        Assert.AreEqual(t2[2].pointarray[3], new Point64(150,40,0));
-        Assert.AreEqual(t2[2].pointarray[4], new Point64(210,40,0));
-        Assert.AreEqual(t2[2].pointarray[5], new Point64(210,0,0));
-        Assert.AreEqual(t2[2].pointarray[6], new Point64(110,0,0));
-        Assert.AreEqual(t2[3].layer_nr, 1);
-        Assert.AreEqual(t2[3].datatype_nr, 0);
-        Assert.AreEqual(t2[3].pointarray.Count, 7);
-        Assert.AreEqual(t2[3].pointarray[0], new Point64(110,110,0));
-        Assert.AreEqual(t2[3].pointarray[1], new Point64(110,210,0));
-        Assert.AreEqual(t2[3].pointarray[2], new Point64(150,210,0));
-        Assert.AreEqual(t2[3].pointarray[3], new Point64(150,150,0));
-        Assert.AreEqual(t2[3].pointarray[4], new Point64(210,150,0));
-        Assert.AreEqual(t2[3].pointarray[5], new Point64(210,110,0));
-        Assert.AreEqual(t2[3].pointarray[6], new Point64(110,110,0));
-        Assert.AreEqual(t2[4].layer_nr, 1);
-        Assert.AreEqual(t2[4].datatype_nr, 0);
-        Assert.AreEqual(t2[4].pointarray.Count, 5);
-        Assert.AreEqual(t2[4].pointarray[0], new Point64(60,173,0));
-        Assert.AreEqual(t2[4].pointarray[1], new Point64(60,201,0));
-        Assert.AreEqual(t2[4].pointarray[2], new Point64(83,201,0));
-        Assert.AreEqual(t2[4].pointarray[3], new Point64(83,173,0));
-        Assert.AreEqual(t2[4].pointarray[4], new Point64(60,173,0));
-        Assert.AreEqual(t2[5].layer_nr, 2);
-        Assert.AreEqual(t2[5].datatype_nr, 0);
-        Assert.AreEqual(t2[5].pointarray.Count, 5);
-        Assert.AreEqual(t2[5].pointarray[0], new Point64(52,67,0));
-        Assert.AreEqual(t2[5].pointarray[1], new Point64(52,93,0));
-        Assert.AreEqual(t2[5].pointarray[2], new Point64(103,93,0));
-        Assert.AreEqual(t2[5].pointarray[3], new Point64(103,67,0));
-        Assert.AreEqual(t2[5].pointarray[4], new Point64(52,67,0));
+        Assert.AreEqual(6, t2.Count);
+        Assert.AreEqual(1, t2[0].layer_nr);
+        Assert.AreEqual(0, t2[0].datatype_nr);
+        Assert.AreEqual(7, t2[0].pointarray.Count);
+        Assert.AreEqual(new Point64(0,0,0), t2[0].pointarray[0]);
+        Assert.AreEqual(new Point64(0,100,0), t2[0].pointarray[1]);
+        Assert.AreEqual(new Point64(40,100,0), t2[0].pointarray[2]);
+        Assert.AreEqual(new Point64(40,40,0), t2[0].pointarray[3]);
+        Assert.AreEqual(new Point64(100,40,0), t2[0].pointarray[4]);
+        Assert.AreEqual(new Point64(100,0,0), t2[0].pointarray[5]);
+        Assert.AreEqual(new Point64(0,0,0), t2[0].pointarray[6]);
+        Assert.AreEqual(1, t2[1].layer_nr);
+        Assert.AreEqual(0, t2[1].datatype_nr);
+        Assert.AreEqual(7, t2[1].pointarray.Count);
+        Assert.AreEqual(new Point64(0,110,0), t2[1].pointarray[0]);
+        Assert.AreEqual(new Point64(0,210,0), t2[1].pointarray[1]);
+        Assert.AreEqual(new Point64(40,210,0), t2[1].pointarray[2]);
+        Assert.AreEqual(new Point64(40,150,0), t2[1].pointarray[3]);
+        Assert.AreEqual(new Point64(100,150,0), t2[1].pointarray[4]);
+        Assert.AreEqual(new Point64(100,110,0), t2[1].pointarray[5]);
+        Assert.AreEqual(new Point64(0,110,0), t2[1].pointarray[6]);
+        Assert.AreEqual(1, t2[2].layer_nr);
+        Assert.AreEqual(0, t2[2].datatype_nr);
+        Assert.AreEqual(7, t2[2].pointarray.Count);
+        Assert.AreEqual(new Point64(110,0,0), t2[2].pointarray[0]);
+        Assert.AreEqual(new Point64(110,100,0), t2[2].pointarray[1]);
+        Assert.AreEqual(new Point64(150,100,0), t2[2].pointarray[2]);
+        Assert.AreEqual(new Point64(150,40,0), t2[2].pointarray[3]);
+        Assert.AreEqual(new Point64(210,40,0), t2[2].pointarray[4]);
+        Assert.AreEqual(new Point64(210,0,0), t2[2].pointarray[5]);
+        Assert.AreEqual(new Point64(110,0,0), t2[2].pointarray[6]);
+        Assert.AreEqual(1, t2[3].layer_nr);
+        Assert.AreEqual(0, t2[3].datatype_nr);
+        Assert.AreEqual(7, t2[3].pointarray.Count);
+        Assert.AreEqual(new Point64(110,110,0), t2[3].pointarray[0]);
+        Assert.AreEqual(new Point64(110,210,0), t2[3].pointarray[1]);
+        Assert.AreEqual(new Point64(150,210,0), t2[3].pointarray[2]);
+        Assert.AreEqual(new Point64(150,150,0), t2[3].pointarray[3]);
+        Assert.AreEqual(new Point64(210,150,0), t2[3].pointarray[4]);
+        Assert.AreEqual(new Point64(210,110,0), t2[3].pointarray[5]);
+        Assert.AreEqual(new Point64(110,110,0), t2[3].pointarray[6]);
+        Assert.AreEqual(1, t2[4].layer_nr);
+        Assert.AreEqual(0, t2[4].datatype_nr);
+        Assert.AreEqual(5, t2[4].pointarray.Count);
+        Assert.AreEqual(new Point64(60,173,0), t2[4].pointarray[0]);
+        Assert.AreEqual(new Point64(60,201,0), t2[4].pointarray[1]);
+        Assert.AreEqual(new Point64(83,201,0), t2[4].pointarray[2]);
+        Assert.AreEqual(new Point64(83,173,0), t2[4].pointarray[3]);
+        Assert.AreEqual(new Point64(60,173,0), t2[4].pointarray[4]);
+        Assert.AreEqual(2, t2[5].layer_nr, 2);
+        Assert.AreEqual(0, t2[5].datatype_nr, 0);
+        Assert.AreEqual(5, t2[5].pointarray.Count, 5);
+        Assert.AreEqual(new Point64(52,67,0), t2[5].pointarray[0]);
+        Assert.AreEqual(new Point64(52,93,0), t2[5].pointarray[1]);
+        Assert.AreEqual(new Point64(103,93,0), t2[5].pointarray[2]);
+        Assert.AreEqual(new Point64(103,67,0), t2[5].pointarray[3]);
+        Assert.AreEqual(new Point64(52,67,0), t2[5].pointarray[4]);
 
         // Nested array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("b");
@@ -828,7 +827,7 @@ public class GeoCoreTests
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         PathsD geo = gcGDS.points(flatten: true);
-        Assert.AreEqual(geo.Count, 4);
+        Assert.AreEqual(4, geo.Count);
         
         // We have floats, so this gets a little more awkward.
         Assert.LessOrEqual(Math.Abs(geo[0][0].x - 0), 1E-13);
@@ -913,7 +912,7 @@ public class GeoCoreTests
 
         PathsD geo2 = gcGDS.points(flatten: true);
         // Use previously computed hash to check that our long list is aligned with expectations.
-        Assert.AreEqual(Utils.GetSHA256Hash(geo2), "9Y7vZPon4aFRZ07yD8a3dzuaTq9n1mMnHJaE89C3fb0=");
+        Assert.AreEqual("9Y7vZPon4aFRZ07yD8a3dzuaTq9n1mMnHJaE89C3fb0=", Utils.GetSHA256Hash(geo2));
     }
     
     [Test]
@@ -1020,12 +1019,12 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test");
 
         // L
-        Assert.AreEqual(true, cell_gds.elementList[0].isPolygon());
+        Assert.True(cell_gds.elementList[0].isPolygon());
         Assert.AreEqual(1, cell_gds.elementList[0].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[0].datatype_nr);
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
@@ -1047,7 +1046,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_gds[0].pointarray[6].Y);
 
         // Triangle
-        Assert.AreEqual(true, cell_gds.elementList[1].isPolygon());
+        Assert.True(cell_gds.elementList[1].isPolygon());
         Assert.AreEqual(2, cell_gds.elementList[1].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[1].datatype_nr);
         polys_gds = cell_gds.elementList[1].convertToPolygons();
@@ -1061,7 +1060,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_gds[0].pointarray[2].Y);
 
         // Pentagram
-        Assert.AreEqual(true, cell_gds.elementList[2].isPolygon());
+        Assert.True(cell_gds.elementList[2].isPolygon());
         Assert.AreEqual(3, cell_gds.elementList[2].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[2].datatype_nr);
         polys_gds = cell_gds.elementList[2].convertToPolygons();
@@ -1081,7 +1080,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_gds[0].pointarray[5].Y);
 
         // Trapezoid
-        Assert.AreEqual(true, cell_gds.elementList[3].isPolygon());
+        Assert.True(cell_gds.elementList[3].isPolygon());
         Assert.AreEqual(4, cell_gds.elementList[3].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[3].datatype_nr);
         polys_gds = cell_gds.elementList[3].convertToPolygons();
@@ -1099,7 +1098,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_gds[0].pointarray[4].Y);
 
         // Parallelogram
-        Assert.AreEqual(true, cell_gds.elementList[4].isPolygon());
+        Assert.True(cell_gds.elementList[4].isPolygon());
         Assert.AreEqual(5, cell_gds.elementList[4].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[4].datatype_nr);
         polys_gds = cell_gds.elementList[4].convertToPolygons();
@@ -1128,12 +1127,12 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
         // L
-        Assert.AreEqual(true, cell_oas.elementList[0].isPolygon());
+        Assert.True(cell_oas.elementList[0].isPolygon());
         Assert.AreEqual(1, cell_oas.elementList[0].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[0].datatype_nr);
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
@@ -1155,7 +1154,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_oas[0].pointarray[6].Y);
 
         // Triangle
-        Assert.AreEqual(true, cell_oas.elementList[1].isPolygon());
+        Assert.True(cell_oas.elementList[1].isPolygon());
         Assert.AreEqual(2, cell_oas.elementList[1].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[1].datatype_nr);
         polys_oas = cell_oas.elementList[1].convertToPolygons();
@@ -1169,7 +1168,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_oas[0].pointarray[2].Y);
 
         // Pentagram
-        Assert.AreEqual(true, cell_oas.elementList[2].isPolygon());
+        Assert.True(cell_oas.elementList[2].isPolygon());
         Assert.AreEqual(3, cell_oas.elementList[2].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[2].datatype_nr);
         polys_oas = cell_oas.elementList[2].convertToPolygons();
@@ -1189,7 +1188,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_oas[0].pointarray[5].Y);
 
         // Trapezoid
-        Assert.AreEqual(true, cell_oas.elementList[3].isPolygon());
+        Assert.True(cell_oas.elementList[3].isPolygon());
         Assert.AreEqual(4, cell_oas.elementList[3].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[3].datatype_nr);
         polys_oas = cell_oas.elementList[3].convertToPolygons();
@@ -1207,7 +1206,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, polys_oas[0].pointarray[4].Y);
 
         // Parallelogram
-        Assert.AreEqual(true, cell_oas.elementList[4].isPolygon());
+        Assert.True(cell_oas.elementList[4].isPolygon());
         Assert.AreEqual(5, cell_oas.elementList[4].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[4].datatype_nr);
         polys_oas = cell_oas.elementList[4].convertToPolygons();
@@ -1294,11 +1293,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test");
 
-        Assert.AreEqual(true, cell_gds.elementList[0].isPath());
+        Assert.True(cell_gds.elementList[0].isPath());
         Assert.AreEqual(1, cell_gds.elementList[0].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[0].datatype_nr);
         Path64 path_ = cell_gds.elementList[0].getPath();
@@ -1353,11 +1352,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
-        Assert.AreEqual(true, cell_oas.elementList[0].isPath());
+        Assert.True(cell_oas.elementList[0].isPath());
         Assert.AreEqual(1, cell_oas.elementList[0].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[0].datatype_nr);
         path_ = cell_oas.elementList[0].getPath();
@@ -1462,11 +1461,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test");
 
-        Assert.AreEqual(true, cell_gds.elementList[0].isPolygon());
+        Assert.True(cell_gds.elementList[0].isPolygon());
         Assert.AreEqual(1, cell_gds.elementList[0].layer_nr);
         Assert.AreEqual(0, cell_gds.elementList[0].datatype_nr);
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
@@ -1485,11 +1484,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
-        Assert.AreEqual(true, cell_oas.elementList[0].isPolygon());
+        Assert.True(cell_oas.elementList[0].isPolygon());
         Assert.AreEqual(1, cell_oas.elementList[0].layer_nr);
         Assert.AreEqual(0, cell_oas.elementList[0].datatype_nr);
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
@@ -1628,16 +1627,16 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test_cellref1");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
+        Assert.True(cell_gds.elementList[^1].isCellref());
         Point64 pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(0, pos.Y);
         Assert.AreEqual(2, cell_gds.elementList[^1].getScale() );
         Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
@@ -1657,13 +1656,13 @@ public class GeoCoreTests
         Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[6].Y);
 
         cell_gds = drawing_gds.findCell("test_cellref1_mx");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
+        Assert.True(cell_gds.elementList[^1].isCellref());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(0, pos.Y);
         Assert.AreEqual(2, cell_gds.elementList[^1].getScale() );
         Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(true, cell_gds.elementList[^1].getMirrorX() );
+        Assert.True(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
@@ -1683,13 +1682,13 @@ public class GeoCoreTests
         Assert.AreEqual(pos.Y + 0, polys_gds[0].pointarray[6].Y);
 
         cell_gds = drawing_gds.findCell("test_cellref2");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
+        Assert.True(cell_gds.elementList[^1].isCellref());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(20, pos.X);
         Assert.AreEqual(20, pos.Y);
         Assert.AreEqual(2, cell_gds.elementList[^1].getScale() );
         Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
@@ -1709,13 +1708,13 @@ public class GeoCoreTests
         Assert.AreEqual(pos.Y, polys_gds[0].pointarray[6].Y);
 
         cell_gds = drawing_gds.findCell("test_cellref2_mx");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellref());
+        Assert.True(cell_gds.elementList[^1].isCellref());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(20, pos.X);
         Assert.AreEqual(20, pos.Y);
         Assert.AreEqual(2, cell_gds.elementList[^1].getScale() );
         Assert.AreEqual(270, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(true, cell_gds.elementList[^1].getMirrorX() );
+        Assert.True(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(7, polys_gds[0].pointarray.Count);
@@ -1746,7 +1745,7 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test_cellref1");
         pos = cell_oas.elementList[^1].getPos();
@@ -1754,7 +1753,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, pos.Y);
         Assert.AreEqual(2, cell_oas.elementList[^1].getScale() );
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
@@ -1779,7 +1778,7 @@ public class GeoCoreTests
         Assert.AreEqual(0, pos.Y);
         Assert.AreEqual(2, cell_oas.elementList[^1].getScale() );
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(true, cell_oas.elementList[^1].getMirrorX() );
+        Assert.True(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
@@ -1799,13 +1798,13 @@ public class GeoCoreTests
         Assert.AreEqual(pos.Y + 0, polys_oas[0].pointarray[6].Y);
         
         cell_oas = drawing_gds.findCell("test_cellref2");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellref());
+        Assert.True(cell_oas.elementList[^1].isCellref());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(20, pos.X);
         Assert.AreEqual(20, pos.Y);
         Assert.AreEqual(2, cell_oas.elementList[^1].getScale() );
         Assert.AreEqual(90, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
@@ -1825,13 +1824,13 @@ public class GeoCoreTests
         Assert.AreEqual(pos.Y, polys_oas[0].pointarray[6].Y);
         
         cell_oas = drawing_gds.findCell("test_cellref2_mx");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellref());
+        Assert.True(cell_oas.elementList[^1].isCellref());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(20, pos.X);
         Assert.AreEqual(20, pos.Y);
         Assert.AreEqual(2, cell_oas.elementList[^1].getScale() );
         Assert.AreEqual(270, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(true, cell_oas.elementList[^1].getMirrorX() );
+        Assert.True(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(7, polys_oas[0].pointarray.Count);
@@ -2020,10 +2019,10 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test_cellrefarray1");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
         Point64 pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(0, pos.X);
         Assert.AreEqual(0, pos.Y);
@@ -2036,7 +2035,7 @@ public class GeoCoreTests
         double scale = cell_gds.elementList[^1].getScale();
         Assert.AreEqual(1, scale );
         Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_gds.Count);
 
@@ -2065,7 +2064,7 @@ public class GeoCoreTests
         }
         
         cell_gds = drawing_gds.findCell("test_cellrefarray2");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2078,7 +2077,7 @@ public class GeoCoreTests
         scale = cell_gds.elementList[^1].getScale();
         Assert.AreEqual(1, scale );
         Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_gds.Count);
 
@@ -2107,7 +2106,7 @@ public class GeoCoreTests
         }
 
         cell_gds = drawing_gds.findCell("test_cellrefarray3");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2120,7 +2119,7 @@ public class GeoCoreTests
         scale = cell_gds.elementList[^1].getScale();
         Assert.AreEqual(1, scale );
         Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_gds.Count);
 
@@ -2149,7 +2148,7 @@ public class GeoCoreTests
         }
 
         cell_gds = drawing_gds.findCell("test_cellrefarray4");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2162,7 +2161,7 @@ public class GeoCoreTests
         scale = cell_gds.elementList[^1].getScale();
         Assert.AreEqual(2, scale);
         Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_gds.Count);
 
@@ -2191,7 +2190,7 @@ public class GeoCoreTests
         }
 
         cell_gds = drawing_gds.findCell("test_cellrefarray5");
-        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
         pos = cell_gds.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2204,7 +2203,7 @@ public class GeoCoreTests
         scale = cell_gds.elementList[^1].getScale();
         Assert.AreEqual(2, scale );
         Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
         polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_gds.Count);
 
@@ -2244,10 +2243,10 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test_cellrefarray1");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(0, pos.X);
         Assert.AreEqual(0, pos.Y);
@@ -2260,7 +2259,7 @@ public class GeoCoreTests
         scale = cell_oas.elementList[^1].getScale();
         Assert.AreEqual(1, scale );
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
         
@@ -2289,7 +2288,7 @@ public class GeoCoreTests
         }
         
         cell_oas = drawing_oas.findCell("test_cellrefarray2");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2302,7 +2301,7 @@ public class GeoCoreTests
         scale = cell_oas.elementList[^1].getScale();
         Assert.AreEqual(1, scale );
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
         
@@ -2331,7 +2330,7 @@ public class GeoCoreTests
         }
         
         cell_oas = drawing_oas.findCell("test_cellrefarray3");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2344,7 +2343,7 @@ public class GeoCoreTests
         scale = cell_oas.elementList[^1].getScale();
         Assert.AreEqual(1, scale );
         Assert.AreEqual(90, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
 
@@ -2373,7 +2372,7 @@ public class GeoCoreTests
         }
         
         cell_oas = drawing_oas.findCell("test_cellrefarray4");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2386,7 +2385,7 @@ public class GeoCoreTests
         scale = cell_oas.elementList[^1].getScale();
         Assert.AreEqual(2, scale);
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
 
@@ -2415,7 +2414,7 @@ public class GeoCoreTests
         }
         
         cell_oas = drawing_oas.findCell("test_cellrefarray5");
-        Assert.AreEqual(true, cell_oas.elementList[^1].isCellrefArray());
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
         Assert.AreEqual(20, pos.Y);
@@ -2428,7 +2427,7 @@ public class GeoCoreTests
         scale = cell_oas.elementList[^1].getScale();
         Assert.AreEqual(2, scale );
         Assert.AreEqual(90, cell_oas.elementList[^1].getAngle() );
-        Assert.AreEqual(false, cell_oas.elementList[^1].getMirrorX() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
         polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
 
@@ -2515,11 +2514,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test");
 
-        Assert.AreEqual(true, cell_gds.elementList[^1].isText());
+        Assert.True(cell_gds.elementList[^1].isText());
 
         string oasFile = outDir + "simple_text.oas";
         if (File.Exists(oasFile))
@@ -2533,11 +2532,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
-        Assert.AreEqual(true, cell_oas.elementList[^1].isText());
+        Assert.True(cell_oas.elementList[^1].isText());
     }
 
     [Test]
@@ -2682,11 +2681,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test");
 
-        Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+        Assert.True(cell_gds.elementList[^1].isPolygon());
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(5, polys_gds[0].pointarray.Count);
@@ -2703,11 +2702,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
-        Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+        Assert.True( cell_oas.elementList[^1].isPolygon());
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(5, polys_oas[0].pointarray.Count);
@@ -2826,11 +2825,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("test");
 
-        Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+        Assert.True(cell_gds.elementList[^1].isPolygon());
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_gds.Count);
         Assert.AreEqual(5, polys_gds[0].pointarray.Count);
@@ -2847,11 +2846,11 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
-        Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+        Assert.True(cell_oas.elementList[^1].isPolygon());
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.AreEqual(1, polys_oas.Count);
         Assert.AreEqual(5, polys_oas[0].pointarray.Count);
@@ -2943,13 +2942,13 @@ public class GeoCoreTests
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.AreEqual(gcGDS.isValid(), true);
+        Assert.True(gcGDS.isValid());
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         for (int i = 0; i < edge * edge; i++)
         {
             GCCell cell_gds = drawing_gds.findCell("test" + i);
 
-            Assert.AreEqual(true, cell_gds.elementList[^1].isPolygon());
+            Assert.True(cell_gds.elementList[^1].isPolygon());
             List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
             Assert.AreEqual(1, polys_gds.Count);
             Assert.AreEqual(7, polys_gds[0].pointarray.Count);
@@ -2967,13 +2966,13 @@ public class GeoCoreTests
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.AreEqual(gcOAS.isValid(), true);
+        Assert.True(gcOAS.isValid());
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         for (int i = 0; i < edge * edge; i++)
         {
             GCCell cell_oas = drawing_oas.findCell("test" + i);
 
-            Assert.AreEqual(true, cell_oas.elementList[^1].isPolygon());
+            Assert.True(cell_oas.elementList[^1].isPolygon());
             List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
             Assert.AreEqual(1, polys_oas.Count);
             Assert.AreEqual(7, polys_oas[0].pointarray.Count);

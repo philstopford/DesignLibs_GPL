@@ -21,7 +21,32 @@ public class GCCellRefArray : GCElement
     {
         cell_ref = c;
         point = array[0];
-        pitch = new ((array[2].X - array[0].X) / xCount,  (array[1].Y - array[0].Y) / yCount);
+        // Shims.
+        int pitch_x = 0;
+        int pitch_y = 0;
+        if (xCount > 1)
+        {
+            if (array[1].X == 0)
+            {
+                pitch_x = (int)(array[2].X - array[0].X);
+            }
+            if (array[2].X == 0)
+            {
+                pitch_x = (int)(array[1].X - array[0].X);
+            }
+        }
+        if (yCount > 1)
+        {
+            if (array[1].Y == 0)
+            {
+                pitch_y = (int)(array[2].Y - array[0].Y);
+            }
+            if (array[2].Y == 0)
+            {
+                pitch_y = (int)(array[1].Y - array[0].Y);
+            }
+        }
+        pitch = new (pitch_x / xCount,  pitch_y / yCount);
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.

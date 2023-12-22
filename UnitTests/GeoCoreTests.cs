@@ -2190,6 +2190,48 @@ public class GeoCoreTests
             }
         }
 
+        cell_gds = drawing_gds.findCell("test_cellrefarray5");
+        Assert.AreEqual(true, cell_gds.elementList[^1].isCellrefArray());
+        pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        pitch = cell_gds.elementList[^1].getPitch();
+        Assert.AreEqual(100 / count.X, pitch.X);
+        Assert.AreEqual(80 / count.Y, pitch.Y);
+        scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(2, scale );
+        Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
+        Assert.AreEqual(false, cell_gds.elementList[^1].getMirrorX() );
+        polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(-10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(-10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(30 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(0 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(30 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(0 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(40 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(40 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(10 - (rowIndex * pitch.Y), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(20 + (colIndex * pitch.X), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+
         string oasFile = outDir + "simple_cellrefarray.oas";
         if (File.Exists(oasFile))
         {

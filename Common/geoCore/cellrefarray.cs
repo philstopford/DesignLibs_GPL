@@ -13,7 +13,7 @@ public class GCCellRefArray : GCElement
 {
     private Point64 point;
     public int count_x, count_y;
-    public Point64 pitch;
+    public Point64 rowVector, columnVector;
     public GCCell cell_ref { get; set; }
     public GCStrans trans { get; set; }
 
@@ -24,29 +24,8 @@ public class GCCellRefArray : GCElement
         // Shims.
         int pitch_x = 0;
         int pitch_y = 0;
-        if (xCount > 1)
-        {
-            if (array[1].X == array[0].X)
-            {
-                pitch_x = (int)(array[2].X - array[0].X);
-            }
-            if (array[2].X == array[0].X)
-            {
-                pitch_x = (int)(array[1].X - array[0].X);
-            }
-        }
-        if (yCount > 1)
-        {
-            if (array[1].Y == array[0].Y)
-            {
-                pitch_y = (int)(array[2].Y - array[0].Y);
-            }
-            if (array[2].Y == array[0].Y)
-            {
-                pitch_y = (int)(array[1].Y - array[0].Y);
-            }
-        }
-        pitch = new (pitch_x / xCount,  pitch_y / yCount);
+        rowVector = new(array[1].X - array[0].X, array[1].Y - array[0].Y);
+        columnVector = new(array[2].X - array[0].X, array[2].Y - array[0].Y);
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -60,8 +39,8 @@ public class GCCellRefArray : GCElement
     {
         cell_ref = c;
         point = pos1;
-        Point64 p = new(pos2.X - pos1.X, pos2.Y - pos1.Y);
-        pitch = new (p.X, p.Y);
+        rowVector = new(pos1);
+        columnVector = new(pos2);
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -112,7 +91,7 @@ public class GCCellRefArray : GCElement
         {
             for (int y = 0; y < 2; y++)
             {
-                Point64 pos3 = GeoWrangler.move(point, pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1));
+                Point64 pos3 = GeoWrangler.move(point, (rowVector.X + columnVector.X) * x * (count_x - 1), (rowVector.Y + columnVector.Y) * y * (count_y - 1));
                 Point64 pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
                 pos1.Y = trans.mirror_x switch
                 {
@@ -150,7 +129,7 @@ public class GCCellRefArray : GCElement
         {
             for (int y = 0; y < 2; y++)
             {
-                Point64 pos3 = GeoWrangler.move(point, pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1));
+                Point64 pos3 = GeoWrangler.move(point, (rowVector.X + columnVector.X) * x * (count_x - 1), (rowVector.Y + columnVector.Y) * y * (count_y - 1));
                 Point64 pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
                 pos1.Y = trans.mirror_x switch
                 {
@@ -221,8 +200,10 @@ public class GCCellRefArray : GCElement
     {
         point.X = (int)(point.X * factor);
         point.Y = (int)(point.Y * factor);
-        pitch.X = (int)(pitch.X * factor);
-        pitch.Y = (int)(pitch.Y * factor);
+        rowVector.X = (int)(rowVector.X * factor);
+        rowVector.Y = (int)(rowVector.Y * factor);
+        columnVector.X = (int)(columnVector.X * factor);
+        columnVector.Y = (int)(columnVector.Y * factor);
     }
 
     public override void setPos(Point64 p)
@@ -282,11 +263,11 @@ public class GCCellRefArray : GCElement
 
     public override void setPitch(Point64 pt)
     {
-        pitch = new(pt);
+        rowVector = new(pt);
     }
     public override Point64 getPitch()
     {
-        return new(pitch);
+        return new(rowVector);
     }
 
     public override Point64 getCount()
@@ -344,10 +325,10 @@ public class GCCellRefArray : GCElement
         gw.bw.Write(gdsValues.sXY);
         gw.bw.Write((int)point.X);
         gw.bw.Write((int)point.Y);
-        Point64 pos = new(point.X, (pitch.Y * count_y) + point.Y);
+        Point64 pos = new(rowVector.X + point.X, (rowVector.Y * count_y) + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
-        pos = new ((pitch.X * count_x) + point.X, point.Y);
+        pos = new ((columnVector.X * count_x) + point.X, columnVector.Y + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
         // endel
@@ -441,15 +422,15 @@ public class GCCellRefArray : GCElement
                 ow.writeUnsignedInteger(3);
                 ow.modal.y_dimension = count_y;
                 ow.writeUnsignedInteger((uint)(count_y - 2));
-                ow.modal.y_space = (int)pitch.Y;
-                ow.writeUnsignedInteger((uint)pitch.Y);
+                ow.modal.y_space = (int)rowVector.Y;
+                ow.writeUnsignedInteger((uint)rowVector.Y);
                 break;
             case > 0 when count_y == 1:
                 ow.writeUnsignedInteger(2);
                 ow.modal.x_dimension = count_x;
                 ow.writeUnsignedInteger((uint)(count_x - 2));
-                ow.modal.x_space = (int)pitch.X;
-                ow.writeUnsignedInteger((uint)pitch.X);
+                ow.modal.x_space = (int)rowVector.X;
+                ow.writeUnsignedInteger((uint)rowVector.X);
                 break;
             case > 0:
                 ow.writeUnsignedInteger(1);
@@ -457,10 +438,10 @@ public class GCCellRefArray : GCElement
                 ow.modal.y_dimension = count_y;
                 ow.writeUnsignedInteger((uint)(count_x - 2));
                 ow.writeUnsignedInteger((uint)(count_y - 2));
-                ow.modal.x_space = (int)pitch.X;
-                ow.modal.y_space = (int)pitch.Y;
-                ow.writeUnsignedInteger((uint)pitch.X);
-                ow.writeUnsignedInteger((uint)pitch.Y);
+                ow.modal.x_space = (int)rowVector.X;
+                ow.modal.y_space = (int)rowVector.Y;
+                ow.writeUnsignedInteger((uint)rowVector.X);
+                ow.writeUnsignedInteger((uint)rowVector.Y);
                 break;
         }
     }
@@ -524,7 +505,7 @@ public class GCCellRefArray : GCElement
                 foreach (GCPolygon tp in tmp.Select(t => new GCPolygon(t)))
                 {
                     tp.scale(new (0,0), trans.mag);
-                    tp.move(new (x * pitch.X, y * pitch.Y));
+                    tp.move(new (x * (rowVector.X + columnVector.X), y * (rowVector.Y + columnVector.Y)));
                     ret.Add(tp);
                 }
             }

@@ -93,7 +93,7 @@ public static class Utils
     public static byte[] compress(byte[] data)
     {
         MemoryStream compressedStream = new();
-        GZipStream zipStream = new(compressedStream, CompressionMode.Compress);
+        ZLibStream zipStream = new(compressedStream, CompressionMode.Compress);
         zipStream.Write(data, 0, data.Length);
         zipStream.Close();
         return compressedStream.ToArray();

@@ -638,8 +638,21 @@ internal partial class oasReader
     private void zLibInit(uint before, uint after)
     {
         zLibUsed = true;
-        byte[] data = br.ReadBytes((int)(after - before));
-        zLibOut = utility.Utils.decompress(data);
+        Int64 br_pos = br.BaseStream.Position;
+        byte[] data = br.ReadBytes((int)before);
+        try
+        {
+            zLibOut = utility.Utils.decompress(data);
+            if (zLibOut.Length != after)
+            {
+                throw new ("Incorrect number of bytes after decompression");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         zlibOutPos = 0;
     }
 

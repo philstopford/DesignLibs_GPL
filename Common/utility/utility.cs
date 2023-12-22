@@ -102,7 +102,7 @@ public static class Utils
     public static byte[] decompress(byte[] data)
     {
         MemoryStream compressedStream = new(data);
-        GZipStream zipStream = new(compressedStream, CompressionMode.Decompress);
+        DeflateStream zipStream = new(compressedStream, CompressionMode.Decompress);
         MemoryStream resultStream = new();
         zipStream.CopyTo(resultStream);
         return resultStream.ToArray();

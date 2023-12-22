@@ -1121,11 +1121,16 @@ internal partial class oasReader
                         break;
                     case 34: //compression
                         // throw new Exception("Compression not supported at this time");
-                        readUnsignedInteger();
-                        uint before = (uint)readUnsignedInteger();
+                        uint comp_type = (uint)readUnsignedInteger();
+                        if (comp_type != 0)
+                        {
+                            string err2 = "Unsupported compression. " + record;
+                            error_msgs.Add(err2);
+                            throw new Exception(err2);
+                        }
                         uint after = (uint)readUnsignedInteger();
-                        // Arguments are switched around here. Not sure whether this is correct.
-                        zLibInit(after, before);
+                        uint before = (uint)readUnsignedInteger();
+                        zLibInit(before, after);
                         break;
                     default:
                         string err = "Unknown/unsupported Record." + record;

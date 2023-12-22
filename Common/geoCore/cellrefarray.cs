@@ -21,7 +21,7 @@ public class GCCellRefArray : GCElement
     {
         cell_ref = c;
         point = array[0];
-        pitch = new ((array[1].X - point.X) / xCount,  (array[2].Y - point.Y) / yCount);
+        pitch = new ((array[2].X - array[0].X) / xCount,  (array[1].Y - array[0].Y) / yCount);
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -249,6 +249,16 @@ public class GCCellRefArray : GCElement
         cell_ref = cellRef;
     }
 
+    public override void setCount(Point64 pt)
+    {
+        count_x = (int)pt.X;
+        count_y = (int)pt.Y;
+    }
+
+    public override void setPitch(Point64 pt)
+    {
+        pitch = new(pt);
+    }
     public override Point64 getPitch()
     {
         return new(pitch);
@@ -309,10 +319,10 @@ public class GCCellRefArray : GCElement
         gw.bw.Write(gdsValues.sXY);
         gw.bw.Write((int)point.X);
         gw.bw.Write((int)point.Y);
-        Point64 pos = new(pitch.X * count_x + point.X, pitch.Y + point.Y);
+        Point64 pos = new(point.X, (pitch.Y * count_y) + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
-        pos = new (pitch.X * +point.X, pitch.Y * count_y + point.Y);
+        pos = new ((pitch.X * count_x) + point.X, point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
         // endel
@@ -488,6 +498,7 @@ public class GCCellRefArray : GCElement
             {
                 foreach (GCPolygon tp in tmp.Select(t => new GCPolygon(t)))
                 {
+                    tp.scale(new (0,0), trans.mag);
                     tp.move(new (x * pitch.X, y * pitch.Y));
                     ret.Add(tp);
                 }
@@ -515,9 +526,8 @@ public class GCCellRefArray : GCElement
             for (int poly = 0; poly < ret.Count; poly++)
 #endif
             {
+                ret[poly].rotate(trans.angle, new(0,0));
                 ret[poly].move(point);
-                ret[poly].rotate(trans.angle, point);
-                ret[poly].scale(point, trans.mag);
             }
 #if !GCSINGLETHREADED
         );

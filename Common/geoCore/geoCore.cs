@@ -679,10 +679,10 @@ public class GeoCore
                 mag = refCell.trans.mag;
                 angle = refCell.trans.angle;
                 tmpCel = refCell.cell_ref;
-                xSpace = refCell.rowVector.X + refCell.columnVector.X;
-                ySpace = refCell.columnVector.Y + refCell.rowVector.Y;
-                xCount = refCell.count_x;
-                yCount = refCell.count_y;
+                xSpace = refCell.repetition.rowVector.x + refCell.repetition.colVector.x;
+                ySpace = refCell.repetition.colVector.y + refCell.repetition.rowVector.y;
+                xCount = refCell.repetition.columns;
+                yCount = refCell.repetition.rows;
             }
         }
         catch (Exception)

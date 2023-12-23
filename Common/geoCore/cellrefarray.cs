@@ -12,32 +12,28 @@ namespace geoCoreLib;
 public class GCCellRefArray : GCElement
 {
     private Point64 point;
-    public int count_x, count_y;
-    public Point64 rowVector, columnVector;
     public GCCell cell_ref { get; set; }
     public GCStrans trans { get; set; }
     
     // Used for OASIS
-    private enum repetition_types { Rectangular, Regular, Explicitx, Explicity, Explicit }
-
-    public int repetition_type;
-
+    public Repetition repetition;
     public GCCellRefArray(GCCell c, Path64 array, int xCount, int yCount)
     {
+        repetition = new Repetition();
         cell_ref = c;
         point = array[0];
         // Shims.
         int pitch_x = 0;
         int pitch_y = 0;
-        rowVector = new(array[1].X - array[0].X, array[1].Y - array[0].Y);
-        columnVector = new(array[2].X - array[0].X, array[2].Y - array[0].Y);
-        repetition_type = (int)repetition_types.Rectangular;
-        if (((rowVector.X != 0) && (rowVector.Y != 0)) || ((columnVector.X != 0) && (columnVector.Y != 0)))
+        repetition.rowVector = new(array[1].X - array[0].X, array[1].Y - array[0].Y);
+        repetition.colVector = new(array[2].X - array[0].X, array[2].Y - array[0].Y);
+        repetition.type = Repetition.RepetitionType.Rectangular;
+        if (((repetition.rowVector.x != 0) && (repetition.rowVector.y != 0)) || ((repetition.colVector.x != 0) && (repetition.colVector.y != 0)))
         {
-            repetition_type = (int)repetition_types.Regular;
+            repetition.type = Repetition.RepetitionType.Regular;
         }
-        count_x = xCount;
-        count_y = yCount;
+        repetition.columns = xCount;
+        repetition.rows = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;
@@ -47,12 +43,13 @@ public class GCCellRefArray : GCElement
 
     public GCCellRefArray(GCCell c, Point64 pos1, Point64 pos2, int xCount, int yCount)
     {
+        repetition = new();
         cell_ref = c;
         point = pos1;
-        rowVector = new(pos1);
-        columnVector = new(pos2);
-        count_x = xCount;
-        count_y = yCount;
+        repetition.rowVector = new(pos1);
+        repetition.colVector = new(pos2);
+        repetition.columns = xCount;
+        repetition.rows = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;
@@ -101,7 +98,7 @@ public class GCCellRefArray : GCElement
         {
             for (int y = 0; y < 2; y++)
             {
-                Point64 pos3 = GeoWrangler.move(point, (rowVector.X + columnVector.X) * x * (count_x - 1), (rowVector.Y + columnVector.Y) * y * (count_y - 1));
+                Point64 pos3 = GeoWrangler.move(point, (repetition.rowVector.x + repetition.colVector.x) * x * (repetition.columns - 1), (repetition.rowVector.y + repetition.colVector.y) * y * (repetition.rows - 1));
                 Point64 pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
                 pos1.Y = trans.mirror_x switch
                 {
@@ -139,7 +136,7 @@ public class GCCellRefArray : GCElement
         {
             for (int y = 0; y < 2; y++)
             {
-                Point64 pos3 = GeoWrangler.move(point, (rowVector.X + columnVector.X) * x * (count_x - 1), (rowVector.Y + columnVector.Y) * y * (count_y - 1));
+                Point64 pos3 = GeoWrangler.move(point, (repetition.rowVector.x + repetition.colVector.x) * x * (repetition.columns - 1), (repetition.rowVector.y + repetition.colVector.y) * y * (repetition.rows - 1));
                 Point64 pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
                 pos1.Y = trans.mirror_x switch
                 {
@@ -210,10 +207,10 @@ public class GCCellRefArray : GCElement
     {
         point.X = (int)(point.X * factor);
         point.Y = (int)(point.Y * factor);
-        rowVector.X = (int)(rowVector.X * factor);
-        rowVector.Y = (int)(rowVector.Y * factor);
-        columnVector.X = (int)(columnVector.X * factor);
-        columnVector.Y = (int)(columnVector.Y * factor);
+        repetition.rowVector.x = (int)(repetition.rowVector.x * factor);
+        repetition.rowVector.y = (int)(repetition.rowVector.y * factor);
+        repetition.colVector.x = (int)(repetition.colVector.x * factor);
+        repetition.colVector.y = (int)(repetition.colVector.y * factor);
     }
 
     public override void setPos(Point64 p)
@@ -267,22 +264,32 @@ public class GCCellRefArray : GCElement
 
     public override void setCount(Point64 pt)
     {
-        count_x = (int)pt.X;
-        count_y = (int)pt.Y;
+        repetition.columns = (int)pt.X;
+        repetition.rows = (int)pt.Y;
     }
 
-    public override void setPitch(Point64 pt)
+    public override void setRowPitch(Point64 pt)
     {
-        rowVector = new(pt);
+        repetition.rowVector = new(pt);
     }
-    public override Point64 getPitch()
+    public override Point64 getRowPitch()
     {
-        return new(rowVector);
+        return new(repetition.rowVector);
+    }
+    
+    public override void setColPitch(Point64 pt)
+    {
+        repetition.colVector = new(pt);
+    }
+
+    public override Point64 getColPitch()
+    {
+        return new(repetition.colVector);
     }
 
     public override Point64 getCount()
     {
-        return new(count_x, count_y);
+        return new(repetition.columns, repetition.rows);
     }
 
     public override void saveGDS(gdsWriter gw)
@@ -328,17 +335,17 @@ public class GCCellRefArray : GCElement
         //colrow
         gw.bw.Write((ushort)8);
         gw.bw.Write(gdsValues.sCOLROW);
-        gw.bw.Write((short)count_x);
-        gw.bw.Write((short)count_y);
+        gw.bw.Write((short)repetition.columns);
+        gw.bw.Write((short)repetition.rows);
         //xy
         gw.bw.Write((ushort)(3 * 2 * 4 + 4));
         gw.bw.Write(gdsValues.sXY);
         gw.bw.Write((int)point.X);
         gw.bw.Write((int)point.Y);
-        Point64 pos = new(rowVector.X + point.X, (rowVector.Y * count_y) + point.Y);
+        Point64 pos = new(repetition.rowVector.x + point.X, (repetition.rowVector.y * repetition.rows) + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
-        pos = new ((columnVector.X * count_x) + point.X, columnVector.Y + point.Y);
+        pos = new ((repetition.colVector.x * repetition.columns) + point.X, repetition.colVector.y + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
         // endel
@@ -361,7 +368,7 @@ public class GCCellRefArray : GCElement
             _ => ow.modal.absoluteMode
         };
         byte info_byte = 128;  //explicid cellname,repition;
-        if (count_x > 1 || count_y > 1)
+        if (repetition.columns > 1 || repetition.rows > 1)
         {
             info_byte += 8;
         }
@@ -429,16 +436,16 @@ public class GCCellRefArray : GCElement
         switch (info_byte & 8)
         {
             default:
-                switch (repetition_type)
+                switch (repetition.type)
                 {
-                    case (int)repetition_types.Rectangular:
-                        if ((count_x > 1) && (count_y > 1))
+                    case Repetition.RepetitionType.Rectangular:
+                        if ((repetition.columns > 1) && (repetition.rows > 1))
                         {
-                            ow.modal.x_dimension = count_x;
-                            ow.modal.y_dimension = count_y;
-                            ow.modal.x_space = (int)(columnVector.X + rowVector.X);
-                            ow.modal.y_space = (int)(columnVector.Y + rowVector.Y);
-                            if (((columnVector.X + rowVector.X) >= 0) && ((columnVector.Y + rowVector.Y) >= 0))
+                            ow.modal.x_dimension = repetition.columns;
+                            ow.modal.y_dimension = repetition.rows;
+                            ow.modal.x_space = (int)(repetition.colVector.x + repetition.rowVector.x);
+                            ow.modal.y_space = (int)(repetition.colVector.y + repetition.rowVector.y);
+                            if (((repetition.colVector.x + repetition.rowVector.x) >= 0) && ((repetition.colVector.y + repetition.rowVector.y) >= 0))
                             {
                                 ow.writeUnsignedInteger(1);
                                 ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
@@ -455,11 +462,11 @@ public class GCCellRefArray : GCElement
                                 ow.writeGDelta(new(0, ow.modal.y_space));
                             }
                         }
-                        else if (count_x > 1)
+                        else if (repetition.columns > 1)
                         {
-                            ow.modal.x_dimension = count_x;
-                            ow.modal.x_space = (int)(columnVector.X + rowVector.X);
-                            if ((columnVector.X + rowVector.X) >= 0)
+                            ow.modal.x_dimension = repetition.columns;
+                            ow.modal.x_space = (int)(repetition.colVector.x + repetition.rowVector.x);
+                            if ((repetition.colVector.x + repetition.rowVector.x) >= 0)
                             {
                                 ow.writeUnsignedInteger(2);
                                 ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
@@ -474,9 +481,9 @@ public class GCCellRefArray : GCElement
                         }
                         else
                         {
-                            ow.modal.y_dimension = count_y;
-                            ow.modal.y_space = (int)rowVector.Y;
-                            if ((columnVector.Y + rowVector.Y) >= 0)
+                            ow.modal.y_dimension = repetition.rows;
+                            ow.modal.y_space = (int)repetition.rowVector.y;
+                            if ((repetition.colVector.y + repetition.rowVector.y) >= 0)
                             {
                                 ow.writeUnsignedInteger(3);
                                 ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
@@ -490,35 +497,35 @@ public class GCCellRefArray : GCElement
                             }
                         }
                         break;
-                    case (int)repetition_types.Regular:
-                        if ((count_x > 1) && (count_y > 1))
+                    case Repetition.RepetitionType.Regular:
+                        if ((repetition.columns > 1) && (repetition.rows > 1))
                         {
-                            ow.modal.x_dimension = count_x;
-                            ow.modal.y_dimension = count_y;
+                            ow.modal.x_dimension = repetition.columns;
+                            ow.modal.y_dimension = repetition.rows;
                             ow.writeUnsignedInteger(8);
                             ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
                             ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                            ow.writeGDelta(new (columnVector));
-                            ow.writeGDelta(new(rowVector));
+                            ow.writeGDelta(new (repetition.colVector));
+                            ow.writeGDelta(new(repetition.rowVector));
                         }
-                        else if (count_x > 1)
+                        else if (repetition.columns > 1)
                         {
-                            ow.modal.x_dimension = count_x;
+                            ow.modal.x_dimension = repetition.columns;
                             ow.writeUnsignedInteger(9);
                             ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                            ow.writeGDelta(new (columnVector));
+                            ow.writeGDelta(new (repetition.colVector));
                         }
                         else
                         {
-                            ow.modal.y_dimension = count_y;
+                            ow.modal.y_dimension = repetition.rows;
                             ow.writeUnsignedInteger(9);
                             ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                            ow.writeGDelta(new(rowVector));
+                            ow.writeGDelta(new(repetition.rowVector));
                         }
                         break;
-                    case (int)repetition_types.Explicitx:
-                    case (int)repetition_types.Explicity:
-                    case (int)repetition_types.Explicit:
+                    case Repetition.RepetitionType.ExplicitX:
+                    case Repetition.RepetitionType.ExplicitY:
+                    case Repetition.RepetitionType.Explicit:
                         throw new("Not immplemented.");
                         break;
                 }
@@ -606,14 +613,14 @@ public class GCCellRefArray : GCElement
 
         // Now we need to array the above.
         List<GCPolygon> ret = new();
-        for (int x = 0; x < count_x; x++)
+        for (int x = 0; x < repetition.columns; x++)
         {
-            for (int y = 0; y < count_y; y++)
+            for (int y = 0; y < repetition.rows; y++)
             {
                 foreach (GCPolygon tp in tmp.Select(t => new GCPolygon(t)))
                 {
                     tp.scale(new (0,0), trans.mag);
-                    tp.move(new (x * (rowVector.X + columnVector.X), y * (rowVector.Y + columnVector.Y)));
+                    tp.move(new (x * (repetition.rowVector.x + repetition.colVector.x), y * (repetition.rowVector.y + repetition.colVector.y)));
                     ret.Add(tp);
                 }
             }

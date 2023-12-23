@@ -583,10 +583,14 @@ public class GCElement
     public virtual GCCellRefArray getCellrefArray() { return null; }
 
     public virtual void setCount(Point64 pt) {  }
-    public virtual void setPitch(Point64 pt) {  }
+    public virtual void setRowPitch(Point64 pt) {  }
+
+    public virtual void setColPitch(Point64 pt) {  }
 
     public virtual Point64 getCount() { return new (0,0); }
-    public virtual Point64 getPitch() { return new(0, 0); }
+    public virtual Point64 getRowPitch() { return new(0, 0); }
+
+    public virtual Point64 getColPitch() { return new(0, 0); }
     public virtual void setMirrorx() { }
     public virtual void clearMirrorx() { }
     public virtual void toggleMirrorx() { }

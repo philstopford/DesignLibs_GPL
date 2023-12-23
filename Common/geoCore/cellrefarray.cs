@@ -23,8 +23,6 @@ public class GCCellRefArray : GCElement
         cell_ref = c;
         point = array[0];
         // Shims.
-        int pitch_x = 0;
-        int pitch_y = 0;
         repetition.rowVector = new(array[1].X - array[0].X, array[1].Y - array[0].Y);
         repetition.colVector = new(array[2].X - array[0].X, array[2].Y - array[0].Y);
         repetition.type = Repetition.RepetitionType.Rectangular;
@@ -39,6 +37,46 @@ public class GCCellRefArray : GCElement
         datatype_nr = -1;
         trans = new GCStrans();
         trans.reset();
+    }
+
+    public GCCellRefArray(GCCell c, Path64 explicitArray)
+    {
+        if (explicitArray.Count < 1)
+        {
+            throw new Exception("No valid array provided");
+        }
+
+        repetition = new();
+
+        cell_ref = c;
+        point = explicitArray[0];
+        
+        // Figure out the nature of our repetition in the array.
+        Rect64 bounds = Clipper.GetBounds(explicitArray);
+        
+        bool explicitY = bounds.Width == 0;
+        bool explicitX = bounds.Height == 0;
+        bool explicitXY = !explicitX && !explicitY;
+
+        if (explicitXY)
+        {
+            repetition.type = Repetition.RepetitionType.Explicit;
+        }
+        else
+        {
+            if (explicitX)
+            {
+                repetition.type = Repetition.RepetitionType.ExplicitX;
+            }
+
+            if (explicitY)
+            {
+                repetition.type = Repetition.RepetitionType.ExplicitY;
+            }
+        }
+
+        // Might need to consider the scaling value here - yet to be tested.
+        repetition.offsets = Clipper.ScalePathD(explicitArray, 1);
     }
 
     public GCCellRefArray(GCCell c, Point64 pos1, Point64 pos2, int xCount, int yCount)

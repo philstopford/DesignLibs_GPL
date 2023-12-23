@@ -29,17 +29,22 @@ public class Repetition
     public PointD rowVector; // regular axis 1
     public PointD colVector; // regular axis 2
 
-    private List<PointD> offsets; // explicit
+    public PathD offsets; // explicit
     public List<double> coords; // explicitx and explicity
 
     public Repetition()
     {
+        reset();
+    }
+
+    public void reset()
+    {
         type = RepetitionType.None;
         columns = 0;
         rows = 0;
-        spacing = new();
-        rowVector = new();
-        colVector = new();
+        spacing = new(0,0);
+        rowVector = new(0,0);
+        colVector = new(0,0);
         offsets = new();
         coords = new();
     }
@@ -74,6 +79,8 @@ public class Repetition
         }
     }
 
+
+    // Not sure whether these methods are needed, but added for now ahead of investigations.
     public int get_count()
     {
         switch (type)
@@ -93,7 +100,6 @@ public class Repetition
         return 0;
     }
 
-    // Not sure whether these methods are needed, but added for now ahead of investigations.
     public PathD get_offsets()
     {
         PathD result = new();

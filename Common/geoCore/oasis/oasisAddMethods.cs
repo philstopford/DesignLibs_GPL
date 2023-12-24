@@ -301,7 +301,7 @@ internal partial class oasReader
         }
         else
         {
-            Path64 offsets = modal.repetition.offsets;
+            Path64 offsets = modal.repetition.get_offsets();
             foreach (Point64 offset in offsets)
             {
                 addElement(e, offset);

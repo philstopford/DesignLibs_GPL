@@ -25,11 +25,11 @@ public class Repetition
     public int columns; // along x or v1
     public int rows; // along y or v2
 
-    public PointD spacing; // rectangular spacing
-    public PointD rowVector; // regular axis 1
-    public PointD colVector; // regular axis 2
+    public Point64 spacing; // rectangular spacing
+    public Point64 rowVector; // regular axis 1
+    public Point64 colVector; // regular axis 2
 
-    public PathD offsets; // explicit
+    public Path64 offsets; // explicit
     public List<double> coords; // explicitx and explicity
 
     public Repetition()
@@ -100,19 +100,19 @@ public class Repetition
         return 0;
     }
 
-    public PathD get_offsets()
+    public Path64 get_offsets()
     {
-        PathD result = new();
+        Path64 result = new();
         int count = get_count();
         switch (type)
         {
             case RepetitionType.Rectangular:
                 for (int i = 0; i < columns; i++)
                 {
-                    double cx = i * spacing.x;
+                    Int64 cx = i * spacing.X;
                     for (int j = 0; j < rows; j++)
                     {
-                        result.Append(new(cx, j * spacing.y));
+                        result.Append(new(cx, j * spacing.Y));
                     }
                 }
 
@@ -120,10 +120,10 @@ public class Repetition
             case RepetitionType.Regular:
                 for (int i = 0; i < columns; i++)
                 {
-                    PointD vi = new(rowVector.x * i, rowVector.y * i);
+                    Point64 vi = new(rowVector.X * i, rowVector.Y * i);
                     for (int j = 0; j < rows; j++)
                     {
-                        result.Append(new(vi.x + j * colVector.x, vi.y + j * colVector.y));
+                        result.Append(new(vi.X + j * colVector.X, vi.Y + j * colVector.Y));
                     }
                 }
 
@@ -155,9 +155,9 @@ public class Repetition
         return result;
     }
 
-    public PathD get_extrema()
+    public Path64 get_extrema()
     {
-        PathD result = new();
+        Path64 result = new();
 
         switch (type)
         {
@@ -171,27 +171,27 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        result.Append(new PointD(0, 0));
+                        result.Append(new (0, 0));
                     }
                     else
                     {
-                        result.Append(new PointD(0, 0));
-                        result.Append(new PointD(0, (rows - 1) * spacing.y));
+                        result.Append(new (0, 0));
+                        result.Append(new (0, (rows - 1) * spacing.Y));
                     }
                 }
                 else
                 {
                     if (rows == 1)
                     {
-                        result.Append(new PointD(0, 0));
-                        result.Append(new PointD((columns - 1) * spacing.x, 0));
+                        result.Append(new (0, 0));
+                        result.Append(new ((columns - 1) * spacing.X, 0));
                     }
                     else
                     {
-                        result.Append(new PointD(0, 0));
-                        result.Append(new PointD(0, (rows - 1) * spacing.y));
-                        result.Append(new PointD((columns - 1) * spacing.x, 0));
-                        result.Append(new PointD((columns - 1) * spacing.x, (rows - 1) * spacing.y));
+                        result.Append(new (0, 0));
+                        result.Append(new (0, (rows - 1) * spacing.Y));
+                        result.Append(new ((columns - 1) * spacing.X, 0));
+                        result.Append(new ((columns - 1) * spacing.X, (rows - 1) * spacing.Y));
                     }
                 }
 
@@ -206,29 +206,29 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        result.Append(new PointD(0, 0));
+                        result.Append(new (0, 0));
                     }
                     else
                     {
-                        result.Append(new PointD(0, 0));
-                        result.Append(new((rows - 1) * colVector.x, (rows - 1) * colVector.y));
+                        result.Append(new (0, 0));
+                        result.Append(new((rows - 1) * colVector.X, (rows - 1) * colVector.Y));
                     }
                 }
                 else
                 {
                     if (rows == 1)
                     {
-                        result.Append(new PointD(0, 0));
-                        result.Append(new((columns - 1) * rowVector.x, (columns - 1) * rowVector.y));
+                        result.Append(new (0, 0));
+                        result.Append(new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y));
                     }
                     else
                     {
-                        PointD vi = new((columns - 1) * rowVector.x, (columns - 1) * rowVector.y);
-                        PointD vj = new((rows - 1) * colVector.x, (rows - 1) * colVector.y);
-                        result.Append(new PointD(0, 0));
-                        result.Append(new PointD(vi));
-                        result.Append(new PointD(vj));
-                        result.Append(new PointD(vi.x + vj.x, vi.y + vj.y));
+                        PointD vi = new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y);
+                        PointD vj = new((rows - 1) * colVector.X, (rows - 1) * colVector.Y);
+                        result.Append(new (0, 0));
+                        result.Append(new (vi));
+                        result.Append(new (vj));
+                        result.Append(new (vi.x + vj.x, vi.y + vj.y));
                     }
                 }
 
@@ -269,26 +269,26 @@ public class Repetition
                     return result;
                 }
 
-                PointD vxmin = new(offsets[0]);
-                PointD vxmax = new(offsets[0]);
-                PointD vymin = new(offsets[0]);
-                PointD vymax = new(offsets[0]);
-                foreach (PointD v in offsets)
+                Point64 vxmin = new(offsets[0]);
+                Point64 vxmax = new(offsets[0]);
+                Point64 vymin = new(offsets[0]);
+                Point64 vymax = new(offsets[0]);
+                foreach (Point64 v in offsets)
                 {
-                    if (v.x < vxmin.x)
+                    if (v.X < vxmin.X)
                     {
                         vxmin = new(v);
                     }
-                    else if (v.x > vxmax.x)
+                    else if (v.X > vxmax.X)
                     {
                         vxmax = new(v);
                     }
 
-                    if (v.y < vymin.y)
+                    if (v.Y < vymin.Y)
                     {
                         vymin = new(v);
                     }
-                    else if (v.y > vymax.y)
+                    else if (v.Y > vymax.Y)
                     {
                         vymax = new(v);
                     }
@@ -317,32 +317,32 @@ public class Repetition
             case RepetitionType.Rectangular:
                 if (magnification != 1)
                 {
-                    spacing = new (spacing.x * magnification, spacing.y * magnification);
+                    spacing = new (spacing.X * magnification, spacing.Y * magnification);
                 }
                 if (x_reflection || rotation != 0)
                 {
-                    PointD v = new(spacing);
-                    if (x_reflection) v.y = -v.y;
+                    Point64 v = new(spacing);
+                    if (x_reflection) v.Y = -v.Y;
                     double ca = Math.Cos(rotation);
                     double sa = Math.Sin(rotation);
                     type = RepetitionType.Regular;
-                    rowVector.x = v.x * ca;
-                    rowVector.y = v.x * sa;
-                    colVector.x = -v.y * sa;
-                    colVector.y = v.y * ca;
+                    rowVector.X = (Int64)(v.Y * ca);
+                    rowVector.X = (Int64)(v.Y * sa);
+                    colVector.X = (Int64)(-v.Y * sa);
+                    colVector.X = (Int64)(v.Y * ca);
                 }
                 break;
             case RepetitionType.Regular:
                 if (magnification != 1)
                 {
-                    rowVector = new (rowVector.x * magnification, rowVector.y * magnification);
-                    rowVector = new (colVector.x * magnification, colVector.y * magnification);
+                    rowVector = new (rowVector.X * magnification, rowVector.Y * magnification);
+                    rowVector = new (colVector.X * magnification, colVector.Y * magnification);
                 }
 
                 if (x_reflection)
                 {
-                    rowVector.y = -rowVector.y;
-                    colVector.y = -colVector.y;
+                    rowVector.Y = -rowVector.Y;
+                    colVector.Y = -colVector.Y;
                 }
 
                 if (rotation != 0)
@@ -360,8 +360,8 @@ public class Repetition
                            return Vec2{z1.re * z2.re - z1.im * z2.im, z1.re * z2.im + z1.im * z2.re};
                         }
                      */
-                    rowVector = new PointD(rowVector.x * z2x.Real - rowVector.x * z2x.Imaginary, rowVector.y * z2y.Imaginary + rowVector.y * z2y.Imaginary);
-                    colVector = new PointD(colVector.x * z2x.Real - colVector.x * z2x.Imaginary, colVector.y * z2y.Imaginary + colVector.y * z2y.Imaginary);
+                    rowVector = new (rowVector.X * z2x.Real - rowVector.X * z2x.Imaginary, rowVector.Y * z2y.Imaginary + rowVector.Y * z2y.Imaginary);
+                    colVector = new (colVector.X * z2x.Real - colVector.X * z2x.Imaginary, colVector.Y * z2y.Imaginary + colVector.Y * z2y.Imaginary);
                 }
                 break;
             case RepetitionType.ExplicitX:
@@ -369,7 +369,7 @@ public class Repetition
                 {
                     double ca = magnification * Math.Cos(rotation);
                     double sa = magnification * Math.Sin(rotation);
-                    PathD temp = new ();
+                    Path64 temp = new ();
                     foreach (double c in coords)
                     {
                         temp.Add(new(c * ca, c * sa));
@@ -396,7 +396,7 @@ public class Repetition
                         sa = -sa;
                     }
 
-                    PathD temp = new ();
+                    Path64 temp = new ();
                     foreach (double c in coords)
                     {
                         temp.Add(new(c * sa, c * ca));
@@ -442,14 +442,14 @@ public class Repetition
                         z2y = Complex.Conjugate(z2y);
                         for (int i = 0; i < offsets.Count; i++)
                         {
-                            offsets[i] = new PointD(offsets[i].x * z2x.Real - offsets[i].x * z2x.Imaginary, offsets[i].y * z2y.Imaginary + offsets[i].y * z2y.Imaginary);
+                            offsets[i] = new (offsets[i].X * z2x.Real - offsets[i].X * z2x.Imaginary, offsets[i].Y * z2y.Imaginary + offsets[i].Y * z2y.Imaginary);
                         }
                     }
                     else
                     {
                         for (int i = 0; i < offsets.Count; i++)
                         {
-                            offsets[i] = new PointD(offsets[i].x * z2x.Real - offsets[i].x * z2x.Imaginary, offsets[i].y * z2y.Imaginary + offsets[i].y * z2y.Imaginary);
+                            offsets[i] = new (offsets[i].X * z2x.Real - offsets[i].X * z2x.Imaginary, offsets[i].Y * z2y.Imaginary + offsets[i].Y * z2y.Imaginary);
                         }
                     }
                 }
@@ -457,21 +457,21 @@ public class Repetition
                 {
                     for (int i = 0; i < offsets.Count; i++)
                     {
-                        offsets[i] = new(offsets[i].x * magnification, -offsets[i].y * magnification);
+                        offsets[i] = new(offsets[i].X * magnification, -offsets[i].Y * magnification);
                     }
                 }
                 else if (x_reflection)
                 {
                     for (int i = 0; i < offsets.Count; i++)
                     {
-                        offsets[i] = new (offsets[i].x, -offsets[i].y);
+                        offsets[i] = new (offsets[i].X, -offsets[i].Y);
                     }
                 }
                 else if (magnification != 1)
                 {
                     for (int i = 0; i < offsets.Count; i++)
                     {
-                        offsets[i] = new (offsets[i].x * magnification, offsets[i].y * magnification);
+                        offsets[i] = new (offsets[i].X * magnification, offsets[i].Y * magnification);
                     }
                 }
             }

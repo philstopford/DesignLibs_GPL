@@ -23,15 +23,23 @@ public class GCCellRefArray : GCElement
         cell_ref = c;
         point = array[0];
         // Shims.
-        repetition.rowVector = new(array[1].X - array[0].X, array[1].Y - array[0].Y);
-        repetition.colVector = new(array[2].X - array[0].X, array[2].Y - array[0].Y);
+        repetition.columns = xCount;
+        repetition.rows = yCount;
+        if (xCount < 1)
+        {
+            repetition.columns = 1;
+        }
+        if (yCount < 1)
+        {
+            repetition.rows = 1;
+        }
+        repetition.rowVector = new ((array[1].X - array[0].X) / repetition.columns, (array[1].Y - array[0].Y) / repetition.rows);
+        repetition.colVector = new((array[2].X - array[0].X) / repetition.columns, (array[2].Y - array[0].Y) / repetition.rows);
         repetition.type = Repetition.RepetitionType.Rectangular;
         if (((repetition.rowVector.x != 0) && (repetition.rowVector.y != 0)) || ((repetition.colVector.x != 0) && (repetition.colVector.y != 0)))
         {
             repetition.type = Repetition.RepetitionType.Regular;
         }
-        repetition.columns = xCount;
-        repetition.rows = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;

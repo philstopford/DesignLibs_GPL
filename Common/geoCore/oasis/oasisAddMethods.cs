@@ -295,135 +295,17 @@ internal partial class oasReader
 
     private void processRepetition(elementType e)
     {
-        Path64 offsets = modal.repetition.get_offsets();
-        foreach (Point64 offset in offsets)
-        {
-            addElement(e, offset);
-        }
-
-        /*
         if (e == elementType.cellrefElement)
         {
-            switch (modal.repetition)
-            {
-                // Rectangular for m columns and n rows both >= 1, with spacing in X and Y both >= 0
-                case 1:
-                    cell_.addCellrefArray(drawing_.findCell(modal.placement_cell),
-                        new(modal.placement_x, modal.placement_y),
-                        new(modal.x_space + modal.placement_x, modal.y_space + modal.placement_y), modal.x_dimension,
-                        modal.y_dimension);
-                    cell_.elementList[^1].setName(modal.placement_cell);
-                    cell_.elementList[^1].rotate(modal.angle);
-                    cell_.elementList[^1].scale(modal.mag);
-                    switch (modal.mirror_x)
-                    {
-                        case true:
-                            cell_.elementList[^1].setMirrorx();
-                            break;
-                    }
-                    break;
-                // Rectangular m columns for X >= 0
-                case 2:
-                    cell_.addCellrefArray(drawing_.findCell(modal.placement_cell),
-                        new(modal.placement_x, modal.placement_y),
-                        new(modal.x_space + modal.placement_x, modal.placement_y), modal.x_dimension, 1);
-                    cell_.elementList[^1].setName(modal.placement_cell);
-                    cell_.elementList[^1].rotate(modal.angle);
-                    cell_.elementList[^1].scale(modal.mag);
-                    switch (modal.mirror_x)
-                    {
-                        case true:
-                            cell_.elementList[^1].setMirrorx();
-                            break;
-                    }
-                    break;
-                // Rectangular n rows for Y >= 0
-                case 3:
-                    cell_.addCellrefArray(drawing_.findCell(modal.placement_cell),
-                        new(modal.placement_x, modal.placement_y),
-                        new(modal.placement_x, modal.y_space + modal.placement_y), 1, modal.y_dimension);
-                    cell_.elementList[^1].setName(modal.placement_cell);
-                    cell_.elementList[^1].rotate(modal.angle);
-                    cell_.elementList[^1].scale(modal.mag);
-                    switch (modal.mirror_x)
-                    {
-                        case true:
-                            cell_.elementList[^1].setMirrorx();
-                            break;
-                    }
-                    break;
-                // ExplicitX with coords > 0
-                case 4:
-                    break;
-                // ExplicitY with coords > 0
-                case 6:
-                    break;
-                // Regular with m cols and n rows both > 1
-                case 8:
-                    break;
-                default:
-                    // We flatten the placements. It might be better to keep the
-                    // information via the repetition system.
-                    // Need to understand our repetition value to do this properly.
-                    // This maps to ExplicitX, ExplicitY, ExplicitXY handling, I think.
-                    // 
-                    // cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), modal.repArray);
-                    // cell_.elementList[^1].setName(modal.placement_cell);
-                    // cell_.elementList[^1].rotate(modal.angle);
-                    // cell_.elementList[^1].scale(modal.mag);
-                    // switch (modal.mirror_x)
-                    // {
-                    //     case true:
-                    //         cell_.elementList[^1].setMirrorx();
-                    //         break;
-                    // }
-                    // 
-                    foreach (Point64 t in modal.repArray)
-                    {
-                        addElement(e, t);
-                    }
-                    // Throwing to allow this to be investigated....
-                    throw new Exception("CellRef with unsupported repetition mode in processRepetition");
-                    break;
-            }
+            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), modal.repetition);
         }
         else
         {
-            switch (modal.repetition)
+            Path64 offsets = modal.repetition.offsets;
+            foreach (Point64 offset in offsets)
             {
-                case 1:
-                    for (int x = 0; x < modal.x_dimension; x++)
-                    for (int y = 0; y < modal.y_dimension; y++)
-                    {
-                        addElement(e, new (x * modal.x_space, y * modal.y_space));
-                    }
-                    break;
-                case 2:
-                    for (int x = 0; x < modal.x_dimension; x++)
-                    {
-                        addElement(e, new (x * modal.x_space, 0));
-                    }
-                    break;
-                case 3:
-                    for (int y = 0; y < modal.y_dimension; y++)
-                    {
-                        addElement(e, new (0, y * modal.y_space));
-                    }
-                    break;
-                default:
-                    // We flatten the placements. It might be better to keep the
-                    // information via the repetition system.
-                    // Need to understand our repetition value to do this properly.
-                    // This maps to ExplicitX, ExplicitY, ExplicitXY handling, I think.
-                    foreach (Point64 t in modal.repArray)
-                    {
-                        addElement(e, t);
-                    }
-                    // Throwing to allow this to be investigated....
-                    throw new Exception("Found unsupported repetition mode in processRepetition");
-                    break;
+                addElement(e, offset);
             }
         }
-        */
     }
 }

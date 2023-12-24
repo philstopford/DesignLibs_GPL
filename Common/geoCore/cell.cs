@@ -242,6 +242,17 @@ public class GCCell
         pAddElement(e);
     }
 
+    public void addCellrefArray(GCCell c, Repetition r)
+    {
+        pAddCellrefArray(c, r);
+    }
+
+    private void pAddCellrefArray(GCCell c, Repetition r)
+    {
+        GCElement e = new GCCellRefArray(c, r);
+        pAddElement(e);
+    }
+
     public void addCellrefArray(GCCell c, Path64 array, int anzx, int anzy)
     {
         pAddCellrefArray(c, array, anzx, anzy);

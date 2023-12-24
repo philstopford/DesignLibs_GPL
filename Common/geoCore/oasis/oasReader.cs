@@ -429,6 +429,7 @@ internal partial class oasReader
                         if ((info_byte & 8) != 0)
                         {
                             readRepetition();
+                            
                             processRepetition(elementType.cellrefElement);
                         }
                         else

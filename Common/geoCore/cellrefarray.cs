@@ -17,6 +17,13 @@ public class GCCellRefArray : GCElement
     
     // Used for OASIS
     public Repetition repetition;
+
+    public GCCellRefArray(GCCell c, Repetition r)
+    {
+        repetition = new(r);
+        cell_ref = c;
+    }
+    
     public GCCellRefArray(GCCell c, Path64 array, int xCount, int yCount)
     {
         repetition = new Repetition();

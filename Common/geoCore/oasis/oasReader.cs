@@ -65,12 +65,7 @@ internal partial class oasReader
         public int last_property_name { get; set; }
         public int last_value_list { get; set; }
         //  repetition;
-        public int repetition { get; set; }
-        public int x_dimension { get; set; }
-        public int y_dimension { get; set; }
-        public int x_space { get; set; }
-        public int y_space { get; set; }
-        public Path64 repArray { get; set; }
+        public Repetition repetition { get; set; }
         public int trapezoid_delta_a { get; set; }
         public int trapezoid_delta_b { get; set; }
         public bool trapezoid_orientation { get; set; }
@@ -101,7 +96,7 @@ internal partial class oasReader
     {
         drawing_ = new GCDrawingfield(filename_);
         error_msgs = new List<string>();
-        modal.repArray = new ();
+        modal.repetition = new ();
         modal.polygon_point_list = new ();
         filename = filename_;
     }
@@ -136,9 +131,8 @@ internal partial class oasReader
         modal.textlayer = -1;
         modal.texttype = -1;
         modal.circle_radius = -1;
-        modal.repetition = -1;
+        modal.repetition = new();
         modal.polygon_point_list = new ();
-        modal.repArray = new ();
         modal.s = "";
     }
 

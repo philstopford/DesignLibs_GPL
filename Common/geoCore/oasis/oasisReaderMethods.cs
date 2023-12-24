@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Clipper2Lib;
+using geoCoreLib;
 using geoWrangler;
 
 namespace oasis;
@@ -332,146 +333,106 @@ internal partial class oasReader
 
     private void readRepetition()
     {
+        modal.repetition = new();
         int i = readUnsignedInteger();
         switch (i)
         {
-            case 0: break;
+            case 0:
+                break;
             case 1:
-                modal.x_dimension = readUnsignedInteger() + 2;
-                modal.y_dimension = readUnsignedInteger() + 2;
-                modal.x_space = readUnsignedInteger();
-                modal.y_space = readUnsignedInteger();
+                modal.repetition.type = Repetition.RepetitionType.Rectangular;
+                modal.repetition.columns = readUnsignedInteger() + 2;
+                modal.repetition.rows = readUnsignedInteger() + 2;
+                modal.repetition.spacing.X = readUnsignedInteger();
+                modal.repetition.spacing.Y = readUnsignedInteger();
                 break;
             case 2:
-                modal.x_dimension = readUnsignedInteger() + 2;
-                modal.x_space = readUnsignedInteger();
+                modal.repetition.type = Repetition.RepetitionType.Rectangular;
+                modal.repetition.columns = readUnsignedInteger() + 2;
+                modal.repetition.rows = 1;
+                modal.repetition.spacing.X = readUnsignedInteger();
+                modal.repetition.spacing.Y = 0;
                 break;
             case 3:
-                modal.y_dimension = readUnsignedInteger() + 2;
-                modal.y_space = readUnsignedInteger();
+                modal.repetition.type = Repetition.RepetitionType.Rectangular;
+                modal.repetition.columns = 1;
+                modal.repetition.rows = readUnsignedInteger() + 2;
+                modal.repetition.spacing.X = 0;
+                modal.repetition.spacing.Y = readUnsignedInteger();
                 break;
             case 4:
-            {
-                int k = readUnsignedInteger() + 2;
-                int j = 0;
-                modal.repArray.Clear();
-                modal.repArray.Add(new (0, 0));
-                for (int z = 1; z < k; z++)
-                {
-                    j += readUnsignedInteger();
-                    modal.repArray.Add(new (j, 0));
-                }
-            }
-                break;
             case 5:
             {
-                int k = readUnsignedInteger() + 2;
-                int j = 0;
-                int grid = readUnsignedInteger();
-                modal.repArray.Clear();
-                modal.repArray.Add(new (0, 0));
-                for (int z = 1; z < k; z++)
+                modal.repetition.type = Repetition.RepetitionType.ExplicitX;
+                int count = readUnsignedInteger() + 1;
+                double grid_factor = 1.0; // REVIEW: scaling
+                if (i == 5)
                 {
-                    j += readUnsignedInteger() * grid;
-                    modal.repArray.Add(new (j, 0));
+                    grid_factor *= readUnsignedInteger();
                 }
-            }
+
+                while (count > 0)
+                {
+                    modal.repetition.coords.Add(grid_factor + readUnsignedInteger());
+                    count--;
+                }
+
                 break;
+            }
             case 6:
-            {
-                int k = readUnsignedInteger() + 2;
-                int j = 0;
-                modal.repArray.Clear();
-                modal.repArray.Add(new (0, 0));
-                for (int z = 1; z < k; z++)
-                {
-                    j += readUnsignedInteger();
-                    modal.repArray.Add(new (0, j));
-                }
-            }
-                break;
             case 7:
             {
-                int k = readUnsignedInteger() + 2;
-                int j = 0;
-                int grid = readUnsignedInteger();
-                modal.repArray.Clear();
-                modal.repArray.Add(new (0, 0));
-                for (int z = 1; z < k; z++)
+                modal.repetition.type = Repetition.RepetitionType.ExplicitY;
+                int count = readUnsignedInteger() + 1;
+                int grid_factor = 1; // REVIEW: scaling
+                if (i == 7)
                 {
-                    j += readUnsignedInteger() * grid;
-                    modal.repArray.Add(new (0, j));
+                    grid_factor *= readUnsignedInteger();
                 }
-            }
+
+                while (count > 0)
+                {
+                    modal.repetition.coords.Add(grid_factor + readUnsignedInteger());
+                    count--;
+                }
+
                 break;
-            case 8:
-            {
-                int anz1 = readUnsignedInteger() + 2;
-                int anz2 = readUnsignedInteger() + 2;
-                Point64 p1 = readGDelta();
-                Point64 p2 = readGDelta();
-                modal.repArray.Clear();
-                for (int x1 = 0; x1 < anz1; x1++)
-                {
-                    for (int x2 = 0; x2 < anz2; x2++)
-                    {
-                        modal.repArray.Add(new ());
-                    }
-                }
-                for (int x1 = 0; x1 < anz1; x1++)
-                {
-                    for (int x2 = 0; x2 < anz2; x2++)
-                    {
-                        modal.repArray[x1 + x2 * anz1] = new (x1 * p1.X + x2 * p2.X, x1 * p1.Y + x2 * p2.Y);
-                    }
-                }
             }
+            case 8:
+                modal.repetition.type = Repetition.RepetitionType.Regular;
+                modal.repetition.columns = readUnsignedInteger() + 2;
+                modal.repetition.rows = readUnsignedInteger() + 2;
+                modal.repetition.colVector = readGDelta();
+                modal.repetition.rowVector = readGDelta();
                 break;
             case 9:
-            {
-                int anz1 = readUnsignedInteger() + 2;
-                Point64 p1 = readGDelta();
-                modal.repArray.Clear();
-                for (int x1 = 0; x1 < anz1; x1++)
-                {
-                    modal.repArray.Add(new (x1 * p1.X, x1 * p1.Y));
-                }
-            }
+                modal.repetition.type = Repetition.RepetitionType.Regular;
+                modal.repetition.columns = readUnsignedInteger() + 2;
+                modal.repetition.rows = 1;
+                modal.repetition.colVector = readGDelta();
+                modal.repetition.rowVector = new(-modal.repetition.colVector.Y, modal.repetition.colVector.X);
                 break;
             case 10:
-            {
-                int k = readUnsignedInteger() + 2;
-                Point64 j = new(0, 0);
-                modal.repArray.Clear();
-                modal.repArray.Add(new (0, 0));
-                for (int z = 1; z < k; z++)
-                {
-                    Point64 oPt = readGDelta();
-                    j = GeoWrangler.move(j, oPt.X, oPt.Y);
-                    modal.repArray.Add(new (j));
-                }
-            }
-                break;
             case 11:
             {
-                int k = readUnsignedInteger() + 2;
-                Point64 j = new(0, 0);
-                int grid = readUnsignedInteger();
-                modal.repArray.Clear();
-                modal.repArray.Add(new (0, 0));
-                for (int z = 1; z < k; z++)
+                modal.repetition.type = Repetition.RepetitionType.Explicit;
+                int count = readUnsignedInteger() + 2;
+                int grid_factor = 1;
+                if (i == 11)
                 {
-                    Point64 oPt = readGDelta();
-                    j = GeoWrangler.move(j, oPt.X * grid, oPt.Y * grid);
-                    modal.repArray.Add(new (j.X, j.Y));
+                    grid_factor = readUnsignedInteger();
                 }
-            }
+
+                while (count > 0)
+                {
+                    Point64 p = readGDelta();
+                    modal.repetition.offsets.Add(new (p.X * grid_factor, p.Y * grid_factor));
+                    count--;
+                }
                 break;
-            default: throw new Exception("Repetition unknown.");
-        }
-        if (i != 0)
-        {
-            modal.repetition = i;
+            }
+            default:
+                throw new Exception("Repetition unknown.");
         }
     }
 

@@ -35,10 +35,10 @@ public class GCCellRefArray : GCElement
         }
         repetition.rowVector = new ((array[1].X - array[0].X) / repetition.columns, (array[1].Y - array[0].Y) / repetition.rows);
         repetition.colVector = new((array[2].X - array[0].X) / repetition.columns, (array[2].Y - array[0].Y) / repetition.rows);
-        repetition.type = Repetition.RepetitionType.Rectangular;
+        repetition.type = Repetition.RepetitionType.Regular;
         if (((repetition.rowVector.X != 0) && (repetition.rowVector.Y != 0)) || ((repetition.colVector.X != 0) && (repetition.colVector.Y != 0)))
         {
-            repetition.type = Repetition.RepetitionType.Regular;
+            repetition.type = Repetition.RepetitionType.Rectangular;
         }
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;

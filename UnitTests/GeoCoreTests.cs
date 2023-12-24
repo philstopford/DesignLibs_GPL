@@ -22,7 +22,17 @@ public class GeoCoreTests
 
         defineAndWrite_Polygon();
         defineAndWrite_Cellref();
-        defineAndWrite_CellrefArray();
+        defineAndWrite_CellrefArray1();
+        defineAndWrite_CellrefArray2();
+        defineAndWrite_CellrefArray3();
+        defineAndWrite_CellrefArray4();
+        defineAndWrite_CellrefArray5();
+        defineAndWrite_CellrefArray1mx();
+        defineAndWrite_CellrefArray2mx();
+        defineAndWrite_CellrefArray3mx();
+        defineAndWrite_CellrefArray4mx();
+        defineAndWrite_CellrefArray5mx();
+        defineAndWrite_CellrefArray_irregular();
         defineAndWrite_Circle();
         defineAndWrite_Path();
         defineAndWrite_Text();
@@ -1854,7 +1864,7 @@ public class GeoCoreTests
     }
 
     [Test]
-    public static void defineAndWrite_CellrefArray()
+    public static void defineAndWrite_CellrefArray1()
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -1921,96 +1931,10 @@ public class GeoCoreTests
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
 
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray2";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(0);
-        gcell.elementList[^1].scale(1);
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray3";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(90);
-        gcell.elementList[^1].scale(1);
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray4";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(0);
-        gcell.elementList[^1].scale(2);
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray5";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(90);
-        gcell.elementList[^1].scale(2);
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray1_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (0, 0));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(0);
-        gcell.elementList[^1].scale(1);
-        gcell.elementList[^1].setMirrorx();
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray2_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(0);
-        gcell.elementList[^1].scale(1);
-        gcell.elementList[^1].setMirrorx();
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray3_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(90);
-        gcell.elementList[^1].scale(1);
-        gcell.elementList[^1].setMirrorx();
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray4_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(0);
-        gcell.elementList[^1].scale(2);
-        gcell.elementList[^1].setMirrorx();
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray5_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(90);
-        gcell.elementList[^1].scale(2);
-        gcell.elementList[^1].setMirrorx();
-
         g.setDrawing(drawing_);
         g.setValid(true);
 
-        string gdsFile = outDir + "simple_cellrefarray.gds";
+        string gdsFile = outDir + "simple_cellrefarray1.gds";
         if (File.Exists(gdsFile))
         {
             File.Delete(gdsFile);
@@ -2069,187 +1993,7 @@ public class GeoCoreTests
             }
         }
         
-        cell_gds = drawing_gds.findCell("test_cellrefarray2");
-        Assert.True(cell_gds.elementList[^1].isCellrefArray());
-        pos = cell_gds.elementList[^1].getPos();
-        Assert.AreEqual(10, pos.X);
-        Assert.AreEqual(20, pos.Y);
-        count = cell_gds.elementList[^1].getCount();
-        Assert.AreEqual(4, count.X);
-        Assert.AreEqual(4, count.Y);
-        col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.AreEqual(100 / count.X, col_pitch.X);
-        Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.AreEqual(0 / count.X, row_pitch.X);
-        Assert.AreEqual(80 / count.Y, row_pitch.Y);
-        scale = cell_gds.elementList[^1].getScale();
-        Assert.AreEqual(1, scale );
-        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.False(cell_gds.elementList[^1].getMirrorX() );
-        polys_gds = cell_gds.elementList[^1].convertToPolygons();
-        Assert.AreEqual(16, polys_gds.Count);
-
-        polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
-        {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
-            {
-                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
-                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
-                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
-                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
-                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
-                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
-                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
-                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
-                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
-                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
-                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
-                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
-                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
-                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
-                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
-                polyIndex++;
-            }
-        }
-
-        cell_gds = drawing_gds.findCell("test_cellrefarray3");
-        Assert.True(cell_gds.elementList[^1].isCellrefArray());
-        pos = cell_gds.elementList[^1].getPos();
-        Assert.AreEqual(10, pos.X);
-        Assert.AreEqual(20, pos.Y);
-        count = cell_gds.elementList[^1].getCount();
-        Assert.AreEqual(4, count.X);
-        Assert.AreEqual(4, count.Y);
-        col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.AreEqual(100 / count.X, col_pitch.X);
-        Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.AreEqual(0 / count.X, row_pitch.X);
-        Assert.AreEqual(80 / count.Y, row_pitch.Y);
-        scale = cell_gds.elementList[^1].getScale();
-        Assert.AreEqual(1, scale );
-        Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
-        Assert.False(cell_gds.elementList[^1].getMirrorX() );
-        polys_gds = cell_gds.elementList[^1].convertToPolygons();
-        Assert.AreEqual(16, polys_gds.Count);
-
-        polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
-        {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
-            {
-                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
-                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[0].X);
-                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[0].Y);
-                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[1].X);
-                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[1].Y);
-                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[2].X);
-                Assert.AreEqual(30 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[2].Y);
-                Assert.AreEqual(0 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[3].X);
-                Assert.AreEqual(30 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[3].Y);
-                Assert.AreEqual(0 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[4].X);
-                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[4].Y);
-                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[5].X);
-                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[5].Y);
-                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[6].X);
-                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[6].Y);
-                polyIndex++;
-            }
-        }
-
-        cell_gds = drawing_gds.findCell("test_cellrefarray4");
-        Assert.True(cell_gds.elementList[^1].isCellrefArray());
-        pos = cell_gds.elementList[^1].getPos();
-        Assert.AreEqual(10, pos.X);
-        Assert.AreEqual(20, pos.Y);
-        count = cell_gds.elementList[^1].getCount();
-        Assert.AreEqual(4, count.X);
-        Assert.AreEqual(4, count.Y);
-        col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.AreEqual(100 / count.X, col_pitch.X);
-        Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.AreEqual(0 / count.X, row_pitch.X);
-        Assert.AreEqual(80 / count.Y, row_pitch.Y);
-        scale = cell_gds.elementList[^1].getScale();
-        Assert.AreEqual(2, scale);
-        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
-        Assert.False(cell_gds.elementList[^1].getMirrorX() );
-        polys_gds = cell_gds.elementList[^1].convertToPolygons();
-        Assert.AreEqual(16, polys_gds.Count);
-
-        polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
-        {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
-            {
-                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
-                Assert.AreEqual(pos.X + (scale * 0) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[0].X);
-                Assert.AreEqual(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[0].Y);
-                Assert.AreEqual(pos.X + (scale * 0) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[1].X);
-                Assert.AreEqual(pos.Y + (scale * 20) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[1].Y);
-                Assert.AreEqual(pos.X + (scale * 10) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[2].X);
-                Assert.AreEqual(pos.Y + (scale * 20) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[2].Y);
-                Assert.AreEqual(pos.X + (scale * 10) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[3].X);
-                Assert.AreEqual(pos.Y + (scale * 10) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[3].Y);
-                Assert.AreEqual(pos.X + (scale * 20) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[4].X);
-                Assert.AreEqual(pos.Y + (scale * 10) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[4].Y);
-                Assert.AreEqual(pos.X + (scale * 20) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[5].X);
-                Assert.AreEqual(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[5].Y);
-                Assert.AreEqual(pos.X + (scale * 0) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[6].X);
-                Assert.AreEqual(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[6].Y);
-                polyIndex++;
-            }
-        }
-
-        cell_gds = drawing_gds.findCell("test_cellrefarray5");
-        Assert.True(cell_gds.elementList[^1].isCellrefArray());
-        pos = cell_gds.elementList[^1].getPos();
-        Assert.AreEqual(10, pos.X);
-        Assert.AreEqual(20, pos.Y);
-        count = cell_gds.elementList[^1].getCount();
-        Assert.AreEqual(4, count.X);
-        Assert.AreEqual(4, count.Y);
-        col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.AreEqual(100 / count.X, col_pitch.X);
-        Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.AreEqual(0 / count.X, row_pitch.X);
-        Assert.AreEqual(80 / count.Y, row_pitch.Y);
-        scale = cell_gds.elementList[^1].getScale();
-        Assert.AreEqual(2, scale );
-        Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
-        Assert.False(cell_gds.elementList[^1].getMirrorX() );
-        polys_gds = cell_gds.elementList[^1].convertToPolygons();
-        Assert.AreEqual(16, polys_gds.Count);
-
-        polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
-        {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
-            {
-                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
-                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[0].X);
-                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[0].Y);
-                Assert.AreEqual(-30 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[1].X);
-                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[1].Y);
-                Assert.AreEqual(-30 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[2].X);
-                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[2].Y);
-                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[3].X);
-                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[3].Y);
-                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[4].X);
-                Assert.AreEqual(60 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[4].Y);
-                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[5].X);
-                Assert.AreEqual(60 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[5].Y);
-                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[6].X);
-                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[6].Y);
-                polyIndex++;
-            }
-        }
-
-        string oasFile = outDir + "simple_cellrefarray.oas";
+        string oasFile = outDir + "simple_cellrefarray1.oas";
         if (File.Exists(oasFile))
         {
             File.Delete(oasFile);
@@ -2307,8 +2051,154 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray2()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+
+
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray2";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
         
-        cell_oas = drawing_oas.findCell("test_cellrefarray2");
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray2.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray2");
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+
+        string oasFile = outDir + "simple_cellrefarray.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray2");
         Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
@@ -2326,7 +2216,7 @@ public class GeoCoreTests
         Assert.AreEqual(1, scale );
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
         Assert.False(cell_oas.elementList[^1].getMirrorX() );
-        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
         
         polyIndex = 0;
@@ -2352,8 +2242,153 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray3()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+
+
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray3";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(1);
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray3.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray3");
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(30 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(0 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(30 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(0 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
         
-        cell_oas = drawing_oas.findCell("test_cellrefarray3");
+        string oasFile = outDir + "simple_cellrefarray.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray3");
         Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
@@ -2371,7 +2406,7 @@ public class GeoCoreTests
         Assert.AreEqual(1, scale );
         Assert.AreEqual(90, cell_oas.elementList[^1].getAngle() );
         Assert.False(cell_oas.elementList[^1].getMirrorX() );
-        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
 
         polyIndex = 0;
@@ -2397,8 +2432,154 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray4()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+
+
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray4";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(2);
         
-        cell_oas = drawing_oas.findCell("test_cellrefarray4");
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray4.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray4");
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(2, scale);
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * 0) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * 0) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * 20) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * 10) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * 20) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * 10) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * 10) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * 20) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * 10) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * 20) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * 0) + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+
+        string oasFile = outDir + "simple_cellrefarray4.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray4");
         Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
@@ -2416,7 +2597,7 @@ public class GeoCoreTests
         Assert.AreEqual(2, scale);
         Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
         Assert.False(cell_oas.elementList[^1].getMirrorX() );
-        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
 
         polyIndex = 0;
@@ -2442,8 +2623,153 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray5()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+
+
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray5";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(2);
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray5.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray5");
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(10, pos.X);
+        Assert.AreEqual(20, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(2, scale );
+        Assert.AreEqual(90, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(-30 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(-30 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(40 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(-10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(60 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(60 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(10 - (rowIndex * row_pitch.Y), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(20 + (colIndex * col_pitch.X), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+
+        string oasFile = outDir + "simple_cellrefarray5.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
         
-        cell_oas = drawing_oas.findCell("test_cellrefarray5");
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray5");
         Assert.True(cell_oas.elementList[^1].isCellrefArray());
         pos = cell_oas.elementList[^1].getPos();
         Assert.AreEqual(10, pos.X);
@@ -2461,7 +2787,7 @@ public class GeoCoreTests
         Assert.AreEqual(2, scale );
         Assert.AreEqual(90, cell_oas.elementList[^1].getAngle() );
         Assert.False(cell_oas.elementList[^1].getMirrorX() );
-        polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
         Assert.AreEqual(16, polys_oas.Count);
 
         polyIndex = 0;
@@ -2487,6 +2813,976 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray1mx()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+        
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray1_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (0, 0));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
+        gcell.elementList[^1].setMirrorx();
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray1_mx.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray1_mx");
+        /*
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+
+        string oasFile = outDir + "simple_cellrefarray1_mx.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray1_mx");
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
+        /*
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        col_pitch = cell_oas.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray2mx()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+        
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray2_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
+        gcell.elementList[^1].setMirrorx();
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray2_mx.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray2_mx");
+        /*
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+
+        string oasFile = outDir + "simple_cellrefarray2_mx.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray2_mx");
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
+        /*
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        col_pitch = cell_oas.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray3mx()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+        
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray3_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(1);
+        gcell.elementList[^1].setMirrorx();
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray3_mx.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray3_mx");
+        /*
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+
+        string oasFile = outDir + "simple_cellrefarray3_mx.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray3_mx");
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
+        /*
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        col_pitch = cell_oas.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray4mx()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+        
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray4_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(2);
+        gcell.elementList[^1].setMirrorx();
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray4_mx.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray4_mx");
+        /*
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+
+        string oasFile = outDir + "simple_cellrefarray4_mx.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray4_mx");
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
+        /*
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        col_pitch = cell_oas.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+    }
+
+    [Test]
+    public static void defineAndWrite_CellrefArray5mx()
+    {
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        Path64 poly = Helper.initedPath64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
+
+        gcell.addPolygon(poly, 1, 0);
+        
+        // Cellrefarrays also have to resolve to integer placement.
+        // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
+        Path64 array = Helper.initedPath64(3);
+        array[0] = new (0, 0);
+        array[1] = new (0, 80);
+        array[2] = new (100, 0);
+
+        gcell = drawing_.addCell();
+        gcell.cellName = "test_cellrefarray5_mx";
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
+        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(90);
+        gcell.elementList[^1].scale(2);
+        gcell.elementList[^1].setMirrorx();
+
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        string gdsFile = outDir + "simple_cellrefarray5_mx.gds";
+        if (File.Exists(gdsFile))
+        {
+            File.Delete(gdsFile);
+        }
+        gds.gdsWriter gw = new(g, gdsFile);
+        gw.save();
+        Assert.True(File.Exists(gdsFile));
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("test_cellrefarray5_mx");
+        /*
+        Assert.True(cell_gds.elementList[^1].isCellrefArray());
+        Point64 pos = cell_gds.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        Point64 count = cell_gds.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        double scale = cell_gds.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_gds.elementList[^1].getAngle() );
+        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_gds.Count);
+
+        int polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_gds[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_gds[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_gds[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
+
+        string oasFile = outDir + "simple_cellrefarray5_mx.oas";
+        if (File.Exists(oasFile))
+        {
+            File.Delete(oasFile);
+        }
+        oasis.oasWriter ow = new(g, oasFile);
+        ow.save();
+        Assert.True(File.Exists(oasFile));
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("test_cellrefarray5_mx");
+        Assert.True(cell_oas.elementList[^1].isCellrefArray());
+        /*
+        pos = cell_oas.elementList[^1].getPos();
+        Assert.AreEqual(0, pos.X);
+        Assert.AreEqual(0, pos.Y);
+        count = cell_oas.elementList[^1].getCount();
+        Assert.AreEqual(4, count.X);
+        Assert.AreEqual(4, count.Y);
+        col_pitch = cell_oas.elementList[^1].getColPitch();
+        Assert.AreEqual(100 / count.X, col_pitch.X);
+        Assert.AreEqual(0 / count.Y, col_pitch.Y);
+        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        Assert.AreEqual(0 / count.X, row_pitch.X);
+        Assert.AreEqual(80 / count.Y, row_pitch.Y);
+        scale = cell_oas.elementList[^1].getScale();
+        Assert.AreEqual(1, scale );
+        Assert.AreEqual(0, cell_oas.elementList[^1].getAngle() );
+        Assert.False(cell_oas.elementList[^1].getMirrorX() );
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons();
+        Assert.AreEqual(16, polys_oas.Count);
+        
+        polyIndex = 0;
+        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        {
+            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            {
+                Assert.AreEqual(7, polys_oas[polyIndex].pointarray.Count);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[0].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[0].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[1].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[1].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[2].X);
+                Assert.AreEqual(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[2].Y);
+                Assert.AreEqual(pos.X + (scale * (10 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[3].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[3].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[4].X);
+                Assert.AreEqual(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[4].Y);
+                Assert.AreEqual(pos.X + (scale * (20 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[5].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[5].Y);
+                Assert.AreEqual(pos.X + (scale * (0 + (colIndex * col_pitch.X))), polys_oas[polyIndex].pointarray[6].X);
+                Assert.AreEqual(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y))), polys_oas[polyIndex].pointarray[6].Y);
+                polyIndex++;
+            }
+        }
+        */
     }
 
     [Test]

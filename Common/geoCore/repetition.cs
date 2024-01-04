@@ -308,6 +308,8 @@ public class Repetition
 
     public void transform(double magnification, bool x_reflection, double rotation)
     {
+        // Not sure doing rotation here is wise.
+        bool doRotationInFunction = false;
         if (type == RepetitionType.None)
         {
             return;
@@ -319,7 +321,7 @@ public class Repetition
                 {
                     spacing = new (spacing.X * magnification, spacing.Y * magnification);
                 }
-                if (x_reflection || rotation != 0)
+                if (x_reflection || (rotation != 0 && doRotationInFunction))
                 {
                     Point64 v = new(spacing);
                     if (x_reflection) v.Y = -v.Y;
@@ -345,7 +347,7 @@ public class Repetition
                     colVector.Y = -colVector.Y;
                 }
 
-                if (rotation != 0)
+                if (rotation != 0  && doRotationInFunction)
                 {
                     Complex z2x = Complex.Cos(rotation);
                     Complex z2y = Complex.Sin(rotation);
@@ -365,7 +367,7 @@ public class Repetition
                 }
                 break;
             case RepetitionType.ExplicitX:
-                if (rotation != 0)
+                if (rotation != 0  && doRotationInFunction)
                 {
                     double ca = magnification * Math.Cos(rotation);
                     double sa = magnification * Math.Sin(rotation);
@@ -386,7 +388,7 @@ public class Repetition
                 }
                 break;
             case RepetitionType.ExplicitY:
-                if (rotation != 0)
+                if (rotation != 0 && doRotationInFunction)
                 {
                     double ca = magnification * Math.Cos(rotation);
                     double sa = -magnification * Math.Sin(rotation);
@@ -419,7 +421,7 @@ public class Repetition
                 break;
             case RepetitionType.Explicit:
             {
-                if (rotation != 0)
+                if (rotation != 0 && doRotationInFunction)
                 {
                     Complex z2x = Complex.Cos(rotation);
                     Complex z2y = Complex.Sin(rotation);

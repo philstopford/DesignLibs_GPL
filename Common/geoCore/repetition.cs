@@ -508,6 +508,19 @@ public class Repetition
             }
         }
 
+        if (coords.Count > 0)
+        {
+            for (int idx = 0; idx < coords.Count; idx += 2)
+            {
+                foreach (GCPolygon poly in scaled_and_rotated)
+                {
+                    GCPolygon temp = new(poly);
+                    temp.move(new Point64(coords[idx], coords[idx+1]));
+                    ret.Add(temp);
+                }
+            }
+        }
+
         for (int y = 0; y < columns; y++)
         {
             for (int x = 0; x < columns; x++)

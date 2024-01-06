@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices.JavaScript;
+using System.Threading.Tasks;
 using Clipper2Lib;
 using geoWrangler;
 
@@ -306,14 +307,14 @@ public class Repetition
         return result;
     }
 
-    public void transform(double magnification, bool x_reflection, double rotation)
+    public List<GCPolygon> transform(List<GCPolygon> geo, double magnification, bool x_reflection, double rotation)
     {
-        // Not sure doing rotation here is wise.
-        bool doRotationInFunction = false;
+        bool doRotationInFunction = true;
         if (type == RepetitionType.None)
         {
-            return;
+            return geo.ToList();
         }
+        
         switch (type)
         {
             case RepetitionType.Rectangular:
@@ -479,7 +480,76 @@ public class Repetition
             }
                 break;
             default:
-                return;
+                return geo.ToList();
         }
+        
+        // Scale and rotate.
+        List<GCPolygon> scaled_and_rotated = new();
+        foreach (GCPolygon poly in geo)
+        {
+            GCPolygon temp = new(poly);
+            temp.rotate(rotation);
+            temp.scale(magnification);
+            scaled_and_rotated.Add(temp);
+        }
+
+        List<GCPolygon> ret = new();
+
+        if (offsets.Count > 0)
+        {
+            foreach (Point64 offset in offsets)
+            {
+                foreach (GCPolygon poly in scaled_and_rotated)
+                {
+                    GCPolygon temp = new(poly);
+                    temp.move(offset);
+                    ret.Add(temp);
+                }
+            }
+        }
+
+        for (int y = 0; y < columns; y++)
+        {
+            for (int x = 0; x < columns; x++)
+            {
+                foreach (GCPolygon poly in scaled_and_rotated)
+                {
+                    GCPolygon temp = new(poly);
+                    temp.move(new (x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
+                    ret.Add(temp);
+                }
+            }
+        }
+        
+        if (x_reflection)
+        {
+            foreach (GCPolygon poly in ret)
+            {
+                Path64 flipped = new();
+                foreach (Point64 pt in poly.pointarray)
+                {
+                    flipped.Add(new (pt.X, -pt.Y));
+                }
+                poly.pointarray.Clear();
+                poly.pointarray.AddRange(flipped);
+            }
+        }
+        
+        /*
+#if !GCSINGLETHREADED
+        Parallel.For(0, ret.Count, (poly, loopstate) =>
+#else
+            for (int poly = 0; poly < ret.Count; poly++)
+#endif
+            {
+                ret[poly].rotate(trans.angle, new(0,0));
+                ret[poly].move(point);
+            }
+#if !GCSINGLETHREADED
+        );
+#endif
+        */
+
+        return ret;
     }
 }

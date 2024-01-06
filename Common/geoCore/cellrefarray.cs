@@ -704,51 +704,10 @@ public class GCCellRefArray : GCElement
             tmp.AddRange(lp);
         }
         */
-
+        
         List<GCPolygon> tmp = cell_ref.convertToPolygons();
 
-        // Now we need to array the above.
-        List<GCPolygon> ret = new();
-        for (int x = 0; x < repetition.columns; x++)
-        {
-            for (int y = 0; y < repetition.rows; y++)
-            {
-                foreach (GCPolygon tp in tmp.Select(t => new GCPolygon(t)))
-                {
-                    tp.scale(new (0,0), trans.mag);
-                    tp.move(new (x * (repetition.rowVector.X + repetition.colVector.X), y * (repetition.rowVector.Y + repetition.colVector.Y)));
-                    ret.Add(tp);
-                }
-            }
-        }
-        
-
-        if (trans.mirror_x)
-        {
-            foreach (GCPolygon poly in ret)
-            {
-                Path64 flipped = new();
-                foreach (Point64 pt in poly.pointarray)
-                {
-                    flipped.Add(new (pt.X, -pt.Y));
-                }
-                poly.pointarray.Clear();
-                poly.pointarray.AddRange(flipped);
-            }
-        }
-
-#if !GCSINGLETHREADED
-        Parallel.For(0, ret.Count, (poly, loopstate) =>
-#else
-            for (int poly = 0; poly < ret.Count; poly++)
-#endif
-            {
-                ret[poly].rotate(trans.angle, new(0,0));
-                ret[poly].move(point);
-            }
-#if !GCSINGLETHREADED
-        );
-#endif
+        List<GCPolygon> ret = repetition.transform(tmp, trans.mag, trans.mirror_x, trans.angle);
 
         return ret;
     }

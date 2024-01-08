@@ -72,7 +72,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Veldrid", "Eto\Eto.Veld
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid", "Common\veldrid\src\Veldrid\Veldrid.csproj", "{D11B9A7C-CF77-4245-B3FD-5167AF5032B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid.SPIRV", "Common\veldrid-spirv\src\Veldrid.SPIRV\Veldrid.SPIRV.csproj", "{C9D5E963-DE6A-43E3-BF6A-EBFB50A8BADA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid.SPIRV", "Common\veldrid\veldrid-spirv\src\Veldrid.SPIRV\Veldrid.SPIRV.csproj", "{C9D5E963-DE6A-43E3-BF6A-EBFB50A8BADA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veldrid.OpenGLBindings", "Common\veldrid\src\Veldrid.OpenGLBindings\Veldrid.OpenGLBindings.csproj", "{13E2A71D-9D2B-4C83-9BC6-25B497572B2D}"
 EndProject

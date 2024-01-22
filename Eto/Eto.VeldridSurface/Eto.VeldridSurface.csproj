@@ -31,7 +31,7 @@
     <ProjectReference Include="..\..\Common\clipper\clipper.csproj" />
     <ProjectReference Include="..\..\Common\KDTree\KDTree.csproj" />
     <ProjectReference Include="..\..\Common\utility\utility.csproj" />
-    <ProjectReference Include="..\..\Common\veldrid-spirv\src\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
+    <ProjectReference Include="..\..\Common\veldrid\veldrid-spirv\src\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
     <ProjectReference Include="..\..\Common\veldrid\src\Veldrid\Veldrid.csproj" />
     <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
   </ItemGroup>

@@ -11,7 +11,7 @@ namespace TestEtoVeldrid.Gtk
 		{
 			var platform = new Eto.GtkSharp.Platform();
 
-			new Application(platform).Run(new MainForm());
+			new Application(platform).Run(new SimpleMainForm());
 		}
 	}
 }

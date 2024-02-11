@@ -25,7 +25,12 @@ public partial class MainForm : Form
 		{
 			_veldridReady = value;
 
-			SetUpVeldrid();
+			Surface.VeldridInitialized += (sender, e) =>
+			{
+				Driver.SetUpVeldrid();
+			
+				_veldridReady = true;
+			};
 		}
 	}
 
@@ -37,7 +42,14 @@ public partial class MainForm : Form
 		{
 			_formReady = value;
 
-			SetUpVeldrid();
+			_veldridReady = value;
+
+			Surface.VeldridInitialized += (sender, e) =>
+			{
+				Driver.SetUpVeldrid();
+			
+				_veldridReady = true;
+			};
 		}
 	}
 

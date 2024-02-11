@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.8.0" />
+    <PackageReference Include="Eto.Forms" Version="2.8.2" />
   </ItemGroup>
 
 </Project>

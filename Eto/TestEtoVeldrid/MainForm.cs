@@ -24,13 +24,7 @@ public partial class MainForm : Form
 		private set
 		{
 			_veldridReady = value;
-
-			Surface.VeldridInitialized += (sender, e) =>
-			{
-				Driver.SetUpVeldrid();
-			
-				_veldridReady = true;
-			};
+			SetUpVeldrid();
 		}
 	}
 
@@ -41,15 +35,7 @@ public partial class MainForm : Form
 		set
 		{
 			_formReady = value;
-
-			_veldridReady = value;
-
-			Surface.VeldridInitialized += (sender, e) =>
-			{
-				Driver.SetUpVeldrid();
-			
-				_veldridReady = true;
-			};
+			SetUpVeldrid();
 		}
 	}
 
@@ -93,6 +79,15 @@ public partial class MainForm : Form
 			ShaderSubdirectory = shaderSubdir
 		};
 
+		Surface.VeldridInitialized += (sender, e) =>
+		{
+			Driver.SetUpVeldrid();
+			
+			_veldridReady = true;
+		};
+
+		SetUpVeldrid();
+
 		// TODO: Make this binding actually work both ways.
 		CmdAnimate.Bind<bool>("Checked", Driver, "Animate");
 		CmdClockwise.Bind<bool>("Checked", Driver, "Clockwise");
@@ -105,8 +100,6 @@ public partial class MainForm : Form
 			case false:
 				return;
 		}
-
-		Driver.SetUpVeldrid();
 
 		Title = $"Veldrid backend: {Surface.Backend.ToString(CultureInfo.InvariantCulture)}";
 

@@ -13,23 +13,14 @@ namespace TestEtoVeldrid
 		VeldridDriver Driver;
 
 		private bool _veldridReady = false;
+
 		public bool VeldridReady
 		{
 			get { return _veldridReady; }
-			private set
+			set
 			{
 				_veldridReady = value;
-
-				Surface.VeldridInitialized += (sender, e) =>
-				{
-					Driver.SetUpVeldrid();
-					OVPSettings unused = new();
-					Driver = new VeldridDriver(ref unused, ref Surface);
-					Driver.ExecutableDirectory = AppContext.BaseDirectory;
-					Driver.ShaderSubdirectory = "shaders";
-
-					_veldridReady = true;
-				};
+				SetUpVeldrid();
 			}
 		}
 
@@ -40,6 +31,7 @@ namespace TestEtoVeldrid
 			set
 			{
 				_formReady = value;
+				SetUpVeldrid();
 			}
 		}
 
@@ -71,13 +63,17 @@ namespace TestEtoVeldrid
 
 			Content = Surface;
 
-			/*
+			Surface.VeldridInitialized += (sender, e) =>
 			{
-				Surface = Surface
+				OVPSettings unused = new();
+				Driver = new VeldridDriver(ref unused, ref Surface);
+				Driver.ExecutableDirectory = AppContext.BaseDirectory;
+				Driver.ShaderSubdirectory = "shaders";
+				Driver.SetUpVeldrid();
+
+				_veldridReady = true;
 			};
-			*/
-
-
+			
 			// TODO: Make this binding actually work both ways.
 			CmdAnimate.Bind<bool>("Checked", Driver, "Animate");
 			CmdClockwise.Bind<bool>("Checked", Driver, "Clockwise");

@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RootNamespace>Eto.Veldrid</RootNamespace>
+    <Title>Eto.Veldrid</Title>
+    <Configurations>Debug;Release</Configurations>
+    <ReleaseVersion>0.24</ReleaseVersion>
+  </PropertyGroup>
+    <PropertyGroup>
+    <LangVersion>11</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <DefineConstants>TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\shaders\**\*" Link="shaders\%(Filename)%(Extension)" />
+    <None Remove="..\shaders\**\*.spv" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Eto.Forms" Version="2.8.2" />
+    <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
+    <PackageReference Include="Veldrid" Version="4.9.0" />
+    <PackageReference Include="Veldrid.OpenGLBindings" Version="4.9.0" />
+    <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\clipper\clipper.csproj" />
+    <ProjectReference Include="..\..\Common\KDTree\KDTree.csproj" />
+    <ProjectReference Include="..\..\Common\utility\utility.csproj" />
+    <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
+  </ItemGroup>
+    
+</Project>

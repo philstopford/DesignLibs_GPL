@@ -62,11 +62,11 @@ namespace TestEtoVeldrid
 			Surface.Size = new Eto.Drawing.Size(200, 200);
 
 			Content = Surface;
+			OVPSettings unused = new();
+			Driver = new VeldridDriver(ref unused, ref Surface);
 
 			Surface.VeldridInitialized += (sender, e) =>
 			{
-				OVPSettings unused = new();
-				Driver = new VeldridDriver(ref unused, ref Surface);
 				Driver.ExecutableDirectory = AppContext.BaseDirectory;
 				Driver.ShaderSubdirectory = "shaders";
 				Driver.SetUpVeldrid();

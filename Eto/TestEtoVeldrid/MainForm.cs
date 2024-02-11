@@ -85,9 +85,7 @@ public partial class MainForm : Form
 			
 			_veldridReady = true;
 		};
-
-		SetUpVeldrid();
-
+		
 		// TODO: Make this binding actually work both ways.
 		CmdAnimate.Bind<bool>("Checked", Driver, "Animate");
 		CmdClockwise.Bind<bool>("Checked", Driver, "Clockwise");

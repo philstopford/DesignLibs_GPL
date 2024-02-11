@@ -1,30 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>TestEtoVeldrid</RootNamespace>
     <Title>TestEtoVeldrid</Title>
-    <LangVersion>11</LangVersion>
+    <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\shaders\**\*" Link="shaders\%(Filename)%(Extension)" />
-    <None Remove="..\shaders\**\*.spv" />
+    <EmbeddedResource Include="shaders\**\*" />
+    <None Remove="shaders\**\*" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.7.5" />
+    <PackageReference Include="Eto.Forms" Version="2.8.2" />
+    <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\veldrid\src\Veldrid\Veldrid.csproj" />
-    <ProjectReference Include="..\Eto.VeldridSurface\Eto.VeldridSurface.csproj" />
+    <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,43 +1,17 @@
 ﻿using Eto.Forms;
 using Eto.Veldrid;
 using System;
-using Eto.GtkSharp;
-using Veldrid;
 
-namespace TestEtoVeldrid.Gtk;
-
-public static class MainClass
+namespace TestEtoVeldrid.Gtk
 {
-	[STAThread]
-	public static void Main(string[] args)
+	public static class MainClass
 	{
-		Platform platform = new();
-
-		int backend_arg = Array.IndexOf(args, "--graphicsMode");
-
-		GraphicsBackend backend = VeldridSurface.PreferredBackend;
-			
-		if (backend_arg != -1)
+		[STAThread]
+		public static void Main(string[] args)
 		{
-			string backend_string = args[backend_arg + 1];
-			switch (backend_string.ToLower())
-			{
-				case "opengl":
-					backend = GraphicsBackend.OpenGL;
-					break;
-				case "d3d":
-					backend = GraphicsBackend.Direct3D11;
-					break;
-				case "metal":
-					backend = GraphicsBackend.Metal;
-					break;
-				case "vulkan":
-				default:
-					backend = GraphicsBackend.Vulkan;
-					break;
-			}
-		}
+			var platform = new Eto.GtkSharp.Platform();
 
-		new Application(platform).Run(new MainForm(backend));
+			new Application(platform).Run(new MainForm());
+		}
 	}
 }

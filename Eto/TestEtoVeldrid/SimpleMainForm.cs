@@ -67,8 +67,8 @@ namespace TestEtoVeldrid
 
 			Surface.VeldridInitialized += (sender, e) =>
 			{
-				Driver.ExecutableDirectory = AppContext.BaseDirectory;
-				Driver.ShaderSubdirectory = "shaders";
+				//Driver.ExecutableDirectory = AppContext.BaseDirectory;
+				// Driver.ShaderSubdirectory = "shaders";
 				Driver.SetUpVeldrid();
 
 				_veldridReady = true;

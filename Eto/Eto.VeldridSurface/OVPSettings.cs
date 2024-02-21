@@ -1,10 +1,10 @@
 ﻿using Eto.Drawing;
 using Eto.Forms;
-using LibTessDotNet.Double;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Clipper2Lib;
+using LibTessDotNet.Double;
 
 namespace VeldridEto;
 
@@ -523,7 +523,7 @@ public class OVPSettings
 
 		return iPoints;
 	}
-	
+
 	public static PointF[] convertToClosedPointF(PathD poly)
 	{
 		PointF[] tempPoly;
@@ -556,7 +556,7 @@ public class OVPSettings
 		{
 			return poly;
 		}
-		
+
 		PointF[] tempPoly = new PointF[poly.Length + 1];
 		for (int pt = 0; pt < poly.Length; pt++)
 		{
@@ -565,7 +565,7 @@ public class OVPSettings
 		tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
 		return tempPoly;
 	}
-	
+
 	private void tessPoly(PointF[] source, Color polyColor, float alpha)
 	{
 		Tess tess = new();

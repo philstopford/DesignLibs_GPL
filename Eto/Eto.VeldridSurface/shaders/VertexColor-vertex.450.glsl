@@ -17,7 +17,7 @@ layout (set = 1, binding = 0) uniform ModelMatrix
 
 void main()
 {
-	gl_Position = view * model * vec4(Position, 1);
+	gl_Position = model * view * vec4(Position, 1);
 
 	fsin_Color = Color;
 }

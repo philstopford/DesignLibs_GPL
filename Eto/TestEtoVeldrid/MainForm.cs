@@ -75,8 +75,8 @@ public partial class MainForm : Form
 		Driver = new VeldridDriver(ref ovpSettings, ref Surface)
 		{
 			Surface = Surface,
-			ExecutableDirectory = exeDir,
-			ShaderSubdirectory = shaderSubdir
+			//ExecutableDirectory = exeDir,
+			//ShaderSubdirectory = shaderSubdir
 		};
 
 		Surface.VeldridInitialized += (sender, e) =>

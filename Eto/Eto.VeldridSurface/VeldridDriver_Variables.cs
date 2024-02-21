@@ -78,7 +78,7 @@ public partial class VeldridDriver
 	private bool keyHandlerApplied;
 
 	// Use for drag handling.
-	private bool dragging { get; set; }
+	public bool dragging { get; set; }
 	private float x_orig;
 	private float y_orig;
 

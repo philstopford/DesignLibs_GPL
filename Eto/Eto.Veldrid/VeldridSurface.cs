@@ -30,7 +30,11 @@ namespace Eto.Veldrid
 
 		protected new class Callback : Control.Callback, ICallback
 		{
-			public void OnInitializeBackend(VeldridSurface s, InitializeEventArgs e) => s?.InitializeGraphicsBackend(e);
+			public void OnInitializeBackend(VeldridSurface s, InitializeEventArgs e)
+			{
+				if (e != null) s?.InitializeGraphicsBackend(e);
+			}
+
 			public void OnDraw(VeldridSurface s, EventArgs e) => s?.OnDraw(e);
 			public void OnResize(VeldridSurface s, ResizeEventArgs e) => s?.OnResize(e);
 		}

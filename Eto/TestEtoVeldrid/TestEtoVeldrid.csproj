@@ -6,12 +6,7 @@
     <Title>TestEtoVeldrid</Title>
     <TargetFramework>net7.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="shaders\**\*" />
-    <None Remove="shaders\**\*" />
-  </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Eto.Forms" Version="2.8.2" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />

@@ -9,23 +9,20 @@ public partial class VeldridDriver
 {
 	private void addKeyHandler(object sender, EventArgs e)
 	{
-		switch (keyHandlerApplied)
+		if (keyHandlerApplied)
 		{
-			case true:
-				return;
-			default:
-				Surface.KeyDown += keyHandler;
-				keyHandlerApplied = true;
-				break;
+			return;
 		}
+
+		Surface.KeyDown += keyHandler;
+		keyHandlerApplied = true;
 	}
 
 	private void removeKeyHandler(object sender, EventArgs e)
 	{
-		switch (keyHandlerApplied)
+		if (!keyHandlerApplied)
 		{
-			case false:
-				return;
+			return;
 		}
 
 		hasFocus = false;
@@ -203,15 +200,13 @@ public partial class VeldridDriver
 
 	private void setFocus(object sender, EventArgs e)
 	{
-		switch (hasFocus)
+		if (hasFocus)
 		{
-			case true:
-				return;
-			default:
-				Surface.Focus();
-				hasFocus = true;
-				break;
+			return;
 		}
+
+		Surface.Focus();
+		hasFocus = true;
 	}
 
 	private void Clock_Elapsed(object sender, EventArgs e)
@@ -240,14 +235,12 @@ public partial class VeldridDriver
 
 	private void setDown(float x, float y)
 	{
-		switch (dragging)
+		// might not be needed, but seemed like a safe approach to avoid re-setting these in a drag event.
+		if (!dragging && !ovpSettings.isLocked())
 		{
-			// might not be needed, but seemed like a safe approach to avoid re-setting these in a drag event.
-			case false when !ovpSettings.isLocked():
-				x_orig = x;
-				y_orig = y;
-				dragging = true;
-				break;
+			x_orig = x;
+			y_orig = y;
+			dragging = true;
 		}
 	}
 
@@ -382,88 +375,87 @@ public partial class VeldridDriver
 
 	private void getExtents(int index)
 	{
-		float minX = 0;
-		float maxX = 0;
-		float minY = 0, maxY = 0;
-
-		bool set = false;
-
-		switch (ovpSettings.polyList.Count)
+		if ((ovpSettings.polyList.Count == 0) && (ovpSettings.lineList.Count == 0))
 		{
-			case 0 when ovpSettings.lineList.Count == 0:
 				ovpSettings.minX = 0;
 				ovpSettings.maxX = 0;
 				ovpSettings.minY = 0;
 				ovpSettings.maxY = 0;
-				return;
 		}
-
-		if (ovpSettings.polyList.Count != 0)
+		else
 		{
-			for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+			float minX = 0;
+			float maxX = 0;
+			float minY = 0, maxY = 0;
+
+			bool set = false;
+
+			if (ovpSettings.polyList.Count != 0)
 			{
-				if (index != -1 && (ovpSettings.polySourceIndex[poly] != index || !ovpSettings.polyMask[poly]))
+				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					continue;
-				}
+					if (index != -1 && (ovpSettings.polySourceIndex[poly] != index || !ovpSettings.polyMask[poly]))
+					{
+						continue;
+					}
 
-				switch (set)
-				{
-					case false:
-						minX = ovpSettings.polyList[poly].poly[0].X;
-						maxX = ovpSettings.polyList[poly].poly[0].X;
-						minY = ovpSettings.polyList[poly].poly[0].Y;
-						maxY = ovpSettings.polyList[poly].poly[0].Y;
-						set = true;
-						break;
-				}
+					switch (set)
+					{
+						case false:
+							minX = ovpSettings.polyList[poly].poly[0].X;
+							maxX = ovpSettings.polyList[poly].poly[0].X;
+							minY = ovpSettings.polyList[poly].poly[0].Y;
+							maxY = ovpSettings.polyList[poly].poly[0].Y;
+							set = true;
+							break;
+					}
 
-				float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
-				float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
-				float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
-				float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
-				minX = Math.Min(minX, tMinX);
-				maxX = Math.Max(maxX, tMaxX);
-				minY = Math.Min(minY, tMinY);
-				maxY = Math.Max(maxY, tMaxY);
+					float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
+					float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
+					float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
+					float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
+					minX = Math.Min(minX, tMinX);
+					maxX = Math.Max(maxX, tMaxX);
+					minY = Math.Min(minY, tMinY);
+					maxY = Math.Max(maxY, tMaxY);
+				}
 			}
-		}
 
-		if (ovpSettings.lineList.Count != 0)
-		{
-			for (int line = 0; line < ovpSettings.lineList.Count; line++)
+			if (ovpSettings.lineList.Count != 0)
 			{
-				if (index != -1 && (ovpSettings.lineSourceIndex[line] != index || !ovpSettings.lineMask[line]))
+				for (int line = 0; line < ovpSettings.lineList.Count; line++)
 				{
-					continue;
-				}
+					if (index != -1 && (ovpSettings.lineSourceIndex[line] != index || !ovpSettings.lineMask[line]))
+					{
+						continue;
+					}
 
-				switch (set)
-				{
-					case false:
-						minX = ovpSettings.lineList[line].poly[0].X;
-						maxX = ovpSettings.lineList[line].poly[0].X;
-						minY = ovpSettings.lineList[line].poly[0].Y;
-						maxY = ovpSettings.lineList[line].poly[0].Y;
-						set = true;
-						break;
-				}
+					switch (set)
+					{
+						case false:
+							minX = ovpSettings.lineList[line].poly[0].X;
+							maxX = ovpSettings.lineList[line].poly[0].X;
+							minY = ovpSettings.lineList[line].poly[0].Y;
+							maxY = ovpSettings.lineList[line].poly[0].Y;
+							set = true;
+							break;
+					}
 
-				float tMinX = ovpSettings.lineList[line].poly.Min(p => p.X);
-				float tMaxX = ovpSettings.lineList[line].poly.Max(p => p.X);
-				float tMinY = ovpSettings.lineList[line].poly.Min(p => p.Y);
-				float tMaxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
-				minX = Math.Min(minX, tMinX);
-				maxX = Math.Max(maxX, tMaxX);
-				minY = Math.Min(minY, tMinY);
-				maxY = Math.Max(maxY, tMaxY);
+					float tMinX = ovpSettings.lineList[line].poly.Min(p => p.X);
+					float tMaxX = ovpSettings.lineList[line].poly.Max(p => p.X);
+					float tMinY = ovpSettings.lineList[line].poly.Min(p => p.Y);
+					float tMaxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
+					minX = Math.Min(minX, tMinX);
+					maxX = Math.Max(maxX, tMaxX);
+					minY = Math.Min(minY, tMinY);
+					maxY = Math.Max(maxY, tMaxY);
+				}
 			}
+			ovpSettings.minX = minX;
+			ovpSettings.maxX = maxX;
+			ovpSettings.minY = minY;
+			ovpSettings.maxY = maxY;
 		}
-
-		ovpSettings.minX = minX;
-		ovpSettings.maxX = maxX;
-		ovpSettings.minY = minY;
-		ovpSettings.maxY = maxY;
 
 		ovpSettings.changed = true;
 	}

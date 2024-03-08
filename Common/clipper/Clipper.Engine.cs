@@ -1,8 +1,8 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  1 December 2023                                                 *
+* Date      :  28 February 2024                                                *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2010-2023                                         *
+* Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  This is the main polygon clipping module                        *
 * Thanks    :  Special thanks to Thong Nguyen, Guus Kuiper, Phil Stopford,     *
 *           :  and Daniel Gosnell for their invaluable assistance with C#.     *
@@ -154,22 +154,6 @@ namespace Clipper2Lib
     public OutRec? recursiveSplit;
   };
 
-  internal struct HorzSegSorter : IComparer<HorzSegment>
-  {
-    public readonly int Compare(HorzSegment? hs1, HorzSegment? hs2)
-    {
-      if (hs1 == null || hs2 == null) return 0;
-      if (hs1.rightOp == null)
-      {
-        return hs2.rightOp == null ? 0 : 1;
-      }
-      else if (hs2.rightOp == null)
-        return -1;
-      else
-        return hs1.leftOp!.pt.X.CompareTo(hs2.leftOp!.pt.X);
-    }
-  }
-
   internal class HorzSegment
   {
     public OutPt? leftOp;
@@ -242,12 +226,19 @@ namespace Clipper2Lib
       minimaList.Add(lm);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static void EnsureCapacity<T>(this List<T> list, int minCapacity)
+    {
+      if(list.Capacity < minCapacity)
+        list.Capacity = minCapacity;
+    }
+
     internal static void AddPathsToVertexList(Paths64 paths, PathType polytype, bool isOpen,
       List<LocalMinima> minimaList, List<Vertex> vertexList)
     {
       int totalVertCnt = 0;
       foreach (Path64 path in paths) totalVertCnt += path.Count;
-      vertexList.Capacity = vertexList.Count + totalVertCnt;
+      vertexList.EnsureCapacity(vertexList.Count + totalVertCnt);
 
       foreach (Path64 path in paths)
       {
@@ -800,7 +791,7 @@ namespace Clipper2Lib
         _isSortedMinimaList = true;
       }
 
-      _scanlineList.Capacity = _minimaList.Count;
+      _scanlineList.EnsureCapacity(_minimaList.Count);
       for (int i = _minimaList.Count - 1; i >= 0; i--)
         _scanlineList.Add(_minimaList[i].vertex.pt.Y);
 
@@ -1894,7 +1885,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AddNewIntersectNode(Active ae1, Active ae2, long topY)
     {
-      if (!InternalClipper.GetIntersectPoint(
+      if (!InternalClipper.GetSegmentIntersectPt(
         ae1.bot, ae1.top, ae2.bot, ae2.top, out Point64 ip))
           ip = new Point64(ae1.curX, topY);
 
@@ -2532,13 +2523,26 @@ private void DoHorizontal(Active horz)
       return result;
     }
 
+    private int HorzSegSort(HorzSegment? hs1, HorzSegment? hs2)
+    {
+      if (hs1 == null || hs2 == null) return 0;
+      if (hs1.rightOp == null)
+      {
+        return hs2.rightOp == null ? 0 : 1;
+      }
+      else if (hs2.rightOp == null)
+        return -1;
+      else
+        return hs1.leftOp!.pt.X.CompareTo(hs2.leftOp!.pt.X);
+    }
+
     private void ConvertHorzSegsToJoins()
     {
       int k = 0;
       foreach (HorzSegment hs in _horzSegList)
         if (UpdateHorzSegment(hs)) k++;
       if (k < 2) return;
-      _horzSegList.Sort(new HorzSegSorter());
+      _horzSegList.Sort(HorzSegSort);
 
       for (int i = 0; i < k -1; i++)
       {
@@ -2849,7 +2853,7 @@ private void DoHorizontal(Active horz)
       outrec.pts = prevOp;
       OutPt result = prevOp;
 
-      InternalClipper.GetIntersectPoint(
+      InternalClipper.GetSegmentIntersectPt(
           prevOp.pt, splitOp.pt, splitOp.next.pt, nextNextOp.pt, out Point64 ip);
 
 #if USINGZ
@@ -2974,7 +2978,7 @@ private void DoHorizontal(Active horz)
           op2 = op2.next!;
       }
 
-      if (path.Count == 3 && IsVerySmallTriangle(op2)) return false;
+      if (path.Count == 3 && !isOpen && IsVerySmallTriangle(op2)) return false;
       else return true;
     }
 
@@ -2982,8 +2986,8 @@ private void DoHorizontal(Active horz)
     {
       solutionClosed.Clear();
       solutionOpen.Clear();
-      solutionClosed.Capacity = _outrecList.Count;
-      solutionOpen.Capacity = _outrecList.Count;
+      solutionClosed.EnsureCapacity(_outrecList.Count);
+      solutionOpen.EnsureCapacity(_outrecList.Count);
       
       int i = 0;
       // _outrecList.Count is not static here because
@@ -3089,7 +3093,7 @@ private void DoHorizontal(Active horz)
       polytree.Clear();
       solutionOpen.Clear();
       if (_hasOpenPaths)
-        solutionOpen.Capacity = _outrecList.Count;
+        solutionOpen.EnsureCapacity(_outrecList.Count);
 
       int i = 0;
       // _outrecList.Count is not static here because
@@ -3354,10 +3358,10 @@ private void DoHorizontal(Active horz)
       ClearSolutionOnly();
       if (!success) return false;
 
-      solutionClosed.Capacity = solClosed64.Count;
+      solutionClosed.EnsureCapacity(solClosed64.Count);
       foreach (Path64 path in solClosed64)
         solutionClosed.Add(Clipper.ScalePathD(path, _invScale));
-      solutionOpen.Capacity = solOpen64.Count;
+      solutionOpen.EnsureCapacity(solOpen64.Count);
       foreach (Path64 path in solOpen64)
         solutionOpen.Add(Clipper.ScalePathD(path, _invScale));
 
@@ -3394,7 +3398,7 @@ private void DoHorizontal(Active horz)
       if (!success) return false;
       if (oPaths.Count > 0)
       {
-        openPaths.Capacity = oPaths.Count;        
+        openPaths.EnsureCapacity(oPaths.Count);
         foreach (Path64 path in oPaths)
           openPaths.Add(Clipper.ScalePathD(path, _invScale));
       }

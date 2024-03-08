@@ -6,24 +6,35 @@ namespace VeldridEto;
 
 public partial class VeldridDriver
 {
-	private void pUpdateViewport()
+	private bool drawing = false;
+	private async void pUpdateViewport()
 	{
 		if ((!ovpSettings.changed) || (Surface.GraphicsDevice == null) ||
-		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0))
+		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
 		{
 			return;
 		}
 
-		drawAxes();
-		drawGrid();
-		drawLines();
-		drawPolygons();
-		updateHostFunc?.Invoke();
-		Surface.Invalidate();
-		ovpSettings.changed = false;
-	}
+		drawing = true;
+		
+		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
+		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
 
-	private void drawPolygons()
+		bool b1 = await drawAxes();
+		bool b2 = await drawGrid();
+		bool b3 = await drawLines();
+		bool b4 = await drawPolygons();
+
+		if (b1 && b2 && b3 && b4)
+		{
+			updateHostFunc?.Invoke();
+			Surface.Invalidate();
+			ovpSettings.changed = false;
+			drawing = false;
+		}
+	}
+	
+	private async Task<bool> drawPolygons()
 	{
 		int polyListCount = ovpSettings.polyList.Count;
 		int bgPolyListCount = ovpSettings.bgPolyList.Count;
@@ -219,9 +230,11 @@ public partial class VeldridDriver
 			updateBuffer(ref TessVertexBuffer, tessPolyList.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
 		}
+
+		return true;
 	}
 
-	private void drawLines()
+	private async Task<bool>  drawLines()
 	{
 		int tmp = ovpSettings.lineList.Count;
 
@@ -259,13 +272,15 @@ public partial class VeldridDriver
 				LinesVertexBuffer = null;
 				break;
 		}
+
+		return true;
 	}
 
-	private void drawGrid()
+	private async Task<bool>  drawGrid()
 	{
 		if (!ovpSettings.drawGrid())
 		{
-			return;
+			return true;
 		}
 
 		float spacing = ovpSettings.gridSpacing();
@@ -425,13 +440,15 @@ public partial class VeldridDriver
 				GridIndexBuffer = null;
 				break;
 		}
+
+		return true;
 	}
 
-	private void drawAxes()
+	private async Task<bool>  drawAxes()
 	{
 		if (!ovpSettings.drawAxes())
 		{
-			return;
+			return true;
 		}
 
 		float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
@@ -455,6 +472,8 @@ public partial class VeldridDriver
 
 		updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
 		updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+
+		return true;
 	}
 
 	public void Draw()

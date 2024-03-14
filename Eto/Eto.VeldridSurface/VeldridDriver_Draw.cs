@@ -256,9 +256,7 @@ public partial class VeldridDriver
 		{
 			// Can ignore - not critical.
 		}
-
-		updatePolygonBuffers();
-
+		
 		return true;
 	}
 
@@ -349,8 +347,6 @@ public partial class VeldridDriver
 		{
 			// Can ignore - not critical.
 		}
-		
-		updateLineBuffers();
 		
 		return true;
 	}
@@ -507,9 +503,7 @@ public partial class VeldridDriver
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 		}
-
-		updateGridBuffers();
-
+		
 		return true;
 	}
 

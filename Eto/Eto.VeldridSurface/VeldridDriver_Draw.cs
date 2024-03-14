@@ -22,10 +22,10 @@ public partial class VeldridDriver
 		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
 		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
 
-		bool b1 = await drawAxes();
-		bool b2 = await drawGrid();
-		bool b3 = await drawLines();
-		bool b4 = await drawPolygons();
+		bool b1 = drawAxes().Result;
+		bool b2 = drawGrid().Result;
+		bool b3 = drawLines().Result;
+		bool b4 = drawPolygons().Result;
 
 		done_drawing = b1 && b2 && b3 && b4;
 	}

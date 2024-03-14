@@ -674,12 +674,6 @@ public partial class VeldridDriver
 							indexStart:0,
 							vertexOffset:0,
 							instanceStart:0);
-						/*
-						for (int l = 0; l < tessVertexCount.Length; l++)
-						{
-							CommandList.Draw(tessVertexCount[l], 1, tessFirst[l], 0);
-						}
-						*/
 					}
 					catch (Exception ex)
 					{
@@ -712,12 +706,6 @@ public partial class VeldridDriver
 						indexStart:0,
 						vertexOffset:0,
 						instanceStart:0);
-					/*
-					for (int l = 0; l < polyVertexCount.Length; l++)
-					{
-						CommandList.Draw(polyVertexCount[l], 1, polyFirst[l], 0);
-					}
-					*/
 				}
 				catch (Exception ex)
 				{
@@ -749,13 +737,6 @@ public partial class VeldridDriver
 						indexStart:0,
 						vertexOffset:0,
 						instanceStart:0);
-
-					/*
-					for (int l = 0; l < lineVertexCount.Length; l++)
-					{
-						CommandList.Draw(lineVertexCount[l], 1, lineFirst[l], 0);
-					}
-					*/
 				}
 				catch (Exception ex)
 				{
@@ -789,12 +770,6 @@ public partial class VeldridDriver
 							indexStart:0,
 							vertexOffset:0,
 							instanceStart:0);
-						/*
-						foreach (uint t in pointsFirst)
-						{
-							CommandList.Draw(3, 1, t, 0);
-						}
-						*/
 					}
 					catch (Exception ex)
 					{

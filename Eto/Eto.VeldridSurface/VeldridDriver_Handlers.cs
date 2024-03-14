@@ -212,6 +212,14 @@ public partial class VeldridDriver
 	private void Clock_Elapsed(object sender, EventArgs e)
 	{
 		pUpdateViewport();
+		if (done_drawing)
+		{
+			updateHostFunc?.Invoke();
+			Surface.Invalidate();
+			ovpSettings.changed = false;
+			drawing = false;
+			done_drawing = false;
+		}
 	}
 
 	private void addKeyHandlers()

@@ -7,6 +7,7 @@ namespace VeldridEto;
 public partial class VeldridDriver
 {
 	private bool drawing = false;
+	private bool done_drawing = false;
 	private async void pUpdateViewport()
 	{
 		if ((!ovpSettings.changed) || (Surface.GraphicsDevice == null) ||
@@ -16,6 +17,7 @@ public partial class VeldridDriver
 		}
 
 		drawing = true;
+		done_drawing = false;
 		
 		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
 		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
@@ -25,13 +27,7 @@ public partial class VeldridDriver
 		bool b3 = await drawLines();
 		bool b4 = await drawPolygons();
 
-		if (b1 && b2 && b3 && b4)
-		{
-			updateHostFunc?.Invoke();
-			Surface.Invalidate();
-			ovpSettings.changed = false;
-			drawing = false;
-		}
+		done_drawing = b1 && b2 && b3 && b4;
 	}
 	
 	private async Task<bool> drawPolygons()
@@ -55,9 +51,11 @@ public partial class VeldridDriver
 			numPolys = polyListCount + bgPolyListCount;
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
 			polyFirst = new uint[numPolys];
+			polyIndices = new uint[numPolys];
 			polyVertexCount = new uint[numPolys];
 
 			tessFirst = new uint[tessPolyListCount];
+			tessIndices = new uint[tessPolyListCount];
 			tessVertexCount = new uint[tessPolyListCount];
 
 			List<uint> tFirst = new();
@@ -96,11 +94,14 @@ public partial class VeldridDriver
 								alpha)));
 					}
 
+					tessIndices[poly] = (uint)(poly * 3);
+
 					tessVertexCount[poly] = 3;
 				}
 			}
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
+			int poly_index = 0;
 			for (int poly = 0; poly < polyListCount; poly++)
 			{
 				float alpha = ovpSettings.polyList[poly].alpha;
@@ -174,7 +175,9 @@ public partial class VeldridDriver
 					tCounter++;
 				}
 
+				polyIndices[poly] = (uint)poly_index;
 				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
+				poly_index += (int)polyVertexCount[poly];
 			}
 
 			polyZ = 0;
@@ -202,8 +205,9 @@ public partial class VeldridDriver
 					counter++;
 				}
 
-				polyVertexCount[poly + polyListCount] =
-					(uint)(counter - previouscounter); // set our vertex count for the polygon.
+				polyIndices[poly] = (uint)poly_index;
+				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
+				poly_index += (int)polyVertexCount[poly];
 			}
 
 			pointsFirst = tFirst.ToArray();
@@ -217,6 +221,7 @@ public partial class VeldridDriver
 		{
 			updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
+			updateBuffer(ref PolysIndexBuffer, polyIndices, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
 		if (ovpSettings.drawPoints() && polyListCount > 0)
@@ -229,6 +234,7 @@ public partial class VeldridDriver
 		{
 			updateBuffer(ref TessVertexBuffer, tessPolyList.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
+			updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
 		return true;
@@ -236,22 +242,24 @@ public partial class VeldridDriver
 
 	private async Task<bool>  drawLines()
 	{
-		int tmp = ovpSettings.lineList.Count;
+		int linesCount = ovpSettings.lineList.Count;
 
-		switch (tmp)
+		switch (linesCount)
 		{
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
 			case > 0:
 			{
 				List<VertexPositionColor> lineList = new();
+				linesIndices = new uint[linesCount];
 
 				// Carve our Z-space up to stack polygons
 				float polyZStep = 1.0f / ovpSettings.lineList.Count;
 
-				lineFirst = new uint[tmp];
-				lineVertexCount = new uint[tmp];
+				lineFirst = new uint[linesCount];
+				lineVertexCount = new uint[linesCount];
 
-				for (int poly = 0; poly < tmp; poly++)
+				int lineIndex = 0;
+				for (int poly = 0; poly < linesCount; poly++)
 				{
 					float alpha = ovpSettings.lineList[poly].alpha;
 					float polyZ = poly * polyZStep;
@@ -260,12 +268,16 @@ public partial class VeldridDriver
 						new VertexPositionColor(new Vector3(t.X, t.Y, polyZ),
 							new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 								ovpSettings.lineList[poly].color.B, alpha))));
+					linesIndices[poly] = (uint)lineIndex;
+					lineIndex += lineList.Count;
 					lineVertexCount[poly] =
 						(uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
 				}
 
 				updateBuffer(ref LinesVertexBuffer, lineList.ToArray(), VertexPositionColor.SizeInBytes,
 					BufferUsage.VertexBuffer);
+				updateBuffer(ref LinesIndexBuffer, linesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				
 				break;
 			}
 			default:
@@ -617,14 +629,23 @@ public partial class VeldridDriver
 					try
 					{
 						CommandList.SetVertexBuffer(0, TessVertexBuffer);
+						CommandList.SetIndexBuffer(TessIndexBuffer, IndexFormat.UInt32);
 						CommandList.SetPipeline(FilledPipeline);
 						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
 						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
 
+						CommandList.DrawIndexed(
+							indexCount:(uint)tessVertexCount.Length,
+							instanceCount:1,
+							indexStart:0,
+							vertexOffset:0,
+							instanceStart:0);
+						/*
 						for (int l = 0; l < tessVertexCount.Length; l++)
 						{
 							CommandList.Draw(tessVertexCount[l], 1, tessFirst[l], 0);
 						}
+						*/
 					}
 					catch (Exception ex)
 					{
@@ -646,14 +667,23 @@ public partial class VeldridDriver
 				try
 				{
 					CommandList.SetVertexBuffer(0, PolysVertexBuffer);
+					CommandList.SetIndexBuffer(PolysIndexBuffer, IndexFormat.UInt16);
 					CommandList.SetPipeline(LinesPipeline);
 					CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
 					CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
 
+					CommandList.DrawIndexed(
+						indexCount:(uint)polyVertexCount.Length,
+						instanceCount:1,
+						indexStart:0,
+						vertexOffset:0,
+						instanceStart:0);
+					/*
 					for (int l = 0; l < polyVertexCount.Length; l++)
 					{
 						CommandList.Draw(polyVertexCount[l], 1, polyFirst[l], 0);
 					}
+					*/
 				}
 				catch (Exception ex)
 				{

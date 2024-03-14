@@ -35,6 +35,10 @@ public partial class VeldridDriver
 	private uint[] gridIndices;
 	private uint[] axesIndices;
 
+	private uint[] linesIndices;
+	private uint[] tessIndices;
+	private uint[] polyIndices;
+
 	private float axisZ;
 	private float gridZ;
 
@@ -53,6 +57,10 @@ public partial class VeldridDriver
 	private DeviceBuffer PointsVertexBuffer;
 	private DeviceBuffer PolysVertexBuffer;
 	private DeviceBuffer TessVertexBuffer;
+	private DeviceBuffer LinesIndexBuffer;
+	private DeviceBuffer PointsIndexBuffer;
+	private DeviceBuffer PolysIndexBuffer;
+	private DeviceBuffer TessIndexBuffer;
 
 	private Pipeline PointsPipeline;
 	private Pipeline LinePipeline;

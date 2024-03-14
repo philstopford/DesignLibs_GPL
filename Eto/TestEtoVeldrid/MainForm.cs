@@ -42,13 +42,7 @@ public partial class MainForm : Form
 	public MainForm() : this(VeldridSurface.PreferredBackend)
 	{
 	}
-	public MainForm(GraphicsBackend backend) : this(backend, AppContext.BaseDirectory, "shaders")
-	{
-	}
-	public MainForm(string exeDir, string shaderSubdir) : this(VeldridSurface.PreferredBackend, exeDir, shaderSubdir)
-	{
-	}
-	public MainForm(GraphicsBackend backend, string exeDir, string shaderSubdir)
+	public MainForm(GraphicsBackend backend)
 	{
 		InitializeComponent();
 
@@ -74,9 +68,7 @@ public partial class MainForm : Form
 
 		Driver = new VeldridDriver(ref ovpSettings, ref Surface)
 		{
-			Surface = Surface,
-			//ExecutableDirectory = exeDir,
-			//ShaderSubdirectory = shaderSubdir
+			Surface = Surface
 		};
 
 		Surface.VeldridInitialized += (sender, e) =>
@@ -87,8 +79,8 @@ public partial class MainForm : Form
 		};
 		
 		// TODO: Make this binding actually work both ways.
-		CmdAnimate.Bind<bool>("Checked", Driver, "Animate");
-		CmdClockwise.Bind<bool>("Checked", Driver, "Clockwise");
+		// CmdAnimate.Bind<bool>("Checked", Driver, "Animate");
+		// CmdClockwise.Bind<bool>("Checked", Driver, "Clockwise");
 	}
 
 	private void SetUpVeldrid()

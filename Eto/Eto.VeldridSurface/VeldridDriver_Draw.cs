@@ -29,18 +29,28 @@ public partial class VeldridDriver
 
 		done_drawing = b1 && b2 && b3 && b4;
 	}
-	
+
+	int polyListCount;
+	int bgPolyListCount;
+	int tessPolyListCount;
+
+	List<VertexPositionColor> polyList;
+
+	List<VertexPositionColor> pointsList;
+
+	List<VertexPositionColor> tessPolyList;
+
 	private async Task<bool> drawPolygons()
 	{
-		int polyListCount = ovpSettings.polyList.Count;
-		int bgPolyListCount = ovpSettings.bgPolyList.Count;
-		int tessPolyListCount = ovpSettings.tessPolyList.Count;
+		polyListCount = ovpSettings.polyList.Count;
+		bgPolyListCount = ovpSettings.bgPolyList.Count;
+		tessPolyListCount = ovpSettings.tessPolyList.Count;
 
-		List<VertexPositionColor> polyList = new();
+		polyList = new();
 
-		List<VertexPositionColor> pointsList = new();
+		pointsList = new();
 
-		List<VertexPositionColor> tessPolyList = new();
+		tessPolyList = new();
 
 		try
 		{
@@ -247,6 +257,13 @@ public partial class VeldridDriver
 			// Can ignore - not critical.
 		}
 
+		updatePolygonBuffers();
+
+		return true;
+	}
+
+	private void updatePolygonBuffers()
+	{
 		if (polyListCount > 0 || bgPolyListCount > 0)
 		{
 			updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes,
@@ -267,15 +284,17 @@ public partial class VeldridDriver
 				BufferUsage.VertexBuffer);
 			updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
 		}
-
-		return true;
 	}
+
+	int linesCount;
+
+	List<VertexPositionColor> lineList;
 
 	private async Task<bool> drawLines()
 	{
-		int linesCount = ovpSettings.lineList.Count;
+		linesCount = ovpSettings.lineList.Count;
 
-		List<VertexPositionColor> lineList = new();
+		lineList = new();
 		
 		try
 		{
@@ -330,17 +349,23 @@ public partial class VeldridDriver
 		{
 			// Can ignore - not critical.
 		}
+		
+		updateLineBuffers();
+		
+		return true;
+	}
 
+	private void updateLineBuffers()
+	{
 		if (linesCount > 0)
 		{
 			updateBuffer(ref LinesVertexBuffer, lineList.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
 			updateBuffer(ref LinesIndexBuffer, linesIndices, sizeof(uint), BufferUsage.IndexBuffer);
 		}
-		
-		return true;
 	}
 
+	List<VertexPositionColor> grid;
 	private async Task<bool>  drawGrid()
 	{
 		if (!ovpSettings.drawGrid())
@@ -366,7 +391,7 @@ public partial class VeldridDriver
 		float x = ovpSettings.getCameraX();
 		float y = ovpSettings.getCameraY();
 
-		List<VertexPositionColor> grid = new();
+		grid = new();
 
 		if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
 		{
@@ -483,6 +508,13 @@ public partial class VeldridDriver
 			}
 		}
 
+		updateGridBuffers();
+
+		return true;
+	}
+
+	private void updateGridBuffers()
+	{
 		uint gridCount = (uint)grid.Count;
 
 		switch (gridCount)
@@ -494,10 +526,10 @@ public partial class VeldridDriver
 				{
 					gridIndices[i] = i;
 				}
-
 				updateBuffer(ref GridVertexBuffer, grid.ToArray(), VertexPositionColor.SizeInBytes,
 					BufferUsage.VertexBuffer);
 				updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
+
 				break;
 			}
 			default:
@@ -505,10 +537,9 @@ public partial class VeldridDriver
 				GridIndexBuffer = null;
 				break;
 		}
-
-		return true;
 	}
-
+	
+	VertexPositionColor[] axesArray;
 	private async Task<bool>  drawAxes()
 	{
 		if (!ovpSettings.drawAxes())
@@ -517,7 +548,7 @@ public partial class VeldridDriver
 		}
 
 		float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
-		VertexPositionColor[] axesArray = new VertexPositionColor[4];
+		axesArray = new VertexPositionColor[4];
 		axesArray[0] =
 			new VertexPositionColor(
 				new Vector3(0.0f, ovpSettings.getCameraY() + Surface.RenderHeight * zoom, axisZ),
@@ -534,13 +565,16 @@ public partial class VeldridDriver
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 
 		axesIndices = new uint[4] { 0, 1, 2, 3 };
-
-		updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-		updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
-
+		
 		return true;
 	}
 
+	private void updateAxesBuffers()
+	{
+		updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+		updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+	}
+	
 	public void Draw()
 	{
 		if (!Ready)
@@ -601,12 +635,12 @@ public partial class VeldridDriver
 
 	private void populate_command_list()
 	{
-		drawGrid();
-		drawAxes();
-		drawLines();
-		drawPolygons();
+		updateGridBuffers();
+		updateAxesBuffers();
+		updatePolygonBuffers();
+		updateLineBuffers();
 
-		if (gridIndices.Length != 0)
+		if (gridIndices != null && gridIndices.Length != 0)
 		{
 			if (LinePipeline == null)
 			{
@@ -637,7 +671,7 @@ public partial class VeldridDriver
 			}
 		}
 
-		if (axesIndices.Length != 0)
+		if (axesIndices != null && axesIndices.Length != 0)
 		{
 			if (LinePipeline == null)
 			{
@@ -670,7 +704,7 @@ public partial class VeldridDriver
 
 		if (ovpSettings.drawFilled())
 		{
-			if (tessIndices.Length != 0)
+			if (tessIndices != null && tessIndices.Length != 0)
 			{
 				if (LinePipeline == null)
 				{
@@ -702,7 +736,7 @@ public partial class VeldridDriver
 			}
 		}
 
-		if (polyIndices.Length != 0)
+		if (polyIndices != null && polyIndices.Length != 0)
 		{
 			if (LinePipeline == null)
 			{
@@ -733,7 +767,7 @@ public partial class VeldridDriver
 			}
 		}
 
-		if (linesIndices.Length != 0 && ovpSettings.drawDrawn())
+		if (linesIndices != null && linesIndices.Length != 0 && ovpSettings.drawDrawn())
 		{
 			if (LinePipeline == null)
 			{
@@ -766,7 +800,7 @@ public partial class VeldridDriver
 
 		if (ovpSettings.drawPoints())
 		{
-			if (polyIndices.Length != 0)
+			if (polyIndices != null && polyIndices.Length != 0)
 			{
 				if (LinePipeline == null)
 				{

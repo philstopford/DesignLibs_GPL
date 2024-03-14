@@ -38,6 +38,7 @@ public partial class VeldridDriver
 	private uint[] linesIndices;
 	private uint[] tessIndices;
 	private uint[] polyIndices;
+	private uint[] pointsIndices;
 
 	private float axisZ;
 	private float gridZ;

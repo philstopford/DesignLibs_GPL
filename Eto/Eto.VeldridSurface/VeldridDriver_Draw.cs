@@ -271,54 +271,73 @@ public partial class VeldridDriver
 		return true;
 	}
 
-	private async Task<bool>  drawLines()
+	private async Task<bool> drawLines()
 	{
 		int linesCount = ovpSettings.lineList.Count;
 
-		switch (linesCount)
+		List<VertexPositionColor> lineList = new();
+		
+		try
 		{
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-			case > 0:
+			lineFirst = new uint[linesCount];
+			linesIndices = Array.Empty<uint>();
+			lineVertexCount = new uint[linesCount];
+			
+			int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
+			int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
+
+			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
+			int line_polyIndex = 0;
+			for (int poly = 0; poly < linesCount; poly++)
 			{
-				List<VertexPositionColor> lineList = new();
+				float alpha = ovpSettings.lineList[poly].alpha;
+				float polyZ = 1.0f;
 
-				// Carve our Z-space up to stack polygons
-				float polyZStep = 1.0f / ovpSettings.lineList.Count;
-
-				lineFirst = new uint[linesCount];
-				lineVertexCount = new uint[linesCount];
-
-				for (int poly = 0; poly < linesCount; poly++)
+				lineFirst[poly] = (uint)counter;
+				previouscounter = counter;
+				int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
+				for (int pt = 0; pt < polyLength; pt++)
 				{
-					float alpha = ovpSettings.lineList[poly].alpha;
-					float polyZ = poly * polyZStep;
-					lineFirst[poly] = (uint)lineList.Count;
-					lineList.AddRange(ovpSettings.lineList[poly].poly.Select(t =>
-						new VertexPositionColor(new Vector3(t.X, t.Y, polyZ),
-							new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
-								ovpSettings.lineList[poly].color.B, alpha))));
-					lineVertexCount[poly] =
-						(uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
+					lineList.Add(new VertexPositionColor(
+						new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y,
+							polyZ),
+						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
+							ovpSettings.polyList[poly].color.B, alpha)));
+					counter++;
+					line_polyIndex++;
+
+					lineList.Add(new VertexPositionColor(
+						new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X,
+							ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ),
+						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
+							ovpSettings.lineList[poly].color.B, alpha)));
+					counter++;
+					line_polyIndex++;
+
 				}
 
-				int point_count = lineVertexCount.Sum(x => Convert.ToInt32(x));
-				linesIndices = new uint[point_count];
-				for (int i = 0; i < point_count; i++)
-				{
-					linesIndices[i] = (uint)i;
-				}
-
-				updateBuffer(ref LinesVertexBuffer, lineList.ToArray(), VertexPositionColor.SizeInBytes,
-					BufferUsage.VertexBuffer);
-				updateBuffer(ref LinesIndexBuffer, linesIndices, sizeof(uint), BufferUsage.IndexBuffer);
-				
-				break;
+				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
 			}
-			default:
-				LinesVertexBuffer = null;
-				break;
+
+			linesIndices = new uint[line_polyIndex];
+			for (int i = 0; i < line_polyIndex; i++)
+			{
+				linesIndices[i] = (uint)i;
+			}
+		}
+		catch (Exception)
+		{
+			// Can ignore - not critical.
 		}
 
+		if (linesCount > 0)
+		{
+			updateBuffer(ref LinesVertexBuffer, lineList.ToArray(), VertexPositionColor.SizeInBytes,
+				BufferUsage.VertexBuffer);
+			updateBuffer(ref LinesIndexBuffer, linesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+		}
+		
 		return true;
 	}
 

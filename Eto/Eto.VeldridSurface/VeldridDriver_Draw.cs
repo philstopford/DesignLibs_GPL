@@ -280,9 +280,7 @@ public partial class VeldridDriver
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
 			case > 0:
 			{
-				int point_count = 0;
 				List<VertexPositionColor> lineList = new();
-				linesIndices = new uint[linesCount];
 
 				// Carve our Z-space up to stack polygons
 				float polyZStep = 1.0f / ovpSettings.lineList.Count;
@@ -290,7 +288,6 @@ public partial class VeldridDriver
 				lineFirst = new uint[linesCount];
 				lineVertexCount = new uint[linesCount];
 
-				int lineIndex = 0;
 				for (int poly = 0; poly < linesCount; poly++)
 				{
 					float alpha = ovpSettings.lineList[poly].alpha;
@@ -300,12 +297,11 @@ public partial class VeldridDriver
 						new VertexPositionColor(new Vector3(t.X, t.Y, polyZ),
 							new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 								ovpSettings.lineList[poly].color.B, alpha))));
-					point_count += ovpSettings.lineList[poly].poly.Length;
-					lineIndex += lineList.Count;
 					lineVertexCount[poly] =
 						(uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
 				}
 
+				int point_count = lineVertexCount.Sum(x => Convert.ToInt32(x));
 				linesIndices = new uint[point_count];
 				for (int i = 0; i < point_count; i++)
 				{

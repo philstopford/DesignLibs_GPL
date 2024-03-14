@@ -315,14 +315,14 @@ public partial class VeldridDriver
 
 				lineFirst[poly] = (uint)counter;
 				previouscounter = counter;
-				int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
+				int polyLength = ovpSettings.lineList[poly].poly.Length - 1;
 				for (int pt = 0; pt < polyLength; pt++)
 				{
 					lineList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y,
 							polyZ),
 						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
-							ovpSettings.polyList[poly].color.B, alpha)));
+							ovpSettings.lineList[poly].color.B, alpha)));
 					counter++;
 					line_polyIndex++;
 
@@ -336,7 +336,7 @@ public partial class VeldridDriver
 
 				}
 
-				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
+				lineVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
 			}
 
 			linesIndices = new uint[line_polyIndex];

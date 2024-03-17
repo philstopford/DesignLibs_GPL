@@ -43,10 +43,10 @@ public partial class VeldridDriver
 	private float axisZ;
 	private float gridZ;
 
-	private DeviceBuffer GridVertexBuffer;
-	private DeviceBuffer GridIndexBuffer;
-	private DeviceBuffer AxesVertexBuffer;
-	private DeviceBuffer AxesIndexBuffer;
+	private DeviceBuffer? GridVertexBuffer;
+	private DeviceBuffer? GridIndexBuffer;
+	private DeviceBuffer? AxesVertexBuffer;
+	private DeviceBuffer? AxesIndexBuffer;
 
 	private DeviceBuffer VertexBuffer { get; set; }
 	private DeviceBuffer IndexBuffer { get; set; }
@@ -54,14 +54,14 @@ public partial class VeldridDriver
 
 	private DeviceBuffer ViewBuffer;
 
-	private DeviceBuffer LinesVertexBuffer;
-	private DeviceBuffer PointsVertexBuffer;
-	private DeviceBuffer PolysVertexBuffer;
-	private DeviceBuffer TessVertexBuffer;
-	private DeviceBuffer LinesIndexBuffer;
-	private DeviceBuffer PointsIndexBuffer;
-	private DeviceBuffer PolysIndexBuffer;
-	private DeviceBuffer TessIndexBuffer;
+	private DeviceBuffer? LinesVertexBuffer;
+	private DeviceBuffer? PointsVertexBuffer;
+	private DeviceBuffer? PolysVertexBuffer;
+	private DeviceBuffer? TessVertexBuffer;
+	private DeviceBuffer? LinesIndexBuffer;
+	private DeviceBuffer? PointsIndexBuffer;
+	private DeviceBuffer? PolysIndexBuffer;
+	private DeviceBuffer? TessIndexBuffer;
 
 	private Pipeline PointsPipeline;
 	private Pipeline LinePipeline;

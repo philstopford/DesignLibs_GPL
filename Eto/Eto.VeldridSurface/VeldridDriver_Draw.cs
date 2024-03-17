@@ -21,13 +21,8 @@ public partial class VeldridDriver
 		
 		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
 		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
-
-		bool b1 = drawAxes().Result;
-		bool b2 = drawGrid().Result;
-		bool b3 = drawLines().Result;
-		bool b4 = drawPolygons().Result;
-
-		done_drawing = b1 && b2 && b3 && b4;
+		
+		done_drawing = true;
 	}
 
 	int polyListCount;
@@ -40,7 +35,7 @@ public partial class VeldridDriver
 
 	List<VertexPositionColor> tessPolyList;
 
-	private async Task<bool> drawPolygons()
+	private Task drawPolygons()
 	{
 		polyListCount = ovpSettings.polyList.Count;
 		bgPolyListCount = ovpSettings.bgPolyList.Count;
@@ -257,7 +252,7 @@ public partial class VeldridDriver
 			// Can ignore - not critical.
 		}
 		
-		return true;
+		return Task.CompletedTask;
 	}
 
 	private void updatePolygonBuffers()
@@ -288,7 +283,7 @@ public partial class VeldridDriver
 
 	List<VertexPositionColor> lineList;
 
-	private async Task<bool> drawLines()
+	private Task drawLines()
 	{
 		linesCount = ovpSettings.lineList.Count;
 
@@ -348,7 +343,7 @@ public partial class VeldridDriver
 			// Can ignore - not critical.
 		}
 		
-		return true;
+		return Task.CompletedTask;
 	}
 
 	private void updateLineBuffers()
@@ -362,11 +357,11 @@ public partial class VeldridDriver
 	}
 
 	List<VertexPositionColor> grid;
-	private async Task<bool>  drawGrid()
+	private Task  drawGrid()
 	{
 		if (!ovpSettings.drawGrid())
 		{
-			return true;
+			return Task.CompletedTask;
 		}
 
 		float spacing = ovpSettings.gridSpacing();
@@ -504,7 +499,7 @@ public partial class VeldridDriver
 			}
 		}
 		
-		return true;
+		return Task.CompletedTask;
 	}
 
 	private void updateGridBuffers()
@@ -534,11 +529,11 @@ public partial class VeldridDriver
 	}
 	
 	VertexPositionColor[] axesArray;
-	private async Task<bool>  drawAxes()
+	private Task  drawAxes()
 	{
 		if (!ovpSettings.drawAxes())
 		{
-			return true;
+			return Task.CompletedTask;
 		}
 
 		float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
@@ -560,7 +555,7 @@ public partial class VeldridDriver
 
 		axesIndices = new uint[4] { 0, 1, 2, 3 };
 		
-		return true;
+		return Task.CompletedTask;
 	}
 
 	private void updateAxesBuffers()
@@ -634,7 +629,7 @@ public partial class VeldridDriver
 		updatePolygonBuffers();
 		updateLineBuffers();
 
-		if (gridIndices != null && gridIndices.Length != 0)
+		if (GridVertexBuffer != null && gridIndices != null && gridIndices.Length != 0)
 		{
 			if (LinePipeline == null)
 			{
@@ -665,7 +660,7 @@ public partial class VeldridDriver
 			}
 		}
 
-		if (axesIndices != null && axesIndices.Length != 0)
+		if (AxesVertexBuffer != null && axesIndices != null && axesIndices.Length != 0)
 		{
 			if (LinePipeline == null)
 			{
@@ -698,7 +693,7 @@ public partial class VeldridDriver
 
 		if (ovpSettings.drawFilled())
 		{
-			if (tessIndices != null && tessIndices.Length != 0)
+			if (TessVertexBuffer != null && tessIndices != null && tessIndices.Length != 0)
 			{
 				if (LinePipeline == null)
 				{
@@ -730,7 +725,7 @@ public partial class VeldridDriver
 			}
 		}
 
-		if (polyIndices != null && polyIndices.Length != 0)
+		if (PolysVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
 		{
 			if (LinePipeline == null)
 			{
@@ -761,7 +756,7 @@ public partial class VeldridDriver
 			}
 		}
 
-		if (linesIndices != null && linesIndices.Length != 0 && ovpSettings.drawDrawn())
+		if (LinesVertexBuffer != null && linesIndices != null && linesIndices.Length != 0 && ovpSettings.drawDrawn())
 		{
 			if (LinePipeline == null)
 			{
@@ -794,7 +789,7 @@ public partial class VeldridDriver
 
 		if (ovpSettings.drawPoints())
 		{
-			if (polyIndices != null && polyIndices.Length != 0)
+			if (PointsVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
 			{
 				if (LinePipeline == null)
 				{
@@ -827,7 +822,7 @@ public partial class VeldridDriver
 		}
 	}
 
-	private void updateBuffer<T>(ref DeviceBuffer buffer, T[] data, uint elementSize, BufferUsage usage)
+	private void updateBuffer<T>(ref DeviceBuffer? buffer, T[] data, uint elementSize, BufferUsage usage)
 		where T : unmanaged
 	{
 		switch (data.Length)

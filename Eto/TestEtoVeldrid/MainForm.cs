@@ -91,7 +91,7 @@ public partial class MainForm : Form
 				return;
 		}
 
-		Title = $"Veldrid backend: {Surface.Backend.ToString(CultureInfo.InvariantCulture)}";
+		Title = $"Veldrid backend: {Surface.Backend.ToString()}";
 
 		createVPContextMenu();
 

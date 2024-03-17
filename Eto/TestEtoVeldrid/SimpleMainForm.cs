@@ -12,7 +12,7 @@ namespace TestEtoVeldrid
 
 		VeldridDriver Driver;
 
-		private bool _veldridReady = false;
+		private bool _veldridReady;
 
 		public bool VeldridReady
 		{
@@ -24,7 +24,7 @@ namespace TestEtoVeldrid
 			}
 		}
 
-		private bool _formReady = false;
+		private bool _formReady;
 		public bool FormReady
 		{
 			get { return _formReady; }

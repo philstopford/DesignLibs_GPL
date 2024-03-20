@@ -39,9 +39,20 @@ public partial class VeldridDriver
 		bgPolyListCount = ovpSettings.bgPolyList.Count;
 		tessPolyListCount = ovpSettings.tessPolyList.Count;
 
-		int[] pointCountBeforeCurrentPolygon_fg = new int[fgPolyListCount];
-		pointCountBeforeCurrentPolygon_fg[0] = 0;
-		int totalPointCount_fg = ovpSettings.polyList[0].poly.Length;
+		int[] pointCountBeforeCurrentPolygon_fg;
+		int totalPointCount_fg;
+		if (fgPolyListCount > 0)
+		{
+			pointCountBeforeCurrentPolygon_fg = new int[fgPolyListCount];
+			pointCountBeforeCurrentPolygon_fg[0] = 0;
+			totalPointCount_fg = ovpSettings.polyList[0].poly.Length;
+		}
+		else
+		{
+			pointCountBeforeCurrentPolygon_fg = Array.Empty<int>();
+			totalPointCount_fg = 0;
+		}
+
 		for (int i = 1; i < fgPolyListCount; i++)
 		{
 			int previousPolygonPointCount = ovpSettings.polyList[i - 1].poly.Length;
@@ -49,9 +60,20 @@ public partial class VeldridDriver
 			totalPointCount_fg += ovpSettings.polyList[i].poly.Length;
 		}
 
-		int[] pointCountBeforeCurrentPolygon_bg = new int[bgPolyListCount];
-		pointCountBeforeCurrentPolygon_bg[0] = 0;
-		int totalPointCount_bg = ovpSettings.bgPolyList[0].poly.Length;
+		int[] pointCountBeforeCurrentPolygon_bg;
+		int totalPointCount_bg;
+		if (bgPolyListCount > 0)
+		{
+			pointCountBeforeCurrentPolygon_bg = new int[bgPolyListCount];
+			pointCountBeforeCurrentPolygon_bg[0] = 0;
+			totalPointCount_bg = ovpSettings.bgPolyList[0].poly.Length;
+		}
+		else
+		{
+			pointCountBeforeCurrentPolygon_bg = Array.Empty<int>();
+			totalPointCount_bg = 0;
+		}
+
 		for (int i = 1; i < bgPolyListCount; i++)
 		{
 			int previousPolygonPointCount = ovpSettings.bgPolyList[i - 1].poly.Length;

@@ -109,13 +109,14 @@ public partial class VeldridDriver
 			
 			if (ovpSettings.drawFilled())
 			{
-				int tess_polyCount = tessPolyListCount * 3;
-				tessPolyList = new VertexPositionColor[tess_polyCount];
+				tessPolyList = new VertexPositionColor[tessPolyListCount * 3];
 				Parallel.For(0, tessPolyListCount, (poly) =>
+				// for (int poly = 0; poly < tessPolyListCount; poly++)
 				{
 					float alpha = ovpSettings.tessPolyList[poly].alpha;
 					float polyZ = poly * polyZStep;
 					Parallel.For(0, 3, (pt) =>
+					// for(int pt = 0; pt < 3; pt++)
 					{
 						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
 							new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X,
@@ -126,8 +127,8 @@ public partial class VeldridDriver
 					});
 				});
 				
-				tessIndices = new uint[tess_polyCount];
-				for (int i = 0; i < tess_polyCount; i++)
+				tessIndices = new uint[tessPolyListCount * 3];
+				for (int i = 0; i < tessPolyListCount * 3; i++)
 				{
 					tessIndices[i] = (uint)i;
 				}

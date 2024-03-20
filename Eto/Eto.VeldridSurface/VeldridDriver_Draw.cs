@@ -203,7 +203,8 @@ public partial class VeldridDriver
 				});
 			});
 
-			Parallel.For(0, bgPolyListCount, (poly) =>
+			//Parallel.For(0, bgPolyListCount, (poly) =>
+			for (int poly = 0; poly < bgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				float polyZ = poly * polyZStep;
@@ -218,25 +219,34 @@ public partial class VeldridDriver
 				if (poly > 0)
 				{
 					// Start and end points for each polygon are not duplicated.
-					poly_index_offset = ((pointCountBeforeCurrentPolygon_bg[poly] * 2) - 2);
+					poly_index_offset = ((pointCountBeforeCurrentPolygon_bg[poly] - 2) * 2);
 				}
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
-				Parallel.For(0, bgPolyLength, (pt) =>
+				// Parallel.For(0, bgPolyLength, (pt) =>
+				for (int pt = 0; pt < bgPolyLength; pt++)
 				{
-					polyList[fg_poly_index_offset + poly_index_offset + (pt * 2)] = new VertexPositionColor(
-						new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X,
-							ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
-						new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
-							ovpSettings.bgPolyList[poly].color.B, alpha));
+					try
+					{
+						polyList[fg_poly_index_offset + poly_index_offset + (pt * 2)] = new VertexPositionColor(
+							new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X,
+								ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
+							new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
+								ovpSettings.bgPolyList[poly].color.B, alpha));
 
-					polyList[fg_poly_index_offset + poly_index_offset + ((pt * 2) + 1)] = new VertexPositionColor(
-						new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X,
-							ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
-						new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
-							ovpSettings.bgPolyList[poly].color.B, alpha));
-				});
-			});
+						polyList[fg_poly_index_offset + poly_index_offset + ((pt * 2) + 1)] = new VertexPositionColor(
+							new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X,
+								ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
+							new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
+								ovpSettings.bgPolyList[poly].color.B, alpha));
+					}
+					catch (Exception e)
+					{
+						Console.WriteLine(e);
+						throw;
+					}
+				}//);
+			}//);
 
 			polyIndices = new uint[totalPolyListCount];
 			for (int i = 0; i < totalPolyListCount; i++)
@@ -290,6 +300,12 @@ public partial class VeldridDriver
 	private Task drawLines()
 	{
 		linesCount = ovpSettings.lineList.Count;
+		if (linesCount == 0)
+		{
+			lineList = Array.Empty<VertexPositionColor>();
+			linesIndices = Array.Empty<uint>();
+			return Task.CompletedTask;
+		}
 
 		try
 		{
@@ -305,21 +321,23 @@ public partial class VeldridDriver
 			}
 
 			// Start and end points for each polygon are not duplicated.
-			lineList = new VertexPositionColor[(totalPointCount - linesCount) * 2];
-			Parallel.For (0, linesCount, (poly) =>
+			// Allow for line shape to be closed.
+			lineList = new VertexPositionColor[(totalPointCount) * 2];
+			// Parallel.For (0, linesCount, (poly) =>
+			for (int poly = 0; poly < linesCount; poly++)
 			{
 				float alpha = ovpSettings.lineList[poly].alpha;
 				float polyZ = 1.0f;
 
-				int polyLength = ovpSettings.lineList[poly].poly.Length - 1;
-				//Parallel.ForEach(evens, (pt) =>
+				int polyLength = ovpSettings.lineList[poly].poly.Length;
 				int index_offset = 0;
 				if (poly > 0)
 				{
 					// Start and end points for each polygon are not duplicated.
-					index_offset = ((pointCountBeforeCurrentPolygon[poly] * 2) - 2);
+					index_offset = (pointCountBeforeCurrentPolygon[poly] * 2);
 				}
-				Parallel.For (0, polyLength, (pt) =>
+				// Parallel.For (0, polyLength, (pt) =>
+				for (int pt = 0; pt < polyLength; pt++)
 				{
 					lineList[index_offset + (pt * 2)] = (new VertexPositionColor(
 						new Vector3(ovpSettings.lineList[poly].poly[pt].X,
@@ -328,13 +346,33 @@ public partial class VeldridDriver
 						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 							ovpSettings.lineList[poly].color.B, alpha)));
 
-					lineList[index_offset + ((pt * 2) + 1)] = (new VertexPositionColor(
-						new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X,
-							ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ),
-						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
-							ovpSettings.lineList[poly].color.B, alpha)));
-				});
-			});
+					if (pt < polyLength - 1)
+					{
+						lineList[index_offset + ((pt * 2) + 1)] = (new VertexPositionColor(
+							new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X,
+								ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ),
+							new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
+								ovpSettings.lineList[poly].color.B, alpha)));
+					}
+					else
+					{
+						lineList[index_offset + ((pt * 2) + 1)] = (new VertexPositionColor(
+							new Vector3(ovpSettings.lineList[poly].poly[0].X,
+								ovpSettings.lineList[poly].poly[0].Y, polyZ),
+							new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
+								ovpSettings.lineList[poly].color.B, alpha)));
+					}
+				}//);
+				
+			}//);
+
+			/*
+			if (lineList.Length > 1)
+			{
+				lineList[^2] = new VertexPositionColor(lineList[^1].Position, lineList[^1].Color);
+				lineList[^1] = new VertexPositionColor(lineList[0].Position, lineList[0].Color);
+			}
+			*/
 
 			int counter = lineList.Length;
 			
@@ -344,8 +382,9 @@ public partial class VeldridDriver
 				linesIndices[i] = (uint)i;
 			}
 		}
-		catch (Exception)
+		catch (Exception ex)
 		{
+			Console.WriteLine(ex);
 			// Can ignore - not critical.
 		}
 		
@@ -831,6 +870,10 @@ public partial class VeldridDriver
 	private void updateBuffer<T>(ref DeviceBuffer? buffer, T[] data, uint elementSize, BufferUsage usage)
 		where T : unmanaged
 	{
+		if (data == null)
+		{
+			return;
+		}
 		switch (data.Length)
 		{
 			case > 0:

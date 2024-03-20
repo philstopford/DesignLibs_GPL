@@ -25,7 +25,7 @@ public partial class VeldridDriver
 		done_drawing = true;
 	}
 
-	int polyListCount;
+	int fgPolyListCount;
 	int bgPolyListCount;
 	int tessPolyListCount;
 
@@ -37,14 +37,14 @@ public partial class VeldridDriver
 
 	private Task drawPolygons()
 	{
-		polyListCount = ovpSettings.polyList.Count;
+		fgPolyListCount = ovpSettings.polyList.Count;
 		bgPolyListCount = ovpSettings.bgPolyList.Count;
 		tessPolyListCount = ovpSettings.tessPolyList.Count;
 
-		int[] pointCountBeforeCurrentPolygon_fg = new int[polyListCount];
+		int[] pointCountBeforeCurrentPolygon_fg = new int[fgPolyListCount];
 		pointCountBeforeCurrentPolygon_fg[0] = 0;
 		int totalPointCount_fg = ovpSettings.polyList[0].poly.Length;
-		for (int i = 1; i < polyListCount; i++)
+		for (int i = 1; i < fgPolyListCount; i++)
 		{
 			int previousPolygonPointCount = ovpSettings.polyList[i - 1].poly.Length;
 			pointCountBeforeCurrentPolygon_fg[i] = pointCountBeforeCurrentPolygon_fg[i-1] + previousPolygonPointCount;
@@ -62,7 +62,11 @@ public partial class VeldridDriver
 		}
 
 		// Start and end points for each polygon are not duplicated.
-		VertexPositionColor[] polyList_test = new VertexPositionColor[((totalPointCount_fg - polyListCount) + (totalPointCount_bg - bgPolyListCount)) * 2];
+		int totalPolyListCount = ((totalPointCount_fg - fgPolyListCount) + (totalPointCount_bg - bgPolyListCount)) * 2;
+		VertexPositionColor[] polyList_test = new VertexPositionColor[totalPolyListCount];
+		// Two triangles per point in foreground polygon.
+		int pointListCount = (totalPointCount_fg - fgPolyListCount) * 6;
+		VertexPositionColor[] pointsList_test = new VertexPositionColor[pointListCount];
 
 		polyList = new();
 
@@ -70,15 +74,11 @@ public partial class VeldridDriver
 		
 		try
 		{
-
 			// Carve our Z-space up to stack polygons
-			int numPolys = 1;
-
-			numPolys = polyListCount + bgPolyListCount;
+			int numPolys = totalPolyListCount;
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
 			polyIndices = Array.Empty<uint>();
 			pointsIndices = Array.Empty<uint>();
-
 			tessIndices = Array.Empty<uint>();
 			
 			if (ovpSettings.drawFilled())
@@ -120,9 +120,7 @@ public partial class VeldridDriver
 			}
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-			int line_polyIndex = 0;
-			int line_pointsIndex = 0;
-			for (int poly = 0; poly < polyListCount; poly++)
+			for (int poly = 0; poly < fgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.polyList[poly].alpha;
 				if (ovpSettings.drawFilled())
@@ -139,14 +137,12 @@ public partial class VeldridDriver
 							polyZ),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_polyIndex++;
 
 					polyList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt + 1].X,
 							ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_polyIndex++;
 
 					if (!ovpSettings.drawPoints())
 					{
@@ -158,39 +154,33 @@ public partial class VeldridDriver
 							ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_pointsIndex++;
 
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_pointsIndex++;
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_pointsIndex++;
 
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_pointsIndex++;
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_pointsIndex++;
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					line_pointsIndex++;
 				}
 			}
 
@@ -208,23 +198,21 @@ public partial class VeldridDriver
 							ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
 						new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
 							ovpSettings.bgPolyList[poly].color.B, alpha)));
-					line_polyIndex++;
 					polyList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X,
 							ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
 						new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
 							ovpSettings.bgPolyList[poly].color.B, alpha)));
-					line_polyIndex++;
 				}
 			}
 
-			polyIndices = new uint[line_polyIndex];
-			for (int i = 0; i < line_polyIndex; i++)
+			polyIndices = new uint[totalPolyListCount];
+			for (int i = 0; i < totalPolyListCount; i++)
 			{
 				polyIndices[i] = (uint)i;
 			}
-			pointsIndices = new uint[line_pointsIndex];
-			for (int i = 0; i < line_pointsIndex; i++)
+			pointsIndices = new uint[pointListCount];
+			for (int i = 0; i < pointListCount; i++)
 			{
 				pointsIndices[i] = (uint)i;
 			}
@@ -239,14 +227,14 @@ public partial class VeldridDriver
 
 	private void updatePolygonBuffers()
 	{
-		if (polyListCount > 0 || bgPolyListCount > 0)
+		if (fgPolyListCount > 0 || bgPolyListCount > 0)
 		{
 			updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
 			updateBuffer(ref PolysIndexBuffer, polyIndices, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
-		if (ovpSettings.drawPoints() && polyListCount > 0)
+		if (ovpSettings.drawPoints() && fgPolyListCount > 0)
 		{
 			updateBuffer(ref PointsVertexBuffer, pointsList.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);

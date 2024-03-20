@@ -203,8 +203,8 @@ public partial class VeldridDriver
 				});
 			});
 
-			//Parallel.For(0, bgPolyListCount, (poly) =>
-			for (int poly = 0; poly < bgPolyListCount; poly++)
+			Parallel.For(0, bgPolyListCount, (poly) =>
+			// for (int poly = 0; poly < bgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				float polyZ = poly * polyZStep;
@@ -223,8 +223,8 @@ public partial class VeldridDriver
 				}
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
-				// Parallel.For(0, bgPolyLength, (pt) =>
-				for (int pt = 0; pt < bgPolyLength; pt++)
+				Parallel.For(0, bgPolyLength, (pt) =>
+				// for (int pt = 0; pt < bgPolyLength; pt++)
 				{
 					try
 					{
@@ -245,8 +245,8 @@ public partial class VeldridDriver
 						Console.WriteLine(e);
 						throw;
 					}
-				}//);
-			}//);
+				});
+			});
 
 			polyIndices = new uint[totalPolyListCount];
 			for (int i = 0; i < totalPolyListCount; i++)
@@ -365,15 +365,7 @@ public partial class VeldridDriver
 				});
 				
 			});
-
-			/*
-			if (lineList.Length > 1)
-			{
-				lineList[^2] = new VertexPositionColor(lineList[^1].Position, lineList[^1].Color);
-				lineList[^1] = new VertexPositionColor(lineList[0].Position, lineList[0].Color);
-			}
-			*/
-
+			
 			int counter = lineList.Length;
 			
 			linesIndices = new uint[counter];

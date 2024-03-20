@@ -69,8 +69,10 @@ public partial class VeldridDriver
 
 	private CommandList CommandList { get; set; }
 
+	/*
 	private Shader VertexShader { get; set; }
 	private Shader FragmentShader { get; set; }
+	*/
 
 	private bool Ready = false;
 	private PointF savedLocation;

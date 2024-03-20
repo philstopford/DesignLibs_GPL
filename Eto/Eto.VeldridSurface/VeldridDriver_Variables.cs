@@ -25,7 +25,6 @@ public partial class VeldridDriver
 		}
 	}
 
-	private uint[] polyVertexCount;
 	private uint[] gridIndices;
 	private uint[] axesIndices;
 

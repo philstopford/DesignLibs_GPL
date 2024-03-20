@@ -41,6 +41,29 @@ public partial class VeldridDriver
 		bgPolyListCount = ovpSettings.bgPolyList.Count;
 		tessPolyListCount = ovpSettings.tessPolyList.Count;
 
+		int[] pointCountBeforeCurrentPolygon_fg = new int[polyListCount];
+		pointCountBeforeCurrentPolygon_fg[0] = 0;
+		int totalPointCount_fg = ovpSettings.polyList[0].poly.Length;
+		for (int i = 1; i < polyListCount; i++)
+		{
+			int previousPolygonPointCount = ovpSettings.polyList[i - 1].poly.Length;
+			pointCountBeforeCurrentPolygon_fg[i] = pointCountBeforeCurrentPolygon_fg[i-1] + previousPolygonPointCount;
+			totalPointCount_fg += ovpSettings.polyList[i].poly.Length;
+		}
+
+		int[] pointCountBeforeCurrentPolygon_bg = new int[bgPolyListCount];
+		pointCountBeforeCurrentPolygon_bg[0] = 0;
+		int totalPointCount_bg = ovpSettings.bgPolyList[0].poly.Length;
+		for (int i = 1; i < bgPolyListCount; i++)
+		{
+			int previousPolygonPointCount = ovpSettings.bgPolyList[i - 1].poly.Length;
+			pointCountBeforeCurrentPolygon_bg[i] = pointCountBeforeCurrentPolygon_bg[i-1] + previousPolygonPointCount;
+			totalPointCount_bg += ovpSettings.bgPolyList[i].poly.Length;
+		}
+
+		// Start and end points for each polygon are not duplicated.
+		VertexPositionColor[] polyList_test = new VertexPositionColor[((totalPointCount_fg - polyListCount) + (totalPointCount_bg - bgPolyListCount)) * 2];
+
 		polyList = new();
 
 		pointsList = new();
@@ -55,14 +78,9 @@ public partial class VeldridDriver
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
 			polyIndices = Array.Empty<uint>();
 			pointsIndices = Array.Empty<uint>();
-			polyVertexCount = new uint[numPolys];
 
 			tessIndices = Array.Empty<uint>();
-
-			List<uint> tFirst = new();
-
-			uint tCounter = 0;
-
+			
 			if (ovpSettings.drawFilled())
 			{
 				numPolys += tessPolyListCount;
@@ -72,10 +90,7 @@ public partial class VeldridDriver
 				polyZStep = 1.0f / Math.Max(1,
 					numPolys +
 					1); // avoid a div by zero risk; pad the poly number also to reduce risk of adding a poly beyond the clipping range
-
-			int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
-			int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
-
+			
 			float polyZ = 0;
 
 			if (ovpSettings.drawFilled())
@@ -105,7 +120,6 @@ public partial class VeldridDriver
 			}
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-			int poly_index = 0;
 			int line_polyIndex = 0;
 			int line_pointsIndex = 0;
 			for (int poly = 0; poly < polyListCount; poly++)
@@ -117,7 +131,6 @@ public partial class VeldridDriver
 				}
 
 				polyZ += polyZStep;
-				previouscounter = counter;
 				int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
 				for (int pt = 0; pt < polyLength; pt++)
 				{
@@ -126,7 +139,6 @@ public partial class VeldridDriver
 							polyZ),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					counter++;
 					line_polyIndex++;
 
 					polyList.Add(new VertexPositionColor(
@@ -134,7 +146,6 @@ public partial class VeldridDriver
 							ovpSettings.polyList[poly].poly[pt + 1].Y, polyZ),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					counter++;
 					line_polyIndex++;
 
 					if (!ovpSettings.drawPoints())
@@ -142,13 +153,11 @@ public partial class VeldridDriver
 						continue;
 					}
 
-					tFirst.Add(tCounter);
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					tCounter++;
 					line_pointsIndex++;
 
 					pointsList.Add(new VertexPositionColor(
@@ -156,42 +165,33 @@ public partial class VeldridDriver
 							ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					tCounter++;
 					line_pointsIndex++;
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					tCounter++;
 					line_pointsIndex++;
 
-					tFirst.Add(tCounter);
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					tCounter++;
 					line_pointsIndex++;
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					tCounter++;
 					line_pointsIndex++;
 					pointsList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
 							ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
 							ovpSettings.polyList[poly].color.B, alpha)));
-					tCounter++;
 					line_pointsIndex++;
 				}
-
-				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
-				poly_index ++;
 			}
 
 			polyZ = 0;
@@ -199,7 +199,6 @@ public partial class VeldridDriver
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				polyZ += polyZStep;
-				previouscounter = counter;
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
 				for (int pt = 0; pt < bgPolyLength; pt++)
@@ -209,19 +208,14 @@ public partial class VeldridDriver
 							ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
 						new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
 							ovpSettings.bgPolyList[poly].color.B, alpha)));
-					counter++;
 					line_polyIndex++;
 					polyList.Add(new VertexPositionColor(
 						new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X,
 							ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
 						new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
 							ovpSettings.bgPolyList[poly].color.B, alpha)));
-					counter++;
 					line_polyIndex++;
 				}
-
-				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
-				poly_index++;
 			}
 
 			polyIndices = new uint[line_polyIndex];
@@ -277,11 +271,7 @@ public partial class VeldridDriver
 
 		try
 		{
-			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-			linesIndices = Array.Empty<uint>();
-			
 			// Experimental stuff... can we do this with parallel loops?
-			
 			int[] pointCountBeforeCurrentPolygon = new int[linesCount];
 			pointCountBeforeCurrentPolygon[0] = 0;
 			int totalPointCount = ovpSettings.lineList[0].poly.Length;

@@ -323,8 +323,8 @@ public partial class VeldridDriver
 			// Start and end points for each polygon are not duplicated.
 			// Allow for line shape to be closed.
 			lineList = new VertexPositionColor[(totalPointCount) * 2];
-			// Parallel.For (0, linesCount, (poly) =>
-			for (int poly = 0; poly < linesCount; poly++)
+			Parallel.For (0, linesCount, (poly) =>
+			// for (int poly = 0; poly < linesCount; poly++)
 			{
 				float alpha = ovpSettings.lineList[poly].alpha;
 				float polyZ = 1.0f;
@@ -336,8 +336,8 @@ public partial class VeldridDriver
 					// Start and end points for each polygon are not duplicated.
 					index_offset = (pointCountBeforeCurrentPolygon[poly] * 2);
 				}
-				// Parallel.For (0, polyLength, (pt) =>
-				for (int pt = 0; pt < polyLength; pt++)
+				Parallel.For (0, polyLength, (pt) =>
+				// for (int pt = 0; pt < polyLength; pt++)
 				{
 					lineList[index_offset + (pt * 2)] = (new VertexPositionColor(
 						new Vector3(ovpSettings.lineList[poly].poly[pt].X,
@@ -362,9 +362,9 @@ public partial class VeldridDriver
 							new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 								ovpSettings.lineList[poly].color.B, alpha)));
 					}
-				}//);
+				});
 				
-			}//);
+			});
 
 			/*
 			if (lineList.Length > 1)

@@ -25,13 +25,7 @@ public partial class VeldridDriver
 		}
 	}
 
-	private uint[] polyFirst;
 	private uint[] polyVertexCount;
-	private uint[] tessFirst;
-	private uint[] tessVertexCount;
-	private uint[] lineFirst;
-	private uint[] lineVertexCount;
-	private uint[] pointsFirst;
 	private uint[] gridIndices;
 	private uint[] axesIndices;
 

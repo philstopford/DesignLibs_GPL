@@ -33,7 +33,7 @@ public partial class VeldridDriver
 
 	List<VertexPositionColor> pointsList;
 
-	List<VertexPositionColor> tessPolyList;
+	VertexPositionColor[] tessPolyList;
 
 	private Task drawPolygons()
 	{
@@ -44,9 +44,7 @@ public partial class VeldridDriver
 		polyList = new();
 
 		pointsList = new();
-
-		tessPolyList = new();
-
+		
 		try
 		{
 
@@ -55,14 +53,11 @@ public partial class VeldridDriver
 
 			numPolys = polyListCount + bgPolyListCount;
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-			polyFirst = new uint[numPolys];
 			polyIndices = Array.Empty<uint>();
 			pointsIndices = Array.Empty<uint>();
 			polyVertexCount = new uint[numPolys];
 
-			tessFirst = new uint[tessPolyListCount];
 			tessIndices = Array.Empty<uint>();
-			tessVertexCount = new uint[tessPolyListCount];
 
 			List<uint> tFirst = new();
 
@@ -85,28 +80,25 @@ public partial class VeldridDriver
 
 			if (ovpSettings.drawFilled())
 			{
-				int tess_polyIndex = 0;
+				int tess_polyCount = tessPolyListCount * 3;
+				tessPolyList = new VertexPositionColor[tess_polyCount];
 				for (int poly = 0; poly < tessPolyListCount; poly++)
 				{
-					tessFirst[poly] = (uint)(poly * 3);
 					float alpha = ovpSettings.tessPolyList[poly].alpha;
 					polyZ += polyZStep;
 					for (int pt = 0; pt < 3; pt++)
 					{
-						tessPolyList.Add(new VertexPositionColor(
+						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
 							new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X,
 								ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
 							new RgbaFloat(ovpSettings.tessPolyList[poly].color.R,
 								ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
-								alpha)));
-						tess_polyIndex++;
+								alpha));
 					}
-
-					tessVertexCount[poly] = 3;
 				}
 				
-				tessIndices = new uint[tess_polyIndex];
-				for (int i = 0; i < tess_polyIndex; i++)
+				tessIndices = new uint[tess_polyCount];
+				for (int i = 0; i < tess_polyCount; i++)
 				{
 					tessIndices[i] = (uint)i;
 				}
@@ -125,7 +117,6 @@ public partial class VeldridDriver
 				}
 
 				polyZ += polyZStep;
-				polyFirst[poly] = (uint)counter;
 				previouscounter = counter;
 				int polyLength = ovpSettings.polyList[poly].poly.Length - 1;
 				for (int pt = 0; pt < polyLength; pt++)
@@ -208,7 +199,6 @@ public partial class VeldridDriver
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				polyZ += polyZStep;
-				polyFirst[poly + polyListCount] = (uint)counter;
 				previouscounter = counter;
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
@@ -244,8 +234,6 @@ public partial class VeldridDriver
 			{
 				pointsIndices[i] = (uint)i;
 			}
-
-			pointsFirst = tFirst.ToArray();
 		}
 		catch (Exception)
 		{
@@ -281,59 +269,66 @@ public partial class VeldridDriver
 
 	int linesCount;
 
-	List<VertexPositionColor> lineList;
+	VertexPositionColor[] lineList;
 
 	private Task drawLines()
 	{
 		linesCount = ovpSettings.lineList.Count;
 
-		lineList = new();
-		
 		try
 		{
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-			lineFirst = new uint[linesCount];
 			linesIndices = Array.Empty<uint>();
-			lineVertexCount = new uint[linesCount];
 			
-			int counter = 0; // vertex count that will be used to define 'first' index for each polygon.
-			int previouscounter = 0; // will be used to derive the number of vertices in each polygon.
+			// Experimental stuff... can we do this with parallel loops?
+			
+			int[] pointCountBeforeCurrentPolygon = new int[linesCount];
+			pointCountBeforeCurrentPolygon[0] = 0;
+			int totalPointCount = ovpSettings.lineList[0].poly.Length;
+			for (int i = 1; i < linesCount; i++)
+			{
+				int previousPolygonPointCount = ovpSettings.lineList[i - 1].poly.Length;
+				pointCountBeforeCurrentPolygon[i] = pointCountBeforeCurrentPolygon[i-1] + previousPolygonPointCount;
+				totalPointCount += ovpSettings.lineList[i].poly.Length;
+			}
 
-			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-			int line_polyIndex = 0;
+			// Start and end points for each polygon are not duplicated.
+			lineList = new VertexPositionColor[(totalPointCount - linesCount) * 2];
+			// Parallel.For(0, linesCount /*, po*/, (poly) =>
 			for (int poly = 0; poly < linesCount; poly++)
 			{
 				float alpha = ovpSettings.lineList[poly].alpha;
 				float polyZ = 1.0f;
 
-				lineFirst[poly] = (uint)counter;
-				previouscounter = counter;
 				int polyLength = ovpSettings.lineList[poly].poly.Length - 1;
+				//Parallel.ForEach(evens, (pt) =>
+				int index_offset = 0;
+				if (poly > 0)
+				{
+					// Start and end points for each polygon are not duplicated.
+					index_offset = ((pointCountBeforeCurrentPolygon[poly] * 2) - 2);
+				}
 				for (int pt = 0; pt < polyLength; pt++)
 				{
-					lineList.Add(new VertexPositionColor(
-						new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y,
+					lineList[index_offset + (pt * 2)] = (new VertexPositionColor(
+						new Vector3(ovpSettings.lineList[poly].poly[pt].X,
+							ovpSettings.lineList[poly].poly[pt].Y,
 							polyZ),
 						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 							ovpSettings.lineList[poly].color.B, alpha)));
-					counter++;
-					line_polyIndex++;
 
-					lineList.Add(new VertexPositionColor(
+					lineList[index_offset + ((pt * 2) + 1)] = (new VertexPositionColor(
 						new Vector3(ovpSettings.lineList[poly].poly[pt + 1].X,
 							ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ),
 						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 							ovpSettings.lineList[poly].color.B, alpha)));
-					counter++;
-					line_polyIndex++;
+				}//);
+			}//)
 
-				}
-
-				lineVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
-			}
-
-			linesIndices = new uint[line_polyIndex];
-			for (int i = 0; i < line_polyIndex; i++)
+			int counter = lineList.Length;
+			
+			linesIndices = new uint[counter];
+			for (int i = 0; i < counter; i++)
 			{
 				linesIndices[i] = (uint)i;
 			}

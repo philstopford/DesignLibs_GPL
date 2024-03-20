@@ -253,7 +253,7 @@ public partial class MainForm : Form
 		vp_menu.Items.Add(new ButtonMenuItem { Text = "Zoom Extents" });
 		vp_menu.Items[itemIndex].Click += delegate
 		{
-			Driver.zoomExtents(0);
+			Driver.zoomExtents(-1);
 		};
 		itemIndex++;
 		vp_menu.Items.AddSeparator();

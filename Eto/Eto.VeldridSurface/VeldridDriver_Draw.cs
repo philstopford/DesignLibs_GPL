@@ -82,7 +82,7 @@ public partial class VeldridDriver
 		}
 
 		// Start and end points for each polygon are not duplicated.
-		int totalPolyListCount = ((totalPointCount_fg - fgPolyListCount) + (totalPointCount_bg - bgPolyListCount)) * 2;
+		int totalPolyListCount = ((totalPointCount_fg) + (totalPointCount_bg)) * 2;
 		polyList = new VertexPositionColor[totalPolyListCount];
 		// Two triangles per point in foreground polygon.
 		int pointListCount = (totalPointCount_fg - fgPolyListCount) * 6;
@@ -204,7 +204,7 @@ public partial class VeldridDriver
 			});
 
 			Parallel.For(0, bgPolyListCount, (poly) =>
-			// for (int poly = 0; poly < bgPolyListCount; poly++)
+			//for (int poly = 0; poly < bgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				float polyZ = poly * polyZStep;
@@ -219,12 +219,12 @@ public partial class VeldridDriver
 				if (poly > 0)
 				{
 					// Start and end points for each polygon are not duplicated.
-					poly_index_offset = ((pointCountBeforeCurrentPolygon_bg[poly] - 2) * 2);
+					poly_index_offset = ((pointCountBeforeCurrentPolygon_bg[poly] * 2) - 2);
 				}
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
 				Parallel.For(0, bgPolyLength, (pt) =>
-				// for (int pt = 0; pt < bgPolyLength; pt++)
+				//for (int pt = 0; pt < bgPolyLength; pt++)
 				{
 					try
 					{
@@ -243,7 +243,6 @@ public partial class VeldridDriver
 					catch (Exception e)
 					{
 						Console.WriteLine(e);
-						throw;
 					}
 				});
 			});

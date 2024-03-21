@@ -85,7 +85,7 @@ public partial class VeldridDriver
 		int totalPolyListCount = ((totalPointCount_fg) + (totalPointCount_bg)) * 2;
 		polyList = new VertexPositionColor[totalPolyListCount];
 		// Two triangles per point in foreground polygon.
-		int pointListCount = (totalPointCount_fg - fgPolyListCount) * 6;
+		int pointListCount = (totalPointCount_fg) * 6;
 		pointsList = new VertexPositionColor[pointListCount];
 
 		try
@@ -136,6 +136,7 @@ public partial class VeldridDriver
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
 			Parallel.For(0, fgPolyListCount, (poly) =>
+				// for (int poly = 0; poly < fgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.polyList[poly].alpha;
 				if (ovpSettings.drawFilled())
@@ -155,6 +156,7 @@ public partial class VeldridDriver
 				}
 
 				Parallel.For(0, polyLength, (pt) =>
+				// for (int pt = 0; pt < polyLength; pt++)
 				{
 					polyList[poly_index_offset + (pt * 2)] = new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y,
@@ -170,36 +172,43 @@ public partial class VeldridDriver
 
 					if (ovpSettings.drawPoints())
 					{
-						pointsList[point_index_offset + (pt * 6)] = new VertexPositionColor(
-							new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
-							new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
-						pointsList[point_index_offset + ((pt * 6) + 1)] = new VertexPositionColor(
-							new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
-							new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
-						pointsList[point_index_offset + ((pt * 6) + 2)] = new VertexPositionColor(
-							new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
-							new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
-						pointsList[point_index_offset + ((pt * 6) + 3)] = new VertexPositionColor(
-							new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
-							new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
-						pointsList[point_index_offset + ((pt * 6) + 4)] = new VertexPositionColor(
-							new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
-							new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
-						pointsList[point_index_offset + ((pt * 6) + 5)] = new VertexPositionColor(
-							new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
-							new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+						try
+						{
+							pointsList[point_index_offset + (pt * 6)] = new VertexPositionColor(
+								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
+									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
+									ovpSettings.polyList[poly].color.B, alpha));
+							pointsList[point_index_offset + ((pt * 6) + 1)] = new VertexPositionColor(
+								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
+									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
+									ovpSettings.polyList[poly].color.B, alpha));
+							pointsList[point_index_offset + ((pt * 6) + 2)] = new VertexPositionColor(
+								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
+									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
+									ovpSettings.polyList[poly].color.B, alpha));
+							pointsList[point_index_offset + ((pt * 6) + 3)] = new VertexPositionColor(
+								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
+									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
+									ovpSettings.polyList[poly].color.B, alpha));
+							pointsList[point_index_offset + ((pt * 6) + 4)] = new VertexPositionColor(
+								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
+									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
+									ovpSettings.polyList[poly].color.B, alpha));
+							pointsList[point_index_offset + ((pt * 6) + 5)] = new VertexPositionColor(
+								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
+									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
+									ovpSettings.polyList[poly].color.B, alpha));
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine(ex);
+						}
 					}
 				});
 			});

@@ -4,7 +4,8 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>TestEtoVeldrid</RootNamespace>
     <Title>TestEtoVeldrid</Title>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>

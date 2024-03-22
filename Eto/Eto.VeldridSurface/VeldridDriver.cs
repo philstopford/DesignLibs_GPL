@@ -182,7 +182,7 @@ namespace VeldridEto;
 					frontFace: FrontFace.Clockwise,
 					depthClipEnabled: false,
 					scissorTestEnabled: false),
-				PrimitiveTopology = PrimitiveTopology.LineStrip,
+				PrimitiveTopology = PrimitiveTopology.LineList,
 				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
 				ShaderSet = new ShaderSetDescription(
 					vertexLayouts: new[] { vertexLayout },
@@ -203,7 +203,7 @@ namespace VeldridEto;
 					frontFace: FrontFace.CounterClockwise,
 					depthClipEnabled: false,
 					scissorTestEnabled: false),
-				PrimitiveTopology = PrimitiveTopology.TriangleStrip,
+				PrimitiveTopology = PrimitiveTopology.TriangleList,
 				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
 				ShaderSet = new ShaderSetDescription(
 					vertexLayouts: new[] { vertexLayout },

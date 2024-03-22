@@ -4,16 +4,13 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>TestEtoVeldrid</RootNamespace>
     <Title>TestEtoVeldrid</Title>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Eto.Forms" Version="2.8.2" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

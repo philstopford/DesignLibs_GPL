@@ -8,7 +8,7 @@ namespace UnitTests;
 public class GeoCoreTests
 {
     static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
-    static string outDir = baseDir + "out/";
+    static string outDir = "/d/development/geocore_out/";
 
     // [SetUp]
     public static void GeoCoreSetUp()
@@ -657,7 +657,7 @@ public class GeoCoreTests
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.True(gcOAS.isValid());
 
-        string outFile = baseDir + "/out/c3_consistency_from_oas.gds";
+        string outFile = outDir + "/c3_consistency_from_oas.gds";
         if (File.Exists(outFile))
         {
             File.Delete(outFile);
@@ -666,7 +666,7 @@ public class GeoCoreTests
         gw.save();
         Assert.True(File.Exists(outFile));
 
-        string outFile2 = baseDir + "/out/c3_consistency_from_oas.oas";
+        string outFile2 = outDir + "/c3_consistency_from_oas.oas";
         if (File.Exists(outFile2))
         {
             File.Delete(outFile2);
@@ -684,7 +684,7 @@ public class GeoCoreTests
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.True(gcGDS.isValid());
 
-        string outFile = baseDir + "/out/c3_consistency_from_gds.gds";
+        string outFile = outDir + "/c3_consistency_from_gds.gds";
         if (File.Exists(outFile))
         {
             File.Delete(outFile);
@@ -693,7 +693,7 @@ public class GeoCoreTests
         gw.save();
         Assert.True(File.Exists(outFile));
 
-        string outFile2 = baseDir + "/out/c3_consistency_from_gds.oas";
+        string outFile2 = outDir + "/c3_consistency_from_gds.oas";
         if (File.Exists(outFile2))
         {
             File.Delete(outFile2);

@@ -27,6 +27,13 @@ public partial class VeldridDriver
 	public void updateViewport()
 	{
 		pUpdateViewport();
+		if (done_drawing)
+		{
+			updateHostFunc?.Invoke();
+			Surface.Invalidate();
+			ovpSettings.changed = false;
+			drawing = false;
+		}
 	}
 
 	public void setContextMenu(ref ContextMenu menu_)

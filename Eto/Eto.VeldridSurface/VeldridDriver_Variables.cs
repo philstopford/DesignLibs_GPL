@@ -25,23 +25,21 @@ public partial class VeldridDriver
 		}
 	}
 
-	private uint[] polyFirst;
-	private uint[] polyVertexCount;
-	private uint[] tessFirst;
-	private uint[] tessVertexCount;
-	private uint[] lineFirst;
-	private uint[] lineVertexCount;
-	private uint[] pointsFirst;
 	private uint[] gridIndices;
 	private uint[] axesIndices;
+
+	private uint[] linesIndices;
+	private uint[] tessIndices;
+	private uint[] polyIndices;
+	private uint[] pointsIndices;
 
 	private float axisZ;
 	private float gridZ;
 
-	private DeviceBuffer GridVertexBuffer;
-	private DeviceBuffer GridIndexBuffer;
-	private DeviceBuffer AxesVertexBuffer;
-	private DeviceBuffer AxesIndexBuffer;
+	private DeviceBuffer? GridVertexBuffer;
+	private DeviceBuffer? GridIndexBuffer;
+	private DeviceBuffer? AxesVertexBuffer;
+	private DeviceBuffer? AxesIndexBuffer;
 
 	private DeviceBuffer VertexBuffer { get; set; }
 	private DeviceBuffer IndexBuffer { get; set; }
@@ -49,10 +47,14 @@ public partial class VeldridDriver
 
 	private DeviceBuffer ViewBuffer;
 
-	private DeviceBuffer LinesVertexBuffer;
-	private DeviceBuffer PointsVertexBuffer;
-	private DeviceBuffer PolysVertexBuffer;
-	private DeviceBuffer TessVertexBuffer;
+	private DeviceBuffer? LinesVertexBuffer;
+	private DeviceBuffer? PointsVertexBuffer;
+	private DeviceBuffer? PolysVertexBuffer;
+	private DeviceBuffer? TessVertexBuffer;
+	private DeviceBuffer? LinesIndexBuffer;
+	private DeviceBuffer? PointsIndexBuffer;
+	private DeviceBuffer? PolysIndexBuffer;
+	private DeviceBuffer? TessIndexBuffer;
 
 	private Pipeline PointsPipeline;
 	private Pipeline LinePipeline;
@@ -67,8 +69,10 @@ public partial class VeldridDriver
 
 	private CommandList CommandList { get; set; }
 
+	/*
 	private Shader VertexShader { get; set; }
 	private Shader FragmentShader { get; set; }
+	*/
 
 	private bool Ready = false;
 	private PointF savedLocation;

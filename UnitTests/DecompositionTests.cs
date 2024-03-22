@@ -8,7 +8,7 @@ namespace UnitTests;
 
 public class DecompositionTests
 {
-    private static string root_loc = "/d/development/DesignLibs_GPL/decomposition_out/";
+    private static string root_loc = "/d/development/decomposition_out/";
     // [SetUp]
     public static void DecompositionSetup()
     {

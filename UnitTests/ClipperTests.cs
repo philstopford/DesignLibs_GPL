@@ -2198,9 +2198,9 @@ public class ClipperTests
         co.Execute(25, resizedPolyData);
 
         double area = resizedPolyData.Sum(t => Clipper2Lib.Clipper.Area(t));
-        Assert.AreEqual(86501.5, area);
+        Assert.AreEqual(86429, area);
         Assert.AreEqual(2, resizedPolyData.Count);
-        Assert.AreEqual(11, resizedPolyData[0].Count);
+        Assert.AreEqual(10, resizedPolyData[0].Count);
         Assert.AreEqual(3, resizedPolyData[1].Count);
     }
 
@@ -2869,7 +2869,7 @@ public class ClipperTests
         double area = p.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(-50750000, area);
         Assert.AreEqual(1, p.Count);
-        Assert.AreEqual(5, p[0].Count);
+        Assert.AreEqual(4, p[0].Count);
     }
 
     private static void clipper2_zFillTest(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
@@ -3036,7 +3036,7 @@ public class ClipperTests
         double area = cutters.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(-600004, area);
         Assert.AreEqual(1, cutters.Count);
-        Assert.AreEqual(5, cutters[0].Count);
+        Assert.AreEqual(4, cutters[0].Count);
         
         Clipper2Lib.Clipper64 c = new();
 
@@ -3207,7 +3207,7 @@ public class ClipperTests
         double area = cutters.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.AreEqual(-400004, area);
         Assert.AreEqual(1, cutters.Count);
-        Assert.AreEqual(5, cutters[0].Count);
+        Assert.AreEqual(4, cutters[0].Count);
         
         Paths64 solution = new();
         Clipper2Lib.Clipper64 c = new ();

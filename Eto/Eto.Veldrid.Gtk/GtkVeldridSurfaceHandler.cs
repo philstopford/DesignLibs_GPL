@@ -10,7 +10,7 @@ using Veldrid;
 
 namespace Eto.Veldrid.Gtk
 {
-	public class GtkVeldridSurfaceHandler : GtkControl<EtoEventBox, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler, VeldridSurface.IOpenGL
+	public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler, VeldridSurface.IOpenGL
 	{
 		GLArea glArea;
 		System.Action _makeCurrent;
@@ -23,8 +23,6 @@ namespace Eto.Veldrid.Gtk
 
 		public GtkVeldridSurfaceHandler()
 		{
-			Control = new EtoEventBox { Handler = this };
-
 			_makeCurrent = MakeCurrent;
 			_clearCurrent = ClearCurrent;
 		}
@@ -185,14 +183,13 @@ namespace Eto.Veldrid.Gtk
 		}
 
 
-		protected override void Initialize()
+		protected override global::Gtk.Widget CreateControl()
 		{
-			base.Initialize();
-
 			if (Widget.Backend == GraphicsBackend.OpenGL)
 			{
 				glArea = new GLArea();
 				glArea.CanFocus = true;
+				glArea.CanDefault = true;
 
 				// Veldrid technically supports as low as OpenGL 3.0, but the full
 				// complement of features is only available with 3.3 and higher.
@@ -200,15 +197,17 @@ namespace Eto.Veldrid.Gtk
 
 				glArea.HasDepthBuffer = true;
 				glArea.HasStencilBuffer = true;
-				Control.Child = glArea;
 				glArea.Realized += glArea_InitializeGraphicsBackend;
+				return glArea;
 			}
 			else
 			{
-				Control.CanFocus = true;
-				Control.Realized += Control_InitializeGraphicsBackend;
+				var box = new EtoEventBox();
+				box.CanFocus = true;
+				box.CanDefault = true;
+				box.Realized += Control_InitializeGraphicsBackend;
+				return box;
 			}
-
 		}
 	}
 }

@@ -50,6 +50,326 @@ public class GeoCoreTests
     }
 
     [Test]
+    public static void f_rep_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/f_rep.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/f_rep.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void f_rep2_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/f_rep2.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/f_rep2.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void f_rep3_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/f_rep3.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/f_rep3.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void f_rep4_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/f_rep4.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/f_rep4.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void f_rep5_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/f_rep5.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/f_rep5.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void rect_rep_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/rectangle_rep.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/rectangle_rep.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void rect_rep2_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/rectangle_rep2.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/rectangle_rep2.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void rect_rep3_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/rectangle_rep3.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/rectangle_rep3.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void rect_rep4_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/rectangle_rep4.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/rectangle_rep4.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void rect_rep5_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/rectangle_rep5.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/rectangle_rep5.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_f_rep_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_f_rep.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_f_rep.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_f_rep2_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_f_rep2.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_f_rep2.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_f_rep3_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_f_rep3.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_f_rep3.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_f_rep4_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_f_rep4.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_f_rep4.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_f_rep5_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_f_rep5.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_f_rep5.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_rect_rep_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_rectangle_rep.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_rectangle_rep.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_rect_rep2_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_rectangle_rep2.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_rectangle_rep2.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_rect_rep3_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_rectangle_rep3.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_rectangle_rep3.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_rect_rep4_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_rectangle_rep4.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_rectangle_rep4.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
+    public static void ref_rect_rep5_test()
+    {
+        string gdsFile = baseDir + "gdstk_reference/ref_rectangle_rep5.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        string oasFile = baseDir + "gdstk_reference/ref_rectangle_rep5.oas";
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+    }
+    
+    [Test]
     public static void valid_test()
     {
         GeoCore g = new();
@@ -843,67 +1163,67 @@ public class GeoCoreTests
         Assert.That(geo.Count, Is.EqualTo(4));
         
         // We have floats, so this gets a little more awkward.
-        Assert.LessOrEqual(Math.Abs(geo[0][0].x - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][0].y - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][1].x - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][1].y - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][2].x - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][2].y - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][3].x - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][3].y - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][4].x - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][4].y - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][5].x - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][5].y - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][6].x - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[0][6].y - 0), 1E-13);
+        Assert.That(Math.Abs(geo[0][0].x - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][0].y - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][1].x - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][1].y - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][2].x - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][2].y - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][3].x - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][3].y - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][4].x - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][4].y - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][5].x - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][5].y - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][6].x - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][6].y - 0), Is.LessThanOrEqualTo(1E-13));
 
         int y_adjust = 110;
-        Assert.LessOrEqual(Math.Abs(geo[1][0].x - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][0].y - (0 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][1].x - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][1].y - (100 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][2].x - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][2].y - (100 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][3].x - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][3].y - (40 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][4].x - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][4].y - (40 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][5].x - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[1][5].y - 0 - y_adjust), 1E-13);
+        Assert.That(Math.Abs(geo[1][0].x - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][0].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][1].x - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][1].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][2].x - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][2].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][3].x - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][3].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][4].x - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][4].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][5].x - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[1][5].y - 0 - y_adjust), Is.LessThanOrEqualTo(1E-13));
         Assert.That(Math.Abs(geo[1][6].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.LessOrEqual(Math.Abs(geo[1][6].y - (0 + y_adjust)), 1E-13);
+        Assert.That(Math.Abs(geo[1][6].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
 
         int x_adjust = 110;
-        Assert.LessOrEqual(Math.Abs(geo[2][0].x - (0 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][0].y - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][1].x - (0 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][1].y - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][2].x - (40 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][2].y - 100), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][3].x - (40 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][3].y - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][4].x - (100 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][4].y - 40), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][5].x - (100 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][5].y - 0), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][6].x - (0 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[2][6].y - 0), 1E-13);
+        Assert.That(Math.Abs(geo[2][0].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][0].y - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][1].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][1].y - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][2].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][2].y - 100), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][3].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][3].y - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][4].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][4].y - 40), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][5].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][5].y - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][6].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[2][6].y - 0), Is.LessThanOrEqualTo(1E-13));
 
-        Assert.LessOrEqual(Math.Abs(geo[3][0].x - (0 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][1].x - (0 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][2].x - (40 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][3].x - (40 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][4].x - (100 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][5].x - (100 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][6].x - (0 + x_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][0].y - (0 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][1].y - (100 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][2].y - (100 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][3].y - (40 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][4].y - (40 + y_adjust)), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][5].y - 0 - y_adjust), 1E-13);
-        Assert.LessOrEqual(Math.Abs(geo[3][6].y - (0 + y_adjust)), 1E-13);
+        Assert.That(Math.Abs(geo[3][0].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][1].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][2].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][3].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][4].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][5].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][6].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][0].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][1].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][2].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][3].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][4].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][5].y - 0 - y_adjust), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][6].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
     }
 
     [Test]

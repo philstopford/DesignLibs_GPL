@@ -34,25 +34,25 @@ public class RNGTests
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, ints.Distinct().Count());
+        Assert.That(ints.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values = values
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values.Distinct().Count());
+        Assert.That(values.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values2 = values2
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values2.Distinct().Count());
+        Assert.That(values2.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values3 = values3
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values3.Distinct().Count());
+        Assert.That(values3.Distinct().Count(), Is.EqualTo(sampleCount));
     }
     
     [Test]
@@ -74,25 +74,25 @@ public class RNGTests
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, ints.Distinct().Count());
+        Assert.That(ints.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values = values
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values.Distinct().Count());
+        Assert.That(values.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values2 = values2
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values2.Distinct().Count());
+        Assert.That(values2.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values3 = values3
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values3.Distinct().Count());
+        Assert.That(values3.Distinct().Count(), Is.EqualTo(sampleCount));
     }
     
     [Test]
@@ -114,24 +114,24 @@ public class RNGTests
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, ints.Distinct().Count());
+        Assert.That(ints.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values = values
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values.Distinct().Count());
+        Assert.That(values.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values2 = values2
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values2.Distinct().Count());
+        Assert.That(values2.Distinct().Count(), Is.EqualTo(sampleCount));
         
         double[] duplicate_values3 = values3
             .GroupBy( x => x )               // group matching items
             .Where( g => g.Skip(1).Any() )   // where the group contains more than one item
             .SelectMany( g => g ).ToArray();           // re-expand the groups with more than one item
-        Assert.AreEqual(sampleCount, values3.Distinct().Count());
+        Assert.That(values3.Distinct().Count(), Is.EqualTo(sampleCount));
     }
 }

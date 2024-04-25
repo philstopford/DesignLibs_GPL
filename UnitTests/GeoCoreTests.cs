@@ -1965,7 +1965,7 @@ public class GeoCoreTests
         double scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
-        Assert.False(cell_gds.elementList[^1].getMirrorX() );
+        Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
         List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 

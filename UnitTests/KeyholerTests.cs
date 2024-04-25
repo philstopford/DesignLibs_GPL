@@ -108,16 +108,16 @@ public class KeyholerTests
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "singletest_kh.svg", FillRule.NonZero, 800, 800, 10);
 
-        Assert.AreEqual(1, kH.Count);
+        Assert.That(kH.Count, Is.EqualTo(1));
         // Expected area should be 120000
         double expectedArea = Math.Abs(Clipper.Area(outer)) - Math.Abs(Clipper.Area(inner1));
         // There is a small delta due to the keyhole, but it should be negligible.
-        Assert.AreEqual(expectedArea,Math.Abs(Clipper.Area(kH)), 10.01);
+        Assert.That(Math.Abs(Clipper.Area(kH)), Is.EqualTo(expectedArea).Within(10.01));
         // Let's make sure our keyhole didn't move too much as well, that could be annoying.
-        Assert.AreEqual(kH[0][2].x, -100.05, 0.001);
-        Assert.AreEqual(kH[0][3].x, -100.05, 0.001);
-        Assert.AreEqual(kH[0][8].x, -99.95, 0.001);
-        Assert.AreEqual(kH[0][9].x, -99.95, 0.001);
+        Assert.That(-100.05, Is.EqualTo(kH[0][2].x).Within(0.001));
+        Assert.That(-100.05, Is.EqualTo(kH[0][3].x).Within(0.001));
+        Assert.That(-99.95, Is.EqualTo(kH[0][8].x).Within(0.001));
+        Assert.That(-99.95, Is.EqualTo(kH[0][9].x).Within(0.001));
 
         // Generate sliver geometry.
         PathsD sL = new();
@@ -125,8 +125,8 @@ public class KeyholerTests
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
-        Assert.AreEqual(1, sL.Count);
-        Assert.AreEqual(Clipper.Area(sL), 40010.0025, 0.0001);
+        Assert.That(sL.Count, Is.EqualTo(1));
+        Assert.That(40010.0025, Is.EqualTo(Clipper.Area(sL)).Within(0.0001));
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, sL, true);
@@ -138,11 +138,11 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "keyholetest_singletest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, gR.Count);
-        Assert.AreEqual(Math.Abs(Clipper.Area(gR[0])), Math.Abs(Clipper.Area(outer)));
-        Assert.AreEqual(Math.Abs(Clipper.Area(gR[1])), Math.Abs(Clipper.Area(inner1)));
-        Assert.False(Clipper.IsPositive(gR[0]));
-        Assert.True(Clipper.IsPositive(gR[1]));
+        Assert.That(gR.Count, Is.EqualTo(2));
+        Assert.That(Math.Abs(Clipper.Area(outer)), Is.EqualTo(Math.Abs(Clipper.Area(gR[0]))));
+        Assert.That(Math.Abs(Clipper.Area(inner1)), Is.EqualTo(Math.Abs(Clipper.Area(gR[1]))));
+        Assert.That(Clipper.IsPositive(gR[0]), Is.False);
+        Assert.That(Clipper.IsPositive(gR[1]), Is.True);
 
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
@@ -150,7 +150,7 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, sL);
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "singletest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(40000, Clipper.Area(sR));
+        Assert.That(Clipper.Area(sR), Is.EqualTo(40000));
     }
 
     [Test]
@@ -190,7 +190,7 @@ public class KeyholerTests
         spiral = GeoWrangler.resize(spiral, 1000);
         PathsD kH = GeoWrangler.makeKeyHole(spiral, false, false);
         PathD test = GeoWrangler.stripTerminators(kH[0], false);
-        Assert.AreEqual(Utils.GetSHA256Hash(spiral), Utils.GetSHA256Hash(test));
+        Assert.That(Utils.GetSHA256Hash(test), Is.EqualTo(Utils.GetSHA256Hash(spiral)));
         spiral = GeoWrangler.resize(spiral, 0.001);
         kH = GeoWrangler.resize(kH, 0.001);
         SvgWriter svgSrc;
@@ -245,8 +245,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_kh.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-199979.995d, Clipper.Area(kH), 0.001);
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH), Is.EqualTo(-199979.995d).Within(0.001));
 
         // Generate sliver geometry.
         PathsD sL = new();
@@ -258,16 +258,16 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, sL, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_sl.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, sL.Count);
-        Assert.AreEqual(40020.005, Clipper.Area(sL), 0.001);
+        Assert.That(sL.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(sL), Is.EqualTo(40020.005).Within(0.001));
         
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(3, gR.Count);
-        Assert.AreEqual(-200000, Clipper.Area(gR));
+        Assert.That(gR.Count, Is.EqualTo(3));
+        Assert.That(Clipper.Area(gR), Is.EqualTo(-200000));
         
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
@@ -275,8 +275,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, sL);
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, sR.Count);
-        Assert.AreEqual(40000, Clipper.Area(sR));
+        Assert.That(sR.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(sR), Is.EqualTo(40000));
     }
 
     [Test]
@@ -322,8 +322,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-129994.9975d, Clipper.Area(kH), 0.001);
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH), Is.EqualTo(-129994.9975d).Within(0.001));
         
         PathsD kHSource2 = new();
         kHSource2.AddRange(kH);
@@ -334,8 +334,8 @@ public class KeyholerTests
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, kH2, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH2.Count);
-        Assert.AreEqual(-139989.995, Clipper.Area(kH2), 0.001);
+        Assert.That(kH2.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH2), Is.EqualTo(-139989.995).Within(0.001));
         
         // Generate sliver geometry.
         ClipperD c = new(Constants.roundingDecimalPrecision);
@@ -346,8 +346,8 @@ public class KeyholerTests
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, sL, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sl.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, sL.Count);
-        Assert.AreEqual(30005.0025, Clipper.Area(sL), 0.001);
+        Assert.That(sL.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(sL), Is.EqualTo(30005.0025).Within(0.001));
 
         c.Clear();
         PathsD sL2 = new();
@@ -357,23 +357,23 @@ public class KeyholerTests
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, sL2, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sl2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, sL2.Count);
-        Assert.AreEqual(20010.005, Clipper.Area(sL2), 0.001);
+        Assert.That(sL2.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(sL2), Is.EqualTo(20010.005).Within(0.001));
         
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, gR.Count);
-        Assert.AreEqual(-130000, Clipper.Area(gR), 0.001);
+        Assert.That(gR.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(gR), Is.EqualTo(-130000).Within(0.001));
 
         PathsD gR2 = GeoWrangler.gapRemoval(kH2, 100);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, gR2, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_gr2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(3, gR2.Count);
-        Assert.AreEqual(-140000, Clipper.Area(gR2), 0.001);
+        Assert.That(gR2.Count, Is.EqualTo(3));
+        Assert.That(Clipper.Area(gR2), Is.EqualTo(-140000).Within(0.001));
         
         PathsD kHSource3 = new();
         kHSource3.AddRange(gR);
@@ -386,30 +386,30 @@ public class KeyholerTests
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, kH3, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh3.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH3.Count);
-        Assert.AreEqual(-129994.9975, Clipper.Area(kH3), 0.001);
+        Assert.That(kH3.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH3), Is.EqualTo(-129994.9975).Within(0.001));
 
         PathsD kH4 = GeoWrangler.makeKeyHole(new PathsD(kHSource4), false, true);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, kH4, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh4.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH4.Count);
-        Assert.AreEqual(-139989.995, Clipper.Area(kH4), 0.001);
+        Assert.That(kH4.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH4), Is.EqualTo(-139989.995).Within(0.001));
 
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, sR.Count);
-        Assert.AreEqual(30000, Clipper.Area(sR), 0.001);
+        Assert.That(sR.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(sR), Is.EqualTo(30000).Within(0.001));
         
         PathsD sR2 = GeoWrangler.gapRemoval(sL2, -100);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, sR2, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sr2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, sR2.Count);
-        Assert.AreEqual(20000, Clipper.Area(sR2), 0.001);
+        Assert.That(sR2.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(sR2), Is.EqualTo(20000).Within(0.001));
     }
 
     [Test]
@@ -440,15 +440,15 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, dSource);
         SvgUtils.AddSolution(svgSrc, decomp, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, decomp.Count);
-        Assert.AreEqual(30000, Clipper.Area(decomp), 0.001);
+        Assert.That(decomp.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(decomp), Is.EqualTo(30000).Within(0.001));
 
         PathsD kHD = GeoWrangler.makeKeyHole(dSource, false, true);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, kHD, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_khd.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kHD.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(kHD), 0.001);
+        Assert.That(kHD.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kHD), Is.EqualTo(-29994.9975).Within(0.001));
 
         // keyholer test
         PathsD kHSource = new() { outer };
@@ -457,8 +457,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_kh.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(kH), 0.001);
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(outer);
@@ -472,8 +472,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionRes);
         SvgUtils.AddSolution(svgSrc, unionRes_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionres.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionRes_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(unionRes_kH), 0.001);
+        Assert.That(unionRes_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionRes_kH), Is.EqualTo(29000).Within(0.001));
 
         PathsD unionResc = GeoWrangler.close(unionRes);
         PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, false, true);
@@ -482,8 +482,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResc);
         SvgUtils.AddSolution(svgSrc, unionResc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResc_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(unionResc_kH), 0.001);
+        Assert.That(unionResc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResc_kH), Is.EqualTo(29000).Within(0.001));
 
         PathsD unionResP = new();
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
@@ -493,8 +493,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResP);
         SvgUtils.AddSolution(svgSrc, unionResP_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresp.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResP_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(unionResP_kH), 0.001);
+        Assert.That(unionResP_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResP_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         PathsD unionResPc = GeoWrangler.close(unionResP);
         PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, false, true);
@@ -502,8 +502,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResPc);
         SvgUtils.AddSolution(svgSrc, unionResPc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionrespc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResPc_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(unionResPc_kH), 0.001);
+        Assert.That(unionResPc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResPc_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         // seems good - get keyhole
         PathsD unionResNZ = new();
@@ -514,8 +514,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResNZ);
         SvgUtils.AddSolution(svgSrc, unionResNZ_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresnz.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResNZ_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(unionResNZ_kH), 0.001);
+        Assert.That(unionResNZ_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResNZ_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         PathsD unionResNZc = GeoWrangler.close(unionResNZ);
         PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, false, true);
@@ -523,8 +523,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResNZc);
         SvgUtils.AddSolution(svgSrc, unionResNZc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresnzc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResNZc_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(unionResNZc_kH), 0.001);
+        Assert.That(unionResNZc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResNZc_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
@@ -535,8 +535,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyRes);
         SvgUtils.AddSolution(svgSrc, simplifyRes_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyres.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyRes_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(simplifyRes_kH), 0.001);
+        Assert.That(simplifyRes_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyRes_kH), Is.EqualTo(29000).Within(0.001));
 
         PathsD simplifyResc = GeoWrangler.close(simplifyRes);
         PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, false, true);
@@ -544,8 +544,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyResc);
         SvgUtils.AddSolution(svgSrc, simplifyResc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyresc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyResc_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(simplifyResc_kH), 0.001);
+        Assert.That(simplifyResc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyResc_kH), Is.EqualTo(29000).Within(0.001));
 
         PathsD simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
@@ -554,8 +554,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyRes2);
         SvgUtils.AddSolution(svgSrc, simplifyRes2_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyres2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyRes2_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(simplifyRes2_kH), 0.001);
+        Assert.That(simplifyRes2_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyRes2_kH), Is.EqualTo(29000).Within(0.001));
 
         PathsD simplifyRes2c = GeoWrangler.close(simplifyRes2);
         PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, false, true);
@@ -563,38 +563,38 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyRes2c);
         SvgUtils.AddSolution(svgSrc, simplifyRes2c_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyres2c.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyRes2c_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(simplifyRes2c_kH), 0.001);
+        Assert.That(simplifyRes2c_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyRes2c_kH), Is.EqualTo(29000).Within(0.001));
 
         // no good - no result
         PathsD intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        Assert.AreEqual(0, intRes.Count);
+        Assert.That(intRes.Count, Is.EqualTo(0));
 
         PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, false, true);
-        Assert.AreEqual(0, intRes_kH.Count);
+        Assert.That(intRes_kH.Count, Is.EqualTo(0));
 
         PathsD intResc = GeoWrangler.close(intRes);
         PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, false, true);
-        Assert.AreEqual(0, intResc_kH.Count);
+        Assert.That(intResc_kH.Count, Is.EqualTo(0));
 
         // no good - no result
         PathsD intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
         PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, false, true);
-        Assert.AreEqual(0, intResP_kH.Count);
+        Assert.That(intResP_kH.Count, Is.EqualTo(0));
         PathsD intResPc = GeoWrangler.close(intResP);
         PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, false, true);
-        Assert.AreEqual(0, intResPc_kH.Count);
+        Assert.That(intResPc_kH.Count, Is.EqualTo(0));
 
         // no good - no result
         PathsD intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
         PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, false, true);
-        Assert.AreEqual(0, intResNZ_kH.Count);
+        Assert.That(intResNZ_kH.Count, Is.EqualTo(0));
         PathsD intResNZc = GeoWrangler.close(intResNZ);
         PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, false, true);
-        Assert.AreEqual(0, intResNZc_kH.Count);
+        Assert.That(intResNZc_kH.Count, Is.EqualTo(0));
 
         RectD bounds = Clipper.GetBounds(new PathsD { outer });
         PathD bb = new()
@@ -617,8 +617,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2);
         SvgUtils.AddSolution(svgSrc, intRes2_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(intRes2_kH), 0.001);
+        Assert.That(intRes2_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2_kH), Is.EqualTo(29000).Within(0.001));
 
         PathsD intRes2c = GeoWrangler.close(intRes2);
         PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, false, true);
@@ -626,20 +626,20 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2c);
         SvgUtils.AddSolution(svgSrc, intRes2c_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2c.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2c_kH.Count);
-        Assert.AreEqual(29000, Clipper.Area(intRes2c_kH), 0.001);
+        Assert.That(intRes2c_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2c_kH), Is.EqualTo(29000).Within(0.001));
         
         PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        Assert.AreEqual(intRes2P.Count, 2);
+        Assert.That(2, Is.EqualTo(intRes2P.Count));
 
         PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, false, true);
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, intRes2P);
         SvgUtils.AddSolution(svgSrc, intRes2P_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2p.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2P_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(intRes2P_kH), 0.001);
+        Assert.That(intRes2P_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2P_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         PathsD intRes2Pc = GeoWrangler.close(intRes2P);
         PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, false, true);
@@ -647,8 +647,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2Pc);
         SvgUtils.AddSolution(svgSrc, intRes2Pc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2pc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2Pc_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(intRes2Pc_kH), 0.001);
+        Assert.That(intRes2Pc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2Pc_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         // seems good - get keyhole
         PathsD intRes2NZ = new();
@@ -659,8 +659,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2NZ);
         SvgUtils.AddSolution(svgSrc, intRes2NZ_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2nz.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2NZ_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(intRes2NZ_kH), 0.001);
+        Assert.That(intRes2NZ_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2NZ_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         PathsD intRes2NZc = GeoWrangler.close(intRes2NZ);
         PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, false, true);
@@ -668,8 +668,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2NZc);
         SvgUtils.AddSolution(svgSrc, intRes2NZc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2nzc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2NZc_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(intRes2NZc_kH), 0.001);
+        Assert.That(intRes2NZc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2NZc_kH), Is.EqualTo(-29994.9975).Within(0.001));
     }
 
     [Test]
@@ -702,18 +702,18 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, dSource);
         SvgUtils.AddSolution(svgSrc, decomp, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, decomp.Count);
+        Assert.That(decomp.Count, Is.EqualTo(2));
         // Delta expected. Sign for dSource is opposite to decomp.
-        Assert.AreEqual(30000, Clipper.Area(decomp));
-        Assert.AreEqual(-31000, Clipper.Area(dSource));
+        Assert.That(Clipper.Area(decomp), Is.EqualTo(30000));
+        Assert.That(Clipper.Area(dSource), Is.EqualTo(-31000));
 
         PathsD kHD = GeoWrangler.makeKeyHole(dSource, false, true);
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, dSource);
         SvgUtils.AddSolution(svgSrc, kHD, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khd.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kHD.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(kHD), 0.001);
+        Assert.That(kHD.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kHD), Is.EqualTo(-29994.9975).Within(0.001));
 
         // keyholer test
         PathsD kHSource = new() { outer };
@@ -722,8 +722,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_kh.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(kH), 0.001);
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(outer);
@@ -736,8 +736,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionRes);
         SvgUtils.AddSolution(svgSrc, unionRes_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunion.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionRes_kH.Count);
-        Assert.AreEqual(Clipper.Area(unionRes),Clipper.Area(unionRes_kH));
+        Assert.That(unionRes_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionRes_kH), Is.EqualTo(Clipper.Area(unionRes)));
 
         PathsD unionResc = GeoWrangler.close(unionRes);
         PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, false, true);
@@ -745,8 +745,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResc);
         SvgUtils.AddSolution(svgSrc, unionResc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResc_kH.Count);
-        Assert.AreEqual(Clipper.Area(unionResc), Clipper.Area(unionResc_kH));
+        Assert.That(unionResc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResc_kH), Is.EqualTo(Clipper.Area(unionResc)));
 
         PathsD unionResP = new();
         c.Clear();
@@ -758,8 +758,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResP);
         SvgUtils.AddSolution(svgSrc, unionResP_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionp.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResP_kH.Count);
-        Assert.AreEqual(Clipper.Area(unionResP), Clipper.Area(unionResP_kH));
+        Assert.That(unionResP_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResP_kH), Is.EqualTo(Clipper.Area(unionResP)));
 
         PathsD unionResPc = GeoWrangler.close(unionResP);
         PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, false, true);
@@ -767,8 +767,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResPc);
         SvgUtils.AddSolution(svgSrc, unionResPc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionpc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResPc_kH.Count);
-        Assert.AreEqual(Clipper.Area(unionResPc), Clipper.Area(unionResPc_kH));
+        Assert.That(unionResPc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResPc_kH), Is.EqualTo(Clipper.Area(unionResPc)));
 
         PathsD unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
@@ -778,8 +778,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResNZ);
         SvgUtils.AddSolution(svgSrc, unionResNZ_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionnz.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResNZ_kH.Count);
-        Assert.AreEqual(Clipper.Area(unionResNZ), Clipper.Area(unionResNZ_kH));
+        Assert.That(unionResNZ_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResNZ_kH), Is.EqualTo(Clipper.Area(unionResNZ)));
 
         PathsD unionResNZc = GeoWrangler.close(unionResNZ);
         PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, false, true);
@@ -787,8 +787,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, unionResNZc);
         SvgUtils.AddSolution(svgSrc, unionResNZc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionnzc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, unionResNZc_kH.Count);
-        Assert.AreEqual(Clipper.Area(unionResNZc), Clipper.Area(unionResNZc_kH));
+        Assert.That(unionResNZc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(unionResNZc_kH), Is.EqualTo(Clipper.Area(unionResNZc)));
 
         // no good - overlap region is a gap.
         PathsD simplifyRes = new();
@@ -799,8 +799,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyRes);
         SvgUtils.AddSolution(svgSrc, simplifyRes_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplify.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyRes_kH.Count);
-        Assert.AreEqual(Clipper.Area(simplifyRes), Clipper.Area(simplifyRes_kH));
+        Assert.That(simplifyRes_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyRes_kH), Is.EqualTo(Clipper.Area(simplifyRes)));
 
         PathsD simplifyResc = GeoWrangler.close(simplifyRes);
         PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, false, true);
@@ -808,8 +808,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyResc);
         SvgUtils.AddSolution(svgSrc, simplifyRes_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplifyc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyResc_kH.Count);
-        Assert.AreEqual(Clipper.Area(simplifyResc), Clipper.Area(simplifyResc_kH));
+        Assert.That(simplifyResc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyResc_kH), Is.EqualTo(Clipper.Area(simplifyResc)));
 
         PathsD simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
@@ -818,8 +818,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyRes2);
         SvgUtils.AddSolution(svgSrc, simplifyRes2_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplify2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyRes2_kH.Count);
-        Assert.AreEqual(Clipper.Area(simplifyRes2), Clipper.Area(simplifyRes2_kH));
+        Assert.That(simplifyRes2_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyRes2_kH), Is.EqualTo(Clipper.Area(simplifyRes2)));
 
         PathsD simplifyRes2c = GeoWrangler.close(simplifyRes2);
         PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, false, true);
@@ -827,37 +827,37 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, simplifyRes2c);
         SvgUtils.AddSolution(svgSrc, simplifyRes2c_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplify2c.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, simplifyRes2c_kH.Count);
-        Assert.AreEqual(Clipper.Area(simplifyRes2c), Clipper.Area(simplifyRes2c_kH));
+        Assert.That(simplifyRes2c_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(simplifyRes2c_kH), Is.EqualTo(Clipper.Area(simplifyRes2c)));
 
         // no good - no result
         PathsD intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        Assert.AreEqual(0, intRes.Count);
+        Assert.That(intRes.Count, Is.EqualTo(0));
         PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, false, true);
-        Assert.AreEqual(0, intRes_kH.Count);
+        Assert.That(intRes_kH.Count, Is.EqualTo(0));
 
         PathsD intResc = GeoWrangler.close(intRes);
         PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, false, true);
-        Assert.AreEqual(0, intResc_kH.Count);
+        Assert.That(intResc_kH.Count, Is.EqualTo(0));
 
         // no good - no result
         PathsD intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
         PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, false, true);
-        Assert.AreEqual(0, intResP_kH.Count);
+        Assert.That(intResP_kH.Count, Is.EqualTo(0));
         PathsD intResPc = GeoWrangler.close(intResP);
         PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, false, true);
-        Assert.AreEqual(0, 0, intResPc_kH.Count);
+        Assert.That(0, Is.EqualTo(0).Within(intResPc_kH.Count));
 
         // no good - no result
         PathsD intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
         PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, false, true);
-        Assert.AreEqual(0, intResNZ_kH.Count);
+        Assert.That(intResNZ_kH.Count, Is.EqualTo(0));
         PathsD intResNZc = GeoWrangler.close(intResNZ);
         PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, false, true);
-        Assert.AreEqual(0, intResNZc_kH.Count);
+        Assert.That(intResNZc_kH.Count, Is.EqualTo(0));
 
         RectD bounds = Clipper.GetBounds(new PathsD { outer });
         PathD bb = new()
@@ -880,8 +880,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2);
         SvgUtils.AddSolution(svgSrc, intRes2_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2_kH.Count);
-        Assert.AreEqual(Clipper.Area(intRes2), Clipper.Area(intRes2_kH));
+        Assert.That(intRes2_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2_kH), Is.EqualTo(Clipper.Area(intRes2)));
 
         PathsD intRes2c = GeoWrangler.close(intRes2);
         PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, false, true);
@@ -889,34 +889,34 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2c);
         SvgUtils.AddSolution(svgSrc, intRes2c_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2c.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2c_kH.Count);
-        Assert.AreEqual(Clipper.Area(intRes2c), Clipper.Area(intRes2c_kH));
+        Assert.That(intRes2c_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2c_kH), Is.EqualTo(Clipper.Area(intRes2c)));
 
         // no good - no result
         PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        Assert.AreEqual(0, intRes2P.Count);
+        Assert.That(intRes2P.Count, Is.EqualTo(0));
 
         // No results - no geometry
         PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, false, true);
-        Assert.AreEqual(0, intRes2P_kH.Count);
+        Assert.That(intRes2P_kH.Count, Is.EqualTo(0));
 
         PathsD intRes2Pc = GeoWrangler.close(intRes2P);
         PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, false, true);
-        Assert.AreEqual(0, intRes2Pc_kH.Count);
+        Assert.That(intRes2Pc_kH.Count, Is.EqualTo(0));
 
         // seems good - get keyhole
         PathsD intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
-        Assert.AreEqual(2, intRes2NZ.Count);
+        Assert.That(intRes2NZ.Count, Is.EqualTo(2));
 
         PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, false, true);
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, intRes2NZ);
         SvgUtils.AddSolution(svgSrc, intRes2NZ_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2nz.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2NZ_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(intRes2NZ_kH), 0.001);
+        Assert.That(intRes2NZ_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2NZ_kH), Is.EqualTo(-29994.9975).Within(0.001));
 
         PathsD intRes2NZc = GeoWrangler.close(intRes2NZ);
         PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, false, true);
@@ -924,8 +924,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, intRes2NZc);
         SvgUtils.AddSolution(svgSrc, intRes2NZc_kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2nzc.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, intRes2NZc_kH.Count);
-        Assert.AreEqual(-29994.9975, Clipper.Area(intRes2NZc_kH), 0.001);
+        Assert.That(intRes2NZc_kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(intRes2NZc_kH), Is.EqualTo(-29994.9975).Within(0.001));
     }
 
     [Test]
@@ -966,9 +966,9 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "combotest_kh.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-180009.9975, Clipper.Area(kH), 0.001);
-        Assert.AreEqual(180020, Clipper.Area(kHSource));
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(kH), Is.EqualTo(-180009.9975).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(180020));
         
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
@@ -976,8 +976,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "combotest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, gR.Count);
-        Assert.AreEqual(Math.Abs(Clipper.Area(kHSource)), Math.Abs(Clipper.Area(gR)));
+        Assert.That(gR.Count, Is.EqualTo(2));
+        Assert.That(Math.Abs(Clipper.Area(gR)), Is.EqualTo(Math.Abs(Clipper.Area(kHSource))));
 
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(kH, -100);
@@ -985,8 +985,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "combotest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(1, sR.Count);
-        Assert.AreEqual(-179989.9975, Clipper.Area(sR), 0.001);
+        Assert.That(sR.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(sR), Is.EqualTo(-179989.9975).Within(0.001));
     }
 
     [Test]
@@ -1043,9 +1043,9 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "simpleislandtest_kh.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, kH.Count);
-        Assert.AreEqual(-239979.995, Clipper.Area(kH), 0.001);
-        Assert.AreEqual(240000, Clipper.Area(kHSource));
+        Assert.That(kH.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(kH), Is.EqualTo(-239979.995).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(240000));
 
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
@@ -1053,8 +1053,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "simpleislandtest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(4, gR.Count);
-        Assert.AreEqual(Math.Abs(Clipper.Area(kHSource)), Math.Abs(Clipper.Area(gR)));
+        Assert.That(gR.Count, Is.EqualTo(4));
+        Assert.That(Math.Abs(Clipper.Area(gR)), Is.EqualTo(Math.Abs(Clipper.Area(kHSource))));
         
         // Generate sliver geometry.
         PathsD sL = new();
@@ -1070,8 +1070,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, sL);
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "simpleislandtest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, sR.Count);
-        Assert.AreEqual(80000, Clipper.Area(sR));
+        Assert.That(sR.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(sR), Is.EqualTo(80000));
     }
 
     [Test]
@@ -1114,9 +1114,9 @@ public class KeyholerTests
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_1.svg", FillRule.NonZero, 800, 800, 10);
         double area_kh = Clipper.Area(kH);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-180009.9975, area_kh, 0.001);
-        Assert.AreEqual(180020, Clipper.Area(kHSource));
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(area_kh, Is.EqualTo(-180009.9975).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(180020));
 
         // Island 2 - simple single hole
         PathD outer2 = Clipper.MakePath(new double[]
@@ -1147,9 +1147,9 @@ public class KeyholerTests
         SvgUtils.AddSolution(svgSrc, kH2, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_2.svg", FillRule.NonZero, 800, 800, 10);
         double area_kh2 = Clipper.Area(kH2);
-        Assert.AreEqual(1, kH2.Count);
-        Assert.AreEqual(-119989.9975, area_kh2, 0.001);
-        Assert.AreEqual(120000, Clipper.Area(kHSource));
+        Assert.That(kH2.Count, Is.EqualTo(1));
+        Assert.That(area_kh2, Is.EqualTo(-119989.9975).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(120000));
 
         // Island 3 - dual hole hole
         PathD outer3 = Clipper.MakePath(new double[]
@@ -1190,9 +1190,9 @@ public class KeyholerTests
         SvgUtils.AddSolution(svgSrc, kH3, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_3.svg", FillRule.NonZero, 800, 800, 10);
         double area_kh3 = Clipper.Area(kH3);
-        Assert.AreEqual(1, kH3.Count);
-        Assert.AreEqual(-199979.995, area_kh3, 0.001);
-        Assert.AreEqual(200000, Clipper.Area(kHSource));
+        Assert.That(kH3.Count, Is.EqualTo(1));
+        Assert.That(area_kh3, Is.EqualTo(-199979.995).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(200000));
 
         kHSource.Clear();
         kHSource.Add(outer1);
@@ -1206,9 +1206,9 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH12, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_12.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, kH12.Count);
-        Assert.AreEqual(area_kh + area_kh2, Clipper.Area(kH12));
-        Assert.AreEqual(300020, Clipper.Area(kHSource));
+        Assert.That(kH12.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(kH12), Is.EqualTo(area_kh + area_kh2));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(300020));
         
         kHSource.Clear();
         kHSource.Add(outer2);
@@ -1222,10 +1222,10 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH23h1, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_23h1.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, kH23h1.Count);
+        Assert.That(kH23h1.Count, Is.EqualTo(2));
         double area_ = Clipper.Area(kH23h1);
-        Assert.AreEqual(-339979.995, Clipper.Area(kH23h1), 0.001);
-        Assert.AreEqual(340000, Clipper.Area(kHSource));
+        Assert.That(Clipper.Area(kH23h1), Is.EqualTo(-339979.995).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(340000));
 
         kHSource.Clear();
         kHSource.Add(outer2);
@@ -1239,9 +1239,9 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH23h2, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_23h2.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, kH23h2.Count);
-        Assert.AreEqual(-339979.995, Clipper.Area(kH23h2), 0.001);
-        Assert.AreEqual(340000, Clipper.Area(kHSource));
+        Assert.That(kH23h2.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(kH23h2), Is.EqualTo(-339979.995).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(340000));
 
         kHSource.Clear();
         kHSource.Add(outer1);
@@ -1256,9 +1256,9 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH13, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_13.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(2, kH13.Count);
-        Assert.AreEqual(area_kh + area_kh3, Clipper.Area(kH13));
-        Assert.AreEqual(380020, Clipper.Area(kHSource));
+        Assert.That(kH13.Count, Is.EqualTo(2));
+        Assert.That(Clipper.Area(kH13), Is.EqualTo(area_kh + area_kh3));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(380020));
 
         kHSource.Clear();
         kHSource.Add(outer1);
@@ -1276,9 +1276,9 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH123, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_123.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(kH123.Count, 3);
-        Assert.AreEqual(Math.Abs(Clipper.Area(kH123)), Math.Abs(area_kh) + Math.Abs(area_kh2) + Math.Abs(area_kh3));
-        Assert.AreEqual(500020, Clipper.Area(kHSource));
+        Assert.That(3, Is.EqualTo(kH123.Count));
+        Assert.That(Math.Abs(area_kh) + Math.Abs(area_kh2) + Math.Abs(area_kh3), Is.EqualTo(Math.Abs(Clipper.Area(kH123))));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(500020));
         
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH123, 100);
@@ -1286,8 +1286,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH123);
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(gR.Count, 7);
-        Assert.AreEqual(Clipper.Area(kHSource), -Clipper.Area(gR));
+        Assert.That(7, Is.EqualTo(gR.Count));
+        Assert.That(-Clipper.Area(gR), Is.EqualTo(Clipper.Area(kHSource)));
         
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(kH123, -100);
@@ -1295,8 +1295,8 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kH123);
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(sR.Count, 3);
-        Assert.AreEqual(-499959.989, Clipper.Area(sR), 0.001);
+        Assert.That(3, Is.EqualTo(sR.Count));
+        Assert.That(Clipper.Area(sR), Is.EqualTo(-499959.989).Within(0.001));
     }
 
     [Test]
@@ -1361,8 +1361,8 @@ public class KeyholerTests
         SvgUtils.AddSolution(svgSrc, kH, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "multiholetest_1.svg", FillRule.NonZero, 800, 800, 10);
         double area_kh = Clipper.Area(kH);
-        Assert.AreEqual(1, kH.Count);
-        Assert.AreEqual(-4987.99, area_kh, 0.001);
-        Assert.AreEqual(-4990, Clipper.Area(kHSource));
+        Assert.That(kH.Count, Is.EqualTo(1));
+        Assert.That(area_kh, Is.EqualTo(-4987.99).Within(0.001));
+        Assert.That(Clipper.Area(kHSource), Is.EqualTo(-4990));
     }
 }

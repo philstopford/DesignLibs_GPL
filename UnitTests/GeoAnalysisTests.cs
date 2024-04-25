@@ -287,6 +287,6 @@ public class GeoAnalysisTests
         };
 
         angleHandler aH = new angleHandler(aPaths, bPaths);
-        Assert.LessOrEqual(Math.Abs(45.0 - aH.minimumIntersectionAngle), 0.001);
+        Assert.That(Math.Abs(45.0 - aH.minimumIntersectionAngle), Is.LessThanOrEqualTo(0.001));
     }
 }

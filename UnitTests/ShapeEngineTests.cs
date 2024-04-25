@@ -84,33 +84,33 @@ public class ShapeEngineTests
         // Check our mapping.
         List<string> shapes = ShapeLibrary.getAvailableShapes(shapeTable);
         List<string> shapes2 = ShapeLibrary.getAvailableShapes(shapeTable2);
-        Assert.AreEqual(shapeTable.Length, shapes.Count);
-        Assert.AreEqual(shapeTable2.Length, shapes2.Count);
-        Assert.AreEqual(0, shapes.IndexOf(availableShapes_all[0]));
-        Assert.AreEqual(1, shapes.IndexOf(availableShapes_all[1]));
-        Assert.AreEqual(2, shapes.IndexOf(availableShapes_all[2]));
-        Assert.AreEqual(3, shapes.IndexOf(availableShapes_all[3]));
-        Assert.AreEqual(4, shapes.IndexOf(availableShapes_all[4]));
-        Assert.AreEqual(5, shapes.IndexOf(availableShapes_all[5]));
-        Assert.AreEqual(6, shapes.IndexOf(availableShapes_all[6]));
-        Assert.AreEqual(7, shapes.IndexOf(availableShapes_all[7]));
-        Assert.AreEqual(8, shapes.IndexOf(availableShapes_all[8]));
-        Assert.AreEqual(-1, shapes.IndexOf(availableShapes_all[9]));
-        Assert.AreEqual(-1, shapes.IndexOf(availableShapes_all[10]));
-        Assert.AreEqual(-1, shapes.IndexOf(availableShapes_all[11]));
-        
-        Assert.AreEqual(0, shapes2.IndexOf(availableShapes_all[0]));
-        Assert.AreEqual(1, shapes2.IndexOf(availableShapes_all[1]));
-        Assert.AreEqual(2, shapes2.IndexOf(availableShapes_all[2]));
-        Assert.AreEqual(3, shapes2.IndexOf(availableShapes_all[3]));
-        Assert.AreEqual(4, shapes2.IndexOf(availableShapes_all[4]));
-        Assert.AreEqual(5, shapes2.IndexOf(availableShapes_all[5]));
-        Assert.AreEqual(6, shapes2.IndexOf(availableShapes_all[6]));
-        Assert.AreEqual(-1, shapes2.IndexOf(availableShapes_all[7]));
-        Assert.AreEqual(-1, shapes2.IndexOf(availableShapes_all[8]));
-        Assert.AreEqual(7, shapes2.IndexOf(availableShapes_all[9]));
-        Assert.AreEqual(8, shapes2.IndexOf(availableShapes_all[10]));
-        Assert.AreEqual(9, shapes2.IndexOf(availableShapes_all[11]));
+        Assert.That(shapes.Count, Is.EqualTo(shapeTable.Length));
+        Assert.That(shapes2.Count, Is.EqualTo(shapeTable2.Length));
+        Assert.That(shapes.IndexOf(availableShapes_all[0]), Is.EqualTo(0));
+        Assert.That(shapes.IndexOf(availableShapes_all[1]), Is.EqualTo(1));
+        Assert.That(shapes.IndexOf(availableShapes_all[2]), Is.EqualTo(2));
+        Assert.That(shapes.IndexOf(availableShapes_all[3]), Is.EqualTo(3));
+        Assert.That(shapes.IndexOf(availableShapes_all[4]), Is.EqualTo(4));
+        Assert.That(shapes.IndexOf(availableShapes_all[5]), Is.EqualTo(5));
+        Assert.That(shapes.IndexOf(availableShapes_all[6]), Is.EqualTo(6));
+        Assert.That(shapes.IndexOf(availableShapes_all[7]), Is.EqualTo(7));
+        Assert.That(shapes.IndexOf(availableShapes_all[8]), Is.EqualTo(8));
+        Assert.That(shapes.IndexOf(availableShapes_all[9]), Is.EqualTo(-1));
+        Assert.That(shapes.IndexOf(availableShapes_all[10]), Is.EqualTo(-1));
+        Assert.That(shapes.IndexOf(availableShapes_all[11]), Is.EqualTo(-1));
+
+        Assert.That(shapes2.IndexOf(availableShapes_all[0]), Is.EqualTo(0));
+        Assert.That(shapes2.IndexOf(availableShapes_all[1]), Is.EqualTo(1));
+        Assert.That(shapes2.IndexOf(availableShapes_all[2]), Is.EqualTo(2));
+        Assert.That(shapes2.IndexOf(availableShapes_all[3]), Is.EqualTo(3));
+        Assert.That(shapes2.IndexOf(availableShapes_all[4]), Is.EqualTo(4));
+        Assert.That(shapes2.IndexOf(availableShapes_all[5]), Is.EqualTo(5));
+        Assert.That(shapes2.IndexOf(availableShapes_all[6]), Is.EqualTo(6));
+        Assert.That(shapes2.IndexOf(availableShapes_all[7]), Is.EqualTo(-1));
+        Assert.That(shapes2.IndexOf(availableShapes_all[8]), Is.EqualTo(-1));
+        Assert.That(shapes2.IndexOf(availableShapes_all[9]), Is.EqualTo(7));
+        Assert.That(shapes2.IndexOf(availableShapes_all[10]), Is.EqualTo(8));
+        Assert.That(shapes2.IndexOf(availableShapes_all[11]), Is.EqualTo(9));
         
         // Do we get the correct shape from the engine?
         ShapeSettings shapeSettings1 = new ShapeSettings();
@@ -135,7 +135,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.rect));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -143,13 +143,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(61, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(61));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-200, area);
+        Assert.That(area, Is.EqualTo(-200));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(10, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(10));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
     
     [Test]
@@ -163,7 +163,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.rect));
         PathD out_ = shape.processCorners(false, false, 90, 1, .5);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -171,14 +171,14 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
-        Assert.AreEqual(false, orthogonal);
+        Assert.That(orthogonal, Is.EqualTo(false));
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(121, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(121));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-(Math.PI * 10 * 10) - area), 0.15);
+        Assert.That(Math.Abs(-(Math.PI * 10 * 10) - area), Is.LessThanOrEqualTo(0.15));
     }
     
     [Test]
@@ -194,7 +194,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.rect));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -202,13 +202,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(105, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(105));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-22*30, area);
+        Assert.That(area, Is.EqualTo(-22*30));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(22, bounds.Width);
-        Assert.AreEqual(30, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(22));
+        Assert.That(bounds.Height, Is.EqualTo(30));
     }
 
     // Set for L, but it's a rectangle. We should get the rectangle.
@@ -224,7 +224,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.rect, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.rect));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -232,13 +232,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(61, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(61));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-200, area);
+        Assert.That(area, Is.EqualTo(-200));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(10, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(10));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -253,7 +253,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -261,17 +261,17 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
-        Assert.AreEqual(true, orthogonal);
+        Assert.That(orthogonal, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(69, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(69));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-250, area);
+        Assert.That(area, Is.EqualTo(-250));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -287,7 +287,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -295,13 +295,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(68, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(68));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-252.8 - area), 0.01);
+        Assert.That(Math.Abs(-252.8 - area), Is.LessThanOrEqualTo(0.01));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
     
     [Test]
@@ -317,18 +317,18 @@ public class ShapeEngineTests
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_ref.shapeIndex);
+        Assert.That(shape_ref.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
         // Corners can have duplicate points.
         PathD clean_ref = GeoWrangler.removeDuplicates(out_ref);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(68, clean_ref.Count);
+        Assert.That(clean_ref.Count, Is.EqualTo(68));
         // Check expected area
         double area_ref = Clipper.Area(out_ref);
-        Assert.LessOrEqual(Math.Abs(-252.8 - area_ref), 0.01);
+        Assert.That(Math.Abs(-252.8 - area_ref), Is.LessThanOrEqualTo(0.01));
         RectD bounds_ref = Clipper.GetBounds(out_ref);
-        Assert.AreEqual(15, bounds_ref.Width);
-        Assert.AreEqual(20, bounds_ref.Height);
+        Assert.That(bounds_ref.Width, Is.EqualTo(15));
+        Assert.That(bounds_ref.Height, Is.EqualTo(20));
         
         // This should result in the same shape because we use the variation to deliver the outer rounding (1.0 * 5)
         ShapeSettings shapeSettings = new ShapeSettings();
@@ -341,7 +341,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1, iCV:5, iCVariation_scalar:1.0);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
@@ -350,13 +350,13 @@ public class ShapeEngineTests
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "l_innervariation.svg", FillRule.NonZero, 800, 800, 10);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(68, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(68));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(area_ref - area), 0.01);
+        Assert.That(Math.Abs(area_ref - area), Is.LessThanOrEqualTo(0.01));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
     
     [Test]
@@ -372,7 +372,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -380,13 +380,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(60, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(60));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-225.18 - area), 0.01);
+        Assert.That(Math.Abs(-225.18 - area), Is.LessThanOrEqualTo(0.01));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -402,18 +402,18 @@ public class ShapeEngineTests
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_ref.shapeIndex);
+        Assert.That(shape_ref.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
         // Corners can have duplicate points.
         PathD clean_ref = GeoWrangler.removeDuplicates(out_ref);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(60, clean_ref.Count);
+        Assert.That(clean_ref.Count, Is.EqualTo(60));
         // Check expected area
         double area_ref = Clipper.Area(out_ref);
-        Assert.LessOrEqual(Math.Abs(-225.18 - area_ref), 0.01);
+        Assert.That(Math.Abs(-225.18 - area_ref), Is.LessThanOrEqualTo(0.01));
         RectD bounds_ref = Clipper.GetBounds(out_ref);
-        Assert.AreEqual(15, bounds_ref.Width);
-        Assert.AreEqual(20, bounds_ref.Height);
+        Assert.That(bounds_ref.Width, Is.EqualTo(15));
+        Assert.That(bounds_ref.Height, Is.EqualTo(20));
         
         // This should result in the same shape because we use the variation to deliver the outer rounding (1.0 * 5)
         ShapeSettings shapeSettings = new ShapeSettings();
@@ -426,7 +426,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV:5, oCVariation_scalar:1.0);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
@@ -435,13 +435,13 @@ public class ShapeEngineTests
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "l_outervariation.svg", FillRule.NonZero, 800, 800, 10);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(60, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(60));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(area_ref - area), 0.01);
+        Assert.That(Math.Abs(area_ref - area), Is.LessThanOrEqualTo(0.01));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -458,7 +458,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -466,13 +466,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(59, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(59));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-228 - area), 0.015);
+        Assert.That(Math.Abs(-228 - area), Is.LessThanOrEqualTo(0.015));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -489,18 +489,18 @@ public class ShapeEngineTests
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_ref.shapeIndex);
+        Assert.That(shape_ref.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
         // Corners can have duplicate points.
         PathD clean_ref = GeoWrangler.removeDuplicates(out_ref);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(59, clean_ref.Count);
+        Assert.That(clean_ref.Count, Is.EqualTo(59));
         // Check expected area
         double area_ref = Clipper.Area(out_ref);
-        Assert.LessOrEqual(Math.Abs(-228 - area_ref), 0.015);
+        Assert.That(Math.Abs(-228 - area_ref), Is.LessThanOrEqualTo(0.015));
         RectD bounds_ref = Clipper.GetBounds(out_ref);
-        Assert.AreEqual(15, bounds_ref.Width);
-        Assert.AreEqual(20, bounds_ref.Height);
+        Assert.That(bounds_ref.Width, Is.EqualTo(15));
+        Assert.That(bounds_ref.Height, Is.EqualTo(20));
         
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -513,7 +513,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV:5, oCVariation_scalar:1.0, iCV:10, iCVariation_scalar:1.0);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddClip(svgSrc, out_ref);
@@ -522,13 +522,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(59, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(59));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(area_ref - area), 0.015);
+        Assert.That(Math.Abs(area_ref - area), Is.LessThanOrEqualTo(0.015));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -547,7 +547,7 @@ public class ShapeEngineTests
         ShapeLibrary shape_0 = new ShapeLibrary(shapeTable, shapeSettings_0);
         shape_0.setShape(shapeSettings_0.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_0.shapeIndex);
+        Assert.That(shape_0.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_0 = shape_0.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_0 }, true);
@@ -555,13 +555,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_0 = GeoWrangler.removeDuplicates(out_0);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(59, clean_0.Count);
+        Assert.That(clean_0.Count, Is.EqualTo(59));
         // Check expected area
         double area_0 = Clipper.Area(out_0);
-        Assert.LessOrEqual(Math.Abs(-228 - area_0), 0.015);
+        Assert.That(Math.Abs(-228 - area_0), Is.LessThanOrEqualTo(0.015));
         RectD bounds = Clipper.GetBounds(out_0);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
         
         ShapeSettings shapeSettings_05 = new ShapeSettings();
         shapeSettings_05.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -576,7 +576,7 @@ public class ShapeEngineTests
         ShapeLibrary shape_05 = new ShapeLibrary(shapeTable, shapeSettings_05);
         shape_05.setShape(shapeSettings_05.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_05.shapeIndex);
+        Assert.That(shape_05.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_05 = shape_05.processCorners(false, false, 90, 1, 1);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, new() { out_05 }, true);
@@ -584,13 +584,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_05 = GeoWrangler.removeDuplicates(out_05);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(60, clean_05.Count);
+        Assert.That(clean_05.Count, Is.EqualTo(60));
         // Check expected area
         double area_05 = Clipper.Area(out_05);
-        Assert.LessOrEqual(Math.Abs(-233.78 - area_05), 0.015);
+        Assert.That(Math.Abs(-233.78 - area_05), Is.LessThanOrEqualTo(0.015));
         RectD bounds_05 = Clipper.GetBounds(out_05);
-        Assert.AreEqual(15, bounds_05.Width);
-        Assert.AreEqual(20, bounds_05.Height);
+        Assert.That(bounds_05.Width, Is.EqualTo(15));
+        Assert.That(bounds_05.Height, Is.EqualTo(20));
         
         ShapeSettings shapeSettings_10 = new ShapeSettings();
         shapeSettings_10.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -605,7 +605,7 @@ public class ShapeEngineTests
         ShapeLibrary shape_10 = new ShapeLibrary(shapeTable, shapeSettings_10);
         shape_10.setShape(shapeSettings_10.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_10.shapeIndex);
+        Assert.That(shape_10.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_10 = shape_10.processCorners(false, false, 90, 1, 1);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, new() { out_10 }, true);
@@ -613,13 +613,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_10 = GeoWrangler.removeDuplicates(out_10);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(60, clean_10.Count);
+        Assert.That(clean_10.Count, Is.EqualTo(60));
         // Check expected area
         double area_10 = Clipper.Area(out_10);
-        Assert.LessOrEqual(Math.Abs(-239.31 - area_10), 0.015);
+        Assert.That(Math.Abs(-239.31 - area_10), Is.LessThanOrEqualTo(0.015));
         RectD bounds_10 = Clipper.GetBounds(out_10);
-        Assert.AreEqual(15, bounds_10.Width);
-        Assert.AreEqual(20, bounds_10.Height);
+        Assert.That(bounds_10.Width, Is.EqualTo(15));
+        Assert.That(bounds_10.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -640,7 +640,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -648,13 +648,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(309));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area), 0.0001);
+        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area), Is.LessThanOrEqualTo(0.0001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(60, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(60));
     }
 
     [Test]
@@ -677,7 +677,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -685,13 +685,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(259, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(259));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-2915.0441 - area), 0.0001);
+        Assert.That(Math.Abs(-2915.0441 - area), Is.LessThanOrEqualTo(0.0001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(60, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(60));
     }
 
     [Test]
@@ -709,7 +709,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Tshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Tshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -717,13 +717,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(241, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(241));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-((20*60) + (40*10)), area);
+        Assert.That(area, Is.EqualTo(-((20*60) + (40*10))));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(60, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(60));
     }
     
     [Test]
@@ -743,7 +743,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Tshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Tshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -751,13 +751,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(204, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(204));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-1503.028 - area), 0.001);
+        Assert.That(Math.Abs(-1503.028 - area), Is.LessThanOrEqualTo(0.001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(60, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(60));
     }
 
     [Test]
@@ -774,7 +774,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Ushape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -782,17 +782,17 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
-        Assert.AreEqual(true, orthogonal);
+        Assert.That(orthogonal, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(259, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(259));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-((60*40) - (30*30)), area);
+        Assert.That(area, Is.EqualTo(-((60*40) - (30*30))));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(40, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(40));
     }
     
     [Test]
@@ -811,7 +811,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Ushape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -819,17 +819,17 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
-        Assert.AreEqual(false, orthogonal);
+        Assert.That(orthogonal, Is.EqualTo(false));
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(225, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(225));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-1384.031 - area), 0.001);
+        Assert.That(Math.Abs(-1384.031 - area), Is.LessThanOrEqualTo(0.001));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(40, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(40));
     }
     
     [Test]
@@ -847,7 +847,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Xshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Xshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -855,13 +855,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(197, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(197));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-1400 - area), 0.001);
+        Assert.That(Math.Abs(-1400 - area), Is.LessThanOrEqualTo(0.001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(40, bounds.Width);
-        Assert.AreEqual(60, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(40));
+        Assert.That(bounds.Height, Is.EqualTo(60));
     }
     
     [Test]
@@ -881,7 +881,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Xshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Xshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -889,13 +889,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(164, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(164));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-1327.185 - area), 0.001);
+        Assert.That(Math.Abs(-1327.185 - area), Is.LessThanOrEqualTo(0.001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(40, bounds.Width);
-        Assert.AreEqual(60, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(40));
+        Assert.That(bounds.Height, Is.EqualTo(60));
     }
     
     [Test]
@@ -918,7 +918,7 @@ public class ShapeEngineTests
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_ref.shapeIndex);
+        Assert.That(shape_ref.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
 
         ShapeSettings shapeSettings = new ShapeSettings();
@@ -938,7 +938,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
 
         SvgWriter svgSrc = new SvgWriter();
@@ -948,14 +948,14 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(325, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(325));
         // Check expected area
         double area_ref = Clipper.Area(out_ref);
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(636 - Math.Abs(area_ref - area)), 0.0001);
+        Assert.That(Math.Abs(636 - Math.Abs(area_ref - area)), Is.LessThanOrEqualTo(0.0001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(64, bounds.Width);
-        Assert.AreEqual(64, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(64));
+        Assert.That(bounds.Height, Is.EqualTo(64));
     }
 
     [Test]
@@ -974,7 +974,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -982,17 +982,17 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
-        Assert.AreEqual(true, orthogonal);
+        Assert.That(orthogonal, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(277, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(277));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-2360, area);
+        Assert.That(area, Is.EqualTo(-2360));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(66, bounds.Width);
-        Assert.AreEqual(72, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(66));
+        Assert.That(bounds.Height, Is.EqualTo(72));
     }
     
     [Test]
@@ -1011,22 +1011,22 @@ public class ShapeEngineTests
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_ref.shapeIndex);
+        Assert.That(shape_ref.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_ref = shape_ref.processCorners(false, false, 90, 1, 1);
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal_ref = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_ref), 0.001);
-        Assert.AreEqual(true, orthogonal_ref);
+        Assert.That(orthogonal_ref, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean_ref = GeoWrangler.removeDuplicates(out_ref);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(277, clean_ref.Count);
+        Assert.That(clean_ref.Count, Is.EqualTo(277));
         // Check expected area
         double area_ref = Clipper.Area(out_ref);
-        Assert.AreEqual(-2360, area_ref);
+        Assert.That(area_ref, Is.EqualTo(-2360));
         RectD bounds_ref = Clipper.GetBounds(out_ref);
-        Assert.AreEqual(66, bounds_ref.Width);
-        Assert.AreEqual(72, bounds_ref.Height);
+        Assert.That(bounds_ref.Width, Is.EqualTo(66));
+        Assert.That(bounds_ref.Height, Is.EqualTo(72));
         
         ShapeSettings shapeSettings_htv = new ShapeSettings();
         shapeSettings_htv.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -1042,7 +1042,7 @@ public class ShapeEngineTests
         shape_htv.setShape(shapeSettings_htv.getInt(ShapeSettings.properties_i.shapeIndex));
         shape_htv.computeCage(0,6, 0);
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_htv.shapeIndex);
+        Assert.That(shape_htv.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_htv = shape_htv.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_htv }, true);
@@ -1050,17 +1050,17 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal_htv = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_htv), 0.001);
-        Assert.AreEqual(true, orthogonal_htv);
+        Assert.That(orthogonal_htv, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean_htv = GeoWrangler.removeDuplicates(out_htv);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(277, clean_htv.Count);
+        Assert.That(clean_htv.Count, Is.EqualTo(277));
         // Check expected area
         double area_htv = Clipper.Area(out_htv);
-        Assert.AreEqual(area_ref, area_htv);
+        Assert.That(area_htv, Is.EqualTo(area_ref));
         RectD bounds_htv = Clipper.GetBounds(out_htv);
-        Assert.AreEqual(66, bounds_htv.Width);
-        Assert.AreEqual(72, bounds_htv.Height);
+        Assert.That(bounds_htv.Width, Is.EqualTo(66));
+        Assert.That(bounds_htv.Height, Is.EqualTo(72));
         
         ShapeSettings shapeSettings_vtv = new ShapeSettings();
         shapeSettings_vtv.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -1076,7 +1076,7 @@ public class ShapeEngineTests
         shape_vtv.setShape(shapeSettings_vtv.getInt(ShapeSettings.properties_i.shapeIndex));
         shape_vtv.computeCage(12,0, 0);
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Lshape, shape_vtv.shapeIndex);
+        Assert.That(shape_vtv.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_vtv = shape_vtv.processCorners(false, false, 90, 1, 1);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, new() { out_vtv }, true);
@@ -1084,17 +1084,17 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal_vtv = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_vtv), 0.001);
-        Assert.AreEqual(true, orthogonal_vtv);
+        Assert.That(orthogonal_vtv, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean_vtv = GeoWrangler.removeDuplicates(out_vtv);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(277, clean_vtv.Count);
+        Assert.That(clean_vtv.Count, Is.EqualTo(277));
         // Check expected area
         double area_vtv = Clipper.Area(out_vtv);
-        Assert.AreEqual(-2360, area_vtv);
+        Assert.That(area_vtv, Is.EqualTo(-2360));
         RectD bounds_vtv = Clipper.GetBounds(out_vtv);
-        Assert.AreEqual(66, bounds_vtv.Width);
-        Assert.AreEqual(72, bounds_vtv.Height);
+        Assert.That(bounds_vtv.Width, Is.EqualTo(66));
+        Assert.That(bounds_vtv.Height, Is.EqualTo(72));
     }
 
     [Test]
@@ -1114,7 +1114,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Ushape, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Ushape));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -1122,18 +1122,18 @@ public class ShapeEngineTests
         // Ortho check
         // double[] angles = GeoWrangler.angles(GeoWrangler.stripCollinear(out_), true);
         bool orthogonal = GeoWrangler.orthogonal(GeoWrangler.stripCollinear(out_), 0.001);
-        Assert.AreEqual(true, orthogonal);
+        Assert.That(orthogonal, Is.EqualTo(true));
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(239, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(239));
         // Check expected area
         double area = Clipper.Area(out_);
         // Tip configuration reduces width and height
-        Assert.AreEqual(-((60*40) - (25*20)), area);
+        Assert.That(area, Is.EqualTo(-((60*40) - (25*20))));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(60, bounds.Width);
-        Assert.AreEqual(40, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(60));
+        Assert.That(bounds.Height, Is.EqualTo(40));
     }
     
     [Test]
@@ -1158,7 +1158,7 @@ public class ShapeEngineTests
         ShapeLibrary shape_1 = new ShapeLibrary(shapeTable, shapeSettings_1);
         shape_1.setShape(shapeSettings_1.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_1.shapeIndex);
+        Assert.That(shape_1.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_1 = shape_1.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_1 }, true);
@@ -1166,15 +1166,15 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_1 = GeoWrangler.removeDuplicates(out_1);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean_1.Count);
+        Assert.That(clean_1.Count, Is.EqualTo(309));
         // Check expected area
         double area_1 = Clipper.Area(out_1);
-        // In this this, the BL tip setting moves the lower edge upwards, reducing the notch vertically.
+        // In this test, the BL tip setting moves the lower edge upwards, reducing the notch vertically.
         // The left tip setting has no effect on the horizontal dimension.
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*18)+(10*15))) - area_1), 0.0001);
+        Assert.That(Math.Abs(-(3600-((20*18)+(10*15))) - area_1), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_1 = Clipper.GetBounds(clean_1);
-        Assert.AreEqual(60, bounds_1.Width);
-        Assert.AreEqual(60, bounds_1.Height);
+        Assert.That(bounds_1.Width, Is.EqualTo(60));
+        Assert.That(bounds_1.Height, Is.EqualTo(60));
         
         ShapeSettings shapeSettings_2 = new ShapeSettings();
         shapeSettings_2.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
@@ -1195,7 +1195,7 @@ public class ShapeEngineTests
         ShapeLibrary shape_2 = new ShapeLibrary(shapeTable, shapeSettings_2);
         shape_2.setShape(shapeSettings_2.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_2.shapeIndex);
+        Assert.That(shape_2.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_2 = shape_2.processCorners(false, false, 90, 1, 1);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, new() { out_2 }, true);
@@ -1203,15 +1203,15 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_2 = GeoWrangler.removeDuplicates(out_2);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(297, clean_2.Count);
+        Assert.That(clean_2.Count, Is.EqualTo(297));
         // Check expected area
         double area_2 = Clipper.Area(out_2);
-        // In this this, the BR tip setting moves the lower edge upwards, reducing the notch vertically.
+        // In this case, the BR tip setting moves the lower edge upwards, reducing the notch vertically.
         // The right tip setting reduces the notch width.
-        Assert.LessOrEqual(Math.Abs(-(3600-((15*18)+(10*15))) - area_2), 0.0001);
+        Assert.That(Math.Abs(-(3600-((15*18)+(10*15))) - area_2), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_2 = Clipper.GetBounds(clean_2);
-        Assert.AreEqual(60, bounds_2.Width);
-        Assert.AreEqual(60, bounds_2.Height);
+        Assert.That(bounds_2.Width, Is.EqualTo(60));
+        Assert.That(bounds_2.Height, Is.EqualTo(60));
 
     }
 
@@ -1226,10 +1226,10 @@ public class ShapeEngineTests
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.gVerOffset, 20);
 
         PointD offset = shapeOffsets.doOffsets(0, shapeSettings);
-        
-        Assert.AreEqual(10, offset.x);
+
+        Assert.That(offset.x, Is.EqualTo(10));
         // Inverse due to Clipper Y axis inversion
-        Assert.AreEqual(-20, offset.y);
+        Assert.That(offset.y, Is.EqualTo(-20));
     }
 
     
@@ -1253,13 +1253,13 @@ public class ShapeEngineTests
         shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 0);
 
         PointD offset_0 = shapeOffsets.doOffsets(0, shapeSettings);
-        Assert.AreEqual(0, offset_0.x);
-        Assert.AreEqual(0, offset_0.y);
+        Assert.That(offset_0.x, Is.EqualTo(0));
+        Assert.That(offset_0.y, Is.EqualTo(0));
         
         ShapeLibrary shape_0 = new ShapeLibrary(shapeTable, shapeSettings);
         shape_0.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_0.shapeIndex);
+        Assert.That(shape_0.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_0 = shape_0.processCorners(false, false, 90, 1, 1);
         out_0 = GeoWrangler.move(out_0, offset_0.x, -offset_0.y);
         SvgWriter svgSrc = new SvgWriter();
@@ -1268,24 +1268,24 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_0 = GeoWrangler.removeDuplicates(out_0);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean_0.Count);
+        Assert.That(clean_0.Count, Is.EqualTo(309));
         // Check expected area
         double area_0 = Clipper.Area(out_0);
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_0), 0.0001);
+        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_0), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_0 = Clipper.GetBounds(clean_0);
-        Assert.AreEqual(0, bounds_0.left);
-        Assert.AreEqual(0, bounds_0.top);
+        Assert.That(bounds_0.left, Is.EqualTo(0));
+        Assert.That(bounds_0.top, Is.EqualTo(0));
         
         // Change our reference to subshape 1
         shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 1);
         PointD offset_1 = shapeOffsets.doOffsets(0, shapeSettings);
-        Assert.AreEqual(0, offset_1.x);
-        Assert.AreEqual(7, offset_1.y);
+        Assert.That(offset_1.x, Is.EqualTo(0));
+        Assert.That(offset_1.y, Is.EqualTo(7));
 
         ShapeLibrary shape_1 = new ShapeLibrary(shapeTable, shapeSettings);
         shape_1.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_1.shapeIndex);
+        Assert.That(shape_1.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_1 = shape_1.processCorners(false, false, 90, 1, 1);
         out_1 = GeoWrangler.move(out_1, offset_1.x, -offset_1.y);
         svgSrc.ClearAll();
@@ -1294,24 +1294,24 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_1 = GeoWrangler.removeDuplicates(out_1);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean_1.Count);
+        Assert.That(clean_1.Count, Is.EqualTo(309));
         // Check expected area
         double area_1 = Clipper.Area(out_1);
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_1), 0.0001);
+        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_1), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_1 = Clipper.GetBounds(clean_1);
-        Assert.AreEqual(0, bounds_1.left);
-        Assert.AreEqual(-7, bounds_1.top);
+        Assert.That(bounds_1.left, Is.EqualTo(0));
+        Assert.That(bounds_1.top, Is.EqualTo(-7));
 
         // Change our reference to subshape 2
         shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 2);
         PointD offset_2 = shapeOffsets.doOffsets(0, shapeSettings);
-        Assert.AreEqual(-45, offset_2.x);
-        Assert.AreEqual(41, offset_2.y);
+        Assert.That(offset_2.x, Is.EqualTo(-45));
+        Assert.That(offset_2.y, Is.EqualTo(41));
 
         ShapeLibrary shape_2 = new ShapeLibrary(shapeTable, shapeSettings);
         shape_2.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_2.shapeIndex);
+        Assert.That(shape_2.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_2 = shape_2.processCorners(false, false, 90, 1, 1);
         out_2 = GeoWrangler.move(out_2, offset_2.x, -offset_2.y);
         svgSrc.ClearAll();
@@ -1320,24 +1320,24 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_2 = GeoWrangler.removeDuplicates(out_2);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean_2.Count);
+        Assert.That(clean_2.Count, Is.EqualTo(309));
         // Check expected area
         double area_2 = Clipper.Area(out_2);
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_2), 0.0001);
+        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_2), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_2 = Clipper.GetBounds(clean_2);
-        Assert.AreEqual(-45, bounds_2.left);
-        Assert.AreEqual(-41, bounds_2.top);
+        Assert.That(bounds_2.left, Is.EqualTo(-45));
+        Assert.That(bounds_2.top, Is.EqualTo(-41));
         
         // Change our reference to subshape 2
         shapeSettings.setInt(ShapeSettings.properties_i.posInSubShapeIndex, (int)ShapeSettings.subShapeLocations.TR);
         PointD offset_3 = shapeOffsets.doOffsets(0, shapeSettings);
-        Assert.AreEqual(-60, offset_3.x);
-        Assert.AreEqual(51, offset_3.y);
+        Assert.That(offset_3.x, Is.EqualTo(-60));
+        Assert.That(offset_3.y, Is.EqualTo(51));
 
         ShapeLibrary shape_3 = new ShapeLibrary(shapeTable, shapeSettings);
         shape_3.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.Sshape, shape_3.shapeIndex);
+        Assert.That(shape_3.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Sshape));
         PathD out_3 = shape_3.processCorners(false, false, 90, 1, 1);
         out_3 = GeoWrangler.move(out_3, offset_3.x, -offset_3.y);
         svgSrc.ClearAll();
@@ -1346,13 +1346,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean_3 = GeoWrangler.removeDuplicates(out_3);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(309, clean_3.Count);
+        Assert.That(clean_3.Count, Is.EqualTo(309));
         // Check expected area
         double area_3 = Clipper.Area(out_3);
-        Assert.LessOrEqual(Math.Abs(-(3600-((20*20)+(10*15))) - area_3), 0.0001);
+        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_3), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_3 = Clipper.GetBounds(clean_3);
-        Assert.AreEqual(-60, bounds_3.left);
-        Assert.AreEqual(-51, bounds_3.top);
+        Assert.That(bounds_3.left, Is.EqualTo(-60));
+        Assert.That(bounds_3.top, Is.EqualTo(-51));
     }
 
     [Test]
@@ -1368,9 +1368,9 @@ public class ShapeEngineTests
             10, 0
         });
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
-        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape);
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.GEOCORE));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -1378,13 +1378,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(61, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(61));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.AreEqual(-200, area);
+        Assert.That(area, Is.EqualTo(-200));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(10, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(10));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
     
     [Test]
@@ -1401,22 +1401,22 @@ public class ShapeEngineTests
         });
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 10);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
-        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape);
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.GEOCORE));
         PathD out_ = shape.processCorners(false, false, 90, 1, .5);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customortho_outer.svg", FillRule.NonZero, 800, 800, 10);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
-        Assert.AreEqual(121, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(121));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-(Math.PI * 10 * 10) - area), 0.15);
+        Assert.That(Math.Abs(-(Math.PI * 10 * 10) - area), Is.LessThanOrEqualTo(0.15));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(20, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(20));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
     
     [Test]
@@ -1435,9 +1435,9 @@ public class ShapeEngineTests
         });
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 5);
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
-        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape); 
+        shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape);
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.GEOCORE));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -1445,13 +1445,13 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(68, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(68));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-252.8 - area), 0.01);
+        Assert.That(Math.Abs(-252.8 - area), Is.LessThanOrEqualTo(0.01));
         RectD bounds = Clipper.GetBounds(out_);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(20, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(20));
     }
 
     [Test]
@@ -1472,7 +1472,7 @@ public class ShapeEngineTests
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape);
         // Check the shape settings are in the shape.
-        Assert.AreEqual((int)ShapeLibrary.shapeNames_all.GEOCORE, shape.shapeIndex);
+        Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.GEOCORE));
         PathD out_ = shape.processCorners(false, false, 90, 1, 1);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -1480,12 +1480,12 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.AreEqual(83, clean.Count);
+        Assert.That(clean.Count, Is.EqualTo(83));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.LessOrEqual(Math.Abs(-((10+5) * (20+7)) - area), 0.001);
+        Assert.That(Math.Abs(-((10+5) * (20+7)) - area), Is.LessThanOrEqualTo(0.001));
         RectD bounds = Clipper.GetBounds(clean);
-        Assert.AreEqual(15, bounds.Width);
-        Assert.AreEqual(27, bounds.Height);
+        Assert.That(bounds.Width, Is.EqualTo(15));
+        Assert.That(bounds.Height, Is.EqualTo(27));
     }
 }

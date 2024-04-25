@@ -57,24 +57,24 @@ public class GeoWranglerTests
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, arrayed, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "arrayed.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.AreEqual(6, arrayed.Count);
+        Assert.That(arrayed.Count, Is.EqualTo(6));
         RectD bounds = Clipper.GetBounds(arrayed);
-        Assert.AreEqual(0, bounds.left);
-        Assert.AreEqual(0, bounds.top);
-        Assert.AreEqual(30, bounds.right);
-        Assert.AreEqual(50, bounds.bottom);
+        Assert.That(bounds.left, Is.EqualTo(0));
+        Assert.That(bounds.top, Is.EqualTo(0));
+        Assert.That(bounds.right, Is.EqualTo(30));
+        Assert.That(bounds.bottom, Is.EqualTo(50));
         
         PathsD arrayed_arrayed = GeoWrangler.makeArray(arrayed, 2, 40m, 3, 60m);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, arrayed_arrayed, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "arrayed_arrayed.svg", FillRule.NonZero, 800, 800, 10);
-        
-        Assert.AreEqual(6 * 6, arrayed_arrayed.Count);
+
+        Assert.That(arrayed_arrayed.Count, Is.EqualTo(6 * 6));
         RectD bounds_arrayed = Clipper.GetBounds(arrayed_arrayed);
-        Assert.AreEqual(0, bounds_arrayed.left);
-        Assert.AreEqual(0, bounds_arrayed.top);
-        Assert.AreEqual(70, bounds_arrayed.right);
-        Assert.AreEqual(170, bounds_arrayed.bottom);
+        Assert.That(bounds_arrayed.left, Is.EqualTo(0));
+        Assert.That(bounds_arrayed.top, Is.EqualTo(0));
+        Assert.That(bounds_arrayed.right, Is.EqualTo(70));
+        Assert.That(bounds_arrayed.bottom, Is.EqualTo(170));
     }
 
     [Test]
@@ -159,32 +159,32 @@ public class GeoWranglerTests
 
         // Should get minimum X value, then minimum Y, maintaining original orientation.
         PathD xy_reordered = GeoWrangler.reOrderXY(source_cw);
-        Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(xy_reordered));
-        Assert.AreEqual(-15, xy_reordered[0].x);
-        Assert.AreEqual(4, xy_reordered[0].y);
+        Assert.That(GeoWrangler.isClockwise(xy_reordered), Is.EqualTo(orig_orientation));
+        Assert.That(xy_reordered[0].x, Is.EqualTo(-15));
+        Assert.That(xy_reordered[0].y, Is.EqualTo(4));
 
         
         // Should get minimum Y value, then minimum X, maintaining original orientation.
         PathD yx_reordered = GeoWrangler.reOrderYX(source_cw);
-        Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(yx_reordered));
-        Assert.AreEqual(4, yx_reordered[0].x);
-        Assert.AreEqual(-5, yx_reordered[0].y);
+        Assert.That(GeoWrangler.isClockwise(yx_reordered), Is.EqualTo(orig_orientation));
+        Assert.That(yx_reordered[0].x, Is.EqualTo(4));
+        Assert.That(yx_reordered[0].y, Is.EqualTo(-5));
 
         Path64 source_cw_i = Clipper.ScalePath64(source_cw, 1);
         bool orig_orientation_i = GeoWrangler.isClockwise(source_cw_i);
 
         // Should get minimum X value, then minimum Y, maintaining original orientation.
         Path64 xy_reordered_i = GeoWrangler.reOrderXY(source_cw_i);
-        Assert.AreEqual(orig_orientation_i, GeoWrangler.isClockwise(xy_reordered_i));
-        Assert.AreEqual(-15, xy_reordered_i[0].X);
-        Assert.AreEqual(4, xy_reordered_i[0].Y);
+        Assert.That(GeoWrangler.isClockwise(xy_reordered_i), Is.EqualTo(orig_orientation_i));
+        Assert.That(xy_reordered_i[0].X, Is.EqualTo(-15));
+        Assert.That(xy_reordered_i[0].Y, Is.EqualTo(4));
 
         
         // Should get minimum Y value, then minimum X, maintaining original orientation.
         Path64 yx_reordered_i = GeoWrangler.reOrderYX(source_cw_i);
-        Assert.AreEqual(orig_orientation, GeoWrangler.isClockwise(yx_reordered_i));
-        Assert.AreEqual(4, yx_reordered_i[0].X);
-        Assert.AreEqual(-5, yx_reordered_i[0].Y);
+        Assert.That(GeoWrangler.isClockwise(yx_reordered_i), Is.EqualTo(orig_orientation));
+        Assert.That(yx_reordered_i[0].X, Is.EqualTo(4));
+        Assert.That(yx_reordered_i[0].Y, Is.EqualTo(-5));
     }
 
     [Test]
@@ -199,10 +199,10 @@ public class GeoWranglerTests
         };
 
         PathD closed = GeoWrangler.close(source);
-        Assert.AreEqual(4, source.Count);
-        Assert.AreEqual(5, closed.Count);
-        Assert.AreEqual(closed[0].x, closed[^1].x);
-        Assert.AreEqual(closed[0].y, closed[^1].y);
+        Assert.That(source.Count, Is.EqualTo(4));
+        Assert.That(closed.Count, Is.EqualTo(5));
+        Assert.That(closed[^1].x, Is.EqualTo(closed[0].x));
+        Assert.That(closed[^1].y, Is.EqualTo(closed[0].y));
         
         PathD source2 = new()
         {
@@ -213,24 +213,24 @@ public class GeoWranglerTests
         };
 
         PathD closed2 = GeoWrangler.close(source2);
-        Assert.AreEqual(4, source2.Count);
-        Assert.AreEqual(5, closed.Count);
-        Assert.AreEqual(closed2[0].x, closed2[^1].x);
-        Assert.AreEqual(closed2[0].y, closed2[^1].y);
+        Assert.That(source2.Count, Is.EqualTo(4));
+        Assert.That(closed.Count, Is.EqualTo(5));
+        Assert.That(closed2[^1].x, Is.EqualTo(closed2[0].x));
+        Assert.That(closed2[^1].y, Is.EqualTo(closed2[0].y));
         
         source.Add(new(10, 0));
         PathD closed3 = GeoWrangler.close(source);
-        Assert.AreEqual(5, source.Count);
-        Assert.AreEqual(5, closed3.Count);
-        Assert.AreEqual(closed3[0].x, closed3[^1].x);
-        Assert.AreEqual(closed3[0].y, closed3[^1].y);
+        Assert.That(source.Count, Is.EqualTo(5));
+        Assert.That(closed3.Count, Is.EqualTo(5));
+        Assert.That(closed3[^1].x, Is.EqualTo(closed3[0].x));
+        Assert.That(closed3[^1].y, Is.EqualTo(closed3[0].y));
         
         source2.Add(new(0, 0));
         PathD closed4 = GeoWrangler.close(source2);
-        Assert.AreEqual(5, source2.Count);
-        Assert.AreEqual(5, closed4.Count);
-        Assert.AreEqual(closed4[0].x, closed4[^1].x);
-        Assert.AreEqual(closed4[0].y, closed4[^1].y);
+        Assert.That(source2.Count, Is.EqualTo(5));
+        Assert.That(closed4.Count, Is.EqualTo(5));
+        Assert.That(closed4[^1].x, Is.EqualTo(closed4[0].x));
+        Assert.That(closed4[^1].y, Is.EqualTo(closed4[0].y));
     }
 
     [Test]
@@ -247,18 +247,18 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, new () {width_1}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_1.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_1 = Clipper.GetBounds(width_1);
-        Assert.AreEqual(2, bounds_1.Width);
-        Assert.AreEqual(12, bounds_1.Height);
-        Assert.AreEqual(-1, bounds_1.top);
-        Assert.AreEqual(11, bounds_1.bottom);
+        Assert.That(bounds_1.Width, Is.EqualTo(2));
+        Assert.That(bounds_1.Height, Is.EqualTo(12));
+        Assert.That(bounds_1.top, Is.EqualTo(-1));
+        Assert.That(bounds_1.bottom, Is.EqualTo(11));
 
         PathD resized = GeoWrangler.resize(width_1, 2.0);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, new () {resized}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_resized.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_2 = Clipper.GetBounds(resized);
-        Assert.AreEqual(2 * bounds_1.Width, bounds_2.Width);
-        Assert.AreEqual(2 * bounds_1.Height, bounds_2.Height);
+        Assert.That(bounds_2.Width, Is.EqualTo(2 * bounds_1.Width));
+        Assert.That(bounds_2.Height, Is.EqualTo(2 * bounds_1.Height));
 
         PathD ray2 = new()
         {
@@ -270,9 +270,9 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, new () {width_2}, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_3 = Clipper.GetBounds(width_2);
-        Assert.AreEqual(20.02, bounds_3.Width);
+        Assert.That(bounds_3.Width, Is.EqualTo(20.02));
         // Line vertical dimension should not have changed.
-        Assert.AreEqual(20.02, bounds_3.Height);
+        Assert.That(bounds_3.Height, Is.EqualTo(20.02));
     }
 
     [Test]
@@ -317,53 +317,53 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, inverted_fragmented_box_cl_tri, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_fragmented_box_cl_tri.svg", FillRule.EvenOdd, 800, 800, 10);
 
-        Assert.AreEqual(2, inverted_box.Count);
-        Assert.AreEqual(-Int32.MaxValue, inverted_box[0][0].x);
-        Assert.AreEqual(-Int32.MaxValue, inverted_box[0][0].y);
-        Assert.AreEqual(Int32.MaxValue, inverted_box[0][1].x);
-        Assert.AreEqual(-Int32.MaxValue, inverted_box[0][1].y);
-        Assert.AreEqual(Int32.MaxValue, inverted_box[0][2].x);
-        Assert.AreEqual(Int32.MaxValue, inverted_box[0][2].y);
+        Assert.That(inverted_box.Count, Is.EqualTo(2));
+        Assert.That(inverted_box[0][0].x, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_box[0][0].y, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_box[0][1].x, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_box[0][1].y, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_box[0][2].x, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_box[0][2].y, Is.EqualTo(Int32.MaxValue));
 
-        Assert.AreEqual(0, inverted_box[1][0].x);
-        Assert.AreEqual(0, inverted_box[1][0].y);
-        Assert.AreEqual(0, inverted_box[1][1].x);
-        Assert.AreEqual(10, inverted_box[1][1].y);
-        Assert.AreEqual(10, inverted_box[1][2].x);
-        Assert.AreEqual(10, inverted_box[1][2].y);
+        Assert.That(inverted_box[1][0].x, Is.EqualTo(0));
+        Assert.That(inverted_box[1][0].y, Is.EqualTo(0));
+        Assert.That(inverted_box[1][1].x, Is.EqualTo(0));
+        Assert.That(inverted_box[1][1].y, Is.EqualTo(10));
+        Assert.That(inverted_box[1][2].x, Is.EqualTo(10));
+        Assert.That(inverted_box[1][2].y, Is.EqualTo(10));
         
         double ib_area = Clipper.Area(inverted_box);
-        Assert.AreEqual(unbounded_area - (10*10), ib_area);
+        Assert.That(ib_area, Is.EqualTo(unbounded_area - (10*10)));
 
         // Stripped collinear points
-        Assert.AreEqual(2, inverted_fragmented_box.Count);
-        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box[0][0].x);
-        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box[0][0].y);
-        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box[0][1].x);
-        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box[0][1].y);
-        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box[0][2].x);
-        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box[0][2].y);
-        Assert.AreEqual(5, inverted_fragmented_box[1].Count);
+        Assert.That(inverted_fragmented_box.Count, Is.EqualTo(2));
+        Assert.That(inverted_fragmented_box[0][0].x, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_fragmented_box[0][0].y, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_fragmented_box[0][1].x, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_fragmented_box[0][1].y, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_fragmented_box[0][2].x, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_fragmented_box[0][2].y, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_fragmented_box[1].Count, Is.EqualTo(5));
 
         double ifb_area = Clipper.Area(inverted_fragmented_box);
-        Assert.AreEqual(unbounded_area - (10*10), ifb_area);
+        Assert.That(ifb_area, Is.EqualTo(unbounded_area - (10*10)));
 
         // Retained collinear points
-        Assert.AreEqual(2, inverted_fragmented_box_cl.Count);
-        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box_cl[0][0].x);
-        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box_cl[0][0].y);
-        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box_cl[0][1].x);
-        Assert.AreEqual(-Int32.MaxValue, inverted_fragmented_box_cl[0][1].y);
-        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box_cl[0][2].x);
-        Assert.AreEqual(Int32.MaxValue, inverted_fragmented_box_cl[0][2].y);
-        Assert.AreEqual(0, inverted_fragmented_box_cl[1][0].x);
-        Assert.AreEqual(0, inverted_fragmented_box_cl[1][0].y);
-        Assert.AreEqual(0, inverted_fragmented_box_cl[1][1].x);
-        Assert.AreEqual(1, inverted_fragmented_box_cl[1][1].y);
-        Assert.AreEqual(41, inverted_fragmented_box_cl[1].Count);
+        Assert.That(inverted_fragmented_box_cl.Count, Is.EqualTo(2));
+        Assert.That(inverted_fragmented_box_cl[0][0].x, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_fragmented_box_cl[0][0].y, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_fragmented_box_cl[0][1].x, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_fragmented_box_cl[0][1].y, Is.EqualTo(-Int32.MaxValue));
+        Assert.That(inverted_fragmented_box_cl[0][2].x, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_fragmented_box_cl[0][2].y, Is.EqualTo(Int32.MaxValue));
+        Assert.That(inverted_fragmented_box_cl[1][0].x, Is.EqualTo(0));
+        Assert.That(inverted_fragmented_box_cl[1][0].y, Is.EqualTo(0));
+        Assert.That(inverted_fragmented_box_cl[1][1].x, Is.EqualTo(0));
+        Assert.That(inverted_fragmented_box_cl[1][1].y, Is.EqualTo(1));
+        Assert.That(inverted_fragmented_box_cl[1].Count, Is.EqualTo(41));
         
         double ifbcl_area = Clipper.Area(inverted_fragmented_box_cl);
-        Assert.AreEqual(unbounded_area - (10*10), ifbcl_area);
+        Assert.That(ifbcl_area, Is.EqualTo(unbounded_area - (10*10)));
 
         // Triangulation tests.
 
@@ -422,21 +422,21 @@ public class GeoWranglerTests
         // Do we have the area reduction that we expect?
         double area_reduction = 10 * 10 * 2;
         double ibx_area = Clipper.Area(inverted_boxes);
-        Assert.AreEqual(unbounded_area - area_reduction, ibx_area);
+        Assert.That(ibx_area, Is.EqualTo(unbounded_area - area_reduction));
         double ibxcl_area = Clipper.Area(inverted_boxes_cl);
-        Assert.AreEqual(unbounded_area - area_reduction, ibxcl_area);
+        Assert.That(ibxcl_area, Is.EqualTo(unbounded_area - area_reduction));
         double ibxb_area = Clipper.Area(inverted_boxes_bounds);
-        Assert.AreEqual((40 * 40) - area_reduction, ibxb_area);
+        Assert.That(ibxb_area, Is.EqualTo((40 * 40) - area_reduction));
         double ibxclb_area = Clipper.Area(inverted_boxes_cl_bounds);
-        Assert.AreEqual((40 * 40) - area_reduction, ibxclb_area);
+        Assert.That(ibxclb_area, Is.EqualTo((40 * 40) - area_reduction));
         double ibx_area_tri = Clipper.Area(inverted_boxes_tri);
-        Assert.AreEqual(-unbounded_area - area_reduction, ibx_area_tri);
+        Assert.That(ibx_area_tri, Is.EqualTo(-unbounded_area - area_reduction));
         double ibxcl_area_tri = Clipper.Area(inverted_boxes_cl_tri);
-        Assert.AreEqual(-unbounded_area - area_reduction, ibxcl_area_tri);
+        Assert.That(ibxcl_area_tri, Is.EqualTo(-unbounded_area - area_reduction));
         double ibxb_area_tri = Clipper.Area(inverted_boxes_bounds_tri);
-        Assert.AreEqual((40 * 40) - area_reduction, ibxb_area_tri);
+        Assert.That(ibxb_area_tri, Is.EqualTo((40 * 40) - area_reduction));
         double ibxclb_area_tri = Clipper.Area(inverted_boxes_cl_bounds_tri);
-        Assert.AreEqual((40 * 40) - area_reduction, ibxclb_area_tri);
+        Assert.That(ibxclb_area_tri, Is.EqualTo((40 * 40) - area_reduction));
     }
 
     [Test]
@@ -530,25 +530,25 @@ public class GeoWranglerTests
         PointD d7d = GeoWrangler.PointD_distanceBetweenPoints(p3, p6);
 
         double hyp = Math.Sqrt(2);
-        Assert.AreEqual(1, d2);
-        Assert.AreEqual(hyp, d3);
-        Assert.AreEqual(1, d4);
-        Assert.AreEqual(hyp, d5);
-        Assert.AreEqual(hyp, d6);
-        Assert.AreEqual(2 * hyp, d7);
+        Assert.That(d2, Is.EqualTo(1));
+        Assert.That(d3, Is.EqualTo(hyp));
+        Assert.That(d4, Is.EqualTo(1));
+        Assert.That(d5, Is.EqualTo(hyp));
+        Assert.That(d6, Is.EqualTo(hyp));
+        Assert.That(d7, Is.EqualTo(2 * hyp));
 
-        Assert.AreEqual(0, d2d.x);
-        Assert.AreEqual(-1, d2d.y);
-        Assert.AreEqual(-1, d3d.x);
-        Assert.AreEqual(-1, d3d.y);
-        Assert.AreEqual(0, d4d.x);
-        Assert.AreEqual(1, d4d.y);
-        Assert.AreEqual(-1, d5d.x);
-        Assert.AreEqual(1, d5d.y);
-        Assert.AreEqual(1, d6d.x);
-        Assert.AreEqual(1, d6d.y);
-        Assert.AreEqual(2, d7d.x);
-        Assert.AreEqual(2, d7d.y);
+        Assert.That(d2d.x, Is.EqualTo(0));
+        Assert.That(d2d.y, Is.EqualTo(-1));
+        Assert.That(d3d.x, Is.EqualTo(-1));
+        Assert.That(d3d.y, Is.EqualTo(-1));
+        Assert.That(d4d.x, Is.EqualTo(0));
+        Assert.That(d4d.y, Is.EqualTo(1));
+        Assert.That(d5d.x, Is.EqualTo(-1));
+        Assert.That(d5d.y, Is.EqualTo(1));
+        Assert.That(d6d.x, Is.EqualTo(1));
+        Assert.That(d6d.y, Is.EqualTo(1));
+        Assert.That(d7d.x, Is.EqualTo(2));
+        Assert.That(d7d.y, Is.EqualTo(2));
 
         // Compare with integer handling.
         Point64 p1i = new(0, 0);
@@ -571,25 +571,25 @@ public class GeoWranglerTests
         Point64 d6p = GeoWrangler.Point64_distanceBetweenPoints(p1i, p6i);
         Point64 d7p = GeoWrangler.Point64_distanceBetweenPoints(p3i, p6i);
 
-        Assert.AreEqual(1, d2i);
-        Assert.AreEqual(hyp, d3i);
-        Assert.AreEqual(1, d4i);
-        Assert.AreEqual(hyp, d5i);
-        Assert.AreEqual(hyp, d6i);
-        Assert.AreEqual(2 * hyp, d7i);
-        
-        Assert.AreEqual(-0, d2p.X);
-        Assert.AreEqual(-1, d2p.Y);
-        Assert.AreEqual(-1, d3p.X);
-        Assert.AreEqual(-1, d3p.Y);
-        Assert.AreEqual(0, d4p.X);
-        Assert.AreEqual(1, d4p.Y);
-        Assert.AreEqual(-1, d5p.X);
-        Assert.AreEqual(1, d5p.Y);
-        Assert.AreEqual(1, d6p.X);
-        Assert.AreEqual(1, d6p.Y);
-        Assert.AreEqual(2, d7p.X);
-        Assert.AreEqual(2, d7p.Y);
+        Assert.That(d2i, Is.EqualTo(1));
+        Assert.That(d3i, Is.EqualTo(hyp));
+        Assert.That(d4i, Is.EqualTo(1));
+        Assert.That(d5i, Is.EqualTo(hyp));
+        Assert.That(d6i, Is.EqualTo(hyp));
+        Assert.That(d7i, Is.EqualTo(2 * hyp));
+
+        Assert.That(d2p.X, Is.EqualTo(-0));
+        Assert.That(d2p.Y, Is.EqualTo(-1));
+        Assert.That(d3p.X, Is.EqualTo(-1));
+        Assert.That(d3p.Y, Is.EqualTo(-1));
+        Assert.That(d4p.X, Is.EqualTo(0));
+        Assert.That(d4p.Y, Is.EqualTo(1));
+        Assert.That(d5p.X, Is.EqualTo(-1));
+        Assert.That(d5p.Y, Is.EqualTo(1));
+        Assert.That(d6p.X, Is.EqualTo(1));
+        Assert.That(d6p.Y, Is.EqualTo(1));
+        Assert.That(d7p.X, Is.EqualTo(2));
+        Assert.That(d7p.Y, Is.EqualTo(2));
     }
 
     [Test]
@@ -614,28 +614,28 @@ public class GeoWranglerTests
         int min_yi = GeoWrangler.MinY(pathi);
         int max_y = GeoWrangler.MaxY(path);
         int max_yi = GeoWrangler.MaxY(pathi);
-        Assert.AreEqual(2, max_x);
-        Assert.AreEqual(2, max_xi);
-        Assert.AreEqual(0, min_x);
-        Assert.AreEqual(0, min_xi);
-        Assert.AreEqual(1, max_y);
-        Assert.AreEqual(1, max_yi);
-        Assert.AreEqual(0, min_y);
-        Assert.AreEqual(0, min_yi);
+        Assert.That(max_x, Is.EqualTo(2));
+        Assert.That(max_xi, Is.EqualTo(2));
+        Assert.That(min_x, Is.EqualTo(0));
+        Assert.That(min_xi, Is.EqualTo(0));
+        Assert.That(max_y, Is.EqualTo(1));
+        Assert.That(max_yi, Is.EqualTo(1));
+        Assert.That(min_y, Is.EqualTo(0));
+        Assert.That(min_yi, Is.EqualTo(0));
         
         PointD max = GeoWrangler.getMaximumPoint(path);
         Point64 maxi = GeoWrangler.getMaximumPoint(pathi);
         PointD min = GeoWrangler.getMinimumPoint(path);
         Point64 mini = GeoWrangler.getMinimumPoint(pathi);
-        
-        Assert.AreEqual(15, max.x);
-        Assert.AreEqual(15, maxi.X);
-        Assert.AreEqual(-5, min.x);
-        Assert.AreEqual(-5, mini.X);
-        Assert.AreEqual(10, max.y);
-        Assert.AreEqual(10, maxi.Y);
-        Assert.AreEqual(5, min.y);
-        Assert.AreEqual(5, mini.Y);
+
+        Assert.That(max.x, Is.EqualTo(15));
+        Assert.That(maxi.X, Is.EqualTo(15));
+        Assert.That(min.x, Is.EqualTo(-5));
+        Assert.That(mini.X, Is.EqualTo(-5));
+        Assert.That(max.y, Is.EqualTo(10));
+        Assert.That(maxi.Y, Is.EqualTo(10));
+        Assert.That(min.y, Is.EqualTo(5));
+        Assert.That(mini.Y, Is.EqualTo(5));
     }
     
     [Test]
@@ -662,19 +662,19 @@ public class GeoWranglerTests
         double[] angles_2 = GeoWrangler.angles(square_rev, true);
         double[] angles_3 = GeoWrangler.angles(rot_square, true);
         double[] angles_4 = GeoWrangler.angles(rot_square_rev, true);
-        Assert.AreEqual(4, angles_1.Count());
-        Assert.AreEqual(4, angles_2.Count());
-        Assert.AreEqual(4, angles_3.Count());
-        Assert.AreEqual(4, angles_4.Count());
+        Assert.That(angles_1.Count(), Is.EqualTo(4));
+        Assert.That(angles_2.Count(), Is.EqualTo(4));
+        Assert.That(angles_3.Count(), Is.EqualTo(4));
+        Assert.That(angles_4.Count(), Is.EqualTo(4));
         // Should only have one distinct value, 90, due to pure orthogonal input
-        Assert.AreEqual(1, angles_1.Distinct().Count());
-        Assert.AreEqual(1, angles_2.Distinct().Count());
-        Assert.AreEqual(1, angles_3.Distinct().Count());
-        Assert.AreEqual(1, angles_4.Distinct().Count());
-        Assert.AreEqual(90, angles_1[0]);
-        Assert.AreEqual(90, angles_2[0]);
-        Assert.AreEqual(90, angles_3[0]);
-        Assert.AreEqual(90, angles_4[0]);
+        Assert.That(angles_1.Distinct().Count(), Is.EqualTo(1));
+        Assert.That(angles_2.Distinct().Count(), Is.EqualTo(1));
+        Assert.That(angles_3.Distinct().Count(), Is.EqualTo(1));
+        Assert.That(angles_4.Distinct().Count(), Is.EqualTo(1));
+        Assert.That(angles_1[0], Is.EqualTo(90));
+        Assert.That(angles_2[0], Is.EqualTo(90));
+        Assert.That(angles_3[0], Is.EqualTo(90));
+        Assert.That(angles_4[0], Is.EqualTo(90));
     }
 
     [Test]
@@ -716,15 +716,15 @@ public class GeoWranglerTests
 
         // Should get minimum X value, then minimum Y
         PathD xy_cw = GeoWrangler.clockwiseAndReorderXY(source_cw);
-        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw));
-        Assert.AreEqual(-15, xy_cw[0].x);
-        Assert.AreEqual(4, xy_cw[0].y);
+        Assert.That(GeoWrangler.isClockwise(xy_cw), Is.True);
+        Assert.That(xy_cw[0].x, Is.EqualTo(-15));
+        Assert.That(xy_cw[0].y, Is.EqualTo(4));
         
         // Should get minimum Y value, then minimum X
         PathD yx_cw = GeoWrangler.clockwiseAndReorderYX(source_cw);
-        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw));
-        Assert.AreEqual(4, yx_cw[0].x);
-        Assert.AreEqual(-5, yx_cw[0].y);
+        Assert.That(GeoWrangler.isClockwise(yx_cw), Is.True);
+        Assert.That(yx_cw[0].x, Is.EqualTo(4));
+        Assert.That(yx_cw[0].y, Is.EqualTo(-5));
 
         PathsD paths = new()
         {
@@ -749,21 +749,21 @@ public class GeoWranglerTests
         
         // Should get minimum X value, then minimum Y, clockwise.
         PathsD xy_cw_paths = GeoWrangler.clockwiseAndReorderXY(paths);
-        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[0]));
-        Assert.IsTrue(GeoWrangler.isClockwise(xy_cw_paths[1]));
-        Assert.LessOrEqual(Math.Abs(-10.556 - xy_cw_paths[0][0].x), 0.001);
-        Assert.LessOrEqual(Math.Abs(21.485 - xy_cw_paths[0][0].y), 0.001);
-        Assert.AreEqual(-15, xy_cw_paths[1][0].x);
-        Assert.AreEqual(4, xy_cw_paths[1][0].y);
+        Assert.That(GeoWrangler.isClockwise(xy_cw_paths[0]), Is.True);
+        Assert.That(GeoWrangler.isClockwise(xy_cw_paths[1]), Is.True);
+        Assert.That(Math.Abs(-10.556 - xy_cw_paths[0][0].x), Is.LessThanOrEqualTo(0.001));
+        Assert.That(Math.Abs(21.485 - xy_cw_paths[0][0].y), Is.LessThanOrEqualTo(0.001));
+        Assert.That(xy_cw_paths[1][0].x, Is.EqualTo(-15));
+        Assert.That(xy_cw_paths[1][0].y, Is.EqualTo(4));
         
         // Should get minimum Y value, then minimum X, clockwise
         PathsD yx_cw_paths= GeoWrangler.clockwiseAndReorderYX(paths);
-        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[0]));
-        Assert.IsTrue(GeoWrangler.isClockwise(yx_cw_paths[1]));
-        Assert.LessOrEqual(Math.Abs(10.656 - yx_cw_paths[0][0].x), 0.001);
-        Assert.LessOrEqual(Math.Abs(0.272 - yx_cw_paths[0][0].y), 0.001);
-        Assert.AreEqual(4, yx_cw_paths[1][0].x);
-        Assert.AreEqual(-5, yx_cw_paths[1][0].y);
+        Assert.That(GeoWrangler.isClockwise(yx_cw_paths[0]), Is.True);
+        Assert.That(GeoWrangler.isClockwise(yx_cw_paths[1]), Is.True);
+        Assert.That(Math.Abs(10.656 - yx_cw_paths[0][0].x), Is.LessThanOrEqualTo(0.001));
+        Assert.That(Math.Abs(0.272 - yx_cw_paths[0][0].y), Is.LessThanOrEqualTo(0.001));
+        Assert.That(yx_cw_paths[1][0].x, Is.EqualTo(4));
+        Assert.That(yx_cw_paths[1][0].y, Is.EqualTo(-5));
     }
 
     [Test]
@@ -1011,68 +1011,68 @@ public class GeoWranglerTests
 
         // Enclosure means no overlap, overlap means no enclosure.
         // As such, these queries should give an opposite signal for any case where there is some form of common area.
-        Assert.False(olap_small_in_outer);
-        Assert.True(enc_small_in_outer);
-        Assert.True(enc_small_in_outer_strict);
+        Assert.That(olap_small_in_outer, Is.False);
+        Assert.That(enc_small_in_outer, Is.True);
+        Assert.That(enc_small_in_outer_strict, Is.True);
 
-        Assert.True(olap_small2_in_outer);
-        Assert.False(enc_small2_in_outer);
-        Assert.False(enc_small2_in_outer_strict);
+        Assert.That(olap_small2_in_outer, Is.True);
+        Assert.That(enc_small2_in_outer, Is.False);
+        Assert.That(enc_small2_in_outer_strict, Is.False);
 
         // No common area - thus same response.
-        Assert.False(olap_small3_in_outer);
-        Assert.False(enc_small3_in_outer);
-        Assert.False(enc_small3_in_outer_strict);
+        Assert.That(olap_small3_in_outer, Is.False);
+        Assert.That(enc_small3_in_outer, Is.False);
+        Assert.That(enc_small3_in_outer_strict, Is.False);
 
         // Reversed queries
-        Assert.False(olap_outer_in_small);
-        Assert.True(enc_outer_in_small);
-        Assert.True(enc_outer_in_small_strict);
+        Assert.That(olap_outer_in_small, Is.False);
+        Assert.That(enc_outer_in_small, Is.True);
+        Assert.That(enc_outer_in_small_strict, Is.True);
 
-        Assert.True(olap_outer_in_small2);
-        Assert.False(enc_outer_in_small2);
-        Assert.False(enc_outer_in_small2_strict);
+        Assert.That(olap_outer_in_small2, Is.True);
+        Assert.That(enc_outer_in_small2, Is.False);
+        Assert.That(enc_outer_in_small2_strict, Is.False);
 
         // No common area - thus same response.
-        Assert.False(olap_outer_in_small3);
-        Assert.False(enc_outer_in_small3);
-        Assert.False(enc_outer_in_small3_strict);
+        Assert.That(olap_outer_in_small3, Is.False);
+        Assert.That(enc_outer_in_small3, Is.False);
+        Assert.That(enc_outer_in_small3_strict, Is.False);
 
         // Multi-polygon case where both inners are fully enclosed.
-        Assert.False(olap_inners_in_largeouter);
-        Assert.True(enc_inners_in_largeouter);
-        Assert.True(enc_inners_in_largeouter_strict);
+        Assert.That(olap_inners_in_largeouter, Is.False);
+        Assert.That(enc_inners_in_largeouter, Is.True);
+        Assert.That(enc_inners_in_largeouter_strict, Is.True);
         // Reverse query
-        Assert.False(olap_largeouter_in_inners);
-        Assert.True(enc_largeouter_in_inners);
-        Assert.True(enc_largeouter_in_inners_strict);
+        Assert.That(olap_largeouter_in_inners, Is.False);
+        Assert.That(enc_largeouter_in_inners, Is.True);
+        Assert.That(enc_largeouter_in_inners_strict, Is.True);
 
         // Multi-polygon case where there is an overlap for one inner and full enclosure for the other.
-        Assert.True(olap_inners2_in_largeouter);
-        Assert.False(enc_inners2_in_largeouter);
-        Assert.False(enc_inners2_in_largeouter_strict);
+        Assert.That(olap_inners2_in_largeouter, Is.True);
+        Assert.That(enc_inners2_in_largeouter, Is.False);
+        Assert.That(enc_inners2_in_largeouter_strict, Is.False);
         // Reverse query
-        Assert.True(olap_largeouter_in_inners2);
-        Assert.False(enc_largeouter_in_inners2);
-        Assert.False(enc_largeouter_in_inners2_strict);
-        
+        Assert.That(olap_largeouter_in_inners2, Is.True);
+        Assert.That(enc_largeouter_in_inners2, Is.False);
+        Assert.That(enc_largeouter_in_inners2_strict, Is.False);
+
         // Multi-polygon case where there is no common area
-        Assert.False(olap_inners3_in_largeouter);
-        Assert.False(enc_inners3_in_largeouter);
-        Assert.False(enc_inners3_in_largeouter_strict);
+        Assert.That(olap_inners3_in_largeouter, Is.False);
+        Assert.That(enc_inners3_in_largeouter, Is.False);
+        Assert.That(enc_inners3_in_largeouter_strict, Is.False);
         // Reverse query
-        Assert.False(olap_largeouter_in_inners3);
-        Assert.False(enc_largeouter_in_inners3);
-        Assert.False(enc_largeouter_in_inners3_strict);
-        
+        Assert.That(olap_largeouter_in_inners3, Is.False);
+        Assert.That(enc_largeouter_in_inners3, Is.False);
+        Assert.That(enc_largeouter_in_inners3_strict, Is.False);
+
         // Multi-polygon case where there is one inner with partial overlap
-        Assert.True(olap_inners4_in_largeouter);
-        Assert.False(enc_inners4_in_largeouter);
-        Assert.False(enc_inners4_in_largeouter_strict);
+        Assert.That(olap_inners4_in_largeouter, Is.True);
+        Assert.That(enc_inners4_in_largeouter, Is.False);
+        Assert.That(enc_inners4_in_largeouter_strict, Is.False);
         // Reverse query
-        Assert.True(olap_largeouter_in_inners4);
-        Assert.False(enc_largeouter_in_inners4);
-        Assert.False(enc_largeouter_in_inners4_strict);
+        Assert.That(olap_largeouter_in_inners4, Is.True);
+        Assert.That(enc_largeouter_in_inners4, Is.False);
+        Assert.That(enc_largeouter_in_inners4_strict, Is.False);
         
         // Multi-polygon case where there is one inner with full enclosure
         Assert.True(olap_inners5_in_largeouter);

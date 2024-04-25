@@ -88,376 +88,376 @@ public class DecompositionTests
         PathsD l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
         writeToLayout("l", L, l);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(L), -Clipper.Area(l));
-        Assert.AreEqual(2, l.Count);
-        Assert.AreEqual(0, l[0][0].x);
-        Assert.AreEqual(0, l[0][0].y);
-        Assert.AreEqual(10, l[0][1].x);
-        Assert.AreEqual(0, l[0][1].y);
-        Assert.AreEqual(10, l[0][2].x);
-        Assert.AreEqual(50, l[0][2].y);
-        Assert.AreEqual(0, l[0][3].x);
-        Assert.AreEqual(50, l[0][3].y);
-        Assert.AreEqual(0, l[0][4].x);
-        Assert.AreEqual(0, l[0][4].y);
-        Assert.AreEqual(10, l[1][0].x);
-        Assert.AreEqual(0, l[1][0].y);
-        Assert.AreEqual(60, l[1][1].x);
-        Assert.AreEqual(0, l[1][1].y);
-        Assert.AreEqual(60, l[1][2].x);
-        Assert.AreEqual(20, l[1][2].y);
-        Assert.AreEqual(10, l[1][3].x);
-        Assert.AreEqual(20, l[1][3].y);
-        Assert.AreEqual(10, l[1][4].x);
-        Assert.AreEqual(0, l[1][4].y);
+        Assert.That(-Clipper.Area(l), Is.EqualTo(Clipper.Area(L)));
+        Assert.That(l.Count, Is.EqualTo(2));
+        Assert.That(l[0][0].x, Is.EqualTo(0));
+        Assert.That(l[0][0].y, Is.EqualTo(0));
+        Assert.That(l[0][1].x, Is.EqualTo(10));
+        Assert.That(l[0][1].y, Is.EqualTo(0));
+        Assert.That(l[0][2].x, Is.EqualTo(10));
+        Assert.That(l[0][2].y, Is.EqualTo(50));
+        Assert.That(l[0][3].x, Is.EqualTo(0));
+        Assert.That(l[0][3].y, Is.EqualTo(50));
+        Assert.That(l[0][4].x, Is.EqualTo(0));
+        Assert.That(l[0][4].y, Is.EqualTo(0));
+        Assert.That(l[1][0].x, Is.EqualTo(10));
+        Assert.That(l[1][0].y, Is.EqualTo(0));
+        Assert.That(l[1][1].x, Is.EqualTo(60));
+        Assert.That(l[1][1].y, Is.EqualTo(0));
+        Assert.That(l[1][2].x, Is.EqualTo(60));
+        Assert.That(l[1][2].y, Is.EqualTo(20));
+        Assert.That(l[1][3].x, Is.EqualTo(10));
+        Assert.That(l[1][3].y, Is.EqualTo(20));
+        Assert.That(l[1][4].x, Is.EqualTo(10));
+        Assert.That(l[1][4].y, Is.EqualTo(0));
         
         PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
         writeToLayout("lccw", L_ccw, lccw);
-        Assert.AreEqual(Clipper.Area(L_ccw), Clipper.Area(lccw));
-        Assert.AreEqual(2, lccw.Count);
-        Assert.AreEqual(0, lccw[0][0].x);
-        Assert.AreEqual(0, lccw[0][0].y);
-        Assert.AreEqual(10, lccw[0][1].x);
-        Assert.AreEqual(0, lccw[0][1].y);
-        Assert.AreEqual(10, lccw[0][2].x);
-        Assert.AreEqual(50, lccw[0][2].y);
-        Assert.AreEqual(0, lccw[0][3].x);
-        Assert.AreEqual(50, lccw[0][3].y);
-        Assert.AreEqual(0, lccw[0][4].x);
-        Assert.AreEqual(0, lccw[0][4].y);
-        Assert.AreEqual(10, lccw[1][0].x);
-        Assert.AreEqual(0, lccw[1][0].y);
-        Assert.AreEqual(60, lccw[1][1].x);
-        Assert.AreEqual(0, lccw[1][1].y);
-        Assert.AreEqual(60, lccw[1][2].x);
-        Assert.AreEqual(20, lccw[1][2].y);
-        Assert.AreEqual(10, lccw[1][3].x);
-        Assert.AreEqual(20, lccw[1][3].y);
-        Assert.AreEqual(10, lccw[1][4].x);
-        Assert.AreEqual(0, lccw[1][4].y);
+        Assert.That(Clipper.Area(lccw), Is.EqualTo(Clipper.Area(L_ccw)));
+        Assert.That(lccw.Count, Is.EqualTo(2));
+        Assert.That(lccw[0][0].x, Is.EqualTo(0));
+        Assert.That(lccw[0][0].y, Is.EqualTo(0));
+        Assert.That(lccw[0][1].x, Is.EqualTo(10));
+        Assert.That(lccw[0][1].y, Is.EqualTo(0));
+        Assert.That(lccw[0][2].x, Is.EqualTo(10));
+        Assert.That(lccw[0][2].y, Is.EqualTo(50));
+        Assert.That(lccw[0][3].x, Is.EqualTo(0));
+        Assert.That(lccw[0][3].y, Is.EqualTo(50));
+        Assert.That(lccw[0][4].x, Is.EqualTo(0));
+        Assert.That(lccw[0][4].y, Is.EqualTo(0));
+        Assert.That(lccw[1][0].x, Is.EqualTo(10));
+        Assert.That(lccw[1][0].y, Is.EqualTo(0));
+        Assert.That(lccw[1][1].x, Is.EqualTo(60));
+        Assert.That(lccw[1][1].y, Is.EqualTo(0));
+        Assert.That(lccw[1][2].x, Is.EqualTo(60));
+        Assert.That(lccw[1][2].y, Is.EqualTo(20));
+        Assert.That(lccw[1][3].x, Is.EqualTo(10));
+        Assert.That(lccw[1][3].y, Is.EqualTo(20));
+        Assert.That(lccw[1][4].x, Is.EqualTo(10));
+        Assert.That(lccw[1][4].y, Is.EqualTo(0));
         
         PathsD rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
         writeToLayout("rl", rL, rl);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(rL), -Clipper.Area(rl));
-        Assert.AreEqual(2, rl.Count);
-        Assert.AreEqual(10, rl[0][0].x);
-        Assert.AreEqual(0, rl[0][0].y);
-        Assert.AreEqual(60, rl[0][1].x);
-        Assert.AreEqual(0, rl[0][1].y);
-        Assert.AreEqual(60, rl[0][2].x);
-        Assert.AreEqual(50, rl[0][2].y);
-        Assert.AreEqual(10, rl[0][3].x);
-        Assert.AreEqual(50, rl[0][3].y);
-        Assert.AreEqual(10, rl[0][4].x);
-        Assert.AreEqual(0, rl[0][4].y);
-        Assert.AreEqual(0, rl[1][0].x);
-        Assert.AreEqual(0, rl[1][0].y);
-        Assert.AreEqual(10, rl[1][1].x);
-        Assert.AreEqual(0, rl[1][1].y);
-        Assert.AreEqual(10, rl[1][2].x);
-        Assert.AreEqual(20, rl[1][2].y);
-        Assert.AreEqual(0, rl[1][3].x);
-        Assert.AreEqual(20, rl[1][3].y);
-        Assert.AreEqual(0, rl[1][4].x);
-        Assert.AreEqual(0, rl[1][4].y);
+        Assert.That(-Clipper.Area(rl), Is.EqualTo(Clipper.Area(rL)));
+        Assert.That(rl.Count, Is.EqualTo(2));
+        Assert.That(rl[0][0].x, Is.EqualTo(10));
+        Assert.That(rl[0][0].y, Is.EqualTo(0));
+        Assert.That(rl[0][1].x, Is.EqualTo(60));
+        Assert.That(rl[0][1].y, Is.EqualTo(0));
+        Assert.That(rl[0][2].x, Is.EqualTo(60));
+        Assert.That(rl[0][2].y, Is.EqualTo(50));
+        Assert.That(rl[0][3].x, Is.EqualTo(10));
+        Assert.That(rl[0][3].y, Is.EqualTo(50));
+        Assert.That(rl[0][4].x, Is.EqualTo(10));
+        Assert.That(rl[0][4].y, Is.EqualTo(0));
+        Assert.That(rl[1][0].x, Is.EqualTo(0));
+        Assert.That(rl[1][0].y, Is.EqualTo(0));
+        Assert.That(rl[1][1].x, Is.EqualTo(10));
+        Assert.That(rl[1][1].y, Is.EqualTo(0));
+        Assert.That(rl[1][2].x, Is.EqualTo(10));
+        Assert.That(rl[1][2].y, Is.EqualTo(20));
+        Assert.That(rl[1][3].x, Is.EqualTo(0));
+        Assert.That(rl[1][3].y, Is.EqualTo(20));
+        Assert.That(rl[1][4].x, Is.EqualTo(0));
+        Assert.That(rl[1][4].y, Is.EqualTo(0));
 
         PathsD u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
         writeToLayout("u", U, u);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(U), -Clipper.Area(u));
-        Assert.AreEqual(3, u.Count);
-        Assert.AreEqual(0, u[0][0].x);
-        Assert.AreEqual(0, u[0][0].y);
-        Assert.AreEqual(10, u[0][1].x);
-        Assert.AreEqual(0, u[0][1].y);
-        Assert.AreEqual(10, u[0][2].x);
-        Assert.AreEqual(50, u[0][2].y);
-        Assert.AreEqual(0, u[0][3].x);
-        Assert.AreEqual(50, u[0][3].y);
-        Assert.AreEqual(0, u[0][4].x);
-        Assert.AreEqual(0, u[0][4].y);
-        Assert.AreEqual(60, u[1][0].x);
-        Assert.AreEqual(0, u[1][0].y);
-        Assert.AreEqual(120, u[1][1].x);
-        Assert.AreEqual(0, u[1][1].y);
-        Assert.AreEqual(120, u[1][2].x);
-        Assert.AreEqual(80, u[1][2].y);
-        Assert.AreEqual(60, u[1][3].x);
-        Assert.AreEqual(80, u[1][3].y);
-        Assert.AreEqual(60, u[1][4].x);
-        Assert.AreEqual(0, u[1][4].y);
-        Assert.AreEqual(10, u[2][0].x);
-        Assert.AreEqual(0, u[2][0].y);
-        Assert.AreEqual(60, u[2][1].x);
-        Assert.AreEqual(0, u[2][1].y);
-        Assert.AreEqual(60, u[2][2].x);
-        Assert.AreEqual(20, u[2][2].y);
-        Assert.AreEqual(10, u[2][3].x);
-        Assert.AreEqual(20, u[2][3].y);
-        Assert.AreEqual(10, u[2][4].x);
-        Assert.AreEqual(0,u[2][4].y);
+        Assert.That(-Clipper.Area(u), Is.EqualTo(Clipper.Area(U)));
+        Assert.That(u.Count, Is.EqualTo(3));
+        Assert.That(u[0][0].x, Is.EqualTo(0));
+        Assert.That(u[0][0].y, Is.EqualTo(0));
+        Assert.That(u[0][1].x, Is.EqualTo(10));
+        Assert.That(u[0][1].y, Is.EqualTo(0));
+        Assert.That(u[0][2].x, Is.EqualTo(10));
+        Assert.That(u[0][2].y, Is.EqualTo(50));
+        Assert.That(u[0][3].x, Is.EqualTo(0));
+        Assert.That(u[0][3].y, Is.EqualTo(50));
+        Assert.That(u[0][4].x, Is.EqualTo(0));
+        Assert.That(u[0][4].y, Is.EqualTo(0));
+        Assert.That(u[1][0].x, Is.EqualTo(60));
+        Assert.That(u[1][0].y, Is.EqualTo(0));
+        Assert.That(u[1][1].x, Is.EqualTo(120));
+        Assert.That(u[1][1].y, Is.EqualTo(0));
+        Assert.That(u[1][2].x, Is.EqualTo(120));
+        Assert.That(u[1][2].y, Is.EqualTo(80));
+        Assert.That(u[1][3].x, Is.EqualTo(60));
+        Assert.That(u[1][3].y, Is.EqualTo(80));
+        Assert.That(u[1][4].x, Is.EqualTo(60));
+        Assert.That(u[1][4].y, Is.EqualTo(0));
+        Assert.That(u[2][0].x, Is.EqualTo(10));
+        Assert.That(u[2][0].y, Is.EqualTo(0));
+        Assert.That(u[2][1].x, Is.EqualTo(60));
+        Assert.That(u[2][1].y, Is.EqualTo(0));
+        Assert.That(u[2][2].x, Is.EqualTo(60));
+        Assert.That(u[2][2].y, Is.EqualTo(20));
+        Assert.That(u[2][3].x, Is.EqualTo(10));
+        Assert.That(u[2][3].y, Is.EqualTo(20));
+        Assert.That(u[2][4].x, Is.EqualTo(10));
+        Assert.That(u[2][4].y, Is.EqualTo(0));
         
         PathsD t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
         writeToLayout("t", T, t);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(T), -Clipper.Area(t));
-        Assert.AreEqual(3, t.Count);
-        Assert.AreEqual(60, t[0][0].x);
-        Assert.AreEqual(50, t[0][0].y);
-        Assert.AreEqual(80, t[0][1].x);
-        Assert.AreEqual(50, t[0][1].y);
-        Assert.AreEqual(80, t[0][2].x);
-        Assert.AreEqual(80, t[0][2].y);
-        Assert.AreEqual(60, t[0][3].x);
-        Assert.AreEqual(80, t[0][3].y);
-        Assert.AreEqual(60, t[0][4].x);
-        Assert.AreEqual(50, t[0][4].y);
-        Assert.AreEqual(40, t[1][0].x);
-        Assert.AreEqual(0, t[1][0].y);
-        Assert.AreEqual(60, t[1][1].x);
-        Assert.AreEqual(0, t[1][1].y);
-        Assert.AreEqual(60, t[1][2].x);
-        Assert.AreEqual(80, t[1][2].y);
-        Assert.AreEqual(40, t[1][3].x);
-        Assert.AreEqual(80, t[1][3].y);
-        Assert.AreEqual(40, t[1][4].x);
-        Assert.AreEqual(0, t[1][4].y);
-        Assert.AreEqual(0, t[2][0].x);
-        Assert.AreEqual(50, t[2][0].y);
-        Assert.AreEqual(40, t[2][1].x);
-        Assert.AreEqual(50, t[2][1].y);
-        Assert.AreEqual(40, t[2][2].x);
-        Assert.AreEqual(80, t[2][2].y);
-        Assert.AreEqual(0, t[2][3].x);
-        Assert.AreEqual(80, t[2][3].y);
-        Assert.AreEqual(0, t[2][4].x);
-        Assert.AreEqual(50, t[2][4].y);
+        Assert.That(-Clipper.Area(t), Is.EqualTo(Clipper.Area(T)));
+        Assert.That(t.Count, Is.EqualTo(3));
+        Assert.That(t[0][0].x, Is.EqualTo(60));
+        Assert.That(t[0][0].y, Is.EqualTo(50));
+        Assert.That(t[0][1].x, Is.EqualTo(80));
+        Assert.That(t[0][1].y, Is.EqualTo(50));
+        Assert.That(t[0][2].x, Is.EqualTo(80));
+        Assert.That(t[0][2].y, Is.EqualTo(80));
+        Assert.That(t[0][3].x, Is.EqualTo(60));
+        Assert.That(t[0][3].y, Is.EqualTo(80));
+        Assert.That(t[0][4].x, Is.EqualTo(60));
+        Assert.That(t[0][4].y, Is.EqualTo(50));
+        Assert.That(t[1][0].x, Is.EqualTo(40));
+        Assert.That(t[1][0].y, Is.EqualTo(0));
+        Assert.That(t[1][1].x, Is.EqualTo(60));
+        Assert.That(t[1][1].y, Is.EqualTo(0));
+        Assert.That(t[1][2].x, Is.EqualTo(60));
+        Assert.That(t[1][2].y, Is.EqualTo(80));
+        Assert.That(t[1][3].x, Is.EqualTo(40));
+        Assert.That(t[1][3].y, Is.EqualTo(80));
+        Assert.That(t[1][4].x, Is.EqualTo(40));
+        Assert.That(t[1][4].y, Is.EqualTo(0));
+        Assert.That(t[2][0].x, Is.EqualTo(0));
+        Assert.That(t[2][0].y, Is.EqualTo(50));
+        Assert.That(t[2][1].x, Is.EqualTo(40));
+        Assert.That(t[2][1].y, Is.EqualTo(50));
+        Assert.That(t[2][2].x, Is.EqualTo(40));
+        Assert.That(t[2][2].y, Is.EqualTo(80));
+        Assert.That(t[2][3].x, Is.EqualTo(0));
+        Assert.That(t[2][3].y, Is.EqualTo(80));
+        Assert.That(t[2][4].x, Is.EqualTo(0));
+        Assert.That(t[2][4].y, Is.EqualTo(50));
         
         PathsD x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
         writeToLayout("x", X, x);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(X), -Clipper.Area(x));
-        Assert.AreEqual(3, x.Count);
-        Assert.AreEqual(0, x[0][0].x);
-        Assert.AreEqual(50, x[0][0].y);
-        Assert.AreEqual(60, x[0][1].x);
-        Assert.AreEqual(50, x[0][1].y);
-        Assert.AreEqual(60, x[0][2].x);
-        Assert.AreEqual(80, x[0][2].y);
-        Assert.AreEqual(0, x[0][3].x);
-        Assert.AreEqual(80, x[0][3].y);
-        Assert.AreEqual(0, x[0][4].x);
-        Assert.AreEqual(50, x[0][4].y);
-        Assert.AreEqual(60, x[1][0].x);
-        Assert.AreEqual(20, x[1][0].y);
-        Assert.AreEqual(80, x[1][1].x);
-        Assert.AreEqual(20, x[1][1].y);
-        Assert.AreEqual(80, x[1][2].x);
-        Assert.AreEqual(100, x[1][2].y);
-        Assert.AreEqual(60, x[1][3].x);
-        Assert.AreEqual(100, x[1][3].y);
-        Assert.AreEqual(60, x[1][4].x);
-        Assert.AreEqual(20, x[1][4].y);
-        Assert.AreEqual(80, x[2][0].x);
-        Assert.AreEqual(50, x[2][0].y);
-        Assert.AreEqual(100, x[2][1].x);
-        Assert.AreEqual(50, x[2][1].y);
-        Assert.AreEqual(100, x[2][2].x);
-        Assert.AreEqual(80, x[2][2].y);
-        Assert.AreEqual(80, x[2][3].x);
-        Assert.AreEqual(80, x[2][3].y);
-        Assert.AreEqual(80, x[2][4].x);
-        Assert.AreEqual(50, x[2][4].y);
+        Assert.That(-Clipper.Area(x), Is.EqualTo(Clipper.Area(X)));
+        Assert.That(x.Count, Is.EqualTo(3));
+        Assert.That(x[0][0].x, Is.EqualTo(0));
+        Assert.That(x[0][0].y, Is.EqualTo(50));
+        Assert.That(x[0][1].x, Is.EqualTo(60));
+        Assert.That(x[0][1].y, Is.EqualTo(50));
+        Assert.That(x[0][2].x, Is.EqualTo(60));
+        Assert.That(x[0][2].y, Is.EqualTo(80));
+        Assert.That(x[0][3].x, Is.EqualTo(0));
+        Assert.That(x[0][3].y, Is.EqualTo(80));
+        Assert.That(x[0][4].x, Is.EqualTo(0));
+        Assert.That(x[0][4].y, Is.EqualTo(50));
+        Assert.That(x[1][0].x, Is.EqualTo(60));
+        Assert.That(x[1][0].y, Is.EqualTo(20));
+        Assert.That(x[1][1].x, Is.EqualTo(80));
+        Assert.That(x[1][1].y, Is.EqualTo(20));
+        Assert.That(x[1][2].x, Is.EqualTo(80));
+        Assert.That(x[1][2].y, Is.EqualTo(100));
+        Assert.That(x[1][3].x, Is.EqualTo(60));
+        Assert.That(x[1][3].y, Is.EqualTo(100));
+        Assert.That(x[1][4].x, Is.EqualTo(60));
+        Assert.That(x[1][4].y, Is.EqualTo(20));
+        Assert.That(x[2][0].x, Is.EqualTo(80));
+        Assert.That(x[2][0].y, Is.EqualTo(50));
+        Assert.That(x[2][1].x, Is.EqualTo(100));
+        Assert.That(x[2][1].y, Is.EqualTo(50));
+        Assert.That(x[2][2].x, Is.EqualTo(100));
+        Assert.That(x[2][2].y, Is.EqualTo(80));
+        Assert.That(x[2][3].x, Is.EqualTo(80));
+        Assert.That(x[2][3].y, Is.EqualTo(80));
+        Assert.That(x[2][4].x, Is.EqualTo(80));
+        Assert.That(x[2][4].y, Is.EqualTo(50));
         
         PathsD s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
         writeToLayout("s", S, s);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(S), -Clipper.Area(s));
-        Assert.AreEqual(5, s.Count);
-        Assert.AreEqual(0, s[0][0].x);
-        Assert.AreEqual(50, s[0][0].y);
-        Assert.AreEqual(20, s[0][1].x);
-        Assert.AreEqual(50, s[0][1].y);
-        Assert.AreEqual(20, s[0][2].x);
-        Assert.AreEqual(110, s[0][2].y);
-        Assert.AreEqual(0, s[0][3].x);
-        Assert.AreEqual(110, s[0][3].y);
-        Assert.AreEqual(0, s[0][4].x);
-        Assert.AreEqual(50, s[0][4].y);
-        Assert.AreEqual(0, s[1][0].x);
-        Assert.AreEqual(0, s[1][0].y);
-        Assert.AreEqual(20, s[1][1].x);
-        Assert.AreEqual(0, s[1][1].y);
-        Assert.AreEqual(20, s[1][2].x);
-        Assert.AreEqual(20, s[1][2].y);
-        Assert.AreEqual(0, s[1][3].x);
-        Assert.AreEqual(20, s[1][3].y);
-        Assert.AreEqual(0, s[1][4].x);
-        Assert.AreEqual(0, s[1][4].y);
-        Assert.AreEqual(80, s[2][0].x);
-        Assert.AreEqual(0, s[2][0].y);
-        Assert.AreEqual(100, s[2][1].x);
-        Assert.AreEqual(0, s[2][1].y);
-        Assert.AreEqual(100, s[2][2].x);
-        Assert.AreEqual(60, s[2][2].y);
-        Assert.AreEqual(80, s[2][3].x);
-        Assert.AreEqual(60, s[2][3].y);
-        Assert.AreEqual(80, s[2][4].x);
-        Assert.AreEqual(0, s[2][4].y);
-        Assert.AreEqual(80, s[3][0].x);
-        Assert.AreEqual(80, s[3][0].y);
-        Assert.AreEqual(100, s[3][1].x);
-        Assert.AreEqual(80, s[3][1].y);
-        Assert.AreEqual(100, s[3][2].x);
-        Assert.AreEqual(110, s[3][2].y);
-        Assert.AreEqual(80, s[3][3].x);
-        Assert.AreEqual(110, s[3][3].y);
-        Assert.AreEqual(80, s[3][4].x);
-        Assert.AreEqual(80, s[3][4].y);
-        Assert.AreEqual(20, s[4][0].x);
-        Assert.AreEqual(0, s[4][0].y);
-        Assert.AreEqual(80, s[4][1].x);
-        Assert.AreEqual(0, s[4][1].y);
-        Assert.AreEqual(80, s[4][2].x);
-        Assert.AreEqual(110, s[4][2].y);
-        Assert.AreEqual(20, s[4][3].x);
-        Assert.AreEqual(110, s[4][3].y);
-        Assert.AreEqual(20, s[4][4].x);
-        Assert.AreEqual(0, s[4][4].y);
+        Assert.That(-Clipper.Area(s), Is.EqualTo(Clipper.Area(S)));
+        Assert.That(s.Count, Is.EqualTo(5));
+        Assert.That(s[0][0].x, Is.EqualTo(0));
+        Assert.That(s[0][0].y, Is.EqualTo(50));
+        Assert.That(s[0][1].x, Is.EqualTo(20));
+        Assert.That(s[0][1].y, Is.EqualTo(50));
+        Assert.That(s[0][2].x, Is.EqualTo(20));
+        Assert.That(s[0][2].y, Is.EqualTo(110));
+        Assert.That(s[0][3].x, Is.EqualTo(0));
+        Assert.That(s[0][3].y, Is.EqualTo(110));
+        Assert.That(s[0][4].x, Is.EqualTo(0));
+        Assert.That(s[0][4].y, Is.EqualTo(50));
+        Assert.That(s[1][0].x, Is.EqualTo(0));
+        Assert.That(s[1][0].y, Is.EqualTo(0));
+        Assert.That(s[1][1].x, Is.EqualTo(20));
+        Assert.That(s[1][1].y, Is.EqualTo(0));
+        Assert.That(s[1][2].x, Is.EqualTo(20));
+        Assert.That(s[1][2].y, Is.EqualTo(20));
+        Assert.That(s[1][3].x, Is.EqualTo(0));
+        Assert.That(s[1][3].y, Is.EqualTo(20));
+        Assert.That(s[1][4].x, Is.EqualTo(0));
+        Assert.That(s[1][4].y, Is.EqualTo(0));
+        Assert.That(s[2][0].x, Is.EqualTo(80));
+        Assert.That(s[2][0].y, Is.EqualTo(0));
+        Assert.That(s[2][1].x, Is.EqualTo(100));
+        Assert.That(s[2][1].y, Is.EqualTo(0));
+        Assert.That(s[2][2].x, Is.EqualTo(100));
+        Assert.That(s[2][2].y, Is.EqualTo(60));
+        Assert.That(s[2][3].x, Is.EqualTo(80));
+        Assert.That(s[2][3].y, Is.EqualTo(60));
+        Assert.That(s[2][4].x, Is.EqualTo(80));
+        Assert.That(s[2][4].y, Is.EqualTo(0));
+        Assert.That(s[3][0].x, Is.EqualTo(80));
+        Assert.That(s[3][0].y, Is.EqualTo(80));
+        Assert.That(s[3][1].x, Is.EqualTo(100));
+        Assert.That(s[3][1].y, Is.EqualTo(80));
+        Assert.That(s[3][2].x, Is.EqualTo(100));
+        Assert.That(s[3][2].y, Is.EqualTo(110));
+        Assert.That(s[3][3].x, Is.EqualTo(80));
+        Assert.That(s[3][3].y, Is.EqualTo(110));
+        Assert.That(s[3][4].x, Is.EqualTo(80));
+        Assert.That(s[3][4].y, Is.EqualTo(80));
+        Assert.That(s[4][0].x, Is.EqualTo(20));
+        Assert.That(s[4][0].y, Is.EqualTo(0));
+        Assert.That(s[4][1].x, Is.EqualTo(80));
+        Assert.That(s[4][1].y, Is.EqualTo(0));
+        Assert.That(s[4][2].x, Is.EqualTo(80));
+        Assert.That(s[4][2].y, Is.EqualTo(110));
+        Assert.That(s[4][3].x, Is.EqualTo(20));
+        Assert.That(s[4][3].y, Is.EqualTo(110));
+        Assert.That(s[4][4].x, Is.EqualTo(20));
+        Assert.That(s[4][4].y, Is.EqualTo(0));
         
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
         writeToLayout("ns", nS, ns);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(nS), -Clipper.Area(ns));
-        Assert.AreEqual(5, ns.Count);
-        Assert.AreEqual(0, ns[0][0].x);
-        Assert.AreEqual(-150, ns[0][0].y);
-        Assert.AreEqual(20, ns[0][1].x);
-        Assert.AreEqual(-150, ns[0][1].y);
-        Assert.AreEqual(20, ns[0][2].x);
-        Assert.AreEqual(-90, ns[0][2].y);
-        Assert.AreEqual(0, ns[0][3].x);
-        Assert.AreEqual(-90, ns[0][3].y);
-        Assert.AreEqual(0, ns[0][4].x);
-        Assert.AreEqual(-150, ns[0][4].y);
-        Assert.AreEqual(0, ns[1][0].x);
-        Assert.AreEqual(-200, ns[1][0].y);
-        Assert.AreEqual(20, ns[1][1].x);
-        Assert.AreEqual(-200, ns[1][1].y);
-        Assert.AreEqual(20, ns[1][2].x);
-        Assert.AreEqual(-180, ns[1][2].y);
-        Assert.AreEqual(0, ns[1][3].x);
-        Assert.AreEqual(-180, ns[1][3].y);
-        Assert.AreEqual(0, ns[1][4].x);
-        Assert.AreEqual(-200, ns[1][4].y);
-        Assert.AreEqual(80, ns[2][0].x);
-        Assert.AreEqual(-200, ns[2][0].y);
-        Assert.AreEqual(100, ns[2][1].x);
-        Assert.AreEqual(-200, ns[2][1].y);
-        Assert.AreEqual(100, ns[2][2].x);
-        Assert.AreEqual(-140, ns[2][2].y);
-        Assert.AreEqual(80, ns[2][3].x);
-        Assert.AreEqual(-140, ns[2][3].y);
-        Assert.AreEqual(80, ns[2][4].x);
-        Assert.AreEqual(-200, ns[2][4].y);
-        Assert.AreEqual(80, ns[3][0].x);
-        Assert.AreEqual(-120, ns[3][0].y);
-        Assert.AreEqual(100, ns[3][1].x);
-        Assert.AreEqual(-120, ns[3][1].y);
-        Assert.AreEqual(100, ns[3][2].x);
-        Assert.AreEqual(-90, ns[3][2].y);
-        Assert.AreEqual(80, ns[3][3].x);
-        Assert.AreEqual(-90, ns[3][3].y);
-        Assert.AreEqual(80, ns[3][4].x);
-        Assert.AreEqual(-120, ns[3][4].y);
-        Assert.AreEqual(20, ns[4][0].x);
-        Assert.AreEqual(-200, ns[4][0].y);
-        Assert.AreEqual(80, ns[4][1].x);
-        Assert.AreEqual(-200, ns[4][1].y);
-        Assert.AreEqual(80, ns[4][2].x);
-        Assert.AreEqual(-90, ns[4][2].y);
-        Assert.AreEqual(20, ns[4][3].x);
-        Assert.AreEqual(-90, ns[4][3].y);
-        Assert.AreEqual(20, ns[4][4].x);
-        Assert.AreEqual(-200, ns[4][4].y);
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(nS)));
+        Assert.That(ns.Count, Is.EqualTo(5));
+        Assert.That(ns[0][0].x, Is.EqualTo(0));
+        Assert.That(ns[0][0].y, Is.EqualTo(-150));
+        Assert.That(ns[0][1].x, Is.EqualTo(20));
+        Assert.That(ns[0][1].y, Is.EqualTo(-150));
+        Assert.That(ns[0][2].x, Is.EqualTo(20));
+        Assert.That(ns[0][2].y, Is.EqualTo(-90));
+        Assert.That(ns[0][3].x, Is.EqualTo(0));
+        Assert.That(ns[0][3].y, Is.EqualTo(-90));
+        Assert.That(ns[0][4].x, Is.EqualTo(0));
+        Assert.That(ns[0][4].y, Is.EqualTo(-150));
+        Assert.That(ns[1][0].x, Is.EqualTo(0));
+        Assert.That(ns[1][0].y, Is.EqualTo(-200));
+        Assert.That(ns[1][1].x, Is.EqualTo(20));
+        Assert.That(ns[1][1].y, Is.EqualTo(-200));
+        Assert.That(ns[1][2].x, Is.EqualTo(20));
+        Assert.That(ns[1][2].y, Is.EqualTo(-180));
+        Assert.That(ns[1][3].x, Is.EqualTo(0));
+        Assert.That(ns[1][3].y, Is.EqualTo(-180));
+        Assert.That(ns[1][4].x, Is.EqualTo(0));
+        Assert.That(ns[1][4].y, Is.EqualTo(-200));
+        Assert.That(ns[2][0].x, Is.EqualTo(80));
+        Assert.That(ns[2][0].y, Is.EqualTo(-200));
+        Assert.That(ns[2][1].x, Is.EqualTo(100));
+        Assert.That(ns[2][1].y, Is.EqualTo(-200));
+        Assert.That(ns[2][2].x, Is.EqualTo(100));
+        Assert.That(ns[2][2].y, Is.EqualTo(-140));
+        Assert.That(ns[2][3].x, Is.EqualTo(80));
+        Assert.That(ns[2][3].y, Is.EqualTo(-140));
+        Assert.That(ns[2][4].x, Is.EqualTo(80));
+        Assert.That(ns[2][4].y, Is.EqualTo(-200));
+        Assert.That(ns[3][0].x, Is.EqualTo(80));
+        Assert.That(ns[3][0].y, Is.EqualTo(-120));
+        Assert.That(ns[3][1].x, Is.EqualTo(100));
+        Assert.That(ns[3][1].y, Is.EqualTo(-120));
+        Assert.That(ns[3][2].x, Is.EqualTo(100));
+        Assert.That(ns[3][2].y, Is.EqualTo(-90));
+        Assert.That(ns[3][3].x, Is.EqualTo(80));
+        Assert.That(ns[3][3].y, Is.EqualTo(-90));
+        Assert.That(ns[3][4].x, Is.EqualTo(80));
+        Assert.That(ns[3][4].y, Is.EqualTo(-120));
+        Assert.That(ns[4][0].x, Is.EqualTo(20));
+        Assert.That(ns[4][0].y, Is.EqualTo(-200));
+        Assert.That(ns[4][1].x, Is.EqualTo(80));
+        Assert.That(ns[4][1].y, Is.EqualTo(-200));
+        Assert.That(ns[4][2].x, Is.EqualTo(80));
+        Assert.That(ns[4][2].y, Is.EqualTo(-90));
+        Assert.That(ns[4][3].x, Is.EqualTo(20));
+        Assert.That(ns[4][3].y, Is.EqualTo(-90));
+        Assert.That(ns[4][4].x, Is.EqualTo(20));
+        Assert.That(ns[4][4].y, Is.EqualTo(-200));
         
         PathsD c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
         writeToLayout("c1", C1, c1);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(C1), -Clipper.Area(c1));
-        Assert.AreEqual(17, c1.Count);
+        Assert.That(-Clipper.Area(c1), Is.EqualTo(Clipper.Area(C1)));
+        Assert.That(c1.Count, Is.EqualTo(17));
         // Use area because result is complex and hash not reliable due to floats.
-        Assert.AreEqual(4920, Clipper.Area(c1));
+        Assert.That(Clipper.Area(c1), Is.EqualTo(4920));
 
         PathsD c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
         writeToLayout("c2", C2, c2);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(C2), -Clipper.Area(c2));
-        Assert.AreEqual(81, c2.Count);
+        Assert.That(-Clipper.Area(c2), Is.EqualTo(Clipper.Area(C2)));
+        Assert.That(c2.Count, Is.EqualTo(81));
         // Use area because result is complex and hash not reliable due to floats.
-        Assert.AreEqual(24600, Clipper.Area(c2));
+        Assert.That(Clipper.Area(c2), Is.EqualTo(24600));
         
         PathsD c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
         writeToLayout("c3", C3, c3);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(C3), -Clipper.Area(c3));
-        Assert.AreEqual(13, c3.Count);
+        Assert.That(-Clipper.Area(c3), Is.EqualTo(Clipper.Area(C3)));
+        Assert.That(c3.Count, Is.EqualTo(13));
         // Use area because result is complex and hash not reliable due to floats.
-        Assert.AreEqual(5424, Clipper.Area(c3));
+        Assert.That(Clipper.Area(c3), Is.EqualTo(5424));
         
         PathsD c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
         writeToLayout("c10r15", C10R15, c10r15);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(C10R15), Clipper.Area(c10r15));
-        Assert.AreEqual(1, c10r15.Count);
-        Assert.AreEqual(-14742059.915, Clipper.Area(c10r15), 0.001);
+        Assert.That(Clipper.Area(c10r15), Is.EqualTo(Clipper.Area(C10R15)));
+        Assert.That(c10r15.Count, Is.EqualTo(1));
+        Assert.That(Clipper.Area(c10r15), Is.EqualTo(-14742059.915).Within(0.001));
 
         PathsD s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
         writeToLayout("s1", S1, s1);
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(S1), -Clipper.Area(s1));
-        Assert.AreEqual(4, s1.Count);
-        Assert.AreEqual(-50, s1[0][0].x);
-        Assert.AreEqual(-50, s1[0][0].y);
-        Assert.AreEqual(0, s1[0][1].x);
-        Assert.AreEqual(-50, s1[0][1].y);
-        Assert.AreEqual(0, s1[0][2].x);
-        Assert.AreEqual(0, s1[0][2].y);
-        Assert.AreEqual(-50, s1[0][3].x);
-        Assert.AreEqual(0, s1[0][3].y);
-        Assert.AreEqual(-50, s1[0][4].x);
-        Assert.AreEqual(-50, s1[0][4].y);
-        Assert.AreEqual(0, s1[1][0].x);
-        Assert.AreEqual(-50, s1[1][0].y);
-        Assert.AreEqual(100, s1[1][1].x);
-        Assert.AreEqual(-50, s1[1][1].y);
-        Assert.AreEqual(100, s1[1][2].x);
-        Assert.AreEqual(120, s1[1][2].y);
-        Assert.AreEqual(0, s1[1][3].x);
-        Assert.AreEqual(120, s1[1][3].y);
-        Assert.AreEqual(0, s1[1][4].x);
-        Assert.AreEqual(-50, s1[1][4].y);
-        Assert.AreEqual(150, s1[2][0].x);
-        Assert.AreEqual(-50, s1[2][0].y);
-        Assert.AreEqual(200, s1[2][1].x);
-        Assert.AreEqual(-50, s1[2][1].y);
-        Assert.AreEqual(200, s1[2][2].x);
-        Assert.AreEqual(300, s1[2][2].y);
-        Assert.AreEqual(150, s1[2][3].x);
-        Assert.AreEqual(300, s1[2][3].y);
-        Assert.AreEqual(150, s1[2][4].x);
-        Assert.AreEqual(-50, s1[2][4].y);
-        Assert.AreEqual(100, s1[3][0].x);
-        Assert.AreEqual(-50, s1[3][0].y);
-        Assert.AreEqual(150, s1[3][1].x);
-        Assert.AreEqual(-50, s1[3][1].y);
-        Assert.AreEqual(150, s1[3][2].x);
-        Assert.AreEqual(200, s1[3][2].y);
-        Assert.AreEqual(100, s1[3][3].x);
-        Assert.AreEqual(200, s1[3][3].y);
-        Assert.AreEqual(100, s1[3][4].x);
-        Assert.AreEqual(-50, s1[3][4].y);
+        Assert.That(-Clipper.Area(s1), Is.EqualTo(Clipper.Area(S1)));
+        Assert.That(s1.Count, Is.EqualTo(4));
+        Assert.That(s1[0][0].x, Is.EqualTo(-50));
+        Assert.That(s1[0][0].y, Is.EqualTo(-50));
+        Assert.That(s1[0][1].x, Is.EqualTo(0));
+        Assert.That(s1[0][1].y, Is.EqualTo(-50));
+        Assert.That(s1[0][2].x, Is.EqualTo(0));
+        Assert.That(s1[0][2].y, Is.EqualTo(0));
+        Assert.That(s1[0][3].x, Is.EqualTo(-50));
+        Assert.That(s1[0][3].y, Is.EqualTo(0));
+        Assert.That(s1[0][4].x, Is.EqualTo(-50));
+        Assert.That(s1[0][4].y, Is.EqualTo(-50));
+        Assert.That(s1[1][0].x, Is.EqualTo(0));
+        Assert.That(s1[1][0].y, Is.EqualTo(-50));
+        Assert.That(s1[1][1].x, Is.EqualTo(100));
+        Assert.That(s1[1][1].y, Is.EqualTo(-50));
+        Assert.That(s1[1][2].x, Is.EqualTo(100));
+        Assert.That(s1[1][2].y, Is.EqualTo(120));
+        Assert.That(s1[1][3].x, Is.EqualTo(0));
+        Assert.That(s1[1][3].y, Is.EqualTo(120));
+        Assert.That(s1[1][4].x, Is.EqualTo(0));
+        Assert.That(s1[1][4].y, Is.EqualTo(-50));
+        Assert.That(s1[2][0].x, Is.EqualTo(150));
+        Assert.That(s1[2][0].y, Is.EqualTo(-50));
+        Assert.That(s1[2][1].x, Is.EqualTo(200));
+        Assert.That(s1[2][1].y, Is.EqualTo(-50));
+        Assert.That(s1[2][2].x, Is.EqualTo(200));
+        Assert.That(s1[2][2].y, Is.EqualTo(300));
+        Assert.That(s1[2][3].x, Is.EqualTo(150));
+        Assert.That(s1[2][3].y, Is.EqualTo(300));
+        Assert.That(s1[2][4].x, Is.EqualTo(150));
+        Assert.That(s1[2][4].y, Is.EqualTo(-50));
+        Assert.That(s1[3][0].x, Is.EqualTo(100));
+        Assert.That(s1[3][0].y, Is.EqualTo(-50));
+        Assert.That(s1[3][1].x, Is.EqualTo(150));
+        Assert.That(s1[3][1].y, Is.EqualTo(-50));
+        Assert.That(s1[3][2].x, Is.EqualTo(150));
+        Assert.That(s1[3][2].y, Is.EqualTo(200));
+        Assert.That(s1[3][3].x, Is.EqualTo(100));
+        Assert.That(s1[3][3].y, Is.EqualTo(200));
+        Assert.That(s1[3][4].x, Is.EqualTo(100));
+        Assert.That(s1[3][4].y, Is.EqualTo(-50));
     }
 
     [Test]
@@ -534,9 +534,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("moderatelycomplex", done[0], ns);
 
-        Assert.AreEqual(81, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(81));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
         
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -548,9 +548,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("moderatelycomplex_horizontal", done[0], ns);
 
-        Assert.AreEqual(81, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(81));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
 
         Console.WriteLine("  Done.");
     }
@@ -595,9 +595,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("morecomplex", done[0], ns);
 
-        Assert.AreEqual(161, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(161));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
         
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -609,9 +609,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("morecomplex_horizontal", done[0], ns);
 
-        Assert.AreEqual(161, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(161));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
 
         Console.WriteLine("  Done.");
     }
@@ -655,9 +655,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("evenmorecomplex", done[0], ns);
 
-        Assert.AreEqual(241, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(241));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
         
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -669,9 +669,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("evenmorecomplex_horizontal", done[0], ns);
 
-        Assert.AreEqual(241, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(241));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
 
         Console.WriteLine("  Done.");
     }
@@ -701,8 +701,8 @@ public class DecompositionTests
 
         Console.WriteLine("  Writing....");
         writeToLayout("canarycomplex", canary, test);
-        Assert.AreEqual(381, test.Count);
-        Assert.AreEqual(Clipper.Area(canary), -Clipper.Area(test));
+        Assert.That(test.Count, Is.EqualTo(381));
+        Assert.That(-Clipper.Area(test), Is.EqualTo(Clipper.Area(canary)));
         
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -712,8 +712,8 @@ public class DecompositionTests
 
         Console.WriteLine("  Writing....");
         writeToLayout("canarycomplex_horizontal", canary, test);
-        Assert.AreEqual(386, test.Count);
-        Assert.AreEqual(Clipper.Area(canary), -Clipper.Area(test));
+        Assert.That(test.Count, Is.EqualTo(386));
+        Assert.That(-Clipper.Area(test), Is.EqualTo(Clipper.Area(canary)));
 
         Console.WriteLine("  Done.");
     }
@@ -812,9 +812,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("gainingacomplex", done[0], ns);
 
-        Assert.AreEqual(401, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(401));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
         
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -826,9 +826,9 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("gainingacomplex_horizontal", done[0], ns);
 
-        Assert.AreEqual(401, ns.Count);
+        Assert.That(ns.Count, Is.EqualTo(401));
         // Sign change expected.
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
 
         Console.WriteLine("  Done.");
     }
@@ -872,8 +872,8 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("extremelycomplex", done[0], ns);
 
-        Assert.AreEqual(721, ns.Count);
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(ns.Count, Is.EqualTo(721));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
         
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -885,8 +885,8 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout("extremelycomplex_horizontal", done[0], ns);
 
-        Assert.AreEqual(721, ns.Count);
-        Assert.AreEqual(Clipper.Area(done), -Clipper.Area(ns));
+        Assert.That(ns.Count, Is.EqualTo(721));
+        Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
 
         Console.WriteLine("  Done.");
     }
@@ -951,9 +951,9 @@ public class DecompositionTests
 
         Console.WriteLine("  Writing....");
         writeToLayout(baseString, points, decompOut);
-        
-        Assert.AreEqual(481, decompOut.Count);
-        Assert.AreEqual(147399, Clipper.Area(decompOut));
+
+        Assert.That(decompOut.Count, Is.EqualTo(481));
+        Assert.That(Clipper.Area(decompOut), Is.EqualTo(147399));
 
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -965,8 +965,8 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout(baseString + "_horizontal", points, decompOut);
 
-        Assert.AreEqual(482, decompOut.Count);
-        Assert.AreEqual(147399, Clipper.Area(decompOut));
+        Assert.That(decompOut.Count, Is.EqualTo(482));
+        Assert.That(Clipper.Area(decompOut), Is.EqualTo(147399));
         Console.WriteLine("  Done.");
 
         sw.Stop();
@@ -1103,9 +1103,9 @@ public class DecompositionTests
          
          out_decomp.AddRange(decompOut);
         }
-        
-        Assert.AreEqual(out_decomp.Count, 19);
-        Assert.AreEqual(Clipper.Area(out_decomp), 13843.0);
+
+        Assert.That(19, Is.EqualTo(out_decomp.Count));
+        Assert.That(13843.0, Is.EqualTo(Clipper.Area(out_decomp)));
     }
 
     private static void writeToLayout(string filename, PathD orig, PathsD decomped)

@@ -27,10 +27,15 @@ public class GCCellref : GCElement
 
     public GCCellref(GCCell c, Point64 pos)
     {
-        pGCCellref(c, pos);
+        pGCCellref(c, pos, 0, 1, false);
+    }
+    
+    public GCCellref(GCCell c, Point64 pos, double angle, double mag, bool mirror_x)
+    {
+        pGCCellref(c, pos, angle, mag, mirror_x);
     }
 
-    private void pGCCellref(GCCell c, Point64 pos)
+    private void pGCCellref(GCCell c, Point64 pos, double angle, double mag, bool mirror_x)
     {
         cell_ref = c;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -39,6 +44,9 @@ public class GCCellref : GCElement
         point = pos;
         trans = new GCStrans();
         trans.reset();
+        trans.angle = angle;
+        trans.mag = mag;
+        trans.mirror_x = mirror_x;
     }
 
     public GCCellref()

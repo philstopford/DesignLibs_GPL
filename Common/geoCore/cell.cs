@@ -233,23 +233,33 @@ public class GCCell
 
     public void addCellref(GCCell c, Point64 pos)
     {
-        pAddCellref(c, pos);
+        pAddCellref(c, pos, 0, 1, false);
     }
 
-    private void pAddCellref(GCCell c, Point64 pos)
+    public void addCellref(GCCell c, Point64 pos, double angle, double mag, bool mirror_x)
     {
-        GCElement e = new GCCellref(c, pos);
+        pAddCellref(c, pos, angle, mag, mirror_x);
+    }
+
+    private void pAddCellref(GCCell c, Point64 pos, double angle, double mag, bool mirror_x)
+    {
+        GCElement e = new GCCellref(c, pos, angle, mag, mirror_x);
         pAddElement(e);
     }
-
+    
     public void addCellrefArray(GCCell c, Point64 pos, Repetition r)
     {
-        pAddCellrefArray(c, pos, r);
+        pAddCellrefArray(c, pos, 0, 1, false, r);
     }
 
-    private void pAddCellrefArray(GCCell c, Point64 pos, Repetition r)
+    public void addCellrefArray(GCCell c, Point64 pos, double angle, double mag, bool mirror_x, Repetition r)
     {
-        GCElement e = new GCCellRefArray(c, r);
+        pAddCellrefArray(c, pos, angle, mag, mirror_x, r);
+    }
+
+    private void pAddCellrefArray(GCCell c, Point64 pos, double angle, double mag, bool mirror_x, Repetition r)
+    {
+        GCElement e = new GCCellRefArray(c, angle, mag, mirror_x, r);
         e.move(pos);
         pAddElement(e);
     }

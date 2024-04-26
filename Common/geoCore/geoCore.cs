@@ -564,13 +564,11 @@ public class GeoCore
                 {
                 }
 
-                switch (ldIndex)
+                if (ldIndex == -1 && searchString != "L-1D-1")
                 {
-                    case -1 when searchString != "L-1D-1":
-                        structure_LayerDataTypeList[cellIndex].Add(searchString);
-                        //structures[cellIndex].addElement();
-                        ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
-                        break;
+                    structure_LayerDataTypeList[cellIndex].Add(searchString);
+                    //structures[cellIndex].addElement();
+                    ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
                 }
 
                 getGeometry(ref drawing_, cell, element, hashList, cellIndex, searchString);
@@ -624,25 +622,22 @@ public class GeoCore
             // We should remove identical polygons here in case of doubled-up input geometry.
             string crP_Hash = utility.Utils.GetMD5Hash(p.pointarray);
 
-            switch (hashList.IndexOf(crP_Hash))
+            if (hashList.IndexOf(crP_Hash) == -1)
             {
-                case -1:
+                hashList.Add(crP_Hash);
+                PathD t = new(p.pointarray.Select(t1 => new PointD(t1.X, t1.Y)));
+                if (gcCell.elementList[element].isText())
                 {
-                    hashList.Add(crP_Hash);
-                    PathD t = new (p.pointarray.Select(t1 => new PointD (t1.X, t1.Y)));
-                    if (gcCell.elementList[element].isText())
-                    {
-                        string text = gcCell.elementList[element].getName();
-                        structures[cellIndex].addText(text, t, ldString);
-                    }
-                    else
-                    {
-                        structures[cellIndex].addPoly(t, ldString);
-                    }
-                    ret.Add(t);
-                    lds.Add(ldString);
-                    break;
+                    string text = gcCell.elementList[element].getName();
+                    structures[cellIndex].addText(text, t, ldString);
                 }
+                else
+                {
+                    structures[cellIndex].addPoly(t, ldString);
+                }
+
+                ret.Add(t);
+                lds.Add(ldString);
             }
         }
 

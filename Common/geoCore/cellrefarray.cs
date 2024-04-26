@@ -22,6 +22,8 @@ public class GCCellRefArray : GCElement
     {
         repetition = new(r);
         cell_ref = c;
+        trans = new();
+        trans.reset();
     }
     
     public GCCellRefArray(GCCell c, Path64 array, int xCount, int yCount)

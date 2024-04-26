@@ -62,6 +62,8 @@ public class GCCellRefArray : GCElement
         }
 
         repetition = new();
+        trans = new();
+        trans.reset();
 
         cell_ref = c;
         point = explicitArray[0];
@@ -115,7 +117,7 @@ public class GCCellRefArray : GCElement
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;
-        trans = new GCStrans();
+        trans = new ();
         trans.reset();
     }
 

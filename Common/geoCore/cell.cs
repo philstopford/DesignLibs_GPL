@@ -242,14 +242,15 @@ public class GCCell
         pAddElement(e);
     }
 
-    public void addCellrefArray(GCCell c, Repetition r)
+    public void addCellrefArray(GCCell c, Point64 pos, Repetition r)
     {
-        pAddCellrefArray(c, r);
+        pAddCellrefArray(c, pos, r);
     }
 
-    private void pAddCellrefArray(GCCell c, Repetition r)
+    private void pAddCellrefArray(GCCell c, Point64 pos, Repetition r)
     {
         GCElement e = new GCCellRefArray(c, r);
+        e.move(pos);
         pAddElement(e);
     }
 

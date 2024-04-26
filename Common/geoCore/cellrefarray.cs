@@ -276,7 +276,7 @@ public class GCCellRefArray : GCElement
 
     private void pSetPos(Point64 p)
     {
-        point = p;
+        point = new(p);
     }
 
     public override double getScale()
@@ -712,6 +712,11 @@ public class GCCellRefArray : GCElement
         List<GCPolygon> tmp = cell_ref.convertToPolygons();
 
         List<GCPolygon> ret = repetition.transform(tmp, trans.mag, trans.mirror_x, trans.angle);
+
+        Parallel.For(0, ret.Count, (p) =>
+        {
+            ret[p].move(point);
+        });
 
         return ret;
     }

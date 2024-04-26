@@ -2456,6 +2456,10 @@ public class GeoCoreTests
         gw.save();
         Assert.That(File.Exists(gdsFile), Is.True);
 
+        Point64 pos, row_pitch, col_pitch, count;
+        double scale;
+        int polyIndex = 0;
+
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
@@ -2464,29 +2468,28 @@ public class GeoCoreTests
 
         GCCell cell_gds = drawing_gds.findCell("test_cellrefarray2");
         Assert.That(cell_gds.elementList[^1].isCellrefArray(), Is.True);
-        Point64 pos = cell_gds.elementList[^1].getPos();
+        pos = cell_gds.elementList[^1].getPos();
         Assert.That(pos.X, Is.EqualTo(10));
         Assert.That(pos.Y, Is.EqualTo(20));
-        Point64 count = cell_gds.elementList[^1].getCount();
+        count = cell_gds.elementList[^1].getCount();
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
-        Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
+        col_pitch = cell_gds.elementList[^1].getColPitch();
         Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
         Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
-        Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_gds.elementList[^1].getRowPitch();
         Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
         Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
-        double scale = cell_gds.elementList[^1].getScale();
+        scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
         List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons();
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
-        int polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
@@ -2507,7 +2510,7 @@ public class GeoCoreTests
             }
         }
 
-        string oasFile = outDir + "simple_cellrefarray.oas";
+        string oasFile = outDir + "simple_cellrefarray2.oas";
         if (File.Exists(oasFile))
         {
             File.Delete(oasFile);
@@ -2532,7 +2535,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
         Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
         Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
         scale = cell_oas.elementList[^1].getScale();
@@ -2543,9 +2546,9 @@ public class GeoCoreTests
         Assert.That(polys_oas.Count, Is.EqualTo(16));
         
         polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
@@ -2697,7 +2700,7 @@ public class GeoCoreTests
             }
         }
         
-        string oasFile = outDir + "simple_cellrefarray.oas";
+        string oasFile = outDir + "simple_cellrefarray3.oas";
         if (File.Exists(oasFile))
         {
             File.Delete(oasFile);
@@ -2722,7 +2725,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
         Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
         Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
         scale = cell_oas.elementList[^1].getScale();
@@ -2913,7 +2916,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
         Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
         Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
         scale = cell_oas.elementList[^1].getScale();
@@ -3103,7 +3106,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
         Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
         Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
         scale = cell_oas.elementList[^1].getScale();
@@ -3296,7 +3299,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.AreEqual(100 / count.X, col_pitch.X);
         Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.AreEqual(0 / count.X, row_pitch.X);
         Assert.AreEqual(80 / count.Y, row_pitch.Y);
         scale = cell_oas.elementList[^1].getScale();
@@ -3490,7 +3493,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.AreEqual(100 / count.X, col_pitch.X);
         Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.AreEqual(0 / count.X, row_pitch.X);
         Assert.AreEqual(80 / count.Y, row_pitch.Y);
         scale = cell_oas.elementList[^1].getScale();
@@ -3684,7 +3687,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.AreEqual(100 / count.X, col_pitch.X);
         Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.AreEqual(0 / count.X, row_pitch.X);
         Assert.AreEqual(80 / count.Y, row_pitch.Y);
         scale = cell_oas.elementList[^1].getScale();
@@ -3878,7 +3881,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.AreEqual(100 / count.X, col_pitch.X);
         Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.AreEqual(0 / count.X, row_pitch.X);
         Assert.AreEqual(80 / count.Y, row_pitch.Y);
         scale = cell_oas.elementList[^1].getScale();
@@ -4072,7 +4075,7 @@ public class GeoCoreTests
         col_pitch = cell_oas.elementList[^1].getColPitch();
         Assert.AreEqual(100 / count.X, col_pitch.X);
         Assert.AreEqual(0 / count.Y, col_pitch.Y);
-        row_pitch = cell_gds.elementList[^1].getRowPitch();
+        row_pitch = cell_oas.elementList[^1].getRowPitch();
         Assert.AreEqual(0 / count.X, row_pitch.X);
         Assert.AreEqual(80 / count.Y, row_pitch.Y);
         scale = cell_oas.elementList[^1].getScale();

@@ -297,7 +297,7 @@ internal partial class oasReader
     {
         if (e == elementType.cellrefElement)
         {
-            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), modal.repetition);
+            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y), modal.repetition);
         }
         else
         {

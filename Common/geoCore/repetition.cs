@@ -488,7 +488,7 @@ public class Repetition
         foreach (GCPolygon poly in geo)
         {
             GCPolygon temp = new(poly);
-            temp.rotate(rotation);
+            temp.rotate(rotation, new(0,0));
             temp.scale(magnification);
             scaled_and_rotated.Add(temp);
         }
@@ -521,7 +521,7 @@ public class Repetition
             }
         }
 
-        for (int y = 0; y < columns; y++)
+        for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < columns; x++)
             {

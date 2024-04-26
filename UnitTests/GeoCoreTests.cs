@@ -2677,9 +2677,9 @@ public class GeoCoreTests
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         int polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 - (rowIndex * row_pitch.Y)));
@@ -2736,9 +2736,9 @@ public class GeoCoreTests
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(10 - (rowIndex * row_pitch.Y)));
@@ -2867,9 +2867,9 @@ public class GeoCoreTests
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         int polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
@@ -2927,9 +2927,9 @@ public class GeoCoreTests
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
@@ -3058,9 +3058,9 @@ public class GeoCoreTests
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         int polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 - (rowIndex * row_pitch.Y)));
@@ -3117,9 +3117,9 @@ public class GeoCoreTests
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
-        for (int colIndex = 0; colIndex < count.X; colIndex++)
+        for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
-            for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
+            for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(7));
                 Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(10 - (rowIndex * row_pitch.Y)));

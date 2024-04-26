@@ -322,7 +322,10 @@ public class Repetition
                 if (x_reflection || (rotation != 0 && doRotationInFunction))
                 {
                     Point64 v = new(spacing);
-                    if (x_reflection) v.Y = -v.Y;
+                    if (x_reflection)
+                    {
+                        v.Y = -v.Y;
+                    }
                     double ca = Math.Cos(rotation);
                     double sa = Math.Sin(rotation);
                     type = RepetitionType.Regular;
@@ -492,6 +495,13 @@ public class Repetition
             GCPolygon temp = new(poly);
             temp.rotate(rotation, new(0,0));
             temp.scale(magnification);
+            if (x_reflection)
+            {
+                for (int pt = 0; pt < temp.pointarray.Count; pt++)
+                {
+                    temp.pointarray[pt] = new (temp.pointarray[pt].X, -temp.pointarray[pt].Y);
+                }
+            }
             scaled_and_rotated.Add(temp);
         }
 
@@ -533,20 +543,6 @@ public class Repetition
                     temp.move(new (x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
                     ret.Add(temp);
                 }
-            }
-        }
-        
-        if (x_reflection)
-        {
-            foreach (GCPolygon poly in ret)
-            {
-                Path64 flipped = new();
-                foreach (Point64 pt in poly.pointarray)
-                {
-                    flipped.Add(new (pt.X, -pt.Y));
-                }
-                poly.pointarray.Clear();
-                poly.pointarray.AddRange(flipped);
             }
         }
         

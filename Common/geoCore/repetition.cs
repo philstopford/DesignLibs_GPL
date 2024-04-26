@@ -330,12 +330,13 @@ public class Repetition
                     double sa = Math.Sin(rotation);
                     type = RepetitionType.Regular;
                     rowVector.X = (Int64)(v.Y * ca);
-                    rowVector.X = (Int64)(v.Y * sa);
+                    rowVector.Y = (Int64)(v.Y * sa);
                     colVector.X = (Int64)(-v.Y * sa);
-                    colVector.X = (Int64)(v.Y * ca);
+                    colVector.Y = (Int64)(v.Y * ca);
                 }
                 break;
             case RepetitionType.Regular:
+                /*
                 if (magnification != 1)
                 {
                     rowVector = new (rowVector.X * magnification, rowVector.Y * magnification);
@@ -353,8 +354,8 @@ public class Repetition
                     Complex z2x = Complex.Cos(rotation);
                     Complex z2y = Complex.Sin(rotation);
 
-                    // Based on 
-                    /*
+                    // Based on
+                    / *
                         Vec2 r = {cos(rotation), sin(rotation)};
                         v1 = cplx_mul(v1, r);
                         v2 = cplx_mul(v2, r);
@@ -362,10 +363,14 @@ public class Repetition
                         inline Vec2 cplx_mul(const Vec2& z1, const Vec2& z2) {
                            return Vec2{z1.re * z2.re - z1.im * z2.im, z1.re * z2.im + z1.im * z2.re};
                         }
-                     */
-                    rowVector = new (rowVector.X * z2x.Real - rowVector.X * z2x.Imaginary, rowVector.Y * z2y.Imaginary + rowVector.Y * z2y.Imaginary);
-                    colVector = new (colVector.X * z2x.Real - colVector.X * z2x.Imaginary, colVector.Y * z2y.Imaginary + colVector.Y * z2y.Imaginary);
+                     * /
+                    rowVector = new (rowVector.X * z2x.Real - rowVector.X * z2x.Imaginary, rowVector.Y * z2y.Real + rowVector.Y * z2y.Imaginary);
+                    colVector = new (colVector.X * z2x.Real - colVector.X * z2x.Imaginary, colVector.Y * z2y.Real + colVector.Y * z2y.Imaginary);
+
+                    //colVector = GeoWrangler.Rotate(new Point64(0.0, 0.0), colVector, rotation+180);
+                    //rowVector = GeoWrangler.Rotate(new Point64(0.0, 0.0), rowVector, rotation+180);
                 }
+                */
                 break;
             case RepetitionType.ExplicitX:
                 if (rotation != 0  && doRotationInFunction)

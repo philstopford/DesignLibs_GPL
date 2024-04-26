@@ -493,8 +493,6 @@ public class Repetition
         foreach (GCPolygon poly in geo)
         {
             GCPolygon temp = new(poly);
-            temp.rotate(rotation, new(0,0));
-            temp.scale(magnification);
             if (x_reflection)
             {
                 for (int pt = 0; pt < temp.pointarray.Count; pt++)
@@ -502,6 +500,8 @@ public class Repetition
                     temp.pointarray[pt] = new (temp.pointarray[pt].X, -temp.pointarray[pt].Y);
                 }
             }
+            temp.rotate(rotation, new(0,0));
+            temp.scale(magnification);
             scaled_and_rotated.Add(temp);
         }
 

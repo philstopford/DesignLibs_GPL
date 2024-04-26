@@ -384,19 +384,26 @@ internal partial class oasReader
                             modal.mirror_x = true;
                         }
 
-                        modal.angle = (info_byte & 6) switch
+                        if ((info_byte & 6) == 6)
                         {
-                            6 => 270,
-                            _ => (info_byte & 6) switch
+                            modal.angle = 270;
+                        }
+                        else if ((info_byte & 6) == 4)
+                        {
+                            modal.angle = 180;
+                        }
+                        else
+                        {
+                            if ((info_byte & 6) == 2)
                             {
-                                4 => 180,
-                                _ => (info_byte & 6) switch
-                                {
-                                    2 => 90,
-                                    _ => modal.angle
-                                }
+                                modal.angle = 90;
                             }
-                        };
+                            else
+                            {
+                                modal.angle = modal.angle;
+                            }
+                        }
+
                         switch (modal.absoluteMode)
                         {
                             case true:

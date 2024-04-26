@@ -382,15 +382,17 @@ public class GCCellRefArray : GCElement
         //angle
         gw.bw.Write((ushort)12);
         gw.bw.Write(gdsValues.sANGLE);
-        switch (trans.mirror_x)
+        /*
+        if (trans.mirror_x && trans.angle != 0)
         {
-            case true when trans.angle != 0:
-                gw.write8ByteReal(360 - trans.angle);
-                break;
-            default:
-                gw.write8ByteReal(trans.angle);
-                break;
+            gw.write8ByteReal(360 - trans.angle);
         }
+        else
+        */
+        {
+            gw.write8ByteReal(trans.angle);
+        }
+
         //colrow
         gw.bw.Write((ushort)8);
         gw.bw.Write(gdsValues.sCOLROW);

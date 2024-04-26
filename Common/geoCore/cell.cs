@@ -648,11 +648,16 @@ public class GCCell
         }
         else
         {
-            double angle = (p1.X - p2.X) switch
+            double angle;
+            if ((p1.X - p2.X) == 0)
             {
-                0 => 90,
-                _ => Math.Atan((p1.Y - p2.Y) / (double) (p1.X - p2.X)) / 2 / Math.PI * 360
-            };
+                angle = 90;
+            }
+            else
+            {
+                angle = Math.Atan((p1.Y - p2.Y) / (double)(p1.X - p2.X)) / 2 / Math.PI * 360;
+            }
+
             m.translate(p1.X, p1.Y);
             m.rotate(angle);
             m.toggleMirror_x();

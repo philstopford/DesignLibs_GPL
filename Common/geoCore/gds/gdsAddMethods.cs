@@ -12,40 +12,21 @@ internal partial class gdsReader
         cell_.elementList[^1].setName(modal.sname);
         cell_.elementList[^1].rotate(modal.angle);
         cell_.elementList[^1].scale(modal.mag);
-        switch (modal.mirror_x)
+        if (modal.mirror_x)
         {
-            case true:
-                cell_.elementList[^1].setMirrorx();
-                break;
+            cell_.elementList[^1].setMirrorx();
         }
     }
 
     private void addCellRefArray()
     {
-        /*if (mirror_x){
-            point=point_array.point(1);
-            point.setY(-point.y());
-            point_array.setPoint(1,point);
-            point=point_array.point(2);
-            point.setY(-point.y());
-            point_array.setPoint(2,point);};*/
         cell_.addCellrefArray(drawing_.findCell(modal.sname), modal.point_array, modal.anzx, modal.anzy);
-        switch (modal.mirror_x)
-        {
-            case true:
-                cell_.elementList[^1].rotate(-modal.angle);
-                break;
-            default:
-                cell_.elementList[^1].rotate(modal.angle);
-                break;
-        }
+        cell_.elementList[^1].rotate(modal.angle);
         cell_.elementList[^1].scale(modal.mag);
         cell_.elementList[^1].setName(modal.sname);
-        switch (modal.mirror_x)
+        if (modal.mirror_x)
         {
-            case true:
-                cell_.elementList[^1].setMirrorx();
-                break;
+            cell_.elementList[^1].setMirrorx();
         }
     }
 
@@ -61,37 +42,35 @@ internal partial class gdsReader
 
     private void addText()
     {
-        modal.width = modal.width switch
+        if (modal.width == 1)
         {
-            1 => -10,
-            _ => modal.width switch
-            {
-                0 => -10,
-                _ => modal.mag switch
-                {
-                    <= 1 when modal.width == 0 => -10,
-                    _ => modal.width
-                }
-            }
-        };
-        cell_.addText(modal.layer, modal.datatype, modal.point_array[0], modal.sname);
-        switch (modal.mirror_x)
-        {
-            case true:
-                cell_.elementList[^1].rotate(-modal.angle);
-                break;
-            default:
-                cell_.elementList[^1].rotate(modal.angle);
-                break;
+            modal.width = -10;
         }
+        else if (modal.width == 0)
+        {
+            modal.width = -10;
+        }
+        else
+        {
+            if (modal.mag <= 1 && modal.width == 0)
+            {
+                modal.width = -10;
+            }
+            else
+            {
+                modal.width = modal.width;
+            }
+        }
+
+        cell_.addText(modal.layer, modal.datatype, modal.point_array[0], modal.sname);
+        cell_.elementList[^1].rotate(modal.angle);
         cell_.elementList[^1].scale(modal.mag);
         cell_.elementList[^1].setName(modal.sname);
-        switch (modal.mirror_x)
+        if (modal.mirror_x)
         {
-            case true:
-                cell_.elementList[^1].setMirrorx();
-                break;
+            cell_.elementList[^1].setMirrorx();
         }
+
         cell_.elementList[^1].setWidth(modal.width);
         cell_.elementList[^1].setPresentation(modal.presentation);
     }

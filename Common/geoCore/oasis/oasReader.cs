@@ -246,6 +246,7 @@ internal partial class oasReader
                         break;
                     case oasValues.CELLNAME_IMPLICIT:
                         cellNames[cellNameCount] = readString();
+                        drawing.cellList[cellNameCount].cellName = cellNames[cellNameCount];
                         cellNameCount++;
                         break;
                     case oasValues.CELLNAME:

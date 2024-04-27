@@ -253,12 +253,12 @@ public class GeoCoreTests
         
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
-        // Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons();
+        Assert.That(polys_oas.Count, Is.EqualTo(2));
+
         polyIndex = 0;
         Assert.That(cell_oas.elementList[polyIndex].isPolygon(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[polyIndex].convertToPolygons();
-        Assert.That(polys_oas.Count, Is.EqualTo(11));
-
+        Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(0));
         Assert.That(polys_oas[polyIndex].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(0));

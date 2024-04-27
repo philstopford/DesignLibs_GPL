@@ -168,11 +168,14 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[10].X, Is.EqualTo(-2000));
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0));
 
+        // OASIS file appears to be invalid per KLayout; bug raised with gdstk
+        /*
         string oasFile = baseDir + "gdstk_reference/f_rep.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
+        */
     }
     
     [Test]
@@ -187,11 +190,12 @@ public class GeoCoreTests
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(2));
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        Assert.That(polys_gds.Count, Is.EqualTo(2));
+        
         int polyIndex = 0;
         Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[polyIndex].convertToPolygons();
-        Assert.That(polys_gds.Count, Is.EqualTo(11));
-        
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(0));
@@ -216,7 +220,8 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0));
 
         polyIndex++;
-        
+        Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(3000));
         Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(3000));
         Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(3000));

@@ -410,7 +410,7 @@ internal partial class oasReader
                 modal.repetition.columns = readUnsignedInteger() + 2;
                 modal.repetition.rows = 1;
                 modal.repetition.colVector = readGDelta();
-                modal.repetition.rowVector = new(-modal.repetition.colVector.Y, modal.repetition.colVector.X);
+                modal.repetition.rowVector = new(modal.repetition.colVector.Y, modal.repetition.colVector.X);
                 break;
             case 10:
             case 11:

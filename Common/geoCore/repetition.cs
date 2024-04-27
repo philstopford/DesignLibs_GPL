@@ -110,7 +110,7 @@ public class Repetition
                     Int64 cx = i * spacing.X;
                     for (int j = 0; j < rows; j++)
                     {
-                        result.Append(new(cx, j * spacing.Y));
+                        result.Add(new(cx, j * spacing.Y));
                     }
                 }
 
@@ -121,29 +121,29 @@ public class Repetition
                     Point64 vi = new(rowVector.X * i, rowVector.Y * i);
                     for (int j = 0; j < rows; j++)
                     {
-                        result.Append(new(vi.X + j * colVector.X, vi.Y + j * colVector.Y));
+                        result.Add(new(vi.X + j * colVector.X, vi.Y + j * colVector.Y));
                     }
                 }
 
                 break;
             case RepetitionType.ExplicitX:
-                result.Append(new(0, 0));
+                result.Add(new(0, 0));
                 for (int j = 1; j < count; j++)
                 {
-                    result.Append(new(coords[j], 0));
+                    result.Add(new(coords[j], 0));
                 }
 
                 break;
             case RepetitionType.ExplicitY:
-                result.Append(new(0, 0));
+                result.Add(new(0, 0));
                 for (int j = 1; j < count; j++)
                 {
-                    result.Append(new(0, coords[j]));
+                    result.Add(new(0, coords[j]));
                 }
 
                 break;
             case RepetitionType.Explicit:
-                result.Append(new(0, 0));
+                result.Add(new(0, 0));
                 result.AddRange(offsets);
                 break;
             case RepetitionType.None:
@@ -169,27 +169,27 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        result.Append(new (0, 0));
+                        result.Add(new (0, 0));
                     }
                     else
                     {
-                        result.Append(new (0, 0));
-                        result.Append(new (0, (rows - 1) * spacing.Y));
+                        result.Add(new (0, 0));
+                        result.Add(new (0, (rows - 1) * spacing.Y));
                     }
                 }
                 else
                 {
                     if (rows == 1)
                     {
-                        result.Append(new (0, 0));
-                        result.Append(new ((columns - 1) * spacing.X, 0));
+                        result.Add(new (0, 0));
+                        result.Add(new ((columns - 1) * spacing.X, 0));
                     }
                     else
                     {
-                        result.Append(new (0, 0));
-                        result.Append(new (0, (rows - 1) * spacing.Y));
-                        result.Append(new ((columns - 1) * spacing.X, 0));
-                        result.Append(new ((columns - 1) * spacing.X, (rows - 1) * spacing.Y));
+                        result.Add(new (0, 0));
+                        result.Add(new (0, (rows - 1) * spacing.Y));
+                        result.Add(new ((columns - 1) * spacing.X, 0));
+                        result.Add(new ((columns - 1) * spacing.X, (rows - 1) * spacing.Y));
                     }
                 }
 
@@ -204,29 +204,29 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        result.Append(new (0, 0));
+                        result.Add(new (0, 0));
                     }
                     else
                     {
-                        result.Append(new (0, 0));
-                        result.Append(new((rows - 1) * colVector.X, (rows - 1) * colVector.Y));
+                        result.Add(new (0, 0));
+                        result.Add(new((rows - 1) * colVector.X, (rows - 1) * colVector.Y));
                     }
                 }
                 else
                 {
                     if (rows == 1)
                     {
-                        result.Append(new (0, 0));
-                        result.Append(new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y));
+                        result.Add(new (0, 0));
+                        result.Add(new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y));
                     }
                     else
                     {
                         PointD vi = new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y);
                         PointD vj = new((rows - 1) * colVector.X, (rows - 1) * colVector.Y);
-                        result.Append(new (0, 0));
-                        result.Append(new (vi));
-                        result.Append(new (vj));
-                        result.Append(new (vi.x + vj.x, vi.y + vj.y));
+                        result.Add(new (0, 0));
+                        result.Add(new (vi));
+                        result.Add(new (vj));
+                        result.Add(new (vi.x + vj.x, vi.y + vj.y));
                     }
                 }
 
@@ -239,10 +239,10 @@ public class Repetition
 
                 double xmin = coords.Min();
                 double xmax = coords.Max();
-                result.Append(new(xmin, 0));
+                result.Add(new(xmin, 0));
                 if (xmin != xmax)
                 {
-                    result.Append(new(xmax, 0));
+                    result.Add(new(xmax, 0));
                 }
 
                 break;
@@ -254,10 +254,10 @@ public class Repetition
 
                 double ymin = coords.Min();
                 double ymax = coords.Max();
-                result.Append(new(0, ymin));
+                result.Add(new(0, ymin));
                 if (ymin != ymax)
                 {
-                    result.Append(new(0, ymax));
+                    result.Add(new(0, ymax));
                 }
 
                 break;
@@ -292,10 +292,10 @@ public class Repetition
                     }
                 }
 
-                result.Append(vxmin);
-                result.Append(vxmax);
-                result.Append(vymin);
-                result.Append(vymax);
+                result.Add(vxmin);
+                result.Add(vxmax);
+                result.Add(vymin);
+                result.Add(vymax);
                 break;
             case RepetitionType.None:
                 return result;

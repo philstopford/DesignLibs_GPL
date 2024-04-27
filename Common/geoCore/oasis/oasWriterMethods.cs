@@ -30,12 +30,11 @@ public partial class oasWriter
         i = Math.Abs(i);
         int h = (i & 63) << 1;
         i >>= 6;
-        switch (sig)
+        if (sig)
         {
-            case true:
-                h++;
-                break;
+            h++;
         }
+
         while (i != 0)
         {
             h += 128;
@@ -58,32 +57,26 @@ public partial class oasWriter
 
     public void writeReal(double d)
     {
-        switch (Math.Abs(d))
+        if (Math.Abs(d) >= 0.5 && (Math.Abs(Math.Floor(d + 0.5) - d) < 1e-6 && Math.Abs(d) < double.MaxValue))
         {
-            case >= 0.5 when Math.Abs(Math.Floor(d + 0.5) - d) < 1e-6 && Math.Abs(d) < double.MaxValue:
+            if (d <
+                //  whole number (negative or positive)
+                0.0)
             {
-                switch (d)
-                {
-                    //  whole number (negative or positive)
-                    case < 0.0:
-                        writeUnsignedInteger(1);
-                        writeUnsignedInteger((uint)Math.Floor(-d + 0.5));
-                        break;
-                    default:
-                        writeUnsignedInteger(0);
-                        writeUnsignedInteger((uint)Math.Floor(d + 0.5));
-                        break;
-                }
-
-                break;
+                writeUnsignedInteger(1);
+                writeUnsignedInteger((uint)Math.Floor(-d + 0.5));
             }
-            default:
+            else
             {
-                writeUnsignedInteger(7);
-                byte[] a = BitConverter.GetBytes(d);
-                bw.Write(a);
-                break;
+                writeUnsignedInteger(0);
+                writeUnsignedInteger((uint)Math.Floor(d + 0.5));
             }
+        }
+        else
+        {
+            writeUnsignedInteger(7);
+            byte[] a = BitConverter.GetBytes(d);
+            bw.Write(a);
         }
     }
 
@@ -93,20 +86,18 @@ public partial class oasWriter
         bool type1 = true;
         bool type2 = true;
         bool type3 = true;
-        switch (p.Count % 2)
+        if (p.Count % 2 == 0)
         {
-            case 0:
-                type0 = false;
-                type1 = false;
-                break;
+            type0 = false;
+            type1 = false;
         }
-        switch (p.Count)
+
+        if (p.Count < 4)
         {
-            case < 4:
-                type0 = false;
-                type1 = false;
-                break;
+            type0 = false;
+            type1 = false;
         }
+
         for (int i = 0; i < p.Count - 1; i++)
         {
             PointD pd = GeoWrangler.distanceBetweenPoints_point(p[i + 1], p[i]);
@@ -140,11 +131,29 @@ public partial class oasWriter
                 type3 = false;
             }
         }
-        switch (type0)
+
+        if (type0)
         {
-            case true:
+            writeUnsignedInteger(0);
+            int count = excludeImplicid switch
             {
-                writeUnsignedInteger(0);
+                true => p.Count - 3,
+                _ => p.Count - 1
+            };
+            writeUnsignedInteger((uint)count);
+            Point64 last = new(p[0]);
+            for (int i = 1; i <= count; i++)
+            {
+                PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                write1Delta(h, i % 2 == 0);
+                last = new(p[i]);
+            }
+        }
+        else
+        {
+            if (type1)
+            {
+                writeUnsignedInteger(1);
                 int count = excludeImplicid switch
                 {
                     true => p.Count - 3,
@@ -155,22 +164,37 @@ public partial class oasWriter
                 for (int i = 1; i <= count; i++)
                 {
                     PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
-                    write1Delta(h, i % 2 == 0);
-                    last = new (p[i]);
+                    write1Delta(h, i % 2 == 1);
+                    last = new(p[i]);
                 }
-
-                break;
             }
-            default:
+            else
             {
-                switch (type1)
+                if (type2)
                 {
-                    case true:
+                    writeUnsignedInteger(2);
+                    int count = excludeImplicid switch
                     {
-                        writeUnsignedInteger(1);
+                        true => p.Count - 2,
+                        _ => p.Count - 1
+                    };
+                    writeUnsignedInteger((uint)count);
+                    Point64 last = new(p[0]);
+                    for (int i = 1; i <= count; i++)
+                    {
+                        PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                        write2Delta(h);
+                        last = new(p[i]);
+                    }
+                }
+                else
+                {
+                    if (type3)
+                    {
+                        writeUnsignedInteger(3);
                         int count = excludeImplicid switch
                         {
-                            true => p.Count - 3,
+                            true => p.Count - 2,
                             _ => p.Count - 1
                         };
                         writeUnsignedInteger((uint)count);
@@ -178,298 +202,221 @@ public partial class oasWriter
                         for (int i = 1; i <= count; i++)
                         {
                             PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
-                            write1Delta(h, i % 2 == 1);
-                            last = new (p[i]);
+                            write3Delta(h);
+                            last = new(p[i]);
                         }
-
-                        break;
                     }
-                    default:
+                    else
                     {
-                        switch (type2)
+                        writeUnsignedInteger(4);
+                        int count = excludeImplicid switch
                         {
-                            case true:
-                            {
-                                writeUnsignedInteger(2);
-                                int count = excludeImplicid switch
-                                {
-                                    true => p.Count - 2,
-                                    _ => p.Count - 1
-                                };
-                                writeUnsignedInteger((uint)count);
-                                Point64 last = new(p[0]);
-                                for (int i = 1; i <= count; i++)
-                                {
-                                    PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
-                                    write2Delta(h);
-                                    last = new (p[i]);
-                                }
-
-                                break;
-                            }
-                            default:
-                            {
-                                switch (type3)
-                                {
-                                    case true:
-                                    {
-                                        writeUnsignedInteger(3);
-                                        int count = excludeImplicid switch
-                                        {
-                                            true => p.Count - 2,
-                                            _ => p.Count - 1
-                                        };
-                                        writeUnsignedInteger((uint)count);
-                                        Point64 last = new(p[0]);
-                                        for (int i = 1; i <= count; i++)
-                                        {
-                                            PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
-                                            write3Delta(h);
-                                            last = new (p[i]);
-                                        }
-
-                                        break;
-                                    }
-                                    default:
-                                    {
-                                        writeUnsignedInteger(4);
-                                        int count = excludeImplicid switch
-                                        {
-                                            true => p.Count - 2,
-                                            _ => p.Count - 1
-                                        };
-                                        writeUnsignedInteger((uint)count);
-                                        Point64 last = new(p[0]);
-                                        for (int i = 1; i <= count; i++)
-                                        {
-                                            PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
-                                            writeGDelta(h);
-                                            last = new (p[i]);
-                                        }
-
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            }
+                            true => p.Count - 2,
+                            _ => p.Count - 1
+                        };
+                        writeUnsignedInteger((uint)count);
+                        Point64 last = new(p[0]);
+                        for (int i = 1; i <= count; i++)
+                        {
+                            PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                            writeGDelta(h);
+                            last = new(p[i]);
                         }
-
-                        break;
                     }
                 }
-
-                break;
             }
         }
     }
 
     private void write1Delta(PointD p, bool dir)
     {
-        int w = dir switch
+        int w;
+        if (dir)
         {
-            true => (int) p.y,
-            _ => (int) p.x
-        };
-        switch (w)
-        {
-            case > 0:
-                w <<= 1;
-                break;
-            default:
-                w = (-w << 1) + 1;
-                break;
+            w = (int)p.y;
         }
+        else
+        {
+            w = (int)p.x;
+        }
+
+        if (w > 0)
+        {
+            w <<= 1;
+        }
+        else
+        {
+            w = (-w << 1) + 1;
+        }
+
         writeUnsignedInteger((uint)w);
     }
 
     private void write2Delta(PointD p)
     {
-        int w = p.x switch
+        int w;
+        if (p.x == 0 && p.y > 0)
         {
-            0 when p.y > 0 => ((int) p.y << 2) + 1,
-            0 => ((int) -p.y << 2) + 3,
-            > 0 => ((int) p.x << 2) + 0,
-            _ => ((int) -p.x << 2) + 2
-        };
+            w = ((int)p.y << 2) + 1;
+        }
+        else if (p.x == 0)
+        {
+            w = ((int)-p.y << 2) + 3;
+        }
+        else if (p.x > 0)
+        {
+            w = ((int)p.x << 2) + 0;
+        }
+        else
+        {
+            w = ((int)-p.x << 2) + 2;
+        }
+
         writeUnsignedInteger((uint)w);
     }
 
     private void write3Delta(PointD p)
     {
         int w;
-        switch (p.x)
+        if (p.x == 0 && p.y > 0)
         {
-            case 0 when p.y > 0:
-                w = ((int)p.y << 3) + 1;
-                break;
-            case 0:
-                w = ((int)-p.y << 3) + 3;
-                break;
-            default:
+            w = ((int)p.y << 3) + 1;
+        }
+        else if (p.x == 0)
+        {
+            w = ((int)-p.y << 3) + 3;
+        }
+        else
+        {
+            if (p.y == 0 && p.x > 0)
             {
-                switch (p.y)
+                w = ((int)p.x << 3) + 0;
+            }
+            else if (p.y == 0)
+            {
+                w = ((int)-p.x << 3) + 2;
+            }
+            else
+            {
+                if (Math.Abs(p.y - p.x) <= double.Epsilon && p.y > 0)
                 {
-                    case 0 when p.x > 0:
-                        w = ((int)p.x << 3) + 0;
-                        break;
-                    case 0:
-                        w = ((int)-p.x << 3) + 2;
-                        break;
-                    default:
-                    {
-                        switch (Math.Abs(p.y - p.x))
-                        {
-                            case <= double.Epsilon when p.y > 0:
-                                w = ((int)p.y << 3) + 4;
-                                break;
-                            case <= double.Epsilon:
-                                w = ((int)-p.y << 3) + 6;
-                                break;
-                            default:
-                            {
-                                w = p.x switch
-                                {
-                                    > 0 => ((int) p.x << 3) + 7,
-                                    _ => ((int) -p.x << 3) + 5
-                                };
-
-                                break;
-                            }
-                        }
-
-                        break;
-                    }
+                    w = ((int)p.y << 3) + 4;
                 }
-
-                break;
+                else if (Math.Abs(p.y - p.x) <= double.Epsilon)
+                {
+                    w = ((int)-p.y << 3) + 6;
+                }
+                else
+                {
+                    w = p.x switch
+                    {
+                        > 0 => ((int)p.x << 3) + 7,
+                        _ => ((int)-p.x << 3) + 5
+                    };
+                }
             }
         }
+
         writeUnsignedInteger((uint)w);
     }
 
     public void writeGDelta(PointD p)
     {
-        switch (p.y)
+        if (p.y == 0)
         {
-            case 0:
+            int i;
+            if (p.x >= 0)
+            {
+                i = ((int)p.x << 4);
+            }
+            else
+            {
+                i = 2;
+                i = ((int)-p.x << 4) + 2 * i;
+            }
+
+            writeUnsignedInteger((uint)i);
+        }
+        else
+        {
+            if (p.x == 0)
             {
                 int i;
-                switch (p.x)
+                if (p.y >= 0)
                 {
-                    case >= 0:
-                        i = ((int)p.x << 4);
-                        break;
-                    default:
-                        i = 2;
-                        i = ((int)-p.x << 4) + 2 * i;
-                        break;
+                    i = ((int)p.y << 4) + 2;
                 }
-                writeUnsignedInteger((uint)i);
-                break;
-            }
-            default:
-            {
-                switch (p.x)
+                else
                 {
-                    case 0:
+                    i = 3;
+                    i = ((int)-p.y << 4) + 2 * i;
+                }
+
+                writeUnsignedInteger((uint)i);
+            }
+            else
+            {
+                if (Math.Abs(p.y - p.x) <= double.Epsilon)
+                {
+                    int i;
+                    if (p.x >= 0)
+                    {
+                        i = 4;
+                        i = ((int)p.x << 4) + 2 * i;
+                    }
+                    else
+                    {
+                        i = 6;
+                        i = ((int)-p.x << 4) + 2 * i;
+                    }
+
+                    writeUnsignedInteger((uint)i);
+                }
+                else
+                {
+                    if (Math.Abs(p.y - -p.x) <= double.Epsilon)
                     {
                         int i;
-                        switch (p.y)
+                        if (p.x >= 0)
                         {
-                            case >= 0:
-                                i = ((int)p.y << 4) + 2;
-                                break;
-                            default:
-                                i = 3;
-                                i = ((int)-p.y << 4) + 2 * i;
-                                break;
+                            i = 7;
+                            i = ((int)p.x << 4) + 2 * i;
                         }
+                        else
+                        {
+                            i = 5;
+                            i = ((int)-p.x << 4) + 2 * i;
+                        }
+
                         writeUnsignedInteger((uint)i);
-                        break;
                     }
-                    default:
+                    else
                     {
-                        switch (Math.Abs(p.y - p.x))
+                        int k;
+                        if (p.x <= 0)
                         {
-                            case <= double.Epsilon:
-                            {
-                                int i;
-                                switch (p.x)
-                                {
-                                    case >= 0:
-                                        i = 4;
-                                        i = ((int)p.x << 4) + 2 * i;
-                                        break;
-                                    default:
-                                        i = 6;
-                                        i = ((int)-p.x << 4) + 2 * i;
-                                        break;
-                                }
-                                writeUnsignedInteger((uint)i);
-                                break;
-                            }
-                            default:
-                            {
-                                switch (Math.Abs(p.y - -p.x))
-                                {
-                                    case <= double.Epsilon:
-                                    {
-                                        int i;
-                                        switch (p.x)
-                                        {
-                                            case >= 0:
-                                                i = 7;
-                                                i = ((int)p.x << 4) + 2 * i;
-                                                break;
-                                            default:
-                                                i = 5;
-                                                i = ((int)-p.x << 4) + 2 * i;
-                                                break;
-                                        }
-                                        writeUnsignedInteger((uint)i);
-                                        break;
-                                    }
-                                    default:
-                                    {
-                                        int k;
-                                        switch (p.x)
-                                        {
-                                            case <= 0:
-                                            {
-                                                const int i = 2;
-                                                k = ((int)-p.x << 2) + i + 1;
-                                                break;
-                                            }
-                                            default:
-                                                k = ((int)p.x << 2) + 1;
-                                                break;
-                                        }
-                                        writeUnsignedInteger((uint)k);
-                                        switch (p.y)
-                                        {
-                                            case <= 0:
-                                                int j = 1;
-                                                k = ((int)-p.y << 1) + j;
-                                                break;
-                                            default:
-                                                k = (int)p.y << 1;
-                                                break;
-                                        }
-                                        writeUnsignedInteger((uint)k);
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            }
+                            const int i = 2;
+                            k = ((int)-p.x << 2) + i + 1;
+                        }
+                        else
+                        {
+                            k = ((int)p.x << 2) + 1;
                         }
 
-                        break;
+                        writeUnsignedInteger((uint)k);
+                        if (p.y <= 0)
+                        {
+                            int j = 1;
+                            k = ((int)-p.y << 1) + j;
+                        }
+                        else
+                        {
+                            k = (int)p.y << 1;
+                        }
+
+                        writeUnsignedInteger((uint)k);
                     }
                 }
-
-                break;
             }
         }
     }
@@ -518,64 +465,60 @@ public partial class oasWriter
         }
         writeUnsignedInteger(26);
         writeRaw(info_byte);
-        switch (info_byte & 1)
+        if ((info_byte & 1) > 0)
         {
-            case > 0:
-                modal.layer = layerNum;
-                writeUnsignedInteger((uint)modal.layer);
-                break;
+            modal.layer = layerNum;
+            writeUnsignedInteger((uint)modal.layer);
         }
-        switch (info_byte & 2)
+
+        if ((info_byte & 2) > 0)
         {
-            case > 0:
-                modal.datatype = d;
-                writeUnsignedInteger((uint)d);
-                break;
+            modal.datatype = d;
+            writeUnsignedInteger((uint)d);
         }
-        switch (info_byte & 128)
+
+        if ((info_byte & 128) > 0)
         {
-            case > 0:
-                modal.ctrapezoid_type = type;
-                writeUnsignedInteger((uint)modal.ctrapezoid_type);
-                break;
+            modal.ctrapezoid_type = type;
+            writeUnsignedInteger((uint)modal.ctrapezoid_type);
         }
-        switch (info_byte & 64)
+
+        if ((info_byte & 64) > 0)
         {
-            case > 0:
-                modal.geometry_w = w;
-                writeUnsignedInteger((uint)modal.geometry_w);
-                break;
+            modal.geometry_w = w;
+            writeUnsignedInteger((uint)modal.geometry_w);
         }
-        switch (info_byte & 32)
+
+        if ((info_byte & 32) > 0)
         {
-            case > 0:
-                modal.geometry_h = h;
-                writeUnsignedInteger((uint)modal.geometry_h);
-                break;
+            modal.geometry_h = h;
+            writeUnsignedInteger((uint)modal.geometry_h);
         }
-        switch (info_byte & 16)
+
+        if ((info_byte & 16) > 0)
         {
-            case > 0:
-                modal.geometry_x = x;
-                writeSignedInteger(modal.geometry_x);
-                break;
+            modal.geometry_x = x;
+            writeSignedInteger(modal.geometry_x);
         }
-        switch (info_byte & 8)
+
+        if ((info_byte & 8) > 0)
         {
-            case > 0:
-                modal.geometry_y = y;
-                writeSignedInteger(modal.geometry_y);
-                break;
+            modal.geometry_y = y;
+            writeSignedInteger(modal.geometry_y);
         }
     }
 
     public void writeTrapezoid(int layerNum, int type, int x, int y, int w, int h, int da, int db, int d)
     {
-        modal.absoluteMode = modal.absoluteMode switch
+        if (!modal.absoluteMode)
         {
-            false => true,
-            _ => modal.absoluteMode
-        };
+            modal.absoluteMode = true;
+        }
+        else
+        {
+            modal.absoluteMode = modal.absoluteMode;
+        }
+
         byte info_byte = 0;  //write point-list;
         if (layerNum != modal.layer)
         {
@@ -593,12 +536,12 @@ public partial class oasWriter
         {
             info_byte += 8;
         }
-        switch (type)
+
+        if (type == 1)
         {
-            case 1:
-                info_byte += 128;
-                break;
+            info_byte += 128;
         }
+
         if (w != modal.geometry_w)
         {
             info_byte += 64;
@@ -607,89 +550,75 @@ public partial class oasWriter
         {
             info_byte += 32;
         }
-        switch (da)
-        {
-            case 0:
-                writeUnsignedInteger(25);
-                break;
-            default:
-            {
-                switch (db)
-                {
-                    case 0:
-                        writeUnsignedInteger(24);
-                        break;
-                    default:
-                        writeUnsignedInteger(23);
-                        break;
-                }
 
-                break;
+        if (da == 0)
+        {
+            writeUnsignedInteger(oasValues.TRAPEZOID_B);
+        }
+        else
+        {
+            if (db == 0)
+            {
+                writeUnsignedInteger(oasValues.TRAPEZOID_A);
+            }
+            else
+            {
+                writeUnsignedInteger(oasValues.TRAPEZOID_AB);
             }
         }
+
         writeRaw(info_byte);
-        switch (info_byte & 1)
+        if ((info_byte & 1) > 0)
         {
-            case > 0:
-                modal.layer = layerNum;
-                writeUnsignedInteger((uint)modal.layer);
-                break;
+            modal.layer = layerNum;
+            writeUnsignedInteger((uint)modal.layer);
         }
-        switch (info_byte & 2)
-        {
-            case > 0:
-                modal.datatype = d;
-                writeUnsignedInteger((uint)d);
-                break;
-        }
-        switch (info_byte & 64)
-        {
-            case > 0:
-                modal.geometry_w = w;
-                writeUnsignedInteger((uint)modal.geometry_w);
-                break;
-        }
-        switch (info_byte & 32)
-        {
-            case > 0:
-                modal.geometry_h = h;
-                writeUnsignedInteger((uint)modal.geometry_h);
-                break;
-        }
-        switch (da)
-        {
-            case 0:
-                write1Delta(new (db, 0), false);
-                break;
-            default:
-            {
-                switch (db)
-                {
-                    case 0:
-                        write1Delta(new (da, 0), false);
-                        break;
-                    default:
-                        write1Delta(new (da, 0), false);
-                        write1Delta(new (db, 0), false);
-                        break;
-                }
 
-                break;
+        if ((info_byte & 2) > 0)
+        {
+            modal.datatype = d;
+            writeUnsignedInteger((uint)d);
+        }
+
+        if ((info_byte & 64) > 0)
+        {
+            modal.geometry_w = w;
+            writeUnsignedInteger((uint)modal.geometry_w);
+        }
+
+        if ((info_byte & 32) > 0)
+        {
+            modal.geometry_h = h;
+            writeUnsignedInteger((uint)modal.geometry_h);
+        }
+
+        if (da == 0)
+        {
+            write1Delta(new(db, 0), false);
+        }
+        else
+        {
+            if (db == 0)
+            {
+                write1Delta(new(da, 0), false);
+            }
+            else
+            {
+                write1Delta(new(da, 0), false);
+                write1Delta(new(db, 0), false);
             }
         }
-        switch (info_byte & 16)
+
+        if ((info_byte & 16) > 0)
         {
-            case > 0:
-                modal.geometry_x = x;
-                writeSignedInteger(modal.geometry_x);
-                break;
+            modal.geometry_x = x;
+            writeSignedInteger(modal.geometry_x);
         }
-        switch (info_byte & 8)
+
+        if ((info_byte & 8) > 0)
         {
-            case > 0:
-                modal.geometry_y = y;
-                writeSignedInteger(modal.geometry_y);
-                break;
+            modal.geometry_y = y;
+            writeSignedInteger(modal.geometry_y);
         }
     }
 }

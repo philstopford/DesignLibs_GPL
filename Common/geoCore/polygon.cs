@@ -683,7 +683,7 @@ public class GCPolygon : GCElement
                             info_byte += 32;
                             break;
                     }
-                    ow.writeUnsignedInteger(27);
+                    ow.writeUnsignedInteger(oasValues.CIRCLE);
                     ow.writeRaw(info_byte);
                     switch (info_byte & 1)
                     {
@@ -1211,7 +1211,7 @@ public class GCPolygon : GCElement
         {
             info_byte += 8;
         }
-        ow.writeUnsignedInteger(21);
+        ow.writeUnsignedInteger(oasValues.POLYGON);
         ow.writeRaw(info_byte);
         switch (info_byte & 1)
         {

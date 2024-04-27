@@ -210,84 +210,74 @@ internal partial class oasReader
                 byte info_byte;
                 switch (record)
                 {
-                    case 0: //pad
+                    case oasValues.PAD:
                         break;
-                    case 1: //start
-                        modal.s = readString();
-                        if (modal.s != "1.0")
+                    case oasValues.START:
+                        string test = readString();
+                        if (test != "1.0")
                         {
-                            string err2 = "Unknown/unsupported version of OASIS: " + modal.s;
+                            string err2 = "Unknown/unsupported version of OASIS: " + test;
                             error_msgs.Add(err2);
                             throw new Exception(err2);
                         }
                         drawing_.databaseunits = readReal();
                         i = readUnsignedInteger();
-                        switch (i)
+                        if (i == 0)
                         {
-                            case 0:
+                            tableAtEnd = false;
+                            for (i = 0; i < 12; i++)
                             {
-                                tableAtEnd = false;
-                                for (i = 0; i < 12; i++)
-                                {
-                                    readUnsignedInteger();
-                                }
-
-                                break;
+                                readUnsignedInteger();
                             }
-                            default:
-                                tableAtEnd = true;
-                                break;
+                        }
+                        else
+                        {
+                            tableAtEnd = true;
                         }
 
                         break;
-                    case 2: //end
-                        switch (tableAtEnd)
-                        {
-                            case true:
+                    case oasValues.END:
+                        if (tableAtEnd)
+                            for (i = 0; i < 12; i++)
                             {
-                                for (i = 0; i < 12; i++)
-                                {
-                                    readUnsignedInteger();
-                                }
-
-                                break;
+                                readUnsignedInteger();
                             }
-                        }
+
                         break;
-                    case 3: //cellname
+                    case oasValues.CELLNAME_IMPLICIT:
                         cellNames[cellNameCount] = readString();
                         cellNameCount++;
                         break;
-                    case 4: //cellname
+                    case oasValues.CELLNAME:
                         modal.s = readString();
                         i = readUnsignedInteger();
                         cellNames[i] = modal.s;
                         break;
-                    case 5: //textname
+                    case oasValues.TEXTSTRING_IMPLICIT:
                         textNames[textNameCount] = readString();
                         textNameCount++;
                         break;
-                    case 6: //textname
+                    case oasValues.TEXTSTRING:
                         modal.s = readString();
                         i = readUnsignedInteger();
                         textNames[i] = modal.s;
                         break;
-                    case 7: //property
+                    case oasValues.PROPNAME_IMPLICIT:
                         modal.s = readString();
                         break;
-                    case 8: //property
-                        modal.s = readString();
-                        i = readUnsignedInteger();
-                        break;
-                    case 9: //property string
-                        modal.s = readString();
-                        break;
-                    case 10: //property string
+                    case oasValues.PROPNAME:
                         modal.s = readString();
                         i = readUnsignedInteger();
                         break;
-                    case 11: //layername textlayername 
-                    case 12:
+                    case oasValues.PROPSTRING_IMPLICIT:
+                        modal.s = readString();
+                        break;
+                    case oasValues.PROPSTRING:
+                        modal.s = readString();
+                        i = readUnsignedInteger();
+                        break;
+                    case oasValues.LAYERNAME_DATA: 
+                    case oasValues.LAYERNAME_TEXT:
                         modal.s = readString();
                         i = readUnsignedInteger();
                         switch (i)
@@ -335,7 +325,7 @@ internal partial class oasReader
                             layerNames.Add("L" + l + "D" + i, modal.s);
                         }
                         break;
-                    case 13: // cellrecord
+                    case oasValues.CELL_REF_NUM:
                         cell_ = drawing_.addCell();
                         i = readUnsignedInteger();
                         cellNames[i] = cellNames[i] switch
@@ -346,18 +336,18 @@ internal partial class oasReader
                         cell_.cellName = cellNames[i];
                         resetModal();
                         break;
-                    case 14: // cellrecord
+                    case oasValues.CELL:
                         cell_ = drawing_.addCell();
                         cell_.cellName = readString();
                         resetModal();
                         break;
-                    case 15: //xyabsolute
+                    case oasValues.XYABSOLUTE:
                         modal.absoluteMode = true;
                         break;
-                    case 16: //xyrelative
+                    case oasValues.XYRELATIVE:
                         modal.absoluteMode = false;
                         break;
-                    case 17: //cellref
+                    case oasValues.PLACEMENT:
                         modal.mag = 1;
                         modal.angle = 0;
                         modal.mirror_x = false;
@@ -367,11 +357,15 @@ internal partial class oasReader
                             if ((info_byte & 64) != 0)
                             {
                                 i = readUnsignedInteger();
-                                cellNames[i] = cellNames[i] switch
+                                if (cellNames[i] == "")
                                 {
-                                    "" => "layout#cell~" + i,
-                                    _ => cellNames[i]
-                                };
+                                    cellNames[i] = "layout#cell~" + i;
+                                }
+                                else
+                                {
+                                    cellNames[i] = cellNames[i];
+                                }
+
                                 modal.placement_cell = cellNames[i];
                             }
                             else
@@ -404,35 +398,31 @@ internal partial class oasReader
                             }
                         }
 
-                        switch (modal.absoluteMode)
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 32) != 0)
                             {
-                                if ((info_byte & 32) != 0)
-                                {
-                                    modal.placement_x = readSignedInteger();
-                                }
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.placement_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.placement_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 32) != 0)
-                                {
-                                    modal.placement_x += readSignedInteger();
-                                }
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.placement_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.placement_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 32) != 0)
+                            {
+                                modal.placement_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.placement_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 8) != 0)
                         {
                             readRepetition();
@@ -445,7 +435,7 @@ internal partial class oasReader
                         }
 
                         break;
-                    case 18: //cellref
+                    case oasValues.PLACEMENT_TRANSFORM:
                         modal.mag = 1;
                         modal.angle = 0;
                         modal.mirror_x = false;
@@ -455,11 +445,15 @@ internal partial class oasReader
                             if ((info_byte & 64) != 0)
                             {
                                 i = readUnsignedInteger();
-                                cellNames[i] = cellNames[i] switch
+                                if (cellNames[i] == "")
                                 {
-                                    "" => "layout#cell~" + i,
-                                    _ => cellNames[i]
-                                };
+                                    cellNames[i] = "layout#cell~" + i;
+                                }
+                                else
+                                {
+                                    cellNames[i] = cellNames[i];
+                                }
+
                                 modal.placement_cell = cellNames[i];
                             }
                             else
@@ -479,35 +473,32 @@ internal partial class oasReader
                         {
                             modal.angle = readReal();
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 32) != 0)
                             {
-                                if ((info_byte & 32) != 0)
-                                {
-                                    modal.placement_x = readSignedInteger();
-                                }
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.placement_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.placement_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 32) != 0)
-                                {
-                                    modal.placement_x += readSignedInteger();
-                                }
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.placement_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.placement_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 32) != 0)
+                            {
+                                modal.placement_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.placement_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 8) != 0)
                         {
                             readRepetition();
@@ -519,18 +510,22 @@ internal partial class oasReader
                         }
 
                         break;
-                    case 19: //text
+                    case oasValues.TEXT:
                         info_byte = readRaw();
                         if ((info_byte & 64) != 0)
                         {
                             if ((info_byte & 32) != 0)
                             {
                                 i = readUnsignedInteger();
-                                textNames[i] = textNames[i] switch
+                                if (textNames[i] == "")
                                 {
-                                    "" => "layout#text~" + i,
-                                    _ => textNames[i] != null ? textNames[i] : modal.s
-                                };
+                                    textNames[i] = "layout#text~" + i;
+                                }
+                                else
+                                {
+                                    textNames[i] = textNames[i] != null ? textNames[i] : modal.s;
+                                }
+
                                 modal.text_string = textNames[i];
                             }
                             else
@@ -547,35 +542,32 @@ internal partial class oasReader
                             modal.texttype = readUnsignedInteger();
                             modal.datatype = modal.texttype; // we don't treat text differently.
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.text_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.text_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.text_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.text_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.text_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.text_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.text_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.text_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -587,7 +579,7 @@ internal partial class oasReader
                         }
 
                         break;
-                    case 20: //rectangle/box
+                    case oasValues.RECTANGLE:
                         info_byte = readRaw();
                         if ((info_byte & 1) != 0)
                         {
@@ -609,35 +601,32 @@ internal partial class oasReader
                         {
                             modal.geometry_h = modal.geometry_w;
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -649,7 +638,7 @@ internal partial class oasReader
                         }
 
                         break;
-                    case 21: //polygon
+                    case oasValues.POLYGON:
                         info_byte = readRaw();
                         if ((info_byte & 1) != 0)
                         {
@@ -663,35 +652,32 @@ internal partial class oasReader
                         {
                             readPointList(true);
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -702,7 +688,7 @@ internal partial class oasReader
                             addPolygon();
                         }
                         break;
-                    case 22: //path
+                    case oasValues.PATH:
                         info_byte = readRaw();
                         if ((info_byte & 1) != 0)
                         {
@@ -731,35 +717,32 @@ internal partial class oasReader
                         {
                             readPointList(false);
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -771,7 +754,7 @@ internal partial class oasReader
                         }
 
                         break;
-                    case 23: //trapezoid
+                    case oasValues.TRAPEZOID_AB:
                         modal.trapezoid_delta_a = 0;
                         modal.trapezoid_delta_b = 0;
                         modal.trapezoid_orientation = false;
@@ -798,35 +781,31 @@ internal partial class oasReader
                         }
                         modal.trapezoid_delta_a = (int)read1Delta(false).X;
                         modal.trapezoid_delta_b = (int)read1Delta(false).X;
-                        switch (modal.absoluteMode)
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -837,9 +816,8 @@ internal partial class oasReader
                             addTrapezoid();
                         }
                         break;
-                    case 24:
-                    case 25:
-                        // trapezoid
+                    case oasValues.TRAPEZOID_A:
+                    case oasValues.TRAPEZOID_B:
                         info_byte = readRaw();
                         modal.trapezoid_delta_a = 0;
                         modal.trapezoid_delta_b = 0;
@@ -864,44 +842,41 @@ internal partial class oasReader
                         {
                             modal.trapezoid_orientation = true;
                         }
-                        switch (record)
+
+                        if (record == 24)
                         {
-                            case 24:
-                                modal.trapezoid_delta_a = (int)read1Delta(false).X;
-                                break;
-                            default:
-                                modal.trapezoid_delta_b = (int)read1Delta(false).X;
-                                break;
+                            modal.trapezoid_delta_a = (int)read1Delta(false).X;
                         }
-                        switch (modal.absoluteMode)
+                        else
                         {
-                            case true:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
+                            modal.trapezoid_delta_b = (int)read1Delta(false).X;
+                        }
 
-                                break;
+                        if (modal.absoluteMode)
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -912,8 +887,7 @@ internal partial class oasReader
                             addTrapezoid();
                         }
                         break;
-                    case 26:
-                        // ctrapezoid
+                    case oasValues.CTRAPEZOID:
                         info_byte = readRaw();
                         if ((info_byte & 1) != 0)
                         {
@@ -935,35 +909,32 @@ internal partial class oasReader
                         {
                             modal.geometry_h = readUnsignedInteger();
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -974,8 +945,7 @@ internal partial class oasReader
                             addCtrapezoid();
                         }
                         break;
-                    case 27:
-                        // circle
+                    case oasValues.CIRCLE:
                         info_byte = readRaw();
                         if ((info_byte & 1) != 0)
                         {
@@ -989,35 +959,32 @@ internal partial class oasReader
                         {
                             modal.circle_radius = readUnsignedInteger(); // unsure : need to check if scaling needed here.
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
@@ -1028,8 +995,8 @@ internal partial class oasReader
                             addCircle();
                         }
                         break;
-                    case 28: //property
-                    case 29:
+                    case oasValues.PROPERTY: //property
+                    case oasValues.LAST_PROPERTY:
                         info_byte = readRaw();
                         if ((info_byte & 4) != 0 && (info_byte & 2) != 0)
                         {
@@ -1039,39 +1006,40 @@ internal partial class oasReader
                         {
                             readString();
                         }
-                        switch (info_byte & 8)
-                        {
-                            case 0:
-                            {
-                                int count = info_byte >> 4;
-                                count = count switch
-                                {
-                                    15 => readUnsignedInteger(),
-                                    _ => count
-                                };
-                                for (int j = 0; j < count; j++)
-                                {
-                                    readProperty();
-                                }
 
-                                break;
+                        if ((info_byte & 8) == 0)
+                        {
+                            int count = info_byte >> 4;
+                            if (count == 15)
+                            {
+                                count = readUnsignedInteger();
+                            }
+                            else
+                            {
+                                count = count;
+                            }
+
+                            for (int j = 0; j < count; j++)
+                            {
+                                readProperty();
                             }
                         }
+
                         break;
-                    case 30: //Xname record
+                    case oasValues.XNAME_IMPLICIT:
                         readUnsignedInteger();
                         readString();
                         readUnsignedInteger();
                         break;
-                    case 31: //Xname record
+                    case oasValues.XNAME:
                         readUnsignedInteger();
                         readString();
                         break;
-                    case 32: //Xelement record
+                    case oasValues.XELEMENT:
                         readUnsignedInteger();
                         readString();
                         break;
-                    case 33: //xgeometry record
+                    case oasValues.XGEOMETRY:
                         info_byte = readRaw();
                         readUnsignedInteger();
                         if ((info_byte & 1) != 0)
@@ -1087,42 +1055,38 @@ internal partial class oasReader
                         {
                             modal.circle_radius = readUnsignedInteger(); // unsure : need to check if scaling needed here.
                         }
-                        switch (modal.absoluteMode)
+
+                        if (modal.absoluteMode)
                         {
-                            case true:
+                            if ((info_byte & 16) != 0)
                             {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x = readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y = readSignedInteger();
-                                }
-
-                                break;
+                                modal.geometry_x = readSignedInteger();
                             }
-                            default:
-                            {
-                                if ((info_byte & 16) != 0)
-                                {
-                                    modal.geometry_x += readSignedInteger();
-                                }
-                                if ((info_byte & 8) != 0)
-                                {
-                                    modal.geometry_y += readSignedInteger();
-                                }
 
-                                break;
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y = readSignedInteger();
                             }
                         }
+                        else
+                        {
+                            if ((info_byte & 16) != 0)
+                            {
+                                modal.geometry_x += readSignedInteger();
+                            }
+
+                            if ((info_byte & 8) != 0)
+                            {
+                                modal.geometry_y += readSignedInteger();
+                            }
+                        }
+
                         if ((info_byte & 4) != 0)
                         {
                             readRepetition();
                         }
                         break;
-                    case 34: //compression
-                        // throw new Exception("Compression not supported at this time");
+                    case oasValues.CBLOCK:
                         uint comp_type = (uint)readUnsignedInteger();
                         if (comp_type != 0)
                         {

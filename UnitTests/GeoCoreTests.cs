@@ -61,11 +61,15 @@ public class GeoCoreTests
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(4));
+        for (int i = 0; i < 4; i++)
+        {
+            Assert.That(cell_gds.elementList[i].isPolygon(), Is.True);
+        }
+        List <GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        Assert.That(polys_gds.Count, Is.EqualTo(4));
+
         int polyIndex = 0;
-        Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[polyIndex].convertToPolygons();
-        Assert.That(polys_gds.Count, Is.EqualTo(11));
-        
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(0));
@@ -90,10 +94,7 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0));
 
         polyIndex++;
-        Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
-        polys_gds = cell_gds.elementList[polyIndex].convertToPolygons();
-        Assert.That(polys_gds.Count, Is.EqualTo(11));
-        
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(1000));
         Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(1000));
@@ -118,10 +119,7 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0));
 
         polyIndex++;
-        Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
-        polys_gds = cell_gds.elementList[polyIndex].convertToPolygons();
-        Assert.That(polys_gds.Count, Is.EqualTo(11));
-        
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(3000));
         Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(3000));
@@ -146,10 +144,7 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0));
 
         polyIndex++;
-        Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
-        polys_gds = cell_gds.elementList[polyIndex].convertToPolygons();
-        Assert.That(polys_gds.Count, Is.EqualTo(11));
-        
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(-2000));
         Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(-2000));

@@ -271,13 +271,13 @@ internal partial class oasReader
                         cellData[i].cellName = modal.s;
                         break;
                     case oasValues.TEXTSTRING_IMPLICIT:
-                        cellData[cellIndex].textNames[cellData[cellIndex].textIndex] = readString();
-                        cellData[cellIndex].textIndex++;
+                        cellData[cellIndex - 1].textNames[cellData[cellIndex - 1].textIndex] = readString();
+                        cellData[cellIndex - 1].textIndex++;
                         break;
                     case oasValues.TEXTSTRING:
                         modal.s = readString();
                         i = readUnsignedInteger();
-                        cellData[cellIndex].textNames[i] = modal.s;
+                        cellData[cellIndex - 1].textNames[i] = modal.s;
                         break;
                     case oasValues.PROPNAME_IMPLICIT:
                         modal.s = readString();
@@ -533,19 +533,19 @@ internal partial class oasReader
                             if ((info_byte & 32) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (cellData[cellIndex].textNames[i] == "")
+                                if (cellData[cellIndex - 1].textNames[i] == "")
                                 {
-                                    cellData[cellIndex].textNames[i] = "layout#text~" + i;
+                                    cellData[cellIndex - 1].textNames[i] = "layout#text~" + i;
                                 }
                                 else
                                 {
-                                    if (cellData[cellIndex].textNames[i] == null)
+                                    if (cellData[cellIndex - 1].textNames[i] == null)
                                     {
-                                        cellData[cellIndex].textNames[i] = modal.s;
+                                        cellData[cellIndex - 1].textNames[i] = modal.s;
                                     }
                                 }
 
-                                modal.text_string = cellData[cellIndex].textNames[i];
+                                modal.text_string = cellData[cellIndex - 1].textNames[i];
                             }
                             else
                             {
@@ -594,6 +594,19 @@ internal partial class oasReader
                         }
                         else
                         {
+                            if (cellData[cellIndex - 1].textNames[cellData[cellIndex - 1].textIndex] == "")
+                            {
+                                cellData[cellIndex - 1].textNames[cellData[cellIndex - 1].textIndex] = "layout#text~" + cellData[cellIndex - 1].textIndex;
+                                cellData[cellIndex - 1].textIndex++;
+                            }
+                            else
+                            {
+                                if (cellData[cellIndex - 1].textNames[i] == null)
+                                {
+                                    cellData[cellIndex - 1].textNames[i] = modal.text_string;
+                                    cellData[cellIndex - 1].textIndex++;
+                                }
+                            }
                             addText();
                         }
 
@@ -1166,7 +1179,7 @@ internal partial class oasReader
                 }
 
                 s1 = s1.Substring(12, s1.Length - 12);
-                t1.setName(cellData[cellIndex].textNames[Convert.ToInt32(s1)]);
+                t1.setName(cellData[cellIndex - 1].textNames[Convert.ToInt32(s1)]);
             }
 
             // Deal with implicit values.

@@ -87,10 +87,10 @@ public class Repetition
             case RepetitionType.Regular:
                 return columns * rows;
             case RepetitionType.Explicit:
-                return offsets.Count; // Assume (0, 0) is not included.
+                return offsets.Count; // Original is not included.
             case RepetitionType.ExplicitX:
             case RepetitionType.ExplicitY:
-                return coords.Count; // Assume 0 is not included.
+                return coords.Count; // Assume original is not included.
             case RepetitionType.None:
                 return 0;
         }

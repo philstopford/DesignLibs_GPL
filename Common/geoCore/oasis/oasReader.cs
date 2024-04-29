@@ -82,7 +82,7 @@ internal partial class oasReader
     {
         public string cellName;
         public int textIndex = 0;
-        public string[] textNames = new string[1024000];
+        public string[] textNames = new string[1024]; // arbitrary limit
     }
 
     private CellData[] cellData = new CellData[1024000];
@@ -198,6 +198,11 @@ internal partial class oasReader
                 const string err = "Invalid Format.";
                 error_msgs.Add(err);
                 throw new Exception(err);
+            }
+
+            for (int cd = 0; cd < cellData.Length; cd++)
+            {
+                cellData[cd] = new();
             }
             int record;
             bool tableAtEnd = false;

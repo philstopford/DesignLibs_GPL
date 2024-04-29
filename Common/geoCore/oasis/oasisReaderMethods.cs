@@ -22,11 +22,11 @@ internal partial class oasReader
         }
         while (help >= 128);
 
-        return pos switch
-        {
-            > 35 => throw new Exception("Integer with more than 32 Bits."),
-            _ => result
-        };
+        /*
+        if (pos > 35)
+            throw new Exception("Integer with more than 32 Bits.");
+            */
+        return result;
     }
 
     private byte readRaw()

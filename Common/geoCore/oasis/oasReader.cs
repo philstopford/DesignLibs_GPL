@@ -81,7 +81,8 @@ internal partial class oasReader
     class CellData
     {
         public string cellName;
-        public int textIndex = 0;
+        public int textIndex = 0; // this tracks the insertion point for text in textNames.
+        public int pp_textIndex = 0; // used in the implicit process to track how many text elements have been processed in the cell.
         public string[] textNames = new string[1024]; // arbitrary limit
     }
 
@@ -1169,20 +1170,25 @@ internal partial class oasReader
             }
 
             // Deal with implicit values.
+            // These seem to be reverse-ordered compared to the list order, so use cdIndex to transform the index.
             // Here we walk our array of cell data and then each instance of text data
             // to set any deferred values.
             int cellCount = drawing_.cellList.Count;
             // for (int cell = 0; cell < cellIndex; cell++)
             Parallel.For(0, cellCount, (cell) =>
             {
-                drawing_.cellList[cell].cellName = cellData[cell].cellName;
-                // for (int element = 0; element < drawing_.cellList[cell].elementList.Count; element++)
+                int cdIndex = (cellCount - 1) - cell;
+                drawing_.cellList[cell].cellName = cellData[cdIndex].cellName;
                 int elementCount = drawing_.cellList[cell].elementList.Count;
+                // for (int element = 0; element < drawing_.cellList[cell].elementList.Count; element++)
                 Parallel.For(0, elementCount, (element) =>
                 {
+                    // Not sure if index will be weird here like above. Need a test case.
                     if (drawing_.cellList[cell].elementList[element].isText())
                     {
-                        drawing_.cellList[cell].elementList[element].setName(cellData[cell].textNames[element]);
+                        int txtIndex = (cellData[cdIndex].textIndex - 1) - cellData[cdIndex].pp_textIndex;
+                        cellData[cdIndex].pp_textIndex++;
+                        drawing_.cellList[cell].elementList[element].setName(cellData[cdIndex].textNames[txtIndex]);
                     }
                 });
             });
@@ -1190,7 +1196,6 @@ internal partial class oasReader
             try
             {
                 drawing_.active_cell = drawing.findCellIndex(cell_.cellName);
-                // drawing_.resize(1000.0 / drawing_.databaseunits);
             }
             catch (Exception)
             {

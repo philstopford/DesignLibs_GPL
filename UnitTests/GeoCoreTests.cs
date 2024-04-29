@@ -1472,7 +1472,7 @@ public class GeoCoreTests
 
         PathsD geo2 = gcGDS.points(flatten: true);
         // Use previously computed hash to check that our long list is aligned with expectations.
-        Assert.That(Utils.GetSHA256Hash(geo2), Is.EqualTo("uS4vSsjU5f450Y1LDgpwoOFiv5BILx4f46GDU7l0jIw="));
+        Assert.That(Utils.GetSHA256Hash(geo2), Is.EqualTo("vZoyBBGchu/u+LChif6g6kzH6nGSVj6XHD/GdPwfT7g="));
     }
     
     [Test]

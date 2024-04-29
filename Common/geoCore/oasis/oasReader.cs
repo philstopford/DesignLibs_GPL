@@ -1133,7 +1133,8 @@ internal partial class oasReader
                     default:
                         string err = "Unknown/unsupported Record." + record;
                         error_msgs.Add(err);
-                        throw new Exception(err);
+                        // throw new Exception(err);
+                        break;
                 }
             }
 

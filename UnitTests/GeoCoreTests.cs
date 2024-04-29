@@ -1030,21 +1030,21 @@ public class GeoCoreTests
         Assert.That(t2[0].pointarray[5], Is.EqualTo(new Point64(100,0,0)));
         Assert.That(t2[0].pointarray[6], Is.EqualTo(new Point64(0,0,0)));
         Assert.That(t2[1].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[1].pointarray[0], Is.EqualTo(new Point64(0,110,0)));
-        Assert.That(t2[1].pointarray[1], Is.EqualTo(new Point64(0,210,0)));
-        Assert.That(t2[1].pointarray[2], Is.EqualTo(new Point64(40,210,0)));
-        Assert.That(t2[1].pointarray[3], Is.EqualTo(new Point64(40,150,0)));
-        Assert.That(t2[1].pointarray[4], Is.EqualTo(new Point64(100,150,0)));
-        Assert.That(t2[1].pointarray[5], Is.EqualTo(new Point64(100,110,0)));
-        Assert.That(t2[1].pointarray[6], Is.EqualTo(new Point64(0,110,0)));
+        Assert.That(t2[1].pointarray[0], Is.EqualTo(new Point64(110,0,0)));
+        Assert.That(t2[1].pointarray[1], Is.EqualTo(new Point64(110,100,0)));
+        Assert.That(t2[1].pointarray[2], Is.EqualTo(new Point64(150,100,0)));
+        Assert.That(t2[1].pointarray[3], Is.EqualTo(new Point64(150,40,0)));
+        Assert.That(t2[1].pointarray[4], Is.EqualTo(new Point64(210,40,0)));
+        Assert.That(t2[1].pointarray[5], Is.EqualTo(new Point64(210,0,0)));
+        Assert.That(t2[1].pointarray[6], Is.EqualTo(new Point64(110,0,0)));
         Assert.That(t2[2].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[2].pointarray[0], Is.EqualTo(new Point64(110,0,0)));
-        Assert.That(t2[2].pointarray[1], Is.EqualTo(new Point64(110,100,0)));
-        Assert.That(t2[2].pointarray[2], Is.EqualTo(new Point64(150,100,0)));
-        Assert.That(t2[2].pointarray[3], Is.EqualTo(new Point64(150,40,0)));
-        Assert.That(t2[2].pointarray[4], Is.EqualTo(new Point64(210,40,0)));
-        Assert.That(t2[2].pointarray[5], Is.EqualTo(new Point64(210,0,0)));
-        Assert.That(t2[2].pointarray[6], Is.EqualTo(new Point64(110,0,0)));
+        Assert.That(t2[2].pointarray[0], Is.EqualTo(new Point64(0,110,0)));
+        Assert.That(t2[2].pointarray[1], Is.EqualTo(new Point64(0,210,0)));
+        Assert.That(t2[2].pointarray[2], Is.EqualTo(new Point64(40,210,0)));
+        Assert.That(t2[2].pointarray[3], Is.EqualTo(new Point64(40,150,0)));
+        Assert.That(t2[2].pointarray[4], Is.EqualTo(new Point64(100,150,0)));
+        Assert.That(t2[2].pointarray[5], Is.EqualTo(new Point64(100,110,0)));
+        Assert.That(t2[2].pointarray[6], Is.EqualTo(new Point64(0,110,0)));
         Assert.That(t2[3].pointarray.Count, Is.EqualTo(7));
         Assert.That(t2[3].pointarray[0], Is.EqualTo(new Point64(110,110,0)));
         Assert.That(t2[3].pointarray[1], Is.EqualTo(new Point64(110,210,0)));
@@ -1064,136 +1064,45 @@ public class GeoCoreTests
         Assert.That(gcGDS.getDrawing().cellList[gcGDS.activeStructure].elementList[0].isCellrefArray(), Is.True);
         Point64 pos = gcGDS.getDrawing().cellList[gcGDS.activeStructure].elementList[0].getPos();
         Assert.That(t3.Count, Is.EqualTo(16));
-        Assert.That(t3[0].layer_nr, Is.EqualTo(1));
-        Assert.That(t3[0].datatype_nr, Is.EqualTo(0));
-        Assert.That(t3[0].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[0].pointarray[0], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 0,0)));
-        Assert.That(t3[0].pointarray[1], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 100,0)));
-        Assert.That(t3[0].pointarray[2], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 100,0)));
-        Assert.That(t3[0].pointarray[3], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 40,0)));
-        Assert.That(t3[0].pointarray[4], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 40,0)));
-        Assert.That(t3[0].pointarray[5], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 0,0)));
-        Assert.That(t3[0].pointarray[6], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 0,0)));
-        Assert.That(t3[1].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[1].pointarray[0], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 110,0)));
-        Assert.That(t3[1].pointarray[1], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 210,0)));
-        Assert.That(t3[1].pointarray[2], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 210,0)));
-        Assert.That(t3[1].pointarray[3], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 150,0)));
-        Assert.That(t3[1].pointarray[4], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 150,0)));
-        Assert.That(t3[1].pointarray[5], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 110,0)));
-        Assert.That(t3[1].pointarray[6], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 110,0)));
-        Assert.That(t3[2].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[2].pointarray[0], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 0,0)));
-        Assert.That(t3[2].pointarray[1], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 100,0)));
-        Assert.That(t3[2].pointarray[2], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 100,0)));
-        Assert.That(t3[2].pointarray[3], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 40,0)));
-        Assert.That(t3[2].pointarray[4], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 40,0)));
-        Assert.That(t3[2].pointarray[5], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 0,0)));
-        Assert.That(t3[2].pointarray[6], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 0,0)));
-        Assert.That(t3[3].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[3].pointarray[0], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 110,0)));
-        Assert.That(t3[3].pointarray[1], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 210,0)));
-        Assert.That(t3[3].pointarray[2], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 210,0)));
-        Assert.That(t3[3].pointarray[3], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 150,0)));
-        Assert.That(t3[3].pointarray[4], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 150,0)));
-        Assert.That(t3[3].pointarray[5], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 110,0)));
-        Assert.That(t3[3].pointarray[6], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 110,0)));
-        Assert.That(t3[4].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[4].pointarray[0], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 220,0)));
-        Assert.That(t3[4].pointarray[1], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 320,0)));
-        Assert.That(t3[4].pointarray[2], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 320,0)));
-        Assert.That(t3[4].pointarray[3], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 260,0)));
-        Assert.That(t3[4].pointarray[4], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 260,0)));
-        Assert.That(t3[4].pointarray[5], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 220,0)));
-        Assert.That(t3[4].pointarray[6], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 220,0)));
-        Assert.That(t3[5].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[5].pointarray[0], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 330,0)));
-        Assert.That(t3[5].pointarray[1], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 430,0)));
-        Assert.That(t3[5].pointarray[2], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 430,0)));
-        Assert.That(t3[5].pointarray[3], Is.EqualTo(new Point64(pos.X + 40,pos.Y + 370,0)));
-        Assert.That(t3[5].pointarray[4], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 370,0)));
-        Assert.That(t3[5].pointarray[5], Is.EqualTo(new Point64(pos.X + 100,pos.Y + 330,0)));
-        Assert.That(t3[5].pointarray[6], Is.EqualTo(new Point64(pos.X + 0,pos.Y + 330,0)));
-        Assert.That(t3[6].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[6].pointarray[0], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 220,0)));
-        Assert.That(t3[6].pointarray[1], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 320,0)));
-        Assert.That(t3[6].pointarray[2], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 320,0)));
-        Assert.That(t3[6].pointarray[3], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 260,0)));
-        Assert.That(t3[6].pointarray[4], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 260,0)));
-        Assert.That(t3[6].pointarray[5], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 220,0)));
-        Assert.That(t3[6].pointarray[6], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 220,0)));
-        Assert.That(t3[7].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[7].pointarray[0], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 330,0)));
-        Assert.That(t3[7].pointarray[1], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 430,0)));
-        Assert.That(t3[7].pointarray[2], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 430,0)));
-        Assert.That(t3[7].pointarray[3], Is.EqualTo(new Point64(pos.X + 150,pos.Y + 370,0)));
-        Assert.That(t3[7].pointarray[4], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 370,0)));
-        Assert.That(t3[7].pointarray[5], Is.EqualTo(new Point64(pos.X + 210,pos.Y + 330,0)));
-        Assert.That(t3[7].pointarray[6], Is.EqualTo(new Point64(pos.X + 110,pos.Y + 330,0)));
-        Assert.That(t3[8].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[8].pointarray[0], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 0,0)));
-        Assert.That(t3[8].pointarray[1], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 100,0)));
-        Assert.That(t3[8].pointarray[2], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 100,0)));
-        Assert.That(t3[8].pointarray[3], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 40,0)));
-        Assert.That(t3[8].pointarray[4], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 40,0)));
-        Assert.That(t3[8].pointarray[5], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 0,0)));
-        Assert.That(t3[8].pointarray[6], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 0,0)));
-        Assert.That(t3[9].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[9].pointarray[0], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 110,0)));
-        Assert.That(t3[9].pointarray[1], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 210,0)));
-        Assert.That(t3[9].pointarray[2], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 210,0)));
-        Assert.That(t3[9].pointarray[3], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 150,0)));
-        Assert.That(t3[9].pointarray[4], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 150,0)));
-        Assert.That(t3[9].pointarray[5], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 110,0)));
-        Assert.That(t3[9].pointarray[6], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 110,0)));
-        Assert.That(t3[10].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[10].pointarray[0], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 0,0)));
-        Assert.That(t3[10].pointarray[1], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 100,0)));
-        Assert.That(t3[10].pointarray[2], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 100,0)));
-        Assert.That(t3[10].pointarray[3], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 40,0)));
-        Assert.That(t3[10].pointarray[4], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 40,0)));
-        Assert.That(t3[10].pointarray[5], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 0,0)));
-        Assert.That(t3[10].pointarray[6], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 0,0)));
-        Assert.That(t3[11].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[11].pointarray[0], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 110,0)));
-        Assert.That(t3[11].pointarray[1], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 210,0)));
-        Assert.That(t3[11].pointarray[2], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 210,0)));
-        Assert.That(t3[11].pointarray[3], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 150,0)));
-        Assert.That(t3[11].pointarray[4], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 150,0)));
-        Assert.That(t3[11].pointarray[5], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 110,0)));
-        Assert.That(t3[11].pointarray[6], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 110,0)));
-        Assert.That(t3[12].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[12].pointarray[0], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 220,0)));
-        Assert.That(t3[12].pointarray[1], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 320,0)));
-        Assert.That(t3[12].pointarray[2], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 320,0)));
-        Assert.That(t3[12].pointarray[3], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 260,0)));
-        Assert.That(t3[12].pointarray[4], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 260,0)));
-        Assert.That(t3[12].pointarray[5], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 220,0)));
-        Assert.That(t3[12].pointarray[6], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 220,0)));
-        Assert.That(t3[13].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[13].pointarray[0], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 330,0)));
-        Assert.That(t3[13].pointarray[1], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 430,0)));
-        Assert.That(t3[13].pointarray[2], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 430,0)));
-        Assert.That(t3[13].pointarray[3], Is.EqualTo(new Point64(pos.X + 260,pos.Y + 370,0)));
-        Assert.That(t3[13].pointarray[4], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 370,0)));
-        Assert.That(t3[13].pointarray[5], Is.EqualTo(new Point64(pos.X + 320,pos.Y + 330,0)));
-        Assert.That(t3[13].pointarray[6], Is.EqualTo(new Point64(pos.X + 220,pos.Y + 330,0)));
-        Assert.That(t3[14].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[14].pointarray[0], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 220,0)));
-        Assert.That(t3[14].pointarray[1], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 320,0)));
-        Assert.That(t3[14].pointarray[2], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 320,0)));
-        Assert.That(t3[14].pointarray[3], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 260,0)));
-        Assert.That(t3[14].pointarray[4], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 260,0)));
-        Assert.That(t3[14].pointarray[5], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 220,0)));
-        Assert.That(t3[14].pointarray[6], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 220,0)));
-        Assert.That(t3[15].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t3[15].pointarray[0], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 330,0)));
-        Assert.That(t3[15].pointarray[1], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 430,0)));
-        Assert.That(t3[15].pointarray[2], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 430,0)));
-        Assert.That(t3[15].pointarray[3], Is.EqualTo(new Point64(pos.X + 370,pos.Y + 370,0)));
-        Assert.That(t3[15].pointarray[4], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 370,0)));
-        Assert.That(t3[15].pointarray[5], Is.EqualTo(new Point64(pos.X + 430,pos.Y + 330,0)));
-        Assert.That(t3[15].pointarray[6], Is.EqualTo(new Point64(pos.X + 330,pos.Y + 330,0)));
+
+        int polIndex = 0;
+        int rowPitch = 110;
+        int colPitch = 110;
+        
+        // This nested evaluation has a sequence order of the initial 4 cells in a 2 x 2 placement.
+        // This grid is then replicated in its own 2 x 2 placement
+        for (int outer_row = 0; outer_row < 2; outer_row++)
+        {
+            for (int outer_col = 0; outer_col < 2; outer_col++)
+            {
+                for (int row = 0; row < 2; row++)
+                {
+                    int y_offset = rowPitch * (row + (outer_row * 2));
+                    for (int col = 0; col < 2; col++)
+                    {
+                        Assert.That(t3[polIndex].layer_nr, Is.EqualTo(1));
+                        Assert.That(t3[polIndex].datatype_nr, Is.EqualTo(0));
+                        Assert.That(t3[polIndex].pointarray.Count, Is.EqualTo(7));
+                        int x_offset = colPitch * (col + (outer_col * 2));
+                        Assert.That(t3[polIndex].pointarray[0],
+                            Is.EqualTo(new Point64((pos.X + 0) + x_offset, (pos.Y + 0) + y_offset, 0)));
+                        Assert.That(t3[polIndex].pointarray[1],
+                            Is.EqualTo(new Point64((pos.X + 0) + x_offset, (pos.Y + 100) + y_offset, 0)));
+                        Assert.That(t3[polIndex].pointarray[2],
+                            Is.EqualTo(new Point64((pos.X + 40) + x_offset, (pos.Y + 100) + y_offset, 0)));
+                        Assert.That(t3[polIndex].pointarray[3],
+                            Is.EqualTo(new Point64((pos.X + 40) + x_offset, (pos.Y + 40) + y_offset, 0)));
+                        Assert.That(t3[polIndex].pointarray[4],
+                            Is.EqualTo(new Point64((pos.X + 100) + x_offset, (pos.Y + 40) + y_offset, 0)));
+                        Assert.That(t3[polIndex].pointarray[5],
+                            Is.EqualTo(new Point64((pos.X + 100) + x_offset, (pos.Y + 0) + y_offset, 0)));
+                        Assert.That(t3[polIndex].pointarray[6],
+                            Is.EqualTo(new Point64((pos.X + 0) + x_offset, (pos.Y + 0) + y_offset, 0)));
+                        polIndex++;
+                    }
+                }
+            }
+        }
     }
 
     [Test]

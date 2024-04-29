@@ -1163,7 +1163,7 @@ public class GeoCoreTests
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
 
-                GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(4));
         for (int i = 0; i < 4; i++)
@@ -1319,11 +1319,91 @@ public class GeoCoreTests
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
 
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        GCCell cell_gds = drawing_gds.findCell("Base");
+        Assert.That(cell_gds.elementList.Count, Is.EqualTo(2));
+        for (int i = 0; i < 2; i++)
+        {
+            Assert.That(cell_gds.elementList[i].isBox(), Is.True);
+        }
+        List <GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        Assert.That(polys_gds.Count, Is.EqualTo(2));
+
+        int polyIndex = 0;
+        int x_offset = 0;
+        int y_offset = 0;
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
+
+        polyIndex++;
+        x_offset = 4000;
+        y_offset = 4000;
+        Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
+
         string oasFile = baseDir + "gdstk_reference/rectangle_rep5.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
+        
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        GCCell cell_oas = drawing_oas.findCell("Base");
+        Assert.That(cell_oas.elementList.Count, Is.EqualTo(2));
+        for (int i = 0; i < 2; i++)
+        {
+            Assert.That(cell_oas.elementList[i].isBox(), Is.True);
+        }
+        List <GCPolygon> polys_oas = cell_oas.convertToPolygons();
+        Assert.That(polys_oas.Count, Is.EqualTo(2));
+
+        polyIndex = 0;
+        x_offset = 0;
+        y_offset = 0;
+        Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[0].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[1].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[2].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[3].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[3].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
+
+        polyIndex++;
+        x_offset = 4000;
+        y_offset = 4000;
+        Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[0].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[1].Y, Is.EqualTo(1000 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[2].X, Is.EqualTo(1000 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[3].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[3].Y, Is.EqualTo(0 + y_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
+        Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
     
     [Test]

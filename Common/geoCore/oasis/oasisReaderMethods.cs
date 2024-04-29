@@ -416,7 +416,7 @@ internal partial class oasReader
             case 11:
             {
                 modal.repetition.type = Repetition.RepetitionType.Explicit;
-                int count = readUnsignedInteger() + 2;
+                int count = readUnsignedInteger() + 1;
                 int grid_factor = 1;
                 if (i == 11)
                 {

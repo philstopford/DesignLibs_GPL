@@ -87,10 +87,10 @@ public class Repetition
             case RepetitionType.Regular:
                 return columns * rows;
             case RepetitionType.Explicit:
-                return offsets.Count + 1; // Assume (0, 0) is not included.
+                return offsets.Count; // Assume (0, 0) is not included.
             case RepetitionType.ExplicitX:
             case RepetitionType.ExplicitY:
-                return coords.Count + 1; // Assume 0 is not included.
+                return coords.Count; // Assume 0 is not included.
             case RepetitionType.None:
                 return 0;
         }
@@ -144,7 +144,11 @@ public class Repetition
                 break;
             case RepetitionType.Explicit:
                 result.Add(new(0, 0));
-                result.AddRange(offsets);
+                // The explicit offset is made up of delta values, each one a delta from the previous value....
+                for (int i = 0; i < offsets.Count; i++)
+                {
+                    result.Add(new (offsets[i].X + result[^1].X, offsets[i].Y + result[^1].Y));
+                }
                 break;
             case RepetitionType.None:
                 break;

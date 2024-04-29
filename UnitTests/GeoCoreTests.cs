@@ -1874,7 +1874,7 @@ public class GeoCoreTests
         Assert.That(path_[4].Y, Is.EqualTo(40));
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons();
         Assert.That(polys_gds.Count, Is.EqualTo(1));
-        Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(12));
+        Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(-3));
         Assert.That(polys_gds[0].pointarray[0].Y, Is.EqualTo(-3));
         Assert.That(polys_gds[0].pointarray[1].X, Is.EqualTo(3));
@@ -1889,16 +1889,14 @@ public class GeoCoreTests
         Assert.That(polys_gds[0].pointarray[5].Y, Is.EqualTo(43));
         Assert.That(polys_gds[0].pointarray[6].X, Is.EqualTo(-3));
         Assert.That(polys_gds[0].pointarray[6].Y, Is.EqualTo(38));
-        Assert.That(polys_gds[0].pointarray[7].X, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[7].X, Is.EqualTo(18));
         Assert.That(polys_gds[0].pointarray[7].Y, Is.EqualTo(38));
         Assert.That(polys_gds[0].pointarray[8].X, Is.EqualTo(18));
-        Assert.That(polys_gds[0].pointarray[8].Y, Is.EqualTo(38));
-        Assert.That(polys_gds[0].pointarray[9].X, Is.EqualTo(18));
+        Assert.That(polys_gds[0].pointarray[8].Y, Is.EqualTo(13));
+        Assert.That(polys_gds[0].pointarray[9].X, Is.EqualTo(-3));
         Assert.That(polys_gds[0].pointarray[9].Y, Is.EqualTo(13));
         Assert.That(polys_gds[0].pointarray[10].X, Is.EqualTo(-3));
-        Assert.That(polys_gds[0].pointarray[10].Y, Is.EqualTo(13));
-        Assert.That(polys_gds[0].pointarray[11].X, Is.EqualTo(-3));
-        Assert.That(polys_gds[0].pointarray[11].Y, Is.EqualTo(-3));
+        Assert.That(polys_gds[0].pointarray[10].Y, Is.EqualTo(-3));
 
         string oasFile = outDir + "simple_path.oas";
         if (File.Exists(oasFile))
@@ -1933,7 +1931,7 @@ public class GeoCoreTests
         Assert.That(path_[4].Y, Is.EqualTo(40));
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons();
         Assert.That(polys_oas.Count, Is.EqualTo(1));
-        Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(12));
+        Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(11));
 
         // The values here go to 2 rather than 3 (rounded from 2.5) due to OASIS not supporting odd-width paths.
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(-2));
@@ -1950,16 +1948,14 @@ public class GeoCoreTests
         Assert.That(polys_oas[0].pointarray[5].Y, Is.EqualTo(42));
         Assert.That(polys_oas[0].pointarray[6].X, Is.EqualTo(-2));
         Assert.That(polys_oas[0].pointarray[6].Y, Is.EqualTo(38));
-        Assert.That(polys_oas[0].pointarray[7].X, Is.EqualTo(0));
+        Assert.That(polys_oas[0].pointarray[7].X, Is.EqualTo(18));
         Assert.That(polys_oas[0].pointarray[7].Y, Is.EqualTo(38));
         Assert.That(polys_oas[0].pointarray[8].X, Is.EqualTo(18));
-        Assert.That(polys_oas[0].pointarray[8].Y, Is.EqualTo(38));
-        Assert.That(polys_oas[0].pointarray[9].X, Is.EqualTo(18));
+        Assert.That(polys_oas[0].pointarray[8].Y, Is.EqualTo(12));
+        Assert.That(polys_oas[0].pointarray[9].X, Is.EqualTo(-2));
         Assert.That(polys_oas[0].pointarray[9].Y, Is.EqualTo(12));
         Assert.That(polys_oas[0].pointarray[10].X, Is.EqualTo(-2));
-        Assert.That(polys_oas[0].pointarray[10].Y, Is.EqualTo(12));
-        Assert.That(polys_oas[0].pointarray[11].X, Is.EqualTo(-2));
-        Assert.That(polys_oas[0].pointarray[11].Y, Is.EqualTo(-2));
+        Assert.That(polys_oas[0].pointarray[10].Y, Is.EqualTo(-2));
     }
 
     [Test]

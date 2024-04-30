@@ -339,6 +339,11 @@ public class Repetition
                     colVector.X = (Int64)(-v.Y * sa);
                     colVector.Y = (Int64)(v.Y * ca);
                 }
+                else
+                {
+                    rowVector = new(spacing.X, 0);
+                    colVector = new(0, spacing.Y);
+                }
                 break;
             case RepetitionType.Regular:
                 if (columns == 1)

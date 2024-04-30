@@ -298,7 +298,7 @@ internal partial class oasReader
         Path64 offsets = modal.repetition.get_offsets();
         if (e == elementType.cellrefElement)
         {
-            if (modal.repetition.type == Repetition.RepetitionType.Regular)
+            if ((modal.repetition.type == Repetition.RepetitionType.Regular) || (modal.repetition.type == Repetition.RepetitionType.Rectangular))
             {
                 cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y), modal.angle, modal.mag, modal.mirror_x, modal.repetition);
             }

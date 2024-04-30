@@ -127,7 +127,7 @@ public class Repetition
 
                 break;
             case RepetitionType.ExplicitX:
-                result.Add(new(0, 0));
+                // result.Add(new(0, 0));
                 for (int j = 1; j < count; j++)
                 {
                     result.Add(new(coords[j], 0));
@@ -135,7 +135,7 @@ public class Repetition
 
                 break;
             case RepetitionType.ExplicitY:
-                result.Add(new(0, 0));
+                // result.Add(new(0, 0));
                 for (int j = 1; j < count; j++)
                 {
                     result.Add(new(0, coords[j]));
@@ -143,9 +143,9 @@ public class Repetition
 
                 break;
             case RepetitionType.Explicit:
-                result.Add(new(0, 0));
+                result.Add(new(offsets[0]));
                 // The explicit offset is made up of delta values, each one a delta from the previous value....
-                for (int i = 0; i < offsets.Count; i++)
+                for (int i = 1; i < offsets.Count; i++)
                 {
                     result.Add(new (offsets[i].X + result[^1].X, offsets[i].Y + result[^1].Y));
                 }

@@ -13,6 +13,13 @@ namespace geoCoreLib;
 
 public class GeoCore
 {
+    /*
+     * GeoCore is a hybrid design. It takes inspiration from a number of other libraries.
+     * The inheritance/hierarchical model is inspired by layouteditor (now long since closed source)
+     * The parsing code for GDSII and OASIS comes from multiple inspirations (layouteditor, KLayout, gdstk).
+     * By design, this tool is all integer based internally. Mapping to the layout grid is deferred to avoid precision issues.
+     */
+    
     private GCDrawingfield drawingField;
     
     public List<string> error_msgs;

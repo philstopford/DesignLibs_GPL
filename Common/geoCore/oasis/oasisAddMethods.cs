@@ -334,6 +334,7 @@ internal partial class oasReader
         }
         else
         {
+            addElement(e, new (0,0));
             foreach (Point64 offset in offsets)
             {
                 addElement(e, offset);

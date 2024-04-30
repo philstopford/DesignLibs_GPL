@@ -54,6 +54,16 @@ public class GCCell
         cellName = "noname";
         elementList = new List<GCElement>();
     }
+    
+    public void setName(string name)
+    {
+        cellName = name;
+    }
+    
+    public string getName()
+    {
+        return cellName;
+    }
 
     public void addBox(int x, int y, int b, int h, int layer, int datatype)
     {

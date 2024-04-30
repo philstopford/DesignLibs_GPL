@@ -1539,9 +1539,6 @@ public class GeoCoreTests
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
 
-        return; // BUSTED file per KLayout.
-        
-        /*
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -1659,7 +1656,6 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[9].Y, Is.EqualTo(0 + y_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
-        */
     }
     
     [Test]

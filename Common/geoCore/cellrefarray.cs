@@ -15,6 +15,11 @@ public class GCCellRefArray : GCElement
     public GCCell cell_ref { get; set; }
     public GCStrans trans { get; set; }
     
+    public override string getName()
+    {
+        return cell_ref.getName();
+    }
+    
     // Used for OASIS
     public Repetition repetition;
 

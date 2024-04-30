@@ -25,6 +25,11 @@ public class GCCellref : GCElement
         name = s;
     }
 
+    public override string getName()
+    {
+        return name;
+    }
+    
     public GCCellref(GCCell c, Point64 pos)
     {
         pGCCellref(c, pos, 0, 1, false);

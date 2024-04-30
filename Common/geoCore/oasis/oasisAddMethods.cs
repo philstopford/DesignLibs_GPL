@@ -337,7 +337,11 @@ internal partial class oasReader
         }
         else
         {
-            addElement(e, new (0,0));
+            // To be checked - only add the base version if offset is missing it. Not sure if this is a good idea.
+            if ((offsets[0].X != 0) || (offsets[0].Y != 0))
+            {
+                addElement(e, new(0, 0));
+            }
             foreach (Point64 offset in offsets)
             {
                 addElement(e, offset);

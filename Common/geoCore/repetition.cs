@@ -105,12 +105,16 @@ public class Repetition
         switch (type)
         {
             case RepetitionType.Rectangular:
-                for (int i = 0; i < columns; i++)
+                for (int i = 0; i < rows; i++)
                 {
-                    Int64 cx = i * spacing.X;
-                    for (int j = 0; j < rows; j++)
+                    Int64 cy = i * spacing.Y;
+                    for (int j = 0; j < columns; j++)
                     {
-                        result.Add(new(cx, j * spacing.Y));
+                        if ((i == 0) && (j == 0))
+                        {
+                            continue;
+                        }
+                        result.Add(new(j * spacing.X, cy));
                     }
                 }
 

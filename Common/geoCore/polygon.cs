@@ -3,6 +3,7 @@ using geoWrangler;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Clipper2Lib;
 
 namespace geoCoreLib;
@@ -606,8 +607,17 @@ public class GCPolygon : GCElement
     {
         public bool circle { get; set; }
         public double radius { get; set; }
+
+        public Point64 center { get; set; }
+
+        public CircleResult()
+        {
+            circle = false;
+            radius = 0;
+            center = new();
+        }
     }
-    private CircleResult isCircle()
+    private CircleResult isCircle_()
     {
         CircleResult result = new() {circle = false, radius = 0};
         switch (pointarray.Count)
@@ -642,6 +652,84 @@ public class GCPolygon : GCElement
         return result;
     }
 
+    
+    // Below is borrowed from gdstk for testing.
+    private const int CIRCLE_DETECTION_LSQ_COEFFICIENTS = 4;
+    private const double GDSTK_PARALLEL_EPS = 1e-8;
+
+    private double length_sq(Point64 point)
+    {
+        return point.X * point.X + point.Y * point.Y;        
+    }
+    
+    // Number of points needed to approximate an arc within some tolerance
+    private Int64 arc_num_points(double angle, double radius, double tolerance) {
+        Debug.Assert(radius > 0);
+        Debug.Assert(tolerance > 0);
+        double c = 1 - tolerance / radius;
+        double a = c < -1 ? Math.PI : Math.Acos(c);
+        return (Int64)(0.5 + 0.5 * Math.Abs(angle) / a);
+    }
+    
+    private CircleResult isCircle(double tolerance = 0.01)
+    {
+        CircleResult result = new();
+        if (pointarray.Count <= CIRCLE_DETECTION_LSQ_COEFFICIENTS)
+        {
+            return result;
+        }
+
+        double coef_a = 0;
+        double coef_b = 0;
+        double coef_m = 0;
+        double res_a = 0;
+        double res_b = 0;
+        double ref_length_sq = length_sq(pointarray[0]);
+        for (int i = 1; i <= CIRCLE_DETECTION_LSQ_COEFFICIENTS; i++) {
+            int j = i * (pointarray.Count - 1) / CIRCLE_DETECTION_LSQ_COEFFICIENTS;
+            Point64 ab = GeoWrangler.Point64_distanceBetweenPoints(pointarray[j],pointarray[0]);
+            ab = new(2 * ab.X, 2 * ab.Y);
+            double r = length_sq(pointarray[j]) - ref_length_sq;
+            coef_a += ab.X * ab.X;
+            coef_b += ab.Y * ab.Y;
+            coef_m += ab.X * ab.Y;
+            res_a += ab.X * r;
+            res_b += ab.Y * r;
+        }
+        double den = coef_a * coef_b - coef_m * coef_m;
+        if (Math.Abs(den) < GDSTK_PARALLEL_EPS)
+        {
+            return result;
+        }
+        result.center = new((coef_b * res_a - coef_m * res_b) / den,
+                                    (coef_a * res_b - coef_m * res_a) / den);
+
+        result.radius = 0;
+        for (int i = 0; i <= CIRCLE_DETECTION_LSQ_COEFFICIENTS; i++) {
+            int j = i * (pointarray.Count - 1) / CIRCLE_DETECTION_LSQ_COEFFICIENTS;
+            result.radius += Math.Sqrt(length_sq(GeoWrangler.Point64_distanceBetweenPoints(pointarray[j],result.center)));
+        }
+        result.radius /= 1 + CIRCLE_DETECTION_LSQ_COEFFICIENTS;
+
+        if (pointarray.Count < arc_num_points(2 * Math.PI, result.radius, tolerance))
+        {
+            return result;
+        }
+
+        double radius_sq = result.radius * result.radius;
+        double neighbor_distance_sq = tolerance + 2 * Math.Sqrt(2 * tolerance * (result.radius - tolerance));
+        neighbor_distance_sq *= neighbor_distance_sq;
+        for (int i = 1; i < pointarray.Count; i++) {
+            if (Math.Abs(length_sq(GeoWrangler.Point64_distanceBetweenPoints(pointarray[i], result.center)) - radius_sq) >= tolerance ||
+                Math.Abs(length_sq(GeoWrangler.Point64_distanceBetweenPoints(pointarray[i], pointarray[i-1]))) >= neighbor_distance_sq) {
+                return result;
+            }
+        }
+
+        result.circle = true;
+        return result;
+    }
+    
     private void pSaveOASIS(oasWriter ow)
     {
         byte info_byte;

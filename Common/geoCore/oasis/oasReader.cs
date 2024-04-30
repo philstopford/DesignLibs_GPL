@@ -256,7 +256,6 @@ internal partial class oasReader
                         break;
                     case oasValues.CELLNAME_IMPLICIT:
                         cellNames[cellNameCount] = readString();
-                        drawing.cellList[cellNameCount].cellName = cellNames[cellNameCount];
                         cellNameCount++;
                         break;
                     case oasValues.CELLNAME:
@@ -339,10 +338,11 @@ internal partial class oasReader
                     case oasValues.CELL_REF_NUM:
                         cell_ = drawing_.addCell();
                         i = readUnsignedInteger();
-                        if (cellNames[i] == "")
+                        if ((cellNames[i] == null) || (cellNames[i] == ""))
                         {
                             cellNames[i] = "layout#cell~" + i;
                         }
+                        /*
                         else
                         {
                             if (cellNames[i] == null)
@@ -350,6 +350,7 @@ internal partial class oasReader
                                 cellNames[i] = modal.s;
                             }
                         }
+                        */
                         cell_.cellName = cellNames[i];
                         resetModal();
                         break;
@@ -374,13 +375,9 @@ internal partial class oasReader
                             if ((info_byte & 64) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (cellNames[i] == "")
+                                if ((cellNames[i] == null) || (cellNames[i] == ""))
                                 {
                                     cellNames[i] = "layout#cell~" + i;
-                                }
-                                else
-                                {
-                                    cellNames[i] = cellNames[i];
                                 }
 
                                 modal.placement_cell = cellNames[i];
@@ -462,13 +459,9 @@ internal partial class oasReader
                             if ((info_byte & 64) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (cellNames[i] == "")
+                                if ((cellNames[i] == null) || (cellNames[i] == ""))
                                 {
                                     cellNames[i] = "layout#cell~" + i;
-                                }
-                                else
-                                {
-                                    cellNames[i] = cellNames[i];
                                 }
                                 modal.placement_cell = cellNames[i];
                             }
@@ -533,13 +526,13 @@ internal partial class oasReader
                             if ((info_byte & 32) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (textNames[i] == "")
+                                if ((textNames[i] == null) || (textNames[i] == ""))
                                 {
                                     textNames[i] = "layout#text~" + i;
                                 }
                                 else
                                 {
-                                    textNames[i] = textNames[i] != null ? textNames[i] : modal.s;
+                                    textNames[i] = modal.s;
                                 }
 
                                 modal.text_string = textNames[i];

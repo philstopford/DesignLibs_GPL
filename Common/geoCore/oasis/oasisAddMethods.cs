@@ -295,13 +295,45 @@ internal partial class oasReader
 
     private void processRepetition(elementType e)
     {
+        Path64 offsets = modal.repetition.get_offsets();
         if (e == elementType.cellrefElement)
         {
-            cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y), modal.angle, modal.mag, modal.mirror_x, modal.repetition);
+            // Original is not included in the offsets.
+            cell_.addCellref();
+            cell_.elementList[^1].setPos(new (modal.placement_x, modal.placement_y));
+            cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
+            cell_.elementList[^1].setName(modal.placement_cell);
+            cell_.elementList[^1].rotate(modal.angle);
+            cell_.elementList[^1].scale(modal.mag);
+            switch (modal.mirror_x)
+            {
+                case true:
+                    cell_.elementList[^1].setMirrorx();
+                    break;
+            }
+
+            foreach (Point64 offset in offsets)
+            {
+                cell_.addCellref();
+                cell_.elementList[^1].setPos(new (modal.placement_x + offset.X, modal.placement_y + offset.Y));
+                cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
+                cell_.elementList[^1].setName(modal.placement_cell);
+                cell_.elementList[^1].rotate(modal.angle);
+                cell_.elementList[^1].scale(modal.mag);
+                switch (modal.mirror_x)
+                {
+                    case true:
+                        cell_.elementList[^1].setMirrorx();
+                        break;
+                }
+
+                // cell_.addCellref(drawing_.findCell(modal.placement_cell), new (modal.placement_x + offset.X, modal.placement_y + offset.Y));
+            }
+            // cell_.elementList[^1].setPos(new(modal.placement_x + modal.repetition.coords[i * 2], modal.placement_y + modal.repetition.coords[(i*2) + 1]));
+            //, modal.angle, modal.mag, modal.mirror_x, modal.repetition);
         }
         else
         {
-            Path64 offsets = modal.repetition.get_offsets();
             foreach (Point64 offset in offsets)
             {
                 addElement(e, offset);

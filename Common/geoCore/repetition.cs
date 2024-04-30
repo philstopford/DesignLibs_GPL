@@ -90,7 +90,7 @@ public class Repetition
                 return offsets.Count; // Original is not included.
             case RepetitionType.ExplicitX:
             case RepetitionType.ExplicitY:
-                return coords.Count; // Assume original is not included.
+                return coords.Count; // Original is not included.
             case RepetitionType.None:
                 return 0;
         }
@@ -413,7 +413,6 @@ public class Repetition
                     {
                         temp.Add(new(c * sa, c * ca));
                     }
-                    type = RepetitionType.Explicit;
                     type = RepetitionType.Explicit;
                     offsets = new(temp);
                 }

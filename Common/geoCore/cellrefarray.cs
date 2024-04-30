@@ -494,6 +494,7 @@ public class GCCellRefArray : GCElement
                 ow.writeSignedInteger(ow.modal.placement_y);
                 break;
         }
+
         switch (info_byte & 8)
         {
             default:
@@ -506,7 +507,8 @@ public class GCCellRefArray : GCElement
                             ow.modal.y_dimension = repetition.rows;
                             ow.modal.x_space = (int)(repetition.colVector.X + repetition.rowVector.X);
                             ow.modal.y_space = (int)(repetition.colVector.Y + repetition.rowVector.Y);
-                            if (((repetition.colVector.X + repetition.rowVector.X) >= 0) && ((repetition.colVector.Y + repetition.rowVector.Y) >= 0))
+                            if (((repetition.colVector.X + repetition.rowVector.X) >= 0) &&
+                                ((repetition.colVector.Y + repetition.rowVector.Y) >= 0))
                             {
                                 ow.writeUnsignedInteger(1);
                                 ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
@@ -519,7 +521,7 @@ public class GCCellRefArray : GCElement
                                 ow.writeUnsignedInteger(8);
                                 ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
                                 ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                                ow.writeGDelta(new (ow.modal.x_space, 0));
+                                ow.writeGDelta(new(ow.modal.x_space, 0));
                                 ow.writeGDelta(new(0, ow.modal.y_space));
                             }
                         }
@@ -537,7 +539,7 @@ public class GCCellRefArray : GCElement
                             {
                                 ow.writeUnsignedInteger(9);
                                 ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                                ow.writeGDelta(new (ow.modal.x_space, 0));
+                                ow.writeGDelta(new(ow.modal.x_space, 0));
                             }
                         }
                         else
@@ -557,6 +559,7 @@ public class GCCellRefArray : GCElement
                                 ow.writeGDelta(new(0, ow.modal.y_space));
                             }
                         }
+
                         break;
                     case Repetition.RepetitionType.Regular:
                         if ((repetition.columns > 1) && (repetition.rows > 1))
@@ -566,7 +569,7 @@ public class GCCellRefArray : GCElement
                             ow.writeUnsignedInteger(8);
                             ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
                             ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                            ow.writeGDelta(new (repetition.colVector));
+                            ow.writeGDelta(new(repetition.colVector));
                             ow.writeGDelta(new(repetition.rowVector));
                         }
                         else if (repetition.columns > 1)
@@ -574,7 +577,7 @@ public class GCCellRefArray : GCElement
                             ow.modal.x_dimension = repetition.columns;
                             ow.writeUnsignedInteger(9);
                             ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                            ow.writeGDelta(new (repetition.colVector));
+                            ow.writeGDelta(new(repetition.colVector));
                         }
                         else
                         {
@@ -583,6 +586,7 @@ public class GCCellRefArray : GCElement
                             ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
                             ow.writeGDelta(new(repetition.rowVector));
                         }
+
                         break;
                     case Repetition.RepetitionType.ExplicitX:
                         if (repetition.coords.Count > 0)
@@ -591,14 +595,17 @@ public class GCCellRefArray : GCElement
                             ow.writeUnsignedInteger((uint)(repetition.coords.Count - 1));
                             int c0_index = 0;
                             int c1_index = 1;
-                            ow.writeUnsignedInteger((uint)Math.Round(repetition.coords[c0_index], MidpointRounding.ToEven));
+                            ow.writeUnsignedInteger((uint)Math.Round(repetition.coords[c0_index],
+                                MidpointRounding.ToEven));
                             for (int i = repetition.coords.Count - 1; i > 0; --i)
                             {
                                 c0_index = (c0_index + 1) % repetition.coords.Count;
                                 c1_index = (c1_index + 1) % repetition.coords.Count;
-                                ow.writeUnsignedInteger((uint)Math.Round(repetition.coords[c1_index] - repetition.coords[c0_index]));
+                                ow.writeUnsignedInteger(
+                                    (uint)Math.Round(repetition.coords[c1_index] - repetition.coords[c0_index]));
                             }
                         }
+
                         break;
                     case Repetition.RepetitionType.ExplicitY:
                         if (repetition.coords.Count > 0)
@@ -607,14 +614,17 @@ public class GCCellRefArray : GCElement
                             ow.writeUnsignedInteger((uint)(repetition.coords.Count - 1));
                             int c0_index = 0;
                             int c1_index = 1;
-                            ow.writeUnsignedInteger((uint)Math.Round(repetition.coords[c0_index], MidpointRounding.ToEven));
+                            ow.writeUnsignedInteger((uint)Math.Round(repetition.coords[c0_index],
+                                MidpointRounding.ToEven));
                             for (int i = repetition.coords.Count - 1; i > 0; --i)
                             {
                                 c0_index = (c0_index + 1) % repetition.coords.Count;
                                 c1_index = (c1_index + 1) % repetition.coords.Count;
-                                ow.writeUnsignedInteger((uint)Math.Round(repetition.coords[c1_index] - repetition.coords[c0_index]));
+                                ow.writeUnsignedInteger(
+                                    (uint)Math.Round(repetition.coords[c1_index] - repetition.coords[c0_index]));
                             }
                         }
+
                         break;
                     case Repetition.RepetitionType.Explicit:
                         if (repetition.offsets.Count > 0)
@@ -628,41 +638,15 @@ public class GCCellRefArray : GCElement
                             {
                                 v0_index = (v0_index + 1) % repetition.offsets.Count;
                                 v1_index = (v1_index + 1) % repetition.offsets.Count;
-                                ow.writeGDelta(new (repetition.offsets[v1_index].X - repetition.offsets[v0_index].X,
+                                ow.writeGDelta(new(repetition.offsets[v1_index].X - repetition.offsets[v0_index].X,
                                     repetition.offsets[v1_index].Y - repetition.offsets[v0_index].Y));
                             }
                         }
+
                         break;
                 }
 
                 break;
-            /*
-            case > 0 when count_x == 1:
-                ow.writeUnsignedInteger(3);
-                ow.modal.y_dimension = count_y;
-                ow.writeUnsignedInteger((uint)(count_y - 2));
-                ow.modal.y_space = (int)rowVector.Y;
-                ow.writeUnsignedInteger((uint)rowVector.Y);
-                break;
-            case > 0 when count_y == 1:
-                ow.writeUnsignedInteger(2);
-                ow.modal.x_dimension = count_x;
-                ow.writeUnsignedInteger((uint)(count_x - 2));
-                ow.modal.x_space = (int)rowVector.X;
-                ow.writeUnsignedInteger((uint)rowVector.X);
-                break;
-            case > 0:
-                ow.writeUnsignedInteger(1);
-                ow.modal.x_dimension = count_x;
-                ow.modal.y_dimension = count_y;
-                ow.writeUnsignedInteger((uint)(count_x - 2));
-                ow.writeUnsignedInteger((uint)(count_y - 2));
-                ow.modal.x_space = (int)rowVector.X;
-                ow.modal.y_space = (int)rowVector.Y;
-                ow.writeUnsignedInteger((uint)rowVector.X);
-                ow.writeUnsignedInteger((uint)rowVector.Y);
-                break;
-                */
         }
     }
 

@@ -311,6 +311,7 @@ public class Repetition
     public List<GCPolygon> transform(List<GCPolygon> geo, double magnification, bool x_reflection, double rotation)
     {
         bool doRotationInFunction = true;
+        bool bypass_regular_array = false; // used for specific cases.
         if (type == RepetitionType.None)
         {
             return geo.ToList();
@@ -340,6 +341,29 @@ public class Repetition
                 }
                 break;
             case RepetitionType.Regular:
+                if (columns == 1)
+                {
+                    offsets.Add(new(0,0));
+                    for (int r = 1; r < rows; r++)
+                    {
+                        offsets.Add(rowVector);
+                    }
+
+                    bypass_regular_array = true;
+                }
+                else
+                {
+                    if (rows == 1)
+                    {
+                        offsets.Add(new(0,0));
+                        for (int c = 1; c < columns; c++)
+                        {
+                            offsets.Add(colVector);
+                        }
+
+                        bypass_regular_array = true;
+                    }
+                }
                 /*
                 if (magnification != 1)
                 {
@@ -536,19 +560,22 @@ public class Repetition
             }
         }
 
-        for (int y = 0; y < rows; y++)
+        if (!bypass_regular_array)
         {
-            for (int x = 0; x < columns; x++)
+            for (int y = 0; y < rows; y++)
             {
-                foreach (GCPolygon poly in scaled_and_rotated)
+                for (int x = 0; x < columns; x++)
                 {
-                    GCPolygon temp = new(poly);
-                    temp.move(new (x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
-                    ret.Add(temp);
+                    foreach (GCPolygon poly in scaled_and_rotated)
+                    {
+                        GCPolygon temp = new(poly);
+                        temp.move(new(x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
+                        ret.Add(temp);
+                    }
                 }
             }
         }
-        
+
         /*
 #if !GCSINGLETHREADED
         Parallel.For(0, ret.Count, (poly, loopstate) =>

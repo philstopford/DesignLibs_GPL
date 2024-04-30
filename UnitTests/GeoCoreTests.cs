@@ -1732,6 +1732,7 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
 
         // This one gets handled as a 'regular' repetition.
+        // This internally then gets mapped to a cellrefarray
         string oasFile = baseDir + "gdstk_reference/ref_f_rep2.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
@@ -1740,10 +1741,10 @@ public class GeoCoreTests
         
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
-        Assert.That(cell_oas.elementList.Count, Is.EqualTo(2));
-        for (int i = 0; i < 2; i++)
+        Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
+        for (int i = 0; i < 1; i++)
         {
-            Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
+            Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
         List <GCPolygon> polys_oas = cell_oas.convertToPolygons();
         Assert.That(polys_oas.Count, Is.EqualTo(2));

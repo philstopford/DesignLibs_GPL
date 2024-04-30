@@ -78,15 +78,10 @@ internal partial class oasReader
 
     // This is used to allow for implicit (late) definitions
     // to be applied to the layout data after everything is loaded.
-    class CellData
-    {
-        public string cellName;
-        public int textIndex = 0; // this tracks the insertion point for text in textNames.
-        public int pp_textIndex = 0; // used in the implicit process to track how many text elements have been processed in the cell.
-        public string[] textNames = new string[1024]; // arbitrary limit
-    }
 
-    private CellData[] cellData = new CellData[1024000];
+    string[] cellNames = new string[1024000];
+    string[] textNames = new string[1024000]; // arbitrary limit
+
 //    private string[] cellNames = new string[1024000]; // maxLayers
 //    private string[] textNames = new string[1024000]; // maxLayers
     public Dictionary<string, string> layerNames { get; set; }
@@ -193,6 +188,7 @@ internal partial class oasReader
 
                 modal.s = Encoding.UTF8.GetString(new [] { help });
                 s1 += modal.s;
+                modal.s = "";
             }
             if (s1 != "%SEMI-OASIS\r\n")
             {
@@ -201,25 +197,22 @@ internal partial class oasReader
                 throw new Exception(err);
             }
 
-            for (int cd = 0; cd < cellData.Length; cd++)
-            {
-                cellData[cd] = new();
-            }
             int record;
             bool tableAtEnd = false;
             cell_ = null;
-            int cellIndex = 0;
+            int cellNameCount = 0;
+            int textNameCount = 0;
             do
             {
-                if (cellIndex > cellData.Length)
+                if (cellNameCount > cellNames.Length)
                 {
-                    string err = "More cells (" + cellIndex + ") than are able to be supported (" + cellData.Length + ")!";
+                    string err = "More cells (" + cellNameCount + ") than are able to be supported (" + cellNames.Length + ")!";
                     error_msgs.Add(err);
                     throw new Exception(err);
                 }
-                if (cellData[cellIndex].textIndex > cellData[cellIndex].textNames.Length)
+                if (textNameCount > textNames.Length)
                 {
-                    string err = "More text names (" + cellData[cellIndex].textIndex + ") than are able to be supported (" + cellData[cellIndex].textNames.Length + ")!";
+                    string err = "More text names (" + textNameCount + ") than are able to be supported (" + textNames.Length + ")!";
                     error_msgs.Add(err);
                     throw new Exception(err);
                 }
@@ -262,22 +255,23 @@ internal partial class oasReader
 
                         break;
                     case oasValues.CELLNAME_IMPLICIT:
-                        cellData[cellIndex].cellName = readString();
-                        cellIndex++;
+                        cellNames[cellNameCount] = readString();
+                        drawing.cellList[cellNameCount].cellName = cellNames[cellNameCount];
+                        cellNameCount++;
                         break;
                     case oasValues.CELLNAME:
                         modal.s = readString();
                         i = readUnsignedInteger();
-                        cellData[i].cellName = modal.s;
+                        cellNames[i] = modal.s;
                         break;
                     case oasValues.TEXTSTRING_IMPLICIT:
-                        cellData[cellIndex - 1].textNames[cellData[cellIndex - 1].textIndex] = readString();
-                        cellData[cellIndex - 1].textIndex++;
+                        textNames[textNameCount] = readString();
+                        textNameCount++;
                         break;
                     case oasValues.TEXTSTRING:
                         modal.s = readString();
                         i = readUnsignedInteger();
-                        cellData[cellIndex - 1].textNames[i] = modal.s;
+                        textNames[i] = modal.s;
                         break;
                     case oasValues.PROPNAME_IMPLICIT:
                         modal.s = readString();
@@ -345,19 +339,18 @@ internal partial class oasReader
                     case oasValues.CELL_REF_NUM:
                         cell_ = drawing_.addCell();
                         i = readUnsignedInteger();
-                        if (cellData[i].cellName == "")
+                        if (cellNames[i] == "")
                         {
-                            cellData[i].cellName = "layout#cell~" + i;
+                            cellNames[i] = "layout#cell~" + i;
                         }
                         else
                         {
-                            if (cellData[i].cellName == null)
+                            if (cellNames[i] == null)
                             {
-                                cellData[i].cellName = modal.s;
+                                cellNames[i] = modal.s;
                             }
                         }
-
-                        cell_.cellName = cellData[i].cellName;
+                        cell_.cellName = cellNames[i];
                         resetModal();
                         break;
                     case oasValues.CELL:
@@ -381,12 +374,16 @@ internal partial class oasReader
                             if ((info_byte & 64) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (cellData[i].cellName == "")
+                                if (cellNames[i] == "")
                                 {
-                                    cellData[i].cellName = "layout#cell~" + i;
+                                    cellNames[i] = "layout#cell~" + i;
+                                }
+                                else
+                                {
+                                    cellNames[i] = cellNames[i];
                                 }
 
-                                modal.placement_cell = cellData[i].cellName;
+                                modal.placement_cell = cellNames[i];
                             }
                             else
                             {
@@ -465,12 +462,15 @@ internal partial class oasReader
                             if ((info_byte & 64) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (cellData[i].cellName == "")
+                                if (cellNames[i] == "")
                                 {
-                                    cellData[i].cellName = "layout#cell~" + i;
+                                    cellNames[i] = "layout#cell~" + i;
                                 }
-
-                                modal.placement_cell = cellData[i].cellName;
+                                else
+                                {
+                                    cellNames[i] = cellNames[i];
+                                }
+                                modal.placement_cell = cellNames[i];
                             }
                             else
                             {
@@ -533,19 +533,16 @@ internal partial class oasReader
                             if ((info_byte & 32) != 0)
                             {
                                 i = readUnsignedInteger();
-                                if (cellData[cellIndex - 1].textNames[i] == "")
+                                if (textNames[i] == "")
                                 {
-                                    cellData[cellIndex - 1].textNames[i] = "layout#text~" + i;
+                                    textNames[i] = "layout#text~" + i;
                                 }
                                 else
                                 {
-                                    if (cellData[cellIndex - 1].textNames[i] == null)
-                                    {
-                                        cellData[cellIndex - 1].textNames[i] = modal.s;
-                                    }
+                                    textNames[i] = textNames[i] != null ? textNames[i] : modal.s;
                                 }
 
-                                modal.text_string = cellData[cellIndex - 1].textNames[i];
+                                modal.text_string = textNames[i];
                             }
                             else
                             {
@@ -594,19 +591,6 @@ internal partial class oasReader
                         }
                         else
                         {
-                            if (cellData[cellIndex - 1].textNames[cellData[cellIndex - 1].textIndex] == "")
-                            {
-                                cellData[cellIndex - 1].textNames[cellData[cellIndex - 1].textIndex] = "layout#text~" + cellData[cellIndex - 1].textIndex;
-                                cellData[cellIndex - 1].textIndex++;
-                            }
-                            else
-                            {
-                                if (cellData[cellIndex - 1].textNames[i] == null)
-                                {
-                                    cellData[cellIndex - 1].textNames[i] = modal.text_string;
-                                    cellData[cellIndex - 1].textIndex++;
-                                }
-                            }
                             addText();
                         }
 
@@ -1138,7 +1122,7 @@ internal partial class oasReader
                 }
             }
 
-            while (record != 2);
+            while (record != oasValues.END);
 
             // update cellref/text, if table at end
             foreach (GCCell t in drawing_.cellList.Where(t => t != null))
@@ -1150,20 +1134,33 @@ internal partial class oasReader
                 }
 
                 s1 = s1.Substring(12, s1.Length - 12);
-                t.cellName = cellData[Convert.ToInt32(s1)].cellName;
+                t.cellName = cellNames[Convert.ToInt32(s1)];
             }
+
+            /*
+            foreach (GCCell t in drawing_.cellList.Where(t => t != null))
+            {
+                s1 = t.getName();
+                if (s1 != null && s1.Left(12) == "layout#cell~")
+                {
+                    s1 = s1.Substring(12, s1.Length - 12);
+                    t.setName(cellData[Convert.ToInt32(s1)].cellName);
+                }
+            }
+            */
+
             foreach (GCElement t1 in drawing_.cellList.Where(t => t != null).SelectMany(t => t.elementList))
             {
                 if (t1.isCellref() || t1.isCellrefArray())
                 {
-                    if (t1.depend() == null)
+                    //if (t1.depend() == null)
                     {
                         s1 = t1.getName();
                         if (s1 != null && s1.Left(12) == "layout#cell~")
                         {
                             s1 = s1.Substring(12, s1.Length - 12);
-                            t1.setName(cellData[Convert.ToInt32(s1)].cellName);
-                            t1.setCellRef(drawing_.findCell(cellData[Convert.ToInt32(s1)].cellName));
+                            t1.setName(cellNames[Convert.ToInt32(s1)]);
+                            t1.setCellRef(drawing_.findCell(cellNames[Convert.ToInt32(s1)]));
                         }
                     }
                 }
@@ -1180,9 +1177,10 @@ internal partial class oasReader
                 }
 
                 s1 = s1.Substring(12, s1.Length - 12);
-                t1.setName(cellData[cellIndex - 1].textNames[Convert.ToInt32(s1)]);
+                t1.setName(textNames[Convert.ToInt32(s1)]);
             }
 
+            /*
             // Deal with implicit values.
             // These seem to be reverse-ordered compared to the list order, so use cdIndex to transform the index.
             // Here we walk our array of cell data and then each instance of text data
@@ -1200,13 +1198,14 @@ internal partial class oasReader
                     // Not sure if index will be weird here like above. Need a test case.
                     if (drawing_.cellList[cell].elementList[element].isText())
                     {
-                        int txtIndex = (cellData[cdIndex].textIndex - 1) - cellData[cdIndex].pp_textIndex;
+                        int txtIndex = /*(cellData[cdIndex].textIndex - 1) -* / cellData[cdIndex].pp_textIndex;
                         cellData[cdIndex].pp_textIndex++;
                         drawing_.cellList[cell].elementList[element].setName(cellData[cdIndex].textNames[txtIndex]);
                     }
                 });
             });
-            
+            */
+                
             try
             {
                 drawing_.active_cell = drawing.findCellIndex(cell_.cellName);

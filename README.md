@@ -3,12 +3,9 @@ GPLv3 release of DesignLibs
 
 DesignLibs comprises a multitude of libraries. These are primarily built for use by the Variance (https://github.com/philstopford/Variance_GPL) and Quilt (https://github.com/philstopford/Quilt_GPL) tools. Gradually, documentation will be added to the wiki.
 
+There is an ongoing effort to expand the unit tests in this project, to ensure all libraries work.
+
 ## Common
-
-### Burkardt:
-
-This is a WIP port of the huge resource available at https://people.sc.fsu.edu/~jburkardt/cpp_src/cpp_src.html. Validation is being tracked at https://github.com/philstopford/DesignLibs_GPL/issues/2. The port was constrained in scope (a subset of the reference has been tackled, focussed on areas I found most interesting / useful) and the port is also kept as close to the original design as possible to limit the initial scope. The upstream code makes practically no use of object orientation and has Fortran-isms and usage patterns that aren't fully addressed (yet) in this effort. Functionality and correctness were the initial goals.
-
 
 ### Color:
 
@@ -64,13 +61,13 @@ It also provides:
  
 ### GeoCore:
 
-This is a layout parsing library for GDSII and Oasis files. The design is a mix of inspiration from various references. Example usage is available in the root level geoCoreTest and also the gdsTest and oasTest projects.
+This is a layout parsing library for GDSII and Oasis files. The design is a mix of inspiration from various references.
 
 ## Eto
 
 ### Eto.VeldridSurface:
 
-This uses the Eto.Veldrid project to deliver a common 2D viewport library for use inside end-user applications. The choice of API depends on platform. This viewport is supported on .NET Core 3.1 and modern .NET, where etoViewport cannot run due to OpenTK issues. The shaders folder is relevant to this project.
+This uses the Eto.Veldrid project to deliver a common 2D viewport library for use inside end-user applications. The choice of API depends on platform. This viewport is supported on .NET Core 3.1 and later.
 
 ### etoViewport:
 

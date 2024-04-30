@@ -116,10 +116,10 @@ public class Repetition
 
                 break;
             case RepetitionType.Regular:
-                for (int i = 0; i < columns; i++)
+                for (int i = 0; i < rows; i++)
                 {
                     Point64 vi = new(rowVector.X * i, rowVector.Y * i);
-                    for (int j = 0; j < rows; j++)
+                    for (int j = 1; j < columns; j++)
                     {
                         result.Add(new(vi.X + j * colVector.X, vi.Y + j * colVector.Y));
                     }

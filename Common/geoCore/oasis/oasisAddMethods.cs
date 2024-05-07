@@ -295,6 +295,8 @@ internal partial class oasReader
 
     private void processRepetition(elementType e)
     {
+        // The aim here is to ensure we have a consistent representation with the input.
+        // If the input is an element, but not a reference, we should just create duplicates of the element.
         Path64 offsets = modal.repetition.get_offsets();
         if (e == elementType.cellrefElement)
         {

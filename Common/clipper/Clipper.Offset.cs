@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  14 March 2024                                                   *
+* Date      :  17 April 2024                                                   *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  Path Offset (Inflate/Shrink)                                    *
@@ -9,7 +9,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
@@ -69,21 +68,13 @@ namespace Clipper2Lib
     }
 
     private static readonly double Tolerance = 1.0E-12;
-    private static readonly Rect64 InvalidRect64 =
-      new Rect64(long.MaxValue, long.MaxValue, long.MinValue, long.MinValue);
-    private static readonly RectD InvalidRectD =
-      new RectD(double.MaxValue, double.MaxValue, double.MinValue, double.MinValue);
-    private static readonly long MAX_COORD = long.MaxValue >> 2;
-    private static readonly long MIN_COORD = -MAX_COORD;
-
-    private static readonly string
-      coord_range_error = "Error: Coordinate range.";
-
 
     private readonly List<Group> _groupList = new List<Group>();
     private Path64 pathOut = new Path64();
     private readonly PathD _normals = new PathD();
-    private readonly Paths64 _solution = new Paths64();
+    private Paths64 _solution = new Paths64();
+    private PolyTree64? _solutionTree;
+
     private double _groupDelta; //*0.5 for open paths; *-1.0 for negative areas
     private double _delta;
     private double _mitLimSqr;
@@ -103,6 +94,15 @@ namespace Clipper2Lib
     public ClipperOffset.DeltaCallback64? DeltaCallback { get; set; }
 
 #if USINGZ
+    internal void ZCB(Point64 bot1, Point64 top1,
+        Point64 bot2, Point64 top2, ref Point64 ip)
+    {
+      if (bot1.Z != 0 &&
+        ((bot1.Z == bot2.Z) || (bot1.Z == top2.Z))) ip.Z = bot1.Z;
+      else if (bot2.Z != 0 && bot2.Z == top1.Z) ip.Z = bot2.Z;
+      else if (top1.Z != 0 && top1.Z == top2.Z) ip.Z = top1.Z;
+      else ZCallback?.Invoke(bot1, top1, bot2, top2, ref ip);
+    }
     public ClipperBase.ZCallback64? ZCallback { get; set; }
 #endif
     public ClipperOffset(double miterLimit = 2.0,
@@ -146,9 +146,20 @@ namespace Clipper2Lib
       return result;
     }
 
+    internal bool CheckPathsReversed()
+    {
+      bool result = false;
+      foreach (Group g in _groupList)
+        if (g.endType == EndType.Polygon)
+        {
+          result = g.pathsReversed;
+          break;
+        }
+      return result;
+    }
+
     private void ExecuteInternal(double delta)
     {
-      _solution.Clear();
       if (_groupList.Count == 0) return;
       _solution.EnsureCapacity(CalcSolutionCapacity());
 
@@ -167,24 +178,7 @@ namespace Clipper2Lib
 
       foreach (Group group in _groupList)
         DoGroupOffset(group);
-    }
 
-    internal bool CheckPathsReversed()
-    {
-      bool result = false;
-      foreach (Group g in _groupList)
-        if (g.endType == EndType.Polygon)
-        {
-          result = g.pathsReversed;
-          break;
-        }
-      return result;
-    }
-
-    public void Execute(double delta, Paths64 solution)
-    {
-      solution.Clear();
-      ExecuteInternal(delta);
       if (_groupList.Count == 0) return;
 
       bool pathsReversed = CheckPathsReversed();
@@ -196,30 +190,29 @@ namespace Clipper2Lib
       // the solution should retain the orientation of the input
       c.ReverseSolution = ReverseSolution != pathsReversed;
 #if USINGZ
-      c.ZCallback = ZCallback;
+      c.ZCallback = ZCB;
 #endif
       c.AddSubject(_solution);
-      c.Execute(ClipType.Union, fillRule, solution);
+      if (_solutionTree != null)
+        c.Execute(ClipType.Union, fillRule, _solutionTree);
+      else
+        c.Execute(ClipType.Union, fillRule, _solution);
+
+    }
+
+    public void Execute(double delta, Paths64 solution)
+    {
+      solution.Clear();
+      _solution = solution;
+      ExecuteInternal(delta);
     }
 
     public void Execute(double delta, PolyTree64 solutionTree)
     {
       solutionTree.Clear();
+      _solutionTree = solutionTree;
+      _solution.Clear();
       ExecuteInternal(delta);
-      if (_groupList.Count == 0) return;
-
-      bool pathsReversed = CheckPathsReversed();
-      FillRule fillRule = pathsReversed ? FillRule.Negative : FillRule.Positive;
-      // clean up self-intersections ...
-      Clipper64 c = new Clipper64();
-      c.PreserveCollinear = PreserveCollinear;
-      // the solution should normally retain the orientation of the input
-      c.ReverseSolution = ReverseSolution != pathsReversed;
-#if USINGZ
-      c.ZCallback = ZCallback;
-#endif
-      c.AddSubject(_solution);
-      c.Execute(ClipType.Union, fillRule, solutionTree);
     }
 
 
@@ -246,7 +239,7 @@ namespace Clipper2Lib
     internal static int GetLowestPathIdx(Paths64 paths)
     {
       int result = -1;
-      Point64 botPt = new Point64(Int64.MaxValue, Int64.MinValue);
+      Point64 botPt = new Point64(long.MaxValue, long.MinValue);
       for (int i = 0; i < paths.Count; ++i)
       {
         foreach (Point64 pt in paths[i])
@@ -460,7 +453,7 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void DoMiter(Group group, Path64 path, int j, int k, double cosA)
+    private void DoMiter(Path64 path, int j, int k, double cosA)
     {
       double q = _groupDelta / (cosA + 1);
 #if USINGZ
@@ -556,20 +549,21 @@ namespace Clipper2Lib
       {
         // is concave
         pathOut.Add(GetPerpendic(path[j], _normals[k]));
-        // this extra point is the only (simple) way to ensure that
-        // path reversals are fully cleaned with the trailing clipper
-        pathOut.Add(path[j]); // (#405)
+        // this extra point is the only simple way to ensure that path reversals
+        // (ie over-shrunk paths) are fully cleaned out with the trailing union op.
+        // However it's probably safe to skip this whenever an angle is almost flat.
+        if (cosA < 0.99) pathOut.Add(path[j]); // (#405)
         pathOut.Add(GetPerpendic(path[j], _normals[j]));
       }
       else if ((cosA > 0.999) && (_joinType != JoinType.Round))
       {
         // almost straight - less than 2.5 degree (#424, #482, #526 & #724) 
-        DoMiter(group, path, j, k, cosA);
+        DoMiter(path, j, k, cosA);
       }
       else if (_joinType == JoinType.Miter)
       {
         // miter unless the angle is sufficiently acute to exceed ML
-        if (cosA > _mitLimSqr - 1) DoMiter(group, path, j, k, cosA);
+        if (cosA > _mitLimSqr - 1) DoMiter(path, j, k, cosA);
         else DoSquare(path, j, k);
       }
       else if (_joinType == JoinType.Round)
@@ -695,11 +689,10 @@ namespace Clipper2Lib
         _stepsPerRad = stepsPer360 / (2 * Math.PI);
       }
 
-      double min_area = Math.PI * Clipper.Sqr(_groupDelta);
       using List<Path64>.Enumerator pathIt = group.inPaths.GetEnumerator();
       while (pathIt.MoveNext())
       {
-        Path64 p = pathIt.Current;
+        Path64 p = pathIt.Current!;
 
         pathOut = new Path64();
         int cnt = p.Count;

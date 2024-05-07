@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  14 February 2024                                                *
+* Date      :  27 April 2024                                                   *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -11,7 +11,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 namespace Clipper2Lib
 {
@@ -85,7 +84,7 @@ namespace Clipper2Lib
       return new Point64(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
     }
 
-    public override string ToString()
+    public readonly override string ToString()
     {
       return $"{X},{Y},{Z} "; // nb: trailing space
     }
@@ -216,7 +215,7 @@ namespace Clipper2Lib
       this.z = z;
     }
 
-    public string ToString(int precision = 2)
+    public readonly string ToString(int precision = 2)
     {
       return string.Format($"{{0:F{precision}}},{{1:F{precision}}},{{2:D}}", x,y,z);
     }
@@ -474,7 +473,6 @@ namespace Clipper2Lib
 
   public class Path64 : List<Point64> 
   {
-    private Path64() : base() { }
     public Path64(int capacity = 0) : base(capacity) { }
     public Path64(IEnumerable<Point64> path) : base(path) { }
     public override string ToString()
@@ -488,21 +486,19 @@ namespace Clipper2Lib
 
   public class Paths64 : List<Path64>
   {
-    private Paths64() : base() { }
     public Paths64(int capacity = 0) : base(capacity) { }
     public Paths64(IEnumerable<Path64> paths) : base(paths) { }
     public override string ToString()
     {
       string s = "";
       foreach (Path64 p in this)
-        s = s + p.ToString() + "\n";
+        s = s + p + "\n";
       return s;
     }
   }
 
   public class PathD : List<PointD>
   {
-    private PathD() : base() { }
     public PathD(int capacity = 0) : base(capacity) { }
     public PathD(IEnumerable<PointD> path) : base(path) { }
     public string ToString(int precision = 2)
@@ -516,7 +512,6 @@ namespace Clipper2Lib
 
   public class PathsD : List<PathD>
   {
-    private PathsD() : base() { }
     public PathsD(int capacity = 0) : base(capacity) { }
     public PathsD(IEnumerable<PathD> paths) : base(paths) { }
     public string ToString(int precision = 2)
@@ -604,6 +599,13 @@ namespace Clipper2Lib
       // typecast to double to avoid potential int overflow
       return ((double) (pt2.X - pt1.X) * (pt3.Y - pt2.Y) -
               (double) (pt2.Y - pt1.Y) * (pt3.X - pt2.X));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static bool IsCollinear(Point64 pt1, Point64 pt2, Point64 pt3)
+    {
+      return (pt2.X - pt1.X) * (pt3.Y - pt2.Y) ==
+             (pt2.Y - pt1.Y) * (pt3.X - pt2.X);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

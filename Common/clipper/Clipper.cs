@@ -1,8 +1,8 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  18 October 2023                                                 *
+* Date      :  27 April 2024                                                   *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2010-2023                                         *
+* Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  This module contains simple functions that will likely cover    *
 *              most polygon boolean and offsetting needs, while also avoiding  *
 *              the inherent complexities of the other modules.                 *
@@ -589,7 +589,7 @@ namespace Clipper2Lib
         if (pt.y < result.top) result.top = pt.y;
         if (pt.y > result.bottom) result.bottom = pt.y;
       }
-      return result.left == double.MaxValue ? new RectD() : result;
+      return Math.Abs(result.left - double.MaxValue) < InternalClipper.floatingPointTolerance ? new RectD() : result;
     }
 
     public static RectD GetBounds(PathsD paths)
@@ -603,7 +603,7 @@ namespace Clipper2Lib
           if (pt.y < result.top) result.top = pt.y;
           if (pt.y > result.bottom) result.bottom = pt.y;
         }
-      return result.left == double.MaxValue ? new RectD() : result;
+      return Math.Abs(result.left - double.MaxValue) < InternalClipper.floatingPointTolerance ? new RectD() : result;
     }
 
     public static Path64 MakePath(int[] arr)
@@ -632,6 +632,26 @@ namespace Clipper2Lib
         p.Add(new PointD(arr[i * 2], arr[i * 2 + 1]));
       return p;
     }
+
+#if USINGZ
+    public static Path64 MakePathZ(long[] arr)
+    {
+      int len = arr.Length / 3;
+      Path64 p = new Path64(len);
+      for (int i = 0; i < len; i++)
+        p.Add(new Point64(arr[i * 3], arr[i * 3 + 1], arr[i * 3 + 2]));
+      return p;
+    }
+    public static PathD MakePathZ(double[] arr)
+    {
+      int len = arr.Length / 3;
+      PathD p = new PathD(len);
+      for (int i = 0; i < len; i++)
+        p.Add(new PointD(arr[i * 3], arr[i * 3 + 1], (long)arr[i * 3 + 2]));
+      return p;
+    }
+#endif
+
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double Sqr(double value)
@@ -1002,10 +1022,9 @@ namespace Clipper2Lib
       int i = 0;
       if (!isOpen)
       {
-        while (i < len - 1 && InternalClipper.CrossProduct(
-          path[len - 1], path[i], path[i + 1]) == 0) i++;
-        while (i < len - 1 && InternalClipper.CrossProduct(
-          path[len - 2], path[len - 1], path[i]) == 0) len--;
+        while (i < len - 1 && 
+          InternalClipper.IsCollinear(path[len - 1], path[i], path[i + 1])) i++;
+        while (i < len - 1 && InternalClipper.IsCollinear(path[len - 2], path[len - 1], path[i])) len--;
       }
 
       if (len - i < 3)
@@ -1020,22 +1039,22 @@ namespace Clipper2Lib
       result.Add(last);
       for (i++; i < len - 1; i++)
       {
-        if (InternalClipper.CrossProduct(
-              last, path[i], path[i + 1]) == 0) continue;
+        if (InternalClipper.IsCollinear(last, path[i], path[i + 1])) continue;
         last = path[i];
         result.Add(last);
       }
 
       if (isOpen)
         result.Add(path[len - 1]);
-      else if (InternalClipper.CrossProduct(
-        last, path[len - 1], result[0]) != 0)
+      else if (!InternalClipper.IsCollinear(last, path[len - 1], result[0]))
         result.Add(path[len - 1]);
       else
       {
-        while (result.Count > 2 && InternalClipper.CrossProduct(
-          result[result.Count - 1], result[result.Count - 2], result[0]) == 0)
-            result.RemoveAt(result.Count - 1);
+        while (result.Count > 2 && InternalClipper.IsCollinear(
+                 result[result.Count - 1], result[result.Count - 2], result[0]))
+        {
+          result.RemoveAt(result.Count - 1);
+        }
         if (result.Count < 3)
           result.Clear();
       }

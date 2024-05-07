@@ -1,8 +1,8 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  8 September 2023                                                *
+* Date      :  7 May 2024                                                      *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2010-2023                                         *
+* Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  FAST rectangular clipping                                       *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
@@ -41,7 +41,7 @@ namespace Clipper2Lib
     protected Rect64 pathBounds_;
     protected List<OutPt2?> results_;
     protected List<OutPt2?>[] edges_;
-    protected int currIdx_ = -1;
+    protected int currIdx_;
     internal RectClip64(Rect64 rect)
     {
       currIdx_ = -1;
@@ -195,7 +195,7 @@ namespace Clipper2Lib
     private static void AddToEdge(List<OutPt2?> edge, OutPt2 op)
     {
       if (op.edge != null) return;
-      op.edge = edge!;
+      op.edge = edge;
       edge.Add(op);
     }
 
@@ -694,8 +694,8 @@ namespace Clipper2Lib
         if (op == null) continue;
         do
         {
-          if (InternalClipper.CrossProduct(
-            op2!.prev!.pt, op2.pt, op2.next!.pt) == 0)
+          if (InternalClipper.IsCollinear(
+            op2!.prev!.pt, op2.pt, op2.next!.pt))
           {
             if (op2 == op)
             {
@@ -930,8 +930,8 @@ namespace Clipper2Lib
       OutPt2? op2 = op.next;
       while (op2 != null && op2 != op)
       {
-        if (InternalClipper.CrossProduct(
-          op2!.prev!.pt, op2.pt, op2!.next!.pt) == 0)
+        if (InternalClipper.IsCollinear(
+          op2.prev!.pt, op2.pt, op2.next!.pt))
         {
           op = op2.prev;
           op2 = UnlinkOp(op2);
@@ -995,7 +995,7 @@ namespace Clipper2Lib
       OutPt2 op2 = op.next!;
       while (op2 != op)
       {
-        result.Add(op2!.pt);
+        result.Add(op2.pt);
         op2 = op2.next!;
       }
       return result;
@@ -1014,6 +1014,7 @@ namespace Clipper2Lib
         if (i > highI)
         {
           foreach (Point64 pt in path) Add(pt);
+          return;
         }                   
         if (prev == Location.inside) loc = Location.inside;
         i = 1;
@@ -1050,7 +1051,7 @@ namespace Clipper2Lib
           // intersect pt but we'll also need the first intersect pt (ip2)
           crossingLoc = prev;
           GetIntersection(rectPath_, prevPt, path[i], ref crossingLoc, out Point64 ip2);
-          Add(ip2);
+          Add(ip2, true);
           Add(ip);
         }
         else // path must be exiting rect

@@ -20,6 +20,7 @@ public partial class oasWriter
     private GCDrawingfield drawing_;
     private Dictionary<string, string> namedLayers;
     private string filename_;
+    public string error_message;
 
     public Modals modal;
 
@@ -117,41 +118,28 @@ public partial class oasWriter
         statusUpdateUI?.Invoke("Saving Oasis");
         progressUpdateUI?.Invoke(0);
 
-        Stream s = File.OpenWrite(filename_);
+        FileStream s = File.OpenWrite(filename_);
 
         bool ret = false;
 
-        switch (compressed)
+        if (compressed)
         {
-            case true:
-            {
-                using GZipStream gzs = new(s, CompressionMode.Compress);
-                bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
-                try
-                {
-                    pSave_write();
-                    ret = true;
-                }
-                catch (Exception)
-                {
+            using GZipStream gzs = new(s, CompressionMode.Compress);
+            bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
+        }
+        else
+        {
+            bw = new EndianBinaryWriter(EndianBitConverter.Little, s);
+        }
 
-                }
-
-                break;
-            }
-            default:
-                bw = new EndianBinaryWriter(EndianBitConverter.Little, s);
-                try
-                {
-                    pSave_write();
-                    ret = true;
-                }
-                catch (Exception)
-                {
-
-                }
-
-                break;
+        try
+        {
+            pSave_write();
+            ret = true;
+        }
+        catch (Exception e)
+        {
+            error_message = e.ToString();
         }
 
         s.Close();

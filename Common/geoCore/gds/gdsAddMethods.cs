@@ -77,25 +77,21 @@ internal partial class gdsReader
 
     private void addPath()
     {
-        switch (modal.point_array.Count)
+        if (modal.point_array.Count == 1)
         {
-            case 1:
-                cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], Convert.ToDouble(modal.width) / 2);
-                break;
-            default:
+            cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], Convert.ToDouble(modal.width) / 2);
+        }
+        else
+        {
+            cell_.addPath(modal.point_array, modal.layer, modal.datatype);
+            cell_.elementList[^1].setWidth(modal.width);
+            if (modal.cap != 4)
             {
-                cell_.addPath(modal.point_array, modal.layer, modal.datatype);
-                cell_.elementList[^1].setWidth(modal.width);
-                if (modal.cap != 4)
-                {
-                    cell_.elementList[^1].setCap(modal.cap);
-                }
-                else
-                {
-                    cell_.elementList[^1].expandCaps(modal.beginExt, modal.endExt);
-                }
-
-                break;
+                cell_.elementList[^1].setCap(modal.cap);
+            }
+            else
+            {
+                cell_.elementList[^1].expandCaps(modal.beginExt, modal.endExt);
             }
         }
     }

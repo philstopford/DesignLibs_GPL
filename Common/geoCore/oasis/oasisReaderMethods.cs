@@ -445,34 +445,33 @@ internal partial class oasReader
                 modal.path_start_extension_value = readSignedInteger();
                 modal.path_start_extension = 4;
                 break;
+            case 2:
+                modal.path_start_extension = 2;
+                break;
+            case 1:
+                modal.path_start_extension = 0;
+                break;
+            default:
+                modal.path_start_extension = modal.path_start_extension;
+                break;
         }
 
-        modal.path_start_extension = (i & 3) switch
-        {
-            2 => 2,
-            _ => (i & 3) switch
-            {
-                1 => 0,
-                _ => modal.path_start_extension
-            }
-        };
         switch (i & 12)
         {
             case 12:
                 modal.path_end_extension_value = readSignedInteger();
                 modal.path_end_extension = 4;
                 break;
+            case 8:
+                modal.path_end_extension = 2;
+                break;
+            case 4:
+                modal.path_end_extension = 0;
+                break;
+            default:
+                modal.path_end_extension = modal.path_end_extension;
+                break;
         }
-
-        modal.path_end_extension = (i & 12) switch
-        {
-            8 => 2,
-            _ => (i & 12) switch
-            {
-                4 => 0,
-                _ => modal.path_end_extension
-            }
-        };
     }
 
     private void readPointList(bool addImplecid)
@@ -496,19 +495,13 @@ internal partial class oasReader
                     pointlist[i] = new (last);
                     dir = !dir;
                 }
-                switch (addImplecid)
+
+                if (addImplecid)
                 {
-                    case true:
-                        /*
-                        pointlist.Add(new());
-                        pointlist.Add(new());
-                        pointlist[^2] = new (pointlist[^3].X, 0);
-                        pointlist[^1] = new (pointlist[0]);
-                        */
-                        pointlist.Add(new (pointlist[^1].X, 0));
-                        pointlist.Add(new (pointlist[0]));
-                        break;
+                    pointlist.Add(new(pointlist[^1].X, 0));
+                    pointlist.Add(new(pointlist[0]));
                 }
+
                 break;
             case 1:
                 for (i = 1; i <= count; i++)
@@ -518,19 +511,13 @@ internal partial class oasReader
                     pointlist[i] = new (last);
                     dir = !dir;
                 }
-                switch (addImplecid)
+
+                if (addImplecid)
                 {
-                    case true:
-                        /*
-                        pointlist.Add(new());
-                        pointlist.Add(new());
-                        pointlist[^2] = new (pointlist[^3].X, 0);
-                        pointlist[^1] = new (pointlist[0]);
-                        */
-                        pointlist.Add(new (pointlist[^1].X, 0));
-                        pointlist.Add(new (pointlist[0]));
-                        break;
+                    pointlist.Add(new(pointlist[^1].X, 0));
+                    pointlist.Add(new(pointlist[0]));
                 }
+
                 break;
             case 2:
                 for (i = 1; i <= count; i++)
@@ -539,12 +526,12 @@ internal partial class oasReader
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
                     pointlist[i] = new (last);
                 }
-                switch (addImplecid)
+
+                if (addImplecid)
                 {
-                    case true:
-                        pointlist.Add(new (pointlist[0]));
-                        break;
+                    pointlist.Add(new(pointlist[0]));
                 }
+
                 break;
             case 3:
                 for (i = 1; i <= count; i++)
@@ -553,12 +540,12 @@ internal partial class oasReader
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
                     pointlist[i] = new (last);
                 }
-                switch (addImplecid)
+
+                if (addImplecid)
                 {
-                    case true:
-                        pointlist.Add(new (pointlist[0]));
-                        break;
+                    pointlist.Add(new(pointlist[0]));
                 }
+
                 break;
             case 4:
                 for (i = 1; i <= count; i++)
@@ -567,12 +554,12 @@ internal partial class oasReader
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
                     pointlist[i] = new (last);
                 }
-                switch (addImplecid)
+
+                if (addImplecid)
                 {
-                    case true:
-                        pointlist.Add(new (pointlist[0]));
-                        break;
+                    pointlist.Add(new(pointlist[0]));
                 }
+
                 break;
             case 5:
             {
@@ -584,11 +571,10 @@ internal partial class oasReader
                     l = GeoWrangler.move(l, last.X, last.Y);
                     pointlist[i] = new (l);
                 }
-                switch (addImplecid)
+
+                if (addImplecid)
                 {
-                    case true:
-                        pointlist.Add(new (pointlist[0]));
-                        break;
+                    pointlist.Add(new(pointlist[0]));
                 }
             }
                 break;

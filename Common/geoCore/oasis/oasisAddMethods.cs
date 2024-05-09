@@ -110,11 +110,9 @@ internal partial class oasReader
         cell_.elementList[^1].setName(modal.placement_cell);
         cell_.elementList[^1].rotate(modal.angle);
         cell_.elementList[^1].scale(modal.mag);
-        switch (modal.mirror_x)
+        if (modal.mirror_x)
         {
-            case true:
-                cell_.elementList[^1].setMirrorx();
-                break;
+            cell_.elementList[^1].setMirrorx();
         }
     }
 
@@ -313,11 +311,9 @@ internal partial class oasReader
                 cell_.elementList[^1].setName(modal.placement_cell);
                 cell_.elementList[^1].rotate(modal.angle);
                 cell_.elementList[^1].scale(modal.mag);
-                switch (modal.mirror_x)
+                if (modal.mirror_x)
                 {
-                    case true:
-                        cell_.elementList[^1].setMirrorx();
-                        break;
+                    cell_.elementList[^1].setMirrorx();
                 }
 
                 foreach (Point64 offset in offsets)
@@ -328,11 +324,9 @@ internal partial class oasReader
                     cell_.elementList[^1].setName(modal.placement_cell);
                     cell_.elementList[^1].rotate(modal.angle);
                     cell_.elementList[^1].scale(modal.mag);
-                    switch (modal.mirror_x)
+                    if (modal.mirror_x)
                     {
-                        case true:
-                            cell_.elementList[^1].setMirrorx();
-                            break;
+                        cell_.elementList[^1].setMirrorx();
                     }
                 }
             }

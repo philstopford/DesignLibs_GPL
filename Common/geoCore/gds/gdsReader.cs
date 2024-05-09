@@ -309,7 +309,7 @@ internal partial class gdsReader
                         }
                         catch (Exception)
                         {
-
+                            error_msgs.Add("Could not add to layerNames");
                         }
                         break;
                     case 15: //WIDTH 
@@ -345,7 +345,7 @@ internal partial class gdsReader
                         }
                         catch (Exception)
                         {
-
+                            error_msgs.Add("Could not add to layerNames");
                         }
                         switch (modal.elementmode)
                         {
@@ -557,7 +557,7 @@ internal partial class gdsReader
     {
         int sig; // help
         int i;
-        byte help = br.ReadByte();
+        help = br.ReadByte();
         int exp = help & 0x7f;
         if ((help & 0x80) != 0)
         {
@@ -567,7 +567,7 @@ internal partial class gdsReader
         {
             sig = 1;
         }
-        double double_ = 0;
+        double_ = 0;
         for (i = 0; i < 7; i++)
         {
             help = br.ReadByte();

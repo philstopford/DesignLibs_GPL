@@ -18,6 +18,7 @@ public partial class gdsWriter
     public GCDrawingfield drawing_ { get; set; }
     private string filename_;
     private const bool noTerminate = false; // debug to allow file comparison during write.
+    public string error_message;
 
     public gdsWriter(GeoCore gc, string filename)
     {
@@ -43,44 +44,32 @@ public partial class gdsWriter
     {
         bool compressed = filename_.ToLower().EndsWith(".gz");
 
-        Stream s = File.Create(filename_);
+        FileStream s = File.Create(filename_);
 
         statusUpdateUI?.Invoke("Saving GDS");
         progressUpdateUI?.Invoke(0);
 
         bool ret = false;
+        error_message = "";
 
-        switch (compressed)
+        if (compressed)
         {
-            case true:
-            {
-                using GZipStream gzs = new(s, CompressionMode.Compress);
-                bw = new EndianBinaryWriter(EndianBitConverter.Big, gzs);
-                try
-                {
-                    pSave_write();
-                    ret = true;
-                }
-                catch (Exception)
-                {
+            using GZipStream gzs = new(s, CompressionMode.Compress);
+            bw = new EndianBinaryWriter(EndianBitConverter.Big, gzs);
+        }
+        else
+        {
+            bw = new EndianBinaryWriter(EndianBitConverter.Big, s);
+        }
 
-                }
-
-                break;
-            }
-            default:
-                bw = new EndianBinaryWriter(EndianBitConverter.Big, s);
-                try
-                {
-                    pSave_write();
-                    ret = true;
-                }
-                catch (Exception)
-                {
-
-                }
-
-                break;
+        try
+        {
+            pSave_write();
+            ret = true;
+        }
+        catch (Exception e)
+        {
+            error_message = e.ToString();
         }
 
         s.Close();
@@ -145,28 +134,27 @@ public partial class gdsWriter
             saved = true;
             foreach (GCCell t in drawing_.cellList)
             {
-                switch (cc % updateInterval)
+                if (cc % updateInterval == 0)
                 {
-                    case 0:
-                        statusUpdateUI?.Invoke(t.cellName);
-                        progressUpdateUI?.Invoke(progress);
-                        progress += 0.01;
-                        break;
+                    statusUpdateUI?.Invoke(t.cellName);
+                    progressUpdateUI?.Invoke(progress);
+                    progress += 0.01;
                 }
-                switch (t.elementList)
+
+                if (t.elementList == null)
                 {
-                    case null:
-                        continue;
+                    continue;
                 }
-                switch (t.saved)
+
+                if (!t.saved && !t.dependNotSaved())
                 {
-                    case false when !t.dependNotSaved():
-                        t.saveGDS(this);
-                        break;
-                    case false:
-                        saved = false;
-                        break;
+                    t.saveGDS(this);
                 }
+                else if (!t.saved)
+                {
+                    saved = false;
+                }
+
                 cc++;
             }
         }

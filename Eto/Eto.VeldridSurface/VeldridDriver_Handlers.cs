@@ -195,7 +195,7 @@ public partial class VeldridDriver
 			selectByClick(e.Location.X, e.Location.Y);
 		}
 
-		e.Handled = true;
+		// e.Handled = true;
 	}
 
 	private void setFocus(object sender, EventArgs e)

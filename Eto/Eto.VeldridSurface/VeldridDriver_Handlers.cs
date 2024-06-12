@@ -114,7 +114,7 @@ public partial class VeldridDriver
 			updateViewport();
 		}
 
-		e.Handled = true;
+		// e.Handled = true;
 	}
 
 	private void dragHandler(object sender, MouseEventArgs e)
@@ -153,7 +153,7 @@ public partial class VeldridDriver
 			updateViewport();
 		}
 
-		e.Handled = true;
+		// e.Handled = true;
 	}
 
 	private void upHandler(object sender, MouseEventArgs e)
@@ -178,7 +178,7 @@ public partial class VeldridDriver
 			MouseButtons.Primary => false,
 			_ => dragging
 		};
-		e.Handled = true;
+		// e.Handled = true;
 	}
 
 	private void downHandler(object sender, MouseEventArgs e)

@@ -121,7 +121,7 @@ namespace Eto.Wpf.Forms
 		bool charPressed;
 		public Keys? LastKeyDown { get; set; }
 
-		void WinFormsControl_KeyDown(object sender, swf.KeyEventArgs e)
+		void WinFormsControl_KeyDown(object? sender, swf.KeyEventArgs e)
 		{
 			charPressed = false;
 			handled = true;
@@ -149,7 +149,7 @@ namespace Eto.Wpf.Forms
 			LastKeyDown = null;
 		}
 
-		void WinFormsControl_KeyPress(object sender, swf.KeyPressEventArgs e)
+		void WinFormsControl_KeyPress(object? sender, swf.KeyPressEventArgs e)
 		{
 			charPressed = true;
 			keyChar = e.KeyChar;
@@ -173,7 +173,7 @@ namespace Eto.Wpf.Forms
 				e.Handled = true;
 		}
 
-		void WinFormsControl_KeyUp(object sender, swf.KeyEventArgs e)
+		void WinFormsControl_KeyUp(object? sender, swf.KeyEventArgs e)
 		{
 			key = e.KeyData.ToEto();
 
@@ -182,7 +182,7 @@ namespace Eto.Wpf.Forms
 			e.Handled = kpea.Handled;
 		}
 
-		void WinFormsControl_TextChanged(object sender, EventArgs e)
+		void WinFormsControl_TextChanged(object? sender, EventArgs e)
 		{
 			var widget = Widget as TextControl;
 			if (widget != null)
@@ -192,7 +192,7 @@ namespace Eto.Wpf.Forms
 			}
 		}
 
-		void WinFormsControl_MouseWheel(object sender, swf.MouseEventArgs e)
+		void WinFormsControl_MouseWheel(object? sender, swf.MouseEventArgs e)
 		{
 			var args = new swi.MouseWheelEventArgs(swi.InputManager.Current.PrimaryMouseDevice, Environment.TickCount, e.Delta)
 			{
@@ -203,13 +203,13 @@ namespace Eto.Wpf.Forms
 			Control.RaiseEvent(args);
 		}
 
-		void WinFormsControl_MouseLeave(object sender, EventArgs e) => Callback.OnMouseLeave(Widget, new MouseEventArgs(Mouse.Buttons, Keyboard.Modifiers, PointFromScreen(Mouse.Position)));
+		void WinFormsControl_MouseLeave(object? sender, EventArgs e) => Callback.OnMouseLeave(Widget, new MouseEventArgs(Mouse.Buttons, Keyboard.Modifiers, PointFromScreen(Mouse.Position)));
 
-		void WinFormsControl_MouseEnter(object sender, EventArgs e) => Callback.OnMouseEnter(Widget, new MouseEventArgs(Mouse.Buttons, Keyboard.Modifiers, PointFromScreen(Mouse.Position)));
+		void WinFormsControl_MouseEnter(object? sender, EventArgs e) => Callback.OnMouseEnter(Widget, new MouseEventArgs(Mouse.Buttons, Keyboard.Modifiers, PointFromScreen(Mouse.Position)));
 
-		void WinFormsControl_MouseDoubleClick(object sender, swf.MouseEventArgs e) => Callback.OnMouseDoubleClick(Widget, e.ToEto(WinFormsControl));
+		void WinFormsControl_MouseDoubleClick(object? sender, swf.MouseEventArgs e) => Callback.OnMouseDoubleClick(Widget, e.ToEto(WinFormsControl));
 
-		void WinFormsControl_MouseDown(object sender, swf.MouseEventArgs e)
+		void WinFormsControl_MouseDown(object? sender, swf.MouseEventArgs e)
 		{
 			// Contrary to most WPF controls, the WindowsFormsHost class seems
 			// to prevent correct mouse event data from being obtained (e.g.
@@ -233,7 +233,7 @@ namespace Eto.Wpf.Forms
 			Control.RaiseEvent(args);
 		}
 
-		void WinFormsControl_MouseUp(object sender, swf.MouseEventArgs e)
+		void WinFormsControl_MouseUp(object? sender, swf.MouseEventArgs e)
 		{
 			Control.CaptureMouse();
 
@@ -251,7 +251,7 @@ namespace Eto.Wpf.Forms
 			Control.RaiseEvent(args);
 		}
 
-		void WinFormsControl_MouseMove(object sender, swf.MouseEventArgs e)
+		void WinFormsControl_MouseMove(object? sender, swf.MouseEventArgs e)
 		{
 			var args = new swi.MouseEventArgs(swi.InputManager.Current.PrimaryMouseDevice, Environment.TickCount)
 			{
@@ -262,9 +262,9 @@ namespace Eto.Wpf.Forms
 			Control.RaiseEvent(args);
 		}
 
-		void WinFormsControl_LostFocus(object sender, EventArgs e) => Callback.OnLostFocus(Widget, EventArgs.Empty);
+		void WinFormsControl_LostFocus(object? sender, EventArgs e) => Callback.OnLostFocus(Widget, EventArgs.Empty);
 
-		void WinFormsControl_GotFocus(object sender, EventArgs e) => Callback.OnGotFocus(Widget, EventArgs.Empty);
+		void WinFormsControl_GotFocus(object? sender, EventArgs e) => Callback.OnGotFocus(Widget, EventArgs.Empty);
 
 		public override void Focus()
 		{
@@ -274,7 +274,7 @@ namespace Eto.Wpf.Forms
 				Widget.LoadComplete += Widget_LoadComplete;
 		}
 
-		void Widget_LoadComplete(object sender, EventArgs e)
+		void Widget_LoadComplete(object? sender, EventArgs e)
 		{
 			Widget.LoadComplete -= Widget_LoadComplete;
 			WinFormsControl.Focus();

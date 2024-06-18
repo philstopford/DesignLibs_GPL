@@ -11,9 +11,10 @@ public partial class VeldridDriver
 		PointF pt2 = ScreenToWorld(pt.Width, pt.Height);
 		return new SizeF(pt2.X - pt1.X, pt2.Y - pt1.Y);
 	}
+
 	private PointF ScreenToWorld(float x, float y)
 	{
-		double oX_2 = (double)Surface.RenderWidth / 2;
+		double oX_2 = (double)Surface!.RenderWidth / 2;
 		double oX_3 = ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
 		double oX_4 = x;
 
@@ -23,11 +24,12 @@ public partial class VeldridDriver
 		return new PointF((x - (float)Surface.RenderWidth / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraX(),
 			((float)Surface.RenderHeight / 2 - y) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraY());
 	}
+	
 	private Point WorldToScreen(float x, float y)
 	{
 		// int oX = (int)((x - ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderWidth / 2);
 
-		double oX_2 = (double)Surface.RenderWidth / 2;
+		double oX_2 = (double)Surface!.RenderWidth / 2;
 		double oX_3 = ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
 		double oX_4 = x;
 

@@ -10,7 +10,7 @@ public partial class VeldridDriver
 	private bool done_drawing = false;
 	private async void pUpdateViewport()
 	{
-		if ((!ovpSettings.changed) || (Surface.GraphicsDevice == null) ||
+		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
 		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
 		{
 			return;
@@ -29,15 +29,15 @@ public partial class VeldridDriver
 	int bgPolyListCount;
 	int tessPolyListCount;
 	
-	VertexPositionColor[] tessPolyList;
-	VertexPositionColor[] polyList;
-	VertexPositionColor[] pointsList;
+	VertexPositionColor[]? tessPolyList;
+	VertexPositionColor[]? polyList;
+	VertexPositionColor[]? pointsList;
 
 	private Task drawPolygons()
 	{
-		fgPolyListCount = ovpSettings.polyList.Count;
-		bgPolyListCount = ovpSettings.bgPolyList.Count;
-		tessPolyListCount = ovpSettings.tessPolyList.Count;
+		fgPolyListCount = ovpSettings.polyList!.Count;
+		bgPolyListCount = ovpSettings.bgPolyList!.Count;
+		tessPolyListCount = ovpSettings.tessPolyList!.Count;
 
 		int[] pointCountBeforeCurrentPolygon_fg;
 		int totalPointCount_fg;
@@ -282,37 +282,37 @@ public partial class VeldridDriver
 	{
 		if (fgPolyListCount > 0 || bgPolyListCount > 0)
 		{
-			updateBuffer(ref PolysVertexBuffer, polyList.ToArray(), VertexPositionColor.SizeInBytes,
+			updateBuffer(ref PolysVertexBuffer, polyList!.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
-			updateBuffer(ref PolysIndexBuffer, polyIndices, sizeof(uint), BufferUsage.IndexBuffer);
+			updateBuffer(ref PolysIndexBuffer, polyIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
 		if (ovpSettings.drawPoints() && fgPolyListCount > 0)
 		{
-			updateBuffer(ref PointsVertexBuffer, pointsList.ToArray(), VertexPositionColor.SizeInBytes,
+			updateBuffer(ref PointsVertexBuffer, pointsList!.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
-			updateBuffer(ref PointsIndexBuffer, pointsIndices, sizeof(uint), BufferUsage.IndexBuffer);
+			updateBuffer(ref PointsIndexBuffer, pointsIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
 		if (ovpSettings.drawFilled() && tessPolyListCount > 0)
 		{
-			updateBuffer(ref TessVertexBuffer, tessPolyList.ToArray(), VertexPositionColor.SizeInBytes,
+			updateBuffer(ref TessVertexBuffer, tessPolyList!.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
-			updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+			updateBuffer(ref TessIndexBuffer, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 	}
 
 	int linesCount;
 
-	VertexPositionColor[] lineList;
+	VertexPositionColor[]? lineList;
 
 	private Task drawLines()
 	{
-		linesCount = ovpSettings.lineList.Count;
+		linesCount = ovpSettings.lineList!.Count;
 		if (linesCount == 0)
 		{
-			lineList = Array.Empty<VertexPositionColor>();
-			linesIndices = Array.Empty<uint>();
+			lineList = [];
+			linesIndices = [];
 			return Task.CompletedTask;
 		}
 
@@ -385,13 +385,13 @@ public partial class VeldridDriver
 	{
 		if (linesCount > 0)
 		{
-			updateBuffer(ref LinesVertexBuffer, lineList.ToArray(), VertexPositionColor.SizeInBytes,
+			updateBuffer(ref LinesVertexBuffer, lineList!.ToArray(), VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
-			updateBuffer(ref LinesIndexBuffer, linesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+			updateBuffer(ref LinesIndexBuffer, linesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 	}
 
-	List<VertexPositionColor> grid;
+	List<VertexPositionColor>? grid;
 	private Task  drawGrid()
 	{
 		if (!ovpSettings.drawGrid())
@@ -422,7 +422,7 @@ public partial class VeldridDriver
 		if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
 		{
 			int k = 0;
-			for (float i = 0; i > -(Surface.RenderWidth * zoom) + x; i -= spacing)
+			for (float i = 0; i > -(Surface!.RenderWidth * zoom) + x; i -= spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -443,14 +443,14 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface!.RenderHeight, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface!.RenderHeight, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 
 			k = 0;
-			for (float i = 0; i < Surface.RenderWidth * zoom + x; i += spacing)
+			for (float i = 0; i < Surface!.RenderWidth * zoom + x; i += spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -471,14 +471,14 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface!.RenderHeight, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface!.RenderHeight, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 
 			k = 0;
-			for (float i = 0; i > -(Surface.RenderHeight * zoom) + y; i -= spacing)
+			for (float i = 0; i > -(Surface!.RenderHeight * zoom) + y; i -= spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -499,14 +499,14 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface!.RenderWidth, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface!.RenderWidth, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 
 			k = 0;
-			for (float i = 0; i < Surface.RenderHeight * zoom + y; i += spacing)
+			for (float i = 0; i < Surface!.RenderHeight * zoom + y; i += spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -527,9 +527,9 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface!.RenderWidth, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface!.RenderWidth, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 		}
@@ -539,7 +539,7 @@ public partial class VeldridDriver
 
 	private void updateGridBuffers()
 	{
-		uint gridCount = (uint)grid.Count;
+		uint gridCount = (uint)grid!.Count;
 
 		switch (gridCount)
 		{
@@ -563,7 +563,7 @@ public partial class VeldridDriver
 		}
 	}
 	
-	VertexPositionColor[] axesArray;
+	VertexPositionColor[]? axesArray;
 	private Task  drawAxes()
 	{
 		if (!ovpSettings.drawAxes())
@@ -575,17 +575,17 @@ public partial class VeldridDriver
 		axesArray = new VertexPositionColor[4];
 		axesArray[0] =
 			new VertexPositionColor(
-				new Vector3(0.0f, ovpSettings.getCameraY() + Surface.RenderHeight * zoom, axisZ),
+				new Vector3(0.0f, ovpSettings.getCameraY() + Surface!.RenderHeight * zoom, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 		axesArray[1] =
 			new VertexPositionColor(
-				new Vector3(0.0f, ovpSettings.getCameraY() - Surface.RenderHeight * zoom, axisZ),
+				new Vector3(0.0f, ovpSettings.getCameraY() - Surface!.RenderHeight * zoom, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 		axesArray[2] =
-			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface.RenderWidth * zoom, 0.0f, axisZ),
+			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface!.RenderWidth * zoom, 0.0f, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 		axesArray[3] =
-			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface.RenderWidth * zoom, 0.0f, axisZ),
+			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface!.RenderWidth * zoom, 0.0f, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 
 		axesIndices = new uint[4] { 0, 1, 2, 3 };
@@ -595,8 +595,8 @@ public partial class VeldridDriver
 
 	private void updateAxesBuffers()
 	{
-		updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-		updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+		updateBuffer(ref AxesVertexBuffer, axesArray!, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+		updateBuffer(ref AxesIndexBuffer, axesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 	
 	public void Draw()
@@ -606,7 +606,7 @@ public partial class VeldridDriver
 			return;
 		}
 
-		CommandList.Begin();
+		CommandList!.Begin();
 
 		ModelMatrix *= Matrix4x4.CreateFromAxisAngle(
 			new Vector3(0, 0, 1), 0);
@@ -614,15 +614,15 @@ public partial class VeldridDriver
 
 		float zoom = ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom();
 
-		float left = ovpSettings.getCameraX() - (float)Surface.RenderWidth / 2 * zoom;
-		float right = ovpSettings.getCameraX() + (float)Surface.RenderWidth / 2 * zoom;
-		float bottom = ovpSettings.getCameraY() + (float)Surface.RenderHeight / 2 * zoom;
-		float top = ovpSettings.getCameraY() - (float)Surface.RenderHeight / 2 * zoom;
+		float left = ovpSettings.getCameraX() - (float)Surface!.RenderWidth / 2 * zoom;
+		float right = ovpSettings.getCameraX() + (float)Surface!.RenderWidth / 2 * zoom;
+		float bottom = ovpSettings.getCameraY() + (float)Surface!.RenderHeight / 2 * zoom;
+		float top = ovpSettings.getCameraY() - (float)Surface!.RenderHeight / 2 * zoom;
 
 		ViewMatrix = Matrix4x4.CreateOrthographicOffCenter(left, right, bottom, top, 0.0f, 1.0f);
 		CommandList.UpdateBuffer(ViewBuffer, 0, ViewMatrix);
 
-		CommandList.SetFramebuffer(Surface.Swapchain.Framebuffer);
+		CommandList.SetFramebuffer(Surface!.Swapchain!.Framebuffer);
 
 		// These commands differ from the stock Veldrid "Getting Started"
 		// tutorial in two ways. First, the viewport is cleared to pink
@@ -645,10 +645,10 @@ public partial class VeldridDriver
 		{
 			lock (CommandList)
 			{
-				Surface.GraphicsDevice.SubmitCommands(CommandList);
+				Surface!.GraphicsDevice!.SubmitCommands(CommandList!);
 			}
 
-			Surface.GraphicsDevice.SwapBuffers(Surface.Swapchain);
+			Surface!.GraphicsDevice.SwapBuffers(Surface!.Swapchain);
 		}
 		catch (Exception ex)
 		{
@@ -675,13 +675,13 @@ public partial class VeldridDriver
 			{
 				try
 				{
-					CommandList.SetVertexBuffer(0, GridVertexBuffer);
-					CommandList.SetIndexBuffer(GridIndexBuffer, IndexFormat.UInt32);
-					CommandList.SetPipeline(LinePipeline);
-					CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-					CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+					CommandList!.SetVertexBuffer(0, GridVertexBuffer);
+					CommandList!.SetIndexBuffer(GridIndexBuffer, IndexFormat.UInt32);
+					CommandList!.SetPipeline(LinePipeline);
+					CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+					CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-					CommandList.DrawIndexed(
+					CommandList!.DrawIndexed(
 						indexCount: (uint)gridIndices.Length,
 						instanceCount: 1,
 						indexStart: 0,
@@ -706,13 +706,13 @@ public partial class VeldridDriver
 			{
 				try
 				{
-					CommandList.SetVertexBuffer(0, AxesVertexBuffer);
-					CommandList.SetIndexBuffer(AxesIndexBuffer, IndexFormat.UInt32);
-					CommandList.SetPipeline(LinePipeline);
-					CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-					CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+					CommandList!.SetVertexBuffer(0, AxesVertexBuffer);
+					CommandList!.SetIndexBuffer(AxesIndexBuffer, IndexFormat.UInt32);
+					CommandList!.SetPipeline(LinePipeline);
+					CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+					CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-					CommandList.DrawIndexed(
+					CommandList!.DrawIndexed(
 						indexCount: (uint)axesIndices.Length,
 						instanceCount: 1,
 						indexStart: 0,
@@ -739,13 +739,13 @@ public partial class VeldridDriver
 				{
 					try
 					{
-						CommandList.SetVertexBuffer(0, TessVertexBuffer);
-						CommandList.SetIndexBuffer(TessIndexBuffer, IndexFormat.UInt32);
-						CommandList.SetPipeline(FilledPipeline);
-						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+						CommandList!.SetVertexBuffer(0, TessVertexBuffer);
+						CommandList!.SetIndexBuffer(TessIndexBuffer, IndexFormat.UInt32);
+						CommandList!.SetPipeline(FilledPipeline);
+						CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+						CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-						CommandList.DrawIndexed(
+						CommandList!.DrawIndexed(
 							indexCount:(uint)tessIndices.Length,
 							instanceCount:1,
 							indexStart:0,
@@ -771,13 +771,13 @@ public partial class VeldridDriver
 			{
 				try
 				{
-					CommandList.SetVertexBuffer(0, PolysVertexBuffer);
-					CommandList.SetIndexBuffer(PolysIndexBuffer, IndexFormat.UInt32);
-					CommandList.SetPipeline(LinesPipeline);
-					CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-					CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+					CommandList!.SetVertexBuffer(0, PolysVertexBuffer);
+					CommandList!.SetIndexBuffer(PolysIndexBuffer, IndexFormat.UInt32);
+					CommandList!.SetPipeline(LinesPipeline);
+					CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+					CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-					CommandList.DrawIndexed(
+					CommandList!.DrawIndexed(
 						indexCount:(uint)polyIndices.Length,
 						instanceCount:1,
 						indexStart:0,
@@ -802,13 +802,13 @@ public partial class VeldridDriver
 			{
 				try
 				{
-					CommandList.SetVertexBuffer(0, LinesVertexBuffer);
-					CommandList.SetIndexBuffer(LinesIndexBuffer, IndexFormat.UInt32);
-					CommandList.SetPipeline(LinesPipeline);
-					CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-					CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+					CommandList!.SetVertexBuffer(0, LinesVertexBuffer);
+					CommandList!.SetIndexBuffer(LinesIndexBuffer, IndexFormat.UInt32);
+					CommandList!.SetPipeline(LinesPipeline);
+					CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+					CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-					CommandList.DrawIndexed(
+					CommandList!.DrawIndexed(
 						indexCount:(uint)linesIndices.Length,
 						instanceCount:1,
 						indexStart:0,
@@ -835,14 +835,14 @@ public partial class VeldridDriver
 				{
 					try
 					{
-						CommandList.SetVertexBuffer(0, PointsVertexBuffer);
-						CommandList.SetIndexBuffer(PointsIndexBuffer, IndexFormat.UInt32);
-						CommandList.SetPipeline(FilledPipeline);
-						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
-						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
+						CommandList!.SetVertexBuffer(0, PointsVertexBuffer);
+						CommandList!.SetIndexBuffer(PointsIndexBuffer, IndexFormat.UInt32);
+						CommandList!.SetPipeline(FilledPipeline);
+						CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+						CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-						CommandList.DrawIndexed(
-							indexCount:(uint)pointsIndices.Length,
+						CommandList!.DrawIndexed(
+							indexCount:(uint)pointsIndices!.Length,
 							instanceCount:1,
 							indexStart:0,
 							vertexOffset:0,
@@ -857,7 +857,7 @@ public partial class VeldridDriver
 		}
 	}
 
-	private void updateBuffer<T>(ref DeviceBuffer? buffer, T[] data, uint elementSize, BufferUsage usage)
+	private void updateBuffer<T>(ref DeviceBuffer? buffer, T[]? data, uint elementSize, BufferUsage usage)
 		where T : unmanaged
 	{
 		if (data == null)
@@ -870,7 +870,7 @@ public partial class VeldridDriver
 			{
 				buffer?.Dispose();
 
-				ResourceFactory factory = Surface.GraphicsDevice.ResourceFactory;
+				ResourceFactory factory = Surface!.GraphicsDevice!.ResourceFactory;
 
 				buffer = factory.CreateBuffer(new BufferDescription(elementSize * (uint)data.Length, usage));
 

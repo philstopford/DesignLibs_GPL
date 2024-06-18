@@ -12,7 +12,7 @@ namespace Eto.Veldrid.Gtk
 {
 	public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler, VeldridSurface.IOpenGL
 	{
-		GLArea glArea;
+		GLArea? glArea;
 		System.Action _makeCurrent;
 		System.Action _clearCurrent;
 		public Size RenderSize => Size.Round((SizeF)Widget.Size * Scale);
@@ -27,13 +27,13 @@ namespace Eto.Veldrid.Gtk
 			_clearCurrent = ClearCurrent;
 		}
 
-		public Swapchain CreateSwapchain()
+		public Swapchain? CreateSwapchain()
 		{
-			Swapchain swapchain;
+			Swapchain? swapchain;
 
 			if (Widget.Backend == GraphicsBackend.OpenGL)
 			{
-				swapchain = Widget.GraphicsDevice.MainSwapchain;
+				swapchain = Widget.GraphicsDevice?.MainSwapchain;
 			}
 			else
 			{
@@ -47,7 +47,7 @@ namespace Eto.Veldrid.Gtk
 					X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
 
 				var renderSize = RenderSize;
-				swapchain = Widget.GraphicsDevice.ResourceFactory.CreateSwapchain(
+				swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
 					new SwapchainDescription(
 						source,
 						(uint)renderSize.Width,
@@ -60,15 +60,17 @@ namespace Eto.Veldrid.Gtk
 			return swapchain;
 		}
 
-		void glArea_InitializeGraphicsBackend(object sender, EventArgs e)
+		void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 		{
+			if (glArea == null)
+				return;
 			// Make context current to manually initialize a Veldrid GraphicsDevice.
 			glArea.Context.MakeCurrent();
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 			// Veldrid clears the context at the end of initialization and sets it current in the worker thread.
 
 			// Clear context in the worker thread for now to make Mesa happy.
-			if (Widget.GraphicsDevice.GetOpenGLInfo(out BackendInfoOpenGL glInfo))
+			if (Widget.GraphicsDevice?.GetOpenGLInfo(out BackendInfoOpenGL glInfo) == true)
 			{
 				// This action has to wait so GTK can manage the context after this method.
 				glInfo.ExecuteOnGLThread(_clearCurrent);//, wait: true);
@@ -78,7 +80,7 @@ namespace Eto.Veldrid.Gtk
 			glArea.Resize += glArea_Resize;
 		}
 
-		void Control_InitializeGraphicsBackend(object sender, EventArgs e)
+		void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 		{
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 		}
@@ -99,6 +101,8 @@ namespace Eto.Veldrid.Gtk
 
 				// GTK makes the context current for us, so we need to clear it to hand it over to the Veldrid worker.
 				Gdk.GLContext.ClearCurrent();
+				if (Widget.GraphicsDevice == null)
+					return;
 
 				// Make context current on the Veldrid worker.
 				if (Widget.GraphicsDevice.GetOpenGLInfo(out BackendInfoOpenGL glInfo))
@@ -182,7 +186,6 @@ namespace Eto.Veldrid.Gtk
 			glArea?.QueueRender();
 		}
 
-
 		protected override global::Gtk.Widget CreateControl()
 		{
 			if (Widget.Backend == GraphicsBackend.OpenGL)
@@ -197,6 +200,7 @@ namespace Eto.Veldrid.Gtk
 
 				glArea.HasDepthBuffer = true;
 				glArea.HasStencilBuffer = true;
+				// Control.Child = glArea;
 				glArea.Realized += glArea_InitializeGraphicsBackend;
 				return glArea;
 			}

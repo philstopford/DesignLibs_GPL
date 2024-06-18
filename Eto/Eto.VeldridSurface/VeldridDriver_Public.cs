@@ -12,11 +12,11 @@ public partial class VeldridDriver
 	// Delegates to allow client to work with updates/selections.
 	public delegate void updateHost();
 
-	public updateHost updateHostFunc { get; set; }
+	public updateHost? updateHostFunc { get; set; }
 
 	public delegate void updateHostSelection(int index);
 
-	public updateHostSelection updateHostSelectionFunc { get; set; }
+	public updateHostSelection? updateHostSelectionFunc { get; set; }
 
 	// Clock is exposed to allow client side to enable automatic time-based updates
 	public UITimer Clock { get; } = new UITimer();
@@ -30,7 +30,7 @@ public partial class VeldridDriver
 		if (done_drawing)
 		{
 			updateHostFunc?.Invoke();
-			Surface.Invalidate();
+			Surface!.Invalidate();
 			ovpSettings.changed = false;
 			drawing = false;
 		}
@@ -57,7 +57,7 @@ public partial class VeldridDriver
 	{
 		getExtents(index);
 
-		if (ovpSettings.polyList.Count == 0 && ovpSettings.lineList.Count == 0 ||
+		if (ovpSettings.polyList!.Count == 0 && ovpSettings.lineList!.Count == 0 ||
 		    ovpSettings.minX == 0 && ovpSettings.maxX == 0 ||
 		    ovpSettings.minY == 0 && ovpSettings.maxY == 0)
 		{
@@ -72,8 +72,8 @@ public partial class VeldridDriver
 		float cY = dY / 2.0f + ovpSettings.minY;
 
 		// Now need to get the zoom level organized.
-		float zoomLevel_x = dX / Surface.Width;
-		float zoomLevel_y = dY / Surface.Height;
+		float zoomLevel_x = dX / Surface!.Width;
+		float zoomLevel_y = dY / Surface!.Height;
 
 		if (zoomLevel_x > zoomLevel_y)
 		{

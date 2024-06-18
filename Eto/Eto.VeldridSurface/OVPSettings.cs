@@ -37,21 +37,21 @@ public class OVPSettings
 	public Color selectionColor { get; set; }
 	public Color inverSelectionColor { get; set; }
 
-	public List<ovp_Poly> polyList { get; set; }
-	public List<int> polyListPtCount { get; set; }
-	public List<int> polySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+	public List<ovp_Poly>? polyList { get; set; }
+	public List<int>? polyListPtCount { get; set; }
+	public List<int>? polySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
 
-	public List<bool> polyMask { get; set; } // Masking boolean for overriding handling of polygons as-desired.
-	public List<ovp_Poly> bgPolyList { get; set; }
-	public List<int> bgPolyListPtCount { get; set; }
-	public List<int> bgPolySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
-	public List<ovp_Poly> lineList { get; set; } // purely for lines.
-	public List<int> lineListPtCount { get; set; }
-	public List<int> lineSourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
-	public List<bool> lineMask { get; set; } // Masking boolean for overriding handling of polygons as-desired.
+	public List<bool>? polyMask { get; set; } // Masking boolean for overriding handling of polygons as-desired.
+	public List<ovp_Poly>? bgPolyList { get; set; }
+	public List<int>? bgPolyListPtCount { get; set; }
+	public List<int>? bgPolySourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+	public List<ovp_Poly>? lineList { get; set; } // purely for lines.
+	public List<int>? lineListPtCount { get; set; }
+	public List<int>? lineSourceIndex { get; set; } // will eventually track source of polygon, allowing for layer generating, etc. in output.
+	public List<bool>? lineMask { get; set; } // Masking boolean for overriding handling of polygons as-desired.
 
-	public List<ovp_Poly> tessPolyList { get; set; } // triangles, but also need to track color. This is decoupled to allow boundary extraction without triangles getting in the way.
-	public List<bool> drawnPoly { get; set; } // tracks whether the polygon corresponds to an enabled configuration or not.
+	public List<ovp_Poly>? tessPolyList { get; set; } // triangles, but also need to track color. This is decoupled to allow boundary extraction without triangles getting in the way.
+	public List<bool>? drawnPoly { get; set; } // tracks whether the polygon corresponds to an enabled configuration or not.
 
 	private bool enableFilledPolys;
 	private bool showPoints;
@@ -307,11 +307,11 @@ public class OVPSettings
 
 	private void pUpdateColors(Color newColor)
 	{
-		foreach (ovp_Poly t in polyList)
+		foreach (ovp_Poly t in polyList!)
 		{
 			t.color = newColor;
 		}
-		foreach (ovp_Poly t in tessPolyList)
+		foreach (ovp_Poly t in tessPolyList!)
 		{
 			t.color = newColor;
 		}
@@ -330,7 +330,7 @@ public class OVPSettings
 		minY = 0;
 		maxY = 0;
 		clear(clearBG);
-		drawnPoly.Clear();
+		drawnPoly!.Clear();
 		changed = true;
 	}
 
@@ -341,23 +341,23 @@ public class OVPSettings
 
 	private void pClear(bool clearBG)
 	{
-		polyList.Clear();
-		polySourceIndex.Clear();
-		polyMask.Clear();
-		polyListPtCount.Clear();
+		polyList!.Clear();
+		polySourceIndex!.Clear();
+		polyMask!.Clear();
+		polyListPtCount!.Clear();
 		switch (clearBG)
 		{
 			case true:
-				bgPolyList.Clear();
-				bgPolySourceIndex.Clear();
-				bgPolyListPtCount.Clear();
+				bgPolyList!.Clear();
+				bgPolySourceIndex!.Clear();
+				bgPolyListPtCount!.Clear();
 				break;
 		}
-		lineList.Clear();
-		lineSourceIndex.Clear();
-		lineMask.Clear();
-		lineListPtCount.Clear();
-		tessPolyList.Clear();
+		lineList!.Clear();
+		lineSourceIndex!.Clear();
+		lineMask!.Clear();
+		lineListPtCount!.Clear();
+		tessPolyList!.Clear();
 		changed = true;
 	}
 
@@ -368,10 +368,10 @@ public class OVPSettings
 
 	private void pAddLine(PointF[] line, Color lineColor, float alpha, int layerIndex, bool mask)
 	{
-		lineList.Add(new ovp_Poly(line, lineColor, alpha));
-		lineSourceIndex.Add(layerIndex);
-		lineListPtCount.Add((line.Length - 1) * 2);
-		lineMask.Add(true);
+		lineList!.Add(new ovp_Poly(line, lineColor, alpha));
+		lineSourceIndex!.Add(layerIndex);
+		lineListPtCount!.Add((line.Length - 1) * 2);
+		lineMask!.Add(true);
 		changed = true;
 	}
 
@@ -407,13 +407,11 @@ public class OVPSettings
 				break;
 		}
 
-		PointF[] polys = closePoly(poly);
-
-		polyList.Add(new ovp_Poly(poly, polyColor, alpha));
-		polySourceIndex.Add(layerIndex);
-		polyListPtCount.Add(poly.Length);
-		polyMask.Add(mask);
-		drawnPoly.Add(drawn);
+		polyList!.Add(new ovp_Poly(poly, polyColor, alpha));
+		polySourceIndex!.Add(layerIndex);
+		polyListPtCount!.Add(poly.Length);
+		polyMask!.Add(mask);
+		drawnPoly!.Add(drawn);
 		changed = true;
 	}
 
@@ -424,10 +422,10 @@ public class OVPSettings
 
 	private void pAddBGPolygon(PointF[] poly, Color polyColor, float alpha, int layerIndex)
 	{
-		bgPolyList.Add(new ovp_Poly(poly, polyColor, alpha));
-		bgPolyListPtCount.Add(poly.Length);
-		bgPolySourceIndex.Add(layerIndex);
-		drawnPoly.Add(false);
+		bgPolyList!.Add(new ovp_Poly(poly, polyColor, alpha));
+		bgPolyListPtCount!.Add(poly.Length);
+		bgPolySourceIndex!.Add(layerIndex);
+		drawnPoly!.Add(false);
 		changed = true;
 	}
 
@@ -588,7 +586,7 @@ public class OVPSettings
 			tempPoly[1] = new PointF((float)tess.Vertices[tess.Elements[i * 3 + 1]].Position.X, (float)tess.Vertices[tess.Elements[i * 3 + 1]].Position.Y);
 			tempPoly[2] = new PointF((float)tess.Vertices[tess.Elements[i * 3 + 2]].Position.X, (float)tess.Vertices[tess.Elements[i * 3 + 2]].Position.Y);
 
-			tessPolyList.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
+			tessPolyList!.Add(new ovp_Poly(clockwiseOrder(tempPoly).ToArray(), polyColor, alpha));
 		}
 	}
 }

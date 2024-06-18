@@ -37,7 +37,7 @@ namespace VeldridEto;
 			Surface = surface;
 			addKeyHandlers();
 			Clock.Interval = 1.0f / 60.0f;
-			Clock.Elapsed += Clock_Elapsed;
+			Clock.Elapsed += Clock_Elapsed!;
 		}
 
 		public void SetUpVeldrid()
@@ -62,7 +62,7 @@ namespace VeldridEto;
 			byte[] fragmentShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Fragment);
 
 			var options = new CrossCompileOptions();
-			switch (Surface.GraphicsDevice.BackendType)
+			switch (Surface!.GraphicsDevice!.BackendType)
 			{
 				// InvertVertexOutputY and FixClipSpaceZ address two major
 				// differences between Veldrid's various graphics APIs, as
@@ -166,7 +166,7 @@ namespace VeldridEto;
 				ShaderSet = new ShaderSetDescription(
 					vertexLayouts: new[] { vertexLayout },
 					shaders: shaders),
-				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
+				Outputs = Surface!.Swapchain!.Framebuffer.OutputDescription
 			});
 
 			LinesPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
@@ -224,9 +224,9 @@ namespace VeldridEto;
 			// up glslangValidator to learn how to compile SPIR-V binary files.
 
 			using (var stream = GetType().Assembly.GetManifestResourceStream(full))
-			using (var reader = new BinaryReader(stream))
+			using (var reader = new BinaryReader(stream!))
 			{
-				return reader.ReadBytes((int)stream.Length);
+				return reader.ReadBytes((int)stream!.Length);
 			}
 		}
 	}

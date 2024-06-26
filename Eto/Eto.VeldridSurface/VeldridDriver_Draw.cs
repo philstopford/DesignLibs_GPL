@@ -539,6 +539,10 @@ public partial class VeldridDriver
 
 	private void updateGridBuffers()
 	{
+		if (grid == null)
+		{
+			return;
+		}
 		uint gridCount = (uint)grid!.Count;
 
 		switch (gridCount)

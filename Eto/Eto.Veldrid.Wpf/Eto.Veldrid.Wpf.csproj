@@ -1,13 +1,12 @@
 ﻿<Project>
 
   <PropertyGroup>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows</TargetFramework>
   </PropertyGroup>
 
   <Import Sdk="Microsoft.NET.Sdk.WindowsDesktop" Project="Sdk.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>$(TargetFrameworks);net7.0</TargetFrameworks>
     <UseWPF>true</UseWPF>
     <!-- prevent warning with Extended.Wpf.Toolkit in .NET Core -->
     <NoWarn>NU1701</NoWarn>
@@ -20,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.8.2" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.8.3" />
 
     <!-- Please note that version 3.6.0 is the newest version of this toolkit
     that has licensing terms permitting use in commercial projects.

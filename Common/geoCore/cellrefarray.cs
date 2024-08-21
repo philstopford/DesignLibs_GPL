@@ -50,8 +50,8 @@ public class GCCellRefArray : GCElement
         {
             repetition.rows = 1;
         }
-        repetition.rowVector = new ((array[1].X - array[0].X) / repetition.columns, (array[1].Y - array[0].Y) / repetition.rows);
-        repetition.colVector = new((array[2].X - array[0].X) / repetition.columns, (array[2].Y - array[0].Y) / repetition.rows);
+        repetition.rowVector = new ((array[1].X - array[0].X) / repetition.rows, (array[1].Y - array[0].Y) / repetition.rows);
+        repetition.colVector = new((array[2].X - array[0].X) / repetition.columns, (array[2].Y - array[0].Y) / repetition.columns);
         repetition.type = Repetition.RepetitionType.Regular;
         if (((repetition.rowVector.X != 0) && (repetition.rowVector.Y != 0)) || ((repetition.colVector.X != 0) && (repetition.colVector.Y != 0)))
         {

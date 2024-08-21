@@ -64,13 +64,57 @@ public class GeoCoreTests
         GCCell cell_gds = drawing_gds.findCell("A");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons();
-            Assert.That(polys_gds.Count, Is.EqualTo(1));
+        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(); 
+        Assert.That(polys_gds.Count, Is.EqualTo(1));
+        Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[1].X, Is.EqualTo(1000));
+        Assert.That(polys_gds[0].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds[0].pointarray[2].X, Is.EqualTo(1000));
+        Assert.That(polys_gds[0].pointarray[2].Y, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[3].X, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[3].Y, Is.EqualTo(0));
         
+        // B cell
+        GCCell cell_gds2 = drawing_gds.findCell("B");
+        Assert.That(cell_gds2.elementList.Count, Is.EqualTo(3));
+        Assert.That(cell_gds2.elementList[0].isCellref(), Is.True);
+        Assert.That(cell_gds2.elementList[1].isCellrefArray(), Is.True);
+        Assert.That(cell_gds2.elementList[2].isPolygon(), Is.True);
+        List <GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(); 
+        Assert.That(polys_gds2.Count, Is.EqualTo(4));
+        Assert.That(polys_gds2[0].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds2[0].pointarray[0].X, Is.EqualTo(0));
+        Assert.That(polys_gds2[0].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds2[0].pointarray[1].X, Is.EqualTo(1000));
+        Assert.That(polys_gds2[0].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds2[0].pointarray[2].X, Is.EqualTo(1000));
+        Assert.That(polys_gds2[0].pointarray[2].Y, Is.EqualTo(0));
+        Assert.That(polys_gds2[0].pointarray[3].X, Is.EqualTo(0));
+        Assert.That(polys_gds2[0].pointarray[3].Y, Is.EqualTo(0));
+        
+        Assert.That(polys_gds2[1].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds2[1].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds2[1].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds2[1].pointarray[1].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds2[1].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds2[1].pointarray[2].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds2[1].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds2[1].pointarray[3].Y, Is.EqualTo(0));
+        
+        Assert.That(polys_gds2[2].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds2[2].pointarray[0].Y, Is.EqualTo(1000));   
+        Assert.That(polys_gds2[2].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds2[2].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds2[2].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds2[2].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds2[2].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds2[2].pointarray[3].Y, Is.EqualTo(1000));
     }
 
     [Test]
-    public static void f_rep_test()
+    public static void f_rep_test()                 
     {
         string gdsFile = baseDir + "gdstk_reference/f_rep.gds";
         GeoCoreHandler gH_GDS = new();

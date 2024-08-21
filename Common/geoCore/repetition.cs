@@ -352,10 +352,13 @@ public class Repetition
             case RepetitionType.Regular:
                 if (columns == 1)
                 {
-                    offsets.Add(new(0,0));
-                    for (int r = 1; r < rows; r++)
+                    if (offsets.Count == 0)
                     {
-                        offsets.Add(rowVector);
+                        offsets.Add(new(0, 0));
+                        for (int r = 1; r < rows; r++)
+                        {
+                            offsets.Add(rowVector);
+                        }
                     }
 
                     bypass_regular_array = true;
@@ -364,10 +367,13 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        offsets.Add(new(0,0));
-                        for (int c = 1; c < columns; c++)
+                        if (offsets.Count == 0)
                         {
-                            offsets.Add(colVector);
+                            offsets.Add(new(0, 0));
+                            for (int c = 1; c < columns; c++)
+                            {
+                                offsets.Add(colVector);
+                            }
                         }
 
                         bypass_regular_array = true;

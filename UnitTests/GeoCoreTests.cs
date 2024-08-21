@@ -7,7 +7,7 @@ namespace UnitTests;
 
 public class GeoCoreTests
 {
-    static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
+    static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";  
     static string outDir = "/d/development/geocore_out/";
 
     // [SetUp]
@@ -46,6 +46,26 @@ public class GeoCoreTests
         test_cellrefarray_nested();
         test_cell_export();
         test_cell_export_complex();
+        
+    }
+
+    [Test]
+    public static void klayout_algo_angle_check_test()
+    {
+        string gdsFile = baseDir + "klayout_test/algo/angle_check_l1.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+        
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        
+        // A cell
+        GCCell cell_gds = drawing_gds.findCell("A");
+        Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
+        Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
+        List <GCPolygon> polys_gds = cell_gds.convertToPolygons();
+            Assert.That(polys_gds.Count, Is.EqualTo(1));
         
     }
 

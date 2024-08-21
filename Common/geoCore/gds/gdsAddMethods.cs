@@ -20,6 +20,7 @@ internal partial class gdsReader
 
     private void addCellRefArray()
     {
+        (modal.point_array[1], modal.point_array[2]) = (modal.point_array[2], modal.point_array[1]);
         cell_.addCellrefArray(drawing_.findCell(modal.sname), modal.point_array, modal.anzx, modal.anzy);
         cell_.elementList[^1].rotate(modal.angle);
         cell_.elementList[^1].scale(modal.mag);

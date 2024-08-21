@@ -48,7 +48,7 @@ public class GeoCoreTests
         test_cell_export_complex();
         
     }
-
+    
     [Test]
     public static void klayout_algo_angle_check_test()
     {
@@ -3730,9 +3730,13 @@ public class GeoCoreTests
         gcell.cellName = "test";
         
         gcell.addPolygon(Clipper.ScalePath64(circleD, scale*scale), 1, 0);
+        Assert.That(gcell.elementList[0].isPolygon(), Is.True);
+        Assert.That(((GCPolygon)gcell.elementList[0]).isCircle().circle, Is.True);
         // For comparison
         gcell.addCircle(1, 1, new(0,0), 500);
-
+        Assert.That(gcell.elementList[1].isPolygon(), Is.True);
+        Assert.That(((GCPolygon)gcell.elementList[1]).isCircle().circle, Is.True);
+        
         // Do we have the cell in the drawing?
         Assert.That(drawing_.findCell("test"), Is.EqualTo(gcell));
        
@@ -4787,7 +4791,7 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         gcell.addCircle(1, 0, new (10, 10), 5.0);
-
+        
         g.setDrawing(drawing_);
         g.setValid(true);
 

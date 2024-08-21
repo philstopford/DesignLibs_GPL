@@ -9,9 +9,9 @@ namespace VeldridEto;
 public partial class VeldridDriver
 {
 	// Core Veldrid stuff. This shouldn't need to be messed with
-	private VeldridSurface _surface;
+	private VeldridSurface? _surface;
 
-	public VeldridSurface Surface
+	public VeldridSurface? Surface
 	{
 		get
 		{
@@ -21,17 +21,17 @@ public partial class VeldridDriver
 		{
 			_surface = value;
 
-			Surface.Draw += (sender, e) => Draw();
+			Surface!.Draw += (sender, e) => Draw();
 		}
 	}
 
-	private uint[] gridIndices;
-	private uint[] axesIndices;
+	private uint[]? gridIndices;
+	private uint[]? axesIndices;
 
-	private uint[] linesIndices;
-	private uint[] tessIndices;
-	private uint[] polyIndices;
-	private uint[] pointsIndices;
+	private uint[]? linesIndices;
+	private uint[]? tessIndices;
+	private uint[]? polyIndices;
+	private uint[]? pointsIndices;
 
 	private float axisZ;
 	private float gridZ;
@@ -41,11 +41,11 @@ public partial class VeldridDriver
 	private DeviceBuffer? AxesVertexBuffer;
 	private DeviceBuffer? AxesIndexBuffer;
 
-	private DeviceBuffer VertexBuffer { get; set; }
-	private DeviceBuffer IndexBuffer { get; set; }
-	private DeviceBuffer ModelBuffer { get; set; }
+	private DeviceBuffer? VertexBuffer { get; set; }
+	private DeviceBuffer? IndexBuffer { get; set; }
+	private DeviceBuffer? ModelBuffer { get; set; }
 
-	private DeviceBuffer ViewBuffer;
+	private DeviceBuffer? ViewBuffer;
 
 	private DeviceBuffer? LinesVertexBuffer;
 	private DeviceBuffer? PointsVertexBuffer;
@@ -56,18 +56,18 @@ public partial class VeldridDriver
 	private DeviceBuffer? PolysIndexBuffer;
 	private DeviceBuffer? TessIndexBuffer;
 
-	private Pipeline PointsPipeline;
-	private Pipeline LinePipeline;
-	private Pipeline LinesPipeline;
-	private Pipeline FilledPipeline;
+	private Pipeline? PointsPipeline;
+	private Pipeline? LinePipeline;
+	private Pipeline? LinesPipeline;
+	private Pipeline? FilledPipeline;
 
 	private Matrix4x4 ModelMatrix { get; set; } = Matrix4x4.Identity;
 	private Matrix4x4 ViewMatrix;
-	private ResourceSet ModelMatrixSet { get; set; }
+	private ResourceSet? ModelMatrixSet { get; set; }
 
-	private ResourceSet ViewMatrixSet;
+	private ResourceSet? ViewMatrixSet;
 
-	private CommandList CommandList { get; set; }
+	private CommandList? CommandList { get; set; }
 
 	/*
 	private Shader VertexShader { get; set; }
@@ -89,5 +89,5 @@ public partial class VeldridDriver
 	private DateTime CurrentTime;
 	private DateTime PreviousTime = DateTime.Now;
 
-	private ContextMenu menu;
+	private ContextMenu? menu;
 }

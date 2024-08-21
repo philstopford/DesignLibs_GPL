@@ -16,7 +16,7 @@ namespace Eto.Veldrid
 		public new interface IHandler : Control.IHandler
 		{
 			Size RenderSize { get; }
-			Swapchain CreateSwapchain();
+			Swapchain? CreateSwapchain();
 		}
 
 		new IHandler Handler => (IHandler)base.Handler;
@@ -30,11 +30,7 @@ namespace Eto.Veldrid
 
 		protected new class Callback : Control.Callback, ICallback
 		{
-			public void OnInitializeBackend(VeldridSurface s, InitializeEventArgs e)
-			{
-				if (e != null) s?.InitializeGraphicsBackend(e);
-			}
-
+			public void OnInitializeBackend(VeldridSurface s, InitializeEventArgs e) => s?.InitializeGraphicsBackend(e);
 			public void OnDraw(VeldridSurface s, EventArgs e) => s?.OnDraw(e);
 			public void OnResize(VeldridSurface s, ResizeEventArgs e) => s?.OnResize(e);
 		}
@@ -76,9 +72,9 @@ namespace Eto.Veldrid
 		public int RenderHeight => RenderSize.Height;
 
 		public GraphicsBackend Backend { get; private set; }
-		public GraphicsDevice GraphicsDevice { get; private set; }
+		public GraphicsDevice? GraphicsDevice { get; private set; }
 		public GraphicsDeviceOptions GraphicsDeviceOptions { get; private set; }
-		public Swapchain Swapchain { get; private set; }
+		public Swapchain? Swapchain { get; private set; }
 
 		public const string VeldridInitializedEvent = "VeldridSurface.VeldridInitialized";
 		public const string DrawEvent = "VeldridSurface.Draw";

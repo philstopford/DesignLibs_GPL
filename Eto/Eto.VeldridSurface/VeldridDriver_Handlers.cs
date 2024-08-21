@@ -14,7 +14,7 @@ public partial class VeldridDriver
 			return;
 		}
 
-		Surface.KeyDown += keyHandler;
+		Surface!.KeyDown += keyHandler!;
 		keyHandlerApplied = true;
 	}
 
@@ -26,7 +26,7 @@ public partial class VeldridDriver
 		}
 
 		hasFocus = false;
-		Surface.KeyDown -= keyHandler;
+		Surface!.KeyDown -= keyHandler!;
 		keyHandlerApplied = false;
 	}
 
@@ -125,7 +125,7 @@ public partial class VeldridDriver
 			{
 				case MouseButtons.Primary:
 				{
-					PointF scaledLocation = e.Location * Surface.ParentWindow.LogicalPixelSize;
+					PointF scaledLocation = e.Location * Surface!.ParentWindow.LogicalPixelSize;
 
 					switch (dragging)
 					{
@@ -205,7 +205,7 @@ public partial class VeldridDriver
 			return;
 		}
 
-		Surface.Focus();
+		Surface!.Focus();
 		hasFocus = true;
 	}
 
@@ -215,7 +215,7 @@ public partial class VeldridDriver
 		if (done_drawing)
 		{
 			updateHostFunc?.Invoke();
-			Surface.Invalidate();
+			Surface!.Invalidate();
 			ovpSettings.changed = false;
 			drawing = false;
 			done_drawing = false;
@@ -226,14 +226,14 @@ public partial class VeldridDriver
 	{
 		try
 		{
-			Surface.MouseDown += downHandler;
-			Surface.MouseMove += dragHandler;
-			Surface.MouseUp += upHandler;
-			Surface.MouseWheel += zoomHandler;
-			Surface.GotFocus += addKeyHandler;
-			Surface.MouseEnter += addKeyHandler; // setFocus;
-			Surface.LostFocus += removeKeyHandler;
-			Surface.MouseLeave += removeKeyHandler;
+			Surface!.MouseDown += downHandler!;
+			Surface!.MouseMove += dragHandler!;
+			Surface!.MouseUp += upHandler!;
+			Surface!.MouseWheel += zoomHandler!;
+			Surface!.GotFocus += addKeyHandler!;
+			Surface!.MouseEnter += addKeyHandler!; // setFocus;
+			Surface!.LostFocus += removeKeyHandler!;
+			Surface!.MouseLeave += removeKeyHandler!;
 		}
 		catch (Exception ex)
 		{
@@ -256,12 +256,12 @@ public partial class VeldridDriver
 	{
 		// Where did we click?
 		PointF scaledLocation = new(x, y);
-		scaledLocation = ScreenToWorld(scaledLocation.X * Surface.ParentWindow.LogicalPixelSize, scaledLocation.Y * Surface.ParentWindow.LogicalPixelSize);
+		scaledLocation = ScreenToWorld(scaledLocation.X * Surface!.ParentWindow.LogicalPixelSize, scaledLocation.Y * Surface!.ParentWindow.LogicalPixelSize);
 
 		PointF cPos = ovpSettings.getCameraPos();
 
 		// Populate our tree.
-		int polyCount = ovpSettings.polyList.Count;
+		int polyCount = ovpSettings.polyList!.Count;
 		switch (polyCount)
 		{
 			case > 0:
@@ -269,10 +269,10 @@ public partial class VeldridDriver
 				double[] distances = new double[polyCount];
 				int[] indices = new int[polyCount];
 				ParallelOptions po = new();
-				//Parallel.For(0, polyCount, po, (poly, loopstate) =>
-				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
+				Parallel.For(0, polyCount, po, (poly, _) =>
+				// for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					KDTree<PointF> pTree = new(2, ovpSettings.polyListPtCount[poly] + 1); // add one for the midpoint.
+					KDTree<PointF> pTree = new(2, ovpSettings.polyListPtCount![poly] + 1); // add one for the midpoint.
 					foreach (PointF t1 in ovpSettings.polyList[poly].poly)
 					{
 						PointF t = new(t1.X, t1.Y);
@@ -295,10 +295,9 @@ public partial class VeldridDriver
 					while (pIter.MoveNext())
 					{
 						distances[poly] = Math.Abs(pIter.CurrentDistance);
-						indices[poly] = ovpSettings.polySourceIndex[poly];
+						indices[poly] = ovpSettings.polySourceIndex![poly];
 					}
-				}
-				//);
+				});
 
 				int selIndex = indices[Array.IndexOf(distances, distances.Min())];
 
@@ -308,7 +307,7 @@ public partial class VeldridDriver
 			default:
 			{
 				// Populate our tree.
-				int lineCount = ovpSettings.lineList.Count;
+				int lineCount = ovpSettings.lineList!.Count;
 				switch (lineCount)
 				{
 					case > 0:
@@ -316,10 +315,10 @@ public partial class VeldridDriver
 						double[] distances = new double[lineCount];
 						int[] indices = new int[lineCount];
 						ParallelOptions po = new();
-						//Parallel.For(0, lineCount, po, (line, loopstate) =>
-						for (int line = 0; line < ovpSettings.lineList.Count; line++)
+						Parallel.For(0, lineCount, po, (line, _) =>
+						// for (int line = 0; line < ovpSettings.lineList.Count; line++)
 						{
-							KDTree<PointF> pTree = new(2, ovpSettings.lineListPtCount[line] + 1); // add one for the midpoint.
+							KDTree<PointF> pTree = new(2, ovpSettings.lineListPtCount![line] + 1); // add one for the midpoint.
 							foreach (PointF t1 in ovpSettings.lineList[line].poly)
 							{
 								PointF t = new(t1.X, t1.Y);
@@ -342,10 +341,9 @@ public partial class VeldridDriver
 							while (pIter.MoveNext())
 							{
 								distances[line] = Math.Abs(pIter.CurrentDistance);
-								indices[line] = ovpSettings.lineSourceIndex[line];
+								indices[line] = ovpSettings.lineSourceIndex![line];
 							}
-						}
-						//);
+						});
 
 						int selIndex = indices[Array.IndexOf(distances, distances.Min())];
 
@@ -383,7 +381,7 @@ public partial class VeldridDriver
 
 	private void getExtents(int index)
 	{
-		if ((ovpSettings.polyList.Count == 0) && (ovpSettings.lineList.Count == 0))
+		if ((ovpSettings.polyList!.Count == 0) && (ovpSettings.lineList!.Count == 0))
 		{
 				ovpSettings.minX = 0;
 				ovpSettings.maxX = 0;
@@ -402,7 +400,7 @@ public partial class VeldridDriver
 			{
 				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
-					if (index != -1 && (ovpSettings.polySourceIndex[poly] != index || !ovpSettings.polyMask[poly]))
+					if (index != -1 && (ovpSettings.polySourceIndex![poly] != index || !ovpSettings.polyMask![poly]))
 					{
 						continue;
 					}
@@ -429,11 +427,11 @@ public partial class VeldridDriver
 				}
 			}
 
-			if (ovpSettings.lineList.Count != 0)
+			if (ovpSettings.lineList!.Count != 0)
 			{
 				for (int line = 0; line < ovpSettings.lineList.Count; line++)
 				{
-					if (index != -1 && (ovpSettings.lineSourceIndex[line] != index || !ovpSettings.lineMask[line]))
+					if (index != -1 && (ovpSettings.lineSourceIndex![line] != index || !ovpSettings.lineMask![line]))
 					{
 						continue;
 					}

@@ -603,7 +603,7 @@ public class GCPolygon : GCElement
         pSaveOASIS(ow);
     }
 
-    class CircleResult
+    public class CircleResult
     {
         public bool circle { get; set; }
         public double radius { get; set; }
@@ -668,10 +668,12 @@ public class GCPolygon : GCElement
         Debug.Assert(tolerance > 0);
         double c = 1 - tolerance / radius;
         double a = c < -1 ? Math.PI : Math.Acos(c);
-        return (Int64)(0.5 + 0.5 * Math.Abs(angle) / a);
+        Int64 ret = (Int64)(0.5 + 0.5 * Math.Abs(angle) / a);
+
+        return ret;
     }
     
-    private CircleResult isCircle(double tolerance = 0.01)
+    public CircleResult isCircle(double tolerance = 1)
     {
         CircleResult result = new();
         if (pointarray.Count <= CIRCLE_DETECTION_LSQ_COEFFICIENTS)
@@ -711,17 +713,40 @@ public class GCPolygon : GCElement
         }
         result.radius /= 1 + CIRCLE_DETECTION_LSQ_COEFFICIENTS;
 
-        if (pointarray.Count < arc_num_points(2 * Math.PI, result.radius, tolerance))
+        if (pointarray.Count < arc_num_points(2 * Math.PI, result.radius, tolerance) / 100)
         {
             return result;
         }
+        
+        // Is the circle closed?
+        double distance_between_first_and_last = Math.Abs(GeoWrangler.distanceBetweenPoints(pointarray[0], pointarray[^1]));
+        // Close to zero, given the scaling of the geometry.
+        bool circle_closed = distance_between_first_and_last < 1;
+        int number_of_segments = pointarray.Count;
+        // Avoid dealing with zero length segment from first and last point being equivalent.
+        if (circle_closed)
+        {
+            number_of_segments--;
+        }
+        
+        // Based on radius and number of segments, compute our expected segment length for regular intervals.
+        double segment_angle = double.DegreesToRadians(360.0 / number_of_segments);
+        double expected_segment_length = (2 * result.radius * Math.Sin(segment_angle * 0.5));
 
-        double radius_sq = result.radius * result.radius;
-        double neighbor_distance_sq = tolerance + 2 * Math.Sqrt(2 * tolerance * (result.radius - tolerance));
-        neighbor_distance_sq *= neighbor_distance_sq;
-        for (int i = 1; i < pointarray.Count; i++) {
-            if (Math.Abs(length_sq(GeoWrangler.Point64_distanceBetweenPoints(pointarray[i], result.center)) - radius_sq) >= tolerance ||
-                Math.Abs(length_sq(GeoWrangler.Point64_distanceBetweenPoints(pointarray[i], pointarray[i-1]))) >= neighbor_distance_sq) {
+        // Borrowed the below from gdstk, but need to understand this...
+        double neighbor_distance = tolerance + 2 * Math.Sqrt(2 * tolerance * (result.radius - tolerance));
+
+        // Iterate through all points to check their reported distance from the centrepoint and check also if the
+        // distance to their nearest neighbor is ~the expected segment length.
+        for (int i = 1; i < number_of_segments; i++)
+        {
+            double pt_center_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(pointarray[i], result.center));
+            double radius_tolerance_check = Math.Abs(pt_center_distance - result.radius);
+            double pt_neighbor_distance = GeoWrangler.distanceBetweenPoints(pointarray[i], pointarray[i - 1]);
+            
+            double neighbor_distance_check = Math.Abs(pt_neighbor_distance - expected_segment_length);
+            if (radius_tolerance_check >= tolerance || neighbor_distance_check > neighbor_distance)
+            {
                 return result;
             }
         }

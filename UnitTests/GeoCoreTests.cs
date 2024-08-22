@@ -50,6 +50,105 @@ public class GeoCoreTests
     }
 
     [Test]
+    public static void klayout_gds_aref_test()
+    {
+        string gdsFile = baseDir + "klayout_test/gds/arefs_single.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+
+        // Currently, we don't touch the internals in the layout data so use this for conversion when not
+        // working with the drawing directly (which is the only place where the units are available.
+        // If we use the drawing convert to polygons method with a cell name, this is not needed - we should
+        // get the scaled version automatically.
+        double grid_scaling = drawing_gds.databaseunits / GCDrawingfield.default_databaseunits;
+        
+        // T cell
+        GCCell cell_gds = drawing_gds.findCell("T");
+        Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        Assert.That(polys_gds.Count, Is.EqualTo(1));
+        
+        // A cell
+        GCCell cell_gds2 = drawing_gds.findCell("A");
+        Assert.That(cell_gds2.elementList.Count, Is.EqualTo(1));
+        for (int i = 0; i < 1; i++)
+        {
+            Assert.That(cell_gds2.elementList[i].isCellrefArray(), Is.True);
+        }
+        
+        // Going directly to the cell, we get unscaled geometry.
+        List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons();
+        // 1 cell reference that are 3x2 arrays of different configurations
+        int poly_count = 6;
+        Assert.That(polys_gds2.Count, Is.EqualTo(poly_count));
+        // Resize to match our drawing units....
+        for (int i = 0; i < poly_count; i++)
+        {
+            GCPolygon poly_gds3 = new(polys_gds2[i]);
+            poly_gds3.resize(grid_scaling);
+        }
+        
+        // Compare with our drawing conversion... Our list of cells is just 'A' in this case.
+        List<List<GCPolygon>> polys_fromdrawing = drawing_gds.convertToPolygons(cells: ["A"]);
+    }
+
+    [Test]
+    public static void klayout_gds_arefs_test()
+    {
+        string gdsFile = baseDir + "klayout_test/gds/arefs.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        
+        // T cell
+        GCCell cell_gds = drawing_gds.findCell("T");
+        Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        Assert.That(polys_gds.Count, Is.EqualTo(1));
+        
+        // A cell
+        GCCell cell_gds2 = drawing_gds.findCell("A");
+        Assert.That(cell_gds2.elementList.Count, Is.EqualTo(64));
+        for (int i = 0; i < 64; i++)
+        {
+            Assert.That(cell_gds2.elementList[i].isCellrefArray(), Is.True);
+        }
+        List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons();
+        // 64 cell references that are 3x2 arrays of different configurations
+        int poly_count = 64 * 6;
+        Assert.That(polys_gds2.Count, Is.EqualTo(poly_count));
+        for (int i = 0; i < poly_count; i++)
+        {   
+            Assert.That(cell_gds2.elementList[i].isCellrefArray(), Is.True);
+        }
+    }
+
+    [Test]
+    public static void klayout_algo_flat_region_au13b_test()
+    {
+        string gdsFile = baseDir + "klayout_test/algo/flat_region_au13b.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        
+        // TOPTOP cell
+        GCCell cell_gds = drawing_gds.findCell("TOPTOP");
+        Assert.That(cell_gds.elementList.Count, Is.EqualTo(180008));
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        Assert.That(polys_gds.Count, Is.EqualTo(180008));
+    }
+
+    [Test]
     public static void klayout_algo_antenna_au1_test()
     {
         string gdsFile = baseDir + "klayout_test/algo/antenna_au1.gds";

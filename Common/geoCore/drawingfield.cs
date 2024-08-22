@@ -7,6 +7,9 @@ namespace geoCoreLib;
 
 public class GCDrawingfield
 {
+    public static double default_databaseunits = 1E-9;
+    public static double default_userunits = 1E-3;
+
     public List<GCCell> cellList { get; set; }
     public int active_cell { get; set; }
     public double databaseunits { get; set; }
@@ -41,8 +44,8 @@ public class GCDrawingfield
     {
         cellList = new List<GCCell>();
         active_cell = 0;
-        databaseunits = 1E-9;
-        userunits = 1E-3;
+        databaseunits = default_databaseunits;
+        userunits = default_userunits;
         libname = "noname";
         DateTime now = DateTime.Now;
         modyear = (short)now.Year;
@@ -296,28 +299,87 @@ public class GCDrawingfield
         userunits *= scale;
     }
 
-    public List<List<GCPolygon>> convertToPolygons(int layer = -1, int datatype = -1)
+    public List<List<GCPolygon>> convertToPolygons(int layer = -1, int datatype = -1, List<string> cells = null)
     {
-        return pConvertToPolygons(layer, datatype);
+        return pConvertToPolygons(layer, datatype, cells);
     }
 
-    private List<List<GCPolygon>> pConvertToPolygons(int layer = -1, int datatype = -1)
+    private List<List<GCPolygon>> pConvertToPolygons(int layer = -1, int datatype = -1, List<string> cells = null)
     {
-        int cellCount = cellList.Count;
-        List<GCPolygon>[] ret = new List<GCPolygon>[cellCount];
+        List<GCPolygon>[] ret = Array.Empty<List<GCPolygon>>();
+
+        if (cells == null)
+        {
+            int cellCount = cellList.Count;
+            ret = new List<GCPolygon>[cellCount];
 
 #if !GCSINGLETHREADED
-        ParallelOptions po = new();
-        Parallel.For(0, cellCount, po, i =>
+            ParallelOptions po = new();
+            Parallel.For(0, cellCount, po, i =>
 #else
             for (int i = 0; i < cellList.Count; i++)
 #endif
+                {
+                    ret[i] = cellList[i].convertToPolygons(layer: layer, datatype: datatype);
+                }
+#if !GCSINGLETHREADED
+            );
+#endif
+        }
+        else
+        {
+            ret = new List<GCPolygon>[cells.Count];
+#if !GCSINGLETHREADED
+            ParallelOptions po = new();
+            Parallel.For(0, ret.Length, po, c =>
+#else
+            for (int c = 0; c < ret.Length; c++)
+#endif
             {
-                ret[i] = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
+                string cell = cells[c];
+                int cell_index = pFindCell_serial(cell);
+                if (cell_index != -1)
+                {
+                    ret[c] = cellList[cell_index].convertToPolygons(layer: layer, datatype: datatype);
+                }
+                else
+                {
+                    ret[c] = new List<GCPolygon>();
+                }
             }
 #if !GCSINGLETHREADED
-        );
+            );
 #endif
+        }
+
+        // Apply scaling...if needed.
+        if (databaseunits != default_databaseunits)
+        {
+            double grid_scaling = databaseunits / default_databaseunits;
+#if !GCSINGLETHREADED
+            ParallelOptions po1 = new();
+            Parallel.For(0, ret.Length, po1, cindex =>
+#else
+            for (int cindex = 0; cindex < ret.Length; cindex++)
+#endif
+            {
+#if !GCSINGLETHREADED
+                Parallel.For(0, ret[cindex].Count, po1, i =>
+#else
+                for (int i = 0; i < ret[cindex].Count; i++)
+#endif
+                {
+                    ret[cindex][i].resize(grid_scaling);
+                }
+#if !GCSINGLETHREADED
+                );
+#endif
+            }
+#if !GCSINGLETHREADED
+            );
+#endif
+        }
+
         return ret.ToList();
     }
 

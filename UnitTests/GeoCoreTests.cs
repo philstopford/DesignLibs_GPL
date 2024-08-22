@@ -64,8 +64,9 @@ public class GeoCoreTests
         GCCell cell_gds = drawing_gds.findCell("A");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(); 
-        Assert.That(polys_gds.Count, Is.EqualTo(1));
+        List <GCPolygon> polys_gds = cell_gds.convertToPolygons();
+        int a_poly_count = 1;
+        Assert.That(polys_gds.Count, Is.EqualTo(a_poly_count));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
         Assert.That(polys_gds[0].pointarray[0].Y, Is.EqualTo(0));
@@ -82,8 +83,10 @@ public class GeoCoreTests
         Assert.That(cell_gds2.elementList[0].isCellref(), Is.True);
         Assert.That(cell_gds2.elementList[1].isCellrefArray(), Is.True);
         Assert.That(cell_gds2.elementList[2].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(); 
-        Assert.That(polys_gds2.Count, Is.EqualTo(4));
+        List <GCPolygon> polys_gds2 = cell_gds2.convertToPolygons();
+        // 3 instances of A cell and 1 polygon
+        int b_poly_count = (3 * a_poly_count) + 1;
+        Assert.That(polys_gds2.Count, Is.EqualTo(b_poly_count));
         Assert.That(polys_gds2[0].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds2[0].pointarray[0].X, Is.EqualTo(0));
         Assert.That(polys_gds2[0].pointarray[0].Y, Is.EqualTo(0));
@@ -119,7 +122,9 @@ public class GeoCoreTests
         Assert.That(cell_gds3.elementList[1].isCellref(), Is.True);
         Assert.That(cell_gds3.elementList[2].isPolygon(), Is.True);
         List <GCPolygon> polys_gds3 = cell_gds3.convertToPolygons(); 
-        Assert.That(polys_gds3.Count, Is.EqualTo(13));
+        // 3 instances of B cell and 1 polygon
+        int c_poly_count = (3 * 4) + 1;
+        Assert.That(polys_gds3.Count, Is.EqualTo(c_poly_count));
         Assert.That(polys_gds3[0].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds3[0].pointarray[0].X, Is.EqualTo(0));
         Assert.That(polys_gds3[0].pointarray[0].Y, Is.EqualTo(0));
@@ -245,7 +250,512 @@ public class GeoCoreTests
         Assert.That(polys_gds3[12].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds3[12].pointarray[3].X, Is.EqualTo(5000));
         Assert.That(polys_gds3[12].pointarray[3].Y, Is.EqualTo(4000));
-    }           
+        
+        // TOP cell
+        GCCell cell_gds4 = drawing_gds.findCell("TOP");
+        Assert.That(cell_gds4.elementList.Count, Is.EqualTo(6));
+        Assert.That(cell_gds4.elementList[0].isCellref(), Is.True);
+        Assert.That(cell_gds4.elementList[1].isCellrefArray(), Is.True);
+        Assert.That(cell_gds4.elementList[2].isPolygon(), Is.True);
+        Assert.That(cell_gds4.elementList[3].isPolygon(), Is.True);
+        Assert.That(cell_gds4.elementList[4].isPolygon(), Is.True);
+        Assert.That(cell_gds4.elementList[5].isPolygon(), Is.True);
+        List <GCPolygon> polys_gds4 = cell_gds4.convertToPolygons();
+        // 3 instances of the C cell and 4 polygons.
+        int top_poly_count = (3 * c_poly_count) + 4;
+        Assert.That(polys_gds4.Count, Is.EqualTo(top_poly_count));
+
+        int index = 0;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(16000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(1500));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(1500));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(15000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(16000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(6500));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(6500));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(15000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(21000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(21000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(23000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(27000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(23000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(27000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(21000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(21000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(22000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(22000));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(21000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(1000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(1500));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(1500));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(0));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(1000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(6500));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(6500));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(0));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(8000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(8000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
+
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(6000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(9000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(5000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(11000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(11000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(1000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(11000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(11000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(11500));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(11500));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(11000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(0));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(1000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(1000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(16500));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(16500));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(16000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(0));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(8000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(8000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(6000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(7000));
+        Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(6000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(4000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(17000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
+        
+        index++;
+        Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
+        Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[0].Y, Is.EqualTo(19000));
+        Assert.That(polys_gds4[index].pointarray[1].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[1].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[2].X, Is.EqualTo(14000));
+        Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(27000));
+        Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
+        Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
+    }
         
     [Test]
     public static void f_rep_test()                 

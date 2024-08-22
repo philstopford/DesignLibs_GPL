@@ -48,7 +48,68 @@ public class GeoCoreTests
         test_cell_export_complex();
         
     }
-    
+
+    [Test]
+    public static void klayout_algo_antenna_au1_test()
+    {
+        string gdsFile = baseDir + "klayout_test/algo/antenna_au1.gds";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+
+        // TRANS cell
+        GCCell cell_gds = drawing_gds.findCell("TRANS");
+        Assert.That(cell_gds.elementList.Count, Is.EqualTo(2));
+        Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
+        Assert.That(cell_gds.elementList[0].layer_nr, Is.EqualTo(6));
+        Assert.That(cell_gds.elementList[0].datatype_nr, Is.EqualTo(0));
+        Assert.That(cell_gds.elementList[1].isBox(), Is.True);
+        Assert.That(cell_gds.elementList[1].layer_nr, Is.EqualTo(8));
+        Assert.That(cell_gds.elementList[1].datatype_nr, Is.EqualTo(0));
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons();
+
+        int trans_poly_count = 2;
+        Assert.That(polys_gds.Count, Is.EqualTo(trans_poly_count));
+        Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[1].X, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[1].Y, Is.EqualTo(2800));
+        Assert.That(polys_gds[0].pointarray[2].X, Is.EqualTo(800));
+        Assert.That(polys_gds[0].pointarray[2].Y, Is.EqualTo(2800));
+        Assert.That(polys_gds[0].pointarray[3].X, Is.EqualTo(800));
+        Assert.That(polys_gds[0].pointarray[3].Y, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[4].X, Is.EqualTo(0));
+        Assert.That(polys_gds[0].pointarray[4].Y, Is.EqualTo(0));
+
+        Assert.That(polys_gds[1].pointarray.Count, Is.EqualTo(5));
+        Assert.That(polys_gds[1].pointarray[0].X, Is.EqualTo(200));
+        Assert.That(polys_gds[1].pointarray[0].Y, Is.EqualTo(600));
+        Assert.That(polys_gds[1].pointarray[1].X, Is.EqualTo(600));
+        Assert.That(polys_gds[1].pointarray[1].Y, Is.EqualTo(600));
+        Assert.That(polys_gds[1].pointarray[2].X, Is.EqualTo(600));
+        Assert.That(polys_gds[1].pointarray[2].Y, Is.EqualTo(200));
+        Assert.That(polys_gds[1].pointarray[3].X, Is.EqualTo(200));
+        Assert.That(polys_gds[1].pointarray[3].Y, Is.EqualTo(200));
+        Assert.That(polys_gds[1].pointarray[4].X, Is.EqualTo(200));
+        Assert.That(polys_gds[1].pointarray[4].Y, Is.EqualTo(600));
+        
+        // TOP cell
+        GCCell cell_gds2 = drawing_gds.findCell("TOP");
+        Assert.That(cell_gds2.elementList.Count, Is.EqualTo(109));
+        List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons();
+        Assert.That(polys_gds2.Count, Is.EqualTo(119));
+        
+        // TOPTOP cell
+        GCCell cell_gds3 = drawing_gds.findCell("TOPTOP");
+        Assert.That(cell_gds3.elementList.Count, Is.EqualTo(100));
+        List<GCPolygon> polys_gds3 = cell_gds3.convertToPolygons();
+        Assert.That(polys_gds3.Count, Is.EqualTo(336));
+    }
+
     [Test]
     public static void klayout_algo_angle_check_test()
     {
@@ -755,7 +816,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(27000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
-    }
+                            }
         
     [Test]
     public static void f_rep_test()                 

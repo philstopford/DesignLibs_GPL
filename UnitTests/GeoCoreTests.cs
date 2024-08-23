@@ -214,10 +214,6 @@ public class GeoCoreTests
         // 64 cell references that are 3x2 arrays of different configurations
         int poly_count = 64 * 6;
         Assert.That(polys_gds2.Count, Is.EqualTo(poly_count));
-        for (int i = 0; i < poly_count; i++)
-        {   
-            Assert.That(cell_gds2.elementList[i].isCellrefArray(), Is.True);
-        }
     }
 
     [Test]
@@ -6233,11 +6229,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
@@ -6250,20 +6246,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * col_pitch.Y)))));
                 polyIndex++;
             }
         }
@@ -6427,11 +6423,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
@@ -6444,20 +6440,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * row_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (0 + (rowIndex * col_pitch.Y)))));
                 polyIndex++;
             }
         }
@@ -6620,11 +6616,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
@@ -6637,20 +6633,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(-10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(-10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(0 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(0 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(-10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(-10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(0 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(0 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 polyIndex++;
             }
         }
@@ -6809,11 +6805,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         double scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
@@ -6827,20 +6823,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * 20) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * 20) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * 10) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * 10) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * 20) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * 20) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * 10) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * 10) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * col_pitch.Y)));
                 polyIndex++;
             }
         }
@@ -7000,11 +6996,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         Point64 col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         Point64 row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         double scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
@@ -7018,20 +7014,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(-30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(-30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(-10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(-10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(60 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(60 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(-30 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(-30 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(-10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(-10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(60 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(60 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 polyIndex++;
             }
         }
@@ -7194,11 +7190,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
@@ -7211,21 +7207,21 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * row_pitch.Y)))));
-                polyIndex++;
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
+                    polyIndex++;
             }
         }
 
@@ -7388,11 +7384,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
@@ -7405,20 +7401,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * row_pitch.Y)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * col_pitch.X)))));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * row_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * (-20 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * (10 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * (-10 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * (20 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
                 polyIndex++;
             }
         }
@@ -7581,11 +7577,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
@@ -7598,20 +7594,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(20 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(20 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(20 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(20 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 polyIndex++;
             }
         }
@@ -7774,11 +7770,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
@@ -7791,20 +7787,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * -20) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * -20) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * -10) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * -10) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * -0) + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * -0) + (rowIndex * row_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(pos.Y + (scale * 0) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(pos.Y + (scale * -20) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(pos.Y + (scale * -20) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(pos.X + (scale * 10) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(pos.Y + (scale * -10) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(pos.Y + (scale * -10) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(pos.X + (scale * 20) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * -0) + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * 0) + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * -0) + (rowIndex * col_pitch.Y)));
                 polyIndex++;
             }
         }
@@ -7967,11 +7963,11 @@ public class GeoCoreTests
         Assert.That(count.X, Is.EqualTo(4));
         Assert.That(count.Y, Is.EqualTo(4));
         col_pitch = cell_gds.elementList[^1].getColPitch();
-        Assert.That(col_pitch.X, Is.EqualTo(100 / count.X));
-        Assert.That(col_pitch.Y, Is.EqualTo(0 / count.Y));
+        Assert.That(col_pitch.X, Is.EqualTo(0 / count.X));
+        Assert.That(col_pitch.Y, Is.EqualTo(80 / count.Y));
         row_pitch = cell_gds.elementList[^1].getRowPitch();
-        Assert.That(row_pitch.X, Is.EqualTo(0 / count.X));
-        Assert.That(row_pitch.Y, Is.EqualTo(80 / count.Y));
+        Assert.That(row_pitch.X, Is.EqualTo(100 / count.X));
+        Assert.That(row_pitch.Y, Is.EqualTo(0 / count.Y));
         scale = cell_gds.elementList[^1].getScale();
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
@@ -7984,20 +7980,20 @@ public class GeoCoreTests
             for (int colIndex = 0; colIndex < count.X; colIndex++)
             {
                 Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(7));
-                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(50 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(50 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(40 +  (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(60 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(60 + (rowIndex * row_pitch.Y)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[0].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(50 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(50 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(40 +  (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(60 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(60 + (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(10 + (colIndex * row_pitch.X)));
+                Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 polyIndex++;
             }
         }

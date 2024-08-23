@@ -655,7 +655,7 @@ public class GCPolygon : GCElement
 
     
     // Below is borrowed from gdstk for testing.
-    private const int CIRCLE_DETECTION_LSQ_COEFFICIENTS = 4;
+    private const int CIRCLE_DETECTION_LSQ_COEFFICIENTS = 10;
     private const double GDSTK_PARALLEL_EPS = 1e-8;
 
     private double length_sq(Point64 point)
@@ -677,7 +677,8 @@ public class GCPolygon : GCElement
     public CircleResult isCircle(double tolerance = 1)
     {
         CircleResult result = new();
-        if (pointarray.Count <= CIRCLE_DETECTION_LSQ_COEFFICIENTS)
+        
+            if (pointarray.Count <= CIRCLE_DETECTION_LSQ_COEFFICIENTS)
         {
             return result;
         }

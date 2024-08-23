@@ -230,7 +230,7 @@ internal partial class oasReader
                             error_msgs.Add(err2);
                             throw new Exception(err2);
                         }
-                        drawing_.databaseunits = readReal();
+                        drawing_.databaseunits = 1E-6 / readReal();
                         i = readUnsignedInteger();
                         if (i == 0)
                         {

@@ -1008,7 +1008,7 @@ public class GeoCoreTests
                             }
         
     [Test]
-    public static void f_rep_test()                 
+    public static void f_rep_test()
     {
         string gdsFile = baseDir + "gdstk_reference/f_rep.gds";
         GeoCoreHandler gH_GDS = new();

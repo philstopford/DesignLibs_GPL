@@ -316,9 +316,9 @@ public class GCDrawingfield
 
     private List<List<GCPolygon>> pConvertToPolygons(int layer = -1, int datatype = -1, List<string> cells = null)
     {
-        double scaleFactor = pGetDrawingScale();
         List<GCPolygon>[] ret = Array.Empty<List<GCPolygon>>();
 
+        // Dump entire drawing unless a list of cells has been supplied by the user.
         if (cells == null)
         {
             int cellCount = cellList.Count;
@@ -331,7 +331,7 @@ public class GCDrawingfield
             for (int i = 0; i < cellList.Count; i++)
 #endif
                 {
-                    ret[i] = cellList[i].convertToPolygons(scaleFactor, layer: layer, datatype: datatype);
+                    ret[i] = cellList[i].convertToPolygons(1.0, layer: layer, datatype: datatype);
                 }
 #if !GCSINGLETHREADED
             );
@@ -351,7 +351,7 @@ public class GCDrawingfield
                 int cell_index = pFindCell_serial(cell);
                 if (cell_index != -1)
                 {
-                    ret[c] = cellList[cell_index].convertToPolygons(scaleFactor, layer: layer, datatype: datatype);
+                    ret[c] = cellList[cell_index].convertToPolygons(1.0, layer: layer, datatype: datatype);
                 }
                 else
                 {
@@ -366,7 +366,7 @@ public class GCDrawingfield
         // Apply scaling...if needed.
         if (databaseunits != default_databaseunits)
         {
-            double grid_scaling = pGetDrawingScale();
+            double scaleFactor = pGetDrawingScale();
 #if !GCSINGLETHREADED
             ParallelOptions po1 = new();
             Parallel.For(0, ret.Length, po1, cindex =>
@@ -380,7 +380,7 @@ public class GCDrawingfield
                 for (int i = 0; i < ret[cindex].Count; i++)
 #endif
                 {
-                    ret[cindex][i].resize(grid_scaling);
+                    ret[cindex][i].resize(scaleFactor);
                 }
 #if !GCSINGLETHREADED
                 );

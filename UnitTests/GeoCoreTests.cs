@@ -88,12 +88,23 @@ public class GeoCoreTests
         // Resize to match our drawing units....
         for (int i = 0; i < poly_count; i++)
         {
-            GCPolygon poly_gds3 = new(polys_gds2[i]);
-            poly_gds3.resize(grid_scaling);
+            polys_gds2[i].resize(grid_scaling);
         }
         
         // Compare with our drawing conversion... Our list of cells is just 'A' in this case.
-        List<List<GCPolygon>> polys_fromdrawing = drawing_gds.convertToPolygons(cells: ["A"]);
+        List<GCPolygon> polys_fromdrawing = drawing_gds.convertToPolygons(cells: ["A"])[0];
+        Assert.That(polys_fromdrawing.Count, Is.EqualTo(poly_count));
+        
+        // Review our geometry.
+        for (int i = 0; i < poly_count; i++)
+        {
+            Assert.That(polys_gds2[i].pointarray.Count, Is.EqualTo(polys_fromdrawing[i].pointarray.Count));
+            for (int pt = 0; pt < polys_gds2[i].pointarray.Count; pt++)
+            {
+                Assert.That(polys_gds2[i].pointarray[pt].X, Is.EqualTo(polys_fromdrawing[i].pointarray[pt].X));
+                Assert.That(polys_gds2[i].pointarray[pt].Y, Is.EqualTo(polys_fromdrawing[i].pointarray[pt].Y));
+            }
+        }
     }
 
     [Test]

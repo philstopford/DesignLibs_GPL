@@ -86,10 +86,63 @@ public class GeoCoreTests
         int poly_count = 6;
         Assert.That(polys_gds2.Count, Is.EqualTo(poly_count));
         // Resize to match our drawing units....
-        for (int i = 0; i < poly_count; i++)
+        for (int poly_index = 0; poly_index < poly_count; poly_index++)
         {
-            polys_gds2[i].resize(grid_scaling);
+            polys_gds2[poly_index].resize(grid_scaling);
         }
+
+        for (int poly_index = 0; poly_index < poly_count; poly_index++)
+        {
+            int x_offset = 0;
+            int y_offset = 0;
+            switch (poly_index)
+            {
+                case 1:
+                    x_offset = 1500;
+                    y_offset = 0;
+                    break;
+                case 2:
+                    x_offset = 3000;
+                    y_offset = 0;
+                    break;
+                case 3:
+                    x_offset = 0;
+                    y_offset = 2000;
+                    break;
+                case 4:
+                    x_offset = 1500;
+                    y_offset = 2000;
+                    break;
+                case 5:
+                    x_offset = 3000;
+                    y_offset = 2000;
+                    break;
+                default:
+                    break;
+            }
+            Assert.That(polys_gds2[poly_index].pointarray[0].X, Is.EqualTo(polys_gds2[0].pointarray[0].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[0].Y, Is.EqualTo(polys_gds2[0].pointarray[0].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[1].X, Is.EqualTo(polys_gds2[0].pointarray[1].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[1].Y, Is.EqualTo(polys_gds2[0].pointarray[1].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[2].X, Is.EqualTo(polys_gds2[0].pointarray[2].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[2].Y, Is.EqualTo(polys_gds2[0].pointarray[2].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[3].X, Is.EqualTo(polys_gds2[0].pointarray[3].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[3].Y, Is.EqualTo(polys_gds2[0].pointarray[3].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[4].X, Is.EqualTo(polys_gds2[0].pointarray[4].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[4].Y, Is.EqualTo(polys_gds2[0].pointarray[4].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[5].X, Is.EqualTo(polys_gds2[0].pointarray[5].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[5].Y, Is.EqualTo(polys_gds2[0].pointarray[5].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[6].X, Is.EqualTo(polys_gds2[0].pointarray[6].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[6].Y, Is.EqualTo(polys_gds2[0].pointarray[6].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[7].X, Is.EqualTo(polys_gds2[0].pointarray[7].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[7].Y, Is.EqualTo(polys_gds2[0].pointarray[7].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[8].X, Is.EqualTo(polys_gds2[0].pointarray[8].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[8].Y, Is.EqualTo(polys_gds2[0].pointarray[8].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[9].X, Is.EqualTo(polys_gds2[0].pointarray[9].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[9].Y, Is.EqualTo(polys_gds2[0].pointarray[9].Y + y_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[10].X, Is.EqualTo(polys_gds2[0].pointarray[10].X + x_offset));
+            Assert.That(polys_gds2[poly_index].pointarray[10].Y, Is.EqualTo(polys_gds2[0].pointarray[10].Y + y_offset));
+        }   
         
         // Compare with our drawing conversion... Our list of cells is just 'A' in this case.
         List<GCPolygon> polys_fromdrawing = drawing_gds.convertToPolygons(cells: ["A"])[0];

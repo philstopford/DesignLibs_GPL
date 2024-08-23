@@ -119,12 +119,12 @@ public class GCBox : GCElement
         );
     }
 
-    public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons(double scaleFactor)
     {
-        return pConvertToPolygons();
+        return pConvertToPolygons(scaleFactor);
     }
 
-    private List<GCPolygon> pConvertToPolygons()
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
         List<GCPolygon> ret = new();
         Path64 points = Helper.initedPath64(5);
@@ -138,6 +138,7 @@ public class GCBox : GCElement
         points[3] = new (left, bottom);
         points[4] = new (left, top);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
+        ret[0].resize(scaleFactor);
         return ret;
     }
 

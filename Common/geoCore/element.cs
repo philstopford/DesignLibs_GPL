@@ -569,7 +569,10 @@ public class GCElement
     // Polygon
     public virtual bool isPolygon() { return false; }
     public virtual GCPolygon getPolygon() { return null; }
-    public virtual List<GCPolygon> convertToPolygons() { return null; }
+    
+    // The scale factor here is because elements don't have visibility into the drawing scale.
+    // User must therefore provide a value. Not optional to avoid confusion.
+    public virtual List<GCPolygon> convertToPolygons(double scaleFactor) { return null; }
     public virtual bool mergeSelect(GCPolygon p) { return false; }
     public virtual void edgeRemoveSelect(int edge) { }
     public virtual bool add(Path64 poly) { return false; }

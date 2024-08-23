@@ -183,16 +183,17 @@ public class GCPath : GCElement
         return pointarray;
     }
 
-    public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons(double scaleFactor)
     {
-        return pConvertToPolygons();
+        return pConvertToPolygons(scaleFactor);
     }
 
-    private List<GCPolygon> pConvertToPolygons()
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
         List<GCPolygon> ret = new();
         Path64 tmp = GeoWrangler.inflatePath(pointarray, (double)width / 2);
         ret.Add(new GCPolygon(tmp, layer_nr, datatype_nr));
+        ret[0].resize(scaleFactor);
         return ret;
     }
 

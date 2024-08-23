@@ -684,13 +684,13 @@ public class GCCellRefArray : GCElement
         return point;
     }
 
-    public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons(double scaleFactor)
     {
-        return pConvertToPolygons();
+        return pConvertToPolygons(scaleFactor);
     }
 
 
-    private List<GCPolygon> pConvertToPolygons()
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
         /*
         // This returns the contents of the reference.
@@ -703,7 +703,7 @@ public class GCCellRefArray : GCElement
         }
         */
         
-        List<GCPolygon> tmp = cell_ref.convertToPolygons();
+        List<GCPolygon> tmp = cell_ref.convertToPolygons(scaleFactor);
 
         List<GCPolygon> ret = repetition.transform(tmp, trans.mag, trans.mirror_x, trans.angle);
 

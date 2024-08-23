@@ -616,7 +616,7 @@ public class GeoCore
     {
         PathsD ret = new();
         List<string> lds = new();
-        List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons();
+        List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons(drawingField.getDrawingScale());
         List<bool> isText = new();
         List<string> names = new();
         foreach (GCPolygon p in lp)
@@ -781,7 +781,7 @@ public class GeoCore
 
         try
         {
-            List<GCPolygon> lCRP = tmpCel.elementList[referenceElement].convertToPolygons();
+            List<GCPolygon> lCRP = tmpCel.elementList[referenceElement].convertToPolygons(drawingField.getDrawingScale());
             foreach (GCPolygon crP in lCRP)
             {
                 crP.move(point);
@@ -1017,7 +1017,7 @@ public class GeoCore
 
     private List<GCPolygon> pConvertToPolygons(int layer = -1, int datatype = -1)
     {
-        return drawingField.cellList[activeStructure].convertToPolygons(layer: layer, datatype: datatype);
+        return drawingField.cellList[activeStructure].convertToPolygons(drawingField.getDrawingScale(), layer: layer, datatype: datatype);
     }
 
     public bool nestedCellRef(int cellIndex)

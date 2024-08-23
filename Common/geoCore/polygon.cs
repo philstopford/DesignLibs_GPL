@@ -201,14 +201,15 @@ public class GCPolygon : GCElement
         pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
     }
 
-    public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons(double scaleFactor)
     {
-        return pConvertToPolygons();
+        return pConvertToPolygons(scaleFactor);
     }
 
-    private List<GCPolygon> pConvertToPolygons()
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
         List<GCPolygon> ret = new() {new GCPolygon(this)};
+        ret[0].resize(scaleFactor);
         return ret;
     }
 

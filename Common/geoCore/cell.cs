@@ -549,7 +549,7 @@ public class GCCell
 
                 if (elementList[f].isBox() && elementList[f].select)
                 {
-                    GCPolygon p = elementList[f].convertToPolygons()[0];
+                    GCPolygon p = elementList[f].convertToPolygons(1.0)[0];
                     p.map(m);
                     GCBox b = p.convertToBox();
                     if (b != null)
@@ -619,7 +619,7 @@ public class GCCell
 
                 if (elementList[f].isBox() && elementList[f].select)
                 {
-                    GCPolygon p = elementList[f].convertToPolygons()[0];
+                    GCPolygon p = elementList[f].convertToPolygons(1.0)[0];
                     p.map(m);
                     GCBox b = p.convertToBox();
                     if (b != null)
@@ -688,7 +688,7 @@ public class GCCell
 
                 if (elementList[f].isBox() && elementList[f].select)
                 {
-                    GCPolygon p = elementList[f].convertToPolygons()[0];
+                    GCPolygon p = elementList[f].convertToPolygons(1.0)[0];
                     p.map(m);
                     GCBox b = p.convertToBox();
                     if (b != null)
@@ -866,23 +866,23 @@ public class GCCell
         saved = true;
     }
 
-    public List<GCPolygon> convertToPolygons(int layer = -1, int datatype = -1)
+    public List<GCPolygon> convertToPolygons(double scaleFactor, int layer = -1, int datatype = -1)
     {
-        return pConvertToPolygons(layer, datatype);
+        return pConvertToPolygons(scaleFactor, layer, datatype);
     }
 
-    private List<GCPolygon> pConvertToPolygons(int layer = -1, int datatype = -1)
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor, int layer = -1, int datatype = -1)
     {
         List<GCPolygon> ret = new();
         foreach (GCElement t in elementList.Where(t => t != null))
         {
             if (layer == -1 || datatype == -1)
             {
-                ret.AddRange(t.convertToPolygons());
+                ret.AddRange(t.convertToPolygons(scaleFactor));
             }
             else
             {
-                ret.AddRange(t.convertToPolygons().Where(p => p.layer_nr == layer && p.datatype_nr == datatype));
+                ret.AddRange(t.convertToPolygons(scaleFactor).Where(p => p.layer_nr == layer && p.datatype_nr == datatype));
             }
         }
 

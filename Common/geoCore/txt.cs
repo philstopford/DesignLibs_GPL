@@ -322,12 +322,12 @@ public class GCTxt : GCElement
         }
     }
 
-    public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons(double scaleFactor)
     {
-        return pConvertToPolygons();
+        return pConvertToPolygons(scaleFactor);
     }
 
-    private List<GCPolygon> pConvertToPolygons()
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
         List<GCPolygon> ret = new();
         Path64 points = Helper.initedPath64(5);
@@ -337,7 +337,7 @@ public class GCTxt : GCElement
         points[3] = new (point.X + 1, point.Y - 1);
         points[4] = new (points[0]);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
-
+        ret[0].resize(scaleFactor);
         ret[0].text = true;
         ret[0].name = name;
 

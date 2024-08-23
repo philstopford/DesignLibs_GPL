@@ -446,14 +446,14 @@ public class GCCellref : GCElement
         }
     }
 
-    public override List<GCPolygon> convertToPolygons()
+    public override List<GCPolygon> convertToPolygons(double scaleFactor)
     {
-        return pConvertToPolygons();
+        return pConvertToPolygons(scaleFactor);
     }
 
-    private List<GCPolygon> pConvertToPolygons()
+    private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
-        List<GCPolygon> ret = cell_ref.convertToPolygons();
+        List<GCPolygon> ret = cell_ref.convertToPolygons(scaleFactor);
 
         if (trans.mirror_x)
         {

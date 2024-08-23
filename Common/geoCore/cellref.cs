@@ -453,7 +453,7 @@ public class GCCellref : GCElement
 
     private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
-        List<GCPolygon> ret = cell_ref.convertToPolygons(scaleFactor);
+        List<GCPolygon> ret = cell_ref.convertToPolygons(1.0);
 
         if (trans.mirror_x)
         {
@@ -465,6 +465,7 @@ public class GCCellref : GCElement
                     flipped.Add(new (pt.X, -pt.Y));
                 }
                 poly.pointarray.Clear();
+                
                 poly.pointarray.AddRange(flipped);
             }
         }
@@ -479,6 +480,7 @@ public class GCCellref : GCElement
                 ret[poly].rotate(trans.angle, new (0,0));
                 ret[poly].scale(new (0,0), trans.mag);
                 ret[poly].move(point);
+                ret[poly].resize(scaleFactor);
             }
 #if !GCSINGLETHREADED
         );

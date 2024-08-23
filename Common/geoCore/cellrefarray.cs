@@ -703,13 +703,14 @@ public class GCCellRefArray : GCElement
         }
         */
         
-        List<GCPolygon> tmp = cell_ref.convertToPolygons(scaleFactor);
+        List<GCPolygon> tmp = cell_ref.convertToPolygons(1.0);
 
         List<GCPolygon> ret = repetition.transform(tmp, trans.mag, trans.mirror_x, trans.angle);
 
         Parallel.For(0, ret.Count, (p) =>
         {
             ret[p].move(point);
+            ret[p].resize(scaleFactor);
         });
 
         return ret;

@@ -678,7 +678,7 @@ public class GCPolygon : GCElement
     {
         CircleResult result = new();
         
-            if (pointarray.Count <= CIRCLE_DETECTION_LSQ_COEFFICIENTS)
+        if (pointarray.Count <= CIRCLE_DETECTION_LSQ_COEFFICIENTS)
         {
             return result;
         }

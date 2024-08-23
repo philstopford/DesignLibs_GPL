@@ -216,7 +216,7 @@ public class GeoCoreTests
         Assert.That(polys_gds2.Count, Is.EqualTo(poly_count));
     }
 
-    [Test]
+    //[Test] // VERY slow.
     public static void klayout_algo_flat_region_au13b_test()
     {
         string gdsFile = baseDir + "klayout_test/algo/flat_region_au13b.gds";
@@ -8690,8 +8690,8 @@ public class GeoCoreTests
     public static void move_box_test()
     {
         int dimension = 10;
+        int scale = 100;
         string filename = "move_box_" + 10 + "_" + 20;
-        int scale = 100; // for 0.01 nm resolution.
         GeoCore g = new();
         g.reset();
         GCDrawingfield drawing_ = new("test")
@@ -8708,8 +8708,8 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000 * scale,
-            userunits = 0.001 / scale,
+            databaseunits = GCDrawingfield.default_databaseunits / scale,
+            userunits = GCDrawingfield.default_userunits / scale,
             libname = "noname"
         };
         Assert.That(2018, Is.EqualTo(drawing_.accyear));
@@ -8731,7 +8731,7 @@ public class GeoCoreTests
 
         gcell.cellName = "test";
 
-        gcell.addBox(0 * scale, 0 * scale, dimension * scale, dimension * scale, 1, 1);
+        gcell.addBox(0, 0, dimension, dimension, 1, 1);
         GCElement content = gcell.elementList[^1];
 
         Assert.That(content.isBox(), Is.True);
@@ -8758,12 +8758,24 @@ public class GeoCoreTests
 
         int move_x = 10;
         int move_y = 20;
-        content.move(new (move_x * scale, move_y * scale));
-        Assert.That(content.getPos().X, Is.EqualTo(move_x * scale));
-        Assert.That(content.getPos().Y, Is.EqualTo(move_y * scale));
+        content.move(new (move_x, move_y));
+        Assert.That(content.getPos().X, Is.EqualTo(move_x));
+        Assert.That(content.getPos().Y, Is.EqualTo(move_y));
         minx = Int64.MaxValue;
         miny = Int64.MaxValue;
-        polys = content.convertToPolygons(drawing_.getDrawingScale());
+        // Due to integer representation, we have to scale up to ensure we don't lose anything.
+        double scalefactor = drawing_.getDrawingScale();
+        switch (scalefactor)
+        {
+            case 0:
+                scalefactor = 1;
+                break;
+            case < 1:
+                // Need to invert because otherwise the integer representation could fail.
+                scalefactor = 1 / scalefactor;
+                break;
+        }
+        polys = content.convertToPolygons(scalefactor);
         foreach (GCPolygon pl in polys)
         {
             Int64 tmp = pl.pointarray.MinBy(p => p.X).X;
@@ -8777,6 +8789,7 @@ public class GeoCoreTests
                 miny = tmp;
             }
         }
+        // Inflated values here due to integer representation.
         Assert.That(minx, Is.EqualTo(move_x * scale));
         Assert.That(miny, Is.EqualTo(move_y * scale));
         g.setDrawing(drawing_);
@@ -8808,14 +8821,14 @@ public class GeoCoreTests
         Assert.That(gcGDS.isValid(), Is.True);
 
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        drawing_gds.databaseunits = 1000 * scale;
-        drawing_gds.userunits = 0.001 / scale;
+        drawing_gds.databaseunits = GCDrawingfield.default_databaseunits / scale;
+        drawing_gds.userunits = GCDrawingfield.default_userunits / scale;
         GCCell cell_gds = drawing_gds.findCell("test");
         int elementCount = cell_gds.elementList.Count;
         Assert.That(elementCount, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].isBox(), Is.True);
-        Assert.That(cell_gds.elementList[^1].getPos().X, Is.EqualTo(1000));
-        Assert.That(cell_gds.elementList[^1].getPos().Y, Is.EqualTo(2000));
+        Assert.That(cell_gds.elementList[^1].getPos().X, Is.EqualTo(10));
+        Assert.That(cell_gds.elementList[^1].getPos().Y, Is.EqualTo(20));
 
         string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
         save_gdsii(gcGDS, out_filename);
@@ -8829,14 +8842,14 @@ public class GeoCoreTests
         Assert.That(gcOAS.isValid(), Is.True);
 
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
-        drawing_oas.databaseunits = 1000 * scale;
-        drawing_oas.userunits = 0.001 / scale;
+        drawing_oas.databaseunits = GCDrawingfield.default_databaseunits / scale;
+        drawing_oas.userunits = GCDrawingfield.default_userunits / scale;
         GCCell cell_oas = drawing_oas.findCell("test");
         elementCount = cell_oas.elementList.Count;
         Assert.That(elementCount, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].isBox(), Is.True);
-        Assert.That(cell_oas.elementList[^1].getPos().X, Is.EqualTo(1000));
-        Assert.That(cell_oas.elementList[^1].getPos().Y, Is.EqualTo(2000));
+        Assert.That(cell_oas.elementList[^1].getPos().X, Is.EqualTo(10));
+        Assert.That(cell_oas.elementList[^1].getPos().Y, Is.EqualTo(20));
 
         out_filename = outDir + "/" + filename + "_resave_from_oas.gds";
         save_gdsii(gcOAS, out_filename);

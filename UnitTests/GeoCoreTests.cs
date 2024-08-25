@@ -5225,8 +5225,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -5534,8 +5532,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -6154,8 +6150,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -6347,8 +6341,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -6541,8 +6533,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -6734,8 +6724,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -6925,8 +6913,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -7115,8 +7101,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -7309,8 +7293,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -7502,8 +7484,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -7695,8 +7675,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -7888,8 +7866,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -8097,8 +8073,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -8186,8 +8160,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 

@@ -428,29 +428,29 @@ public class GCCellRefArray : GCElement
     // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
     private void pSaveOASIS(oasWriter ow)
     {
-        ow.modal.absoluteMode = ow.modal.absoluteMode switch
+        if (!ow.modal.absoluteMode)
         {
-            false => true,
-            _ => ow.modal.absoluteMode
-        };
+            ow.modal.absoluteMode = true;
+        }
+        else
+        {
+            ow.modal.absoluteMode = ow.modal.absoluteMode;
+        }
+
         byte info_byte = 128;  //explicid cellname,repition;
         if (repetition.columns > 1 || repetition.rows > 1)
         {
             info_byte += 8;
         }
 
-        switch (trans.mirror_x)
+        if (trans.mirror_x)
         {
-            case true:
-                info_byte += 1;
-                break;
+            info_byte += 1;
         }
 
-        switch (Math.Abs(trans.mag - 1))
+        if (Math.Abs(trans.mag - 1) > double.Epsilon)
         {
-            case > double.Epsilon:
-                info_byte += 4;
-                break;
+            info_byte += 4;
         }
 
         if (trans.angle != 0)
@@ -472,32 +472,26 @@ public class GCCellRefArray : GCElement
         ow.writeRaw(info_byte);
         ow.writeString(cell_ref.cellName);
 
-        switch (info_byte & 4)
+        if ((info_byte & 4) > 0)
         {
-            case > 0:
-                ow.writeReal(trans.mag);
-                break;
+            ow.writeReal(trans.mag);
         }
 
-        switch (info_byte & 2)
+        if ((info_byte & 2) > 0)
         {
-            case > 0:
-                ow.writeReal(trans.angle);
-                break;
+            ow.writeReal(trans.angle);
         }
-        switch (info_byte & 32)
+
+        if ((info_byte & 32) > 0)
         {
-            case > 0:
-                ow.modal.placement_x = (int)point.X;
-                ow.writeSignedInteger(ow.modal.placement_x);
-                break;
+            ow.modal.placement_x = (int)point.X;
+            ow.writeSignedInteger(ow.modal.placement_x);
         }
-        switch (info_byte & 16)
+
+        if ((info_byte & 16) > 0)
         {
-            case > 0:
-                ow.modal.placement_y = (int)point.Y;
-                ow.writeSignedInteger(ow.modal.placement_y);
-                break;
+            ow.modal.placement_y = (int)point.Y;
+            ow.writeSignedInteger(ow.modal.placement_y);
         }
 
         switch (info_byte & 8)
@@ -634,17 +628,21 @@ public class GCCellRefArray : GCElement
                     case Repetition.RepetitionType.Explicit:
                         if (repetition.offsets.Count > 0)
                         {
-                            ow.writeUnsignedInteger(10);
-                            ow.writeUnsignedInteger((uint)(repetition.offsets.Count - 1));
-                            int v0_index = 0;
-                            int v1_index = 1;
-                            ow.writeGDelta(new(repetition.offsets[v0_index]));
-                            for (int i = repetition.offsets.Count - 1; i > 0; --i)
+                            Path64 out_ = new();
+                            Point64 temp = new(0,0);
+                            // out_.Add(new (temp));
+                            for (int i = repetition.offsets.Count - 1; i >= 0; --i)
                             {
-                                v0_index = (v0_index + 1) % repetition.offsets.Count;
-                                v1_index = (v1_index + 1) % repetition.offsets.Count;
-                                ow.writeGDelta(new(repetition.offsets[v1_index].X - repetition.offsets[v0_index].X,
-                                    repetition.offsets[v1_index].Y - repetition.offsets[v0_index].Y));
+                                out_.Add(GeoWrangler.Point64_distanceBetweenPoints(repetition.offsets[i], temp));
+                                temp = new (repetition.offsets[i]);
+                            }
+                            
+                            ow.writeUnsignedInteger(10);
+                            ow.writeUnsignedInteger((uint)(out_.Count));
+                            ow.writeGDelta(new(repetition.offsets[0]));
+                            for (int i = out_.Count - 1; i >= 0; --i)
+                            {
+                                ow.writeGDelta(new(out_[i]));
                             }
                         }
 

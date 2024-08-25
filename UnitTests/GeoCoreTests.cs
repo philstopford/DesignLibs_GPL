@@ -8145,7 +8145,7 @@ public class GeoCoreTests
 
         List<GCPolygon> initial = drawing_.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
         Assert.That(initial.Count, Is.EqualTo(4));
-                    string initial_hash = Utils.GetMD5Hash(initial);
+                        string initial_hash = Utils.GetMD5Hash(initial);
 
         string gdsFile = outDir + "cellref_array_irregular.gds";
         if (File.Exists(gdsFile))

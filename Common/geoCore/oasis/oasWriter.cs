@@ -157,7 +157,8 @@ public partial class oasWriter
         // start record
         bw.Write((byte)1);
         writeString("1.0");
-        writeReal(drawing_.databaseunits);
+        double tmp = drawing_.getDrawingScale();
+        writeReal(tmp * 1E3);
 
         //  offset table:
         for (int i = 0; i < 13; ++i)

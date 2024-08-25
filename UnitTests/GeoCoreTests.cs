@@ -10,45 +10,6 @@ public class GeoCoreTests
     static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";  
     static string outDir = "/d/development/geocore_out/";
 
-    // [SetUp]
-    public static void GeoCoreSetUp()
-    {
-        valid_test();
-        box_test();
-        test_circle();
-        test_box();
-        consistency_from_oasis();
-        consistency_from_gds();
-
-        defineAndWrite_Polygon();
-        defineAndWrite_Cellref();
-        defineAndWrite_CellrefArray1();
-        defineAndWrite_CellrefArray2();
-        defineAndWrite_CellrefArray3();
-        defineAndWrite_CellrefArray4();
-        defineAndWrite_CellrefArray5();
-        defineAndWrite_CellrefArray1mx();
-        defineAndWrite_CellrefArray2mx();
-        defineAndWrite_CellrefArray3mx();
-        defineAndWrite_CellrefArray4mx();
-        defineAndWrite_CellrefArray5mx();
-        defineAndWrite_CellrefArray_irregular();
-        defineAndWrite_Circle();
-        defineAndWrite_Path();
-        defineAndWrite_Text();
-        defineAndWrite_CTrapezoid();
-        defineAndWrite_Trapezoid();
-        defineAndWrite_manyCellrefs();
-
-        defineAndWrite_Box_LayerDataType();
-        
-        test_cellrefarray_basic();
-        test_cellrefarray_nested();
-        test_cell_export();
-        test_cell_export_complex();
-        
-    }
-
     [Test]
     public static void klayout_gds_aref_test()
     {
@@ -119,8 +80,6 @@ public class GeoCoreTests
                     x_offset = 3000;
                     y_offset = 2000;
                     break;
-                default:
-                    break;
             }
             Assert.That(polys_gds2[poly_index].pointarray[0].X, Is.EqualTo(polys_gds2[0].pointarray[0].X + x_offset));
             Assert.That(polys_gds2[poly_index].pointarray[0].Y, Is.EqualTo(polys_gds2[0].pointarray[0].Y + y_offset));
@@ -145,7 +104,7 @@ public class GeoCoreTests
             Assert.That(polys_gds2[poly_index].pointarray[10].X, Is.EqualTo(polys_gds2[0].pointarray[10].X + x_offset));
             Assert.That(polys_gds2[poly_index].pointarray[10].Y, Is.EqualTo(polys_gds2[0].pointarray[10].Y + y_offset));
 
-            // Check that our cell-based     scaled version matches the manually scaled one.
+            // Check that our cell-based scaled version matches the manually scaled one.
             Assert.That(polys_gds2_scaled[poly_index].pointarray[0].X, Is.EqualTo(polys_gds2[poly_index].pointarray[0].X));
             Assert.That(polys_gds2_scaled[poly_index].pointarray[0].Y, Is.EqualTo(polys_gds2[poly_index].pointarray[0].Y));
             Assert.That(polys_gds2_scaled[poly_index].pointarray[1].X, Is.EqualTo(polys_gds2[poly_index].pointarray[1].X));
@@ -4929,6 +4888,9 @@ public class GeoCoreTests
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
 
+        List<List<GCPolygon>> initial = gcOAS.getDrawing().convertToPolygons();
+        string initial_hash = Utils.GetSHA1Hash(initial);
+
         string outFile = outDir + "/c3_consistency_from_oas.gds";
         if (File.Exists(outFile))
         {
@@ -4938,6 +4900,17 @@ public class GeoCoreTests
         gw.save();
         Assert.That(File.Exists(outFile), Is.True);
 
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(outFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        gcGDS.getDrawing().resize(1.0 / gcGDS.getDrawing().getDrawingScale());
+        List<List<GCPolygon>> gds = gcGDS.getDrawing().convertToPolygons();
+        string gds_hash = Utils.GetSHA1Hash(gds);
+        
+        Assert.That(gds_hash, Is.EqualTo(initial_hash));
+
         string outFile2 = outDir + "/c3_consistency_from_oas.oas";
         if (File.Exists(outFile2))
         {
@@ -4946,15 +4919,27 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(gcOAS, outFile2);
         ow.save();
         Assert.That(File.Exists(outFile2), Is.True);
+        
+        GeoCoreHandler gH_OAS2 = new();
+        gH_OAS2.updateGeoCoreHandler(outFile2, GeoCore.fileType.oasis);
+        GeoCore gcOAS2 = gH_OAS2.getGeo();
+        Assert.That(gcOAS2.isValid(), Is.True);
+
+        List<List<GCPolygon>> oas = gcOAS2.getDrawing().convertToPolygons();
+        string oas_hash = Utils.GetSHA1Hash(oas);
+        Assert.That(oas_hash, Is.EqualTo(initial_hash));
     }
 
     [Test]
-    public static void consistency_from_gds()
+    public static void consistency_from_gds_INCOMPLETETEST()
     {
-        GeoCoreHandler gH_GDS = new();
+        GeoCoreHandler gH_GDS = new();      
         gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
+
+        List<List<GCPolygon>> initial = gcGDS.getDrawing().convertToPolygons();
+        string initial_hash = Utils.GetSHA1Hash(initial);
 
         string outFile = outDir + "/c3_consistency_from_gds.gds";
         if (File.Exists(outFile))
@@ -4965,6 +4950,17 @@ public class GeoCoreTests
         gw.save();
         Assert.That(File.Exists(outFile), Is.True);
 
+        GeoCoreHandler gH_GDS2 = new();
+        gH_GDS2.updateGeoCoreHandler(outFile, GeoCore.fileType.gds);
+        GeoCore gcGDS2 = gH_GDS2.getGeo();
+        Assert.That(gcGDS2.isValid(), Is.True);
+
+        gcGDS2.getDrawing().resize(1.0 / gcGDS2.getDrawing().getDrawingScale());
+        List<List<GCPolygon>> gds = gcGDS2.getDrawing().convertToPolygons();
+        string gds_hash = Utils.GetSHA1Hash(gds);
+        
+        Assert.That(gds_hash, Is.EqualTo(initial_hash));
+
         string outFile2 = outDir + "/c3_consistency_from_gds.oas";
         if (File.Exists(outFile2))
         {
@@ -4973,7 +4969,16 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(gcGDS, outFile2);
         ow.save();
         Assert.That(File.Exists(outFile2), Is.True);
-    }
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(outFile2, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+
+        List<List<GCPolygon>> oas = gcOAS.getDrawing().convertToPolygons();
+        string oas_hash = Utils.GetSHA1Hash(oas);
+        Assert.That(oas_hash, Is.EqualTo(initial_hash));
+        }
 
     [Test]
     public static void test_cell_export_complex()
@@ -5797,8 +5802,6 @@ public class GeoCoreTests
             modhour = 2,
             modmin = 10,
             modsec = 10,
-            databaseunits = 1000,
-            userunits = 0.001,
             libname = "noname"
         };
 
@@ -8059,7 +8062,7 @@ public class GeoCoreTests
     }
 
     [Test]
-    public static void read_cblock_oasis()
+    public static void read_cblock_oasis_INCOMPLETETEST()
     {
         // Bring in our reference file for comparison sake. This gets complicated.
         string oasFile_ref = baseDir + "compression_test.oas";
@@ -8076,7 +8079,7 @@ public class GeoCoreTests
 
     // FIXME : This needs the test conditions added to ensure we can read what we write, etc.
     [Test]
-    public static void defineAndWrite_CellrefArray_irregular()
+    public static void defineAndWrite_CellrefArray_irregular_INCOMPLETETEST()
     {
         GeoCore g = new();
         g.reset();

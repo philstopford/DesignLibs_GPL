@@ -691,6 +691,14 @@ internal partial class oasReader
                         {
                             readRepetition();
                             processRepetition(elementType.polygonElement);
+                            // This is an empirical 'hack' to avoid an additional polygon being added.
+                            // Might be masking something else - hence labelling as a hack.
+                            if ((modal.repetition.type == Repetition.RepetitionType.Rectangular) ||
+                                ((modal.repetition.type != Repetition.RepetitionType.Regular) &&
+                                (modal.repetition.type != Repetition.RepetitionType.Explicit)))
+                            {
+                                readRaw();
+                            }
                         }
                         else
                         {

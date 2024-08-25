@@ -1270,7 +1270,7 @@ public class GeoCoreTests
             }
         }
 
-        string oasFile = baseDir + "gdstk_reference/f_rep3.oas";
+        string oasFile = baseDir + "gdstk_reference/f_rep3_kl.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -8038,7 +8038,7 @@ public class GeoCoreTests
     }
 
     [Test]
-    public static void read_cblock_oasis_INCOMPLETETEST()
+    public static void read_cblock_oasis()
     {
         // Bring in our reference file for comparison sake. This gets complicated.
         string oasFile_ref = baseDir + "compression_test.oas";
@@ -8046,11 +8046,35 @@ public class GeoCoreTests
         gH_OAS_ref.updateGeoCoreHandler(oasFile_ref, GeoCore.fileType.oasis);
         GeoCore gcOAS_ref = gH_OAS_ref.getGeo();
         Assert.That(gcOAS_ref.isValid(), Is.True);
-        /*
+
         GCDrawingfield drawing_oas_ref = gcOAS_ref.getDrawing();
-        GCCell cell_oas_ref = drawing_oas_ref.findCell("test_cellrefarray1");
-        List<GCPolygon> polys_oas_ref = cell_oas_ref.elementList[^1].convertToPolygons();
-        */
+        List<GCPolygon> polys_oas_ref = drawing_oas_ref.convertToPolygons(cells: ["test_cellrefarray1"])[0];
+        Assert.That(polys_oas_ref.Count, Is.EqualTo(16));
+        
+        // Check our repetition has been handled correctly.
+        int xPitch = 25;
+        int yPitch = 20;
+
+        int index = 0;
+        for (int row = 0; row < 4; row++)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                Assert.That(polys_oas_ref[index].pointarray[0].X, Is.EqualTo( 0 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[0].Y, Is.EqualTo( 0 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[1].X, Is.EqualTo( 0 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[1].Y, Is.EqualTo( 20 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[2].X, Is.EqualTo( 10 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[2].Y, Is.EqualTo( 20 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[3].X, Is.EqualTo( 10 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[3].Y, Is.EqualTo( 10 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[4].X, Is.EqualTo( 20 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[4].Y, Is.EqualTo( 10 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[5].X, Is.EqualTo( 20 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[5].Y, Is.EqualTo( 0 + (row * yPitch)));
+                index++;
+            }
+        }
     }
 
     // FIXME : This needs the test conditions added to ensure we can read what we write, etc.

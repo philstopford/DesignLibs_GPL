@@ -1344,7 +1344,7 @@ public class GCPolygon : GCElement
                 ow.writeUnsignedInteger((uint)datatype_nr);
                 break;
         }
-        ow.writePointArray(pointarray, false);
+        ow.writePointArray(GeoWrangler.close(pointarray), true);
         switch (info_byte & 16)
         {
             case > 0:

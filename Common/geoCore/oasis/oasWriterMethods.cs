@@ -135,11 +135,16 @@ public partial class oasWriter
         if (type0)
         {
             writeUnsignedInteger(0);
-            int count = excludeImplicid switch
+            int count;
+            if (excludeImplicid)
             {
-                true => p.Count - 3,
-                _ => p.Count - 1
-            };
+                count = p.Count - 3;
+            }
+            else
+            {
+                count = p.Count - 1;
+            }
+
             writeUnsignedInteger((uint)count);
             Point64 last = new(p[0]);
             for (int i = 1; i <= count; i++)
@@ -154,11 +159,16 @@ public partial class oasWriter
             if (type1)
             {
                 writeUnsignedInteger(1);
-                int count = excludeImplicid switch
+                int count;
+                if (excludeImplicid)
                 {
-                    true => p.Count - 3,
-                    _ => p.Count - 1
-                };
+                    count = p.Count - 3;
+                }
+                else
+                {
+                    count = p.Count - 1;
+                }
+
                 writeUnsignedInteger((uint)count);
                 Point64 last = new(p[0]);
                 for (int i = 1; i <= count; i++)
@@ -209,11 +219,16 @@ public partial class oasWriter
                     else
                     {
                         writeUnsignedInteger(4);
-                        int count = excludeImplicid switch
+                        int count;
+                        if (excludeImplicid)
                         {
-                            true => p.Count - 2,
-                            _ => p.Count - 1
-                        };
+                            count = p.Count - 2;
+                        }
+                        else
+                        {
+                            count = p.Count - 1;
+                        }
+
                         writeUnsignedInteger((uint)count);
                         Point64 last = new(p[0]);
                         for (int i = 1; i <= count; i++)

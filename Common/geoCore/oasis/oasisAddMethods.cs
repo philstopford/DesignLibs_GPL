@@ -164,9 +164,24 @@ internal partial class oasReader
 
     private void addPolygon()
     {
-        Path64 pa = Helper.initedPath64(modal.polygon_point_list.Count);
+        int polySize = modal.polygon_point_list.Count;
+        // Let's see if we need to trim a bit based on situation.
+        if (polySize >= 5)
+        {
+            string hash0 = utility.Utils.GetMD5Hash(modal.polygon_point_list[0]);
+            string hash1 = utility.Utils.GetMD5Hash(modal.polygon_point_list[^1]);
+            string hash2 = utility.Utils.GetMD5Hash(modal.polygon_point_list[^2]);
+            string hash3 = utility.Utils.GetMD5Hash(modal.polygon_point_list[^3]);
+            string hash4 = utility.Utils.GetMD5Hash(modal.polygon_point_list[^4]);
+            if (hash1 == hash0 && hash2 == hash0 && hash3 == hash0 && hash4 == hash0)
+            {
+                polySize -= 2;
+            }
+        }
+
+        Path64 pa = Helper.initedPath64(polySize);
         Point64 p = new(modal.geometry_x, modal.geometry_y);
-        for (int i = 0; i < modal.polygon_point_list.Count; i++)
+        for (int i = 0; i < polySize; i++)
         {
             pa[i] = new (modal.polygon_point_list[i]);
             pa[i] = GeoWrangler.move(pa[i], p.X, p.Y);

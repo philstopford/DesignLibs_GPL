@@ -4931,7 +4931,7 @@ public class GeoCoreTests
     }
 
     [Test]
-    public static void consistency_from_gds_INCOMPLETETEST()
+    public static void consistency_from_gds()
     {
         GeoCoreHandler gH_GDS = new();      
         gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.gds);
@@ -4978,7 +4978,7 @@ public class GeoCoreTests
         List<List<GCPolygon>> oas = gcOAS.getDrawing().convertToPolygons();
         string oas_hash = Utils.GetSHA1Hash(oas);
         Assert.That(oas_hash, Is.EqualTo(initial_hash));
-        }
+    }
 
     [Test]
     public static void test_cell_export_complex()

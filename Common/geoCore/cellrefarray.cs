@@ -50,12 +50,12 @@ public class GCCellRefArray : GCElement
         {
             repetition.rows = 1;
         }
-        repetition.rowVector = new ((array[1].X - array[0].X) / repetition.rows, (array[1].Y - array[0].Y) / repetition.rows);
-        repetition.colVector = new((array[2].X - array[0].X) / repetition.columns, (array[2].Y - array[0].Y) / repetition.columns);
+        repetition.rowVector = new (Math.Ceiling((double)(array[1].X - array[0].X) / repetition.rows), Math.Ceiling((double)(array[1].Y - array[0].Y) / repetition.rows));
+        repetition.colVector = new(Math.Ceiling((double)(array[2].X - array[0].X) / repetition.columns), Math.Ceiling((double)(array[2].Y - array[0].Y) / repetition.columns));
         repetition.type = Repetition.RepetitionType.Regular;
         if (((repetition.rowVector.X != 0) && (repetition.rowVector.Y != 0)) || ((repetition.colVector.X != 0) && (repetition.colVector.Y != 0)))
         {
-            repetition.type = Repetition.RepetitionType.Rectangular;
+            repetition.type = Repetition.RepetitionType.Explicit;
         }
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;

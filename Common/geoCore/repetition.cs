@@ -469,13 +469,31 @@ public class Repetition
                 break;
             case RepetitionType.Explicit:
             {
+                bypass_regular_array = true;
+                // Process offsets
+                Point64 _colVector = new(colVector.X, Math.Ceiling((double)colVector.Y / columns));
+                Point64 _rowVector = new(Math.Ceiling((double)rowVector.X / rows), rowVector.Y);
+                Path64 temp = new ();
+                for (int c = 1; c < columns; c++)
+                {
+                    temp.Add(new(_colVector.X * c, _colVector.Y));
+                }
+                for (int r = 0; r < rows; r++)
+                {
+                    for (int t = 0; t < temp.Count; t++)
+                    {
+                        offsets.Add(new (temp[t].X + (_rowVector.X * r), temp[t].Y + (_rowVector.Y * r)));
+                    }
+                }
+                offsets.Add(new(_rowVector));
+                /*
                 if (rotation != 0 && doRotationInFunction)
                 {
                     Complex z2x = Complex.Cos(rotation);
                     Complex z2y = Complex.Sin(rotation);
 
-                    // Based on 
-                    /*
+                    // Based on
+                    / *
                         Vec2 r = {cos(rotation), sin(rotation)};
                         v1 = cplx_mul(v1, r);
                         v2 = cplx_mul(v2, r);
@@ -483,7 +501,7 @@ public class Repetition
                         inline Vec2 cplx_mul(const Vec2& z1, const Vec2& z2) {
                            return Vec2{z1.re * z2.re - z1.im * z2.im, z1.re * z2.im + z1.im * z2.re};
                         }
-                     */
+                     * /
                     // v1 = new PointD(v1.x * z2x.Real - v1.x * z2x.Imaginary, v1.y * z2y.Imaginary + v1.y * z2y.Imaginary);
                     // v2 = new PointD(v2.x * z2x.Real - v2.x * z2x.Imaginary, v2.y * z2y.Imaginary + v2.y * z2y.Imaginary);
 
@@ -524,6 +542,7 @@ public class Repetition
                         offsets[i] = new (offsets[i].X * magnification, offsets[i].Y * magnification);
                     }
                 }
+                */
             }
                 break;
             default:

@@ -8143,6 +8143,10 @@ public class GeoCoreTests
         g.setDrawing(drawing_);
         g.setValid(true);
 
+        List<GCPolygon> initial = drawing_.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+        Assert.That(initial.Count, Is.EqualTo(4));
+                    string initial_hash = Utils.GetMD5Hash(initial);
+
         string gdsFile = outDir + "cellref_array_irregular.gds";
         if (File.Exists(gdsFile))
         {
@@ -8151,6 +8155,15 @@ public class GeoCoreTests
         gds.gdsWriter gw = new(g, gdsFile);
         gw.save();
         Assert.That(File.Exists(gdsFile), Is.True);
+        
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+        Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         string oasFile = outDir + "cellref_array_irregular.oas";
         if (File.Exists(oasFile))
@@ -8160,6 +8173,15 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        List<GCPolygon> polys_oas = drawing_oas.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+        Assert.That(polys_oas.Count, Is.EqualTo(4));
     }
     
     // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.

@@ -565,7 +565,9 @@ public class GCPolygon : GCElement
             gw.bw.Write(gdsValues.sDATATYPE);
             gw.bw.Write((short)datatype_nr);
 
-            Path64 cleaned = GeoWrangler.removeDuplicates(pointarray);
+            // This seemed like a good idea, but changing the data is not nice.
+            // The user may have had duplicate points for a reason.
+            Path64 cleaned = /*GeoWrangler.removeDuplicates(*/pointarray;//);
             int i = cleaned.Count;
             i = i switch
             {

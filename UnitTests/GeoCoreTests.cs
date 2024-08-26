@@ -8181,7 +8181,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         List<GCPolygon> polys_oas = drawing_oas.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
-        Assert.That(polys_oas.Count, Is.EqualTo(4));
+        Assert.That(polys_oas.Count, Is.EqualTo(5));
     }
     
     // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.

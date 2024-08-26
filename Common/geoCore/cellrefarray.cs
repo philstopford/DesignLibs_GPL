@@ -639,8 +639,8 @@ public class GCCellRefArray : GCElement
                             
                             ow.writeUnsignedInteger(10);
                             ow.writeUnsignedInteger((uint)(out_.Count));
-                            ow.writeGDelta(new(repetition.offsets[0]));
-                            for (int i = out_.Count - 1; i >= 0; --i)
+                            ow.writeGDelta(new(0, 0));//repetition.offsets[0]));
+                            for (int i = 0; i < out_.Count; i++)
                             {
                                 ow.writeGDelta(new(out_[i]));
                             }

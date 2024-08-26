@@ -319,22 +319,25 @@ internal partial class oasReader
             }
             else
             {
-                // Original is not included in the offsets.
-                cell_.addCellref();
-                cell_.elementList[^1].setPos(new(modal.placement_x, modal.placement_y));
-                cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
-                cell_.elementList[^1].setName(modal.placement_cell);
-                cell_.elementList[^1].rotate(modal.angle);
-                cell_.elementList[^1].scale(modal.mag);
-                if (modal.mirror_x)
+                if (modal.repetition.type != Repetition.RepetitionType.Explicit)
                 {
-                    cell_.elementList[^1].setMirrorx();
+                    // Original is not included in the offsets.
+                    cell_.addCellref();
+                    cell_.elementList[^1].setPos(new(modal.placement_x, modal.placement_y));
+                    cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
+                    cell_.elementList[^1].setName(modal.placement_cell);
+                    cell_.elementList[^1].rotate(modal.angle);
+                    cell_.elementList[^1].scale(modal.mag);
+                    if (modal.mirror_x)
+                    {
+                        cell_.elementList[^1].setMirrorx();
+                    }
                 }
 
-                foreach (Point64 offset in offsets)
+                for (int p = 0; p < offsets.Count; p++)
                 {
                     cell_.addCellref();
-                    cell_.elementList[^1].setPos(new(modal.placement_x + offset.X, modal.placement_y + offset.Y));
+                    cell_.elementList[^1].setPos(new(modal.placement_x + offsets[p].X, modal.placement_y + offsets[p].Y));
                     cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
                     cell_.elementList[^1].setName(modal.placement_cell);
                     cell_.elementList[^1].rotate(modal.angle);

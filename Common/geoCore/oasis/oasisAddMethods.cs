@@ -319,23 +319,27 @@ internal partial class oasReader
             }
             else
             {
-                if (modal.repetition.type != Repetition.RepetitionType.Explicit)
+                // Original is not included in the offsets.
+                cell_.addCellref();
+                cell_.elementList[^1].setPos(new(modal.placement_x, modal.placement_y));
+                cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
+                cell_.elementList[^1].setName(modal.placement_cell);
+                cell_.elementList[^1].rotate(modal.angle);
+                cell_.elementList[^1].scale(modal.mag);
+                if (modal.mirror_x)
                 {
-                    // Original is not included in the offsets.
-                    cell_.addCellref();
-                    cell_.elementList[^1].setPos(new(modal.placement_x, modal.placement_y));
-                    cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
-                    cell_.elementList[^1].setName(modal.placement_cell);
-                    cell_.elementList[^1].rotate(modal.angle);
-                    cell_.elementList[^1].scale(modal.mag);
-                    if (modal.mirror_x)
-                    {
-                        cell_.elementList[^1].setMirrorx();
-                    }
+                    cell_.elementList[^1].setMirrorx();
                 }
+
+                bool skipFirst = (offsets[0].X == cell_.elementList[^1].getPos().X) &&
+                                 (offsets[0].Y == cell_.elementList[^1].getPos().Y);
 
                 for (int p = 0; p < offsets.Count; p++)
                 {
+                    if (p == 0 && skipFirst)
+                    {
+                        continue;
+                    }
                     cell_.addCellref();
                     cell_.elementList[^1].setPos(new(modal.placement_x + offsets[p].X, modal.placement_y + offsets[p].Y));
                     cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));

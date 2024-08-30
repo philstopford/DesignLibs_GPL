@@ -8099,6 +8099,52 @@ public class GeoCoreTests
         
         Assert.That(gds_hash, Is.EqualTo(oas_hash));
 
+        // Review geometry - if hashes match, we only need to check one of the inputs.
+        Assert.That(gds_polys.Count, Is.EqualTo(7));
+        for (int pindex = 0; pindex < 7; pindex++)
+        {
+            int x_offset = 0;
+            int y_offset = 0;
+            switch (pindex)
+            {
+                case 2:
+                    x_offset = 8;
+                    y_offset = 50;
+                    break;
+                case 3:
+                    x_offset = -130;
+                    y_offset = 10;
+                    break;
+                case 4:
+                    x_offset = 90;
+                    y_offset = 70;
+                    break;
+                case 5:
+                    x_offset = 30;
+                    y_offset = 50;
+                    break;
+                default:
+                    x_offset = 0;
+                    y_offset = 0;
+                    break;
+            }
+            Assert.That(gds_polys[pindex].pointarray.Count, Is.EqualTo(7));
+            Assert.That(gds_polys[pindex].pointarray[0].X, Is.EqualTo(0 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[0].Y, Is.EqualTo(0 + y_offset));
+            Assert.That(gds_polys[pindex].pointarray[1].X, Is.EqualTo(0 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[1].Y, Is.EqualTo(20 + y_offset));
+            Assert.That(gds_polys[pindex].pointarray[2].X, Is.EqualTo(10 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[2].Y, Is.EqualTo(20 + y_offset));
+            Assert.That(gds_polys[pindex].pointarray[3].X, Is.EqualTo(10 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[3].Y, Is.EqualTo(10 + y_offset));
+            Assert.That(gds_polys[pindex].pointarray[4].X, Is.EqualTo(20 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[4].Y, Is.EqualTo(10 + y_offset));
+            Assert.That(gds_polys[pindex].pointarray[5].X, Is.EqualTo(20 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[5].Y, Is.EqualTo(0 + y_offset));
+            Assert.That(gds_polys[pindex].pointarray[6].X, Is.EqualTo(0 + x_offset));
+            Assert.That(gds_polys[pindex].pointarray[6].Y, Is.EqualTo(0 + y_offset));
+        }
+
         string outfile = outDir + "cellref_array_irregular_resavecheck";
         string gdsFile = outfile + ".gds";
         if (File.Exists(gdsFile))
@@ -8133,6 +8179,12 @@ public class GeoCoreTests
 
         string gds_reload_hash = Utils.GetMD5Hash(gds_polys_reload);
         string oas_reload_hash = Utils.GetMD5Hash(oas_polys_reload);
+        
+        Assert.That(gds_reload_hash, Is.EqualTo(oas_reload_hash));
+        Assert.That(gds_reload_hash, Is.EqualTo(gds_hash));
+        Assert.That(oas_reload_hash, Is.EqualTo(oas_hash));
+
+        // No need to review geometry - if hashes match, all is good.
     }
     
     // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.

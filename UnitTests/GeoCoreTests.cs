@@ -8076,112 +8076,63 @@ public class GeoCoreTests
             }
         }
     }
-
-    // FIXME : This needs the test conditions added to ensure we can read what we write, etc.
+    
     [Test]
-    public static void defineAndWrite_CellrefArray_irregular_INCOMPLETETEST()
+    public static void test_irregular_parser()
     {
-        GeoCore g = new();
-        g.reset();
-        GCDrawingfield drawing_ = new("")
-        {
-            accyear = 2018,
-            accmonth = 12,
-            accday = 5,
-            acchour = 2,
-            accmin = 10,
-            accsec = 10,
-            modyear = 2018,
-            modmonth = 12,
-            modday = 5,
-            modhour = 2,
-            modmin = 10,
-            modsec = 10,
-            libname = "noname"
-        };
+        string inputfile = baseDir + "cellref_array_irregular";
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(inputfile + ".gds", GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
 
-        GCCell gcell = drawing_.addCell();
-        gcell.accyear = 2018;
-        gcell.accmonth = 12;
-        gcell.accday = 5;
-        gcell.acchour = 2;
-        gcell.accmin = 10;
-        gcell.accsec = 10;
-        gcell.modyear = 2018;
-        gcell.modmonth = 12;
-        gcell.modday = 5;
-        gcell.modhour = 2;
-        gcell.modmin = 10;
-        gcell.modsec = 10;
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(inputfile + ".oas", GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
 
-        gcell.cellName = "test";
+        List<GCPolygon> gds_polys = gcGDS.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> oas_polys = gcOAS.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
 
-        Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
-
-        gcell.addPolygon(poly, 1, 0);
-
-        Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (30, 50);
-        array[2] = new (90, 70);
-
-        gcell = drawing_.addCell();
-        gcell.cellName = "test_cellrefarray_irregular";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
-        gcell.addCellrefArray(drawing_.findCell("test"), array, 2, 2);
-        gcell.elementList[^1].setPos(new (0, 0));
-        gcell.elementList[^1].setName("test");
-        gcell.elementList[^1].rotate(0);
-        gcell.elementList[^1].scale(1);
+        string gds_hash = Utils.GetMD5Hash(gds_polys);
+        string oas_hash = Utils.GetMD5Hash(oas_polys);
         
-        g.setDrawing(drawing_);
-        g.setValid(true);
+        Assert.That(gds_hash, Is.EqualTo(oas_hash));
 
-        List<GCPolygon> initial = drawing_.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
-        Assert.That(initial.Count, Is.EqualTo(4));
-                        string initial_hash = Utils.GetMD5Hash(initial);
-
-        string gdsFile = outDir + "cellref_array_irregular.gds";
+        string outfile = outDir + "cellref_array_irregular_resavecheck";
+        string gdsFile = outfile + ".gds";
         if (File.Exists(gdsFile))
         {
             File.Delete(gdsFile);
         }
-        gds.gdsWriter gw = new(g, gdsFile);
+        gds.gdsWriter gw = new(gcGDS, gdsFile);
         gw.save();
         Assert.That(File.Exists(gdsFile), Is.True);
         
-        GeoCoreHandler gH_GDS = new();
-        gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
-        GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.That(gcGDS.isValid(), Is.True);
-
-        GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
-        Assert.That(polys_gds.Count, Is.EqualTo(4));
-
-        string oasFile = outDir + "cellref_array_irregular.oas";
+        string oasFile = outfile + ".oas";
         if (File.Exists(oasFile))
         {
             File.Delete(oasFile);
         }
-        oasis.oasWriter ow = new(g, oasFile);
+        oasis.oasWriter ow = new(gcOAS, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
-        GeoCoreHandler gH_OAS = new();
-        gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
-        GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.That(gcOAS.isValid(), Is.True);
 
-        GCDrawingfield drawing_oas = gcOAS.getDrawing();
-        List<GCPolygon> polys_oas = drawing_oas.convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
-        Assert.That(polys_oas.Count, Is.EqualTo(5));
+        GeoCoreHandler gH_GDS_reload = new();
+        gH_GDS_reload.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
+        GeoCore gcGDS_reload = gH_GDS_reload.getGeo();
+        Assert.That(gcGDS_reload.isValid(), Is.True);
+
+        GeoCoreHandler gH_OAS_reload = new();
+        gH_OAS_reload.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
+        GeoCore gcOAS_reload = gH_OAS_reload.getGeo();
+        Assert.That(gcOAS_reload.isValid(), Is.True);
+
+        List<GCPolygon> gds_polys_reload = gcGDS_reload.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> oas_polys_reload = gcOAS_reload.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
+
+        string gds_reload_hash = Utils.GetMD5Hash(gds_polys_reload);
+        string oas_reload_hash = Utils.GetMD5Hash(oas_polys_reload);
     }
     
     // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.

@@ -8078,7 +8078,7 @@ public class GeoCoreTests
     }
     
     [Test]
-    public static void test_irregular_parser()
+    public static void test_cellref_irregular_parser()
     {
         string inputfile = baseDir + "cellref_array_irregular";
         GeoCoreHandler gH_GDS = new();
@@ -8185,6 +8185,32 @@ public class GeoCoreTests
         Assert.That(oas_reload_hash, Is.EqualTo(oas_hash));
 
         // No need to review geometry - if hashes match, all is good.
+    }
+
+    [Test]    
+    public static void test_cellref_irregular_offset_parser()
+    {
+        string inputfile = baseDir + "cellref_array_irregular_offset";
+ 
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(inputfile + ".gds", GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.That(gcGDS.isValid(), Is.True);
+ 
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(inputfile + ".oas", GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.That(gcOAS.isValid(), Is.True);
+
+        List<GCPolygon> gds_polys = gcGDS.getDrawing().convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> oas_polys = gcOAS.getDrawing().convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+
+        string gds_hash = Utils.GetMD5Hash(gds_polys);
+        string oas_hash = Utils.GetMD5Hash(oas_polys);
+
+    // Precomputed hashes. Geometry is differently ordered, so hashes differ
+        Assert.That(gds_hash, Is.EqualTo("5UJvmu7iw5bkcDvYxrImTQ=="));
+        Assert.That(oas_hash, Is.EqualTo("15trvprfnCQH7L8uWiGx7A=="));
     }
     
     // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.

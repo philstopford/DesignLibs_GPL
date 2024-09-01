@@ -8208,7 +8208,91 @@ public class GeoCoreTests
         string gds_hash = Utils.GetMD5Hash(gds_polys);
         string oas_hash = Utils.GetMD5Hash(oas_polys);
 
-    // Precomputed hashes. Geometry is differently ordered, so hashes differ
+        Assert.That(gds_polys.Count, Is.EqualTo(oas_polys.Count));
+
+        int x_offset_gds = 0;
+        int y_offset_gds = 0;
+        int x_offset_oas = 0;
+        int y_offset_oas = 0;
+        for (int poly = 0; poly < 7; poly++)
+        {
+            switch (poly)
+            {
+                case 0:
+                    x_offset_gds = 0;
+                    y_offset_gds = 0;
+                    x_offset_oas = 10;
+                    y_offset_oas = -30;
+                    break;
+                case 1:
+                    x_offset_gds = 0;
+                    y_offset_gds = 0;
+                    x_offset_oas = 0;
+                    y_offset_oas = 0;
+                    break;
+                case 2:
+                    x_offset_gds = 8;
+                    y_offset_gds = 50;
+                    x_offset_oas = 0;
+                    y_offset_oas = 0;
+                    break;
+                case 3:
+                    x_offset_gds = -130;
+                    y_offset_gds = 10;
+                    x_offset_oas = -130;
+                    y_offset_oas = 10;
+                    break;
+                case 4:
+                    x_offset_gds = 90;
+                    y_offset_gds = 70;
+                    x_offset_oas = 8;
+                    y_offset_oas = 50;
+                    break;
+                case 5:
+                    x_offset_gds = 30;
+                    y_offset_gds = 50;
+                    x_offset_oas = 30;
+                    y_offset_oas = 50;
+                    break;
+                case 6:
+                    x_offset_gds = 10;
+                    y_offset_gds = -30;
+                    x_offset_oas = 90;
+                    y_offset_oas = 70;
+                    break;
+            }
+            Assert.That(gds_polys[poly].pointarray[0].X, Is.EqualTo(0 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[0].Y, Is.EqualTo(0 + y_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[1].X, Is.EqualTo(0 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[1].Y, Is.EqualTo(20 + y_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[2].X, Is.EqualTo(10 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[2].Y, Is.EqualTo(20 + y_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[3].X, Is.EqualTo(10 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[3].Y, Is.EqualTo(10 + y_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[4].X, Is.EqualTo(20 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[4].Y, Is.EqualTo(10 + y_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[5].X, Is.EqualTo(20 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[5].Y, Is.EqualTo(0 + y_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[6].X, Is.EqualTo(0 + x_offset_gds));
+            Assert.That(gds_polys[poly].pointarray[6].Y, Is.EqualTo(0 + y_offset_gds));
+
+            Assert.That(oas_polys[poly].pointarray[0].X, Is.EqualTo(0 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[0].Y, Is.EqualTo(0 + y_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[1].X, Is.EqualTo(0 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[1].Y, Is.EqualTo(20 + y_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[2].X, Is.EqualTo(10 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[2].Y, Is.EqualTo(20 + y_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[3].X, Is.EqualTo(10 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[3].Y, Is.EqualTo(10 + y_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[4].X, Is.EqualTo(20 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[4].Y, Is.EqualTo(10 + y_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[5].X, Is.EqualTo(20 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[5].Y, Is.EqualTo(0 + y_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[6].X, Is.EqualTo(0 + x_offset_oas));
+            Assert.That(oas_polys[poly].pointarray[6].Y, Is.EqualTo(0 + y_offset_oas));
+        }
+        
+        // Precomputed hashes. Geometry is differently ordered, so hashes differ
         Assert.That(gds_hash, Is.EqualTo("5UJvmu7iw5bkcDvYxrImTQ=="));
         Assert.That(oas_hash, Is.EqualTo("15trvprfnCQH7L8uWiGx7A=="));
     }

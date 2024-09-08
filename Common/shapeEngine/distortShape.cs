@@ -9,10 +9,13 @@ public static class distortShape
     public static PathsD distortion(PathsD input, bool[] drawn, decimal lDC1, decimal lDC2, double resolution)
     {
         Fragmenter fragment = new(resolution);
-        PathsD ret = new ();
+        PathsD ret = new (input);
+#if !SHAPEENGINESINGLETHREADED
+        Parallel.For(0, input.Count, (poly) =>
+#else
         for (int poly = 0; poly < input.Count; poly++)
+#endif
         {
-            ret.Add(new (input[poly]));
             int poly1 = poly;
             switch (drawn[poly])
             {
@@ -23,7 +26,7 @@ public static class distortShape
 #if !SHAPEENGINESINGLETHREADED
                     Parallel.For(0, pCount, point =>
 #else
-                    for (Int32 point = 0; point < pCount; point++)
+                    for (int point = 0; point < pCount; point++)
 #endif
                         {
                             double px = ret[poly1][point].x;
@@ -43,7 +46,8 @@ public static class distortShape
                             // '1 -' or '1 +' drive the pincushion/barrel tone. Coefficients being negative will have the same effect, so just pick a direction and stick with it.
                             int amplifier = 1000; // scales up end-user values to work within this approach.
                             double t1 = Convert.ToDouble(lDC1) * amplifier * Utils.myPow(Math.Abs(oRadius), 2);
-                            double t2 = Convert.ToDouble(lDC1) * Utils.myPow(amplifier, 2) * Utils.myPow(Math.Abs(oRadius), 4);
+                            double t2 = Convert.ToDouble(lDC1) * Utils.myPow(amplifier, 2) *
+                                        Utils.myPow(Math.Abs(oRadius), 4);
                             double sFactor = 1 - (t1 + t2);
 
                             /*
@@ -51,7 +55,7 @@ public static class distortShape
                             py *= sFactor * scaleFactorForOperation;
                             */
 
-                            ret[poly1][point] = new (px, py);
+                            ret[poly1][point] = new(px, py);
 
                         }
 #if !SHAPEENGINESINGLETHREADED
@@ -63,9 +67,8 @@ public static class distortShape
                     break;
                 }
             }
-        }
+        });
 
         return ret;
     }
-    
 }

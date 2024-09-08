@@ -12,6 +12,7 @@
 
 using System;
 using System.Text;
+using System.Threading.Tasks;
 
 
 namespace utility;
@@ -342,10 +343,11 @@ public class Histo
     {
         numSmaller_ = 0;
         numLarger_ = 0;
-        for (int i = 0; i < counts_.Length; ++i)
+        int countsLength = counts_.Length;
+        Parallel.For(0, countsLength, (i) =>
         {
             counts_[i] = 0;
-        }
+        });
     }
 
     private void AddSortedData(double[] data)
@@ -402,10 +404,11 @@ public class Histo
         binBoundaries_[0] = minValue;
         binBoundaries_[^1] = maxValue;
         double binSize = (maxValue - minValue) / numBins;
-        for (int i = 1; i < binBoundaries_.Length - 1; ++i)
+        int binBoundariesLength = binBoundaries_.Length - 1;
+        Parallel.For(1, binBoundariesLength, (i) =>
         {
             binBoundaries_[i] = binBoundaries_[0] + i * binSize;
-        }
+        });
     }
 
     /// <summary>

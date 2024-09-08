@@ -525,22 +525,23 @@ public class OVPSettings
 	public static PointF[] convertToClosedPointF(PathD poly)
 	{
 		PointF[] tempPoly;
+		bool forceClosed = false;
+		int polyCount = poly.Count;
 		if (!(Math.Abs(poly[0].x - poly[^1].x) > double.Epsilon) ||
 		    !(Math.Abs(poly[0].y - poly[^1].y) > double.Epsilon))
 		{
-			tempPoly = new PointF[poly.Count];
-			for (int pt = 0; pt < poly.Count; pt++)
-			{
-				tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
-			}
+			forceClosed = true;
+			polyCount++;
 		}
-		else
+
+		tempPoly = new PointF[polyCount];
+		Parallel.For(0, forceClosed ? polyCount : polyCount - 1, (pt) => // (int pt = 0; pt < poly.Count; pt++)
 		{
-			tempPoly = new PointF[poly.Count + 1];
-			for (int pt = 0; pt < poly.Count; pt++)
-			{
-				tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
-			}
+			tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
+		});
+
+		if (forceClosed)
+		{
 			tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
 		}
 
@@ -555,11 +556,12 @@ public class OVPSettings
 			return poly;
 		}
 
+		int polyLength = poly.Length;
 		PointF[] tempPoly = new PointF[poly.Length + 1];
-		for (int pt = 0; pt < poly.Length; pt++)
+		Parallel.For(0, polyLength, (pt) =>
 		{
 			tempPoly[pt] = new PointF(poly[pt].X, poly[pt].Y);
-		}
+		});
 		tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
 		return tempPoly;
 	}
@@ -568,11 +570,12 @@ public class OVPSettings
 	{
 		Tess tess = new();
 
-		ContourVertex[] contour = new ContourVertex[source.Length];
-		for (int pt = 0; pt < contour.Length; pt++)
+		int sourceLength = source.Length;
+		ContourVertex[] contour = new ContourVertex[sourceLength];
+		Parallel.For(0, sourceLength, (pt) =>
 		{
 			contour[pt].Position = new Vec3 { X = source[pt].X, Y = source[pt].Y, Z = 0 };
-		}
+		});
 		tess.AddContour(contour, ContourOrientation.Clockwise); // keep our orientation to allow holes to be handled.
 
 		// Triangulate.

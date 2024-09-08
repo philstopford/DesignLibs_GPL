@@ -124,6 +124,24 @@ public static class RNG
         return random.Next();
     }
 
+    public static int nextint(int seed)
+    {
+        Random random = _local;
+
+        switch (random)
+        {
+            case null:
+            {
+                byte[] buffer = new byte[4];
+                _global.GetBytes(buffer);
+                _local = random = new Random(seed);
+                break;
+            }
+        }
+
+        return random.Next();
+    }
+
     public static int nextint(int min, int max, int seed)
     {
         Random random = _local;

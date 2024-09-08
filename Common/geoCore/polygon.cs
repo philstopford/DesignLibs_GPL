@@ -4,6 +4,7 @@ using oasis;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Clipper2Lib;
 
 namespace geoCoreLib;
@@ -77,10 +78,11 @@ public class GCPolygon : GCElement
 
     public override void resize(double factor)
     {
-        for (int i = 0; i < pointarray.Count; i++)
+        int pointarrayCount = pointarray.Count;
+        Parallel.For(0, pointarrayCount, (i) =>
         {
-            pointarray[i] = new (pointarray[i].X * factor, pointarray[i].Y * factor);
-        }
+            pointarray[i] = new(pointarray[i].X * factor, pointarray[i].Y * factor);
+        });
     }
 
     public override void scale(Point64 origin, double size)
@@ -228,11 +230,11 @@ public class GCPolygon : GCElement
             a = 0;
             for (int i = 0; i < pointarray.Count - 1; i++)
             {
-                switch (pointarray.Count)
+                if (pointarray.Count < 4)
                 {
-                    case < 4:
-                        return; //no area
+                    return; //no area
                 }
+
                 if (pointarray[i] == pointarray[i + 1])
                 {
                     deletePoint(i + 1);

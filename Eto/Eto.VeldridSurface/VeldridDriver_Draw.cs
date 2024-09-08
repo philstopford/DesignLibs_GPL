@@ -128,15 +128,15 @@ public partial class VeldridDriver
 				});
 				
 				tessIndices = new uint[tessPolyListCount * 3];
-				for (int i = 0; i < tessPolyListCount * 3; i++)
+				Parallel.For(0, tessPolyListCount * 3, (i) =>
 				{
 					tessIndices[i] = (uint)i;
-				}
+				});
 			}
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-			Parallel.For(0, fgPolyListCount, (poly) =>
-				// for (int poly = 0; poly < fgPolyListCount; poly++)
+			Parallel.For(0, fgPolyListCount, (poly) => 
+			// for (int poly = 0; poly < fgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.polyList[poly].alpha;
 				if (ovpSettings.drawFilled())
@@ -258,15 +258,15 @@ public partial class VeldridDriver
 			});
 
 			polyIndices = new uint[totalPolyListCount];
-			for (int i = 0; i < totalPolyListCount; i++)
+			Parallel.For(0, totalPolyListCount, (i) => // (int i = 0; i < totalPolyListCount; i++)
 			{
 				polyIndices[i] = (uint)i;
-			}
+			});
 			pointsIndices = new uint[pointListCount];
-			for (int i = 0; i < pointListCount; i++)
+			Parallel.For(0, pointListCount, (i) => // (int i = 0; i < pointListCount; i++)
 			{
 				pointsIndices[i] = (uint)i;
-			}
+			});
 		}
 		catch (Exception ex)
 		{
@@ -367,10 +367,10 @@ public partial class VeldridDriver
 			int counter = lineList.Length;
 			
 			linesIndices = new uint[counter];
-			for (int i = 0; i < counter; i++)
+			Parallel.For(0, counter, (i) => // (int i = 0; i < counter; i++)
 			{
 				linesIndices[i] = (uint)i;
-			}
+			});
 		}
 		catch (Exception ex)
 		{
@@ -550,10 +550,10 @@ public partial class VeldridDriver
 			case > 0:
 			{
 				gridIndices = new uint[gridCount];
-				for (uint i = 0; i < gridIndices.Length; i++)
+				Parallel.For(0, gridIndices.Length, (int i) => //; i < gridIndices.Length; i++)
 				{
-					gridIndices[i] = i;
-				}
+					gridIndices[i] = (uint)i;
+				});
 				updateBuffer(ref GridVertexBuffer, grid.ToArray(), VertexPositionColor.SizeInBytes,
 					BufferUsage.VertexBuffer);
 				updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);

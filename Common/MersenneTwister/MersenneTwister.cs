@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace MersenneTwisterRNG;
 
@@ -61,9 +62,12 @@ public class MersenneTwister
     /// <param name="init">The array for initializing keys.</param>
     public MersenneTwister(int[] init)
     {
-        uint[] initArray = new uint[init.Length];
-        for (int i = 0; i < init.Length; ++i)
+        int initLength = init.Length;
+        uint[] initArray = new uint[initLength];
+        Parallel.For(0, initLength, (i) =>
+        {
             initArray[i] = (uint)init[i];
+        });
 
         init_by_array(initArray, (uint)initArray.Length);
     }
@@ -244,9 +248,12 @@ public class MersenneTwister
     /// <param name="init">The array for initializing keys.</param>
     public void Initialize(int[] init)
     {
-        uint[] initArray = new uint[init.Length];
-        for (int i = 0; i < init.Length; ++i)
+        int initLength = init.Length;
+        uint[] initArray = new uint[initLength];
+        Parallel.For (0, initLength, (i) =>
+        {
             initArray[i] = (uint)init[i];
+        });
 
         init_by_array(initArray, (uint)initArray.Length);
     }

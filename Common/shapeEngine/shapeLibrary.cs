@@ -274,7 +274,7 @@ public class ShapeLibrary
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, arrayLength, i =>
 #else
-            for (Int32 i = 0; i < arrayLength; i++)
+            for (int i = 0; i < arrayLength; i++)
 #endif
             {
                 tips[i] = false;
@@ -287,7 +287,7 @@ public class ShapeLibrary
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, arrayLength, i =>
 #else
-            for (Int32 i = 0; i < arrayLength; i++)
+            for (int i = 0; i < arrayLength; i++)
 #endif
             {
                 round1[i] = new MyRound();

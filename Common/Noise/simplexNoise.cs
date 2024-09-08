@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
+using entropyRNG;
 
 namespace Noise;
 
@@ -27,15 +29,13 @@ public class SimplexNoise
         frequencys = new double[numberOfOctaves];
         amplitudes = new double[numberOfOctaves];
 
-        Random rand = new(seed);
-
-        for (int i = 0; i < numberOfOctaves; i++)
+        Parallel.For(0, numberOfOctaves, (i) => // (int i = 0; i < numberOfOctaves; i++)
         {
-            octaves[i] = new SimplexNoiseOctave(rand.Next());
+            octaves[i] = new SimplexNoiseOctave(RNG.nextint(seed));
 
             frequencys[i] = Math.Pow(2, i);
             amplitudes[i] = Math.Pow(persistence, octaves.Length - i);
-        }
+        });
     }
 
     /// <summary>
@@ -127,23 +127,23 @@ public class SimplexNoiseOctave
         };
 
         // The random for the swaps
-        Random rand = new(seed);
+        // Random rand = new(seed);
 
         // The seed determines the swaps that occur between the default order and the order we're actually going to use
-        for (int i = 0; i < NumberOfSwaps; i++)
+        Parallel.For(0, NumberOfSwaps, (i) =>
         {
-            int swapFrom = rand.Next(p.Length);
-            int swapTo = rand.Next(p.Length);
+            int swapFrom = RNG.nextint(p.Length);
+            int swapTo = RNG.nextint(p.Length);
 
             (p[swapFrom], p[swapTo]) = (p[swapTo], p[swapFrom]);
-        }
+        });
 
 
-        for (int i = 0; i < 512; i++)
+        Parallel.For(0, 512, (i) =>
         {
             perm[i] = p[i & 255];
             permMod12[i] = (short)(perm[i] % 12);
-        }
+        });
     }
 
     // Skewing and unskewing factors for 2 dimensions
@@ -308,10 +308,10 @@ public class SimplexNoiseOld
 
     static SimplexNoiseOld()
     {
-        for (int i = 0; i < 512; i++)
+        Parallel.For(0, 512, (i) =>
         {
             Perm[i] = P[i & 255];
-        }
+        });
 
         Singleton = new SimplexNoiseOld();
     }

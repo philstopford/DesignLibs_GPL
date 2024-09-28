@@ -10,6 +10,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
@@ -478,9 +479,7 @@ namespace Clipper2Lib
     public Path64(IEnumerable<Point64> path) : base(path) { }
     public override string ToString()
     {
-      string s = "";
-      foreach (Point64 p in this)
-        s = s + p.ToString() + ", ";
+      string s = this.Aggregate("", (current, p) => current + p.ToString() + ", ");
       if (s != "") s = s.Remove(s.Length - 2);
       return s;
     }
@@ -493,10 +492,7 @@ namespace Clipper2Lib
     public Paths64(IEnumerable<Path64> paths) : base(paths) { }
     public override string ToString()
     {
-      string s = "";
-      foreach (Path64 p in this)
-        s = s + p + "\n";
-      return s;
+      return this.Aggregate("", (current, p) => current + p + "\n");
     }
   }
 
@@ -507,9 +503,7 @@ namespace Clipper2Lib
     public PathD(IEnumerable<PointD> path) : base(path) { }
     public string ToString(int precision = 2)
     {
-      string s = "";
-      foreach (PointD p in this)
-        s = s + p.ToString(precision) + ", ";
+      string s = this.Aggregate("", (current, p) => current + p.ToString(precision) + ", ");
       if (s != "") s = s.Remove(s.Length - 2);
       return s;
     }
@@ -522,10 +516,7 @@ namespace Clipper2Lib
     public PathsD(IEnumerable<PathD> paths) : base(paths) { }
     public string ToString(int precision = 2)
     {
-      string s = "";
-      foreach (PathD p in this)
-        s = s + p.ToString(precision) + "\n";
-      return s;
+      return this.Aggregate("", (current, p) => current + p.ToString(precision) + "\n");
     }
   }
 
@@ -537,13 +528,13 @@ namespace Clipper2Lib
     Union,
     Difference,
     Xor
-  };
+  }
 
   public enum PathType
   {
     Subject,
     Clip
-  };
+  }
 
   // By far the most widely used filling rules for polygons are EvenOdd
   // and NonZero, sometimes called Alternate and Winding respectively.
@@ -554,7 +545,7 @@ namespace Clipper2Lib
     NonZero,
     Positive,
     Negative
-  };
+  }
 
   // PointInPolygon
   internal enum PipResult
@@ -562,7 +553,7 @@ namespace Clipper2Lib
     Inside,
     Outside,
     OnEdge
-  };
+  }
 
   public static class InternalClipper
   {
@@ -612,8 +603,7 @@ namespace Clipper2Lib
     internal static int TriSign(long x) // returns 0, 1 or -1
     {
       if (x < 0) return -1;
-      else if (x > 1) return 1;  
-      else return 0;
+      return x > 1 ? 1 : 0;
     }
 
     public struct MultiplyUInt64Result
@@ -725,24 +715,19 @@ namespace Clipper2Lib
     internal static bool SegsIntersect(Point64 seg1a, 
       Point64 seg1b, Point64 seg2a, Point64 seg2b, bool inclusive = false)
     {
-      if (inclusive)
-      {
-        double res1 = CrossProduct(seg1a, seg2a, seg2b);
-        double res2 = CrossProduct(seg1b, seg2a, seg2b);
-        if (res1 * res2 > 0) return false;
-        double res3 = CrossProduct(seg2a, seg1a, seg1b);
-        double res4 = CrossProduct(seg2b, seg1a, seg1b);
-        if (res3 * res4 > 0) return false;
-        // ensure NOT collinear
-        return (res1 != 0 || res2 != 0 || res3 != 0 || res4 != 0);
-      }
-      else
-      {
-        return (CrossProduct(seg1a, seg2a, seg2b) * 
-          CrossProduct(seg1b, seg2a, seg2b) < 0) &&
-          (CrossProduct(seg2a, seg1a, seg1b) * 
-          CrossProduct(seg2b, seg1a, seg1b) < 0);
-      }
+      if (!inclusive)
+        return (CrossProduct(seg1a, seg2a, seg2b) *
+                 CrossProduct(seg1b, seg2a, seg2b) < 0) &&
+               (CrossProduct(seg2a, seg1a, seg1b) *
+                 CrossProduct(seg2b, seg1a, seg1b) < 0);
+      double res1 = CrossProduct(seg1a, seg2a, seg2b);
+      double res2 = CrossProduct(seg1b, seg2a, seg2b);
+      if (res1 * res2 > 0) return false;
+      double res3 = CrossProduct(seg2a, seg1a, seg1b);
+      double res4 = CrossProduct(seg2b, seg1a, seg1b);
+      if (res3 * res4 > 0) return false;
+      // ensure NOT collinear
+      return (res1 != 0 || res2 != 0 || res3 != 0 || res4 != 0);
     }
     public static Point64 GetClosestPtOnSegment(Point64 offPt,
     Point64 seg1, Point64 seg2)
@@ -783,13 +768,13 @@ namespace Clipper2Lib
         if (isAbove)
         {
           while (i < end && polygon[i].Y < pt.Y) i++;
-          if (i == end) continue;
         }
         else
         {
           while (i < end && polygon[i].Y > pt.Y) i++;
-          if (i == end) continue;
         }
+
+        if (i == end) continue;
 
         Point64 curr = polygon[i], prev;
         if (i > 0) prev = polygon[i - 1];
@@ -823,20 +808,13 @@ namespace Clipper2Lib
         i++;
       }
 
-      if (isAbove != startingAbove)
-      {
-        if (i == len) i = 0;  
-        if (i == 0)
-          d = CrossProduct(polygon[len - 1], polygon[0], pt);
-        else
-          d = CrossProduct(polygon[i - 1], polygon[i], pt);
-        if (d == 0) return PointInPolygonResult.IsOn;
-        if ((d < 0) == isAbove) val = 1 - val;
-      }
+      if (isAbove == startingAbove) return val == 0 ? PointInPolygonResult.IsOutside : PointInPolygonResult.IsInside;
+      if (i == len) i = 0;  
+      d = i == 0 ? CrossProduct(polygon[len - 1], polygon[0], pt) : CrossProduct(polygon[i - 1], polygon[i], pt);
+      if (d == 0) return PointInPolygonResult.IsOn;
+      if ((d < 0) == isAbove) val = 1 - val;
 
-      if (val == 0)
-        return PointInPolygonResult.IsOutside;
-      return PointInPolygonResult.IsInside;
+      return val == 0 ? PointInPolygonResult.IsOutside : PointInPolygonResult.IsInside;
     }
 
   } // InternalClipper

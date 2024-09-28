@@ -9,10 +9,11 @@
 
 #nullable enable
 using System;
+using System.Linq;
 
 namespace Clipper2Lib
 {
-  public class Minkowski
+  public static class Minkowski
   {
     private static Paths64 MinkowskiInternal(Path64 pattern, Path64 path, bool isSum, bool isClosed)
     {
@@ -25,13 +26,11 @@ namespace Clipper2Lib
         Path64 path2 = new Path64(patLen);
         if (isSum)
         {
-          foreach (Point64 basePt in pattern)
-            path2.Add(pathPt + basePt);
+          path2.AddRange(pattern.Select(basePt => pathPt + basePt));
         }
         else
         {
-          foreach (Point64 basePt in pattern)
-            path2.Add(pathPt - basePt);
+          path2.AddRange(pattern.Select(basePt => pathPt - basePt));
         }
         tmp.Add(path2);
       }

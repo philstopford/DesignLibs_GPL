@@ -266,7 +266,7 @@ public class GCCell
 
     private void pAddCellrefArray(GCCell c, Point64 pos, double angle, double mag, bool mirror_x, Repetition r)
     {
-        GCCellRefArray e = new GCCellRefArray(c, angle, mag, mirror_x, r);
+        GCCellRefArray e = new(c, angle, mag, mirror_x, r);
         e.move(pos);
         pAddElement(e);
     }

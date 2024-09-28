@@ -392,9 +392,9 @@ public class CustomThreadPool
         {
             Delegate[] delegates = eh.GetInvocationList();
             bool handled = false;
-            foreach (var @delegate in delegates)
+            foreach (Delegate @delegate in delegates)
             {
-                var d = (ThreadPoolExceptionHandler) @delegate;
+                ThreadPoolExceptionHandler d = (ThreadPoolExceptionHandler) @delegate;
                 d(this, workItem, e, ref handled);
                 switch (handled)
                 {
@@ -446,9 +446,9 @@ public class CustomThreadPool
         if (delegateToFire != null)
         {
             Delegate[] delegates = delegateToFire.GetInvocationList();
-            foreach (var @delegate in delegates)
+            foreach (Delegate @delegate in delegates)
             {
-                var d = (BeforeWorkItemHandler) @delegate;
+                BeforeWorkItemHandler d = (BeforeWorkItemHandler) @delegate;
                 d(this, workItem, ref cancel);
                 switch (cancel)
                 {

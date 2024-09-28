@@ -14,9 +14,9 @@ internal struct Instruction
 
     internal Instruction(InstructionType type, byte size, byte mode)
     {
-        this.Type = type;
-        this.Size = size;
-        this.Mode = mode;
+        Type = type;
+        Size = size;
+        Mode = mode;
     }
 
 

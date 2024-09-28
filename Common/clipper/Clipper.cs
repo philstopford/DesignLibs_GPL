@@ -91,7 +91,7 @@ namespace Clipper2Lib
     public static Paths64 BooleanOp(ClipType clipType,
       Paths64? subject, Paths64? clip, FillRule fillRule)
     {
-      Paths64 solution = [];
+      Paths64 solution = new Paths64();
       if (subject == null) return solution;
       Clipper64 c = new Clipper64();
       c.AddPaths(subject, PathType.Subject);
@@ -116,7 +116,7 @@ namespace Clipper2Lib
     public static PathsD BooleanOp(ClipType clipType, PathsD subject, PathsD? clip, 
       FillRule fillRule, int precision = 2)
     {
-      PathsD solution = [];
+      PathsD solution = new PathsD();
       ClipperD c = new ClipperD(precision);
       c.AddSubject(subject);
       if (clip != null)
@@ -142,7 +142,7 @@ namespace Clipper2Lib
     {
       ClipperOffset co = new ClipperOffset(miterLimit);
       co.AddPaths(paths, joinType, endType);
-      Paths64 solution = [];
+      Paths64 solution = new Paths64();
       co.Execute(delta, solution);
       return solution;
     }
@@ -161,22 +161,22 @@ namespace Clipper2Lib
 
     public static Paths64 RectClip(Rect64 rect, Paths64 paths)
     {
-      if (rect.IsEmpty() || paths.Count == 0) return [];
+      if (rect.IsEmpty() || paths.Count == 0) return new Paths64();
       RectClip64 rc = new RectClip64(rect);
       return rc.Execute(paths);
     }
 
     public static Paths64 RectClip(Rect64 rect, Path64 path)
     {
-      if (rect.IsEmpty() || path.Count == 0) return [];
-      Paths64 tmp = [path];
+      if (rect.IsEmpty() || path.Count == 0) return new Paths64();
+      Paths64 tmp = new Paths64 { path };
       return RectClip(rect, tmp);
     }
     
     public static PathsD RectClip(RectD rect, PathsD paths, int precision = 2)
     {
       InternalClipper.CheckPrecision(precision);
-      if (rect.IsEmpty() || paths.Count == 0) return [];
+      if (rect.IsEmpty() || paths.Count == 0) return new PathsD();
       double scale = Math.Pow(10, precision);
       Rect64 r = ScaleRect(rect, scale);
       Paths64 tmpPath = ScalePaths64(paths, scale);
@@ -187,21 +187,21 @@ namespace Clipper2Lib
 
     public static PathsD RectClip(RectD rect, PathD path, int precision = 2)
     {
-      if (rect.IsEmpty() || path.Count == 0) return [];
-      PathsD tmp = [path];
+      if (rect.IsEmpty() || path.Count == 0) return new PathsD();
+      PathsD tmp = new PathsD { path };
       return RectClip(rect, tmp, precision);
     }
     public static Paths64 RectClipLines(Rect64 rect, Paths64 paths)
     {
-      if (rect.IsEmpty() || paths.Count == 0) return [];
+      if (rect.IsEmpty() || paths.Count == 0) return new Paths64();
       RectClipLines64 rc = new RectClipLines64(rect);
       return rc.Execute(paths);
     }
 
     public static Paths64 RectClipLines(Rect64 rect, Path64 path)
     {
-      if (rect.IsEmpty() || path.Count == 0) return [];
-      Paths64 tmp = [path];
+      if (rect.IsEmpty() || path.Count == 0) return new Paths64();
+      Paths64 tmp = new Paths64 { path };
       return RectClipLines(rect, tmp);
     }
 
@@ -209,7 +209,7 @@ namespace Clipper2Lib
       PathsD paths, int precision = 2)
     {
       InternalClipper.CheckPrecision(precision);
-      if (rect.IsEmpty() || paths.Count == 0) return [];
+      if (rect.IsEmpty() || paths.Count == 0) return new PathsD();
       double scale = Math.Pow(10, precision);
       Rect64 r = ScaleRect(rect, scale);
       Paths64 tmpPath = ScalePaths64(paths, scale);
@@ -219,8 +219,8 @@ namespace Clipper2Lib
     }
     public static PathsD RectClipLines(RectD rect, PathD path, int precision = 2)
     {
-      if (rect.IsEmpty() || path.Count == 0) return [];
-      PathsD tmp = [path];
+      if (rect.IsEmpty() || path.Count == 0) return new PathsD();
+      PathsD tmp = new PathsD { path };
       return RectClipLines(rect, tmp, precision);
     }
     public static Paths64 MinkowskiSum(Path64 pattern, Path64 path, bool isClosed)
@@ -760,7 +760,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Paths64 PolyTreeToPaths64(PolyTree64 polyTree)
     {
-      Paths64 result = [];
+      Paths64 result = new Paths64();
       for (int i = 0; i < polyTree.Count; i++)
         AddPolyNodeToPaths((PolyPath64) polyTree._childs[i], result);
       return result;
@@ -778,7 +778,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static PathsD PolyTreeToPathsD(PolyTreeD polyTree)
     {
-      PathsD result = [];
+      PathsD result = new PathsD();
       foreach (PolyPathD polyPathBase in polyTree)
       {
         PolyPathD p = (PolyPathD)polyPathBase;
@@ -1072,7 +1072,7 @@ namespace Clipper2Lib
       if (len - i < 3)
       {
         if (!isOpen || len < 2 || path[0] == path[1])
-          return [];
+          return new Path64();
         return path;
       }
 
@@ -1130,7 +1130,7 @@ namespace Clipper2Lib
     public static Path64 Ellipse(Point64 center,
       double radiusX, double radiusY = 0, int steps = 0)
     {
-      if (radiusX <= 0) return [];
+      if (radiusX <= 0) return new Path64();
       if (radiusY <= 0) radiusY = radiusX;
       if (steps <= 2)
         steps = (int) Math.Ceiling(Math.PI * Math.Sqrt((radiusX + radiusY) / 2));
@@ -1152,7 +1152,7 @@ namespace Clipper2Lib
     public static PathD Ellipse(PointD center,
       double radiusX, double radiusY = 0, int steps = 0)
     {
-      if (radiusX <= 0) return [];
+      if (radiusX <= 0) return new PathD();
       if (radiusY <= 0) radiusY = radiusX;
       if (steps <= 2)
         steps = (int) Math.Ceiling(Math.PI * Math.Sqrt((radiusX + radiusY) / 2));

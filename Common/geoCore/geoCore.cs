@@ -549,7 +549,7 @@ public class GeoCore
                 // Query our dictionary.
                 try
                 {
-                    if (layerNames_.TryGetValue(searchString, out var resultString))
+                    if (layerNames_.TryGetValue(searchString, out string resultString))
                     {
                         searchString = resultString;
                     }

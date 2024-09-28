@@ -12,9 +12,9 @@ namespace oasis;
 public partial class oasWriter
 {
     public delegate void StatusUpdateUI(string text);
-    public StatusUpdateUI statusUpdateUI { get; set; }
+    public StatusUpdateUI statusUpdateUI { get; init; }
     public delegate void ProgressUpdateUI(double progress);
-    public ProgressUpdateUI progressUpdateUI { get; set; }
+    public ProgressUpdateUI progressUpdateUI { get; init; }
 
     private EndianBinaryWriter bw;
     private GCDrawingfield drawing_;
@@ -222,7 +222,7 @@ public partial class oasWriter
 
         // Write out the layer names.
         // Layer name mapping
-        foreach (var (key, name) in namedLayers)
+        foreach ((string key, string name) in namedLayers)
         {
             // split the key.
             string[] tokens = key.Split('D');

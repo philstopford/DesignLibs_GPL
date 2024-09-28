@@ -284,8 +284,8 @@ public class MersenneTwister
     private void init_by_array(uint[] init_key, uint key_length)
     {
         init_genrand(19650218U);
-        var i = 1; var j = 0;
-        var k = (int)(N > key_length ? N : key_length);
+        int i = 1; int j = 0;
+        int k = (int)(N > key_length ? N : key_length);
         for (; k > 0; k--)
         {
             mt[i] = (uint)((mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >> 30)) * 1664525U)) + init_key[j] + j); /* non linear */

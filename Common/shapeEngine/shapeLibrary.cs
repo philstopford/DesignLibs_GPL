@@ -2160,7 +2160,7 @@ public class ShapeLibrary
             {
                 // Get our associated vertical edge Y position
                 double yPoint2 = Vertex[round1[(corner + 1) % (round1.Length - 1)].horFace].Y;
-                var yPoint1 = corner switch
+                double yPoint1 = corner switch
                 {
                     0 =>
                         // Need to wrap around for bias look-up
@@ -2239,7 +2239,7 @@ public class ShapeLibrary
         double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0));
         double iCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
         double oCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
-        Fragmenter fragment = new Fragmenter(resolution);
+        Fragmenter fragment = new(resolution);
         PathD mcPoints = [];
         PathD
             mcHorEdgePoints = []; // corner coordinates list, used as a temporary container for each iteration

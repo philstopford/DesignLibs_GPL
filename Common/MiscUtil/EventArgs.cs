@@ -17,6 +17,6 @@ public class EventArgs<T> : System.EventArgs
     /// <param name="value">The Value of the EventArgs&lt;T&gt; instance.</param>
     public EventArgs(T value)
     {
-        this.Value = value;
+        Value = value;
     }
 }

@@ -539,7 +539,7 @@ public class Repetition
         
         // Scale and rotate.
         List<GCPolygon> scaled_and_rotated = [];
-        foreach (var temp in geo.Select(poly => new GCPolygon(poly)))
+        foreach (GCPolygon temp in geo.Select(poly => new GCPolygon(poly)))
         {
             if (x_reflection)
             {
@@ -559,7 +559,7 @@ public class Repetition
         {
             foreach (Point64 offset in offsets)
             {
-                foreach (var temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
+                foreach (GCPolygon temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
                 {
                     temp.move(offset);
                     ret.Add(temp);
@@ -571,7 +571,7 @@ public class Repetition
         {
             for (int idx = 0; idx < coords.Count; idx += 2)
             {
-                foreach (var temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
+                foreach (GCPolygon temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
                 {
                     temp.move(new Point64(coords[idx], coords[idx+1]));
                     ret.Add(temp);
@@ -585,7 +585,7 @@ public class Repetition
             {
                 for (int x = 0; x < columns; x++)
                 {
-                    foreach (var temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
+                    foreach (GCPolygon temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
                     {
                         temp.move(new Point64(x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
                         ret.Add(temp);

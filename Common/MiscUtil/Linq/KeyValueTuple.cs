@@ -22,8 +22,8 @@ public struct KeyValueTuple<TKey, T>
     /// </summary>
     public KeyValueTuple(TKey key, T value)
     {
-        this.Key = key;
-        this.Value = value;
+        Key = key;
+        Value = value;
     }
 }
 /// <summary>
@@ -54,9 +54,9 @@ public struct KeyValueTuple<TKey, T1, T2>
     /// </summary>
     public KeyValueTuple(TKey key, T1 value1, T2 value2)
     {
-        this.Key = key;
-        this.Value1 = value1;
-        this.Value2 = value2;
+        Key = key;
+        Value1 = value1;
+        Value2 = value2;
     }
 }
 /// <summary>
@@ -93,10 +93,10 @@ public struct KeyValueTuple<TKey, T1, T2, T3>
     /// </summary>
     public KeyValueTuple(TKey key, T1 value1, T2 value2, T3 value3)
     {
-        this.Key = key;
-        this.Value1 = value1;
-        this.Value2 = value2;
-        this.Value3 = value3;
+        Key = key;
+        Value1 = value1;
+        Value2 = value2;
+        Value3 = value3;
     }
 }
 /// <summary>
@@ -139,10 +139,10 @@ public struct KeyValueTuple<TKey, T1, T2, T3, T4>
     /// </summary>
     public KeyValueTuple(TKey key, T1 value1, T2 value2, T3 value3, T4 value4)
     {
-        this.Key = key;
-        this.Value1 = value1;
-        this.Value2 = value2;
-        this.Value3 = value3;
-        this.Value4 = value4;
+        Key = key;
+        Value1 = value1;
+        Value2 = value2;
+        Value3 = value3;
+        Value4 = value4;
     }
 }

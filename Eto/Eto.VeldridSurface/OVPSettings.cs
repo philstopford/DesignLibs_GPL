@@ -534,7 +534,7 @@ public class OVPSettings
 		}
 
 		var tempPoly = new PointF[polyCount];
-		Parallel.For(0, forceClosed ? polyCount : polyCount - 1, (pt) => // (int pt = 0; pt < poly.Count; pt++)
+		Parallel.For(0, forceClosed ? polyCount : polyCount - 1, pt => // (int pt = 0; pt < poly.Count; pt++)
 		{
 			tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
 		});
@@ -557,7 +557,7 @@ public class OVPSettings
 
 		int polyLength = poly.Length;
 		PointF[] tempPoly = new PointF[poly.Length + 1];
-		Parallel.For(0, polyLength, (pt) =>
+		Parallel.For(0, polyLength, pt =>
 		{
 			tempPoly[pt] = new PointF(poly[pt].X, poly[pt].Y);
 		});
@@ -571,7 +571,7 @@ public class OVPSettings
 
 		int sourceLength = source.Length;
 		ContourVertex[] contour = new ContourVertex[sourceLength];
-		Parallel.For(0, sourceLength, (pt) =>
+		Parallel.For(0, sourceLength, pt =>
 		{
 			contour[pt].Position = new Vec3 { X = source[pt].X, Y = source[pt].Y, Z = 0 };
 		});

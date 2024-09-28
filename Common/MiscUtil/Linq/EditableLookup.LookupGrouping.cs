@@ -12,7 +12,7 @@ partial class EditableLookup<TKey, TElement>
 
         public LookupGrouping(TKey key)
         {
-            this.Key = key;
+            Key = key;
         }
         public int Count => items.Count;
 

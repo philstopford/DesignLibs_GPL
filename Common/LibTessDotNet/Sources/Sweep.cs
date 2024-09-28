@@ -1098,7 +1098,7 @@ public partial class Tess
                 // created by ConnectRightVertex().
                 case false:
                     Debug.Assert(reg._fixUpperEdge);
-                    var fixedEdges = 0;
+                    int fixedEdges = 0;
                     Debug.Assert(++fixedEdges == 1);
                     break;
             }

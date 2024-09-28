@@ -117,8 +117,8 @@ public class SyncLock
             null => "Anonymous Lock",
             _ => name
         };
-        this.Name = name;
-        this.DefaultTimeout = defaultTimeout;
+        Name = name;
+        DefaultTimeout = defaultTimeout;
     }
     #endregion
 

@@ -10,7 +10,7 @@ internal sealed class CodeTable
     /// <summary>
     /// Default code table specified in RFC 3284.
     /// </summary>
-    static internal CodeTable Default = BuildDefaultCodeTable();
+    internal static CodeTable Default = BuildDefaultCodeTable();
 
     /// <summary>
     /// Array of entries in the code table

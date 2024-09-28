@@ -2,29 +2,29 @@
 using System.Linq.Expressions;
 using MiscUtil.Linq;
 #endif
-namespace MiscUtil
-{
-    /// <summary>
-    /// The Operator class provides easy access to the standard operators
-    /// (addition, etc) for generic types, using type inference to simplify
-    /// usage.
-    /// </summary>
-    public static class Operator
-    {
+namespace MiscUtil;
 
-        /// <summary>
-        /// Indicates if the supplied value is non-null,
-        /// for reference-types or Nullable&lt;T&gt;
-        /// </summary>
-        /// <returns>True for non-null values, else false</returns>
-        public static bool HasValue<T>(T value)
-        {
+/// <summary>
+/// The Operator class provides easy access to the standard operators
+/// (addition, etc) for generic types, using type inference to simplify
+/// usage.
+/// </summary>
+public static class Operator
+{
+
+    /// <summary>
+    /// Indicates if the supplied value is non-null,
+    /// for reference-types or Nullable&lt;T&gt;
+    /// </summary>
+    /// <returns>True for non-null values, else false</returns>
+    public static bool HasValue<T>(T value)
+    {
 #if DOTNET35
             return Operator<T>.NullOp.HasValue(value);
 #else
-            return value != null;
+        return value != null;
 #endif
-        }
+    }
 #if DOTNET35
         /// <summary>
         /// Increments the accumulator only
@@ -443,5 +443,4 @@ namespace MiscUtil
             }
         }
 #endif
-    }
 }

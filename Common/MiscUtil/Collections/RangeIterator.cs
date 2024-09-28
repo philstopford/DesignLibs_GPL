@@ -50,9 +50,9 @@ public class RangeIterator<T> : IEnumerable<T>
             case false when range.Comparer.Compare(range.End, step(range.End)) <= 0:
                 throw new ArgumentException("step does nothing, or progresses the wrong way");
         }
-        this.Ascending = ascending;
-        this.Range = range;
-        this.Step = step;
+        Ascending = ascending;
+        Range = range;
+        Step = step;
     }
 
     /// <summary>

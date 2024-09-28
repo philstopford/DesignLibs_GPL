@@ -19,7 +19,7 @@ public sealed class NonClosingStreamWrapper : Stream
     /// <exception cref="ArgumentNullException">stream is null</exception>
     public NonClosingStreamWrapper(Stream stream)
     {
-        this.BaseStream = stream switch
+        BaseStream = stream switch
         {
             null => throw new ArgumentNullException(nameof(stream)),
             _ => stream

@@ -19,7 +19,7 @@ public partial class VeldridDriver
 	public updateHostSelection? updateHostSelectionFunc { get; set; }
 
 	// Clock is exposed to allow client side to enable automatic time-based updates
-	public UITimer Clock { get; } = new UITimer();
+	public UITimer Clock { get; } = new();
 
 	// Is saved location valid?
 	public bool savedLocation_valid { get; private set; }

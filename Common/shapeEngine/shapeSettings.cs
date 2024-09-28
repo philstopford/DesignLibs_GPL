@@ -147,7 +147,7 @@ public class ShapeSettings
         return pGetInt(p, _subShapeRef);
     }
 
-    private int pGetInt(properties_i p, int _subShapeRef)
+    private int pGetInt(properties_i p, int unused)
     {
         int ret = p switch
         {

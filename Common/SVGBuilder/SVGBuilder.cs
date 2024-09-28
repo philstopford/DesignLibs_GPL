@@ -10,12 +10,12 @@ public class OLD__SVGBuilder
 {
     public class StyleInfo
     {
-        public int pft { get; set; }
-        public MyColor brushClr { get; set; }
-        public MyColor penClr { get; set; }
-        public double penWidth { get; set; }
-        public int[] dashArray { get; set; }
-        public bool showCoords { get; set; }
+        public int pft { get; init; }
+        public MyColor brushClr { get; init; }
+        public MyColor penClr { get; init; }
+        public double penWidth { get; init; }
+        public int[] dashArray { get; init; }
+        public bool showCoords { get; init; }
         public StyleInfo Clone()
         {
             StyleInfo si = new()
@@ -42,8 +42,8 @@ public class OLD__SVGBuilder
 
     public class PolyInfo
     {
-        public PathsD polygons { get; set; }
-        public StyleInfo si { get; set; }
+        public PathsD polygons { get; init; }
+        public StyleInfo si { get; init; }
         //public Color pi_color;
 
         public PolyInfo()

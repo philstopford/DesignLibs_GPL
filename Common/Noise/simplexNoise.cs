@@ -29,7 +29,7 @@ public class SimplexNoise
         frequencys = new double[numberOfOctaves];
         amplitudes = new double[numberOfOctaves];
 
-        Parallel.For(0, numberOfOctaves, (i) => // (int i = 0; i < numberOfOctaves; i++)
+        Parallel.For(0, numberOfOctaves, i => // (int i = 0; i < numberOfOctaves; i++)
         {
             octaves[i] = new SimplexNoiseOctave(RNG.nextint(seed));
 
@@ -136,7 +136,7 @@ public class SimplexNoiseOctave
         // Random rand = new(seed);
 
         // The seed determines the swaps that occur between the default order and the order we're actually going to use
-        Parallel.For(0, NumberOfSwaps, (i) =>
+        Parallel.For(0, NumberOfSwaps, i =>
         {
             int swapFrom = RNG.nextint(p.Length);
             int swapTo = RNG.nextint(p.Length);
@@ -145,7 +145,7 @@ public class SimplexNoiseOctave
         });
 
 
-        Parallel.For(0, 512, (i) =>
+        Parallel.For(0, 512, i =>
         {
             perm[i] = p[i & 255];
             permMod12[i] = (short)(perm[i] % 12);
@@ -314,7 +314,7 @@ public class SimplexNoiseOld
 
     static SimplexNoiseOld()
     {
-        Parallel.For(0, 512, (i) =>
+        Parallel.For(0, 512, i =>
         {
             Perm[i] = P[i & 255];
         });
@@ -324,12 +324,12 @@ public class SimplexNoiseOld
 
     public static SimplexNoiseOld Singleton { get; private set; }
 
-    public double Noise01(double x, double y)
+    public static double Noise01(double x, double y)
     {
         return (Noise(x, y) + 1) * 0.5;
     }
 
-    public double MultiNoise(int octaves, double x, double y)
+    public static double MultiNoise(int octaves, double x, double y)
     {
         double value = 0.0;
         float mul = 1;
@@ -342,12 +342,12 @@ public class SimplexNoiseOld
         return value;
     }
 
-    public double MultiNoise01(int octaves, double x, double y)
+    public static double MultiNoise01(int octaves, double x, double y)
     {
         return (MultiNoise(octaves, x, y) + 1.0) * 0.5;
     }
 
-    public double RidgedMulti(int octaves, double x, double y)
+    public static double RidgedMulti(int octaves, double x, double y)
     {
         double value = 0.0;
         double mul = 1;
@@ -447,12 +447,12 @@ public class SimplexNoiseOld
         return 70.0 * (n0 + n1 + n2);
     }
 
-    public double Multi01(int octaves, double x, double y, double z)
+    public static double Multi01(int octaves, double x, double y, double z)
     {
         return (Multi(octaves, x, y, z) + 1) * 0.5;
     }
 
-    public double Multi(int octaves, double x, double y, double z)
+    public static double Multi(int octaves, double x, double y, double z)
     {
         double value = 0.0;
         double mul = 1;
@@ -465,14 +465,14 @@ public class SimplexNoiseOld
         return value;
     }
 
-    public double Noise01(double x, double y, double z)
+    public static double Noise01(double x, double y, double z)
     {
         // Noise  is in the range -1 to +1
         double val = Noise(x, y, z);
         return (val + 1) * 0.5;
     }
 
-    public double RidgedMulti(int octaves, double x, double y, double z)
+    public static double RidgedMulti(int octaves, double x, double y, double z)
     {
         double value = 0.0;
         double mul = 1;
@@ -485,7 +485,7 @@ public class SimplexNoiseOld
         return value;
     }
 
-    public double Noise(double xin, double yin, double zin)
+    public static double Noise(double xin, double yin, double zin)
     {
         double n0, n1, n2, n3; // Noise contributions from the four corners
         // Skew the input space to determine which simplex cell we're in

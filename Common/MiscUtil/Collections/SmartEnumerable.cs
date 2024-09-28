@@ -90,10 +90,10 @@ public class SmartEnumerable<T> : IEnumerable<SmartEnumerable<T>.Entry>
     {
         internal Entry(bool isFirst, bool isLast, T value, int index)
         {
-            this.IsFirst = isFirst;
-            this.IsLast = isLast;
-            this.Value = value;
-            this.Index = index;
+            IsFirst = isFirst;
+            IsLast = isLast;
+            Value = value;
+            Index = index;
         }
 
         /// <summary>

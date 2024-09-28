@@ -61,7 +61,7 @@ namespace VeldridEto;
 			byte[] vertexShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Vertex);
 			byte[] fragmentShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Fragment);
 
-			var options = new CrossCompileOptions();
+			CrossCompileOptions? options = new();
 			switch (Surface!.GraphicsDevice!.BackendType)
 			{
 				// InvertVertexOutputY and FixClipSpaceZ address two major
@@ -106,8 +106,8 @@ namespace VeldridEto;
 			ViewMatrixSet = factory.CreateResourceSet(new ResourceSetDescription(
 				viewMatrixLayout, ViewBuffer));
 
-			var vertex = new ShaderDescription(ShaderStages.Vertex, vertexShaderSpirvBytes, "main", true);
-			var fragment = new ShaderDescription(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
+			ShaderDescription vertex = new(ShaderStages.Vertex, vertexShaderSpirvBytes, "main", true);
+			ShaderDescription fragment = new(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
 			Shader[] shaders = factory.CreateFromSpirv(vertex, fragment, options);
 
 			ResourceLayout modelMatrixLayout = factory.CreateResourceLayout(
@@ -134,7 +134,7 @@ namespace VeldridEto;
 			//
 			//   https://github.com/mellinoe/veldrid/issues/121
 			//
-			var vertexLayout = new VertexLayoutDescription(
+			VertexLayoutDescription vertexLayout = new(
 				new VertexElementDescription("Position", VertexElementSemantic.TextureCoordinate,
 					VertexElementFormat.Float3),
 				new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate,
@@ -223,8 +223,8 @@ namespace VeldridEto;
 			// available, though, the plain .glsl files will do just fine. Look
 			// up glslangValidator to learn how to compile SPIR-V binary files.
 
-			using (var stream = GetType().Assembly.GetManifestResourceStream(full))
-			using (var reader = new BinaryReader(stream!))
+			using (Stream? stream = GetType().Assembly.GetManifestResourceStream(full))
+			using (BinaryReader? reader = new(stream!))
 			{
 				return reader.ReadBytes((int)stream!.Length);
 			}

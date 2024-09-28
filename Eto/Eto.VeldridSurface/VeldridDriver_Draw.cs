@@ -110,12 +110,12 @@ public partial class VeldridDriver
 			if (ovpSettings.drawFilled())
 			{
 				tessPolyList = new VertexPositionColor[tessPolyListCount * 3];
-				Parallel.For(0, tessPolyListCount, (poly) =>
+				Parallel.For(0, tessPolyListCount, poly =>
 				// for (int poly = 0; poly < tessPolyListCount; poly++)
 				{
 					float alpha = ovpSettings.tessPolyList[poly].alpha;
 					float polyZ = poly * polyZStep;
-					Parallel.For(0, 3, (pt) =>
+					Parallel.For(0, 3, pt =>
 					// for(int pt = 0; pt < 3; pt++)
 					{
 						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
@@ -128,14 +128,14 @@ public partial class VeldridDriver
 				});
 				
 				tessIndices = new uint[tessPolyListCount * 3];
-				Parallel.For(0, tessPolyListCount * 3, (i) =>
+				Parallel.For(0, tessPolyListCount * 3, i =>
 				{
 					tessIndices[i] = (uint)i;
 				});
 			}
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-			Parallel.For(0, fgPolyListCount, (poly) => 
+			Parallel.For(0, fgPolyListCount, poly => 
 			// for (int poly = 0; poly < fgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.polyList[poly].alpha;
@@ -155,7 +155,7 @@ public partial class VeldridDriver
 					point_index_offset = ((pointCountBeforeCurrentPolygon_fg[poly] * 6) - 6);
 				}
 
-				Parallel.For(0, polyLength, (pt) =>
+				Parallel.For(0, polyLength, pt =>
 				// for (int pt = 0; pt < polyLength; pt++)
 				{
 					polyList[poly_index_offset + (pt * 2)] = new VertexPositionColor(
@@ -213,7 +213,7 @@ public partial class VeldridDriver
 				});
 			});
 
-			Parallel.For(0, bgPolyListCount, (poly) =>
+			Parallel.For(0, bgPolyListCount, poly =>
 			//for (int poly = 0; poly < bgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
@@ -233,7 +233,7 @@ public partial class VeldridDriver
 				}
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
-				Parallel.For(0, bgPolyLength, (pt) =>
+				Parallel.For(0, bgPolyLength, pt =>
 				//for (int pt = 0; pt < bgPolyLength; pt++)
 				{
 					try
@@ -258,12 +258,12 @@ public partial class VeldridDriver
 			});
 
 			polyIndices = new uint[totalPolyListCount];
-			Parallel.For(0, totalPolyListCount, (i) => // (int i = 0; i < totalPolyListCount; i++)
+			Parallel.For(0, totalPolyListCount, i => // (int i = 0; i < totalPolyListCount; i++)
 			{
 				polyIndices[i] = (uint)i;
 			});
 			pointsIndices = new uint[pointListCount];
-			Parallel.For(0, pointListCount, (i) => // (int i = 0; i < pointListCount; i++)
+			Parallel.For(0, pointListCount, i => // (int i = 0; i < pointListCount; i++)
 			{
 				pointsIndices[i] = (uint)i;
 			});
@@ -294,12 +294,13 @@ public partial class VeldridDriver
 			updateBuffer(ref PointsIndexBuffer, pointsIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
-		if (ovpSettings.drawFilled() && tessPolyListCount > 0)
+		if (!ovpSettings.drawFilled() || tessPolyListCount <= 0)
 		{
-			updateBuffer(ref TessVertexBuffer, tessPolyList!.ToArray(), VertexPositionColor.SizeInBytes,
-				BufferUsage.VertexBuffer);
-			updateBuffer(ref TessIndexBuffer, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+			return;
 		}
+		updateBuffer(ref TessVertexBuffer, tessPolyList!.ToArray(), VertexPositionColor.SizeInBytes,
+			BufferUsage.VertexBuffer);
+		updateBuffer(ref TessIndexBuffer, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 
 	private int linesCount;
@@ -332,7 +333,7 @@ public partial class VeldridDriver
 			// Start and end points for each polygon are not duplicated.
 			// Allow for line shape to be closed.
 			lineList = new VertexPositionColor[(totalPointCount) * 2];
-			Parallel.For (0, linesCount, (poly) =>
+			Parallel.For (0, linesCount, poly =>
 			// for (int poly = 0; poly < linesCount; poly++)
 			{
 				float alpha = ovpSettings.lineList[poly].alpha;
@@ -345,7 +346,7 @@ public partial class VeldridDriver
 					// Start and end points for each polygon are not duplicated.
 					index_offset = (pointCountBeforeCurrentPolygon[poly] * 2);
 				}
-				Parallel.For (0, polyLength - 1, (pt) =>
+				Parallel.For (0, polyLength - 1, pt =>
 				// for (int pt = 0; pt < polyLength - 1; pt++)
 				{
 					lineList[index_offset + (pt * 2)] = (new VertexPositionColor(
@@ -367,7 +368,7 @@ public partial class VeldridDriver
 			int counter = lineList.Length;
 			
 			linesIndices = new uint[counter];
-			Parallel.For(0, counter, (i) => // (int i = 0; i < counter; i++)
+			Parallel.For(0, counter, i => // (int i = 0; i < counter; i++)
 			{
 				linesIndices[i] = (uint)i;
 			});
@@ -383,12 +384,13 @@ public partial class VeldridDriver
 
 	private void updateLineBuffers()
 	{
-		if (linesCount > 0)
+		if (linesCount <= 0)
 		{
-			updateBuffer(ref LinesVertexBuffer, lineList!.ToArray(), VertexPositionColor.SizeInBytes,
-				BufferUsage.VertexBuffer);
-			updateBuffer(ref LinesIndexBuffer, linesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+			return;
 		}
+		updateBuffer(ref LinesVertexBuffer, lineList!.ToArray(), VertexPositionColor.SizeInBytes,
+			BufferUsage.VertexBuffer);
+		updateBuffer(ref LinesIndexBuffer, linesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 
 	private List<VertexPositionColor>? grid;
@@ -550,7 +552,7 @@ public partial class VeldridDriver
 			case > 0:
 			{
 				gridIndices = new uint[gridCount];
-				Parallel.For(0, gridIndices.Length, (int i) => //; i < gridIndices.Length; i++)
+				Parallel.For(0, gridIndices.Length,  i => //; i < gridIndices.Length; i++)
 				{
 					gridIndices[i] = (uint)i;
 				});

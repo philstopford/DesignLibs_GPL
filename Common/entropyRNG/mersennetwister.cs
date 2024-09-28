@@ -47,12 +47,12 @@ public static class MersenneTwister_RNG
 
         // Box-Muller transform
         // We aren't allowed 0, so we reject any values approaching zero.
-        var U1 = random.NextDouble();
+        double U1 = random.NextDouble();
         while (U1 < 1E-15)
         {
             U1 = random.NextDouble();
         }
-        var U2 = random.NextDouble();
+        double U2 = random.NextDouble();
         while (U2 < 1E-15)
         {
             U2 = random.NextDouble();

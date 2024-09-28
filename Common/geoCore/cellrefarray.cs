@@ -653,7 +653,7 @@ public class GCCellRefArray : GCElement
                             ow.writeUnsignedInteger(10);
                             ow.writeUnsignedInteger((uint)(out_.Count));
                             ow.writeGDelta(new PointD(0, 0));//repetition.offsets[0]));
-                            foreach (var t in out_)
+                            foreach (Point64 t in out_)
                             {
                                 ow.writeGDelta(new PointD(t));
                             }

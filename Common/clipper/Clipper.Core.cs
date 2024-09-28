@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  13 May 2024                                                     *
+* Date      :  17 September 2024                                               *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -153,7 +153,7 @@ namespace Clipper2Lib
 #endif
     public readonly override bool Equals(object? obj)
     {
-      if (obj is Point64 p)
+      if (obj != null && obj is Point64 p)
         return this == p;
       return false;
     }
@@ -277,7 +277,7 @@ namespace Clipper2Lib
 
     public readonly override bool Equals(object? obj)
     {
-      if (obj is PointD p)
+      if (obj != null && obj is PointD p)
         return this == p;
       return false;
     }
@@ -532,7 +532,7 @@ namespace Clipper2Lib
   // Note: all clipping operations except for Difference are commutative.
   public enum ClipType
   {
-    None,
+    NoClip,
     Intersection,
     Union,
     Difference,
@@ -598,7 +598,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void CheckPrecision(int precision)
     {
-      if (precision is < -8 or > 8)
+      if (precision < -8 || precision > 8)
         throw new Exception(precision_range_error);
     }
 
@@ -688,7 +688,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static long CheckCastInt64(double val)
     {
-      if (val is >= max_coord or <= min_coord) return Invalid64;
+      if ((val >= max_coord) || (val <= min_coord)) return Invalid64;
       return (long)Math.Round(val, MidpointRounding.AwayFromZero);
     }
 

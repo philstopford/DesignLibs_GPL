@@ -14,7 +14,7 @@ public partial class VeldridDriver
 	public VeldridSurface? Surface
 	{
 		get => _surface;
-		set
+		init
 		{
 			_surface = value;
 

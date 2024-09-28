@@ -80,13 +80,13 @@ public class ThreadPoolWorkItem
             case null:
                 throw new ArgumentNullException(nameof(target));
         }
-        this.ID = id;
-        this.Priority = priority;
-        this.PreserveParameters = preserveParameters;
-        this.Target = target;
+        ID = id;
+        Priority = priority;
+        PreserveParameters = preserveParameters;
+        Target = target;
         if (parameters != null)
         {
-            this.Parameters = cloneParameters ? (object[])parameters.Clone() : parameters;
+            Parameters = cloneParameters ? (object[])parameters.Clone() : parameters;
         }
     }
 

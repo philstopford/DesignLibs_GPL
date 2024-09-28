@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  27 April 2024                                                   *
+* Date      :  17 September 2024                                               *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2024                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -147,7 +147,7 @@ namespace Clipper2Lib
     public OutPt? pts;
     public PolyPathBase? polypath;
     public Rect64 bounds;
-    public Path64 path = [];
+    public Path64 path = new Path64();
     public bool isOpen;
     public List<int>? splits;
     public OutRec? recursiveSplit;
@@ -265,7 +265,7 @@ namespace Clipper2Lib
         if (!isOpen && prev_v.next == prev_v) continue;
 
         // OK, we have a valid path
-        bool going_up;
+        bool going_up, going_up0;
         if (isOpen)
         {
           curr_v = v0.next;
@@ -290,7 +290,7 @@ namespace Clipper2Lib
           going_up = prev_v.pt.Y > v0.pt.Y;
         }
 
-        var going_up0 = going_up;
+        going_up0 = going_up;
         prev_v = v0;
         curr_v = v0.next;
         while (curr_v != v0)
@@ -332,8 +332,8 @@ namespace Clipper2Lib
     internal readonly List<Vertex> _vertexList;
     public ReuseableDataContainer64()
     {
-      _minimaList = [];
-      _vertexList = [];
+      _minimaList = new List<LocalMinima>();
+      _vertexList = new List<Vertex>();
     }
     public void Clear()
     {
@@ -378,13 +378,13 @@ namespace Clipper2Lib
 #endif
     public ClipperBase()
     {
-      _minimaList = [];
-      _intersectList = [];
-      _vertexList = [];
-      _outrecList = [];
-      _scanlineList = [];
-      _horzSegList = [];
-      _horzJoinList = [];
+      _minimaList = new List<LocalMinima>();
+      _intersectList = new List<IntersectNode>();
+      _vertexList = new List<Vertex>();
+      _outrecList = new List<OutRec>();
+      _scanlineList = new List<long>();
+      _horzSegList = new List<HorzSegment>();
+      _horzJoinList = new List<HorzJoin>();
       PreserveCollinear = true;
     }
 
@@ -577,7 +577,8 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Active? GetMaximaPair(Active ae)
     {
-      var ae2 = ae.nextInAEL;
+      Active? ae2;
+      ae2 = ae.nextInAEL;
       while (ae2 != null)
       {
         if (ae2.vertexTop == ae.vertexTop) return ae2; // Found!
@@ -673,7 +674,7 @@ namespace Clipper2Lib
     private static void SetOwner(OutRec outrec, OutRec newOwner)
     {
       //precondition1: new_owner is never null
-      while (newOwner.owner is { pts: null })
+      while (newOwner.owner != null && newOwner.owner.pts == null)
         newOwner.owner = newOwner.owner.owner;
 
       //make sure that outrec isn't an owner of newOwner
@@ -711,7 +712,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static OutRec? GetRealOutRec(OutRec? outRec)
     {
-      while (outRec is { pts: null })
+      while ((outRec != null) && (outRec.pts == null))
         outRec = outRec.owner;
       return outRec;
     }
@@ -909,7 +910,7 @@ namespace Clipper2Lib
           {
             FillRule.Positive => ae.windCount2 > 0,
             FillRule.Negative => ae.windCount2 < 0,
-            _ => ae.windCount2 != 0
+            _ => ae.windCount2 != 0,
           };
 
         case ClipType.Union:
@@ -917,7 +918,7 @@ namespace Clipper2Lib
           {
             FillRule.Positive => ae.windCount2 <= 0,
             FillRule.Negative => ae.windCount2 >= 0,
-            _ => ae.windCount2 == 0
+            _ => ae.windCount2 == 0,
           };
 
         case ClipType.Difference:
@@ -925,7 +926,7 @@ namespace Clipper2Lib
           {
             FillRule.Positive => (ae.windCount2 <= 0),
             FillRule.Negative => (ae.windCount2 >= 0),
-            _ => (ae.windCount2 == 0)
+            _ => (ae.windCount2 == 0),
           };
           return (GetPolyType(ae) == PathType.Subject) ? result : !result;
 
@@ -1674,8 +1675,8 @@ namespace Clipper2Lib
           break;
       }
 
-      bool e1WindCountIs0or1 = oldE1WindCount is 0 or 1;
-      bool e2WindCountIs0or1 = oldE2WindCount is 0 or 1;
+      bool e1WindCountIs0or1 = oldE1WindCount == 0 || oldE1WindCount == 1;
+      bool e2WindCountIs0or1 = oldE2WindCount == 0 || oldE2WindCount == 1;
 
       if ((!IsHotEdge(ae1) && !e1WindCountIs0or1) || 
         (!IsHotEdge(ae2) && !e2WindCountIs0or1)) return;
@@ -1839,7 +1840,7 @@ namespace Clipper2Lib
 
     protected void ExecuteInternal(ClipType ct, FillRule fillRule)
     {
-      if (ct == ClipType.None) return;
+      if (ct == ClipType.NoClip) return;
       _fillrule = fillRule;
       _cliptype = ct;
       Reset();
@@ -1952,7 +1953,7 @@ namespace Clipper2Lib
       while (left!.jump != null)
       {
         prevBase = null;
-        while (left is { jump: not null })
+        while (left != null && left.jump != null)
         {
           currBase = left;
           right = left.jump;
@@ -2299,8 +2300,10 @@ private void DoHorizontal(Active horz)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private Active? DoMaxima(Active ae)
     {
-      var prevE = ae.prevInAEL;
-      var nextE = ae.nextInAEL;
+      Active? prevE;
+      Active? nextE, maxPair;
+      prevE = ae.prevInAEL;
+      nextE = ae.nextInAEL;
 
       if (IsOpenEnd(ae))
       {
@@ -2320,7 +2323,7 @@ private void DoHorizontal(Active horz)
         return nextE;
       }
 
-      var maxPair = GetMaximaPair(ae);
+      maxPair = GetMaximaPair(ae);
       if (maxPair == null) return nextE; // eMaxPair is horizontal
 
       if (IsJoined(ae)) Split(ae, ae.top);
@@ -2584,7 +2587,7 @@ private void DoHorizontal(Active horz)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Path64 GetCleanPath(OutPt op)
     {
-      Path64 result = [];
+      Path64 result = new Path64();
       OutPt op2 = op;
       while (op2.next != op &&
         ((op2.pt.X == op2.next!.pt.X && op2.pt.X == op2.prev.pt.X) ||
@@ -2696,7 +2699,7 @@ private void DoHorizontal(Active horz)
     private void MoveSplits(OutRec fromOr, OutRec toOr)
     {
       if (fromOr.splits == null) return;
-      toOr.splits ??= [];
+      toOr.splits ??= new List<int>();
       foreach (int i in fromOr.splits)
         toOr.splits.Add(i);
       fromOr.splits = null;
@@ -2745,7 +2748,7 @@ private void DoHorizontal(Active horz)
             else
               or2.owner = or1.owner;
 
-            or1.splits ??= [];
+            or1.splits ??= new List<int>();
             or1.splits.Add(or2.idx);
           }
           else
@@ -2851,7 +2854,8 @@ private void DoHorizontal(Active horz)
           prevOp.pt, splitOp.pt, splitOp.next.pt, nextNextOp.pt, out Point64 ip);
 
 #if USINGZ
-      _zCallback?.Invoke(prevOp.pt, splitOp.pt, splitOp.next.pt, nextNextOp.pt, ref ip);
+      if (_zCallback != null)
+        _zCallback(prevOp.pt, splitOp.pt, splitOp.next.pt, nextNextOp.pt, ref ip);
 #endif
 
       double area1 = Area(prevOp);
@@ -2903,12 +2907,12 @@ private void DoHorizontal(Active horz)
         {
           if (Path1InsidePath2(prevOp, newOp))
           {
-            newOutRec.splits ??= [];
+            newOutRec.splits ??= new List<int>();
             newOutRec.splits.Add(outrec.idx);
           }
           else
           {
-            outrec.splits ??= [];
+            outrec.splits ??= new List<int>();
             outrec.splits.Add(newOutRec.idx);
           }
         }
@@ -2990,7 +2994,7 @@ private void DoHorizontal(Active horz)
         OutRec outrec = _outrecList[i++];
         if (outrec.pts == null) continue;
 
-        Path64 path = [];
+        Path64 path = new Path64();
         if (outrec.isOpen)
         {
           if (BuildPath(outrec.pts, ReverseSolution, true, path))
@@ -3099,7 +3103,7 @@ private void DoHorizontal(Active horz)
 
         if (outrec.isOpen)
         {
-          Path64 open_path = [];
+          Path64 open_path = new Path64();
           if (BuildPath(outrec.pts, ReverseSolution, true, open_path))
             solutionOpen.Add(open_path);
           continue;
@@ -3192,7 +3196,7 @@ private void DoHorizontal(Active horz)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Execute(ClipType clipType, FillRule fillRule, Paths64 solutionClosed)
     {
-      return Execute(clipType, fillRule, solutionClosed, []);
+      return Execute(clipType, fillRule, solutionClosed, new Paths64());
     }
 
     public bool Execute(ClipType clipType, FillRule fillRule, PolyTree64 polytree, Paths64 openPaths)
@@ -3217,7 +3221,7 @@ private void DoHorizontal(Active horz)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Execute(ClipType clipType, FillRule fillRule, PolyTree64 polytree)
     {
-      return Execute(clipType, fillRule, polytree, []);
+      return Execute(clipType, fillRule, polytree, new Paths64());
     }
 
 #if USINGZ
@@ -3253,7 +3257,7 @@ private void DoHorizontal(Active horz)
 
     public ClipperD(int roundingDecimalPrecision = 2)
     {
-      if (roundingDecimalPrecision is < -8 or > 8)
+      if (roundingDecimalPrecision < -8 || roundingDecimalPrecision > 8)
         throw new ClipperLibException(precision_range_error);
       _scale = Math.Pow(10, roundingDecimalPrecision);
       _invScale = 1 / _scale;
@@ -3330,7 +3334,7 @@ private void DoHorizontal(Active horz)
     public bool Execute(ClipType clipType, FillRule fillRule,
         PathsD solutionClosed, PathsD solutionOpen)
     {
-      Paths64 solClosed64 = [], solOpen64 = [];
+      Paths64 solClosed64 = new Paths64(), solOpen64 = new Paths64();
 #if USINGZ
       CheckZCallback();
 #endif
@@ -3364,7 +3368,7 @@ private void DoHorizontal(Active horz)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Execute(ClipType clipType, FillRule fillRule, PathsD solutionClosed)
     {
-      return Execute(clipType, fillRule, solutionClosed, []);
+      return Execute(clipType, fillRule, solutionClosed, new PathsD());
     }
 
     public bool Execute(ClipType clipType, FillRule fillRule, PolyTreeD polytree, PathsD openPaths)
@@ -3376,7 +3380,7 @@ private void DoHorizontal(Active horz)
 #if USINGZ
       CheckZCallback();
 #endif
-      Paths64 oPaths = [];
+      Paths64 oPaths = new Paths64();
       bool success = true;
       try
       {
@@ -3401,14 +3405,14 @@ private void DoHorizontal(Active horz)
 
     public bool Execute(ClipType clipType, FillRule fillRule, PolyTreeD polytree)
     {
-      return Execute(clipType, fillRule, polytree, []);
+      return Execute(clipType, fillRule, polytree, new PathsD());
     }
   } // ClipperD class
 
   public abstract class PolyPathBase : IEnumerable
   {
     internal PolyPathBase? _parent;
-    internal List<PolyPathBase> _childs = [];
+    internal List<PolyPathBase> _childs = new List<PolyPathBase>();
 
     public IEnumerator GetEnumerator()
     {
@@ -3422,7 +3426,7 @@ private void DoHorizontal(Active horz)
       [MethodImpl(MethodImplOptions.AggressiveInlining)]
       public NodeEnumerator(List<PolyPathBase> nodes)
       {
-        _nodes = [..nodes];
+        _nodes = new List<PolyPathBase>(nodes);
       }
 
       

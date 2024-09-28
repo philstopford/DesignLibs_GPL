@@ -67,9 +67,9 @@ public class EndianBinaryWriter : IDisposable
             case false:
                 throw new ArgumentException("Stream isn't writable", nameof(stream));
         }
-        this.BaseStream = stream;
-        this.BitConverter = bitConverter;
-        this.Encoding = encoding;
+        BaseStream = stream;
+        BitConverter = bitConverter;
+        Encoding = encoding;
     }
     #endregion
 

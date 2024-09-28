@@ -139,13 +139,13 @@ public class PerlinNoise
 		return _gradients[g] * fx + _gradients[g + 1] * fy + _gradients[g + 2] * fz;
 	}
 
-	private double Lerp(double t, double value0, double value1)
+	private static double Lerp(double t, double value0, double value1)
 	{
 		// Simple linear interpolation.
 		return value0 + t * (value1 - value0);
 	}
 
-	private double Smooth(double x)
+	private static double Smooth(double x)
 	{
 		/* Smoothing curve. This is used to calculate interpolants so that the noise
 		  doesn't look blocky when the frequency is low. */

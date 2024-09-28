@@ -71,9 +71,9 @@ public sealed class Range<T>
                 throw new ArgumentOutOfRangeException(nameof(end), "start must be lower than end according to comparer");
         }
 
-        this.Start = start;
-        this.End = end;
-        this.Comparer = comparer;
+        Start = start;
+        End = end;
+        Comparer = comparer;
         IncludesStart = includeStart;
         IncludesEnd = includeEnd;
     }

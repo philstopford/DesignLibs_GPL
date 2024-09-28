@@ -10,9 +10,9 @@ namespace gds;
 public partial class gdsWriter
 {
     public delegate void StatusUpdateUI(string text);
-    public StatusUpdateUI statusUpdateUI { get; set; }
+    public StatusUpdateUI statusUpdateUI { get; init; }
     public delegate void ProgressUpdateUI(double progress);
-    public ProgressUpdateUI progressUpdateUI { get; set; }
+    public ProgressUpdateUI progressUpdateUI { get; init; }
 
     public EndianBinaryWriter bw { get; set; }
     public GCDrawingfield drawing_ { get; set; }

@@ -44,7 +44,7 @@ public class ProducerGrouping<TKey, TElement> : IProducerGrouping<TKey, TElement
     /// </summary>
     public ProducerGrouping(TKey key, IDataProducer<TElement> source)
     {
-        this.Key = key;
+        Key = key;
         this.source = source;
     }
 }

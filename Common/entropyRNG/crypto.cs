@@ -22,14 +22,14 @@ public static class Crypto_RNG
         // Box-Muller transform
         // We aren't allowed 0, so we reject any values approaching zero.
         random.GetBytes(tmp);
-        var U1 = BitConverter.ToInt32(tmp, 0) / maxInt;
+        double U1 = BitConverter.ToInt32(tmp, 0) / maxInt;
         while (U1 < 1E-15)
         {
             random.GetBytes(tmp);
             U1 = BitConverter.ToInt32(tmp, 0) / maxInt;
         }
         random.GetBytes(tmp);
-        var U2 = BitConverter.ToInt32(tmp, 0) / maxInt;
+        double U2 = BitConverter.ToInt32(tmp, 0) / maxInt;
         while (U2 < 1E-15)
         {
             random.GetBytes(tmp);

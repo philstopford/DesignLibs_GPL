@@ -51,7 +51,7 @@ public static class Proximity
 
         // Ensure geometry meets our needs. This is important for the normal computation and calculations.
         // If this is not done, sawtooth profiles are seen due to problematic ray casts.
-        foreach (var t in sourceGeometry.Where(Clipper.IsPositive))
+        foreach (PathD t in sourceGeometry.Where(Clipper.IsPositive))
         {
             t.Reverse();
         }

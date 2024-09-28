@@ -5,8 +5,8 @@ namespace geoLib;
 public class GeoLibArray
 {
     public Point64 point { get; set; }
-    public Point64 pitch { get; set; }
-    public Point64 count { get; set; }
+    public Point64 pitch { get; init; }
+    public Point64 count { get; init; }
 }
 
 public class GeoLibArrayF

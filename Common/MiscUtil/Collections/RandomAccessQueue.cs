@@ -107,7 +107,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     private RandomAccessQueue(T[] buffer, int count, int start)
     {
         this.buffer = (T[])buffer.Clone();
-        this.Count = count;
+        Count = count;
         this.start = start;
     }
     #endregion

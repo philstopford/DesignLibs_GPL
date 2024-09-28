@@ -34,7 +34,6 @@
 using System;
 using System.Diagnostics;
 
-using Real = double;
 namespace LibTessDotNet.Double;
 
 internal static class Geom

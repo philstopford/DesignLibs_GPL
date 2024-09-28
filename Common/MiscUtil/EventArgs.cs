@@ -6,12 +6,10 @@ namespace MiscUtil;
 /// </summary>
 public class EventArgs<T> : System.EventArgs
 {
-    private readonly T value;
-
     /// <summary>
     /// The typed value of the EventArgs&lt;T&gt;
     /// </summary>
-    public T Value => value;
+    public T Value { get; }
 
     /// <summary>
     /// Creates a new EventArgs&lt;T&gt; with the specified value.
@@ -19,6 +17,6 @@ public class EventArgs<T> : System.EventArgs
     /// <param name="value">The Value of the EventArgs&lt;T&gt; instance.</param>
     public EventArgs(T value)
     {
-        this.value = value;
+        this.Value = value;
     }
 }

@@ -12,12 +12,12 @@ public class GCElement
     public int datatype_nr { get; set; }
     public bool select { get; set; }
 
-    public double angle(Point64 p1, Point64 p2, Point64 p3)
+    public static double angle(Point64 p1, Point64 p2, Point64 p3)
     {
         return pAngle(p1, p2, p3);
     }
 
-    private double pAngle(Point64 p1, Point64 p2, Point64 p3)
+    private static double pAngle(Point64 p1, Point64 p2, Point64 p3)
     {
         double a1, a2;
         PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -89,12 +89,12 @@ public class GCElement
         return a1;
     }
 
-    public double angle(Point64 p1, Point64 p2)
+    public static double angle(Point64 p1, Point64 p2)
     {
         return pAngle(p1, p2);
     }
 
-    private double pAngle(Point64 p1, Point64 p2)
+    private static double pAngle(Point64 p1, Point64 p2)
     {
         double a1;
         PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -140,12 +140,12 @@ public class GCElement
         return a1;
     }
 
-    public bool cutPoint2(Point64 p1, Point64 p2, Point64 p3, Point64 p4, Point64 pc)
+    public static bool cutPoint2(Point64 p1, Point64 p2, Point64 p3, Point64 p4, Point64 pc)
     {
         return pCutPoint2(p1, p2, p3, p4, pc);
     }
 
-    private bool pCutPoint2(Point64 p1, Point64 p2, Point64 p3, Point64 p4, Point64 pc)
+    private static bool pCutPoint2(Point64 p1, Point64 p2, Point64 p3, Point64 p4, Point64 pc)
     {
         //between  p1-p2+p3-p4
         double m1, m2, b1, b2;
@@ -166,22 +166,15 @@ public class GCElement
                     return false;
             }
             pc.X = round((b2 - b1) / (m1 - m2));
-            switch (dif1.y)
+            pc.Y = dif1.y switch
             {
-                case 0:
-                    pc.Y = p1.Y;
-                    break;
-                default:
+                0 => p1.Y,
+                _ => dif2.y switch
                 {
-                    pc.Y = dif2.y switch
-                    {
-                        0 => p3.Y,
-                        _ => round(m1 * pc.X + b1)
-                    };
-
-                    break;
+                    0 => p3.Y,
+                    _ => round(m1 * pc.X + b1)
                 }
-            }
+            };
         }
         switch (dif1.x)
         {
@@ -250,12 +243,12 @@ public class GCElement
         return pc.Y >= p1.Y && pc.Y <= p2.Y && pc.Y >= p3.Y && pc.Y <= p4.Y;
     }
 
-    public double distance(Point64 p1, Point64 p2, Point64 p3)
+    public static double distance(Point64 p1, Point64 p2, Point64 p3)
     {
         return pDistance(p1, p2, p3);
     }
 
-    private double pDistance(Point64 p1, Point64 p2, Point64 p3)
+    private static double pDistance(Point64 p1, Point64 p2, Point64 p3)
     {
         // >0 if left off line
         Point64 dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -285,24 +278,24 @@ public class GCElement
 
     }
 
-    public double distance(Point64 p1, Point64 p2)
+    public static double distance(Point64 p1, Point64 p2)
     {
         return pDistance(p1, p2);
     }
 
-    private double pDistance(Point64 p1, Point64 p2)
+    private static double pDistance(Point64 p1, Point64 p2)
     {
         int dx = (int)(p1.X - p2.X);
         int dy = (int)(p1.X - p2.X);
         return Math.Sqrt(dx * dx + dy * dy);
     }
 
-    public bool identical(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
+    public static bool identical(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         return pIdentical(p1, p2, p3, p4);
     }
 
-    private bool pIdentical(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
+    private static bool pIdentical(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         double m1, m2, b1, b2;
         PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -350,22 +343,22 @@ public class GCElement
         };
     }
 
-    public double length(Point64 p)
+    public static double length(Point64 p)
     {
         return pLength(p);
     }
 
-    private double pLength(Point64 p)
+    private static double pLength(Point64 p)
     {
         return Math.Sqrt(p.X * p.X + p.Y * p.Y);
     }
 
-    public bool parallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
+    public static bool parallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         return pParallel(p1, p2, p3, p4);
     }
 
-    private bool pParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
+    private static bool pParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         double m1, m2;
         Point64 dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -395,12 +388,12 @@ public class GCElement
         };
     }
 
-    public bool nearlyParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
+    public static bool nearlyParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         return pNearlyParallel(p1, p2, p3, p4);
     }
 
-    private bool pNearlyParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
+    private static bool pNearlyParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         double m1, m2;
         PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -410,14 +403,11 @@ public class GCElement
             m1 = dif1.x / dif1.y;
             m2 = dif2.x / dif2.y;
             m2 -= m1;
-            switch (m2)
+            return m2 switch
             {
-                case < 0 and < -0.005:
-                case > 0 and > 0.005:
-                    return false;
-                default:
-                    return true;
-            }
+                < 0 and < -0.005 or > 0 and > 0.005 => false,
+                _ => true
+            };
         }
 
         if (dif1.x == 0 || dif2.x == 0)
@@ -428,22 +418,19 @@ public class GCElement
         m1 = dif1.y / dif1.x;
         m2 = dif2.y / dif2.x;
         m2 -= m1;
-        switch (m2)
+        return m2 switch
         {
-            case < 0 and < -0.005:
-            case > 0 and > 0.005:
-                return false;
-            default:
-                return true;
-        }
+            < 0 and < -0.005 or > 0 and > 0.005 => false,
+            _ => true
+        };
     }
 
-    public bool onLine2(Point64 p1, Point64 p2, Point64 p3)
+    public static bool onLine2(Point64 p1, Point64 p2, Point64 p3)
     {
         return pOnLine2(p1, p2, p3);
     }
 
-    private bool pOnLine2(Point64 p1, Point64 p2, Point64 p3)
+    private static bool pOnLine2(Point64 p1, Point64 p2, Point64 p3)
     {
         int help;
         PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
@@ -493,12 +480,12 @@ public class GCElement
         };
     }
 
-    public Point64 round(Point64 point, int i)
+    public static Point64 round(Point64 point, int i)
     {
         return pRound(point, i);
     }
 
-    private Point64 pRound(Point64 point, int i)
+    private static Point64 pRound(Point64 point, int i)
     {
         Point64 p = new();
         switch (i)
@@ -527,19 +514,17 @@ public class GCElement
         return null;
     }
 
-    public Path64 ellipse(Point64 center, double radius, double anglestep)
+    public static Path64 ellipse(Point64 center, double radius, double anglestep)
     {
         return pEllipse(center, radius, anglestep);
     }
 
-    private Path64 pEllipse(Point64 center, double radius, double anglestep)
+    private static Path64 pEllipse(Point64 center, double radius, double anglestep)
     {
-        Path64 array = new();
-        double radius1 = radius;
-        double radius2 = radius;
+        Path64 array = [];
         for (double ang = 0; ang < 360; ang += anglestep)
         {
-            array.Add(new (center.X + radius1 * Math.Cos(ang / 180 * Math.PI), center.Y + radius2 * Math.Sin(ang / 180 * Math.PI)));
+            array.Add(new Point64(center.X + radius * Math.Cos(ang / 180 * Math.PI), center.Y + radius * Math.Sin(ang / 180 * Math.PI)));
         }
         return array;
     }
@@ -590,10 +575,10 @@ public class GCElement
 
     public virtual void setColPitch(Point64 pt) {  }
 
-    public virtual Point64 getCount() { return new (0,0); }
-    public virtual Point64 getRowPitch() { return new(0, 0); }
+    public virtual Point64 getCount() { return new Point64(0,0); }
+    public virtual Point64 getRowPitch() { return new Point64(0, 0); }
 
-    public virtual Point64 getColPitch() { return new(0, 0); }
+    public virtual Point64 getColPitch() { return new Point64(0, 0); }
     public virtual void setMirrorx() { }
     public virtual void clearMirrorx() { }
     public virtual void toggleMirrorx() { }
@@ -604,7 +589,7 @@ public class GCElement
     public virtual void setCellRef(GCCell cellRef) { }
     public virtual void setPos(Point64 p) { }
 
-    public virtual Point64 getPos() { return new(0,0); }
+    public virtual Point64 getPos() { return new Point64(0,0); }
     
     public virtual double getScale() { return 1; }
 

@@ -30,7 +30,7 @@ public class Fragmenter
         switch (source.Count)
         {
             case 0:
-                return new (source);
+                return new PathsD(source);
         }
 
         PathsD ret = new(source.Select(pFragmentPath));
@@ -87,10 +87,10 @@ public class Fragmenter
 
     private PathD pFragmentPath(PathD pointList)
     {
-        PathD returnList = new();
+        PathD returnList = [];
         for (int pt = 0; pt < pointList.Count; pt++)
         {
-            returnList.Add(new(pointList[pt]));
+            returnList.Add(new PointD(pointList[pt]));
             if (pt == pointList.Count - 1)
             {
                 continue;
@@ -107,21 +107,22 @@ public class Fragmenter
 
     private PathD fragmentPath(PointD pt1, PointD pt2)
     {
-        PathD returnList = new();
+        PathD returnList = [];
         double fragmentCount = Math.Floor(GeoWrangler.distanceBetweenPoints(pt1, pt2) / resolution);
 
-        if (fragmentCount > 0)
+        if (!(fragmentCount > 0))
         {
-            double x_Distance = pt2.x - pt1.x;
-            double y_Distance = pt2.y - pt1.y;
-            double x_Step = x_Distance / fragmentCount;
-            double y_Step = y_Distance / fragmentCount;
+            return returnList;
+        }
+        double x_Distance = pt2.x - pt1.x;
+        double y_Distance = pt2.y - pt1.y;
+        double x_Step = x_Distance / fragmentCount;
+        double y_Step = y_Distance / fragmentCount;
 
-            // Avoid sending back the first and last vertices of the path.
-            for (int i = 1; i < fragmentCount; i++)
-            {
-                returnList.Add(new(pt1.x + i * x_Step, pt1.y + i * y_Step, pt1.z));
-            }
+        // Avoid sending back the first and last vertices of the path.
+        for (int i = 1; i < fragmentCount; i++)
+        {
+            returnList.Add(new PointD(pt1.x + i * x_Step, pt1.y + i * y_Step, pt1.z));
         }
 
         return returnList;

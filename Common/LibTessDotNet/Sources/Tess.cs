@@ -35,7 +35,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-using Real = System.Double;
 namespace LibTessDotNet.Double;
 
 /// <summary>
@@ -125,7 +124,6 @@ public partial class Tess
 {
     private IPool _pool;
     private Mesh _mesh;
-    private Vec3 _normal;
     private Vec3 _sUnit;
     private Vec3 _tUnit;
 
@@ -138,11 +136,6 @@ public partial class Tess
     private MeshUtils.Vertex _event;
 
     private CombineCallback _combineCallback;
-
-    private ContourVertex[] _vertices;
-    private int _vertexCount;
-    private int[] _elements;
-    private int _elementCount;
 
     /// <summary>
     /// The value used to fill indices of incomplete polygons 
@@ -173,27 +166,27 @@ public partial class Tess
     /// <summary>
     /// Normal of the tessellated mesh.
     /// </summary>
-    public Vec3 Normal => _normal;
+    public Vec3 Normal { get; private set; }
 
     /// <summary>
     /// Vertices of the tessellated mesh.
     /// </summary>
-    public ContourVertex[] Vertices => _vertices;
+    public ContourVertex[] Vertices { get; private set; }
 
     /// <summary>
     /// Number of vertices in the tessellated mesh.
     /// </summary>
-    public int VertexCount => _vertexCount;
+    public int VertexCount { get; private set; }
 
     /// <summary>
     /// Indices of the tessellated mesh. See <see cref="ElementType"/> for details on data layout.
     /// </summary>
-    public int[] Elements => _elements;
+    public int[] Elements { get; private set; }
 
     /// <summary>
     /// Number of elements in the tessellated mesh.
     /// </summary>
-    public int ElementCount => _elementCount;
+    public int ElementCount { get; private set; }
 
     public Tess()
         : this(new DefaultPool())
@@ -202,7 +195,7 @@ public partial class Tess
 
     public Tess(IPool pool)
     {
-        _normal = Vec3.Zero;
+        Normal = Vec3.Zero;
         _bminX = _bminY = _bmaxX = _bmaxY = 0;
 
         _windingRule = WindingRule.EvenOdd;
@@ -213,20 +206,20 @@ public partial class Tess
         };
         _mesh = null;
 
-        _vertices = null;
-        _vertexCount = 0;
-        _elements = null;
-        _elementCount = 0;
+        Vertices = null;
+        VertexCount = 0;
+        Elements = null;
+        ElementCount = 0;
     }
 
     private void ComputeNormal(ref Vec3 norm)
     {
         MeshUtils.Vertex v = _mesh._vHead._next;
 
-        double[] minVal = { v._coords.X, v._coords.Y, v._coords.Z };
-        MeshUtils.Vertex[] minVert = { v, v, v };
-        double[] maxVal = { v._coords.X, v._coords.Y, v._coords.Z };
-        MeshUtils.Vertex[] maxVert = { v, v, v };
+        double[] minVal = [v._coords.X, v._coords.Y, v._coords.Z];
+        MeshUtils.Vertex[] minVert = [v, v, v];
+        double[] maxVal = [v._coords.X, v._coords.Y, v._coords.Z];
+        MeshUtils.Vertex[] maxVert = [v, v, v];
 
         for (; v != _mesh._vHead; v = v._next)
         {
@@ -323,14 +316,14 @@ public partial class Tess
 
     private void ProjectPolygon()
     {
-        Vec3 norm = _normal;
+        Vec3 norm = Normal;
 
         bool computedNormal = false;
         switch (norm.X)
         {
-            case 0.0f when norm.Y == 0.0f && norm.Z == 0.0f:
+            case 0.0f when norm is { Y: 0.0f, Z: 0.0f }:
                 ComputeNormal(ref norm);
-                _normal = norm;
+                Normal = norm;
                 computedNormal = true;
                 break;
         }
@@ -653,7 +646,7 @@ public partial class Tess
             ++maxFaceCount;
         }
 
-        _elementCount = maxFaceCount;
+        ElementCount = maxFaceCount;
         switch (elementType)
         {
             case ElementType.ConnectedPolygons:
@@ -661,10 +654,10 @@ public partial class Tess
                 break;
         }
 
-        _elements = new int[maxFaceCount * polySize];
+        Elements = new int[maxFaceCount * polySize];
 
-        _vertexCount = maxVertexCount;
-        _vertices = new ContourVertex[_vertexCount];
+        VertexCount = maxVertexCount;
+        Vertices = new ContourVertex[VertexCount];
 
         // Output vertices.
         for (v = _mesh._vHead._next; v != _mesh._vHead; v = v._next)
@@ -675,8 +668,8 @@ public partial class Tess
             }
 
             // Store coordinate
-            _vertices[v._n].Position = v._coords;
-            _vertices[v._n].Data = v._data;
+            Vertices[v._n].Position = v._coords;
+            Vertices[v._n].Data = v._data;
         }
 
         // Output indices.
@@ -710,7 +703,7 @@ public partial class Tess
             do
             {
                 v = edge._Org;
-                _elements[elementIndex++] = v._n;
+                Elements[elementIndex++] = v._n;
                 faceVerts++;
                 edge = edge._Lnext;
             } while (edge != f._anEdge);
@@ -718,7 +711,7 @@ public partial class Tess
             int i;
             for (i = faceVerts; i < polySize; ++i)
             {
-                _elements[elementIndex++] = Undef;
+                Elements[elementIndex++] = Undef;
             }
 
             switch (elementType)
@@ -729,13 +722,13 @@ public partial class Tess
                     edge = f._anEdge;
                     do
                     {
-                        _elements[elementIndex++] = GetNeighbourFace(edge);
+                        Elements[elementIndex++] = GetNeighbourFace(edge);
                         edge = edge._Lnext;
                     } while (edge != f._anEdge);
                     // Fill unused.
                     for (i = faceVerts; i < polySize; ++i)
                     {
-                        _elements[elementIndex++] = Undef;
+                        Elements[elementIndex++] = Undef;
                     }
 
                     break;
@@ -749,8 +742,8 @@ public partial class Tess
         MeshUtils.Face f;
         MeshUtils.Edge edge, start;
 
-        _vertexCount = 0;
-        _elementCount = 0;
+        VertexCount = 0;
+        ElementCount = 0;
 
         for (f = _mesh._fHead._next; f != _mesh._fHead; f = f._next)
         {
@@ -763,16 +756,16 @@ public partial class Tess
             start = edge = f._anEdge;
             do
             {
-                ++_vertexCount;
+                ++VertexCount;
                 edge = edge._Lnext;
             }
             while (edge != start);
 
-            ++_elementCount;
+            ++ElementCount;
         }
 
-        _elements = new int[_elementCount * 2];
-        _vertices = new ContourVertex[_vertexCount];
+        Elements = new int[ElementCount * 2];
+        Vertices = new ContourVertex[VertexCount];
 
         int vertIndex = 0;
         int elementIndex = 0;
@@ -791,15 +784,15 @@ public partial class Tess
             start = edge = f._anEdge;
             do
             {
-                _vertices[vertIndex].Position = edge._Org._coords;
-                _vertices[vertIndex].Data = edge._Org._data;
+                Vertices[vertIndex].Position = edge._Org._coords;
+                Vertices[vertIndex].Data = edge._Org._data;
                 ++vertIndex;
                 ++vertCount;
                 edge = edge._Lnext;
             } while (edge != start);
 
-            _elements[elementIndex++] = startVert;
-            _elements[elementIndex++] = vertCount;
+            Elements[elementIndex++] = startVert;
+            Elements[elementIndex++] = vertCount;
 
             startVert += vertCount;
         }
@@ -908,9 +901,9 @@ public partial class Tess
     public void Tessellate(WindingRule windingRule = WindingRule.EvenOdd, ElementType elementType = ElementType.Polygons, int polySize = 3,
         CombineCallback combineCallback = null, Vec3 normal = new())
     {
-        _normal = normal;
-        _vertices = null;
-        _elements = null;
+        Normal = normal;
+        Vertices = null;
+        Elements = null;
 
         _windingRule = windingRule;
         _combineCallback = combineCallback;

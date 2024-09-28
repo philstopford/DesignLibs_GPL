@@ -6,10 +6,7 @@
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 
 namespace Clipper2Lib
 {
@@ -90,8 +87,8 @@ namespace Clipper2Lib
     }
 
     public FillRule FillRule { get; set; }
-    private readonly List<PolyInfo> PolyInfoList = new List<PolyInfo>();
-    private readonly List<TextInfo> textInfos = new List<TextInfo>();
+    private readonly List<PolyInfo> PolyInfoList = [];
+    private readonly List<TextInfo> textInfos = [];
     private readonly CoordStyle coordStyle;
 
     private const string svg_header = "<?xml version=\"1.0\" standalone=\"no\"?>\n" +
@@ -128,23 +125,31 @@ namespace Clipper2Lib
     public void AddClosedPath(Path64 path, uint brushColor,
       uint penColor, double penWidth, bool showCoords = false)
     {
-      Paths64 tmp = new Paths64();
-      tmp.Add(path);
+      Paths64 tmp =
+      [
+        path
+      ];
       AddClosedPaths(tmp, brushColor, penColor, penWidth, showCoords);
     }
 
     public void AddClosedPath(PathD path, uint brushColor,
       uint penColor, double penWidth, bool showCoords = false)
     {
-      PathsD tmp = new PathsD();
-      tmp.Add(path);
+      PathsD tmp =
+      [
+        path
+      ];
       AddClosedPaths(tmp, brushColor, penColor, penWidth, showCoords);
     }
 
     public void AddClosedPaths(Paths64 paths, uint brushColor,
       uint penColor, double penWidth, bool showCoords = false)
     {
-      if (paths.Count == 0) return;
+      if (paths.Count == 0)
+      {
+        return;
+      }
+
       PolyInfoList.Add(new PolyInfo(Clipper.PathsD(paths),
         brushColor, penColor, penWidth, showCoords, false));
     }
@@ -152,7 +157,11 @@ namespace Clipper2Lib
     public void AddClosedPaths(PathsD paths, uint brushColor,
       uint penColor, double penWidth, bool showCoords = false)
     {
-      if (paths.Count == 0) return;
+      if (paths.Count == 0)
+      {
+        return;
+      }
+
       PolyInfoList.Add(new PolyInfo(paths,
         brushColor, penColor, penWidth, showCoords, false));
     }
@@ -160,23 +169,31 @@ namespace Clipper2Lib
     public void AddOpenPath(Path64 path,  uint penColor, 
       double penWidth, bool showCoords = false)
     {
-      Paths64 tmp = new Paths64();
-      tmp.Add(path);
+      Paths64 tmp =
+      [
+        path
+      ];
       AddOpenPaths(tmp, penColor, penWidth, showCoords);
     }
 
     public void AddOpenPath(PathD path, uint penColor, 
       double penWidth, bool showCoords = false)
     {
-      PathsD tmp = new PathsD();
-      tmp.Add(path);
+      PathsD tmp =
+      [
+        path
+      ];
       AddOpenPaths(tmp, penColor, penWidth, showCoords);
     }
 
     public void AddOpenPaths(Paths64 paths,
       uint penColor, double penWidth, bool showCoords = false)
     {
-      if (paths.Count == 0) return;
+      if (paths.Count == 0)
+      {
+        return;
+      }
+
       PolyInfoList.Add(new PolyInfo(Clipper.PathsD(paths),
         0x0, penColor, penWidth, showCoords, true));
     }
@@ -184,7 +201,11 @@ namespace Clipper2Lib
     public void AddOpenPaths(PathsD paths, uint penColor, 
       double penWidth, bool showCoords = false)
     {
-      if (paths.Count == 0) return;
+      if (paths.Count == 0)
+      {
+        return;
+      }
+
       PolyInfoList.Add(new PolyInfo(paths,
         0x0, penColor, penWidth, showCoords, true));
     }
@@ -198,17 +219,33 @@ namespace Clipper2Lib
     private RectD GetBounds()
     {
       RectD bounds = new RectD(RectMax);
-      foreach (PolyInfo pi in PolyInfoList)
-        foreach (PathD path in pi.paths)
-          foreach (PointD pt in path)
-          {
-            if (pt.x < bounds.left) bounds.left = pt.x;
-            if (pt.x > bounds.right) bounds.right = pt.x;
-            if (pt.y < bounds.top) bounds.top = pt.y;
-            if (pt.y > bounds.bottom) bounds.bottom = pt.y;
-          }
+      foreach (var pt in PolyInfoList.SelectMany(pi => pi.paths.SelectMany(path => path)))
+      {
+        if (pt.x < bounds.left)
+        {
+          bounds.left = pt.x;
+        }
+
+        if (pt.x > bounds.right)
+        {
+          bounds.right = pt.x;
+        }
+
+        if (pt.y < bounds.top)
+        {
+          bounds.top = pt.y;
+        }
+
+        if (pt.y > bounds.bottom)
+        {
+          bounds.bottom = pt.y;
+        }
+      }
       if (!IsValidRect(bounds))
+      {
         return RectEmpty;
+      }
+
       return bounds;
     }
 
@@ -224,15 +261,24 @@ namespace Clipper2Lib
 
     public bool SaveToFile(string filename, int maxWidth = 0, int maxHeight = 0, int margin = -1)
     {
-      if (margin < 0) margin = 20;
+      if (margin < 0)
+      {
+        margin = 20;
+      }
+
       RectD bounds = GetBounds();
-      if (bounds.IsEmpty()) return false;
+      if (bounds.IsEmpty())
+      {
+        return false;
+      }
 
       double scale = 1.0;
       if (maxWidth > 0 && maxHeight > 0)
+      {
         scale = Math.Min(
-           (maxWidth - margin * 2) / bounds.Width,
-            (maxHeight - margin * 2) / bounds.Height);
+          (maxWidth - margin * 2) / bounds.Width,
+          (maxHeight - margin * 2) / bounds.Height);
+      }
 
       long offsetX = margin - (long) (bounds.left * scale);
       long offsetY = margin - (long) (bounds.top * scale);
@@ -248,18 +294,30 @@ namespace Clipper2Lib
       }
 
       if (maxWidth <= 0 || maxHeight <= 0)
+      {
         writer.Write(svg_header, (bounds.right - bounds.left) + margin * 2,
           (bounds.bottom - bounds.top) + margin * 2);
+      }
       else
+      {
         writer.Write(svg_header, maxWidth, maxHeight);
+      }
 
       foreach (PolyInfo pi in PolyInfoList)
       {
         writer.Write(" <path d=\"");
         foreach (PathD path in pi.paths)
         {
-          if (path.Count < 2) continue;
-          if (!pi.IsOpen && path.Count < 3) continue;
+          if (path.Count < 2)
+          {
+            continue;
+          }
+
+          if (!pi.IsOpen && path.Count < 3)
+          {
+            continue;
+          }
+
           writer.Write(string.Format(NumberFormatInfo.InvariantInfo, " M {0:f2} {1:f2}",
               (path[0].x * scale + offsetX),
               (path[0].y * scale + offsetY)));
@@ -269,17 +327,24 @@ namespace Clipper2Lib
             (path[j].x * scale + offsetX),
             (path[j].y * scale + offsetY)));
           }
-          if (!pi.IsOpen) writer.Write(" z");
+          if (!pi.IsOpen)
+          {
+            writer.Write(" z");
+          }
         }
 
         if (!pi.IsOpen)
+        {
           writer.Write(string.Format(NumberFormatInfo.InvariantInfo, svg_path_format,
-              ColorToHtml(pi.BrushClr), GetAlpha(pi.BrushClr),
-              (FillRule == FillRule.EvenOdd ? "evenodd" : "nonzero"),
-              ColorToHtml(pi.PenClr), GetAlpha(pi.PenClr), pi.PenWidth));
+            ColorToHtml(pi.BrushClr), GetAlpha(pi.BrushClr),
+            (FillRule == FillRule.EvenOdd ? "evenodd" : "nonzero"),
+            ColorToHtml(pi.PenClr), GetAlpha(pi.PenClr), pi.PenWidth));
+        }
         else
+        {
           writer.Write(string.Format(NumberFormatInfo.InvariantInfo, svg_path_format2,
-              ColorToHtml(pi.PenClr), GetAlpha(pi.PenClr), pi.PenWidth));
+            ColorToHtml(pi.PenClr), GetAlpha(pi.PenClr), pi.PenWidth));
+        }
 
         if (pi.ShowCoords)
         {

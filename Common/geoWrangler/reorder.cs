@@ -17,7 +17,7 @@ public static partial class GeoWrangler
     {
         int sourceCount = source.Count;
 
-        PathD t_sortPoints = new();
+        PathD t_sortPoints = [];
 
         for (int i = 0; i < sourceCount; i++)
         {
@@ -27,20 +27,20 @@ public static partial class GeoWrangler
                     t_sortPoints.Add(midPoint(source[i]));
                     break;
                 default:
-                    t_sortPoints.Add(new (source[i][0]));
+                    t_sortPoints.Add(new PointD(source[i][0]));
                     break;
             }
 
-            t_sortPoints[i] = new (t_sortPoints[i].x, t_sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
+            t_sortPoints[i] = new PointD(t_sortPoints[i].x, t_sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
         }
 
         PathD sortPoints = new PathD(t_sortPoints.OrderBy(p => p.x).ThenBy(p => p.y));
 
-        PathsD ret = new();
+        PathsD ret = [];
 
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(new(source[(int)sortPoints[i].z]));
+            ret.Add(new PathD(source[(int)sortPoints[i].z]));
         }
 
         return ret;
@@ -102,7 +102,7 @@ public static partial class GeoWrangler
         int minX_index = MinX(iPoints);
         double minX = iPoints[minX_index].x;
         // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
-        List<int> minXPoints = new();
+        List<int> minXPoints = [];
         for (int pt = 0; pt < iPoints.Count; pt++)
         {
             switch (Math.Abs(iPoints[pt].x - minX))
@@ -132,7 +132,7 @@ public static partial class GeoWrangler
         }
 
         {
-            PathD tempList = new();
+            PathD tempList = [];
             // Now to start the re-indexing.
             for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
@@ -142,7 +142,7 @@ public static partial class GeoWrangler
                     case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= Constants.tolerance && Math.Abs(tempList[^1].y - iPoints[pt].y) <= Constants.tolerance:
                         continue;
                     default:
-                        tempList.Add(new (iPoints[pt]));
+                        tempList.Add(new PointD(iPoints[pt]));
                         break;
                 }
             }
@@ -155,12 +155,12 @@ public static partial class GeoWrangler
                     case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= Constants.tolerance && Math.Abs(tempList[^1].y - iPoints[pt].y) <= Constants.tolerance:
                         continue;
                     default:
-                        tempList.Add(new (iPoints[pt]));
+                        tempList.Add(new PointD(iPoints[pt]));
                         break;
                 }
             }
 
-            iPoints = new (tempList);
+            iPoints = new PathD(tempList);
         }
 
         return iPoints;
@@ -176,7 +176,7 @@ public static partial class GeoWrangler
         int minY_index = MinY(iPoints);
         double minY = iPoints[minY_index].y;
         // This will reorder the point index so that the 0-indexed point is at the minimum Y value, and, in the case of multiple points at min Y, at the lowest X of all of those.
-        List<int> minYPoints = new();
+        List<int> minYPoints = [];
         for (int pt = 0; pt < iPoints.Count; pt++)
         {
             switch (Math.Abs(iPoints[pt].y - minY))
@@ -202,10 +202,10 @@ public static partial class GeoWrangler
 
         if (reIndexStart == 0)
         {
-            return new(iPoints);
+            return new PathD(iPoints);
         }
 
-        PathD tempList = new();
+        PathD tempList = [];
         // Now to start the re-indexing.
         for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
@@ -215,7 +215,7 @@ public static partial class GeoWrangler
                 case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= Constants.tolerance && Math.Abs(tempList[^1].y - iPoints[pt].y) <= Constants.tolerance:
                     continue;
                 default:
-                    tempList.Add(new (iPoints[pt]));
+                    tempList.Add(new PointD(iPoints[pt]));
                     break;
             }
         }
@@ -228,11 +228,11 @@ public static partial class GeoWrangler
                 case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= Constants.tolerance && Math.Abs(tempList[^1].y - iPoints[pt].y) <= Constants.tolerance:
                     continue;
                 default:
-                    tempList.Add(new (iPoints[pt]));
+                    tempList.Add(new PointD(iPoints[pt]));
                     break;
             }
         }
 
-        return new(tempList);
+        return new PathD(tempList);
     }
 }

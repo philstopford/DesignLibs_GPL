@@ -18,35 +18,30 @@ namespace MiscUtil.Collections;
 /// </summary>
 public sealed class Range<T>
 {
-    private readonly T start;
     /// <summary>
     /// The start of the range.
     /// </summary>
-    public T Start => start;
+    public T Start { get; }
 
-    private readonly T end;
     /// <summary>
     /// The end of the range.
     /// </summary>
-    public T End => end;
+    public T End { get; }
 
-    private readonly IComparer<T> comparer;
     /// <summary>
     /// Comparer to use for comparisons
     /// </summary>
-    public IComparer<T> Comparer => comparer;
+    public IComparer<T> Comparer { get; }
 
-    private readonly bool includesStart;
     /// <summary>
     /// Whether or not this range includes the start point
     /// </summary>
-    public bool IncludesStart => includesStart;
+    public bool IncludesStart { get; }
 
-    private readonly bool includesEnd;
     /// <summary>
     /// Whether or not this range includes the end point
     /// </summary>
-    public bool IncludesEnd => includesEnd;
+    public bool IncludesEnd { get; }
 
     /// <summary>
     /// Constructs a new inclusive range using the default comparer
@@ -73,14 +68,14 @@ public sealed class Range<T>
         switch (comparer.Compare(start, end))
         {
             case > 0:
-                throw new ArgumentOutOfRangeException("end", "start must be lower than end according to comparer");
+                throw new ArgumentOutOfRangeException(nameof(end), "start must be lower than end according to comparer");
         }
 
-        this.start = start;
-        this.end = end;
-        this.comparer = comparer;
-        includesStart = includeStart;
-        includesEnd = includeEnd;
+        this.Start = start;
+        this.End = end;
+        this.Comparer = comparer;
+        IncludesStart = includeStart;
+        IncludesEnd = includeEnd;
     }
 
     /// <summary>
@@ -89,10 +84,10 @@ public sealed class Range<T>
     /// </summary>
     public Range<T> ExcludeEnd()
     {
-        return includesEnd switch
+        return IncludesEnd switch
         {
             false => this,
-            _ => new Range<T>(start, end, comparer, includesStart, false)
+            _ => new Range<T>(Start, End, Comparer, IncludesStart, false)
         };
     }
 
@@ -102,10 +97,10 @@ public sealed class Range<T>
     /// </summary>
     public Range<T> ExcludeStart()
     {
-        return includesStart switch
+        return IncludesStart switch
         {
             false => this,
-            _ => new Range<T>(start, end, comparer, false, includesEnd)
+            _ => new Range<T>(Start, End, Comparer, false, IncludesEnd)
         };
     }
 
@@ -115,10 +110,10 @@ public sealed class Range<T>
     /// </summary>
     public Range<T> IncludeEnd()
     {
-        return includesEnd switch
+        return IncludesEnd switch
         {
             true => this,
-            _ => new Range<T>(start, end, comparer, includesStart, true)
+            _ => new Range<T>(Start, End, Comparer, IncludesStart, true)
         };
     }
 
@@ -128,10 +123,10 @@ public sealed class Range<T>
     /// </summary>
     public Range<T> IncludeStart()
     {
-        return includesStart switch
+        return IncludesStart switch
         {
             true => this,
-            _ => new Range<T>(start, end, comparer, true, includesEnd)
+            _ => new Range<T>(Start, End, Comparer, true, IncludesEnd)
         };
     }
 
@@ -140,16 +135,16 @@ public sealed class Range<T>
     /// </summary>
     public bool Contains(T value)
     {
-        int lowerBound = comparer.Compare(value, start);
+        int lowerBound = Comparer.Compare(value, Start);
         switch (lowerBound)
         {
             case < 0:
-            case 0 when !includesStart:
+            case 0 when !IncludesStart:
                 return false;
             default:
             {
-                int upperBound = comparer.Compare(value, end);
-                return upperBound < 0 || upperBound == 0 && includesEnd;
+                int upperBound = Comparer.Compare(value, End);
+                return upperBound < 0 || upperBound == 0 && IncludesEnd;
             }
         }
     }
@@ -254,7 +249,7 @@ public sealed class Range<T>
     public RangeIterator<T> Step(Func<T, T> step)
     {
         step.ThrowIfNull("step");
-        bool ascending = comparer.Compare(start, step(start)) < 0;
+        bool ascending = Comparer.Compare(Start, step(Start)) < 0;
 
         return ascending ? FromStart(step) : FromEnd(step);
     }

@@ -59,53 +59,57 @@ public class ShapeSettings
         return polyFillTypes;
     }
 
-    private static readonly List<string> availableHorShapePositions = new() { "Left", "Middle", "Right" };
-    private static readonly List<string> availableVerShapePositions = new() { "Bottom", "Middle", "Top" };
+    private static readonly List<string> availableHorShapePositions = ["Left", "Middle", "Right"];
+    private static readonly List<string> availableVerShapePositions = ["Bottom", "Middle", "Top"];
     public enum subShapeHorLocs { L, M, R }
     public enum subShapeVerLocs { B, M, T }
 
     
-    private static readonly List<string> availableSubShapePositions = new()
-    { "Corner: Top Left", "Corner: Top Right", "Corner: Bottom Left", "Corner: Bottom Right",
+    private static readonly List<string> availableSubShapePositions =
+    [
+        "Corner: Top Left", "Corner: Top Right", "Corner: Bottom Left", "Corner: Bottom Right",
         "Middle: Top Side", "Middle: Right Side", "Middle: Bottom Side", "Middle: Left Side",
-        "Center"};
+        "Center"
+    ];
 
-    private static readonly List<string> availableTipsLocations = new()
-    { "None", "Left", "Right", "Left & Right",
+    private static readonly List<string> availableTipsLocations =
+    [
+        "None", "Left", "Right", "Left & Right",
         "Top", "Bottom", "Top & Bottom",
         "Top & Left", "Top & Right", "Top & Left & Right",
         "Bottom & Left", "Bottom & Right", "Bottom & Left & Right",
         "Top & Bottom & Left", "Top & Bottom & Right",
-        "All"};
+        "All"
+    ];
 
-    private static readonly List<string> polyFillTypes = new() { "Even/Odd", "Non-zero", "Positive", "Negative" };
+    private static readonly List<string> polyFillTypes = ["Even/Odd", "Non-zero", "Positive", "Negative"];
 
     public enum PolyFill { pftEvenOdd, pftNonZero, pftPositive, pftNegative }
 
     public enum typeShapes_mode0 { none, rectangle, L, T, X, U, S, GEOCORE, BOOLEAN }
     public enum typeShapes_mode1 { none, rectangle, L, T, X, U, S, text, bounding, complex }
 
-    private static readonly int default_subShapeTipLocIndex = 0;
-    private static readonly int default_subShape2TipLocIndex = 0;
-    private static readonly int default_subShape3TipLocIndex = 0;
+    private const int default_subShapeTipLocIndex = 0;
+    private const int default_subShape2TipLocIndex = 0;
+    private const int default_subShape3TipLocIndex = 0;
     
-    private static readonly int default_enabled = 0;
+    private const int default_enabled = 0;
 
-    private static readonly int default_shapeIndex = (int)typeShapes_mode0.none;
-    private static readonly int default_subShapeRefIndex = 0;
-    private static readonly int default_posInSubShapeIndex = (int)subShapeLocations.BL;
+    private const int default_shapeIndex = (int)typeShapes_mode0.none;
+    private const int default_subShapeRefIndex = 0;
+    private const int default_posInSubShapeIndex = (int)subShapeLocations.BL;
 
-    private static readonly int default_edgeSlide = 0;
-    private static readonly int default_proximitySideRays = 2;
-    private static readonly int default_proximitySideRaysFallOff = 0;
+    private const int default_edgeSlide = 0;
+    private const int default_proximitySideRays = 2;
+    private const int default_proximitySideRaysFallOff = 0;
 
-    private static readonly decimal default_LWR = 0;
-    private static readonly int default_LWRNoiseType = (int)NoiseC.noiseIndex.perlin;
-    private static readonly decimal default_LWRNoiseFreq = 0.2m;
+    private const decimal default_LWR = 0;
+    private const int default_LWRNoiseType = (int)NoiseC.noiseIndex.perlin;
+    private const decimal default_LWRNoiseFreq = 0.2m;
 
-    private static readonly int default_flipH = 0;
-    private static readonly int default_flipV = 0;
-    private static readonly int default_alignGeom = 0;
+    private const int default_flipH = 0;
+    private const int default_flipV = 0;
+    private const int default_alignGeom = 0;
 
     private int enabled = default_enabled;
     private int shapeIndex = default_shapeIndex;
@@ -124,7 +128,7 @@ public class ShapeSettings
     private int alignGeomX = default_alignGeom;
     private int alignGeomY = default_alignGeom;
 
-    private static string default_layerName = "";
+    private const string default_layerName = "";
     
     public enum properties_i
     {
@@ -135,7 +139,7 @@ public class ShapeSettings
         edgeSlide,
         proxRays,proxSideRaysFallOff,
         lwrType, lwr2Type,
-        flipH, flipV, alignX, alignY,
+        flipH, flipV, alignX, alignY
     }
 
     public int getInt(properties_i p, int _subShapeRef = -1)
@@ -143,60 +147,28 @@ public class ShapeSettings
         return pGetInt(p, _subShapeRef);
     }
 
-    int pGetInt(properties_i p, int _subShapeRef)
+    private int pGetInt(properties_i p, int _subShapeRef)
     {
-        int ret = 0;
-        switch (p)
+        int ret = p switch
         {
-            case properties_i.enabled:
-                ret = enabled;
-                break;
-            case properties_i.shapeIndex:
-                ret = shapeIndex;
-                break;
-            case properties_i.subShapeTipLocIndex:
-                ret = subShapeTipLocIndex;
-                break;
-            case properties_i.subShape2TipLocIndex:
-                ret = subShape2TipLocIndex;
-                break;
-            case properties_i.subShape3TipLocIndex:
-                ret = subShape3TipLocIndex;
-                break;
-            case properties_i.subShapeRefIndex:
-                ret = subShapeRefIndex;
-                break;
-            case properties_i.posInSubShapeIndex:
-                ret = posInSubShapeIndex;
-                break;
-            case properties_i.edgeSlide:
-                ret = edgeSlide;
-                break;
-            case properties_i.proxRays:
-                ret = proximitySideRays;
-                break;
-            case properties_i.proxSideRaysFallOff:
-                ret = proxSideRaysFallOff;
-                break;
-            case properties_i.lwrType:
-                ret = LWRNoiseType;
-                break;
-            case properties_i.lwr2Type:
-                ret = LWR2NoiseType;
-                break;
-            case properties_i.flipH:
-                ret = flipH;
-                break;
-            case properties_i.flipV:
-                ret = flipV;
-                break;
-            case properties_i.alignX:
-                ret = alignGeomX;
-                break;
-            case properties_i.alignY:
-                ret = alignGeomY;
-                break;
-        }
+            properties_i.enabled => enabled,
+            properties_i.shapeIndex => shapeIndex,
+            properties_i.subShapeTipLocIndex => subShapeTipLocIndex,
+            properties_i.subShape2TipLocIndex => subShape2TipLocIndex,
+            properties_i.subShape3TipLocIndex => subShape3TipLocIndex,
+            properties_i.subShapeRefIndex => subShapeRefIndex,
+            properties_i.posInSubShapeIndex => posInSubShapeIndex,
+            properties_i.edgeSlide => edgeSlide,
+            properties_i.proxRays => proximitySideRays,
+            properties_i.proxSideRaysFallOff => proxSideRaysFallOff,
+            properties_i.lwrType => LWRNoiseType,
+            properties_i.lwr2Type => LWR2NoiseType,
+            properties_i.flipH => flipH,
+            properties_i.flipV => flipV,
+            properties_i.alignX => alignGeomX,
+            properties_i.alignY => alignGeomY,
+            _ => 0
+        };
 
         return ret;
     }
@@ -206,7 +178,7 @@ public class ShapeSettings
         pSetInt(p, val, _subShapeRef);
     }
 
-    void pSetInt(properties_i p, int val, int _subShapeRef)
+    private void pSetInt(properties_i p, int val, int _subShapeRef)
     {
         switch (p)
         {
@@ -328,93 +300,61 @@ public class ShapeSettings
 
     private static int pGetDefaultInt(properties_i p)
     {
-        int val = 0;
-        switch (p)
+        int val = p switch
         {
-            case properties_i.enabled:
-                val = default_enabled;
-                break;
-            case properties_i.shapeIndex:
-                val = default_shapeIndex;
-                break;
-            case properties_i.subShapeTipLocIndex:
-                val = default_subShapeTipLocIndex;
-                break;
-            case properties_i.subShape2TipLocIndex:
-                val = default_subShape2TipLocIndex;
-                break;
-            case properties_i.subShape3TipLocIndex:
-                val = default_subShape3TipLocIndex;
-                break;
-            case properties_i.subShapeRefIndex:
-                val = default_subShapeRefIndex;
-                break;
-            case properties_i.posInSubShapeIndex:
-                val = default_posInSubShapeIndex;
-                break;
-            case properties_i.edgeSlide:
-                val = default_edgeSlide;
-                break;
-            case properties_i.proxRays:
-                val = default_proximitySideRays;
-                break;
-            case properties_i.proxSideRaysFallOff:
-                val = default_proximitySideRaysFallOff;
-                break;
-            case properties_i.lwrType:
-                val = default_LWRNoiseType;
-                break;
-            case properties_i.lwr2Type:
-                val = default_LWRNoiseType;
-                break;
-            case properties_i.flipH:
-                val = default_flipH;
-                break;
-            case properties_i.flipV:
-                val = default_flipV;
-                break;
-            case properties_i.alignX:
-                val = default_alignGeom;
-                break;
-            case properties_i.alignY:
-                val = default_alignGeom;
-                break;
-        }
+            properties_i.enabled => default_enabled,
+            properties_i.shapeIndex => default_shapeIndex,
+            properties_i.subShapeTipLocIndex => default_subShapeTipLocIndex,
+            properties_i.subShape2TipLocIndex => default_subShape2TipLocIndex,
+            properties_i.subShape3TipLocIndex => default_subShape3TipLocIndex,
+            properties_i.subShapeRefIndex => default_subShapeRefIndex,
+            properties_i.posInSubShapeIndex => default_posInSubShapeIndex,
+            properties_i.edgeSlide => default_edgeSlide,
+            properties_i.proxRays => default_proximitySideRays,
+            properties_i.proxSideRaysFallOff => default_proximitySideRaysFallOff,
+            properties_i.lwrType => default_LWRNoiseType,
+            properties_i.lwr2Type => default_LWRNoiseType,
+            properties_i.flipH => default_flipH,
+            properties_i.flipV => default_flipV,
+            properties_i.alignX => default_alignGeom,
+            properties_i.alignY => default_alignGeom,
+            _ => 0
+        };
 
         return val;
     }
 
-    public static readonly decimal default_subShapeHorLength = 0;
-    public static readonly decimal default_subShapeHorOffset = 0;
-    public static readonly decimal default_subShapeVerLength = 0;
-    public static readonly decimal default_subShapeVerOffset = 0;
-    private static readonly decimal default_subShape2HorLength = 0;
-    private static readonly decimal default_subShape2HorOffset = 0;
-    private static readonly decimal default_subShape2VerLength = 0;
-    private static readonly decimal default_subShape2VerOffset = 0;
-    private static readonly decimal default_subShape3HorLength = 0;
-    private static readonly decimal default_subShape3HorOffset = 0;
-    private static readonly decimal default_subShape3VerLength = 0;
-    private static readonly decimal default_subShape3VerOffset = 0;
-    private static readonly decimal default_sideBias = 0;
-    private static readonly decimal default_horTipBias = 0;
-    private static readonly decimal default_verTipBias = 0;
-    private static readonly decimal default_innerCRR = 0;
-    private static readonly decimal default_outerCRR = 0;
-    public static readonly decimal default_rotation = 0;
-    private static readonly decimal default_proximityBias = 0;
-    private static readonly decimal default_proximityIsoDistance = 0;
-    private static readonly decimal default_proximitySideRaysFallOffMultiplier = 1.0m;
-    private static readonly decimal default_edgeSlideTension = 0.35m;
-    private static readonly decimal default_horTipBiasNVar = 0;
-    private static readonly decimal default_horTipBiasPVar = 0;
-    private static readonly decimal default_verTipBiasNVar = 0;
-    private static readonly decimal default_verTipBiasPVar = 0;
+    public const decimal default_subShapeHorLength = 0;
+    public const decimal default_subShapeHorOffset = 0;
+    public const decimal default_subShapeVerLength = 0;
+    public const decimal default_subShapeVerOffset = 0;
+    private const decimal default_subShape2HorLength = 0;
+    private const decimal default_subShape2HorOffset = 0;
+    private const decimal default_subShape2VerLength = 0;
+    private const decimal default_subShape2VerOffset = 0;
+    private const decimal default_subShape3HorLength = 0;
+    private const decimal default_subShape3HorOffset = 0;
+    private const decimal default_subShape3VerLength = 0;
+    private const decimal default_subShape3VerOffset = 0;
+    private const decimal default_sideBias = 0;
+    private const decimal default_horTipBias = 0;
+    private const decimal default_verTipBias = 0;
+    private const decimal default_innerCRR = 0;
+    private const decimal default_outerCRR = 0;
+    public const decimal default_rotation = 0;
+    private const decimal default_proximityBias = 0;
+    private const decimal default_proximityIsoDistance = 0;
+    private const decimal default_proximitySideRaysFallOffMultiplier = 1.0m;
+    private const decimal default_edgeSlideTension = 0.35m;
+    private const decimal default_horTipBiasNVar = 0;
+    private const decimal default_horTipBiasPVar = 0;
+    private const decimal default_verTipBiasNVar = 0;
+    private const decimal default_verTipBiasPVar = 0;
 
-    private static readonly decimal default_globalHorOffset = 0;
-    private static readonly decimal default_globalVerOffset = 0;
+    private const decimal default_globalHorOffset = 0;
+    private const decimal default_globalVerOffset = 0;
 
-    private static readonly decimal default_rayExtension = 1.03m;
+    private const decimal default_rayExtension = 1.03m;
 
     public decimal subShapeHorLength = default_subShapeHorLength;
     public decimal subShapeHorOffset = default_subShapeHorOffset;
@@ -471,134 +411,63 @@ public class ShapeSettings
         return pGetDecimal(p, _subShapeRef);
     }
 
-    decimal pGetDecimal(properties_decimal p, int _subShapeRef)
+    private decimal pGetDecimal(properties_decimal p, int _subShapeRef)
     {
         decimal ret = 0;
-        switch (p)
+        ret = p switch
         {
-            case properties_decimal.horLength:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = subShapeHorLength;
-                        break;
-                    case 1:
-                        ret = subShape2HorLength;
-                        break;
-                    case 2:
-                        ret = subShape3HorLength;
-                        break;
-                }
-                break;
-            case properties_decimal.verLength:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = subShapeVerLength;
-                        break;
-                    case 1:
-                        ret = subShape2VerLength;
-                        break;
-                    case 2:
-                        ret = subShape3VerLength;
-                        break;
-                }
-                break;
-            case properties_decimal.horOffset:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = subShapeHorOffset;
-                        break;
-                    case 1:
-                        ret = subShape2HorOffset;
-                        break;
-                    case 2:
-                        ret = subShape3HorOffset;
-                        break;
-                }
-                break;
-            case properties_decimal.verOffset:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = subShapeVerOffset;
-                        break;
-                    case 1:
-                        ret = subShape2VerOffset;
-                        break;
-                    case 2:
-                        ret = subShape3VerOffset;
-                        break;
-                }
-                break;
-            case properties_decimal.gHorOffset:
-                ret = globalHorOffset;
-                break;
-            case properties_decimal.gVerOffset:
-                ret = globalVerOffset;
-                break;
-            case properties_decimal.iCR:
-                ret = innerCRR;
-                break;
-            case properties_decimal.oCR:
-                ret = outerCRR;
-                break;
-            case properties_decimal.sBias:
-                ret = sideBias;
-                break;
-            case properties_decimal.hTBias:
-                ret = horTipBias;
-                break;
-            case properties_decimal.hTNVar:
-                ret = horTipBiasNVar;
-                break;
-            case properties_decimal.hTPVar:
-                ret = horTipBiasPVar;
-                break;
-            case properties_decimal.vTBias:
-                ret = verTipBias;
-                break;
-            case properties_decimal.vTNVar:
-                ret = verTipBiasNVar;
-                break;
-            case properties_decimal.vTPVar:
-                ret = verTipBiasPVar;
-                break;
-            case properties_decimal.lwr:
-                ret = LWR;
-                break;
-            case properties_decimal.lwrFreq:
-                ret = LWRNoiseFreq;
-                break;
-            case properties_decimal.lwr2:
-                ret = LWR2;
-                break;
-            case properties_decimal.lwr2Freq:
-                ret = LWR2NoiseFreq;
-                break;
-            case properties_decimal.eTension:
-                ret = edgeSlideTension;
-                break;
-            case properties_decimal.rot:
-                ret = rotation;
-                break;
-            case properties_decimal.pBias:
-                ret = proximityBias;
-                break;
-            case properties_decimal.pBiasDist:
-                ret = proximityIsoDistance;
-                break;
-            case properties_decimal.proxSideRaysMultiplier:
-                ret = proxSideRaysMultiplier;
-                break;
-            case properties_decimal.rayExtension:
-                ret = rayExtension;
-                break;
-            case properties_decimal.keyhole_factor:
-                ret = gcRayExtension;
-                break;
-        }
+            properties_decimal.horLength => _subShapeRef switch
+            {
+                0 => subShapeHorLength,
+                1 => subShape2HorLength,
+                2 => subShape3HorLength,
+                _ => ret
+            },
+            properties_decimal.verLength => _subShapeRef switch
+            {
+                0 => subShapeVerLength,
+                1 => subShape2VerLength,
+                2 => subShape3VerLength,
+                _ => ret
+            },
+            properties_decimal.horOffset => _subShapeRef switch
+            {
+                0 => subShapeHorOffset,
+                1 => subShape2HorOffset,
+                2 => subShape3HorOffset,
+                _ => ret
+            },
+            properties_decimal.verOffset => _subShapeRef switch
+            {
+                0 => subShapeVerOffset,
+                1 => subShape2VerOffset,
+                2 => subShape3VerOffset,
+                _ => ret
+            },
+            properties_decimal.gHorOffset => globalHorOffset,
+            properties_decimal.gVerOffset => globalVerOffset,
+            properties_decimal.iCR => innerCRR,
+            properties_decimal.oCR => outerCRR,
+            properties_decimal.sBias => sideBias,
+            properties_decimal.hTBias => horTipBias,
+            properties_decimal.hTNVar => horTipBiasNVar,
+            properties_decimal.hTPVar => horTipBiasPVar,
+            properties_decimal.vTBias => verTipBias,
+            properties_decimal.vTNVar => verTipBiasNVar,
+            properties_decimal.vTPVar => verTipBiasPVar,
+            properties_decimal.lwr => LWR,
+            properties_decimal.lwrFreq => LWRNoiseFreq,
+            properties_decimal.lwr2 => LWR2,
+            properties_decimal.lwr2Freq => LWR2NoiseFreq,
+            properties_decimal.eTension => edgeSlideTension,
+            properties_decimal.rot => rotation,
+            properties_decimal.pBias => proximityBias,
+            properties_decimal.pBiasDist => proximityIsoDistance,
+            properties_decimal.proxSideRaysMultiplier => proxSideRaysMultiplier,
+            properties_decimal.rayExtension => rayExtension,
+            properties_decimal.keyhole_factor => gcRayExtension,
+            _ => ret
+        };
 
         return ret;
     }
@@ -608,7 +477,7 @@ public class ShapeSettings
         pSetDecimal(p, val, _subShapeRef);
     }
 
-    void pSetDecimal(properties_decimal p, decimal val, int _subShapeRef)
+    private void pSetDecimal(properties_decimal p, decimal val, int _subShapeRef)
     {
         switch (p)
         {
@@ -742,7 +611,7 @@ public class ShapeSettings
         pDefaultDecimal(p, _subShapeRef);
     }
 
-    void pDefaultDecimal(properties_decimal p, int _subShapeRef)
+    private void pDefaultDecimal(properties_decimal p, int _subShapeRef)
     {
         switch (p)
         {
@@ -876,134 +745,63 @@ public class ShapeSettings
         return pGetDefaultDecimal(p, _subShapeRef);
     }
 
-    static decimal pGetDefaultDecimal(properties_decimal p, int _subShapeRef)
+    private static decimal pGetDefaultDecimal(properties_decimal p, int _subShapeRef)
     {
         decimal ret = 0;
-        switch (p)
+        ret = p switch
         {
-            case properties_decimal.horLength:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = default_subShapeHorLength;
-                        break;
-                    case 1:
-                        ret = default_subShapeHorLength;
-                        break;
-                    case 2:
-                        ret = default_subShapeHorLength;
-                        break;
-                }
-                break;
-            case properties_decimal.verLength:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = default_subShapeVerLength;
-                        break;
-                    case 1:
-                        ret = default_subShapeVerLength;
-                        break;
-                    case 2:
-                        ret = default_subShapeVerLength;
-                        break;
-                }
-                break;
-            case properties_decimal.horOffset:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = default_subShapeHorOffset;
-                        break;
-                    case 1:
-                        ret = default_subShape2HorOffset;
-                        break;
-                    case 2:
-                        ret = default_subShape3HorOffset;
-                        break;
-                }
-                break;
-            case properties_decimal.verOffset:
-                switch (_subShapeRef)
-                {
-                    case 0:
-                        ret = default_subShapeVerOffset;
-                        break;
-                    case 1:
-                        ret = default_subShape2VerOffset;
-                        break;
-                    case 2:
-                        ret = default_subShape3VerOffset;
-                        break;
-                }
-                break;
-            case properties_decimal.gHorOffset:
-                ret = default_globalHorOffset;
-                break;
-            case properties_decimal.gVerOffset:
-                ret = default_globalVerOffset;
-                break;
-            case properties_decimal.iCR:
-                ret = default_innerCRR;
-                break;
-            case properties_decimal.oCR:
-                ret = default_outerCRR;
-                break;
-            case properties_decimal.sBias:
-                ret = default_sideBias;
-                break;
-            case properties_decimal.hTBias:
-                ret = default_horTipBias;
-                break;
-            case properties_decimal.hTNVar:
-                ret = default_horTipBiasNVar;
-                break;
-            case properties_decimal.hTPVar:
-                ret = default_horTipBiasPVar;
-                break;
-            case properties_decimal.vTBias:
-                ret = default_verTipBias;
-                break;
-            case properties_decimal.vTNVar:
-                ret = default_verTipBiasNVar;
-                break;
-            case properties_decimal.vTPVar:
-                ret = default_verTipBiasPVar;
-                break;
-            case properties_decimal.lwr:
-                ret = default_LWR;
-                break;
-            case properties_decimal.lwrFreq:
-                ret = default_LWRNoiseFreq;
-                break;
-            case properties_decimal.lwr2:
-                ret = default_LWR;
-                break;
-            case properties_decimal.lwr2Freq:
-                ret = default_LWRNoiseFreq;
-                break;
-            case properties_decimal.eTension:
-                ret = default_edgeSlideTension;
-                break;
-            case properties_decimal.rot:
-                ret = default_rotation;
-                break;
-            case properties_decimal.pBias:
-                ret = default_proximityBias;
-                break;
-            case properties_decimal.pBiasDist:
-                ret = default_proximityIsoDistance;
-                break;
-            case properties_decimal.proxSideRaysMultiplier:
-                ret = default_proximitySideRaysFallOffMultiplier;
-                break;
-            case properties_decimal.rayExtension:
-                ret = default_rayExtension;
-                break;
-            case properties_decimal.keyhole_factor:
-                ret = default_rayExtension;
-                break;
-        }
+            properties_decimal.horLength => _subShapeRef switch
+            {
+                0 => default_subShapeHorLength,
+                1 => default_subShapeHorLength,
+                2 => default_subShapeHorLength,
+                _ => ret
+            },
+            properties_decimal.verLength => _subShapeRef switch
+            {
+                0 => default_subShapeVerLength,
+                1 => default_subShapeVerLength,
+                2 => default_subShapeVerLength,
+                _ => ret
+            },
+            properties_decimal.horOffset => _subShapeRef switch
+            {
+                0 => default_subShapeHorOffset,
+                1 => default_subShape2HorOffset,
+                2 => default_subShape3HorOffset,
+                _ => ret
+            },
+            properties_decimal.verOffset => _subShapeRef switch
+            {
+                0 => default_subShapeVerOffset,
+                1 => default_subShape2VerOffset,
+                2 => default_subShape3VerOffset,
+                _ => ret
+            },
+            properties_decimal.gHorOffset => default_globalHorOffset,
+            properties_decimal.gVerOffset => default_globalVerOffset,
+            properties_decimal.iCR => default_innerCRR,
+            properties_decimal.oCR => default_outerCRR,
+            properties_decimal.sBias => default_sideBias,
+            properties_decimal.hTBias => default_horTipBias,
+            properties_decimal.hTNVar => default_horTipBiasNVar,
+            properties_decimal.hTPVar => default_horTipBiasPVar,
+            properties_decimal.vTBias => default_verTipBias,
+            properties_decimal.vTNVar => default_verTipBiasNVar,
+            properties_decimal.vTPVar => default_verTipBiasPVar,
+            properties_decimal.lwr => default_LWR,
+            properties_decimal.lwrFreq => default_LWRNoiseFreq,
+            properties_decimal.lwr2 => default_LWR,
+            properties_decimal.lwr2Freq => default_LWRNoiseFreq,
+            properties_decimal.eTension => default_edgeSlideTension,
+            properties_decimal.rot => default_rotation,
+            properties_decimal.pBias => default_proximityBias,
+            properties_decimal.pBiasDist => default_proximityIsoDistance,
+            properties_decimal.proxSideRaysMultiplier => default_proximitySideRaysFallOffMultiplier,
+            properties_decimal.rayExtension => default_rayExtension,
+            properties_decimal.keyhole_factor => default_rayExtension,
+            _ => ret
+        };
 
         return ret;
     }
@@ -1020,18 +818,13 @@ public class ShapeSettings
         pSetString(p, val);
     }
 
-    void pSetString(properties_s p, string val)
+    private void pSetString(properties_s p, string val)
     {
-        switch (p)
+        layerName = p switch
         {
-            case properties_s.s_name:
-                layerName = val;
-                break;
-            default:
-                layerName = "";
-                break;
-        }
-        
+            properties_s.s_name => val,
+            _ => ""
+        };
     }
 
     public string getString(properties_s p)
@@ -1039,15 +832,13 @@ public class ShapeSettings
         return pGetString(p);
     }
 
-    string pGetString(properties_s p)
+    private string pGetString(properties_s p)
     {
-        string ret = "";
-        switch (p)
+        string ret = p switch
         {
-            case properties_s.s_name:
-                ret = layerName;
-                break;
-        }
+            properties_s.s_name => layerName,
+            _ => ""
+        };
 
         return ret;
     }
@@ -1057,14 +848,13 @@ public class ShapeSettings
         pDefaultString(p);
     }
 
-    void pDefaultString(properties_s p)
+    private void pDefaultString(properties_s p)
     {
-        switch (p)
+        layerName = p switch
         {
-            case properties_s.s_name:
-                layerName = default_layerName;
-                break;
-        }
+            properties_s.s_name => default_layerName,
+            _ => layerName
+        };
     }
     
     public static string getDefaultString(properties_s p)
@@ -1072,15 +862,13 @@ public class ShapeSettings
         return pGetDefaultString(p);
     }
 
-    static string pGetDefaultString(properties_s p)
+    private static string pGetDefaultString(properties_s p)
     {
-        string ret = "";
-        switch (p)
+        string ret = p switch
         {
-            case properties_s.s_name:
-                ret = default_layerName;
-                break;
-        }
+            properties_s.s_name => default_layerName,
+            _ => ""
+        };
 
         return ret;
     }

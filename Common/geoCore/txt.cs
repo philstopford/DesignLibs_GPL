@@ -83,7 +83,7 @@ public class GCTxt : GCElement
     {
         point = select switch
         {
-            true => new (point.X + pos.X, point.Y + pos.Y),
+            true => new Point64(point.X + pos.X, point.Y + pos.Y),
             _ => point
         };
     }
@@ -95,7 +95,7 @@ public class GCTxt : GCElement
 
     private void pMove(Point64 pos)
     {
-        point = new (point.X + pos.X, point.Y + pos.Y);
+        point = new Point64(point.X + pos.X, point.Y + pos.Y);
     }
 
     public override void setMirrorx()
@@ -165,7 +165,7 @@ public class GCTxt : GCElement
         return pIsText();
     }
 
-    private bool pIsText()
+    private static bool pIsText()
     {
         return true;
     }
@@ -329,13 +329,13 @@ public class GCTxt : GCElement
 
     private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
-        List<GCPolygon> ret = new();
+        List<GCPolygon> ret = [];
         Path64 points = Helper.initedPath64(5);
-        points[0] = new (point.X - 1, point.Y - 1);
-        points[1] = new (point.X - 1, point.Y + 1);
-        points[2] = new (point.X + 1, point.Y + 1);
-        points[3] = new (point.X + 1, point.Y - 1);
-        points[4] = new (points[0]);
+        points[0] = new Point64(point.X - 1, point.Y - 1);
+        points[1] = new Point64(point.X - 1, point.Y + 1);
+        points[2] = new Point64(point.X + 1, point.Y + 1);
+        points[3] = new Point64(point.X + 1, point.Y - 1);
+        points[4] = new Point64(points[0]);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
         ret[0].resize(scaleFactor);
         ret[0].text = true;

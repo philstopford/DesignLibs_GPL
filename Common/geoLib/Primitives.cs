@@ -63,14 +63,4 @@ public class MyRound
     public int horFace { get; set; }
     public double MaxRadius { get; set; }
     public typeRound direction { get; set; }
-
-    public MyRound()
-    {
-        pMyRound();
-    }
-
-    private void pMyRound()
-    {
-        // nothing to do here.
-    }
 }

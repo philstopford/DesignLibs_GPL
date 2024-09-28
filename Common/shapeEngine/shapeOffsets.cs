@@ -37,7 +37,7 @@ public static class shapeOffsets
         }
         xOffset += tmp_xOffset;
 
-        return new (xOffset, yOffset);
+        return new PointD(xOffset, yOffset);
     }
 
     private static PointD lShape_offset(ShapeSettings shapeSettings)
@@ -103,7 +103,7 @@ public static class shapeOffsets
 
         xOffset += tmp_xOffset;
         
-        return new (xOffset, yOffset);
+        return new PointD(xOffset, yOffset);
     }
 
     private static PointD tShape_offset(ShapeSettings shapeSettings)
@@ -180,7 +180,7 @@ public static class shapeOffsets
         }
 
         xOffset += tmp_xOffset;
-        return new (xOffset, yOffset);
+        return new PointD(xOffset, yOffset);
     }
 
     private static PointD xShape_offset(ShapeSettings shapeSettings)
@@ -262,7 +262,7 @@ public static class shapeOffsets
         }
 
         xOffset += tmp_xOffset;
-        return new (xOffset, yOffset);
+        return new PointD(xOffset, yOffset);
     }
 
     private static PointD uShape_offset(ShapeSettings shapeSettings)
@@ -333,7 +333,7 @@ public static class shapeOffsets
             }
         }
         xOffset += tmp_xOffset;
-        return new (xOffset, yOffset);
+        return new PointD(xOffset, yOffset);
     }
 
     private static PointD sShape_offset(ShapeSettings shapeSettings)
@@ -440,7 +440,7 @@ public static class shapeOffsets
 
         yOffset -= tmp_yOffset;
         xOffset += tmp_xOffset;
-        return new (xOffset, yOffset);
+        return new PointD(xOffset, yOffset);
     }
 
     public static PointD doOffsets(int mode, ShapeSettings shapeSettings)
@@ -471,8 +471,10 @@ public static class shapeOffsets
                     case (int)ShapeSettings.typeShapes_mode0.S:
                         offset = sShape_offset(shapeSettings);
                         break;
+                    /*
                     case (int)ShapeSettings.typeShapes_mode0.BOOLEAN:
                     case (int)ShapeSettings.typeShapes_mode0.GEOCORE:
+                    */
                     default:
                         // customShape_offset(entropyLayerSettings);
                         break;

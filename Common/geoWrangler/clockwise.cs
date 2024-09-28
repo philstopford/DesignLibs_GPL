@@ -40,10 +40,10 @@ public static partial class GeoWrangler
             }
         }
 
-        PathsD ret = new();
+        PathsD ret = [];
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(new(source[newOrder[i]]));
+            ret.Add(new PathD(source[newOrder[i]]));
         }
 
         return ret;
@@ -67,7 +67,7 @@ public static partial class GeoWrangler
 
     public static PathsD clockwise(PathsD source)
     {
-        return new (source.Select(t => pClockwise(new PathD (t))));
+        return new PathsD(source.Select(t => pClockwise(new PathD (t))));
     }
 
     public static PathsD clockwiseAndReorderXY(PathsD iPoints)
@@ -77,11 +77,8 @@ public static partial class GeoWrangler
 
     private static PathsD pClockwiseAndReorderXY(PathsD iPoints)
     {
-        PathsD ret = new();
-        foreach (PathD t in iPoints)
-        {
-            ret.Add(pClockwiseAndReorderXY(t));
-        }
+        PathsD ret = [];
+        ret.AddRange(iPoints.Select(pClockwiseAndReorderXY));
         return ret;
     }
 
@@ -104,11 +101,8 @@ public static partial class GeoWrangler
 
     private static PathsD pClockwiseAndReorderYX(PathsD iPoints)
     {
-        PathsD ret = new();
-        foreach (PathD t in iPoints)
-        {
-            ret.Add(pClockwiseAndReorderYX(t));
-        }
+        PathsD ret = [];
+        ret.AddRange(iPoints.Select(pClockwiseAndReorderYX));
         return ret;
     }
     

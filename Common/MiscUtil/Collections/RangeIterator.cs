@@ -12,24 +12,21 @@ namespace MiscUtil.Collections;
 /// </summary>
 public class RangeIterator<T> : IEnumerable<T>
 {
-    private readonly Range<T> range;
     /// <summary>
     /// Returns the range this object iterates over
     /// </summary>
-    public Range<T> Range => range;
+    public Range<T> Range { get; }
 
-    private readonly Func<T, T> step;
     /// <summary>
     /// Returns the step function used for this range
     /// </summary>
-    public Func<T, T> Step => step;
+    public Func<T, T> Step { get; }
 
-    private readonly bool ascending;
     /// <summary>
     /// Returns whether or not this iterator works up from the start point (ascending)
     /// or down from the end point (descending)
     /// </summary>
-    public bool Ascending => ascending;
+    public bool Ascending { get; }
 
     /// <summary>
     /// Creates an ascending iterator over the given range with the given step function
@@ -53,9 +50,9 @@ public class RangeIterator<T> : IEnumerable<T>
             case false when range.Comparer.Compare(range.End, step(range.End)) <= 0:
                 throw new ArgumentException("step does nothing, or progresses the wrong way");
         }
-        this.ascending = ascending;
-        this.range = range;
-        this.step = step;
+        this.Ascending = ascending;
+        this.Range = range;
+        this.Step = step;
     }
 
     /// <summary>
@@ -65,11 +62,11 @@ public class RangeIterator<T> : IEnumerable<T>
     {
         // A descending range effectively has the start and end points (and inclusions)
         // reversed, and a reverse comparer.
-        bool includesStart = ascending ? range.IncludesStart : range.IncludesEnd;
-        bool includesEnd = ascending ? range.IncludesEnd : range.IncludesStart;
-        T start = ascending ? range.Start : range.End;
-        T end = ascending ? range.End : range.Start;
-        IComparer<T> comparer = ascending ? range.Comparer : range.Comparer.Reverse();
+        bool includesStart = Ascending ? Range.IncludesStart : Range.IncludesEnd;
+        bool includesEnd = Ascending ? Range.IncludesEnd : Range.IncludesStart;
+        T start = Ascending ? Range.Start : Range.End;
+        T end = Ascending ? Range.End : Range.Start;
+        IComparer<T> comparer = Ascending ? Range.Comparer : Range.Comparer.Reverse();
 
         // Now we can use our local version of the range variables to iterate
 
@@ -88,12 +85,12 @@ public class RangeIterator<T> : IEnumerable<T>
                 break;
             }
         }
-        value = step(value);
+        value = Step(value);
 
         while (comparer.Compare(value, end) < 0)
         {
             yield return value;
-            value = step(value);
+            value = Step(value);
         }
 
         switch (includesEnd)

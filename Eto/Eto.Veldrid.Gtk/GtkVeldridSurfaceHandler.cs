@@ -12,12 +12,12 @@ namespace Eto.Veldrid.Gtk
 {
 	public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler, VeldridSurface.IOpenGL
 	{
-		GLArea? glArea;
-		System.Action _makeCurrent;
-		System.Action _clearCurrent;
+		private GLArea? glArea;
+		private System.Action _makeCurrent;
+		private System.Action _clearCurrent;
 		public Size RenderSize => Size.Round((SizeF)Widget.Size * Scale);
 
-		float Scale => Widget.ParentWindow?.Screen?.LogicalPixelSize ?? 1;
+		private float Scale => Widget.ParentWindow?.Screen?.LogicalPixelSize ?? 1;
 
 		public override global::Gtk.Widget ContainerContentControl => glArea ?? base.ContainerContentControl;
 
@@ -60,7 +60,7 @@ namespace Eto.Veldrid.Gtk
 			return swapchain;
 		}
 
-		void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
+		private void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 		{
 			if (glArea == null)
 				return;
@@ -80,12 +80,12 @@ namespace Eto.Veldrid.Gtk
 			glArea.Resize += glArea_Resize;
 		}
 
-		void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
+		private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 		{
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 		}
 
-		bool skipDraw;
+		private bool skipDraw;
 
 		private void glArea_Resize(object o, ResizeArgs args)
 		{
@@ -93,7 +93,7 @@ namespace Eto.Veldrid.Gtk
 			Callback.OnResize(Widget, new ResizeEventArgs(RenderSize));
 		}
 
-		void glArea_Render(object o, RenderArgs args)
+		private void glArea_Render(object o, RenderArgs args)
 		{
 			if (!skipDraw)
 			{

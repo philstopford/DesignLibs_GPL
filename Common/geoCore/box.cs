@@ -1,5 +1,4 @@
-﻿using System;
-using gds;
+﻿using gds;
 using geoLib;
 using oasis;
 using System.Collections.Generic;
@@ -126,17 +125,17 @@ public class GCBox : GCElement
 
     private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
-        List<GCPolygon> ret = new();
+        List<GCPolygon> ret = [];
         Path64 points = Helper.initedPath64(5);
-        Int64 left = rect.Location.X;
-        Int64 bottom = rect.Location.Y;
-        Int64 right = left + rect.Width;
-        Int64 top = bottom + rect.Height;
-        points[0] = new (left, top);
-        points[1] = new (right, top);
-        points[2] = new (right, bottom);
-        points[3] = new (left, bottom);
-        points[4] = new (left, top);
+        long left = rect.Location.X;
+        long bottom = rect.Location.Y;
+        long right = left + rect.Width;
+        long top = bottom + rect.Height;
+        points[0] = new Point64(left, top);
+        points[1] = new Point64(right, top);
+        points[2] = new Point64(right, bottom);
+        points[3] = new Point64(left, bottom);
+        points[4] = new Point64(left, top);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
         ret[0].resize(scaleFactor);
         return ret;
@@ -254,15 +253,11 @@ public class GCBox : GCElement
             }
         }
 
-        switch (info_byte & 128)
+        ow.modal.geometry_h = (info_byte & 128) switch
         {
-            case > 0:
-                ow.modal.geometry_h = ow.modal.geometry_w;
-                break;
-            default:
-                ow.modal.geometry_h = rect.Height;
-                break;
-        }
+            > 0 => ow.modal.geometry_w,
+            _ => rect.Height
+        };
 
         switch (info_byte & 32)
         {
@@ -293,7 +288,7 @@ public class GCBox : GCElement
 
     public override Point64 getPos()
     {
-        return new (rect.Location);
+        return new Point64(rect.Location);
     }
 
     public override int getWidth()

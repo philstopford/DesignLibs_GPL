@@ -25,13 +25,13 @@ public partial class VeldridDriver
 		done_drawing = true;
 	}
 
-	int fgPolyListCount;
-	int bgPolyListCount;
-	int tessPolyListCount;
-	
-	VertexPositionColor[]? tessPolyList;
-	VertexPositionColor[]? polyList;
-	VertexPositionColor[]? pointsList;
+	private int fgPolyListCount;
+	private int bgPolyListCount;
+	private int tessPolyListCount;
+
+	private VertexPositionColor[]? tessPolyList;
+	private VertexPositionColor[]? polyList;
+	private VertexPositionColor[]? pointsList;
 
 	private Task drawPolygons()
 	{
@@ -49,7 +49,7 @@ public partial class VeldridDriver
 		}
 		else
 		{
-			pointCountBeforeCurrentPolygon_fg = Array.Empty<int>();
+			pointCountBeforeCurrentPolygon_fg = [];
 			totalPointCount_fg = 0;
 		}
 
@@ -70,7 +70,7 @@ public partial class VeldridDriver
 		}
 		else
 		{
-			pointCountBeforeCurrentPolygon_bg = Array.Empty<int>();
+			pointCountBeforeCurrentPolygon_bg = [];
 			totalPointCount_bg = 0;
 		}
 
@@ -93,9 +93,9 @@ public partial class VeldridDriver
 			// Carve our Z-space up to stack polygons
 			int numPolys = totalPolyListCount;
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-			polyIndices = Array.Empty<uint>();
-			pointsIndices = Array.Empty<uint>();
-			tessIndices = Array.Empty<uint>();
+			polyIndices = [];
+			pointsIndices = [];
+			tessIndices = [];
 			
 			if (ovpSettings.drawFilled())
 			{
@@ -302,9 +302,9 @@ public partial class VeldridDriver
 		}
 	}
 
-	int linesCount;
+	private int linesCount;
 
-	VertexPositionColor[]? lineList;
+	private VertexPositionColor[]? lineList;
 
 	private Task drawLines()
 	{
@@ -391,7 +391,7 @@ public partial class VeldridDriver
 		}
 	}
 
-	List<VertexPositionColor>? grid;
+	private List<VertexPositionColor>? grid;
 	private Task  drawGrid()
 	{
 		if (!ovpSettings.drawGrid())
@@ -417,7 +417,7 @@ public partial class VeldridDriver
 		float x = ovpSettings.getCameraX();
 		float y = ovpSettings.getCameraY();
 
-		grid = new();
+		grid = [];
 
 		if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
 		{
@@ -566,8 +566,8 @@ public partial class VeldridDriver
 				break;
 		}
 	}
-	
-	VertexPositionColor[]? axesArray;
+
+	private VertexPositionColor[]? axesArray;
 	private Task  drawAxes()
 	{
 		if (!ovpSettings.drawAxes())
@@ -592,7 +592,7 @@ public partial class VeldridDriver
 			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface!.RenderWidth * zoom, 0.0f, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 
-		axesIndices = new uint[4] { 0, 1, 2, 3 };
+		axesIndices = [0, 1, 2, 3];
 		
 		return Task.CompletedTask;
 	}
@@ -672,7 +672,7 @@ public partial class VeldridDriver
 		{
 			if (LinePipeline == null)
 			{
-				throw new("populate_command_list : LinePipeline not initialized!");
+				throw new Exception("populate_command_list : LinePipeline not initialized!");
 			}
 
 			lock (GridVertexBuffer)
@@ -703,7 +703,7 @@ public partial class VeldridDriver
 		{
 			if (LinePipeline == null)
 			{
-				throw new("populate_command_list : LinePipeline not initialized!");
+				throw new Exception("populate_command_list : LinePipeline not initialized!");
 			}
 
 			lock (AxesVertexBuffer)
@@ -736,7 +736,7 @@ public partial class VeldridDriver
 			{
 				if (LinePipeline == null)
 				{
-					throw new("populate_command_list : FilledPipeline not initialized!");
+					throw new Exception("populate_command_list : FilledPipeline not initialized!");
 				}
 
 				lock (TessVertexBuffer)
@@ -768,7 +768,7 @@ public partial class VeldridDriver
 		{
 			if (LinePipeline == null)
 			{
-				throw new("populate_command_list : LinesPipeline not initialized!");
+				throw new Exception("populate_command_list : LinesPipeline not initialized!");
 			}
 
 			lock (PolysVertexBuffer)
@@ -799,7 +799,7 @@ public partial class VeldridDriver
 		{
 			if (LinePipeline == null)
 			{
-				throw new("populate_command_list : LinesPipeline not initialized!");
+				throw new Exception("populate_command_list : LinesPipeline not initialized!");
 			}
 
 			lock (LinesVertexBuffer)
@@ -832,7 +832,7 @@ public partial class VeldridDriver
 			{
 				if (LinePipeline == null)
 				{
-					throw new("populate_command_list : FilledPipeline not initialized!");
+					throw new Exception("populate_command_list : FilledPipeline not initialized!");
 				}
 
 				lock (PointsVertexBuffer)

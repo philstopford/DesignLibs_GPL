@@ -15,7 +15,7 @@ internal class demo_fordfulkerson
         from source 's' to sink 't' in residual 
         graph. Also fills parent[] to store the 
         path */
-        private bool bfs(int[,] rGraph, int s, int t, int[] parent)
+        private static bool bfs(int[,] rGraph, int s, int t, int[] parent)
         {
             // Create a visited array and mark  
             // all vertices as not visited 
@@ -25,7 +25,7 @@ internal class demo_fordfulkerson
 
             // Create a queue, enqueue source vertex and mark 
             // source vertex as visited 
-            List<int> queue = new() {s};
+            List<int> queue = [s];
             visited[s] = true;
             parent[s] = -1;
 
@@ -56,7 +56,7 @@ internal class demo_fordfulkerson
 
         // Returns tne maximum flow 
         // from s to t in the given graph 
-        public int fordFulkerson(int[,] graph, int s, int t)
+        public static int fordFulkerson(int[,] graph, int s, int t)
         {
             int u, v;
 

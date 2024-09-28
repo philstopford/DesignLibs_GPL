@@ -28,19 +28,17 @@ public abstract class EndianBitConverter
 
     #region Factory properties
 
-    private static LittleEndianBitConverter little = new();
     /// <summary>
     /// Returns a little-endian bit converter instance. The same instance is
     /// always returned.
     /// </summary>
-    public static LittleEndianBitConverter Little => little;
+    public static LittleEndianBitConverter Little { get; } = new();
 
-    private static BigEndianBitConverter big = new();
     /// <summary>
     /// Returns a big-endian bit converter instance. The same instance is
     /// always returned.
     /// </summary>
-    public static BigEndianBitConverter Big => big;
+    public static BigEndianBitConverter Big { get; } = new();
 
     #endregion
 
@@ -223,12 +221,12 @@ public abstract class EndianBitConverter
         switch (value)
         {
             case null:
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
         }
 
         if (startIndex < 0 || startIndex > value.Length - bytesRequired)
         {
-            throw new ArgumentOutOfRangeException("startIndex");
+            throw new ArgumentOutOfRangeException(nameof(startIndex));
         }
     }
 
@@ -492,7 +490,7 @@ public abstract class EndianBitConverter
         switch (buffer)
         {
             case null:
-                throw new ArgumentNullException("buffer", "Byte array must not be null");
+                throw new ArgumentNullException(nameof(buffer), "Byte array must not be null");
         }
         if (buffer.Length < index + bytes)
         {

@@ -245,7 +245,6 @@ public sealed class CachingBufferManager : IBufferManager
             }
         }
 
-        private bool clearAfterUse = true;
         /// <summary>
         /// Whether buffers are cleared (i.e. all bytes set to 0) after they
         /// are disposed. Defaults to true. For situations where buffers do not
@@ -253,11 +252,7 @@ public sealed class CachingBufferManager : IBufferManager
         /// data they have specifically put into the buffer (e.g. when copying
         /// streams), this may be set to false for efficiency.
         /// </summary>
-        public bool ClearAfterUse
-        {
-            get => clearAfterUse;
-            set => clearAfterUse = value;
-        }
+        public bool ClearAfterUse { get; set; } = true;
 
         private double scalingFactor = 2.0;
         /// <summary>

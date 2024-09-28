@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;
 
@@ -12,11 +13,8 @@ public static partial class GeoWrangler
     
     private static Paths64 pRemoveDuplicates(Paths64 source, double threshold = Constants.tolerance)
     {
-        Paths64 ret = new ();
-        foreach (var t in source)
-        {
-            ret.Add(removeDuplicates(t, threshold));
-        }
+        Paths64 ret = [];
+        ret.AddRange(source.Select(t => removeDuplicates(t, threshold)));
 
         return ret;
     }
@@ -61,7 +59,7 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 3:
-                return new(source);
+                return new Path64(source);
         }
 
         Path64 ret = Clipper.TrimCollinear(source, distanceBetweenPoints(source[0], source[^1]) == 0);

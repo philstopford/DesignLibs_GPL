@@ -37,10 +37,7 @@ public class DataProducer<T> : IDataProducer<T>
                 throw new InvalidOperationException("Cannot produce after end of data");
         }
 
-        if (DataProduced != null)
-        {
-            DataProduced(item);
-        }
+        DataProduced?.Invoke(item);
     }
 
     /// <summary>
@@ -120,9 +117,6 @@ public class DataProducer<T> : IDataProducer<T>
                 throw new InvalidOperationException("Cannot produce end twice");
         }
         endReached = true;
-        if (EndOfData != null)
-        {
-            EndOfData();
-        }
+        EndOfData?.Invoke();
     }
 }

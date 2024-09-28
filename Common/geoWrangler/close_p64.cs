@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Clipper2Lib;
 
 namespace geoWrangler;
@@ -26,18 +27,15 @@ public static partial class GeoWrangler
         Path64 ret = new(source);
         if (Math.Abs(source[0].X - source[^1].X) > Constants.tolerance || Math.Abs(source[0].Y - source[^1].Y) > Constants.tolerance)
         {
-            ret.Add(new (source[0]));
+            ret.Add(new Point64(source[0]));
         }
         return ret;
     }
     
     private static Paths64 pClose(Paths64 source)
     {
-        Paths64 ret = new();
-        foreach (Path64 p in source)
-        {
-            ret.Add(pClose(p));
-        }
+        Paths64 ret = [];
+        ret.AddRange(source.Select(pClose));
 
         return ret;
     }

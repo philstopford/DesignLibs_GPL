@@ -34,7 +34,7 @@ public class Adler32
         switch (data)
         {
             case null:
-                throw new System.ArgumentNullException("data");
+                throw new System.ArgumentNullException(nameof(data));
         }
         uint s1 = (uint)(initial & 0xffff);
         uint s2 = (uint)((initial >> 16) & 0xffff);
@@ -73,7 +73,7 @@ public class Adler32
     {
         return data switch
         {
-            null => throw new System.ArgumentNullException("data"),
+            null => throw new System.ArgumentNullException(nameof(data)),
             _ => ComputeChecksum(initial, data, 0, data.Length)
         };
     }
@@ -89,7 +89,7 @@ public class Adler32
         switch (stream)
         {
             case null:
-                throw new System.ArgumentNullException("stream");
+                throw new System.ArgumentNullException(nameof(stream));
         }
         byte[] buffer = new byte[8172];
         int size;

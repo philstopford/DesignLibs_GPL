@@ -38,7 +38,7 @@ public static class StreamUtil
     {
         return bufferSize switch
         {
-            < 1 => throw new ArgumentOutOfRangeException("bufferSize"),
+            < 1 => throw new ArgumentOutOfRangeException(nameof(bufferSize)),
             _ => ReadFully(input, new byte[bufferSize])
         };
     }
@@ -59,7 +59,7 @@ public static class StreamUtil
     {
         return buffer switch
         {
-            null => throw new ArgumentNullException("buffer"),
+            null => throw new ArgumentNullException(nameof(buffer)),
             _ => ReadFully(input, buffer.Bytes)
         };
     }
@@ -82,12 +82,12 @@ public static class StreamUtil
         switch (buffer)
         {
             case null:
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
         }
         switch (input)
         {
             case null:
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
         }
         switch (buffer.Length)
         {
@@ -138,7 +138,7 @@ public static class StreamUtil
         switch (bufferSize)
         {
             case < 1:
-                throw new ArgumentOutOfRangeException("bufferSize");
+                throw new ArgumentOutOfRangeException(nameof(bufferSize));
             default:
                 Copy(input, output, new byte[bufferSize]);
                 break;
@@ -162,7 +162,7 @@ public static class StreamUtil
         switch (buffer)
         {
             case null:
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             default:
                 Copy(input, output, buffer.Bytes);
                 break;
@@ -187,17 +187,17 @@ public static class StreamUtil
         switch (buffer)
         {
             case null:
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
         }
         switch (input)
         {
             case null:
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
         }
         switch (output)
         {
             case null:
-                throw new ArgumentNullException("output");
+                throw new ArgumentNullException(nameof(output));
         }
         switch (buffer.Length)
         {
@@ -334,23 +334,23 @@ public static class StreamUtil
         switch (input)
         {
             case null:
-                throw new ArgumentNullException("input");
+                throw new ArgumentNullException(nameof(input));
         }
 
         switch (buffer)
         {
             case null:
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
         }
 
         if (startIndex < 0 || startIndex >= buffer.Length)
         {
-            throw new ArgumentOutOfRangeException("startIndex");
+            throw new ArgumentOutOfRangeException(nameof(startIndex));
         }
 
         if (bytesToRead < 1 || startIndex + bytesToRead > buffer.Length)
         {
-            throw new ArgumentOutOfRangeException("bytesToRead");
+            throw new ArgumentOutOfRangeException(nameof(bytesToRead));
         }
 
         int index = 0;

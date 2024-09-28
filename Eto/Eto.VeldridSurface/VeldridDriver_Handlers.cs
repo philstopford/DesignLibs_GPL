@@ -190,7 +190,7 @@ public partial class VeldridDriver
 				break;
 		}
 
-		if (e.Buttons == MouseButtons.Middle || e.Modifiers == Keys.Control && e.Buttons == MouseButtons.Primary)
+		if (e.Buttons == MouseButtons.Middle || e is { Modifiers: Keys.Control, Buttons: MouseButtons.Primary })
 		{
 			selectByClick(e.Location.X, e.Location.Y);
 		}
@@ -276,7 +276,7 @@ public partial class VeldridDriver
 					foreach (PointF t1 in ovpSettings.polyList[poly].poly)
 					{
 						PointF t = new(t1.X, t1.Y);
-						pTree.AddPoint(new double[] { t.X, t.Y }, t);
+						pTree.AddPoint([t.X, t.Y], t);
 					}
 
 					double maxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
@@ -288,10 +288,10 @@ public partial class VeldridDriver
 					double deltaY = (maxY - minY) * 0.5f;
 
 					PointF midPoint = new((float)(minX + deltaX), (float)(minY + deltaY));
-					pTree.AddPoint(new double[] { midPoint.X, midPoint.Y }, midPoint);
+					pTree.AddPoint([midPoint.X, midPoint.Y], midPoint);
 
 					// '1' forces a single nearest neighbor to be returned.
-					NearestNeighbour<PointF> pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
+					NearestNeighbour<PointF> pIter = pTree.NearestNeighbors([scaledLocation.X, scaledLocation.Y], 1);
 					while (pIter.MoveNext())
 					{
 						distances[poly] = Math.Abs(pIter.CurrentDistance);
@@ -322,7 +322,7 @@ public partial class VeldridDriver
 							foreach (PointF t1 in ovpSettings.lineList[line].poly)
 							{
 								PointF t = new(t1.X, t1.Y);
-								pTree.AddPoint(new double[] { t.X, t.Y }, t);
+								pTree.AddPoint([t.X, t.Y], t);
 							}
 
 							double maxX = ovpSettings.lineList[line].poly.Max(p => p.X);
@@ -334,10 +334,11 @@ public partial class VeldridDriver
 							double deltaY = (maxY - minY) * 0.5f;
 
 							PointF midPoint = new((float)(minX + deltaX), (float)(minY + deltaY));
-							pTree.AddPoint(new double[] { midPoint.X, midPoint.Y }, midPoint);
+							pTree.AddPoint([midPoint.X, midPoint.Y], midPoint);
 
 							// '1' forces a single nearest neighbor to be returned.
-							NearestNeighbour<PointF> pIter = pTree.NearestNeighbors(new double[] { scaledLocation.X, scaledLocation.Y }, 1);
+							NearestNeighbour<PointF> pIter = pTree.NearestNeighbors([scaledLocation.X, scaledLocation.Y
+							], 1);
 							while (pIter.MoveNext())
 							{
 								distances[line] = Math.Abs(pIter.CurrentDistance);

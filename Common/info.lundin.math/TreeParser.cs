@@ -23,7 +23,6 @@ public class TreeParser
     private int maxoplength;
 
     private bool bRequireParentheses;
-    private bool bImplicitMultiplication;
 
     /// <summary>
     /// Constructs a TreeParser instance
@@ -71,11 +70,7 @@ public class TreeParser
     /// If implicit multiplication is disabled (false) parsing an expression that does not explicitly use the * operator may
     /// throw syntax errors with various error messages.
     /// </summary>
-    public bool ImplicitMultiplication
-    {
-        get => bImplicitMultiplication;
-        set => bImplicitMultiplication = value;
-    }
+    public bool ImplicitMultiplication { get; set; }
 
     /// <summary>
     /// Gets or sets the culture to use
@@ -86,10 +81,7 @@ public class TreeParser
 
         set
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("Culture cannot be null");
-            }
+            ArgumentNullException.ThrowIfNull(value);
 
             // Cannot allow division operator as decimal separator (fa, fa-IR)
             if (value.NumberFormat.NumberDecimalSeparator == "/")
@@ -153,20 +145,20 @@ public class TreeParser
                     // earlier but not for each individual function.
                     if (bRequireParentheses && !isTwoArgOp(op) && op != "!" && exp[i] != '(')
                     {
-                        throw new ParserException("Paranthesis required for arguments -> " + exp.Substring(i - oplen));
+                        throw new ParserException(string.Concat("Paranthesis required for arguments -> ", exp.AsSpan(i - oplen)));
                     }
 
                     // If we have an operator immediately following a function and it's not unary + or - then it's an error
                     string nop = getOp(exp, i);
                     if (nop != null && isTwoArgOp(nop) && !(nop.Equals("+") || nop.Equals("-")))
                     {
-                        throw new ParserException("Syntax error near -> " + exp.Substring(i - oplen));
+                        throw new ParserException(string.Concat("Syntax error near -> ", exp.AsSpan(i - oplen)));
                     }
                 }
                 else if (!isAlpha(exp[i]) && !isConstant(exp[i]) && !isAllowedSym(exp[i]))
                 {
                     // This cannot be a valid character, throw exception
-                    throw new ParserException("Syntax error near -> " + exp.Substring(i));
+                    throw new ParserException(string.Concat("Syntax error near -> ", exp.AsSpan(i)));
                 }
                 else
                 {
@@ -210,7 +202,7 @@ public class TreeParser
         ParseImplicit(string exp)
     {
         // Return expression unchanged if ImplicitMultiplication property is false.
-        if (!bImplicitMultiplication)
+        if (!ImplicitMultiplication)
         {
             return exp;
         }
@@ -249,17 +241,18 @@ public class TreeParser
                     str.Insert(i + p, "*");
                     p++;
                 }
-                else if (exp[i] == '(' && i - 1 >= 0 && exp[i - 1] == ')')
+                else switch (exp[i])
                 {
-                    // case: ( expr ) jp  ( expr ) , (2-x)(x+1) , sin(x)(2-x) 
-                    str.Insert(i + p, "*");
-                    p++;
-                }
-                else if (exp[i] == '(' && i - 1 >= 0 && isAlpha(exp[i - 1]) && backTrack(exp.Substring(0, i)) == null)
-                {
-                    // case: var jp  ( expr ) , x(x+1) , x(1-sin(x))
-                    str.Insert(i + p, "*");
-                    p++;
+                    case '(' when i - 1 >= 0 && exp[i - 1] == ')':
+                        // case: ( expr ) jp  ( expr ) , (2-x)(x+1) , sin(x)(2-x) 
+                        str.Insert(i + p, "*");
+                        p++;
+                        break;
+                    case '(' when i - 1 >= 0 && isAlpha(exp[i - 1]) && backTrack(exp.Substring(0, i)) == null:
+                        // case: var jp  ( expr ) , x(x+1) , x(1-sin(x))
+                        str.Insert(i + p, "*");
+                        p++;
+                        break;
                 }
             }
             catch
@@ -339,124 +332,124 @@ public class TreeParser
     /// </remarks>
     /// <param name="exp">the infix string expression to process</param>
     /// <returns>A tree datastructure of Node objects representing the expression</returns>
-    private Node
-        ParseInfix(string exp)
+    private Node ParseInfix(string exp)
     {
-        int i;
-        string sarg, fop;
-        Node tree = null;
-
-        string farg = sarg = fop = "";
-        int ma = i = 0;
-
-        int len = exp.Length;
-
-        if (len == 0)
+        while (true)
         {
-            throw new ParserException("Wrong number of arguments to operator");
-        }
+            int i;
+            string sarg, fop;
+            Node tree = null;
 
-        if (exp[0] == '(' && (ma = match(exp, 0)) == len - 1)
-        {
-            return ParseInfix(exp.Substring(1, ma - 1));
-        }
+            string farg = sarg = fop = "";
+            int ma = i = 0;
 
-        if (isVariable(exp))
-        {
-            // If built in constant put in value otherwise the variable
-            if (constants.ContainsKey(exp))
+            int len = exp.Length;
+
+            if (len == 0)
             {
-                return new Node(constants[exp]);
+                throw new ParserException("Wrong number of arguments to operator");
             }
 
-            return new Node(exp);
-        }
-
-        if (isConstant(exp))
-        {
-            try
+            if (exp[0] == '(' && (ma = match(exp, 0)) == len - 1)
             {
-                return new Node(double.Parse(exp, NumberStyles.Any, culture));
+                exp = exp.Substring(1, ma - 1);
+                continue;
             }
-            catch (FormatException)
+
+            if (isVariable(exp))
             {
-                throw new ParserException("Syntax error-> " + exp + " (not using regional decimal separator?)");
+                // If built in constant put in value otherwise the variable
+                return constants.TryGetValue(exp, out double value) ? new Node(value) : new Node(exp);
             }
-        }
 
-        while (i < len)
-        {
-            if ((fop = getOp(exp, i)) == null)
+            if (isConstant(exp))
             {
-                farg = arg(null, exp, i);
-                fop = getOp(exp, i + farg.Length);
-
-                if (fop == null)
+                try
                 {
-                    throw new Exception("Missing operator");
+                    return new Node(double.Parse(exp, NumberStyles.Any, culture));
                 }
-
-                if (isTwoArgOp(fop))
+                catch (FormatException)
                 {
-                    sarg = arg(fop, exp, i + farg.Length + fop.Length);
-                    if (sarg.Equals(""))
-                    {
-                        throw new Exception("Wrong number of arguments to operator " + fop);
-                    }
-
-                    tree = new Node(operators[fop], ParseInfix(farg), ParseInfix(sarg));
-                    i += farg.Length + fop.Length + sarg.Length;
-                }
-                else
-                {
-                    if (farg.Equals(""))
-                    {
-                        throw new Exception("Wrong number of arguments to operator " + fop);
-                    }
-
-                    tree = new Node(operators[fop], ParseInfix(farg));
-                    i += farg.Length + fop.Length;
+                    throw new ParserException("Syntax error-> " + exp + " (not using regional decimal separator?)");
                 }
             }
-            else
+
+            while (i < len)
             {
-                if (isTwoArgOp(fop))
+                if ((fop = getOp(exp, i)) == null)
                 {
-                    farg = arg(fop, exp, i + fop.Length);
-                    if (farg.Equals(""))
+                    farg = arg(null, exp, i);
+                    fop = getOp(exp, i + farg.Length);
+
+                    if (fop == null)
                     {
-                        throw new Exception("Wrong number of arguments to operator " + fop);
+                        throw new Exception("Missing operator");
                     }
 
-                    if (tree == null)
+                    if (isTwoArgOp(fop))
                     {
-                        if (fop.Equals("+") || fop.Equals("-"))
-                        {
-                            tree = new Node(0D);
-                        }
-                        else
+                        sarg = arg(fop, exp, i + farg.Length + fop.Length);
+                        if (sarg.Equals(""))
                         {
                             throw new Exception("Wrong number of arguments to operator " + fop);
                         }
+
+                        tree = new Node(operators[fop], ParseInfix(farg), ParseInfix(sarg));
+                        i += farg.Length + fop.Length + sarg.Length;
                     }
-                    tree = new Node(operators[fop], tree, ParseInfix(farg));
-                    i += farg.Length + fop.Length;
+                    else
+                    {
+                        if (farg.Equals(""))
+                        {
+                            throw new Exception("Wrong number of arguments to operator " + fop);
+                        }
+
+                        tree = new Node(operators[fop], ParseInfix(farg));
+                        i += farg.Length + fop.Length;
+                    }
                 }
                 else
                 {
-                    farg = arg(fop, exp, i + fop.Length);
-                    if (farg.Equals(""))
+                    if (isTwoArgOp(fop))
                     {
-                        throw new Exception("Wrong number of arguments to operator " + fop);
-                    }
+                        farg = arg(fop, exp, i + fop.Length);
+                        if (farg.Equals(""))
+                        {
+                            throw new Exception("Wrong number of arguments to operator " + fop);
+                        }
 
-                    tree = new Node(operators[fop], ParseInfix(farg));
-                    i += farg.Length + fop.Length;
+                        if (tree == null)
+                        {
+                            if (fop.Equals("+") || fop.Equals("-"))
+                            {
+                                tree = new Node(0D);
+                            }
+                            else
+                            {
+                                throw new Exception("Wrong number of arguments to operator " + fop);
+                            }
+                        }
+
+                        tree = new Node(operators[fop], tree, ParseInfix(farg));
+                        i += farg.Length + fop.Length;
+                    }
+                    else
+                    {
+                        farg = arg(fop, exp, i + fop.Length);
+                        if (farg.Equals(""))
+                        {
+                            throw new Exception("Wrong number of arguments to operator " + fop);
+                        }
+
+                        tree = new Node(operators[fop], ParseInfix(farg));
+                        i += farg.Length + fop.Length;
+                    }
                 }
             }
-        }
 
-        return tree;
+            return tree;
+            break;
+        }
     }
 
     public Expression Parse(string expression)
@@ -473,7 +466,7 @@ public class TreeParser
     /// <summary>Matches all paranthesis and returns true if they all match or false if they do not.</summary>
     /// <param name="exp">expression to check, infix notation</param>
     /// <returns>true if ok false otherwise</returns>
-    private bool
+    private static bool
         matchParant(string exp)
     {
         int count = 0;
@@ -483,13 +476,14 @@ public class TreeParser
 
         for (i = 0; i < l; i++)
         {
-            if (exp[i] == '(')
+            switch (exp[i])
             {
-                count++;
-            }
-            else if (exp[i] == ')')
-            {
-                count--;
+                case '(':
+                    count++;
+                    break;
+                case ')':
+                    count--;
+                    break;
             }
         }
 
@@ -535,7 +529,7 @@ public class TreeParser
     /// <summary>Checks if the character is a digit</summary>
     /// <param name="ch">Character to check</param>
     /// <returns>true or false</returns>
-    private bool
+    private static bool
         isConstant(char ch)
     {
         return char.IsDigit(ch);
@@ -629,7 +623,7 @@ public class TreeParser
     /// <param name="exp">the string to search in</param>
     /// <param name="index">the index of the opening left paranthesis</param>
     /// <returns>the index of the matching closing right paranthesis</returns>
-    private int
+    private static int
         match(string exp, int index)
     {
         int len = exp.Length;
@@ -638,13 +632,14 @@ public class TreeParser
 
         while (i < len)
         {
-            if (exp[i] == '(')
+            switch (exp[i])
             {
-                count++;
-            }
-            else if (exp[i] == ')')
-            {
-                count--;
+                case '(':
+                    count++;
+                    break;
+                case ')':
+                    count--;
+                    break;
             }
 
             if (count == 0)
@@ -719,7 +714,7 @@ public class TreeParser
             if (exp[i] == '(')
             {
                 int ma = match(exp, i);
-                str.Append(exp.Substring(i, ma + 1 - i));
+                str.Append(exp.AsSpan(i, ma + 1 - i));
                 i = ma + 1;
             }
             else

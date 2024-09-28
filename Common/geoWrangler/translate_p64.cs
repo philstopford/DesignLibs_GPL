@@ -8,17 +8,17 @@ public static partial class GeoWrangler
 {
     public static Point64 move(Point64 source, int x, int y)
     {
-        return new (source.X + x, source.Y + y, source.Z);
+        return new Point64(source.X + x, source.Y + y, source.Z);
     }
 
-    public static Point64 move(Point64 source, Int64 x, Int64 y)
+    public static Point64 move(Point64 source, long x, long y)
     {
-        return new (source.X + x, source.Y + y, source.Z);
+        return new Point64(source.X + x, source.Y + y, source.Z);
     }
 
     public static Point64 move(Point64 source, double x, double y)
     {
-        return new (source.X + x, source.Y + y, source.Z);
+        return new Point64(source.X + x, source.Y + y, source.Z);
     }
 
     public static Paths64 move(Paths64 source, decimal x, decimal y)
@@ -41,7 +41,7 @@ public static partial class GeoWrangler
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new(pMove(source[i], x, y));
+                ret[i] = new Path64(pMove(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );
@@ -65,7 +65,7 @@ public static partial class GeoWrangler
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new(move(source[i], x, y));
+                ret[i] = new Point64(move(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );

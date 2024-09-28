@@ -119,10 +119,7 @@ public class ExpressionParser
 
         set
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("Culture cannot be null");
-            }
+            ArgumentNullException.ThrowIfNull(value);
 
             // Cannot allow division operator as decimal separator (fa, fa-IR)
             if (value.NumberFormat.NumberDecimalSeparator == "/")
@@ -200,41 +197,39 @@ public class ExpressionParser
     internal double
         EvalTree(Node tree)
     {
-        string tmp;
-
-        if (tree.Type == NodeType.Value)
+        switch (tree.Type)
         {
-            return tree.Value.ToDouble();
-        }
-
-        if (tree.Type == NodeType.Variable)
-        {
-            // get value associated with variable
-            Value value = GetValue(tree);
-
-            if (value.Type == ValueType.String
-                && Expressions.ContainsKey(value.ToString(culture))) // cached expression
+            case NodeType.Value:
+                return tree.Value.ToDouble();
+            case NodeType.Variable:
             {
-                return EvalExpression(Expressions[value.ToString(culture)]);
+                // get value associated with variable
+                Value value = GetValue(tree);
+
+                if (value.Type == ValueType.String
+                    && Expressions.ContainsKey(value.ToString(culture))) // cached expression
+                {
+                    return EvalExpression(Expressions[value.ToString(culture)]);
+                }
+
+                if (value.Type == ValueType.Constant) // constant value
+                {
+                    return value.ToDouble(culture);
+                }
+
+                // apparently a nested expression, parse and cache
+                Values[tree.Variable] = new StringValue { Value = value.ToString(culture) };
+
+                var tmp = value.ToString(culture);
+                Expression expression = treeParser.Parse(tmp);
+
+                Expressions.Add(tmp, expression);
+
+                return EvalExpression(expression);
             }
-
-            if (value.Type == ValueType.Constant) // constant value
-            {
-                return value.ToDouble(culture);
-            }
-
-            // apparently a nested expression, parse and cache
-            Values[tree.Variable] = new StringValue { Value = value.ToString(culture) };
-
-            tmp = value.ToString(culture);
-            Expression expression = treeParser.Parse(tmp);
-
-            Expressions.Add(tmp, expression);
-
-            return EvalExpression(expression);
+            default:
+                return tree.Operator.Eval(this, tree.FirstArgument, tree.SecondArgument);
         }
-
-        return tree.Operator.Eval(this, tree.FirstArgument, tree.SecondArgument);
     }
 
     /// <summary>

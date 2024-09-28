@@ -42,7 +42,7 @@ public class SmartEnumerable<T> : IEnumerable<SmartEnumerable<T>.Entry>
     {
         this.enumerable = enumerable switch
         {
-            null => throw new ArgumentNullException("enumerable"),
+            null => throw new ArgumentNullException(nameof(enumerable)),
             _ => enumerable
         };
     }
@@ -88,37 +88,32 @@ public class SmartEnumerable<T> : IEnumerable<SmartEnumerable<T>.Entry>
     /// </summary>
     public class Entry
     {
-        private readonly bool isFirst;
-        private readonly bool isLast;
-        private readonly T value;
-        private readonly int index;
-
         internal Entry(bool isFirst, bool isLast, T value, int index)
         {
-            this.isFirst = isFirst;
-            this.isLast = isLast;
-            this.value = value;
-            this.index = index;
+            this.IsFirst = isFirst;
+            this.IsLast = isLast;
+            this.Value = value;
+            this.Index = index;
         }
 
         /// <summary>
         /// The value of the entry.
         /// </summary>
-        public T Value => value;
+        public T Value { get; }
 
         /// <summary>
         /// Whether or not this entry is first in the collection's enumeration.
         /// </summary>
-        public bool IsFirst => isFirst;
+        public bool IsFirst { get; }
 
         /// <summary>
         /// Whether or not this entry is last in the collection's enumeration.
         /// </summary>
-        public bool IsLast => isLast;
+        public bool IsLast { get; }
 
         /// <summary>
         /// The 0-based index of this entry (i.e. how many entries have been returned before this one)
         /// </summary>
-        public int Index => index;
+        public int Index { get; }
     }
 }

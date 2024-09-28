@@ -416,7 +416,7 @@ public static partial class DataProducerExt
         switch (index)
         {
             case < 0:
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         Future<TSource> ret = new();
@@ -456,7 +456,7 @@ public static partial class DataProducerExt
         switch (index)
         {
             case < 0:
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         Future<TSource> ret = new();

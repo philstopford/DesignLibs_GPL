@@ -5,7 +5,7 @@ namespace Eto.Veldrid.Gtk
 {
 	internal static class X11Interop
 	{
-		const string
+		private const string
 			linux_libgdk_x11_name = "libgdk-3.so.0",
 			linux_libGL_name = "libGL.so.1";
 

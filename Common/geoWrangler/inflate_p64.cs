@@ -102,7 +102,7 @@ public static partial class GeoWrangler
             pStripTerminators(a, false);
         }
         co.AddPath(a, JoinType.Miter, EndType.Square);
-        Paths64 output = new();
+        Paths64 output = [];
         co.Execute(width, output);
 
         output = pReorderXY(output);

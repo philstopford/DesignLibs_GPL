@@ -8,11 +8,11 @@ namespace shapeEngine;
 
 public class ShapeLibrary
 {
-    private static readonly List<string> availableShapes_all = new()
-    {
+    private static readonly List<string> availableShapes_all =
+    [
         "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "GDS/Oasis", "Boolean",
         "Text", "Bounding", "Layout"
-    };
+    ];
 
     public string last_error = "";
 
@@ -42,7 +42,7 @@ public class ShapeLibrary
         pShapesForClient(clientShapeDefinition);
     }
 
-    void pShapesForClient(int[] clientShapeDefinition)
+    private void pShapesForClient(int[] clientShapeDefinition)
     {
         if (clientShapeDefinition.Length > availableShapes_all.Count)
         {
@@ -93,20 +93,21 @@ public class ShapeLibrary
 
         public BoundingBox(PathD incomingPoints)
         {
-            midPoint = new (0.0f, 0.0f);
+            midPoint = new PointD(0.0f, 0.0f);
             pBoundingBox(incomingPoints);
         }
 
         private void pBoundingBox(PathD incomingPoints)
         {
-            if (incomingPoints.Count > 0)
+            if (incomingPoints.Count <= 0)
             {
-                var minX = incomingPoints.Min(p => p.x);
-                var minY = incomingPoints.Min(p => p.y);
-                var maxX = incomingPoints.Max(p => p.x);
-                var maxY = incomingPoints.Max(p => p.y);
-                midPoint = new (minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
+                return;
             }
+            double minX = incomingPoints.Min(p => p.x);
+            double minY = incomingPoints.Min(p => p.y);
+            double maxX = incomingPoints.Max(p => p.x);
+            double maxY = incomingPoints.Max(p => p.y);
+            midPoint = new PointD(minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
         }
     }
 
@@ -125,7 +126,7 @@ public class ShapeLibrary
             for (int i = 0; i < t.Length; i++)
 #endif
             {
-                t[i] = new (Vertex[i].X, Vertex[i].Y);
+                t[i] = new PointD(Vertex[i].X, Vertex[i].Y);
             }
 #if !SHAPELIBSINGLETHREADED
         );
@@ -214,8 +215,8 @@ public class ShapeLibrary
         {
             last_error = ex.Message;
             Vertex = new MyVertex[1];
-            tips = new[] { false };
-            layerSettings = new();
+            tips = [false];
+            layerSettings = new ShapeSettings();
             round1 = new MyRound[1];
         }
     }
@@ -227,46 +228,33 @@ public class ShapeLibrary
 
     private static int pGetSubShapeCount(int index)
     {
-        switch (index)
+        return index switch
         {
-            case (int)shapeNames_all.Lshape:
-            case (int)shapeNames_all.Tshape:
-            case (int)shapeNames_all.Xshape:
-            case (int)shapeNames_all.Ushape:
-                return 2;
-            case (int)shapeNames_all.Sshape:
-                return 3;
-            default:
-                return 1;
-        }
+            (int)shapeNames_all.Lshape or (int)shapeNames_all.Tshape or (int)shapeNames_all.Xshape
+                or (int)shapeNames_all.Ushape => 2,
+            (int)shapeNames_all.Sshape => 3,
+            _ => 1
+        };
     }
 
     private void configureArrays()
     {
-        double vertexCount = 0;
-        switch (shapeIndex)
+        double vertexCount = shapeIndex switch
         {
-            case (int)shapeNames_all.rect: // rectangle
-            case (int)shapeNames_all.text:
-            case (int)shapeNames_all.bounding:
-                vertexCount = 9;
-                break;
-            case (int)shapeNames_all.Lshape: // L
-                vertexCount = 13;
-                break;
-            case (int)shapeNames_all.Tshape: // T
-                vertexCount = 17;
-                break;
-            case (int)shapeNames_all.Xshape: // Cross
-                vertexCount = 25;
-                break;
-            case (int)shapeNames_all.Ushape: // U
-                vertexCount = 17;
-                break;
-            case (int)shapeNames_all.Sshape: // S
-                vertexCount = 25;
-                break;
-        }
+            (int)shapeNames_all.rect or (int)shapeNames_all.text or (int)shapeNames_all.bounding => // rectangle
+                9,
+            (int)shapeNames_all.Lshape => // L
+                13,
+            (int)shapeNames_all.Tshape => // T
+                17,
+            (int)shapeNames_all.Xshape => // Cross
+                25,
+            (int)shapeNames_all.Ushape => // U
+                17,
+            (int)shapeNames_all.Sshape => // S
+                25,
+            _ => 0
+        };
 
         int arrayLength = (int)vertexCount;
         Vertex = new MyVertex[arrayLength];
@@ -2019,11 +2007,12 @@ public class ShapeLibrary
                 Vertex[cp].xBiasApplied = true;
             }
 
-            if (Vertex[cp].direction == typeDirection.right1 && Vertex[cp].xBiasApplied == false)
+            if (Vertex[cp].direction != typeDirection.right1 || Vertex[cp].xBiasApplied)
             {
-                Vertex[cp].X += hTipBias;
-                Vertex[cp].xBiasApplied = true;
+                continue;
             }
+            Vertex[cp].X += hTipBias;
+            Vertex[cp].xBiasApplied = true;
         }
     }
 
@@ -2139,7 +2128,7 @@ public class ShapeLibrary
             {
                 // Now we need to figure out the weighting.
                 double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
-                bool doLinearSlide = false;
+                const bool doLinearSlide = false;
 
                 if (ratio < 1)
                 {
@@ -2162,7 +2151,7 @@ public class ShapeLibrary
                     // Sigmoid function to try and provide some upper and lower resistance to the slide.
                     // center is to force 0.5 value of the scaling factor for a ratio of 1
                     // tension controls the shape of the curve, and thus the sensitivity of the response..
-                    double center = 1.0f;
+                    const double center = 1.0f;
                     offset = currentEdgeLength * (1 / (1 + Math.Exp(-eTension * (center - ratio))));
                 }
             }
@@ -2170,18 +2159,14 @@ public class ShapeLibrary
             if (corner % 2 == 0)
             {
                 // Get our associated vertical edge Y position
-                double yPoint1;
                 double yPoint2 = Vertex[round1[(corner + 1) % (round1.Length - 1)].horFace].Y;
-                switch (corner)
+                var yPoint1 = corner switch
                 {
-                    case 0:
+                    0 =>
                         // Need to wrap around for bias look-up
-                        yPoint1 = Vertex[round1[^1].horFace].Y;
-                        break;
-                    default:
-                        yPoint1 = Vertex[round1[corner].horFace].Y;
-                        break;
-                }
+                        Vertex[round1[^1].horFace].Y,
+                    _ => Vertex[round1[corner].horFace].Y
+                };
 
                 if (yPoint1 < yPoint2)
                 {
@@ -2255,15 +2240,15 @@ public class ShapeLibrary
         double iCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
         double oCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
         Fragmenter fragment = new Fragmenter(resolution);
-        PathD mcPoints = new();
+        PathD mcPoints = [];
         PathD
-            mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
+            mcHorEdgePoints = []; // corner coordinates list, used as a temporary container for each iteration
         PathsD
             mcHorEdgePointsList =
-                new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
+                []; // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
         PathsD
             mcVerEdgePointsList =
-                new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
+                []; // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
 
         for (int round = 0; round < round1.Length - 1; round++)
         {
@@ -2331,15 +2316,11 @@ public class ShapeLibrary
                     if (doPASearch)
                     {
                         // Are we on a corner that has a PA-defined rounding value?
-                        switch (startInnerRounding)
+                        paSearchSetsCornerRoundingForThisCorner = startInnerRounding switch
                         {
-                            case true:
-                                paSearchSetsCornerRoundingForThisCorner = iCPA;
-                                break;
-                            default:
-                                paSearchSetsCornerRoundingForThisCorner = oCPA;
-                                break;
-                        }
+                            true => iCPA,
+                            _ => oCPA
+                        };
                     }
 
                     // PA search works by setting rounding value directly in the settings, no variation needs to be added.
@@ -2519,8 +2500,9 @@ public class ShapeLibrary
                     double bridgeX = mcHorEdgePoints[^1].x;
 
                     // Fragmenter returns first and last points in the point array.
-                    PathD fragments = fragment.fragmentPath(new()
-                        { new PointD(bridgeX, mcPY), new PointD(currentHorEdge_mid_x, mcPY) });
+                    PathD fragments = fragment.fragmentPath([
+                        new PointD(bridgeX, mcPY), new PointD(currentHorEdge_mid_x, mcPY)
+                    ]);
 
                     for (int i = 1; i < fragments.Count - 1; i++)
                     {
@@ -2528,7 +2510,7 @@ public class ShapeLibrary
                     }
 
                     // Add our midpoint.
-                    mcHorEdgePoints.Add(new (currentHorEdge_mid_x, mcPY));
+                    mcHorEdgePoints.Add(new PointD(currentHorEdge_mid_x, mcPY));
 
                     // Segment 2, plus bridging on first pass through.
 
@@ -2557,15 +2539,11 @@ public class ShapeLibrary
                     paSearchSetsCornerRoundingForThisCorner = false;
                     if (doPASearch)
                     {
-                        switch (startInnerRounding)
+                        paSearchSetsCornerRoundingForThisCorner = startInnerRounding switch
                         {
-                            case true:
-                                paSearchSetsCornerRoundingForThisCorner = iCPA;
-                                break;
-                            default:
-                                paSearchSetsCornerRoundingForThisCorner = oCPA;
-                                break;
-                        }
+                            true => iCPA,
+                            _ => oCPA
+                        };
                     }
 
                     if (paSearchSetsCornerRoundingForThisCorner)
@@ -2728,8 +2706,7 @@ public class ShapeLibrary
                             bridgeX = currentHorEdge_mid_x;
 
                             // Fragmenter returns first and last points in the point array.
-                            fragments = fragment.fragmentPath(new()
-                                { new PointD(bridgeX, mcPY), new (mcPX, mcPY) });
+                            fragments = fragment.fragmentPath([new PointD(bridgeX, mcPY), new PointD(mcPX, mcPY)]);
 
                             for (int i = 1; i < fragments.Count - 1; i++)
                             {
@@ -2754,7 +2731,7 @@ public class ShapeLibrary
                         angle -= angleIncrement;
                     }
 
-                    mcHorEdgePointsList.Add(new(mcHorEdgePoints)); // make a deep copy of the points.
+                    mcHorEdgePointsList.Add(new PathD(mcHorEdgePoints)); // make a deep copy of the points.
                     mcHorEdgePoints.Clear(); // clear our list of points to use on the next pass.
                     break;
                 }
@@ -2766,10 +2743,7 @@ public class ShapeLibrary
             mcPoints.Clear();
             foreach (PathD t in mcHorEdgePointsList)
             {
-                foreach (PointD t1 in t)
-                {
-                    mcPoints.Add(new (t1.x, t1.y));
-                }
+                mcPoints.AddRange(t.Select(t1 => new PointD(t1.x, t1.y)));
             }
 
             return GeoWrangler.close(mcPoints);
@@ -2796,8 +2770,7 @@ public class ShapeLibrary
             double endPoint_y = startHorEdgePointList[0].y;
 
             // We get the start and end points here.
-            PathD fragments = fragment.fragmentPath(new ()
-                { new(vert_x, startPoint_y), new(vert_x, endPoint_y) });
+            PathD fragments = fragment.fragmentPath([new PointD(vert_x, startPoint_y), new PointD(vert_x, endPoint_y)]);
             mcVerEdgePointsList.Add(fragments);
         }
 
@@ -2808,7 +2781,7 @@ public class ShapeLibrary
             {
                 double x = mcVerEdgePointsList[section][point].x + s0HO;
                 double y = mcVerEdgePointsList[section][point].y + s0VO;
-                mcPoints.Add(new (x, y));
+                mcPoints.Add(new PointD(x, y));
             }
 
             // Corner next.
@@ -2817,7 +2790,7 @@ public class ShapeLibrary
             {
                 double x = mcHorEdgePointsList[section][point].x + s0HO;
                 double y = mcHorEdgePointsList[section][point].y + s0VO;
-                mcPoints.Add(new (x, y));
+                mcPoints.Add(new PointD(x, y));
             }
         }
 
@@ -2831,12 +2804,14 @@ public class ShapeLibrary
         public double totalRotation { get; set; }
     }
     
-    public RotateOutput rotateShape(PathD input, ShapeSettings shapeSettings, double rotationVar,
+    public static RotateOutput rotateShape(PathD input, ShapeSettings shapeSettings, double rotationVar,
         double rotationDirection, PointD pivot)
     {
-        RotateOutput ret = new();
-        ret.output = input;
-        ret.totalRotation = 0;
+        RotateOutput ret = new()
+        {
+            output = input,
+            totalRotation = 0
+        };
 
         double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
         if (rotationDirection <= 0.5)
@@ -2848,25 +2823,26 @@ public class ShapeLibrary
             rotationAngle += rotationVar;
         }
 
-        if (rotationAngle != 0 ||
-            (shapeSettings.getInt(ShapeSettings.properties_i.flipH) == 1 ||
-             shapeSettings.getInt(ShapeSettings.properties_i.flipV) == 1) &&
-            (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 ||
-             shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
+        if (rotationAngle == 0 &&
+            ((shapeSettings.getInt(ShapeSettings.properties_i.flipH) != 1 &&
+              shapeSettings.getInt(ShapeSettings.properties_i.flipV) != 1) ||
+             (shapeSettings.getInt(ShapeSettings.properties_i.alignX) != 1 &&
+              shapeSettings.getInt(ShapeSettings.properties_i.alignY) != 1)))
         {
-            if (double.IsNaN(pivot.x) || double.IsNaN(pivot.y))
-            {
-                // Get our bounding box.
-                BoundingBox bb = new(input);
-                pivot = new(bb.getMidPoint());
-            }
-
-            // OK. Let's try some rotation and wobble.
-            // Temporary separate container for our rotated points, just for now.
-            ret.output = GeoWrangler.Rotate(pivot, input, rotationAngle);
-            ret.totalRotation = rotationAngle;
+            return ret;
         }
-        
+        if (double.IsNaN(pivot.x) || double.IsNaN(pivot.y))
+        {
+            // Get our bounding box.
+            BoundingBox bb = new(input);
+            pivot = new PointD(bb.getMidPoint());
+        }
+
+        // OK. Let's try some rotation and wobble.
+        // Temporary separate container for our rotated points, just for now.
+        ret.output = GeoWrangler.Rotate(pivot, input, rotationAngle);
+        ret.totalRotation = rotationAngle;
+
         return ret;
     }
 }

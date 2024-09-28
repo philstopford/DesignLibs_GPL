@@ -25,7 +25,7 @@ public class GeoLibRectangle
 
     private void pGeoLibRectangle(int x, int y, int width, int height)
     {
-        Location = new(x, y);
+        Location = new Point64(x, y);
         Width = width;
         Height = height;
     }
@@ -37,7 +37,7 @@ public class GeoLibRectangle
 
     private void pGeoLibRectangle(GeoLibRectangle source)
     {
-        Location = new(source.Location);
+        Location = new Point64(source.Location);
         Width = source.Width;
         Height = source.Height;
     }
@@ -49,7 +49,7 @@ public class GeoLibRectangle
 
     private void pOffset(Point64 offset)
     {
-        Location = new(Location.X + offset.X, Location.Y + offset.Y);
+        Location = new Point64(Location.X + offset.X, Location.Y + offset.Y);
     }
 }
 
@@ -76,7 +76,7 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(int x, int y, int width, int height)
     {
-        Location = new(x, y);
+        Location = new PointD(x, y);
         Width = width;
         Height = height;
     }
@@ -88,7 +88,7 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(float x, float y, float width, float height)
     {
-        Location = new(x, y);
+        Location = new PointD(x, y);
         Width = width;
         Height = height;
     }
@@ -100,7 +100,7 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(double x, double y, double width, double height)
     {
-        Location = new(x, y);
+        Location = new PointD(x, y);
         Width = (float)width;
         Height = (float)height;
     }
@@ -112,7 +112,7 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(GeoLibRectangle source)
     {
-        Location = new(source.Location);
+        Location = new PointD(source.Location);
         Width = source.Width;
         Height = source.Height;
     }
@@ -124,7 +124,7 @@ public class GeoLibRectangleF
 
     private void pGeoLibRectangleF(GeoLibRectangleF source)
     {
-        Location = new(source.Location);
+        Location = new PointD(source.Location);
         Width = source.Width;
         Height = source.Height;
     }
@@ -136,7 +136,7 @@ public class GeoLibRectangleF
 
     private void pOffset(Point64 offset)
     {
-        Location = new(Location.x + offset.X, Location.y + offset.Y);
+        Location = new PointD(Location.x + offset.X, Location.y + offset.Y);
     }
 
     public void Offset(PointD offset)
@@ -146,6 +146,6 @@ public class GeoLibRectangleF
 
     private void pOffset(PointD offset)
     {
-        Location = new(Location.x + offset.x, Location.y + offset.y);
+        Location = new PointD(Location.x + offset.x, Location.y + offset.y);
     }
 }

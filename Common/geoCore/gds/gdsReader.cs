@@ -109,7 +109,7 @@ internal partial class gdsReader
     {
         drawing_ = new GCDrawingfield(filename_);
         filename = filename_;
-        error_msgs = new List<string>();
+        error_msgs = [];
     }
 
     public bool load(ref GCDrawingfield drawing)
@@ -218,7 +218,7 @@ internal partial class gdsReader
 
                         drawing_.libname = new string(tmplbnchars); //  br.ReadString();
                         // Some files have null termination issues.
-                        string[] lNTokens = drawing_.libname.Split(new [] { '\0' });
+                        string[] lNTokens = drawing_.libname.Split(['\0']);
                         drawing_.libname = lNTokens[0];
                         break;
                     case 3: // UNITS
@@ -254,7 +254,7 @@ internal partial class gdsReader
 
                         cell_.cellName = new string(tmpstrnchars);
                         // Some files have null termination issues.
-                        string[] tokens = cell_.cellName.Split(new [] { '\0' });
+                        string[] tokens = cell_.cellName.Split(['\0']);
                         cell_.cellName = tokens[0];
                         break;
                     case 7: // ENDSTR
@@ -334,7 +334,7 @@ internal partial class gdsReader
                         {
                             int32x = br.ReadInt32();
                             int32y = br.ReadInt32();
-                            modal.point_array[g] = new (int32x, int32y);
+                            modal.point_array[g] = new Point64(int32x, int32y);
                         }
                         break;
                     case 17: //ENDEL
@@ -378,7 +378,7 @@ internal partial class gdsReader
 
                         modal.sname = new string(tmpnamechars);
                         // Some files have null termination issues.
-                        string[] sNtokens = modal.sname.Split(new [] { '\0' });
+                        string[] sNtokens = modal.sname.Split(['\0']);
                         modal.sname = sNtokens[0];
                         break;
                     case 19: //COLROW
@@ -405,7 +405,7 @@ internal partial class gdsReader
                         ascii.GetChars(tmp_strbyte, 0, tmp_strbyte.Length, tmpstrchars, 0);
                         modal.sname = new string(tmpstrchars);
                         // Some files have null termination issues.
-                        string[] sN2tokens = modal.sname.Split(new [] { '\0' });
+                        string[] sN2tokens = modal.sname.Split(['\0']);
                         modal.sname = sN2tokens[0];
                         break;
                     case 26: //STRANS

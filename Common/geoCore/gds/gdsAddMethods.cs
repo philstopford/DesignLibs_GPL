@@ -1,4 +1,5 @@
 ﻿using System;
+using Clipper2Lib;
 
 namespace gds;
 
@@ -7,7 +8,7 @@ internal partial class gdsReader
     private void addCellRef()
     {
         cell_.addCellref();
-        cell_.elementList[^1].setPos(new (modal.point_array[0].X, modal.point_array[0].Y));
+        cell_.elementList[^1].setPos(new Point64(modal.point_array[0].X, modal.point_array[0].Y));
         cell_.elementList[^1].setCellRef(drawing_.findCell(modal.sname));
         cell_.elementList[^1].setName(modal.sname);
         cell_.elementList[^1].rotate(modal.angle);
@@ -43,23 +44,24 @@ internal partial class gdsReader
 
     private void addText()
     {
-        if (modal.width == 1)
+        switch (modal.width)
         {
-            modal.width = -10;
-        }
-        else if (modal.width == 0)
-        {
-            modal.width = -10;
-        }
-        else
-        {
-            if (modal.mag <= 1 && modal.width == 0)
-            {
+            case 1:
+            case 0:
                 modal.width = -10;
-            }
-            else
+                break;
+            default:
             {
-                modal.width = modal.width;
+                if (modal is { mag: <= 1, width: 0 })
+                {
+                    modal.width = -10;
+                }
+                else
+                {
+                    modal.width = modal.width;
+                }
+
+                break;
             }
         }
 

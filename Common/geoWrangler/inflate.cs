@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Clipper2Lib;
 using System.Threading.Tasks;
 using utility;
@@ -76,8 +77,8 @@ public static partial class GeoWrangler
             edge1_newY -= Y_shift;
         }
         
-        edge[0] = new (edge0_newX, edge0_newY, edge[0].z);
-        edge[1] = new (edge1_newX, edge1_newY, edge[1].z);
+        edge[0] = new PointD(edge0_newX, edge0_newY, edge[0].z);
+        edge[1] = new PointD(edge1_newX, edge1_newY, edge[1].z);
 
         return edge;
     }
@@ -91,7 +92,7 @@ public static partial class GeoWrangler
         switch (width)
         {
             case 0:
-                return new(source);
+                return new PathD(source);
         }
 
         
@@ -106,7 +107,7 @@ public static partial class GeoWrangler
         }
         co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
 
-        Paths64 output = new();
+        Paths64 output = [];
         co.Execute(width, output); // no scalar, deliberately.
         PathD ret = _pPathDFromPath64(output[0], Constants.scalar_1E2_inv);
         ret = pReorderXY(ret);
@@ -120,11 +121,8 @@ public static partial class GeoWrangler
 
     private static PathsD pResize(PathsD source, double factor)
     {
-        PathsD ret = new();
-        foreach (PathD p in source)
-        {
-            ret.Add(pResize(p, factor));
-        }
+        PathsD ret = [];
+        ret.AddRange(source.Select(p => pResize(p, factor)));
 
         return ret;
     }
@@ -144,7 +142,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = new (source[pt].x * factor, source[pt].y * factor, source[pt].z);
+                ret[pt] = new PointD(source[pt].x * factor, source[pt].y * factor, source[pt].z);
             }
 #if !GWSINGLETHREADED
         );
@@ -168,7 +166,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = new ((long)(source[pt].x * factor), (long)(source[pt].y * factor), (long)source[pt].z);
+                ret[pt] = new Point64((long)(source[pt].x * factor), (long)(source[pt].y * factor), source[pt].z);
             }
 #if !GWSINGLETHREADED
         );
@@ -191,7 +189,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = new (source[pt].X * factor, source[pt].Y * factor, source[pt].Z);
+                ret[pt] = new Point64(source[pt].X * factor, source[pt].Y * factor, source[pt].Z);
             }
 #if !GWSINGLETHREADED
         );
@@ -213,7 +211,7 @@ public static partial class GeoWrangler
             for (int i = 0; i < pointarray.Length; i++)
 #endif
             {
-                pointarray[i] = new (pivot.X + (source[i].X - pivot.X) * factor, pivot.Y + (source[i].Y - pivot.Y) * factor, source[i].Z);
+                pointarray[i] = new Point64(pivot.X + (source[i].X - pivot.X) * factor, pivot.Y + (source[i].Y - pivot.Y) * factor, source[i].Z);
             }
 #if !GWSINGLETHREADED
         );

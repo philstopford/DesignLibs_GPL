@@ -16,22 +16,23 @@ public static partial class GeoWrangler
         double maxX = 0;
         double maxY = 0;
 
-        if (source.Count > 0)
+        if (source.Count <= 0)
         {
-            try
-            {
-                minX = source[MinX(source)].x;
-                maxX = source[MaxX(source)].x;
-                minY = source[MinY(source)].y;
-                maxY = source[MaxY(source)].y;
-            }
-            catch
-            {
-                // ignored
-            }
+            return [new PointD(minX, minY), new PointD(maxX, maxY)];
+        }
+        try
+        {
+            minX = source[MinX(source)].x;
+            maxX = source[MaxX(source)].x;
+            minY = source[MinY(source)].y;
+            maxY = source[MaxY(source)].y;
+        }
+        catch
+        {
+            // ignored
         }
 
-        return new () { new (minX, minY), new (maxX, maxY) };
+        return [new PointD(minX, minY), new PointD(maxX, maxY)];
     }
     
     public static Path64 getBounds(Path64 source)
@@ -46,21 +47,22 @@ public static partial class GeoWrangler
         double maxX = 0;
         double maxY = 0;
 
-        if (source.Count > 0)
+        if (source.Count <= 0)
         {
-            try
-            {
-                minX = source[MinX(source)].X;
-                maxX = source[MaxX(source)].X;
-                minY = source[MinY(source)].Y;
-                maxY = source[MaxY(source)].Y;
-            }
-            catch
-            {
-                // ignored
-            }
+            return [new Point64(minX, minY), new Point64(maxX, maxY)];
+        }
+        try
+        {
+            minX = source[MinX(source)].X;
+            maxX = source[MaxX(source)].X;
+            minY = source[MinY(source)].Y;
+            maxY = source[MaxY(source)].Y;
+        }
+        catch
+        {
+            // ignored
         }
 
-        return new () { new (minX, minY), new (maxX, maxY) };
+        return [new Point64(minX, minY), new Point64(maxX, maxY)];
     }
 }

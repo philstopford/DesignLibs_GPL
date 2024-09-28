@@ -19,11 +19,11 @@ public class EndianBinaryWriter : IDisposable
     /// <summary>
     /// Buffer used for temporary storage during conversion from primitives
     /// </summary>
-    private byte[] buffer = new byte[16];
+    private readonly byte[] buffer = new byte[16];
     /// <summary>
     /// Buffer used for Write(char)
     /// </summary>
-    private char[] charBuffer = new char[1];
+    private readonly char[] charBuffer = new char[1];
     #endregion
 
     #region Constructors
@@ -50,48 +50,45 @@ public class EndianBinaryWriter : IDisposable
         switch (bitConverter)
         {
             case null:
-                throw new ArgumentNullException("bitConverter");
+                throw new ArgumentNullException(nameof(bitConverter));
         }
         switch (stream)
         {
             case null:
-                throw new ArgumentNullException("stream");
+                throw new ArgumentNullException(nameof(stream));
         }
         switch (encoding)
         {
             case null:
-                throw new ArgumentNullException("encoding");
+                throw new ArgumentNullException(nameof(encoding));
         }
         switch (stream.CanWrite)
         {
             case false:
-                throw new ArgumentException("Stream isn't writable", "stream");
+                throw new ArgumentException("Stream isn't writable", nameof(stream));
         }
-        this.stream = stream;
-        this.bitConverter = bitConverter;
-        this.encoding = encoding;
+        this.BaseStream = stream;
+        this.BitConverter = bitConverter;
+        this.Encoding = encoding;
     }
     #endregion
 
     #region Properties
 
-    private EndianBitConverter bitConverter;
     /// <summary>
     /// The bit converter used to write values to the stream
     /// </summary>
-    public EndianBitConverter BitConverter => bitConverter;
+    public EndianBitConverter BitConverter { get; }
 
-    private Encoding encoding;
     /// <summary>
     /// The encoding used to write strings
     /// </summary>
-    public Encoding Encoding => encoding;
+    public Encoding Encoding { get; }
 
-    private Stream stream;
     /// <summary>
     /// Gets the underlying stream of the EndianBinaryWriter.
     /// </summary>
-    public Stream BaseStream => stream;
+    public Stream BaseStream { get; }
 
     #endregion
 
@@ -110,7 +107,7 @@ public class EndianBinaryWriter : IDisposable
     public void Flush()
     {
         CheckDisposed();
-        stream.Flush();
+        BaseStream.Flush();
     }
 
     /// <summary>
@@ -121,7 +118,7 @@ public class EndianBinaryWriter : IDisposable
     public void Seek(int offset, SeekOrigin origin)
     {
         CheckDisposed();
-        stream.Seek(offset, origin);
+        BaseStream.Seek(offset, origin);
     }
 
     /// <summary>
@@ -130,7 +127,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(bool value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 1);
     }
 
@@ -141,7 +138,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(short value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 2);
     }
 
@@ -152,7 +149,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(int value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 4);
     }
 
@@ -163,7 +160,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(long value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 8);
     }
 
@@ -174,7 +171,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(ushort value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 2);
     }
 
@@ -185,7 +182,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(uint value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 4);
     }
 
@@ -196,7 +193,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(ulong value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 8);
     }
 
@@ -207,7 +204,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(float value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 4);
     }
 
@@ -218,7 +215,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(double value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 8);
     }
 
@@ -229,7 +226,7 @@ public class EndianBinaryWriter : IDisposable
     /// <param name="value">The value to write</param>
     public void Write(decimal value)
     {
-        bitConverter.CopyBytes(value, buffer, 0);
+        BitConverter.CopyBytes(value, buffer, 0);
         WriteInternal(buffer, 16);
     }
 
@@ -262,7 +259,7 @@ public class EndianBinaryWriter : IDisposable
         switch (value)
         {
             case null:
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             default:
                 WriteInternal(value, value.Length);
                 break;
@@ -278,7 +275,7 @@ public class EndianBinaryWriter : IDisposable
     public void Write(byte[] value, int offset, int count)
     {
         CheckDisposed();
-        stream.Write(value, offset, count);
+        BaseStream.Write(value, offset, count);
     }
 
     /// <summary>
@@ -300,7 +297,7 @@ public class EndianBinaryWriter : IDisposable
         switch (value)
         {
             case null:
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
         }
         CheckDisposed();
         byte[] data = Encoding.GetBytes(value, 0, value.Length);
@@ -317,7 +314,7 @@ public class EndianBinaryWriter : IDisposable
         switch (value)
         {
             case null:
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
         }
         CheckDisposed();
         byte[] data = Encoding.GetBytes(value);
@@ -337,7 +334,7 @@ public class EndianBinaryWriter : IDisposable
         switch (value)
         {
             case < 0:
-                throw new ArgumentOutOfRangeException("value", "Value must be greater than or equal to 0.");
+                throw new ArgumentOutOfRangeException(nameof(value), "Value must be greater than or equal to 0.");
         }
         int index = 0;
         while (value >= 128)
@@ -347,7 +344,7 @@ public class EndianBinaryWriter : IDisposable
             index++;
         }
         buffer[index++] = (byte)value;
-        stream.Write(buffer, 0, index);
+        BaseStream.Write(buffer, 0, index);
     }
 
     #endregion
@@ -374,7 +371,7 @@ public class EndianBinaryWriter : IDisposable
     private void WriteInternal(byte[] bytes, int length)
     {
         CheckDisposed();
-        stream.Write(bytes, 0, length);
+        BaseStream.Write(bytes, 0, length);
     }
     #endregion
 
@@ -389,7 +386,7 @@ public class EndianBinaryWriter : IDisposable
             case false:
                 Flush();
                 disposed = true;
-                ((IDisposable)stream).Dispose();
+                ((IDisposable)BaseStream).Dispose();
                 break;
         }
     }

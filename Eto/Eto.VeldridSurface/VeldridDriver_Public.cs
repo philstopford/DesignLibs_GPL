@@ -58,8 +58,8 @@ public partial class VeldridDriver
 		getExtents(index);
 
 		if (ovpSettings.polyList!.Count == 0 && ovpSettings.lineList!.Count == 0 ||
-		    ovpSettings.minX == 0 && ovpSettings.maxX == 0 ||
-		    ovpSettings.minY == 0 && ovpSettings.maxY == 0)
+		    ovpSettings is { minX: 0, maxX: 0 } ||
+		    ovpSettings is { minY: 0, maxY: 0 })
 		{
 			reset();
 			return;

@@ -19,7 +19,7 @@ namespace Eto.Veldrid
 			Swapchain? CreateSwapchain();
 		}
 
-		new IHandler Handler => (IHandler)base.Handler;
+		private new IHandler Handler => (IHandler)base.Handler;
 
 		public new interface ICallback : Control.ICallback
 		{
@@ -82,18 +82,18 @@ namespace Eto.Veldrid
 
 		public event EventHandler<InitializeEventArgs> VeldridInitialized
 		{
-			add { Properties.AddHandlerEvent(VeldridInitializedEvent, value); }
-			remove { Properties.RemoveEvent(VeldridInitializedEvent, value); }
+			add => Properties.AddHandlerEvent(VeldridInitializedEvent, value);
+			remove => Properties.RemoveEvent(VeldridInitializedEvent, value);
 		}
 		public event EventHandler<EventArgs> Draw
 		{
-			add { Properties.AddHandlerEvent(DrawEvent, value); }
-			remove { Properties.RemoveEvent(DrawEvent, value); }
+			add => Properties.AddHandlerEvent(DrawEvent, value);
+			remove => Properties.RemoveEvent(DrawEvent, value);
 		}
 		public event EventHandler<ResizeEventArgs> Resize
 		{
-			add { Properties.AddHandlerEvent(ResizeEvent, value); }
-			remove { Properties.RemoveEvent(ResizeEvent, value); }
+			add => Properties.AddHandlerEvent(ResizeEvent, value);
+			remove => Properties.RemoveEvent(ResizeEvent, value);
 		}
 
 		public VeldridSurface()

@@ -524,7 +524,6 @@ public class OVPSettings
 
 	public static PointF[] convertToClosedPointF(PathD poly)
 	{
-		PointF[] tempPoly;
 		bool forceClosed = false;
 		int polyCount = poly.Count;
 		if (!(Math.Abs(poly[0].x - poly[^1].x) > double.Epsilon) ||
@@ -534,7 +533,7 @@ public class OVPSettings
 			polyCount++;
 		}
 
-		tempPoly = new PointF[polyCount];
+		var tempPoly = new PointF[polyCount];
 		Parallel.For(0, forceClosed ? polyCount : polyCount - 1, (pt) => // (int pt = 0; pt < poly.Count; pt++)
 		{
 			tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);

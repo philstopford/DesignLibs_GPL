@@ -8,23 +8,20 @@ namespace MiscUtil.Threading;
 /// </summary>
 public class ThreadPoolWorkItem
 {
-    private Delegate target;
     /// <summary>
     /// The target delegate for the work item. This is the delegate
     /// which is run when the work item is executed.
     /// </summary>
-    public Delegate Target => target;
+    public Delegate Target { get; }
 
-    private object[] parameters;
     /// <summary>
     /// The parameters passed to the delegate. This may be null,
     /// and will definitely be null if PreserveParameters is false
     /// and the work item has started executing. The contents of
     /// the returned array should not be changed.
     /// </summary>
-    public object[] Parameters => parameters;
+    public object[] Parameters { get; private set; }
 
-    private int priority;
     /// <summary>
     /// The priority of this work item compared with others. Note
     /// that this is entirely independent of the thread priority - it
@@ -32,9 +29,8 @@ public class ThreadPoolWorkItem
     /// Items with a higher priority are added ahead of items with a lower
     /// priority in the queue.
     /// </summary>
-    public int Priority => priority;
+    public int Priority { get; }
 
-    private bool preserveParameters;
     /// <summary>
     /// Whether or not to preserve parameters during and after
     /// execution. If this is true, the parameters are available in
@@ -43,15 +39,14 @@ public class ThreadPoolWorkItem
     /// be garbage collected until after the work item has finished
     /// executing, which may be costly in some situations.
     /// </summary>
-    public bool PreserveParameters => preserveParameters;
+    public bool PreserveParameters { get; }
 
-    private object id;
     /// <summary>
     /// The ID of the work item, which may be null. This is provided
     /// by the caller when the work item is constructed, and is used
     /// for cancellation purposes.
     /// </summary>
-    public object ID => id;
+    public object ID { get; }
 
     /// <summary>
     /// Creates a new instance of this class.
@@ -83,15 +78,15 @@ public class ThreadPoolWorkItem
         switch (target)
         {
             case null:
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
         }
-        this.id = id;
-        this.priority = priority;
-        this.preserveParameters = preserveParameters;
-        this.target = target;
+        this.ID = id;
+        this.Priority = priority;
+        this.PreserveParameters = preserveParameters;
+        this.Target = target;
         if (parameters != null)
         {
-            this.parameters = cloneParameters ? (object[])parameters.Clone() : parameters;
+            this.Parameters = cloneParameters ? (object[])parameters.Clone() : parameters;
         }
     }
 
@@ -118,21 +113,21 @@ public class ThreadPoolWorkItem
     /// </summary>
     internal void Invoke()
     {
-        object[] p = parameters;
-        parameters = preserveParameters switch
+        object[] p = Parameters;
+        Parameters = PreserveParameters switch
         {
             false => null,
-            _ => parameters
+            _ => Parameters
         };
 
-        switch (target)
+        switch (Target)
         {
             // Should be faster than dynamic invoke
             case ThreadStart start:
                 start();
                 break;
             default:
-                target.DynamicInvoke(p);
+                Target.DynamicInvoke(p);
                 break;
         }
     }

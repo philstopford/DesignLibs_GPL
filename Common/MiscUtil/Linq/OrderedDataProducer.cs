@@ -11,13 +11,11 @@ namespace MiscUtil.Linq;
 internal class OrderedDataProducer<T> : IOrderedDataProducer<T>
 {
     private bool dataHasEnded;
-    private readonly IDataProducer<T> baseProducer;
-    private readonly IComparer<T> comparer;
     private List<T> buffer;
 
-    public IDataProducer<T> BaseProducer => baseProducer;
+    public IDataProducer<T> BaseProducer { get; }
 
-    public IComparer<T> Comparer => comparer;
+    public IComparer<T> Comparer { get; }
 
     public event Action<T> DataProduced;
     public event Action EndOfData;
@@ -33,8 +31,8 @@ internal class OrderedDataProducer<T> : IOrderedDataProducer<T>
     {
         baseProducer.ThrowIfNull("baseProducer");
 
-        this.baseProducer = baseProducer;
-        this.comparer = comparer ?? Comparer<T>.Default;
+        this.BaseProducer = baseProducer;
+        this.Comparer = comparer ?? Comparer<T>.Default;
 
         baseProducer.DataProduced += OriginalDataProduced;
         baseProducer.EndOfData += EndOfOriginalData;
@@ -85,17 +83,11 @@ internal class OrderedDataProducer<T> : IOrderedDataProducer<T>
 
     private void OnEndOfData()
     {
-        if (EndOfData != null)
-        {
-            EndOfData();
-        }
+        EndOfData?.Invoke();
     }
 
     private void OnDataProduced(T item)
     {
-        if (DataProduced != null)
-        {
-            DataProduced(item);
-        }
+        DataProduced?.Invoke(item);
     }
 }

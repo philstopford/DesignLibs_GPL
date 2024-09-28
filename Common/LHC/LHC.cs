@@ -41,7 +41,7 @@ public class LHCSampler
     {
         dimensions = dim;
         samples = samplesT;
-        intervals = new List<LHCPoint>();
+        intervals = [];
             
         for (int i = 0; i < samples; i++)
         {
@@ -88,7 +88,7 @@ public class LHCSampler
 
     public FinalSamplePoints[]  getPoints(bool useShuffle = false)
     {
-        List<TempSamplePointsForDimension> sampleset = new();
+        List<TempSamplePointsForDimension> sampleset = [];
         for (int dim = 0; dim < dimensions; dim++)
         {
             sampleset.Add(divider(dim));

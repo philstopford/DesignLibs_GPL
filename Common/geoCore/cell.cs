@@ -52,7 +52,7 @@ public class GCCell
         accmin = (short)now.Minute;
         accsec = (short)now.Second;
         cellName = "noname";
-        elementList = new List<GCElement>();
+        elementList = [];
     }
     
     public void setName(string name)
@@ -101,7 +101,7 @@ public class GCCell
         Point64 p = new(points[0]);
         int x1 = (int)p.X;
         int y1 = (int)p.Y;
-        p = new(points[1]);
+        p = new Point64(points[1]);
         if (p.X < x1)
         {
             x2 = x1;
@@ -122,7 +122,7 @@ public class GCCell
         }
         for (int i = 2; i < 4; i++)
         {
-            p = new(points[i]);
+            p = new Point64(points[i]);
             if (p.X < x1)
             {
                 x1 = (int)p.X;
@@ -143,7 +143,7 @@ public class GCCell
         bool b = true;
         for (int i = 0; i < 4; i++)
         {
-            p = new(points[i]);
+            p = new Point64(points[i]);
             if (p.X != x1 && p.X != x2)
             {
                 b = false;
@@ -160,16 +160,14 @@ public class GCCell
             case true:
                 int box_width = x2 - x1;
                 int box_height = y2 - y1;
-                int box_x = x1;
-                int box_y = y1;
-                e = new GCBox(box_x, box_y, box_width, box_height, layer, datatype);
-                pAddElement(e);
+                e = new GCBox(x1, y1, box_width, box_height, layer, datatype);
                 break;
             default:
                 e = new GCPolygon(points, layer, datatype);
-                pAddElement(e);
                 break;
         }
+
+        pAddElement(e);
     }
 
     public void addCircle(int layer, int datatype, Point64 center, double radius)
@@ -179,9 +177,8 @@ public class GCCell
 
     private void pAddCircle(int layer, int datatype, Point64 center, double radius)
     {
-        GCElement e = new();
-        Path64 points = e.ellipse(center, radius, GCSetup.circularDefault);
-        e = new GCPolygon(points, layer, datatype);
+        Path64 points = GCElement.ellipse(center, radius, GCSetup.circularDefault);
+        GCElement e = new GCPolygon(points, layer, datatype);
         pAddElement(e);
     }
 
@@ -269,7 +266,7 @@ public class GCCell
 
     private void pAddCellrefArray(GCCell c, Point64 pos, double angle, double mag, bool mirror_x, Repetition r)
     {
-        GCElement e = new GCCellRefArray(c, angle, mag, mirror_x, r);
+        GCCellRefArray e = new GCCellRefArray(c, angle, mag, mirror_x, r);
         e.move(pos);
         pAddElement(e);
     }
@@ -654,7 +651,6 @@ public class GCCell
         {
             m.translate(p1.X, p1.Y);
             m.scale(-1);
-            m.translate(-p1.X, -p1.Y);
         }
         else
         {
@@ -672,8 +668,9 @@ public class GCCell
             m.rotate(angle);
             m.toggleMirror_x();
             m.rotate(-angle);
-            m.translate(-p1.X, -p1.Y);
         }
+
+        m.translate(-p1.X, -p1.Y);
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
         Parallel.For(0, elementListCount, f =>
@@ -720,10 +717,7 @@ public class GCCell
     {
         foreach (GCElement el in elementList)
         {
-            if (el != null)
-            {
-                el.minimum(ref pos);
-            }
+            el?.minimum(ref pos);
         }
     }
 
@@ -798,13 +792,11 @@ public class GCCell
 
     private bool pDependNotSaved()
     {
-        switch (saved)
+        return saved switch
         {
-            case true:
-                return false;
-        }
-
-        return elementList.Select(element => element?.depend()).Any(cellHelp => cellHelp is {saved: false});
+            true => false,
+            _ => elementList.Select(element => element?.depend()).Any(cellHelp => cellHelp is { saved: false })
+        };
     }
 
     public void saveGDS(gdsWriter gw)
@@ -837,10 +829,7 @@ public class GCCell
         gw.writeString(cellName, 6);
         foreach (GCElement el in elementList)
         {
-            if (el != null)
-            {
-                el.saveGDS(gw);
-            }
+            el?.saveGDS(gw);
         }
         //endstr
         gw.bw.Write((ushort)4);
@@ -857,10 +846,7 @@ public class GCCell
     {
         foreach (GCElement el in elementList)
         {
-            if (el != null)
-            {
-                el.saveOASIS(ow);
-            }
+            el?.saveOASIS(ow);
         }
 
         saved = true;
@@ -873,7 +859,7 @@ public class GCCell
 
     private List<GCPolygon> pConvertToPolygons(double scaleFactor, int layer = -1, int datatype = -1)
     {
-        List<GCPolygon> ret = new();
+        List<GCPolygon> ret = [];
         foreach (GCElement t in elementList.Where(t => t != null))
         {
             if (layer == -1 || datatype == -1)

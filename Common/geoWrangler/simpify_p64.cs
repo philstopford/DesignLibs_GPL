@@ -35,10 +35,12 @@ public static partial class GeoWrangler
 
     private static Path64 pSimplify(Path64 iPoints)
     {
-        Clipper64 c = new();
-        c.PreserveCollinear = false;
+        Clipper64 c = new()
+        {
+            PreserveCollinear = false
+        };
         c.AddSubject(iPoints);
-        Paths64 oPoly = new();
+        Paths64 oPoly = [];
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         oPoly = pReorderXY(oPoly);

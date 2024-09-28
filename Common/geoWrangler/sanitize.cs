@@ -15,18 +15,18 @@ public static partial class GeoWrangler
 
     private static PathsD pFromSoup(PathsD source, WindingRule wr)
     {
-        PathsD outers = new();
-        PathsD cutters = new();
+        PathsD outers = [];
+        PathsD cutters = [];
 
         foreach (PathD t in source)
         {
             if (Clipper.IsPositive(t) == Clipper.IsPositive(source[0]))
             {
-                outers.Add(new (t));
+                outers.Add(new PathD(t));
             }
             else
             {
-                cutters.Add(new (t));
+                cutters.Add(new PathD(t));
             }
         }
 
@@ -78,14 +78,14 @@ public static partial class GeoWrangler
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
             ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true};
-            PathsD retPaths = new();
+            PathsD retPaths = [];
 
-            PathsD cPaths = new();
-            PathsD aPaths = new();
+            PathsD cPaths = [];
+            PathsD aPaths = [];
 
             for (int i = 0; i < tess.ElementCount; i++)
             {
-                PathD trianglePath = new();
+                PathD trianglePath = [];
                 for (int p = 0; p < polysize; p++)
                 {
                     PointD tmpPt = new(tess.Vertices[tess.Elements[i * polysize + p]].Position.X, tess.Vertices[tess.Elements[i * polysize + p]].Position.Y);
@@ -116,7 +116,7 @@ public static partial class GeoWrangler
         }
         catch (Exception)
         {
-            return new(source);
+            return new PathsD(source);
         }
     }
 
@@ -129,7 +129,7 @@ public static partial class GeoWrangler
     {
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(source);
-        PathsD solution = new();
+        PathsD solution = [];
         c.Execute(ClipType.Union, FillRule.EvenOdd, solution);
 
         solution = pReorderXY(solution);
@@ -146,8 +146,8 @@ public static partial class GeoWrangler
     
     private static PathsD pRemoveDuplicatePaths(PathsD source)
     {
-        PathsD ret = new();
-        List<string> polyHashCodes = new();
+        PathsD ret = [];
+        List<string> polyHashCodes = [];
 
         foreach (PathD p in source)
         {
@@ -157,7 +157,7 @@ public static partial class GeoWrangler
                 continue;
             }
             polyHashCodes.Add(polyHash);
-            ret.Add(new(p));
+            ret.Add(new PathD(p));
         }
 
         return ret;

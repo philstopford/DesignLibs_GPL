@@ -7,13 +7,12 @@ partial class EditableLookup<TKey, TElement>
 {
     internal sealed class LookupGrouping : IGrouping<TKey, TElement>
     {
-        private readonly TKey key;
-        private List<TElement> items = new();
-        public TKey Key => key;
+        private readonly List<TElement> items = new();
+        public TKey Key { get; }
 
         public LookupGrouping(TKey key)
         {
-            this.key = key;
+            this.Key = key;
         }
         public int Count => items.Count;
 

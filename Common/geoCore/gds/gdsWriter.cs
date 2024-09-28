@@ -29,7 +29,7 @@ public partial class gdsWriter
     {
         if (!gc.isValid())
         {
-            throw new("Provided GeoCore instance is not marked as valid");
+            throw new Exception("Provided GeoCore instance is not marked as valid");
         }
         drawing_ = gc.getDrawing();
         filename_ = filename;
@@ -146,13 +146,14 @@ public partial class gdsWriter
                     continue;
                 }
 
-                if (!t.saved && !t.dependNotSaved())
+                switch (t.saved)
                 {
-                    t.saveGDS(this);
-                }
-                else if (!t.saved)
-                {
-                    saved = false;
+                    case false when !t.dependNotSaved():
+                        t.saveGDS(this);
+                        break;
+                    case false:
+                        saved = false;
+                        break;
                 }
 
                 cc++;

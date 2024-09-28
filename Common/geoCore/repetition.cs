@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using Clipper2Lib;
 
 namespace geoCoreLib;
@@ -40,11 +39,11 @@ public class Repetition
         type = RepetitionType.None;
         columns = 0;
         rows = 0;
-        spacing = new(0,0);
-        rowVector = new(0,0);
-        colVector = new(0,0);
-        offsets = new();
-        coords = new();
+        spacing = new Point64(0,0);
+        rowVector = new Point64(0,0);
+        colVector = new Point64(0,0);
+        offsets = [];
+        coords = [];
     }
     
     public Repetition(Repetition source)
@@ -57,23 +56,23 @@ public class Repetition
         type = source.type;
         columns = source.columns;
         rows = source.rows;
-        spacing = new(source.spacing);
-        rowVector = new(source.rowVector);
-        colVector = new(source.colVector);
-        offsets = new(source.offsets);
-        coords = new(source.coords);
+        spacing = new Point64(source.spacing);
+        rowVector = new Point64(source.rowVector);
+        colVector = new Point64(source.colVector);
+        offsets = new Path64(source.offsets);
+        coords = [..source.coords];
     }
 
     public void clear()
     {
-        if (type == RepetitionType.Explicit)
+        switch (type)
         {
-            offsets.Clear();
-        }
-
-        if ((type == RepetitionType.ExplicitX) || (type == RepetitionType.ExplicitY))
-        {
-            coords.Clear();
+            case RepetitionType.Explicit:
+                offsets.Clear();
+                break;
+            case RepetitionType.ExplicitX or RepetitionType.ExplicitY:
+                coords.Clear();
+                break;
         }
     }
 
@@ -81,40 +80,35 @@ public class Repetition
     // Not sure whether these methods are needed, but added for now ahead of investigations.
     public int get_count()
     {
-        switch (type)
+        return type switch
         {
-            case RepetitionType.Rectangular:
-            case RepetitionType.Regular:
-                return columns * rows;
-            case RepetitionType.Explicit:
-                return offsets.Count; // Original is not included.
-            case RepetitionType.ExplicitX:
-            case RepetitionType.ExplicitY:
-                return coords.Count; // Original is not included.
-            case RepetitionType.None:
-                return 0;
-        }
-
-        return 0;
+            RepetitionType.Rectangular or RepetitionType.Regular => columns * rows,
+            RepetitionType.Explicit => offsets.Count // Original is not included.
+            ,
+            RepetitionType.ExplicitX or RepetitionType.ExplicitY => coords.Count // Original is not included.
+            ,
+            RepetitionType.None => 0,
+            _ => 0
+        };
     }
 
     public Path64 get_offsets()
     {
-        Path64 result = new();
+        Path64 result = [];
         int count = get_count();
         switch (type)
         {
             case RepetitionType.Rectangular:
                 for (int i = 0; i < rows; i++)
                 {
-                    Int64 cy = i * spacing.Y;
+                    long cy = i * spacing.Y;
                     for (int j = 0; j < columns; j++)
                     {
                         if ((i == 0) && (j == 0))
                         {
                             continue;
                         }
-                        result.Add(new(j * spacing.X, cy));
+                        result.Add(new Point64(j * spacing.X, cy));
                     }
                 }
 
@@ -125,7 +119,7 @@ public class Repetition
                     Point64 vi = new(rowVector.X * i, rowVector.Y * i);
                     for (int j = 1; j < columns; j++)
                     {
-                        result.Add(new(vi.X + j * colVector.X, vi.Y + j * colVector.Y));
+                        result.Add(new Point64(vi.X + j * colVector.X, vi.Y + j * colVector.Y));
                     }
                 }
 
@@ -134,7 +128,7 @@ public class Repetition
                 // result.Add(new(0, 0));
                 for (int j = 1; j < count; j++)
                 {
-                    result.Add(new(coords[j], 0));
+                    result.Add(new Point64(coords[j], 0));
                 }
 
                 break;
@@ -142,16 +136,16 @@ public class Repetition
                 // result.Add(new(0, 0));
                 for (int j = 1; j < count; j++)
                 {
-                    result.Add(new(0, coords[j]));
+                    result.Add(new Point64(0, coords[j]));
                 }
 
                 break;
             case RepetitionType.Explicit:
-                result.Add(new(offsets[0]));
+                result.Add(new Point64(offsets[0]));
                 // The explicit offset is made up of delta values, each one a delta from the previous value....
                 for (int i = 1; i < offsets.Count; i++)
                 {
-                    result.Add(new (offsets[i].X + result[^1].X, offsets[i].Y + result[^1].Y));
+                    result.Add(new Point64(offsets[i].X + result[^1].X, offsets[i].Y + result[^1].Y));
                 }
                 break;
             case RepetitionType.None:
@@ -163,7 +157,7 @@ public class Repetition
 
     public Path64 get_extrema()
     {
-        Path64 result = new();
+        Path64 result = [];
 
         switch (type)
         {
@@ -177,27 +171,27 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        result.Add(new (0, 0));
+                        result.Add(new Point64(0, 0));
                     }
                     else
                     {
-                        result.Add(new (0, 0));
-                        result.Add(new (0, (rows - 1) * spacing.Y));
+                        result.Add(new Point64(0, 0));
+                        result.Add(new Point64(0, (rows - 1) * spacing.Y));
                     }
                 }
                 else
                 {
                     if (rows == 1)
                     {
-                        result.Add(new (0, 0));
-                        result.Add(new ((columns - 1) * spacing.X, 0));
+                        result.Add(new Point64(0, 0));
+                        result.Add(new Point64((columns - 1) * spacing.X, 0));
                     }
                     else
                     {
-                        result.Add(new (0, 0));
-                        result.Add(new (0, (rows - 1) * spacing.Y));
-                        result.Add(new ((columns - 1) * spacing.X, 0));
-                        result.Add(new ((columns - 1) * spacing.X, (rows - 1) * spacing.Y));
+                        result.Add(new Point64(0, 0));
+                        result.Add(new Point64(0, (rows - 1) * spacing.Y));
+                        result.Add(new Point64((columns - 1) * spacing.X, 0));
+                        result.Add(new Point64((columns - 1) * spacing.X, (rows - 1) * spacing.Y));
                     }
                 }
 
@@ -212,29 +206,29 @@ public class Repetition
                 {
                     if (rows == 1)
                     {
-                        result.Add(new (0, 0));
+                        result.Add(new Point64(0, 0));
                     }
                     else
                     {
-                        result.Add(new (0, 0));
-                        result.Add(new((rows - 1) * colVector.X, (rows - 1) * colVector.Y));
+                        result.Add(new Point64(0, 0));
+                        result.Add(new Point64((rows - 1) * colVector.X, (rows - 1) * colVector.Y));
                     }
                 }
                 else
                 {
                     if (rows == 1)
                     {
-                        result.Add(new (0, 0));
-                        result.Add(new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y));
+                        result.Add(new Point64(0, 0));
+                        result.Add(new Point64((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y));
                     }
                     else
                     {
                         PointD vi = new((columns - 1) * rowVector.X, (columns - 1) * rowVector.Y);
                         PointD vj = new((rows - 1) * colVector.X, (rows - 1) * colVector.Y);
-                        result.Add(new (0, 0));
-                        result.Add(new (vi));
-                        result.Add(new (vj));
-                        result.Add(new (vi.x + vj.x, vi.y + vj.y));
+                        result.Add(new Point64(0, 0));
+                        result.Add(new Point64(vi));
+                        result.Add(new Point64(vj));
+                        result.Add(new Point64(vi.x + vj.x, vi.y + vj.y));
                     }
                 }
 
@@ -247,10 +241,10 @@ public class Repetition
 
                 double xmin = coords.Min();
                 double xmax = coords.Max();
-                result.Add(new(xmin, 0));
-                if (xmin != xmax)
+                result.Add(new Point64(xmin, 0));
+                if (Math.Abs(xmin - xmax) > GeoCore.tolerance)
                 {
-                    result.Add(new(xmax, 0));
+                    result.Add(new Point64(xmax, 0));
                 }
 
                 break;
@@ -262,10 +256,10 @@ public class Repetition
 
                 double ymin = coords.Min();
                 double ymax = coords.Max();
-                result.Add(new(0, ymin));
-                if (ymin != ymax)
+                result.Add(new Point64(0, ymin));
+                if (Math.Abs(ymin - ymax) > GeoCore.tolerance)
                 {
-                    result.Add(new(0, ymax));
+                    result.Add(new Point64(0, ymax));
                 }
 
                 break;
@@ -283,20 +277,20 @@ public class Repetition
                 {
                     if (v.X < vxmin.X)
                     {
-                        vxmin = new(v);
+                        vxmin = new Point64(v);
                     }
                     else if (v.X > vxmax.X)
                     {
-                        vxmax = new(v);
+                        vxmax = new Point64(v);
                     }
 
                     if (v.Y < vymin.Y)
                     {
-                        vymin = new(v);
+                        vymin = new Point64(v);
                     }
                     else if (v.Y > vymax.Y)
                     {
-                        vymax = new(v);
+                        vymax = new Point64(v);
                     }
                 }
 
@@ -314,7 +308,7 @@ public class Repetition
 
     public List<GCPolygon> transform(List<GCPolygon> geo, double magnification, bool x_reflection, double rotation)
     {
-        bool doRotationInFunction = true;
+        const bool doRotationInFunction = true;
         bool bypass_regular_array = false; // used for specific cases.
         if (type == RepetitionType.None)
         {
@@ -324,9 +318,9 @@ public class Repetition
         switch (type)
         {
             case RepetitionType.Rectangular:
-                if (magnification != 1)
+                if (Math.Abs(magnification - 1) > GeoCore.tolerance)
                 {
-                    spacing = new (spacing.X * magnification, spacing.Y * magnification);
+                    spacing = new Point64(spacing.X * magnification, spacing.Y * magnification);
                 }
                 if (x_reflection || (rotation != 0 && doRotationInFunction))
                 {
@@ -338,15 +332,15 @@ public class Repetition
                     double ca = Math.Cos(rotation);
                     double sa = Math.Sin(rotation);
                     type = RepetitionType.Regular;
-                    rowVector.X = (Int64)(v.Y * ca);
-                    rowVector.Y = (Int64)(v.Y * sa);
-                    colVector.X = (Int64)(-v.Y * sa);
-                    colVector.Y = (Int64)(v.Y * ca);
+                    rowVector.X = (long)(v.Y * ca);
+                    rowVector.Y = (long)(v.Y * sa);
+                    colVector.X = (long)(-v.Y * sa);
+                    colVector.Y = (long)(v.Y * ca);
                 }
                 else
                 {
-                    rowVector = new(spacing.X, 0);
-                    colVector = new(0, spacing.Y);
+                    rowVector = new Point64(spacing.X, 0);
+                    colVector = new Point64(0, spacing.Y);
                 }
                 break;
             case RepetitionType.Regular:
@@ -354,7 +348,7 @@ public class Repetition
                 {
                     if (offsets.Count == 0)
                     {
-                        offsets.Add(new(0, 0));
+                        offsets.Add(new Point64(0, 0));
                         for (int r = 1; r < rows; r++)
                         {
                             offsets.Add(rowVector);
@@ -369,7 +363,7 @@ public class Repetition
                     {
                         if (offsets.Count == 0)
                         {
-                            offsets.Add(new(0, 0));
+                            offsets.Add(new Point64(0, 0));
                             for (int c = 1; c < columns; c++)
                             {
                                 offsets.Add(colVector);
@@ -420,15 +414,12 @@ public class Repetition
                 {
                     double ca = magnification * Math.Cos(rotation);
                     double sa = magnification * Math.Sin(rotation);
-                    Path64 temp = new ();
-                    foreach (double c in coords)
-                    {
-                        temp.Add(new(c * ca, c * sa));
-                    }
+                    Path64 temp = [];
+                    temp.AddRange(coords.Select(c => new Point64(c * ca, c * sa)));
                     type = RepetitionType.Explicit;
-                    offsets = new(temp);
+                    offsets = new Path64(temp);
                 }
-                else if (magnification != 1)
+                else if (Math.Abs(magnification - 1) > GeoCore.tolerance)
                 {
                     for (int i = 0; i < coords.Count; i++)
                     {
@@ -447,15 +438,12 @@ public class Repetition
                         sa = -sa;
                     }
 
-                    Path64 temp = new ();
-                    foreach (double c in coords)
-                    {
-                        temp.Add(new(c * sa, c * ca));
-                    }
+                    Path64 temp = [];
+                    temp.AddRange(coords.Select(c => new Point64(c * sa, c * ca)));
                     type = RepetitionType.Explicit;
-                    offsets = new(temp);
+                    offsets = new Path64(temp);
                 }
-                else if (x_reflection || magnification != 1)
+                else if (x_reflection || Math.Abs(magnification - 1) > GeoCore.tolerance)
                 {
                     if (x_reflection)
                     {
@@ -473,19 +461,19 @@ public class Repetition
                 // Process offsets
                 Point64 _colVector = new(colVector.X, Math.Ceiling((double)colVector.Y / columns));
                 Point64 _rowVector = new(Math.Ceiling((double)rowVector.X / rows), rowVector.Y);
-                Path64 temp = new ();
+                Path64 temp = [];
                 for (int c = 1; c < columns; c++)
                 {
-                    temp.Add(new(_colVector.X * c, _colVector.Y));
+                    temp.Add(new Point64(_colVector.X * c, _colVector.Y));
                 }
                 for (int r = 0; r < rows; r++)
                 {
                     for (int t = 0; t < temp.Count; t++)
                     {
-                        offsets.Add(new (temp[t].X + (_rowVector.X * r), temp[t].Y + (_rowVector.Y * r)));
+                        offsets.Add(new Point64(temp[t].X + (_rowVector.X * r), temp[t].Y + (_rowVector.Y * r)));
                     }
                 }
-                offsets.Add(new(_rowVector));
+                offsets.Add(new Point64(_rowVector));
                 /*
                 if (rotation != 0 && doRotationInFunction)
                 {
@@ -550,31 +538,29 @@ public class Repetition
         }
         
         // Scale and rotate.
-        List<GCPolygon> scaled_and_rotated = new();
-        foreach (GCPolygon poly in geo)
+        List<GCPolygon> scaled_and_rotated = [];
+        foreach (var temp in geo.Select(poly => new GCPolygon(poly)))
         {
-            GCPolygon temp = new(poly);
             if (x_reflection)
             {
                 for (int pt = 0; pt < temp.pointarray.Count; pt++)
                 {
-                    temp.pointarray[pt] = new (temp.pointarray[pt].X, -temp.pointarray[pt].Y);
+                    temp.pointarray[pt] = new Point64(temp.pointarray[pt].X, -temp.pointarray[pt].Y);
                 }
             }
-            temp.rotate(rotation, new(0,0));
+            temp.rotate(rotation, new Point64(0,0));
             temp.scale(magnification);
             scaled_and_rotated.Add(temp);
         }
 
-        List<GCPolygon> ret = new();
+        List<GCPolygon> ret = [];
 
         if (offsets.Count > 0)
         {
             foreach (Point64 offset in offsets)
             {
-                foreach (GCPolygon poly in scaled_and_rotated)
+                foreach (var temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
                 {
-                    GCPolygon temp = new(poly);
                     temp.move(offset);
                     ret.Add(temp);
                 }
@@ -585,9 +571,8 @@ public class Repetition
         {
             for (int idx = 0; idx < coords.Count; idx += 2)
             {
-                foreach (GCPolygon poly in scaled_and_rotated)
+                foreach (var temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
                 {
-                    GCPolygon temp = new(poly);
                     temp.move(new Point64(coords[idx], coords[idx+1]));
                     ret.Add(temp);
                 }
@@ -600,10 +585,9 @@ public class Repetition
             {
                 for (int x = 0; x < columns; x++)
                 {
-                    foreach (GCPolygon poly in scaled_and_rotated)
+                    foreach (var temp in scaled_and_rotated.Select(poly => new GCPolygon(poly)))
                     {
-                        GCPolygon temp = new(poly);
-                        temp.move(new(x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
+                        temp.move(new Point64(x * (rowVector.X + colVector.X), y * (rowVector.Y + colVector.Y)));
                         ret.Add(temp);
                     }
                 }

@@ -350,11 +350,11 @@ public static partial class DataProducerExt
 
         // use List (rather than ToList) so we have a List<T> with
         // Reverse immediately available (more efficient, and 2.0 compatible)
-        List<TSource> results = new();
+        List<TSource> results = [];
         source.DataProduced += item => results.Add(item);
         source.EndOfData += () =>
         {
-            List<TSource> items = new(results);
+            List<TSource> items = [..results];
             items.Reverse();
             ret.ProduceAndEnd(items);
         };
@@ -482,9 +482,8 @@ public static partial class DataProducerExt
         }
 
         // first, discard any existing "order by"s by going back to the producer
-        IOrderedDataProducer<TSource> orderedProducer;
         bool first = true;
-        while ((orderedProducer = source as IOrderedDataProducer<TSource>) != null)
+        while ((source as IOrderedDataProducer<TSource>) is { } orderedProducer)
         {
             switch (first)
             {

@@ -33,7 +33,7 @@ public class OLD__SVGBuilder
         {
             pft = 0; // PolyFillType.pftNonZero;
             brushClr = MyColor.AntiqueWhite;
-            dashArray = Array.Empty<int>();
+            dashArray = [];
             penClr = MyColor.Black;
             penWidth = 0.8;
             showCoords = false;
@@ -48,7 +48,7 @@ public class OLD__SVGBuilder
 
         public PolyInfo()
         {
-            polygons = new ();
+            polygons = [];
             si = new StyleInfo();
         }
     }
@@ -76,15 +76,15 @@ public class OLD__SVGBuilder
 
     public OLD__SVGBuilder()
     {
-        PolyInfoList = new List<PolyInfo>();
+        PolyInfoList = [];
         style = new StyleInfo();
     }
     
     public void AddPolygons(PathD pointArray)
     {
-        PathsD tempPolygonsList = new();
+        PathsD tempPolygonsList = [];
         PathD tempPolygon = new (pointArray);
-        tempPolygonsList.Add(new(tempPolygon));
+        tempPolygonsList.Add(new PathD(tempPolygon));
         AddPolygons(tempPolygonsList);
     }
 

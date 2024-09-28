@@ -22,7 +22,7 @@ public class ChordHandler
     private KDTree<PointD> aTree;
     private KDTree<PointD> bTree;
 
-    private void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
+    private static void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
         pt.z = -1; // Tag our intersection points.
     }
@@ -34,7 +34,7 @@ public class ChordHandler
 
         int pt = 0; // will set based on start condition checks
 
-        PathD testPath = new();
+        PathD testPath = [];
         // Gather all of our points on the top edge for the nearest neighbor search
         while (pt <= aPath_maxX_index)
         {
@@ -45,8 +45,8 @@ public class ChordHandler
         ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(b);
-        PathsD unused = new();
-        PathsD topChords = new();
+        PathsD unused = [];
+        PathsD topChords = [];
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, topChords);
 
         // Now we evaluate the lower edge
@@ -60,7 +60,7 @@ public class ChordHandler
         while (!aDone)
         {
             pt %= a.Count;
-            testPath.Add(new (a[pt]));
+            testPath.Add(new PointD(a[pt]));
             if (pt == aPath_minX_index)
             {
                 aDone = true;
@@ -70,13 +70,13 @@ public class ChordHandler
 
         c.AddOpenSubject(testPath);
         c.AddClip(b);
-        PathsD bottomChords = new();
+        PathsD bottomChords = [];
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, bottomChords);
 
         // Now let's see what we have.
 
         double minBottomChordLength = 0;
-        PathD bottomChord = new() {new (0, 0)};
+        PathD bottomChord = [new PointD(0, 0)];
         // safety in case we have no chords on the top.
         foreach (PathD t in bottomChords)
         {
@@ -85,7 +85,7 @@ public class ChordHandler
             // First point and last point might not be matched to original geometry (imperfect intersection)
             for (int bCPt = 1; bCPt < t.Count - 1; bCPt++)
             {
-                NearestNeighbour<PointD> pIter = aTree.NearestNeighbors(new double[] { t[bCPt].x, t[bCPt].y }, 1);
+                NearestNeighbour<PointD> pIter = aTree.NearestNeighbors([t[bCPt].x, t[bCPt].y], 1);
                 while (pIter.MoveNext())
                 {
                     if (!(pIter.CurrentDistance > 0))
@@ -130,7 +130,7 @@ public class ChordHandler
         }
 
         double minTopChordLength = 0;
-        PathD topChord = new() {new (0, 0)};
+        PathD topChord = [new PointD(0, 0)];
         // safety in case we have no chords on the top.
         foreach (PathD t in topChords)
         {
@@ -139,7 +139,7 @@ public class ChordHandler
             // First point and last point might not be matched to original geometry (imperfect intersection)
             for (int tCPt = 1; tCPt < t.Count - 1; tCPt++)
             {
-                NearestNeighbour<PointD> pIter = aTree.NearestNeighbors(new double[] { t[tCPt].x, t[tCPt].y }, 1);
+                NearestNeighbour<PointD> pIter = aTree.NearestNeighbors([t[tCPt].x, t[tCPt].y], 1);
                 while (pIter.MoveNext())
                 {
                     if (!(pIter.CurrentDistance > 0))
@@ -197,12 +197,12 @@ public class ChordHandler
 
         int pt = 0; // will set based on start condition checks
 
-        PathD testPath = new();
+        PathD testPath = [];
 
         // Gather all of our points on the left edge
         while (pt <= bPath_maxY_index)
         {
-            testPath.Add(new (b[pt]));
+            testPath.Add(new PointD(b[pt]));
             pt++;
         }
 
@@ -211,8 +211,8 @@ public class ChordHandler
         ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(a);
-        PathsD leftChords = new();
-        PathsD unused = new();
+        PathsD leftChords = [];
+        PathsD unused = [];
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, leftChords);
 
         // Now we evaluate the right edge
@@ -225,7 +225,7 @@ public class ChordHandler
         while (!bDone)
         {
             pt %= b.Count;
-            testPath.Add(new (b[pt]));
+            testPath.Add(new PointD(b[pt]));
             if (pt == bPath_minY_index)
             {
                 bDone = true;
@@ -236,13 +236,13 @@ public class ChordHandler
         c.ZCallback = ZFillCallback;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
-        PathsD rightChords = new();
+        PathsD rightChords = [];
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, rightChords);
 
         // Now let's see what we have.
 
         double minRightChordLength = 0;
-        PathD rightChord = new() {new (0, 0)};
+        PathD rightChord = [new PointD(0, 0)];
         // safety in case we have no chords on the right.
 
         foreach (PathD t in rightChords)
@@ -252,7 +252,7 @@ public class ChordHandler
             // First point and last point might not be matched to original geometry (imperfect intersection)
             for (int rCPt = 1; rCPt < t.Count - 1; rCPt++)
             {
-                NearestNeighbour<PointD> pIter = bTree.NearestNeighbors(new double[] { t[rCPt].x, t[rCPt].y }, 1);
+                NearestNeighbour<PointD> pIter = bTree.NearestNeighbors([t[rCPt].x, t[rCPt].y], 1);
                 while (pIter.MoveNext())
                 {
                     if (!(pIter.CurrentDistance > 0))
@@ -297,7 +297,7 @@ public class ChordHandler
         }
 
         double minLeftChordLength = 0;
-        PathD leftChord = new() {new (0, 0)};
+        PathD leftChord = [new PointD(0, 0)];
         // safety in case we have no chords on the left.
         foreach (PathD t in leftChords)
         {
@@ -306,7 +306,7 @@ public class ChordHandler
             // First point and last point might not be matched to original geometry (imperfect intersection)
             for (int lCPt = 1; lCPt < t.Count - 1; lCPt++)
             {
-                NearestNeighbour<PointD> pIter = bTree.NearestNeighbors(new double[] { t[lCPt].x, t[lCPt].y }, 1);
+                NearestNeighbour<PointD> pIter = bTree.NearestNeighbors([t[lCPt].x, t[lCPt].y], 1);
                 while (pIter.MoveNext())
                 {
                     if (!(pIter.CurrentDistance > 0))
@@ -367,12 +367,12 @@ public class ChordHandler
     {
         PathsD aSource = new(aSource_);
         PathsD bSource = new(bSource_);
-        a_chordPaths = new () {new() {new (0, 0)}, new() {new (0, 0)}};
-        b_chordPaths = new () {new() {new (0, 0)}, new() {new (0, 0)}};
-        aChordLengths = new[] {0.0, 0.0};
-        bChordLengths = new[] {0.0, 0.0};
+        a_chordPaths = [new PathD { new PointD(0, 0) }, new PathD { new PointD(0, 0) }];
+        b_chordPaths = [new PathD { new PointD(0, 0) }, new PathD { new PointD(0, 0) }];
+        aChordLengths = [0.0, 0.0];
+        bChordLengths = [0.0, 0.0];
 
-        List<ChordHandler> cHList = new();
+        List<ChordHandler> cHList = [];
         for (int aIndex = 0; aIndex < aSource.Count; aIndex++)
         {
             for (int bIndex = 0; bIndex < bSource.Count; bIndex++)
@@ -454,8 +454,8 @@ public class ChordHandler
         a_chordPaths = Helper.initedPathsD(2);
         b_chordPaths = Helper.initedPathsD(2);
 
-        aChordLengths = new[] { 0.0, 0.0 };
-        bChordLengths = new[] { 0.0, 0.0 };
+        aChordLengths = [0.0, 0.0];
+        bChordLengths = [0.0, 0.0];
 
         // Max and min indices for each path.
         // We'll use these for our chord within the edge checks.
@@ -468,12 +468,12 @@ public class ChordHandler
         aTree = new KDTree<PointD>(2, a.Count);
         for (int aPt = 0; aPt < a.Count; aPt++)
         {
-            aTree.AddPoint(new double[] { a[aPt].x, a[aPt].y }, new (a[aPt].x, a[aPt].y));
+            aTree.AddPoint([a[aPt].x, a[aPt].y], new PointD(a[aPt].x, a[aPt].y));
         }
         bTree = new KDTree<PointD>(2, b.Count);
         for (int bPt = 0; bPt < b.Count; bPt++)
         {
-            bTree.AddPoint(new double[] { b[bPt].x, b[bPt].y }, new (b[bPt].x, b[bPt].y));
+            bTree.AddPoint([b[bPt].x, b[bPt].y], new PointD(b[bPt].x, b[bPt].y));
         }
 
         if (subMode != (int)chordCalcElements.b)
@@ -553,9 +553,9 @@ public class ChordHandler
 
         if (!aChordsValid)
         {
-            a_chordPaths[0] = new () {new(0, 0)};
-            a_chordPaths[1] = new () {new(0, 0)};
-            aChordLengths = new double[] { 0, 0 };
+            a_chordPaths[0] = [new PointD(0, 0)];
+            a_chordPaths[1] = [new PointD(0, 0)];
+            aChordLengths = [0, 0];
         }
 
         if (bChordsValid)
@@ -563,8 +563,8 @@ public class ChordHandler
             return;
         }
 
-        b_chordPaths[0] = new () {new(0, 0)};
-        b_chordPaths[1] = new () {new(0, 0)};
-        bChordLengths = new double[] { 0, 0 };
+        b_chordPaths[0] = [new PointD(0, 0)];
+        b_chordPaths[1] = [new PointD(0, 0)];
+        bChordLengths = [0, 0];
     }
 }

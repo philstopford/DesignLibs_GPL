@@ -7,7 +7,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Clipper2Lib;
 
 namespace oasis;
@@ -16,7 +15,7 @@ internal static class Utils
 {
     public static string Left(this string str, int length)
     {
-        return str.Substring(0, Math.Min(length, str.Length));
+        return str[..Math.Min(length, str.Length)];
     }
 }
 
@@ -79,8 +78,8 @@ internal partial class oasReader
     // This is used to allow for implicit (late) definitions
     // to be applied to the layout data after everything is loaded.
 
-    string[] cellNames = new string[1024000];
-    string[] textNames = new string[1024000]; // arbitrary limit
+    private string[] cellNames = new string[1024000];
+    private string[] textNames = new string[1024000]; // arbitrary limit
 
 //    private string[] cellNames = new string[1024000]; // maxLayers
 //    private string[] textNames = new string[1024000]; // maxLayers
@@ -103,9 +102,9 @@ internal partial class oasReader
     private void pOASReader(string filename_)
     {
         drawing_ = new GCDrawingfield(filename_);
-        error_msgs = new List<string>();
-        modal.repetition = new ();
-        modal.polygon_point_list = new ();
+        error_msgs = [];
+        modal.repetition = new Repetition();
+        modal.polygon_point_list = [];
         filename = filename_;
     }
 
@@ -139,8 +138,8 @@ internal partial class oasReader
         modal.textlayer = -1;
         modal.texttype = -1;
         modal.circle_radius = -1;
-        modal.repetition = new();
-        modal.polygon_point_list = new ();
+        modal.repetition = new Repetition();
+        modal.polygon_point_list = [];
         modal.s = "";
     }
 
@@ -392,25 +391,13 @@ internal partial class oasReader
                             modal.mirror_x = true;
                         }
 
-                        if ((info_byte & 6) == 6)
+                        modal.angle = (info_byte & 6) switch
                         {
-                            modal.angle = 270;
-                        }
-                        else if ((info_byte & 6) == 4)
-                        {
-                            modal.angle = 180;
-                        }
-                        else
-                        {
-                            if ((info_byte & 6) == 2)
-                            {
-                                modal.angle = 90;
-                            }
-                            else
-                            {
-                                modal.angle = modal.angle;
-                            }
-                        }
+                            6 => 270,
+                            4 => 180,
+                            2 => 90,
+                            _ => modal.angle
+                        };
 
                         if (modal.absoluteMode)
                         {

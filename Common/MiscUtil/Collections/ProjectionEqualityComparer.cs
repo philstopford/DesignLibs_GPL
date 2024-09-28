@@ -119,7 +119,7 @@ public class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSour
     {
         if (obj == null)
         {
-            throw new ArgumentNullException("obj");
+            throw new ArgumentNullException(nameof(obj));
         }
         return comparer.GetHashCode(projection(obj));
     }

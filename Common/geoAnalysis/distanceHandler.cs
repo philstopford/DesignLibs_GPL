@@ -19,7 +19,7 @@ public class DistanceHandler
     public string distanceString { get; private set; }
     private RayCast.inversionMode invert;
 
-    private void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
+    private static void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
         pt.z = -1; // Tag our intersection points.
     }
@@ -32,7 +32,7 @@ public class DistanceHandler
 
         public spaceResult()
         {
-            resultPaths = new ();
+            resultPaths = [];
         }
     }
 
@@ -45,12 +45,12 @@ public class DistanceHandler
     {
         PathsD aPaths = new (aPaths_);
         PathsD bPaths = new (bPaths_);
-        resultPaths = new ();
+        resultPaths = [];
         // Safety check for no active layers.
-        if (aPaths.Count == 1 && aPaths[0].Count == 1 ||
-            bPaths.Count == 1 && bPaths[0].Count == 1)
+        if (aPaths is [{ Count: 1 }] ||
+            bPaths is [{ Count: 1 }])
         {
-            resultPaths.Add(new() {new (0, 0)});
+            resultPaths.Add([new PointD(0, 0)]);
             distanceString = "N/A";
         }
         else
@@ -82,7 +82,7 @@ public class DistanceHandler
     {
         int numberOfPoints = 0;
         double currentMinimum = 0;
-        PathD minimumDistancePath = new();
+        PathD minimumDistancePath = [];
         bool resultNeedsInversion = false;
 
         double refArea = 0;
@@ -103,7 +103,7 @@ public class DistanceHandler
                 {
                     try
                     {
-                        pTree.AddPoint(new double[] { t[pointB].x, t[pointB].y }, new (t[pointB].x, t[pointB].y));
+                        pTree.AddPoint([t[pointB].x, t[pointB].y], new PointD(t[pointB].x, t[pointB].y));
                     }
                     catch (Exception ex)
                     {
@@ -114,28 +114,31 @@ public class DistanceHandler
 
             // Do we need to invert the result?
             ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true};
-            PathsD oCheck = new();
+            PathsD oCheck = [];
             c.AddClip(bPaths);
             c.AddSubject(aPaths[shapeA]);
             c.Execute(ClipType.Union, FillRule.EvenOdd, oCheck);
             oCheck = GeoWrangler.reOrderXY(oCheck);
 
-            double oCheckArea = oCheck.Sum(t => Clipper.Area(t));
+            double oCheckArea = oCheck.Sum(Clipper.Area);
 
-            if (mode == (int)spacingCalcModes.enclosure || mode == (int)spacingCalcModes.enclosureOld) // negative value since we're fully inside a containing polygon.
+            resultNeedsInversion = mode switch
             {
-                resultNeedsInversion = Math.Abs(Math.Abs(oCheckArea) - Math.Abs(refArea)) > double.Epsilon;
-            }
-            if (mode == (int)spacingCalcModes.spacing || mode == (int)spacingCalcModes.spacingOld) // negative value since we're fully outside a containing polygon.
-            {
-                resultNeedsInversion = Math.Abs(Math.Abs(oCheckArea) - Math.Abs(refArea)) < double.Epsilon;
-            }
+                // negative value since we're fully inside a containing polygon.
+                (int)spacingCalcModes.enclosure or (int)spacingCalcModes.enclosureOld => Math.Abs(Math.Abs(oCheckArea) -
+                    Math.Abs(refArea)) > double.Epsilon,
+                // negative value since we're fully outside a containing polygon.
+                (int)spacingCalcModes.spacing or (int)spacingCalcModes.spacingOld => Math.Abs(Math.Abs(oCheckArea) -
+                    Math.Abs(refArea)) < double.Epsilon,
+                _ => resultNeedsInversion
+            };
 
             // We can query here for the minimum distance for each shape combination.
             for (int pointA = 0; pointA < aPaths[shapeA].Count; pointA++)
             {
                 // '1' forces a single nearest neighbor to be returned.
-                NearestNeighbour<PointD> pIter = pTree.NearestNeighbors(new double[] { aPaths[shapeA][pointA].x, aPaths[shapeA][pointA].y }, 1);
+                NearestNeighbour<PointD> pIter = pTree.NearestNeighbors([aPaths[shapeA][pointA].x, aPaths[shapeA][pointA].y
+                ], 1);
                 while (pIter.MoveNext())
                 {
                     double currentDistance = pIter.CurrentDistance;
@@ -146,9 +149,9 @@ public class DistanceHandler
                     }
 
                     minimumDistancePath.Clear();
-                    minimumDistancePath.Add(new (aPaths[shapeA][pointA]));
-                    minimumDistancePath.Add(new ((pIter.Current.x + aPaths[shapeA][pointA].x) / 2.0f, (pIter.Current.y + aPaths[shapeA][pointA].y) / 2.0f));
-                    minimumDistancePath.Add(new (pIter.Current.x, pIter.Current.y));
+                    minimumDistancePath.Add(new PointD(aPaths[shapeA][pointA]));
+                    minimumDistancePath.Add(new PointD((pIter.Current.x + aPaths[shapeA][pointA].x) / 2.0f, (pIter.Current.y + aPaths[shapeA][pointA].y) / 2.0f));
+                    minimumDistancePath.Add(new PointD(pIter.Current.x, pIter.Current.y));
                     currentMinimum = currentDistance;
                 }
             }
@@ -156,7 +159,7 @@ public class DistanceHandler
 
         spaceResult result = new()
         {
-            resultPaths = new () {minimumDistancePath},
+            resultPaths = [minimumDistancePath],
             // k-d tree distance is the squared distance. Need to scale and sqrt
             distance = Math.Sqrt(currentMinimum)
         };
@@ -174,31 +177,31 @@ public class DistanceHandler
         bool completeOverlap = false;
         foreach (PathD a in aPaths)
         {
-            PathD layerAPath = new();
+            PathD layerAPath = [];
             for (int pa = 0; pa < a.Count; pa++)
             {
-                layerAPath.Add(new(a[pa].x, a[pa].y, 1));
+                layerAPath.Add(new PointD(a[pa].x, a[pa].y, 1));
             }
             foreach (PathD b in bPaths)
             {
-                PathD layerBPath = new();
+                PathD layerBPath = [];
                 for (int pb = 0; pb < b.Count; pb++)
                 {
-                    layerBPath.Add(new(b[pb].x, b[pb].y, 2));
+                    layerBPath.Add(new PointD(b[pb].x, b[pb].y, 2));
                 }
 
-                PathsD overlapShape = new();
+                PathsD overlapShape = [];
 
                 // Check for complete overlap
                 ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true, ZCallback = ZFillCallback};
                 // Try a union and see whether the point count of the perimeter changes. This might break for re-entrant cases, but those are problematic anyway.
-                PathsD fullOverlapCheck = new();
+                PathsD fullOverlapCheck = [];
                 c.AddSubject(layerAPath);
                 c.AddClip(layerBPath);
                 c.Execute(ClipType.Union, FillRule.EvenOdd, fullOverlapCheck);
                 double aArea = Math.Abs(Clipper.Area(layerAPath));
                 double bArea = Math.Abs(Clipper.Area(layerBPath));
-                double uArea = fullOverlapCheck.Sum(t => Clipper.Area(t));
+                double uArea = fullOverlapCheck.Sum(Clipper.Area);
                 uArea = Math.Abs(uArea);
 
                 // If overlap area matches either of the input areas, we have a full overlap
@@ -207,15 +210,15 @@ public class DistanceHandler
                     completeOverlap = true;
                 }
 
-                if (mode == (int)spacingCalcModes.spacing || mode == (int)spacingCalcModes.spacingOld) // spacing
+                if (mode is (int)spacingCalcModes.spacing or (int)spacingCalcModes.spacingOld) // spacing
                 {
                     // Perform an area check in case of overlap.
                     // Overlap means X/Y negative space needs to be reported.
-                    AreaHandler aH = new(new () { layerAPath }, new PathsD { layerBPath }, maySimplify: false, perPoly: false);
+                    AreaHandler aH = new([layerAPath], [layerBPath], maySimplify: false, perPoly: false);
                     overlapShape = aH.listOfOutputPoints;
                 }
 
-                if (!completeOverlap && (mode == (int)spacingCalcModes.enclosure || mode == (int)spacingCalcModes.enclosureOld)) // enclosure
+                if (!completeOverlap && mode is (int)spacingCalcModes.enclosure or (int)spacingCalcModes.enclosureOld) // enclosure
                 {
                     // Need to find the region outside our enclosure shape. We use the modifier to handle this.
                     c.Clear();
@@ -288,15 +291,15 @@ public class DistanceHandler
                 }
 
                 // Now we need to construct our Paths for the overlap edges, based on the true/false case for each array.
-                PathsD aOverlapEdge = new();
-                PathsD bOverlapEdge = new();
+                PathsD aOverlapEdge = [];
+                PathsD bOverlapEdge = [];
 
-                PathD tempPath = new();
+                PathD tempPath = [];
                 for (int i = 0; i < ptCount; i++)
                 {
                     if (residesOnAEdge[i])
                     {
-                        tempPath.Add(new (overlapShape[poly][i]));
+                        tempPath.Add(new PointD(overlapShape[poly][i]));
                     }
                     else // not found on A edge, probably resides on B edge, but we'll check that separately to keep code readable.
                     {
@@ -308,7 +311,7 @@ public class DistanceHandler
                         }
 
                         // We have some points, but now we're getting a new segment.
-                        aOverlapEdge.Add(new (tempPath));
+                        aOverlapEdge.Add(new PathD(tempPath));
                         tempPath.Clear();
                     }
                 }
@@ -322,7 +325,7 @@ public class DistanceHandler
                 {
                     if (residesOnBEdge[i])
                     {
-                        tempPath.Add(new (overlapShape[poly][i]));
+                        tempPath.Add(new PointD(overlapShape[poly][i]));
                     }
                     else
                     {
@@ -332,7 +335,7 @@ public class DistanceHandler
                         }
 
                         // We have some points, but now we're getting a new segment.
-                        bOverlapEdge.Add(new (tempPath));
+                        bOverlapEdge.Add(new PathD(tempPath));
                         tempPath.Clear();
                     }
                 }
@@ -348,11 +351,12 @@ public class DistanceHandler
                     changed = false;
                     for (int i = aOverlapEdge.Count; i == -1; i--)
                     {
-                        if (aOverlapEdge[i].Count <= 1)
+                        if (aOverlapEdge[i].Count > 1)
                         {
-                            aOverlapEdge.RemoveAt(i);
-                            changed = true;
+                            continue;
                         }
+                        aOverlapEdge.RemoveAt(i);
+                        changed = true;
                     }
                 }
 
@@ -362,11 +366,12 @@ public class DistanceHandler
                     changed = false;
                     for (int i = bOverlapEdge.Count; i == -1; i--)
                     {
-                        if (bOverlapEdge[i].Count <= 1)
+                        if (bOverlapEdge[i].Count > 1)
                         {
-                            bOverlapEdge.RemoveAt(i);
-                            changed = true;
+                            continue;
                         }
+                        bOverlapEdge.RemoveAt(i);
+                        changed = true;
                     }
                 }
 
@@ -419,7 +424,7 @@ public class DistanceHandler
 
         aOverlapEdge = GeoWrangler.reOrderXY(aOverlapEdge);
         bOverlapEdge = GeoWrangler.reOrderXY(bOverlapEdge);
-        PathD extractedPath = new();
+        PathD extractedPath = [];
         bool usingAEdge = false;
 
         /* Prior to 1.7, we used the edge from the layerB combination to raycast. This was not ideal.
@@ -430,84 +435,149 @@ public class DistanceHandler
         PointD shortestPathBeforeStartPoint = new(0, 0);
         PointD shortestPathAfterEndPoint = new(0, 0);
 
-        if (mode == (int)spacingCalcModes.spacing)
+        switch (mode)
         {
-            // Find the shortest edge length and use that for the projection reference
-            // Calculate lengths and check.
-            for (int pt = 0; pt < aOverlapEdge.Count - 1; pt++)
+            case (int)spacingCalcModes.spacing:
             {
-                lengthA += Math.Sqrt(Utils.myPow(aOverlapEdge[pt + 1].x - aOverlapEdge[pt].x, 2) + Utils.myPow(aOverlapEdge[pt + 1].y - aOverlapEdge[pt].y, 2));
-            }
-            for (int pt = 0; pt < bOverlapEdge.Count - 1; pt++)
-            {
-                lengthB += Math.Sqrt(Utils.myPow(bOverlapEdge[pt + 1].x - bOverlapEdge[pt].x, 2) + Utils.myPow(bOverlapEdge[pt + 1].y - bOverlapEdge[pt].y, 2));
-            }
-
-            extractedPath = bOverlapEdge; // need a default in case of equivalent lengths
-
-            if (extractedPath.Count == 0)
-            {
-                // No common overlap.
-                result.distance = 0;
-                return result;
-            }
-
-            // Here we need to go back to our input polygons to derive the edge segment normal for the start/end of each edge.
-            if (lengthA < lengthB)
-            {
-                usingAEdge = true;
-                extractedPath = aOverlapEdge;
-                int startIndex = aPath.FindIndex(p => p.Equals(extractedPath[0]));
-                if (startIndex == 0)
+                // Find the shortest edge length and use that for the projection reference
+                // Calculate lengths and check.
+                for (int pt = 0; pt < aOverlapEdge.Count - 1; pt++)
                 {
-                    startIndex = aPath.Count - 1;
+                    lengthA += Math.Sqrt(Utils.myPow(aOverlapEdge[pt + 1].x - aOverlapEdge[pt].x, 2) + Utils.myPow(aOverlapEdge[pt + 1].y - aOverlapEdge[pt].y, 2));
                 }
-                if (startIndex == -1)
+                for (int pt = 0; pt < bOverlapEdge.Count - 1; pt++)
                 {
-                    // Failed to find it cheaply. Let's try a different approach.
-                    double startDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], aPath[0]);
-                    startIndex = 0;
-                    for (int pt = 1; pt < aPath.Count; pt++)
+                    lengthB += Math.Sqrt(Utils.myPow(bOverlapEdge[pt + 1].x - bOverlapEdge[pt].x, 2) + Utils.myPow(bOverlapEdge[pt + 1].y - bOverlapEdge[pt].y, 2));
+                }
+
+                extractedPath = bOverlapEdge; // need a default in case of equivalent lengths
+
+                if (extractedPath.Count == 0)
+                {
+                    // No common overlap.
+                    result.distance = 0;
+                    return result;
+                }
+
+                // Here we need to go back to our input polygons to derive the edge segment normal for the start/end of each edge.
+                if (lengthA < lengthB)
+                {
+                    usingAEdge = true;
+                    extractedPath = aOverlapEdge;
+                    int startIndex = aPath.FindIndex(p => p.Equals(extractedPath[0]));
+                    if (startIndex == 0)
                     {
-                        double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], aPath[pt]);
-                        if (!(distanceCheck < startDistanceCheck))
-                        {
-                            continue;
-                        }
-
-                        startDistanceCheck = distanceCheck;
-                        startIndex = pt;
+                        startIndex = aPath.Count - 1;
                     }
-                }
-
-                int endIndex = aPath.FindIndex(p => p.Equals(extractedPath[^1]));
-                if (endIndex == aPath.Count - 1)
-                {
-                    endIndex = 0;
-                }
-                if (endIndex == -1)
-                {
-                    // Failed to find it cheaply. Let's try a different approach.
-                    double endDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], aPath[0]);
-                    endIndex = 0;
-                    for (int pt = 1; pt < aPath.Count; pt++)
+                    if (startIndex == -1)
                     {
-                        double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], aPath[pt]);
-                        if (!(distanceCheck < endDistanceCheck))
+                        // Failed to find it cheaply. Let's try a different approach.
+                        double startDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], aPath[0]);
+                        startIndex = 0;
+                        for (int pt = 1; pt < aPath.Count; pt++)
                         {
-                            continue;
-                        }
+                            double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], aPath[pt]);
+                            if (!(distanceCheck < startDistanceCheck))
+                            {
+                                continue;
+                            }
 
-                        endDistanceCheck = distanceCheck;
-                        endIndex = pt;
+                            startDistanceCheck = distanceCheck;
+                            startIndex = pt;
+                        }
                     }
+
+                    int endIndex = aPath.FindIndex(p => p.Equals(extractedPath[^1]));
+                    if (endIndex == aPath.Count - 1)
+                    {
+                        endIndex = 0;
+                    }
+                    if (endIndex == -1)
+                    {
+                        // Failed to find it cheaply. Let's try a different approach.
+                        double endDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], aPath[0]);
+                        endIndex = 0;
+                        for (int pt = 1; pt < aPath.Count; pt++)
+                        {
+                            double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], aPath[pt]);
+                            if (!(distanceCheck < endDistanceCheck))
+                            {
+                                continue;
+                            }
+
+                            endDistanceCheck = distanceCheck;
+                            endIndex = pt;
+                        }
+                    }
+
+                    shortestPathBeforeStartPoint = new PointD(aPath[startIndex]);
+                    shortestPathAfterEndPoint = new PointD(aPath[endIndex]);
+                }
+                else
+                {
+                    int startIndex = bPath.FindIndex(p => p.Equals(extractedPath[0]));
+                    if (startIndex == 0)
+                    {
+                        startIndex = bPath.Count - 1;
+                    }
+                    if (startIndex == -1)
+                    {
+                        // Failed to find it cheaply. Let's try a different approach.
+                        double startDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], bPath[0]);
+                        startIndex = 0;
+
+                        for (int pt = 1; pt < bPath.Count; pt++)
+                        {
+                            double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], bPath[pt]);
+                            if (!(distanceCheck < startDistanceCheck))
+                            {
+                                continue;
+                            }
+
+                            startDistanceCheck = distanceCheck;
+                            startIndex = pt;
+                        }
+                    }
+
+                    int endIndex = bPath.FindIndex(p => p.Equals(extractedPath[^1]));
+                    if (endIndex == bPath.Count - 1)
+                    {
+                        endIndex = 0;
+                    }
+                    if (endIndex == -1)
+                    {
+                        // Failed to find it cheaply. Let's try a different approach.
+                        double endDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], bPath[0]);
+                        endIndex = 0;
+                        for (int pt = 1; pt < bPath.Count; pt++)
+                        {
+                            double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], bPath[pt]);
+                            if (!(distanceCheck < endDistanceCheck))
+                            {
+                                continue;
+                            }
+
+                            endDistanceCheck = distanceCheck;
+                            endIndex = pt;
+                        }
+                    }
+
+                    shortestPathBeforeStartPoint = new PointD(bPath[startIndex]);
+                    shortestPathAfterEndPoint = new PointD(bPath[endIndex]);
                 }
 
-                shortestPathBeforeStartPoint = new (aPath[startIndex]);
-                shortestPathAfterEndPoint = new (aPath[endIndex]);
+                break;
             }
-            else
+            case (int)spacingCalcModes.spacingOld or (int)spacingCalcModes.enclosure or (int)spacingCalcModes.enclosureOld:
             {
+                extractedPath = bOverlapEdge;
+
+                if (extractedPath.Count == 0) // No common edge.
+                {
+                    result.distance = 0;
+                    return result;
+                }
+
                 int startIndex = bPath.FindIndex(p => p.Equals(extractedPath[0]));
                 if (startIndex == 0)
                 {
@@ -518,7 +588,6 @@ public class DistanceHandler
                     // Failed to find it cheaply. Let's try a different approach.
                     double startDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], bPath[0]);
                     startIndex = 0;
-
                     for (int pt = 1; pt < bPath.Count; pt++)
                     {
                         double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], bPath[pt]);
@@ -541,10 +610,10 @@ public class DistanceHandler
                 {
                     // Failed to find it cheaply. Let's try a different approach.
                     double endDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], bPath[0]);
-                    endIndex = 0;
                     for (int pt = 1; pt < bPath.Count; pt++)
                     {
                         double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], bPath[pt]);
+                        endIndex = 0;
                         if (!(distanceCheck < endDistanceCheck))
                         {
                             continue;
@@ -555,83 +624,24 @@ public class DistanceHandler
                     }
                 }
 
-                shortestPathBeforeStartPoint = new (bPath[startIndex]);
-                shortestPathAfterEndPoint = new (bPath[endIndex]);
-            }
-        }
-
-        if (mode == (int)spacingCalcModes.spacingOld || mode == (int)spacingCalcModes.enclosure || mode == (int)spacingCalcModes.enclosureOld)
-        {
-
-            extractedPath = bOverlapEdge;
-
-            if (extractedPath.Count == 0) // No common edge.
-            {
-                result.distance = 0;
-                return result;
-            }
-
-            int startIndex = bPath.FindIndex(p => p.Equals(extractedPath[0]));
-            if (startIndex == 0)
-            {
-                startIndex = bPath.Count - 1;
-            }
-            if (startIndex == -1)
-            {
-                // Failed to find it cheaply. Let's try a different approach.
-                double startDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], bPath[0]);
-                startIndex = 0;
-                for (int pt = 1; pt < bPath.Count; pt++)
+                try
                 {
-                    double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[0], bPath[pt]);
-                    if (!(distanceCheck < startDistanceCheck))
-                    {
-                        continue;
-                    }
-
-                    startDistanceCheck = distanceCheck;
-                    startIndex = pt;
+                    shortestPathBeforeStartPoint = new PointD(bPath[startIndex]);
                 }
-            }
-
-            int endIndex = bPath.FindIndex(p => p.Equals(extractedPath[^1]));
-            if (endIndex == bPath.Count - 1)
-            {
-                endIndex = 0;
-            }
-            if (endIndex == -1)
-            {
-                // Failed to find it cheaply. Let's try a different approach.
-                double endDistanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], bPath[0]);
-                for (int pt = 1; pt < bPath.Count; pt++)
+                catch (Exception)
                 {
-                    double distanceCheck = GeoWrangler.distanceBetweenPoints(extractedPath[^1], bPath[pt]);
-                    endIndex = 0;
-                    if (!(distanceCheck < endDistanceCheck))
-                    {
-                        continue;
-                    }
-
-                    endDistanceCheck = distanceCheck;
-                    endIndex = pt;
+                    errorRep.Invoke("distanceHandler: shortestPathBeforeStartPoint failed.", "Oops");
                 }
-            }
+                try
+                {
+                    shortestPathAfterEndPoint = new PointD(bPath[endIndex]);
+                }
+                catch (Exception)
+                {
+                    errorRep.Invoke("distanceHandler: shortestPathAfterEndPoint failed.", "Oops");
+                }
 
-            try
-            {
-                shortestPathBeforeStartPoint = new (bPath[startIndex]);
-            }
-            catch (Exception)
-            {
-                errorRep.Invoke("distanceHandler: shortestPathBeforeStartPoint failed.", "Oops");
-            }
-            try
-            {
-                shortestPathAfterEndPoint = new (bPath[endIndex]);
-            }
-            catch (Exception)
-            {
-                errorRep.Invoke("distanceHandler: shortestPathAfterEndPoint failed.", "Oops");
+                break;
             }
         }
 
@@ -693,7 +703,7 @@ public class DistanceHandler
 
             bool ortho = Math.Abs(clippedLines[line][0].x - clippedLines[line][1].x) < Constants.tolerance || Math.Abs(clippedLines[line][0].y - clippedLines[line][1].y) < Constants.tolerance;
 
-            double threshold = 0.01500; // arbitrary, dialed in by hand.
+            const double threshold = 0.01500; // arbitrary, dialed in by hand.
 
             if (!(ortho || usingAEdge && startPointCheck_A_dist < threshold && endPointCheck_A_dist < threshold || !usingAEdge && startPointCheck_B_dist < threshold && endPointCheck_B_dist < threshold
                ))
@@ -725,12 +735,11 @@ public class DistanceHandler
                 validOverlapFound = true;
                 maxDistance = lineLength;
                 result.resultPaths.Clear();
-                result.resultPaths.Add(new()
-                {
-                    new (clippedLines[line][0]),
-                    new (clippedLines[line][0]),
-                    new (clippedLines[line][clippedLines[line].Count - 1])
-                });
+                result.resultPaths.Add([
+                    new PointD(clippedLines[line][0]),
+                    new PointD(clippedLines[line][0]),
+                    new PointD(clippedLines[line][clippedLines[line].Count - 1])
+                ]);
             }
         }
 
@@ -741,14 +750,13 @@ public class DistanceHandler
                 // Couldn't find a valid overlap so assume the orthogonal fallback is needed.
                 maxDistance = maxDistance_orthogonalFallback;
                 result.resultPaths.Clear();
-                result.resultPaths.Add(new()
-                {
-                    new (clippedLines[maxDistance_fallbackIndex][0]),
-                    new (clippedLines[maxDistance_fallbackIndex][0]),
-                    new (
+                result.resultPaths.Add([
+                    new PointD(clippedLines[maxDistance_fallbackIndex][0]),
+                    new PointD(clippedLines[maxDistance_fallbackIndex][0]),
+                    new PointD(
                         clippedLines[maxDistance_fallbackIndex]
                             [clippedLines[maxDistance_fallbackIndex].Count - 1])
-                });
+                ]);
             }
         }
         catch (Exception)

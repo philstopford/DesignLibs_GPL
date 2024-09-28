@@ -9,7 +9,7 @@ namespace geoWrangler;
 
 public static class NoiseC
 {
-    public static List<string> noiseTypes = new() { "Perlin", "Simplex", "OpenSimplex" };
+    public static readonly List<string> noiseTypes = ["Perlin", "Simplex", "OpenSimplex"];
 
     public enum noiseIndex { perlin, simplex, opensimplex }
 
@@ -21,20 +21,12 @@ public static class NoiseC
         const double x_const = 123489.1928734;
         const double y_const = 891243.0982134;
 
-        object noiseSource;
-
-        switch (noiseType)
+        object noiseSource = noiseType switch
         {
-            case (int)noiseIndex.opensimplex:
-                noiseSource = new OpenSimplexNoise(seed);
-                break;
-            case (int)noiseIndex.simplex:
-                noiseSource = new SimplexNoise(seed);
-                break;
-            default:
-                noiseSource = new PerlinNoise(seed);
-                break;
-        }
+            (int)noiseIndex.opensimplex => new OpenSimplexNoise(seed),
+            (int)noiseIndex.simplex => new SimplexNoise(seed),
+            _ => new PerlinNoise(seed)
+        };
 
         // Need to iterate our preview points.
         for (int poly = 0; poly < ret.Count; poly++)
@@ -73,12 +65,12 @@ public static class NoiseC
                         dx = mcPoints[pt + 1].x - mcPoints[pt].x;
                         dy = mcPoints[pt + 1].y - mcPoints[pt].y;
                     }
-                    normals[pt] = new (-dy, dx);
+                    normals[pt] = new PointD(-dy, dx);
                 }
 #if !NOISESINGLETHREADED
             );
 #endif
-            normals[^1] = new (normals[0]);
+            normals[^1] = new PointD(normals[0]);
 
             int nLength = normals.Count;
 #if !NOISESINGLETHREADED
@@ -87,13 +79,13 @@ public static class NoiseC
                 for (int pt = 1; pt < nLength; pt++)
 #endif
                 {
-                    previousNormals[pt] = new (normals[pt - 1]);
+                    previousNormals[pt] = new PointD(normals[pt - 1]);
                 }
 #if !NOISESINGLETHREADED
             );
 #endif
 
-            previousNormals[0] = new (normals[^2]);
+            previousNormals[0] = new PointD(normals[^2]);
 
 #if !NOISESINGLETHREADED
             Parallel.For(0, ptCount - 1, pt =>
@@ -111,7 +103,7 @@ public static class NoiseC
                     {
                         length = normalTolerance;
                     }
-                    averagedEdgeNormal = new (averagedEdgeNormal.x / length, averagedEdgeNormal.y / length);
+                    averagedEdgeNormal = new PointD(averagedEdgeNormal.x / length, averagedEdgeNormal.y / length);
 
                     // Use a tolerance as we're handling floats; we don't expect a normalized absolute value generally above 1.0, ignoring the float error.
                     /*
@@ -122,20 +114,16 @@ public static class NoiseC
                     */
 
                     // We can now modify the position of our point and stuff it into our jittered list.
-                    double jitterAmount;
 
-                    switch (noiseType)
+                    double jitterAmount = noiseType switch
                     {
-                        case (int)noiseIndex.opensimplex:
-                            jitterAmount = ((OpenSimplexNoise)noiseSource).Evaluate(freq * (mcPoints[pt].x + x_const), freq * (mcPoints[pt].y + y_const));
-                            break;
-                        case (int)noiseIndex.simplex:
-                            jitterAmount = ((SimplexNoise)noiseSource).GetNoise(freq * (mcPoints[pt].x + x_const), freq * (mcPoints[pt].y + y_const));
-                            break;
-                        default:
-                            jitterAmount = ((PerlinNoise)noiseSource).Noise(freq * (mcPoints[pt].x + x_const), freq * (mcPoints[pt].y + y_const), 0);
-                            break;
-                    }
+                        (int)noiseIndex.opensimplex => ((OpenSimplexNoise)noiseSource).Evaluate(
+                            freq * (mcPoints[pt].x + x_const), freq * (mcPoints[pt].y + y_const)),
+                        (int)noiseIndex.simplex => ((SimplexNoise)noiseSource).GetNoise(
+                            freq * (mcPoints[pt].x + x_const), freq * (mcPoints[pt].y + y_const)),
+                        _ => ((PerlinNoise)noiseSource).Noise(freq * (mcPoints[pt].x + x_const),
+                            freq * (mcPoints[pt].y + y_const), 0)
+                    };
 
                     jitterAmount *= jitterScale;
 
@@ -145,12 +133,12 @@ public static class NoiseC
                     double jitteredY = mcPoints[pt].y;
                     jitteredY += jitterAmount * averagedEdgeNormal.y;
 
-                    jitteredPoints[pt] = new (jitteredX, jitteredY);
+                    jitteredPoints[pt] = new PointD(jitteredX, jitteredY);
                 }
 #if !NOISESINGLETHREADED
             );
 #endif
-            jitteredPoints[ptCount - 1] = new (jitteredPoints[0]);
+            jitteredPoints[ptCount - 1] = new PointD(jitteredPoints[0]);
 
             // Push back to mcPoints for further processing.
             ret[poly] = jitteredPoints;

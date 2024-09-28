@@ -6,8 +6,6 @@
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 
-using System.IO;
-
 namespace Clipper2Lib
 {
   public static class SvgUtils
@@ -19,14 +17,18 @@ namespace Clipper2Lib
 
     public static void AddSubject(SvgWriter svg, Path64 path)
     {
-      Paths64 paths = new Paths64();
-      paths.Add(path);
+      Paths64 paths =
+      [
+        path
+      ];
       svg.AddClosedPaths(paths, 0x1800009C, 0xAAB3B3DA, 0.8);
     }
     public static void AddSubject(SvgWriter svg, PathD path)
     {
-      PathsD paths = new PathsD();
-      paths.Add(path);
+      PathsD paths =
+      [
+        path
+      ];
       svg.AddClosedPaths(paths, 0x1800009C, 0xAAB3B3DA, 0.8);
     }
 
@@ -51,15 +53,19 @@ namespace Clipper2Lib
 
     public static void AddClip(SvgWriter svg, Path64 path)
     {
-      Paths64 paths = new Paths64();
-      paths.Add(path);
+      Paths64 paths =
+      [
+        path
+      ];
       svg.AddClosedPaths(paths, 0x129C0000, 0xCCFFA07A, 0.8);
     }
 
     public static void AddClip(SvgWriter svg, PathD path)
     {
-      PathsD paths = new PathsD();
-      paths.Add(path);
+      PathsD paths =
+      [
+        path
+      ];
       svg.AddClosedPaths(paths, 0x129C0000, 0xCCFFA07A, 0.8);
     }
 
@@ -98,7 +104,11 @@ namespace Clipper2Lib
       string filename, FillRule fill_rule,
       int max_width = 0, int max_height = 0, int margin = 0)
     {
-      if (File.Exists(filename)) File.Delete(filename);
+      if (File.Exists(filename))
+      {
+        File.Delete(filename);
+      }
+
       svg.FillRule = fill_rule;
       svg.SaveToFile(filename, max_width, max_height, margin);
     }

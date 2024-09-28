@@ -155,8 +155,8 @@ public class Colors
 
     private void pRebuildLists()
     {
-        simPreviewColors = new List<MyColor>
-        {
+        simPreviewColors =
+        [
             layer1_Color,
             layer2_Color,
             layer3_Color,
@@ -173,15 +173,15 @@ public class Colors
             layer14_Color,
             layer15_Color,
             layer16_Color
-        };
+        ];
 
-        simOutputColors = new List<MyColor>
-        {
+        simOutputColors =
+        [
             result_Color,
             result2_Color,
             result3_Color,
             result4_Color
-        };
+        ];
 
         resultColors = new MyColor[4];
         resultColors[0] = result_Color;

@@ -9,7 +9,7 @@ namespace MiscUtil.Linq;
 public class ProducerGrouping<TKey, TElement> : IProducerGrouping<TKey, TElement>
 {
     private readonly IDataProducer<TElement> source;
-    private readonly TKey key;
+
     /// <summary>
     /// Event which is raised when an item of data is produced.
     /// This will not be raised after EndOfData has been raised.
@@ -37,14 +37,14 @@ public class ProducerGrouping<TKey, TElement> : IProducerGrouping<TKey, TElement
     /// <summary>
     /// The key for this grouping.
     /// </summary>
-    public TKey Key => key;
+    public TKey Key { get; }
 
     /// <summary>
     /// Constructs a new grouping with the given key
     /// </summary>
     public ProducerGrouping(TKey key, IDataProducer<TElement> source)
     {
-        this.key = key;
+        this.Key = key;
         this.source = source;
     }
 }

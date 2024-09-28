@@ -10,13 +10,11 @@ namespace MiscUtil.Collections;
 /// <typeparam name="T"></typeparam>
 public sealed class ReverseComparer<T> : IComparer<T>
 {
-    private readonly IComparer<T> originalComparer;
-
     /// <summary>
     /// Returns the original comparer; this can be useful to avoid multiple
     /// reversals.
     /// </summary>
-    public IComparer<T> OriginalComparer => originalComparer;
+    public IComparer<T> OriginalComparer { get; }
 
     /// <summary>
     /// Creates a new reversing comparer.
@@ -25,7 +23,7 @@ public sealed class ReverseComparer<T> : IComparer<T>
     public ReverseComparer(IComparer<T> original)
     {
         original.ThrowIfNull("original");
-        originalComparer = original;
+        OriginalComparer = original;
     }
 
     /// <summary>
@@ -34,6 +32,6 @@ public sealed class ReverseComparer<T> : IComparer<T>
     /// </summary>
     public int Compare(T x, T y)
     {
-        return originalComparer.Compare(y, x);
+        return OriginalComparer.Compare(y, x);
     }
 }

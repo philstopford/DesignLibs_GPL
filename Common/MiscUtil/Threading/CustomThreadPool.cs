@@ -29,7 +29,7 @@ public class CustomThreadPool
     /// <summary>
     /// Lock around all static members.
     /// </summary>
-    private static object staticLock = new();
+    private static readonly object staticLock = new();
 
     /// <summary>
     /// Total number of instances created
@@ -104,18 +104,18 @@ public class CustomThreadPool
     /// Lock around access to all state other than events and the queue.
     /// The queue lock may be acquired within this lock.
     /// </summary>
-    private object stateLock = new();
+    private readonly object stateLock = new();
 
     /// <summary>
     /// Lock for the queue itself. The state lock must not be acquired within
     /// this lock unless it is already held by the thread.
     /// </summary>
-    private object queueLock = new();
+    private readonly object queueLock = new();
 
     /// <summary>
     /// The queue itself.
     /// </summary>
-    private RandomAccessQueue<ThreadPoolWorkItem> queue = new();
+    private readonly RandomAccessQueue<ThreadPoolWorkItem> queue = new();
 
     /// <summary>
     /// The number of threads started (in total) by this threadpool.
@@ -157,7 +157,7 @@ public class CustomThreadPool
         }
     }
 
-    private string name;
+    private readonly string name;
     /// <summary>
     /// Gets the name of the thread pool.
     /// This is used to set the name of any new threads created by the pool.
@@ -205,11 +205,7 @@ public class CustomThreadPool
 
             lock (stateLock)
             {
-                if (value > maxThreads)
-                {
-                    throw new ArgumentOutOfRangeException
-                        ("MinThreads must be less than or equal to MaxThreads");
-                }
+                ArgumentOutOfRangeException.ThrowIfGreaterThan(value, maxThreads);
                 minThreads = value;
             }
         }
@@ -239,11 +235,7 @@ public class CustomThreadPool
 
             lock (stateLock)
             {
-                if (value < minThreads)
-                {
-                    throw new ArgumentOutOfRangeException
-                        ("MaxThreads must be greater than or equal to MinThreads");
-                }
+                ArgumentOutOfRangeException.ThrowIfLessThan(value, minThreads);
                 maxThreads = value;
             }
         }
@@ -296,11 +288,10 @@ public class CustomThreadPool
         }
     }
 
-    private int totalThreads;
     /// <summary>
     /// The total number of threads in the pool at the present time.
     /// </summary>
-    public int TotalThreads => totalThreads;
+    public int TotalThreads { get; private set; }
 
     private ThreadPriority workerThreadPriority = ThreadPriority.Normal;
     /// <summary>
@@ -361,7 +352,7 @@ public class CustomThreadPool
     /// <summary>
     /// Lock around all access to events.
     /// </summary>
-    private object eventLock = new();
+    private readonly object eventLock = new();
 
     private ThreadPoolExceptionHandler exceptionHandler;
     /// <summary>
@@ -504,10 +495,8 @@ public class CustomThreadPool
         {
             delegateToFire = afterWorkItem;
         }
-        if (delegateToFire != null)
-        {
-            delegateToFire(this, workItem);
-        }
+
+        delegateToFire?.Invoke(this, workItem);
     }
 
     /// <summary>
@@ -547,10 +536,8 @@ public class CustomThreadPool
             {
                 delegateToFire = workerThreadExit;
             }
-            if (delegateToFire != null)
-            {
-                delegateToFire(this);
-            }
+
+            delegateToFire?.Invoke(this);
         }
         catch
         {
@@ -558,7 +545,7 @@ public class CustomThreadPool
         }
         lock (stateLock)
         {
-            totalThreads--;
+            TotalThreads--;
         }
     }
     #endregion
@@ -588,7 +575,7 @@ public class CustomThreadPool
         switch (workItemDelegate)
         {
             case null:
-                throw new ArgumentNullException("workItemDelegate");
+                throw new ArgumentNullException(nameof(workItemDelegate));
             default:
                 AddWorkItem(new ThreadPoolWorkItem(workItemDelegate, parameters));
                 break;
@@ -604,7 +591,7 @@ public class CustomThreadPool
         switch (workItemDelegate)
         {
             case null:
-                throw new ArgumentNullException("workItemDelegate");
+                throw new ArgumentNullException(nameof(workItemDelegate));
             default:
                 AddWorkItem(new ThreadPoolWorkItem(workItemDelegate, null));
                 break;
@@ -623,7 +610,7 @@ public class CustomThreadPool
         switch (workItem)
         {
             case null:
-                throw new ArgumentNullException("workItem");
+                throw new ArgumentNullException(nameof(workItem));
         }
         bool startNewThread;
         lock (stateLock)
@@ -682,7 +669,7 @@ public class CustomThreadPool
         switch (id)
         {
             case null:
-                throw new ArgumentNullException("id");
+                throw new ArgumentNullException(nameof(id));
         }
         lock (queueLock)
         {
@@ -721,7 +708,7 @@ public class CustomThreadPool
         lock (stateLock)
         {
             threadCounter++;
-            totalThreads++;
+            TotalThreads++;
             background = workerThreadsAreBackground;
         }
         Thread thread = new(WorkerThreadLoop)
@@ -812,14 +799,12 @@ public class CustomThreadPool
                 waitPeriod = MinWaitPeriod;
             }
 
-            switch (waitPeriod)
+            waitPeriod = waitPeriod switch
             {
                 // Do we need to lower the waiting period?
-                case > MaxWaitPeriod:
-                case Timeout.Infinite:
-                    waitPeriod = MaxWaitPeriod;
-                    break;
-            }
+                > MaxWaitPeriod or Timeout.Infinite => MaxWaitPeriod,
+                _ => waitPeriod
+            };
             return waitPeriod;
         }
     }

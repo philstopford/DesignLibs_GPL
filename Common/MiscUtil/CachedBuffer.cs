@@ -7,13 +7,12 @@ namespace MiscUtil;
 /// </summary>
 internal class CachedBuffer : IBuffer
 {
-    private readonly byte[] data;
     private volatile bool available;
     private readonly bool clearOnDispose;
 
     internal CachedBuffer(int size, bool clearOnDispose)
     {
-        data = new byte[size];
+        Bytes = new byte[size];
         this.clearOnDispose = clearOnDispose;
     }
 
@@ -23,14 +22,14 @@ internal class CachedBuffer : IBuffer
         set => available = value;
     }
 
-    public byte[] Bytes => data;
+    public byte[] Bytes { get; }
 
     public void Dispose()
     {
         switch (clearOnDispose)
         {
             case true:
-                Array.Clear(data, 0, data.Length);
+                Array.Clear(Bytes, 0, Bytes.Length);
                 break;
         }
 

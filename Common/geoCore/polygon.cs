@@ -22,7 +22,7 @@ public class GCPolygon : GCElement
 
     private void pGCPolygon()
     {
-        pointarray = new();
+        pointarray = [];
     }
 
     public GCPolygon(GCPolygon source)
@@ -32,7 +32,7 @@ public class GCPolygon : GCElement
 
     private void pGCPolygon(GCPolygon source)
     {
-        pointarray = new (source.pointarray);
+        pointarray = new Path64(source.pointarray);
         layer_nr = source.layer_nr;
         datatype_nr = source.datatype_nr;
     }
@@ -44,7 +44,7 @@ public class GCPolygon : GCElement
 
     private void pGCPolygon(Path64 points, int layer, int datatype)
     {
-        pointarray = new(points);
+        pointarray = new Path64(points);
         layer_nr = layer;
         datatype_nr = datatype;
     }
@@ -79,9 +79,9 @@ public class GCPolygon : GCElement
     public override void resize(double factor)
     {
         int pointarrayCount = pointarray.Count;
-        Parallel.For(0, pointarrayCount, (i) =>
+        Parallel.For(0, pointarrayCount, i =>
         {
-            pointarray[i] = new(pointarray[i].X * factor, pointarray[i].Y * factor);
+            pointarray[i] = new Point64(pointarray[i].X * factor, pointarray[i].Y * factor);
         });
     }
 
@@ -183,14 +183,11 @@ public class GCPolygon : GCElement
 
     private void pMoveSelect(Point64 pos)
     {
-        switch (select)
+        pointarray = select switch
         {
-            case true:
-            {
-                pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
-                break;
-            }
-        }
+            true => GeoWrangler.move(pointarray, pos.X, pos.Y),
+            _ => pointarray
+        };
     }
 
     public override void move(Point64 pos)
@@ -210,7 +207,7 @@ public class GCPolygon : GCElement
 
     private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
-        List<GCPolygon> ret = new() {new GCPolygon(this)};
+        List<GCPolygon> ret = [new(this)];
         ret[0].resize(scaleFactor);
         return ret;
     }
@@ -547,7 +544,7 @@ public class GCPolygon : GCElement
         CircleResult res = isCircle();
         if (res.circle)
         {
-            GCPath tPath = new(new () { pc }, layer_nr, datatype_nr);
+            GCPath tPath = new([pc], layer_nr, datatype_nr);
             tPath.setWidth((int)(res.radius * 2));
             tPath.setCap(1); // set cap to 'round' type. Also forced in the saver for a round path type, as a safety.
             tPath.setRound(true); // this is the important thing to set - it forces the correct handling (including cap value)
@@ -614,13 +611,6 @@ public class GCPolygon : GCElement
         public double radius { get; set; }
 
         public Point64 center { get; set; }
-
-        public CircleResult()
-        {
-            circle = false;
-            radius = 0;
-            center = new();
-        }
     }
     private CircleResult isCircle_()
     {
@@ -662,18 +652,18 @@ public class GCPolygon : GCElement
     private const int CIRCLE_DETECTION_LSQ_COEFFICIENTS = 10;
     private const double GDSTK_PARALLEL_EPS = 1e-8;
 
-    private double length_sq(Point64 point)
+    private static double length_sq(Point64 point)
     {
         return point.X * point.X + point.Y * point.Y;        
     }
     
     // Number of points needed to approximate an arc within some tolerance
-    private Int64 arc_num_points(double angle, double radius, double tolerance) {
+    private static long arc_num_points(double angle, double radius, double tolerance) {
         Debug.Assert(radius > 0);
         Debug.Assert(tolerance > 0);
         double c = 1 - tolerance / radius;
         double a = c < -1 ? Math.PI : Math.Acos(c);
-        Int64 ret = (Int64)(0.5 + 0.5 * Math.Abs(angle) / a);
+        long ret = (long)(0.5 + 0.5 * Math.Abs(angle) / a);
 
         return ret;
     }
@@ -696,7 +686,7 @@ public class GCPolygon : GCElement
         for (int i = 1; i <= CIRCLE_DETECTION_LSQ_COEFFICIENTS; i++) {
             int j = i * (pointarray.Count - 1) / CIRCLE_DETECTION_LSQ_COEFFICIENTS;
             Point64 ab = GeoWrangler.Point64_distanceBetweenPoints(pointarray[j],pointarray[0]);
-            ab = new(2 * ab.X, 2 * ab.Y);
+            ab = new Point64(2 * ab.X, 2 * ab.Y);
             double r = length_sq(pointarray[j]) - ref_length_sq;
             coef_a += ab.X * ab.X;
             coef_b += ab.Y * ab.Y;
@@ -709,7 +699,7 @@ public class GCPolygon : GCElement
         {
             return result;
         }
-        result.center = new((coef_b * res_a - coef_m * res_b) / den,
+        result.center = new Point64((coef_b * res_a - coef_m * res_b) / den,
                                     (coef_a * res_b - coef_m * res_a) / den);
 
         result.radius = 0;
@@ -857,45 +847,27 @@ public class GCPolygon : GCElement
                 for (int i = 1; i < pointarray.Count; i++)
                 {
                     PointD pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
-                    switch (Math.Abs(pd.x - pd.y))
+                    form = Math.Abs(pd.x - pd.y) switch
                     {
-                        case <= double.Epsilon when pd.x > 0:
-                            form = form * 10 + 9;
-                            break;
-                        case <= double.Epsilon when pd.x < 0:
-                            form = form * 10 + 1;
-                            break;
-                        default:
+                        <= double.Epsilon when pd.x > 0 => form * 10 + 9,
+                        <= double.Epsilon when pd.x < 0 => form * 10 + 1,
+                        _ => Math.Abs(pd.x - -pd.y) switch
                         {
-                            switch (Math.Abs(pd.x - -pd.y))
+                            <= double.Epsilon when pd.x < 0 => form * 10 + 7,
+                            <= double.Epsilon when pd.x > 0 => form * 10 + 3,
+                            _ => pd.x switch
                             {
-                                case <= double.Epsilon when pd.x < 0:
-                                    form = form * 10 + 7;
-                                    break;
-                                case <= double.Epsilon when pd.x > 0:
-                                    form = form * 10 + 3;
-                                    break;
-                                default:
+                                0 when pd.y > 0 => form * 10 + 8,
+                                0 when pd.y < 0 => form * 10 + 2,
+                                _ => pd.y switch
                                 {
-                                    form = pd.x switch
-                                    {
-                                        0 when pd.y > 0 => form * 10 + 8,
-                                        0 when pd.y < 0 => form * 10 + 2,
-                                        _ => pd.y switch
-                                        {
-                                            0 when pd.x > 0 => form * 10 + 6,
-                                            0 when pd.x < 0 => form * 10 + 4,
-                                            _ => -1
-                                        }
-                                    };
-
-                                    break;
+                                    0 when pd.x > 0 => form * 10 + 6,
+                                    0 when pd.x < 0 => form * 10 + 4,
+                                    _ => -1
                                 }
                             }
-
-                            break;
                         }
-                    }
+                    };
                     if (form == -1)
                     {
                         break;

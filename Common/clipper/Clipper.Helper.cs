@@ -7,7 +7,7 @@ public static class Helper
         Path64 ret = new(count);
         for (int i = 0; i < count; i++)
         {
-            ret.Add(new());
+            ret.Add(new Point64());
         }
 
         return ret;
@@ -18,7 +18,7 @@ public static class Helper
         Paths64 ret = new(count);
         for (int i = 0; i < count; i++)
         {
-            ret.Add(new());
+            ret.Add([]);
         }
 
         return ret;
@@ -29,7 +29,7 @@ public static class Helper
         PathD ret = new(count);
         for (int i = 0; i < count; i++)
         {
-            ret.Add(new());
+            ret.Add(new PointD());
         }
 
         return ret;
@@ -40,7 +40,7 @@ public static class Helper
         PathsD ret = new(count);
         for (int i = 0; i < count; i++)
         {
-            ret.Add(new());
+            ret.Add([]);
         }
 
         return ret;

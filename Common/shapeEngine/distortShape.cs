@@ -11,7 +11,7 @@ public static class distortShape
         Fragmenter fragment = new(resolution);
         PathsD ret = new (input);
 #if !SHAPEENGINESINGLETHREADED
-        Parallel.For(0, input.Count, (poly) =>
+        Parallel.For(0, input.Count, poly =>
 #else
         for (int poly = 0; poly < input.Count; poly++)
 #endif
@@ -44,7 +44,7 @@ public static class distortShape
                             // rd = r(1 + (k1 * r^2) + (k2 * r^4)) from Zhang, 1999 (https://www.microsoft.com/en-us/research/wp-content/uploads/2016/11/zhan99.pdf)
                             // we only want a scaling factor for our X, Y coordinates.
                             // '1 -' or '1 +' drive the pincushion/barrel tone. Coefficients being negative will have the same effect, so just pick a direction and stick with it.
-                            int amplifier = 1000; // scales up end-user values to work within this approach.
+                            const int amplifier = 1000; // scales up end-user values to work within this approach.
                             double t1 = Convert.ToDouble(lDC1) * amplifier * Utils.myPow(Math.Abs(oRadius), 2);
                             double t2 = Convert.ToDouble(lDC1) * Utils.myPow(amplifier, 2) *
                                         Utils.myPow(Math.Abs(oRadius), 4);
@@ -55,7 +55,7 @@ public static class distortShape
                             py *= sFactor * scaleFactorForOperation;
                             */
 
-                            ret[poly1][point] = new(px, py);
+                            ret[poly1][point] = new PointD(px, py);
 
                         }
 #if !SHAPEENGINESINGLETHREADED

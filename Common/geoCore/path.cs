@@ -21,7 +21,7 @@ public class GCPath : GCElement
 
     private void pGCPath()
     {
-        pointarray = new();
+        pointarray = [];
     }
 
     public GCPath(Path64 points, int layer, int datatype)
@@ -33,7 +33,7 @@ public class GCPath : GCElement
     {
         layer_nr = layer;
         datatype_nr = datatype;
-        pointarray = new(points);
+        pointarray = new Path64(points);
         width = 0;
         cap = 0;
         clean();
@@ -87,14 +87,11 @@ public class GCPath : GCElement
 
     private void pMoveSelect(Point64 pos)
     {
-        switch (select)
+        pointarray = select switch
         {
-            case true:
-            {
-                pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
-                break;
-            }
-        }
+            true => GeoWrangler.move(pointarray, pos.X, pos.Y),
+            _ => pointarray
+        };
     }
 
     public override void move(Point64 pos)
@@ -190,7 +187,7 @@ public class GCPath : GCElement
 
     private List<GCPolygon> pConvertToPolygons(double scaleFactor)
     {
-        List<GCPolygon> ret = new();
+        List<GCPolygon> ret = [];
         Path64 tmp = GeoWrangler.inflatePath(pointarray, (double)width / 2);
         ret.Add(new GCPolygon(tmp, layer_nr, datatype_nr));
         ret[0].resize(scaleFactor);

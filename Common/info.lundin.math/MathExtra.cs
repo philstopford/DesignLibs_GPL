@@ -20,21 +20,17 @@ public static class MathExtra
     public static double
         Fac(double val)
     {
-
         if (!IsInteger(val))
         {
             return double.NaN;
         }
 
-        switch (val)
+        return val switch
         {
-            case < 0:
-                return double.NaN;
-            case <= 1:
-                return 1;
-            default:
-                return val * Fac(val - 1);
-        }
+            < 0 => double.NaN,
+            <= 1 => 1,
+            _ => val * Fac(val - 1)
+        };
     }
 
     /// <summary>
@@ -50,15 +46,12 @@ public static class MathExtra
             return double.NaN;
         }
 
-        switch (val)
+        return val switch
         {
-            case < 0:
-                return double.NaN;
-            case <= 1:
-                return 1;
-            default:
-                return val * Sfac(val - 2);
-        }
+            < 0 => double.NaN,
+            <= 1 => 1,
+            _ => val * Sfac(val - 2)
+        };
     }
 
     /// <summary>

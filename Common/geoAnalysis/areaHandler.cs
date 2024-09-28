@@ -10,7 +10,7 @@ public class AreaHandler
     public double area { get; private set; }
     public PathsD listOfOutputPoints { get; private set; }
 
-    private void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
+    private static void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
         pt.z = -1; // Tag our intersection points.
     }
@@ -22,8 +22,8 @@ public class AreaHandler
 
     private void areaHandlerLogic(PathsD aPaths, PathsD bPaths, bool maySimplify, bool perPoly)
     {
-        PathsD tmpPaths = new();
-        listOfOutputPoints = new ();
+        PathsD tmpPaths = [];
+        listOfOutputPoints = [];
 
         // callsite may not want simplified geometry.
         ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};
@@ -62,14 +62,14 @@ public class AreaHandler
 
                 tmpVal = tmpVal2;
                 listOfOutputPoints.Clear();
-                listOfOutputPoints.Add(tmpPaths[poly]);
             }
             else
             {
                 tmpVal += Clipper.Area(tmpPaths[poly]);
                 // Append the result output to the resultPoints list.
-                listOfOutputPoints.Add(tmpPaths[poly]);
             }
+
+            listOfOutputPoints.Add(tmpPaths[poly]);
         }
         // Sum the areas by polygon.
         area = tmpVal;

@@ -22,6 +22,8 @@ public class GeoCore
     
     private GCDrawingfield drawingField;
     
+    public static double tolerance = 0.001;
+    
     public List<string> error_msgs;
     private bool valid;
 
@@ -108,13 +110,13 @@ public class GeoCore
 
             public BakedGeo()
             {
-                fgeo = new ();
-                isText = new List<bool>();
+                fgeo = [];
+                isText = [];
             }
 
             public BakedGeo(PathsD source, List<bool> text, string ld)
             {
-                fgeo = new(source);
+                fgeo = new PathsD(source);
                 isText = text;
                 LD = ld;
             }
@@ -134,11 +136,11 @@ public class GeoCore
             switch (index)
             {
                 case -1:
-                    bakedGeo.Add(new BakedGeo(new PathsD { new(source) }, new List<bool> { text }, ld));
+                    bakedGeo.Add(new BakedGeo([new PathD(source)], [text], ld));
                     bakedGeo_LD.Add(ld);
                     break;
                 default:
-                    bakedGeo[index].fgeo.Add(new(source));
+                    bakedGeo[index].fgeo.Add(new PathD(source));
                     bakedGeo[index].isText.Add(text);
                     break;
             }
@@ -149,14 +151,14 @@ public class GeoCore
             int index = bakedGeo_LD.IndexOf(ld);
             return index switch
             {
-                -1 => new (),
-                _ => new(bakedGeo[index].fgeo)
+                -1 => [],
+                _ => new PathsD(bakedGeo[index].fgeo)
             };
         }
 
         public List<GeoLibArray> getArrayData(string ld)
         {
-            List<GeoLibArray> ret = new();
+            List<GeoLibArray> ret = [];
             foreach (Element t in elements)
             {
                 //if (elements[i].LD == ld)
@@ -170,7 +172,7 @@ public class GeoCore
 
         public List<bool> isText(string ld)
         {
-            List<bool> ret = new();
+            List<bool> ret = [];
             for (int i = 0; i < bakedGeo_LD.Count; i++)
             {
                 if (bakedGeo_LD[i] == ld)
@@ -202,7 +204,7 @@ public class GeoCore
 
             private void init()
             {
-                geometry = new ();
+                geometry = [];
                 isText = false;
                 name = "";
                 isCellRefArray = "";
@@ -216,7 +218,7 @@ public class GeoCore
 
             private void init(PathD sourceGeo, bool text)
             {
-                geometry = new (sourceGeo);
+                geometry = new PathD(sourceGeo);
                 isText = text;
             }
         }
@@ -263,10 +265,10 @@ public class GeoCore
 
         private void init()
         {
-            elements = new List<Element>();
-            layerDataTypes = new List<string>();
-            bakedGeo = new List<BakedGeo>();
-            bakedGeo_LD = new List<string>();
+            elements = [];
+            layerDataTypes = [];
+            bakedGeo = [];
+            bakedGeo_LD = [];
         }
 
         public void addElement()
@@ -401,10 +403,7 @@ public class GeoCore
 
     private void pAddLayerName(string key, string value)
     {
-        if (!layerNames.ContainsKey(key))
-        {
-            layerNames.Add(key, value);
-        }
+        layerNames.TryAdd(key, value);
     }
 
     public GeoCore()
@@ -415,11 +414,11 @@ public class GeoCore
     private void pGeoCore()
     {
         drawingField = new GCDrawingfield("");
-        pStructureList = new List<string> {""};
-        pActiveStructure_LDList = new List<string> {""};
-        structureList_ = new ObservableCollection<string>();
-        activeStructure_LayerDataTypeList_ = new ObservableCollection<string>();
-        error_msgs = new List<string>();
+        pStructureList = [""];
+        pActiveStructure_LDList = [""];
+        structureList_ = [];
+        activeStructure_LayerDataTypeList_ = [];
+        error_msgs = [];
         updateCollections();
         reset();
         genLDList();
@@ -446,10 +445,10 @@ public class GeoCore
         pActiveStructure_LDList.Clear();
         pActiveStructure_LDList.Add("");
 
-        structure_LayerDataTypeList = new List<List<string>> {new()};
+        structure_LayerDataTypeList = [new List<string>()];
         structure_LayerDataTypeList[0].Add("");
 
-        structures = new List<Structure> {new()};
+        structures = [new Structure()];
         //structures[0].addElement();
 
         pUpdateCollections();
@@ -528,7 +527,7 @@ public class GeoCore
                     cellIndex = pStructureList.Count - 1; // index.
 
                     // Cell marker is null so we need to skip in this case.
-                    structure_LayerDataTypeList.Add(new List<string>());
+                    structure_LayerDataTypeList.Add([]);
 
                     structures.Add(new Structure());
                     break;
@@ -537,7 +536,7 @@ public class GeoCore
             // Check whether our layer / datatype combination is known.
             // We have to be careful here - Oasis has the ability to have strings, GDS is numeric.
 
-            List<string> hashList = new();
+            List<string> hashList = [];
             for (int element = 0; element < drawing_.cellList[cell].elementList.Count; element++)
             {
                 int layer = drawing_.cellList[cell].elementList[element].layer_nr;
@@ -550,8 +549,7 @@ public class GeoCore
                 // Query our dictionary.
                 try
                 {
-                    string resultString;
-                    if (layerNames_.TryGetValue(searchString, out resultString))
+                    if (layerNames_.TryGetValue(searchString, out var resultString))
                     {
                         searchString = resultString;
                     }
@@ -575,7 +573,7 @@ public class GeoCore
                 {
                     structure_LayerDataTypeList[cellIndex].Add(searchString);
                     //structures[cellIndex].addElement();
-                    ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
+                    // ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
                 }
 
                 getGeometry(ref drawing_, cell, element, hashList, cellIndex, searchString);
@@ -588,7 +586,7 @@ public class GeoCore
 
         for (int structure = 0; structure < pStructureList.Count; structure++)
         {
-            List<int> indicesToRemove = new();
+            List<int> indicesToRemove = [];
             for (int ld = structure_LayerDataTypeList[structure].Count - 1; ld > -1; ld--)
             {
                 switch (structure_LayerDataTypeList[structure][ld])
@@ -614,11 +612,11 @@ public class GeoCore
 
     private GeoData getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex)
     {
-        PathsD ret = new();
-        List<string> lds = new();
+        PathsD ret = [];
+        List<string> lds = [];
         List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons(drawingField.getDrawingScale());
-        List<bool> isText = new();
-        List<string> names = new();
+        List<bool> isText = [];
+        List<string> names = [];
         foreach (GCPolygon p in lp)
         {
             isText.Add(p.isText());
@@ -713,8 +711,8 @@ public class GeoCore
         for (int i = 0; i < ret.geo.Count; i++)
         {
             postArray.geo = GeoWrangler.makeArray(ret.geo[i], xCount, xSpace, yCount, ySpace);
-            postArray.ld = new List<string>();
-            postArray.isText = new List<bool>();
+            postArray.ld = [];
+            postArray.isText = [];
             for (int j = 0; j < postArray.geo.Count; j++)
             {
                 postArray.ld.Add(ret.ld[i]);
@@ -730,15 +728,15 @@ public class GeoCore
 
     private GeoData getGeometry_2(GCCell gcCell, int element, List<string> hashList, GCCell tmpCel, int cellIndex, int referenceElement, Point64 point, int xCount, int yCount, double xSpace, double ySpace, double angle, double mag)
     {
-        PathsD ret = new();
+        PathsD ret = [];
         int crLayer = tmpCel.elementList[referenceElement].layer_nr;
         int crDatatype = tmpCel.elementList[referenceElement].datatype_nr;
 
-        List<string> lds = new();
+        List<string> lds = [];
 
-        List<bool> text = new();
+        List<bool> text = [];
 
-        List<string> names = new();
+        List<string> names = [];
 
         // See if our layer/datatype combination is known to us already.
 
@@ -770,9 +768,9 @@ public class GeoCore
 
                 GeoLibArray tmpArray = new()
                 {
-                    count = new (xCount, yCount),
-                    point = new (point.X, point.Y),
-                    pitch = new (xSpace, ySpace)
+                    count = new Point64(xCount, yCount),
+                    point = new Point64(point.X, point.Y),
+                    pitch = new Point64(xSpace, ySpace)
                 };
                 structures[cellIndex].elements[adIndex].arrayData = tmpArray;
                 break;
@@ -830,15 +828,15 @@ public class GeoCore
 
         public GeoData()
         {
-            geo = new ();
-            ld = new List<string>();
-            isText = new List<bool>();
-            name = new List<string>();
+            geo = [];
+            ld = [];
+            isText = [];
+            name = [];
         }
 
         public GeoData(PathsD poly, List<bool> text, List<string> LDs, List<string> names)
         {
-            geo = new (poly);
+            geo = new PathsD(poly);
             ld = LDs.ToList();
             isText = text.ToList();
             name = names.ToList();
@@ -860,7 +858,7 @@ public class GeoCore
             
         for (int i = 0; i < ret.geo.Count; i++)
         {
-            structures[cellIndex].addBakedGeo(new(ret.geo[i]), ret.isText[i], ret.ld[i]);
+            structures[cellIndex].addBakedGeo(new PathD(ret.geo[i]), ret.isText[i], ret.ld[i]);
         }
     }
 
@@ -913,46 +911,42 @@ public class GeoCore
 
     private PathsD pPoints(bool flatten)
     {
-        PathsD points = new();
+        PathsD points = [];
 
         switch (flatten)
         {
             case true:
                 List<GCPolygon> tmp = convertToPolygons(true);
-                points = new (tmp.Select(t => GeoWrangler.PathDFromPath64(t.pointarray)));
+                points = new PathsD(tmp.Select(t => GeoWrangler.PathDFromPath64(t.pointarray)));
                 break;
             default:
                 // Do we ever get here?
 
-                Path64 array_count = new();
-                PathD array_pitch = new();
+                Path64 array_count = [];
+                PathD array_pitch = [];
 
-                points.Add(new (structures[activeStructure].elements[activeLD].geometry));
+                points.Add(new PathD(structures[activeStructure].elements[activeLD].geometry));
                 if (structures[activeStructure].elements[activeLD].arrayData != null)
                 {
-                    array_count.Add(new (structures[activeStructure].elements[activeLD].arrayData.count.X,structures[activeStructure].elements[activeLD].arrayData.count.Y));
-                    array_pitch.Add(new (structures[activeStructure].elements[activeLD].arrayData.pitch.X, structures[activeStructure].elements[activeLD].arrayData.pitch.Y));
+                    array_count.Add(new Point64(structures[activeStructure].elements[activeLD].arrayData.count.X,structures[activeStructure].elements[activeLD].arrayData.count.Y));
+                    array_pitch.Add(new PointD(structures[activeStructure].elements[activeLD].arrayData.pitch.X, structures[activeStructure].elements[activeLD].arrayData.pitch.Y));
                 }
                 else
                 {
-                    array_count.Add(new (1, 1));
-                    array_pitch.Add(new (0, 0));
+                    array_count.Add(new Point64(1, 1));
+                    array_pitch.Add(new PointD(0, 0));
                 }
 
                 break;
         }
 
-        double resizeFactor = 1.0;
-        switch (fileFormat)
+        double resizeFactor = fileFormat switch
         {
-            case (int)fileType.gds:
-                resizeFactor = drawingField.userunits / 1E-3;
-                break;
-            case (int)fileType.oasis:
-                resizeFactor = 1000.0 / drawingField.databaseunits;
-                break;
-        }
-        
+            (int)fileType.gds => drawingField.userunits / 1E-3,
+            (int)fileType.oasis => 1000.0 / drawingField.databaseunits,
+            _ => 1.0
+        };
+
         points = GeoWrangler.resize(points, resizeFactor);
         // points = GeoWrangler.removeDuplicates(points);
         return points;
@@ -1006,7 +1000,7 @@ public class GeoCore
             {
                 // Recover our layer and datatype from the string representation.
                 string ld = layerNames.FirstOrDefault(x => x.Value == pActiveStructure_LDList[activeLD]).Key;
-                string[] temp = ld.Split(new [] { 'L' })[1].Split(new [] { 'D' });
+                string[] temp = ld.Split(['L'])[1].Split(['D']);
                 layer = Convert.ToInt32(temp[0]);
                 datatype = Convert.ToInt32(temp[1]);
                 break;
@@ -1039,10 +1033,10 @@ public class GeoCore
 
     public bool nestedCellRef(int cellIndex, int elementIndex)
     {
-        return nestedCellRef(drawingField.cellList[activeStructure], elementIndex);
+        return nestedCellRef(drawingField.cellList[cellIndex], elementIndex);
     }
 
-    private bool nestedCellRef(GCCell cell, int elementIndex)
+    private static bool nestedCellRef(GCCell cell, int elementIndex)
     {
         bool ret = false;
         if (!cell.elementList[elementIndex].isCellref() && !cell.elementList[elementIndex].isCellrefArray())

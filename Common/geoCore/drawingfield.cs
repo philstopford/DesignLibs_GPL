@@ -7,8 +7,8 @@ namespace geoCoreLib;
 
 public class GCDrawingfield
 {
-    public static double default_databaseunits = 1E-9;
-    public static double default_userunits = 1E-3;
+    public const double default_databaseunits = 1E-9;
+    public const double default_userunits = 1E-3;
 
     public List<GCCell> cellList { get; set; }
     public int active_cell { get; set; }
@@ -42,7 +42,7 @@ public class GCDrawingfield
 
     private void pReset()
     {
-        cellList = new List<GCCell>();
+        cellList = [];
         active_cell = 0;
         databaseunits = default_databaseunits;
         userunits = default_userunits;
@@ -101,7 +101,7 @@ public class GCDrawingfield
         }
         catch
         {
-            cellList = new();
+            cellList = [];
         }
 
         accyear = drawing.accyear;
@@ -187,7 +187,7 @@ public class GCDrawingfield
     {
         cellList = cellList switch
         {
-            null => new List<GCCell>(),
+            null => [],
             _ => cellList
         };
 
@@ -203,7 +203,7 @@ public class GCDrawingfield
     {
         cellList = cellList switch
         {
-            null => new List<GCCell>(),
+            null => [],
             _ => cellList
         };
         cellList.Add(new GCCell());
@@ -316,7 +316,7 @@ public class GCDrawingfield
 
     private List<List<GCPolygon>> pConvertToPolygons(int layer = -1, int datatype = -1, List<string> cells = null)
     {
-        List<GCPolygon>[] ret = Array.Empty<List<GCPolygon>>();
+        List<GCPolygon>[] ret = [];
 
         // Dump entire drawing unless a list of cells has been supplied by the user.
         if (cells == null)
@@ -355,7 +355,7 @@ public class GCDrawingfield
                 }
                 else
                 {
-                    ret[c] = new List<GCPolygon>();
+                    ret[c] = [];
                 }
             }
 #if !GCSINGLETHREADED

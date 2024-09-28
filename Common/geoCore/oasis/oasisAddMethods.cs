@@ -105,7 +105,7 @@ internal partial class oasReader
     private void addCellref()
     {
         cell_.addCellref();
-        cell_.elementList[^1].setPos(new (modal.placement_x, modal.placement_y));
+        cell_.elementList[^1].setPos(new Point64(modal.placement_x, modal.placement_y));
         cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
         cell_.elementList[^1].setName(modal.placement_cell);
         cell_.elementList[^1].rotate(modal.angle);
@@ -118,7 +118,7 @@ internal partial class oasReader
 
     private void addCircle()
     {
-        cell_.addCircle(modal.layer, modal.datatype, new (modal.geometry_x, modal.geometry_y), modal.circle_radius);
+        cell_.addCircle(modal.layer, modal.datatype, new Point64(modal.geometry_x, modal.geometry_y), modal.circle_radius);
         registerLayerDatatype();
     }
 
@@ -183,7 +183,7 @@ internal partial class oasReader
         Point64 p = new(modal.geometry_x, modal.geometry_y);
         for (int i = 0; i < polySize; i++)
         {
-            pa[i] = new (modal.polygon_point_list[i]);
+            pa[i] = new Point64(modal.polygon_point_list[i]);
             pa[i] = GeoWrangler.move(pa[i], p.X, p.Y);
         }
         cell_.addPolygon(pa, modal.layer, modal.datatype);
@@ -192,7 +192,7 @@ internal partial class oasReader
 
     private void addText()
     {
-        cell_.addText(modal.textlayer, modal.datatype, new (modal.text_x, modal.text_y), modal.text_string);
+        cell_.addText(modal.textlayer, modal.datatype, new Point64(modal.text_x, modal.text_y), modal.text_string);
         cell_.elementList[^1].setWidth(GCSetup.defaultTextWidth);
         cell_.elementList[^1].setPresentation(GCSetup.defaultTextPresentation);
         registerLayerDatatype();
@@ -207,21 +207,21 @@ internal partial class oasReader
             // (m & 0x80)
             case true:
                 //  vertically
-                pa[0] = new (modal.geometry_x, modal.geometry_y + Math.Max(modal.trapezoid_delta_a, 0));
-                pa[1] = new (modal.geometry_x, modal.geometry_y + modal.geometry_h + Math.Min(modal.trapezoid_delta_b, 0));
-                pa[2] = new (modal.geometry_x + modal.geometry_w, modal.geometry_y + modal.geometry_h - Math.Max(modal.trapezoid_delta_b, 0));
-                pa[3] = new (modal.geometry_x + modal.geometry_w, modal.geometry_y - Math.Min(modal.trapezoid_delta_a, 0));
+                pa[0] = new Point64(modal.geometry_x, modal.geometry_y + Math.Max(modal.trapezoid_delta_a, 0));
+                pa[1] = new Point64(modal.geometry_x, modal.geometry_y + modal.geometry_h + Math.Min(modal.trapezoid_delta_b, 0));
+                pa[2] = new Point64(modal.geometry_x + modal.geometry_w, modal.geometry_y + modal.geometry_h - Math.Max(modal.trapezoid_delta_b, 0));
+                pa[3] = new Point64(modal.geometry_x + modal.geometry_w, modal.geometry_y - Math.Min(modal.trapezoid_delta_a, 0));
                 break;
             default:
                 //  horizontally
-                pa[0] = new (modal.geometry_x + Math.Max(modal.trapezoid_delta_a, 0), modal.geometry_y + modal.geometry_h);
-                pa[1] = new (modal.geometry_x + modal.geometry_w + Math.Min(modal.trapezoid_delta_b, 0), modal.geometry_y + modal.geometry_h);
-                pa[2] = new (modal.geometry_x + modal.geometry_w - Math.Max(modal.trapezoid_delta_b, 0), modal.geometry_y);
-                pa[3] = new (modal.geometry_x - Math.Min(modal.trapezoid_delta_a, 0), modal.geometry_y);
+                pa[0] = new Point64(modal.geometry_x + Math.Max(modal.trapezoid_delta_a, 0), modal.geometry_y + modal.geometry_h);
+                pa[1] = new Point64(modal.geometry_x + modal.geometry_w + Math.Min(modal.trapezoid_delta_b, 0), modal.geometry_y + modal.geometry_h);
+                pa[2] = new Point64(modal.geometry_x + modal.geometry_w - Math.Max(modal.trapezoid_delta_b, 0), modal.geometry_y);
+                pa[3] = new Point64(modal.geometry_x - Math.Min(modal.trapezoid_delta_a, 0), modal.geometry_y);
                 break;
         }
 
-        pa[4] = new (pa[0]);
+        pa[4] = new Point64(pa[0]);
 
         cell_.addPolygon(pa, modal.layer, modal.datatype);
     }
@@ -289,7 +289,7 @@ internal partial class oasReader
                 y += coords[pt, 3] * modal.geometry_h;
             }
 
-            pa[pt] = new (modal.geometry_x + x, modal.geometry_y + y);
+            pa[pt] = new Point64(modal.geometry_x + x, modal.geometry_y + y);
 
             if (x > modal.geometry_w)
             {
@@ -301,7 +301,7 @@ internal partial class oasReader
             }
         }
 
-        pa[^1] = new (pa[0]);
+        pa[^1] = new Point64(pa[0]);
 
         cell_.addPolygon(pa, modal.layer, modal.datatype);
     }
@@ -313,15 +313,15 @@ internal partial class oasReader
         Path64 offsets = modal.repetition.get_offsets();
         if (e == elementType.cellrefElement)
         {
-            if ((modal.repetition.type == Repetition.RepetitionType.Regular) || (modal.repetition.type == Repetition.RepetitionType.Rectangular))
+            if (modal.repetition.type is Repetition.RepetitionType.Regular or Repetition.RepetitionType.Rectangular)
             {
-                cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y), modal.angle, modal.mag, modal.mirror_x, modal.repetition);
+                cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new Point64(modal.placement_x, modal.placement_y), modal.angle, modal.mag, modal.mirror_x, modal.repetition);
             }
             else
             {
                 // Original is not included in the offsets.
                 cell_.addCellref();
-                cell_.elementList[^1].setPos(new(modal.placement_x, modal.placement_y));
+                cell_.elementList[^1].setPos(new Point64(modal.placement_x, modal.placement_y));
                 cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
                 cell_.elementList[^1].setName(modal.placement_cell);
                 cell_.elementList[^1].rotate(modal.angle);
@@ -341,7 +341,7 @@ internal partial class oasReader
                         continue;
                     }
                     cell_.addCellref();
-                    cell_.elementList[^1].setPos(new(modal.placement_x + offsets[p].X, modal.placement_y + offsets[p].Y));
+                    cell_.elementList[^1].setPos(new Point64(modal.placement_x + offsets[p].X, modal.placement_y + offsets[p].Y));
                     cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
                     cell_.elementList[^1].setName(modal.placement_cell);
                     cell_.elementList[^1].rotate(modal.angle);
@@ -358,7 +358,7 @@ internal partial class oasReader
             // To be checked - only add the base version if offset is missing it. Not sure if this is a good idea.
             if ((offsets[0].X != 0) || (offsets[0].Y != 0))
             {
-                addElement(e, new(0, 0));
+                addElement(e, new Point64(0, 0));
             }
             foreach (Point64 offset in offsets)
             {

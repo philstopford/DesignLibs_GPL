@@ -26,7 +26,7 @@ public class StringWriterWithEncoding : StringWriter
     {
         this.encoding = encoding switch
         {
-            null => throw new ArgumentNullException("encoding"),
+            null => throw new ArgumentNullException(nameof(encoding)),
             _ => encoding
         };
     }
@@ -42,7 +42,7 @@ public class StringWriterWithEncoding : StringWriter
     {
         this.encoding = encoding switch
         {
-            null => throw new ArgumentNullException("encoding"),
+            null => throw new ArgumentNullException(nameof(encoding)),
             _ => encoding
         };
     }
@@ -58,7 +58,7 @@ public class StringWriterWithEncoding : StringWriter
     {
         this.encoding = encoding switch
         {
-            null => throw new ArgumentNullException("encoding"),
+            null => throw new ArgumentNullException(nameof(encoding)),
             _ => encoding
         };
     }
@@ -75,7 +75,7 @@ public class StringWriterWithEncoding : StringWriter
     {
         this.encoding = encoding switch
         {
-            null => throw new ArgumentNullException("encoding"),
+            null => throw new ArgumentNullException(nameof(encoding)),
             _ => encoding
         };
     }

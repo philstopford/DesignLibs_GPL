@@ -6,8 +6,6 @@
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 
-using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Clipper2Lib
@@ -43,13 +41,14 @@ namespace Clipper2Lib
 
     public static Color32 HslToRgb(Hsl hsl)
     {
-      long c, x, m, a;
-      c = ((255 - Math.Abs(2 * hsl.lum - 255)) * hsl.sat) >> 8;
-      a = 252 - (hsl.hue % 85) * 6;
-      x = (c * (255 - Math.Abs(a))) >> 8;
-      m = hsl.lum - c / 2;
-      Color32 result = new Color32();
-      result.a = hsl.alpha;
+      long c = ((255 - Math.Abs(2 * hsl.lum - 255)) * hsl.sat) >> 8;
+      long a = 252 - (hsl.hue % 85) * 6;
+      var x = (c * (255 - Math.Abs(a))) >> 8;
+      var m = hsl.lum - c / 2;
+      Color32 result = new Color32
+      {
+        a = hsl.alpha
+      };
       switch ((hsl.hue * 6) >> 8)
       {
         case 0: { result.r = (byte) (c + m); result.g = (byte) (x + m); result.b = (byte) (0 + m); break; };

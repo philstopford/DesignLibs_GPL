@@ -19,7 +19,7 @@ public static partial class GeoWrangler
 
     public static PathsD makeKeyHole(PathD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(new PathsD { source }, reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
+        return pMakeKeyHole([source], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
     }
 
     public static PathsD makeKeyHole(PathsD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
@@ -35,7 +35,7 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return new(source);
+                return new PathsD(source);
         }
 
         customSizing = customSizing switch
@@ -60,7 +60,7 @@ public static partial class GeoWrangler
         for (int i = 0; i < decomp.Length; i++)
         {
             decomp[i] = pClose(decomp[i]);
-            odecomp[i] = new(decomp[i]);
+            odecomp[i] = new PathsD(decomp[i]);
         }
         // Outer areas
         List<double> outerAreas = decomp[(int)Type.outer].Select(Clipper.Area).ToList();
@@ -71,23 +71,8 @@ public static partial class GeoWrangler
         // First, we'll run the keyholer as usual.
         PathsD ret = pMakeKeyHole(decomp[(int)Type.outer], decomp[(int)Type.cutter], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
         
-        double origArea = 0;
-        List<double> origAreas = new();
-        foreach (PathD t in sliverGapRemoval(source))
-        {
-            double tArea = Clipper.Area(t);
-            origAreas.Add(tArea);
-            origArea += tArea;
-        }
-
-        double newArea = 0;
-        List<double> newAreas = new();
-        foreach (PathD t in sliverGapRemoval(ret))
-        {
-            double tArea = Clipper.Area(t);
-            newAreas.Add(tArea);
-            newArea += tArea;
-        }
+        double origArea = sliverGapRemoval(source).Sum(Clipper.Area);
+        double newArea = sliverGapRemoval(ret).Sum(Clipper.Area);
 
         if (newArea < 0)
         {
@@ -111,21 +96,17 @@ public static partial class GeoWrangler
                         continue;
                     }
                 }
-                PathsD tCutters = new();
+                PathsD tCutters = [];
                 // Do any cutters cover up our outer?
                 for (int cIndex = 0; cIndex < odecomp[(int) Type.cutter].Count; cIndex++)
                 {
-                    PathsD test = new();
+                    PathsD test = [];
                     c.Clear();
                     c.AddSubject(tOuter);
                     c.AddClip(odecomp[(int) Type.cutter][cIndex]);
                     c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
                     test = pReorderXY(test);
-                    double area = 0;
-                    foreach (PathD t in test)
-                    {
-                        area += Clipper.Area(t);
-                    }
+                    double area = test.Sum(Clipper.Area);
 
                     // If area is zero, the cutter fully covered the outer and we need to skip it.
                     if ((area != 0) && (area <= lostArea))
@@ -135,7 +116,7 @@ public static partial class GeoWrangler
 
                 }
 
-                PathsD tOuters = new() {tOuter};
+                PathsD tOuters = [tOuter];
 
                 PathsD tRet = pMakeKeyHole(tOuters, tCutters, reverseEval, biDirectionalEval, invert, customSizing, extension,
                     angularTolerance);
@@ -151,7 +132,7 @@ public static partial class GeoWrangler
         switch (ret.Count)
         {
             case 0:
-                return new(source); // something blew up. Send back the original geometry.
+                return new PathsD(source); // something blew up. Send back the original geometry.
             default:
 
                 // Remove any overlapping duplicate polygons.
@@ -171,7 +152,7 @@ public static partial class GeoWrangler
         t = pClose(t); // re-close to make the raycaster happy.
 
         RayCast rc;
-        PathsD clipped = new();
+        PathsD clipped = [];
 
         /*
          * Some explanation is required for the below. Project corners will only shoot a single ray out from each corner. This makes the evaluation
@@ -185,7 +166,7 @@ public static partial class GeoWrangler
         if (biDirectionalEval)
         {
             // Reverse walk in case there is a better option walking the geometry in the other direction.
-            rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
+            rc = new RayCast(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
             clipped = rc.getClippedRays();
         }
 
@@ -193,7 +174,7 @@ public static partial class GeoWrangler
         {
             t.Reverse();
         }
-        rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
+        rc = new RayCast(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
         clipped.AddRange(rc.getClippedRays());
 
         return clipped;
@@ -243,7 +224,7 @@ public static partial class GeoWrangler
 
         if (cutPathIndex != -1)
         {
-            ret = new(edges[cutPathIndex]);
+            ret = new PathD(edges[cutPathIndex]);
         }
 
         return ret;
@@ -255,7 +236,7 @@ public static partial class GeoWrangler
         c.AddSubject(cutters);
         c.AddClip(extraCutters);
 
-        PathsD mergedCutters = new();
+        PathsD mergedCutters = [];
         c.Execute(ClipType.Union, FillRule.EvenOdd, mergedCutters);
 
         mergedCutters = pReorderXY(mergedCutters);
@@ -265,7 +246,7 @@ public static partial class GeoWrangler
         c.AddClip(mergedCutters);
 
         // Reduce our geometry back to the simplest form.
-        PathsD new_outers = new();
+        PathsD new_outers = [];
         c.Execute(ClipType.Difference, FillRule.EvenOdd, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
 
         new_outers = pReorderXY(new_outers);
@@ -303,7 +284,7 @@ public static partial class GeoWrangler
 
                 PathD insertionCandidate = pFindInsertionCandidate(clipped, orthogonalInput);
 
-                PathsD extraCutters = new();
+                PathsD extraCutters = [];
                 if (insertionCandidate != null)
                 {
                     // Offset our cutter and assign to the clipping scenario.
@@ -330,7 +311,7 @@ public static partial class GeoWrangler
             
             return pClockwiseAndReorderXY(outers);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             throw new Exception("pMakeKeyHole error");
         }
@@ -355,7 +336,7 @@ public static partial class GeoWrangler
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
 
-        Paths64 tmp = new();
+        Paths64 tmp = [];
         co.Execute(2 * customSizing, tmp);
 
         // Size back down again.
@@ -366,7 +347,7 @@ public static partial class GeoWrangler
 
     public static PathsD sliverGapRemoval(PathD source, double customSizing = 0, double extension = 0, bool maySimplify = false)
     {
-        return pSliverGapRemoval(new () { source }, customSizing, extension, maySimplify: maySimplify);
+        return pSliverGapRemoval([source], customSizing, extension, maySimplify: maySimplify);
     }
 
     public static PathsD sliverGapRemoval(PathsD source, double customSizing = 0, double extension = 0, bool maySimplify = false)
@@ -388,14 +369,14 @@ public static partial class GeoWrangler
         {
             0 =>
                 // Probably not what we intended, so return the original as we assume the incoming geometry got crushed out of existence.
-                new(source),
+                new PathsD(source),
             _ => ret
         };
     }
 
     public static PathsD gapRemoval(PathD source, double customSizing = 0, double extension = 0, bool maySimplify = false)
     {
-        return gapRemoval(new PathsD { source }, customSizing, extension, maySimplify);
+        return gapRemoval([source], customSizing, extension, maySimplify);
     }
 
     public static PathsD gapRemoval(PathsD source, double customSizing = 0, double extension = 0, bool maySimplify = false)
@@ -403,7 +384,7 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return new(source);
+                return new PathsD(source);
         }
 
         bool orig_orient_gw = isClockwise(source[0]);
@@ -414,7 +395,7 @@ public static partial class GeoWrangler
         switch (ret.Count)
         {
             case 0:
-                return new(source); // something blew up. Send back the original geometry.
+                return new PathsD(source); // something blew up. Send back the original geometry.
         }
 
         // Clean-up the geometry.
@@ -459,13 +440,13 @@ public static partial class GeoWrangler
             0 => keyhole_sizing,
             _ => customSizing
         };
-        double oArea = source.Sum(t => Clipper.Area(t));
+        double oArea = source.Sum(Clipper.Area);
         PathsD ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify);
-        double nArea = ret.Sum(t => Clipper.Area(t));
+        double nArea = ret.Sum(Clipper.Area);
 
         return (Math.Abs(oArea) - Math.Abs(nArea)) switch
         {
-            < 10000 => new(source),
+            < 10000 => new PathsD(source),
             _ => ret
         };
     }
@@ -501,10 +482,10 @@ public static partial class GeoWrangler
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPaths(rescaledSource, joinType, EndType.Polygon);
         // The scalar below must be aligned with the usage in pInflateEdge
-        Paths64 tmp = new();
+        Paths64 tmp = [];
         co.Execute(customSizing * Constants.scalar_1E2, tmp);
         co.Clear();
-        co.AddPaths(new(tmp), joinType, EndType.Polygon);
+        co.AddPaths(new Paths64(tmp), joinType, EndType.Polygon);
         tmp.Clear();
         // The scalar below must be aligned with the usage in pInflateEdge
         co.Execute(-(customSizing  * Constants.scalar_1E2), tmp); // Size back to original dimensions
@@ -518,14 +499,14 @@ public static partial class GeoWrangler
             cGeometry = stripCollinear(cGeometry);
         }
 
-        double newArea = cGeometry.Sum(t => Clipper.Area(t));
+        double newArea = cGeometry.Sum(Clipper.Area);
 
         return Math.Abs(newArea) switch
         {
             <= Constants.tolerance =>
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
-                new(source),
+                new PathsD(source),
             _ => pReorderXY(cGeometry)
         };
     }
@@ -546,10 +527,10 @@ public static partial class GeoWrangler
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, joinType, EndType.Polygon);
         // The scalar below must be aligned with the usage in pInflateEdge
-        Paths64 tmp = new();
+        Paths64 tmp = [];
         co.Execute(customSizing * Constants.scalar_1E2, tmp);
         co.Clear();
-        co.AddPaths(new (tmp), joinType, EndType.Polygon);
+        co.AddPaths(new Paths64(tmp), joinType, EndType.Polygon);
         tmp.Clear();
         // The scalar below must be aligned with the usage in pInflateEdge
         co.Execute(-(customSizing * Constants.scalar_1E2), tmp); // Size back to original dimensions
@@ -563,11 +544,7 @@ public static partial class GeoWrangler
             cGeometry = stripCollinear(cGeometry);
         }
 
-        double newArea = 0;
-        foreach (PathD t in cGeometry)
-        {
-            newArea += Clipper.Area(t);
-        }
+        double newArea = cGeometry.Sum(Clipper.Area);
 
         switch (Math.Abs(newArea))
         {

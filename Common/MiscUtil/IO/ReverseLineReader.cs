@@ -41,7 +41,7 @@ public sealed class ReverseLineReader : IEnumerable<string>
     /// Function which, when given a position within a file and a byte, states whether
     /// or not the byte represents the start of a character.
     /// </summary>
-    private Func<long, byte, bool> characterStartDetector;
+    private readonly Func<long, byte, bool> characterStartDetector;
 
     /// <summary>
     /// Creates a LineReader from a stream source. The delegate is only
@@ -92,27 +92,23 @@ public sealed class ReverseLineReader : IEnumerable<string>
         this.streamSource = streamSource;
         this.encoding = encoding;
         this.bufferSize = bufferSize;
-        switch (encoding.IsSingleByte)
+        characterStartDetector = encoding.IsSingleByte switch
         {
-            case true:
+            true =>
                 // For a single byte encoding, every byte is the start (and end) of a character
-                characterStartDetector = (pos, data) => true;
-                break;
-            default:
-                characterStartDetector = encoding switch
-                {
-                    UnicodeEncoding =>
-                        // For UTF-16, even-numbered positions are the start of a character
-                        (pos, data) => (pos & 1) == 0,
-                    UTF8Encoding =>
-                        // For UTF-8, bytes with the top bit clear or the second bit set are the start of a character
-                        // See http://www.cl.cam.ac.uk/~mgk25/unicode.html
-                        (pos, data) => (data & 0x80) == 0 || (data & 0x40) != 0,
-                    _ => throw new ArgumentException("Only single byte, UTF-8 and Unicode encodings are permitted")
-                };
-
-                break;
-        }
+                (pos, data) => true,
+            _ => encoding switch
+            {
+                UnicodeEncoding =>
+                    // For UTF-16, even-numbered positions are the start of a character
+                    (pos, data) => (pos & 1) == 0,
+                UTF8Encoding =>
+                    // For UTF-8, bytes with the top bit clear or the second bit set are the start of a character
+                    // See http://www.cl.cam.ac.uk/~mgk25/unicode.html
+                    (pos, data) => (data & 0x80) == 0 || (data & 0x40) != 0,
+                _ => throw new ArgumentException("Only single byte, UTF-8 and Unicode encodings are permitted")
+            }
+        };
     }
 
     /// <summary>

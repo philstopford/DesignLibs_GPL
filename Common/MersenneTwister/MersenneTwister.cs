@@ -26,7 +26,7 @@ public class MersenneTwister
     #region Instance Variables ----------------------------------------------
 
     // mag01[x] = x * MATRIX_A  for x=0,1
-    private uint[] mag01 = { 0x0U, MATRIX_A };
+    private uint[] mag01 = [0x0U, MATRIX_A];
 
     // the array for the state vector
     private uint[] mt = new uint[N];
@@ -64,7 +64,7 @@ public class MersenneTwister
     {
         int initLength = init.Length;
         uint[] initArray = new uint[initLength];
-        Parallel.For(0, initLength, (i) =>
+        Parallel.For(0, initLength, i =>
         {
             initArray[i] = (uint)init[i];
         });
@@ -250,7 +250,7 @@ public class MersenneTwister
     {
         int initLength = init.Length;
         uint[] initArray = new uint[initLength];
-        Parallel.For (0, initLength, (i) =>
+        Parallel.For (0, initLength, i =>
         {
             initArray[i] = (uint)init[i];
         });
@@ -283,10 +283,9 @@ public class MersenneTwister
     // key_length is its length
     private void init_by_array(uint[] init_key, uint key_length)
     {
-        int i, j, k;
         init_genrand(19650218U);
-        i = 1; j = 0;
-        k = (int)(N > key_length ? N : key_length);
+        var i = 1; var j = 0;
+        var k = (int)(N > key_length ? N : key_length);
         for (; k > 0; k--)
         {
             mt[i] = (uint)((mt[i] ^ ((mt[i - 1] ^ (mt[i - 1] >> 30)) * 1664525U)) + init_key[j] + j); /* non linear */

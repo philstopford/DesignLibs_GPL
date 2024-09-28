@@ -26,7 +26,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// <summary>
     /// An empty UTF-32 string.
     /// </summary>
-    public static readonly Utf32String Empty = new(Array.Empty<int>());
+    public static readonly Utf32String Empty = new([]);
     #endregion
 
     #region Instance fields
@@ -46,7 +46,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// <returns>Whether or not the given value is a valid UTF-32 character.</returns>
     public static bool IsValidUtf32Char(int value)
     {
-        return value >= 0 && value <= MaxUtf32Character;
+        return value is >= 0 and <= MaxUtf32Character;
     }
     #endregion
 
@@ -87,7 +87,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
             if (!IsValidUtf32Char(character))
             {
                 throw new ArgumentException
-                    ("Invalid character in array: " + character, "characters");
+                    ("Invalid character in array: " + character, nameof(characters));
             }
         }
         this.characters = characters;
@@ -103,7 +103,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
         switch (utf16)
         {
             case null:
-                throw new ArgumentNullException("utf16");
+                throw new ArgumentNullException(nameof(utf16));
         }
         // Assume no surrogates to start with
         characters = new int[utf16.Length];
@@ -117,7 +117,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
                 if (highSurrogate != -1)
                 {
                     throw new ArgumentException
-                        ("Invalid string: two high surrogates in a row", "utf16");
+                        ("Invalid string: two high surrogates in a row", nameof(utf16));
                 }
                 highSurrogate = (c - HighSurrogateStart) * 0x400;
             }
@@ -139,7 +139,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
                 if (highSurrogate != -1)
                 {
                     throw new ArgumentException
-                        ("Invalid string: high surrogates with no following low surrogate", "utf16");
+                        ("Invalid string: high surrogates with no following low surrogate", nameof(utf16));
                 }
                 characters[outputIndex++] = c;
             }
@@ -265,7 +265,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     {
         if (value == null)
         {
-            throw new ArgumentNullException("value");
+            throw new ArgumentNullException(nameof(value));
         }
         if (start < 0 || start > Length)
         {
@@ -344,7 +344,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     {
         if (!IsValidUtf32Char(character))
         {
-            throw new ArgumentException("Invalid UTF-32 character specified", "character");
+            throw new ArgumentException("Invalid UTF-32 character specified", nameof(character));
         }
         if (start < 0 || start > Length)
         {
@@ -430,7 +430,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
         switch (strings)
         {
             case null:
-                throw new ArgumentNullException("strings");
+                throw new ArgumentNullException(nameof(strings));
         }
         int size = 0;
         foreach (Utf32String s in strings)
@@ -466,7 +466,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// <returns>A string consisting of the first string followed by the second</returns>
     public static Utf32String Concat(Utf32String strA, Utf32String strB)
     {
-        return Concat(new[] { strA, strB });
+        return Concat([strA, strB]);
     }
 
     /// <summary>
@@ -481,7 +481,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// </returns>
     public static Utf32String Concat(Utf32String strA, Utf32String strB, Utf32String strC)
     {
-        return Concat(new[] { strA, strB, strC });
+        return Concat([strA, strB, strC]);
     }
 
     /// <summary>
@@ -498,7 +498,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// </returns>
     public static Utf32String Concat(Utf32String strA, Utf32String strB, Utf32String strC, Utf32String strD)
     {
-        return Concat(new[] { strA, strB, strC, strD });
+        return Concat([strA, strB, strC, strD]);
     }
     #endregion
 
@@ -651,7 +651,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
         Utf32String other = obj as Utf32String;
         if (other == null)
         {
-            throw new ArgumentException("Can only compare Utf32Strings", "obj");
+            throw new ArgumentException("Can only compare Utf32Strings", nameof(obj));
         }
 
         int minLength = Math.Min(Length, other.Length);

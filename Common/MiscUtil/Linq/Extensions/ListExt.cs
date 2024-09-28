@@ -22,7 +22,7 @@ public static class ListExt
         switch (source)
         {
             case null:
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
         }
 
         comparer = comparer switch

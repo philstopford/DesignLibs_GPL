@@ -37,7 +37,8 @@ public class PerlinNoise
 	   The gradient table is indexed with an XYZ triplet, which is first turned
 	   into a single random index using a lookup in this table. The table simply
 	   contains all numbers in [0..255] in random order. */
-	private readonly byte[] _perm = {
+	private readonly byte[] _perm =
+	[
 		225,155,210,108,175,199,221,144,203,116, 70,213, 69,158, 33,252,
 		5, 82,173,133,222,139,174, 27,  9, 71, 90,246, 75,130, 91,191,
 		169,138,  2,151,194,235, 81,  7, 25,113,228,159,205,253,134,142,
@@ -53,7 +54,8 @@ public class PerlinNoise
 		184,149,171,178,101, 66, 29, 59,146, 61,254,107, 42, 86,154,  4,
 		236,232,120, 21,233,209, 45, 98,193,114, 78, 19,206, 14,118,127,
 		48, 79,147, 85, 30,207,219, 54, 88,234,190,122, 95, 67,143,109,
-		137,214,145, 93, 92,100,245,  0,216,186, 60, 83,105, 97,204, 52};
+		137,214,145, 93, 92,100,245,  0,216,186, 60, 83,105, 97,204, 52
+	];
 
 	public PerlinNoise(int seed)
 	{

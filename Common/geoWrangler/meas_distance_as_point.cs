@@ -13,7 +13,7 @@ public static partial class GeoWrangler
     {
         double x_Distance = pt1.x - pt2.x;
         double y_Distance = pt1.y - pt2.y;
-        return new (x_Distance, y_Distance);
+        return new PointD(x_Distance, y_Distance);
     }
     
     public static PointD distanceBetweenPoints_point(PointD pt1, PointD pt2)

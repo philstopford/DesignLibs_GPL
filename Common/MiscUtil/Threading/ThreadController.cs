@@ -18,7 +18,7 @@ public class ThreadController
     /// <summary>
     /// The delegate to be invoked when the thread is started.
     /// </summary>
-    private ControlledThreadStart starter;
+    private readonly ControlledThreadStart starter;
 
     /// <summary>
     /// State to pass to the "starter" delegate when the thread is started.
@@ -174,7 +174,7 @@ public class ThreadController
         switch (starter)
         {
             case null:
-                throw new ArgumentNullException("starter");
+                throw new ArgumentNullException(nameof(starter));
             default:
                 this.starter = starter;
                 this.state = state;
@@ -256,10 +256,8 @@ public class ThreadController
         {
             handler = stopRequestedDelegate;
         }
-        if (handler != null)
-        {
-            handler(this);
-        }
+
+        handler?.Invoke(this);
     }
     #endregion
 
@@ -284,10 +282,8 @@ public class ThreadController
             {
                 handler = exceptionDelegate;
             }
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+
+            handler?.Invoke(this, e);
         }
         finally
         {
@@ -296,10 +292,8 @@ public class ThreadController
             {
                 handler = finishedDelegate;
             }
-            if (handler != null)
-            {
-                handler(this);
-            }
+
+            handler?.Invoke(this);
         }
     }
     #endregion

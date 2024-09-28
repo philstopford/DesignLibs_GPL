@@ -46,7 +46,7 @@ namespace Clipper2Lib
         this.joinType = joinType;
         this.endType = endType;
 
-        bool isJoined = ((endType == EndType.Polygon) || (endType == EndType.Joined));
+        bool isJoined = endType is EndType.Polygon or EndType.Joined;
         inPaths = new Paths64(paths.Count);
         foreach(Path64 path in paths)
           inPaths.Add(Clipper.StripDuplicates(path, isJoined));
@@ -185,10 +185,12 @@ namespace Clipper2Lib
       FillRule fillRule = pathsReversed ? FillRule.Negative : FillRule.Positive;
 
       // clean up self-intersections ...
-      Clipper64 c = new Clipper64();
-      c.PreserveCollinear = PreserveCollinear;
-      // the solution should retain the orientation of the input
-      c.ReverseSolution = ReverseSolution != pathsReversed;
+      Clipper64 c = new Clipper64
+      {
+        PreserveCollinear = PreserveCollinear,
+        // the solution should retain the orientation of the input
+        ReverseSolution = ReverseSolution != pathsReversed
+      };
 #if USINGZ
       c.ZCallback = ZCB;
 #endif
@@ -711,9 +713,8 @@ namespace Clipper2Lib
           // single vertex so build a circle or square ...
           if (group.endType == EndType.Round)
           {
-            double r = absDelta;
             int steps = (int) Math.Ceiling(_stepsPerRad * 2 * Math.PI);
-            pathOut = Clipper.Ellipse(pt, r, r, steps);
+            pathOut = Clipper.Ellipse(pt, absDelta, absDelta, steps);
 #if USINGZ
             pathOut = InternalClipper.SetZ(pathOut, pt.Z);
 #endif

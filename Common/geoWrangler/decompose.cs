@@ -19,8 +19,8 @@ public static partial class GeoWrangler
     {
         PathsD[] ret = new PathsD[2];
         // Find cutters and outers.
-        PathsD outers = new();
-        PathsD cutters = new();
+        PathsD outers = [];
+        PathsD cutters = [];
         foreach (PathD t in source)
         {
             if (pIsClockwise(t))
@@ -50,10 +50,10 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return new(source);
+                return new PathsD(source);
         }
 
-        PathsD ret = new();
+        PathsD ret = [];
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
@@ -63,7 +63,7 @@ public static partial class GeoWrangler
             double a1 = Clipper.Area(t1);
             c.Clear();
             c.AddSubject(t1);
-            PathsD t = new();
+            PathsD t = [];
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             t = pReorderXY(t);
             double a2 = t.Sum(Clipper.Area);
@@ -81,7 +81,7 @@ public static partial class GeoWrangler
 
                     c.AddSubject(source);
 
-                    PathsD cR = new();
+                    PathsD cR = [];
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
                     c.Execute(ClipType.Union, FillRule.NonZero, cR);
@@ -175,8 +175,8 @@ public static partial class GeoWrangler
     {
         PathsD source = new(source_);
         PathsD[] ret = new PathsD[2];
-        ret[0] = new ();
-        ret[1] = new ();
+        ret[0] = [];
+        ret[1] = [];
         
         // First path in source is always the outer orientation.
         bool outerOrient = Clipper.IsPositive(source[0]);
@@ -195,7 +195,7 @@ public static partial class GeoWrangler
                 r = (int)Type.cutter;
             }
 
-            ret[r].Add(new (t));
+            ret[r].Add(new PathD(t));
         }
 
         return ret;
@@ -210,7 +210,7 @@ public static partial class GeoWrangler
     private static PathsD pRectangular_decomposition(ref bool abort, PathsD polys_, long maxRayLength, double angularTolerance, bool vertical)
     {
         PathsD polys = new(polys_);
-        PathsD ret = new();
+        PathsD ret = [];
 
         foreach (PathD t in polys)
         {
@@ -231,7 +231,7 @@ public static partial class GeoWrangler
 
     private static PathsD pRectangular_decomposition(ref bool abort, PathD _poly, long maxRayLength, double angularTolerance, bool vertical)
     {
-        PathsD ret = new() {new(_poly)};
+        PathsD ret = [new PathD(_poly)];
 
         bool changed = true;
         int startIndex = 0;
@@ -254,7 +254,7 @@ public static partial class GeoWrangler
                     break;
                 }
 
-                PathsD decomp = decompose_poly_to_rectangles(ref abort, new (ret[i]), maxRayLength, angularTolerance, vertical);
+                PathsD decomp = decompose_poly_to_rectangles(ref abort, new PathD(ret[i]), maxRayLength, angularTolerance, vertical);
                 // If we got more than one polygon back, we decomposed across an internal edge.
                 if (decomp.Count <= 1)
                 {
@@ -287,7 +287,7 @@ public static partial class GeoWrangler
         switch (_poly.Count)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
-                return new () { _poly };
+                return [_poly];
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
@@ -296,7 +296,7 @@ public static partial class GeoWrangler
         PathsD rays = rc.getRays();
 
         // Contains edges from ray intersections that are not part of the original geometry.
-        PathsD newEdges = new();
+        PathsD newEdges = [];
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
@@ -310,7 +310,7 @@ public static partial class GeoWrangler
             c.AddClip(lPoly);
 
             PolyTreeD pt = new();
-            PathsD p = new();
+            PathsD p = [];
 
             c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
             c.Clear();
@@ -417,11 +417,11 @@ public static partial class GeoWrangler
                 // Use an area check to see if our edge was somehow coincident with the original geometry.
                 ClipperOffset co = new();
                 co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
-                Paths64 inflated = new();
+                Paths64 inflated = [];
                 co.Execute(1.0, inflated);
 
                 double orig_area = Clipper.Area(inflated);
-                Paths64 intersect = Clipper.Intersect(inflated, new Paths64() {Clipper.ScalePath64(lPoly, 1.0)}, FillRule.EvenOdd);
+                Paths64 intersect = Clipper.Intersect(inflated, [Clipper.ScalePath64(lPoly, 1.0)], FillRule.EvenOdd);
                 double intersect_area = Clipper.Area(intersect);
                 
                 // If we have a coincident edge, half of the offset will be inside the polygon and half outside, so we should get a measurable area difference.
@@ -445,12 +445,12 @@ public static partial class GeoWrangler
             }
         }
 
-        PathsD final = new();
+        PathsD final = [];
         switch (newEdges.Count)
         {
             case > 0 when !abort:
             {
-                Paths64 f = new();
+                Paths64 f = [];
                 Paths64 rescaledSources = _pPaths64FromPathsD(newEdges, Constants.scalar_1E2);
 
                 // We tried to screen candidate edges earlier, but this is a defensive approach to avoid decomposition failures.
@@ -464,7 +464,7 @@ public static partial class GeoWrangler
                     co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
 
                     // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
-                    Paths64 cutters = new();
+                    Paths64 cutters = [];
                     co.Execute(1.0, cutters);
 
                     Clipper64 c1 = new();
@@ -483,11 +483,8 @@ public static partial class GeoWrangler
                     {
                         break;
                     }
-                    else
-                    {
-                        // Ideally we don't get here. Use this to figure out if we do...
-                        int x = 2;
-                    }
+                    // Ideally we don't get here. Use this to figure out if we do...
+                    int x = 2;
                 }
                 
                 // Clean-up.
@@ -500,6 +497,6 @@ public static partial class GeoWrangler
             }
         }
 
-        return new(final);
+        return new PathsD(final);
     }
 }

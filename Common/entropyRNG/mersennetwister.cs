@@ -20,14 +20,14 @@ public static class MersenneTwister_RNG
      * 
      * Ref : http://blogs.msdn.com/b/pfxteam/archive/2009/02/19/9434171.aspx
      */
-    private static RandomNumberGenerator _global = RandomNumberGenerator.Create();
+    private static readonly RandomNumberGenerator _global = RandomNumberGenerator.Create();
 
     [ThreadStatic] private static MersenneTwister _local;
 
     public static double[] random_gauss3()
     {
         double[] myReturn = random_gauss();
-        return new [] { myReturn[0] / 3.0f, myReturn[1] / 3.0f };
+        return [myReturn[0] / 3.0f, myReturn[1] / 3.0f];
     }
 
     public static double[] random_gauss()
@@ -47,13 +47,12 @@ public static class MersenneTwister_RNG
 
         // Box-Muller transform
         // We aren't allowed 0, so we reject any values approaching zero.
-        double U1, U2;
-        U1 = random.NextDouble();
+        var U1 = random.NextDouble();
         while (U1 < 1E-15)
         {
             U1 = random.NextDouble();
         }
-        U2 = random.NextDouble();
+        var U2 = random.NextDouble();
         while (U2 < 1E-15)
         {
             U2 = random.NextDouble();
@@ -61,7 +60,7 @@ public static class MersenneTwister_RNG
         // PAs are 3-sigma, so this needs to be divided by 3 to give single sigma value when used
         double A1 = Math.Sqrt(-2 * Math.Log(U2, Math.E)) * Math.Cos(2 * Math.PI * U1);
         double A2 = Math.Sqrt(-2 * Math.Log(U1, Math.E)) * Math.Sin(2 * Math.PI * U2);
-        double[] myReturn = { A1, A2 };
+        double[] myReturn = [A1, A2];
         return myReturn;
     }
 

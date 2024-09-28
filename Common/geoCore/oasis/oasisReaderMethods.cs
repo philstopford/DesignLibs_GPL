@@ -234,21 +234,21 @@ internal partial class oasReader
                 switch (k)
                 {
                     case 0:
-                        return new (i, 0);
+                        return new Point64(i, 0);
                     case 1:
-                        return new (0, i);
+                        return new Point64(0, i);
                     case 2:
-                        return new (-i, 0);
+                        return new Point64(-i, 0);
                     case 3:
-                        return new (0, -i);
+                        return new Point64(0, -i);
                     case 4:
-                        return new (i, i);
+                        return new Point64(i, i);
                     case 5:
-                        return new (-i, i);
+                        return new Point64(-i, i);
                     case 6:
-                        return new (-i, -i);
+                        return new Point64(-i, -i);
                     case 7:
-                        return new (i, -i);
+                        return new Point64(i, -i);
                 }
                 break;
             case 1: //form 1
@@ -272,9 +272,9 @@ internal partial class oasReader
                         k = -(k >> 1);
                         break;
                 }
-                return new (i, k);
+                return new Point64(i, k);
         }
-        return new (0, 0);
+        return new Point64(0, 0);
     }
 
     private Point64 read2Delta()
@@ -284,18 +284,18 @@ internal partial class oasReader
         {
             case 0:
                 i >>= 2;
-                return new (i, 0);
+                return new Point64(i, 0);
             case 1:
                 i >>= 2;
-                return new (0, i);
+                return new Point64(0, i);
             case 2:
                 i = -(i >> 2);
-                return new (i, 0);
+                return new Point64(i, 0);
             case 3:
                 i = -(i >> 2);
-                return new (0, i);
+                return new Point64(0, i);
         }
-        return new (0, 0);
+        return new Point64(0, 0);
     }
 
     private Point64 read3Delta()
@@ -305,35 +305,35 @@ internal partial class oasReader
         {
             case 0:
                 i >>= 3;
-                return new (i, 0);
+                return new Point64(i, 0);
             case 1:
                 i >>= 3;
-                return new (0, i);
+                return new Point64(0, i);
             case 2:
                 i >>= 3;
-                return new (-i, 0);
+                return new Point64(-i, 0);
             case 3:
                 i >>= 3;
-                return new (0, -i);
+                return new Point64(0, -i);
             case 4:
                 i >>= 3;
-                return new (i, i);
+                return new Point64(i, i);
             case 5:
                 i >>= 3;
-                return new (-i, i);
+                return new Point64(-i, i);
             case 6:
                 i >>= 3;
-                return new (-i, -i);
+                return new Point64(-i, -i);
             case 7:
                 i >>= 3;
-                return new (i, -i);
+                return new Point64(i, -i);
         }
-        return new (0, 0);
+        return new Point64(0, 0);
     }
 
     private void readRepetition()
     {
-        modal.repetition = new();
+        modal.repetition = new Repetition();
         int i = readUnsignedInteger();
         switch (i)
         {
@@ -410,7 +410,7 @@ internal partial class oasReader
                 modal.repetition.columns = readUnsignedInteger() + 2;
                 modal.repetition.rows = 1;
                 modal.repetition.colVector = readGDelta();
-                modal.repetition.rowVector = new(modal.repetition.colVector.Y, modal.repetition.colVector.X);
+                modal.repetition.rowVector = new Point64(modal.repetition.colVector.Y, modal.repetition.colVector.X);
                 break;
             case 10:
             case 11:
@@ -426,7 +426,7 @@ internal partial class oasReader
                 while (count > 0)
                 {
                     Point64 p = readGDelta();
-                    modal.repetition.offsets.Add(new (p.X * grid_factor, p.Y * grid_factor));
+                    modal.repetition.offsets.Add(new Point64(p.X * grid_factor, p.Y * grid_factor));
                     count--;
                 }
                 break;
@@ -479,7 +479,7 @@ internal partial class oasReader
         int type = readUnsignedInteger();
         int count = readUnsignedInteger();
         Path64 pointlist = Helper.initedPath64(count + 1);
-        pointlist[0] = new (0, 0);
+        pointlist[0] = new Point64(0, 0);
         Point64 last = new(0, 0);
         Point64 oPt;
         int i;
@@ -492,14 +492,14 @@ internal partial class oasReader
                 {
                     oPt = read1Delta(dir);
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
-                    pointlist[i] = new (last);
+                    pointlist[i] = new Point64(last);
                     dir = !dir;
                 }
 
                 if (addImplecid)
                 {
-                    pointlist.Add(new(pointlist[^1].X, 0));
-                    pointlist.Add(new(pointlist[0]));
+                    pointlist.Add(new Point64(pointlist[^1].X, 0));
+                    pointlist.Add(new Point64(pointlist[0]));
                 }
 
                 break;
@@ -508,14 +508,14 @@ internal partial class oasReader
                 {
                     oPt = read1Delta(dir);
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
-                    pointlist[i] = new (last);
+                    pointlist[i] = new Point64(last);
                     dir = !dir;
                 }
 
                 if (addImplecid)
                 {
-                    pointlist.Add(new(pointlist[^1].X, 0));
-                    pointlist.Add(new(pointlist[0]));
+                    pointlist.Add(new Point64(pointlist[^1].X, 0));
+                    pointlist.Add(new Point64(pointlist[0]));
                 }
 
                 break;
@@ -524,12 +524,12 @@ internal partial class oasReader
                 {
                     oPt = read2Delta();
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
-                    pointlist[i] = new (last);
+                    pointlist[i] = new Point64(last);
                 }
 
                 if (addImplecid)
                 {
-                    pointlist.Add(new(pointlist[0]));
+                    pointlist.Add(new Point64(pointlist[0]));
                 }
 
                 break;
@@ -538,12 +538,12 @@ internal partial class oasReader
                 {
                     oPt = read3Delta();
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
-                    pointlist[i] = new (last);
+                    pointlist[i] = new Point64(last);
                 }
 
                 if (addImplecid)
                 {
-                    pointlist.Add(new(pointlist[0]));
+                    pointlist.Add(new Point64(pointlist[0]));
                 }
 
                 break;
@@ -552,12 +552,12 @@ internal partial class oasReader
                 {
                     oPt = readGDelta();
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
-                    pointlist[i] = new (last);
+                    pointlist[i] = new Point64(last);
                 }
 
                 if (addImplecid)
                 {
-                    pointlist.Add(new(pointlist[0]));
+                    pointlist.Add(new Point64(pointlist[0]));
                 }
 
                 break;
@@ -569,30 +569,29 @@ internal partial class oasReader
                     oPt = readGDelta();
                     last = GeoWrangler.move(last, oPt.X, oPt.Y);
                     l = GeoWrangler.move(l, last.X, last.Y);
-                    pointlist[i] = new (l);
+                    pointlist[i] = new Point64(l);
                 }
 
                 if (addImplecid)
                 {
-                    pointlist.Add(new(pointlist[0]));
+                    pointlist.Add(new Point64(pointlist[0]));
                 }
             }
                 break;
         }
-        modal.polygon_point_list = new(pointlist);
+        modal.polygon_point_list = new Path64(pointlist);
     }
 
     private void zLibInit(uint before, uint after)
     {
         zLibUsed = true;
-        Int64 br_pos = br.BaseStream.Position;
         byte[] data = br.ReadBytes((int)before);
         try
         {
             zLibOut = utility.Utils.decompress(data);
             if (zLibOut.Length != after)
             {
-                throw new ("Incorrect number of bytes after decompression");
+                throw new Exception("Incorrect number of bytes after decompression");
             }
         }
         catch (Exception e)

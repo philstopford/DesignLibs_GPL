@@ -24,7 +24,7 @@ public class ApplicationChooser
     {
         Assembly assembly = type.Assembly;
 
-        List<MethodBase> entryPoints = new();
+        List<MethodBase> entryPoints = [];
         foreach (Type candidate in assembly.GetTypes())
         {
             if (candidate == type)
@@ -84,7 +84,7 @@ public class ApplicationChooser
             try
             {
                 MethodBase main = entryPoints[entry];
-                main.Invoke(null, main.GetParameters().Length == 0 ? null : new object[] { args });
+                main.Invoke(null, main.GetParameters().Length == 0 ? null : [args]);
             }
             catch (Exception e)
             {

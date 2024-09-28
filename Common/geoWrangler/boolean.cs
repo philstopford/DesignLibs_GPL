@@ -64,7 +64,7 @@ public static partial class GeoWrangler
         PathsD ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveCollinear: false);
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
-        ret = new (gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
+        ret = new PathsD(gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
 
         bool holes = false;
 
@@ -131,21 +131,21 @@ public static partial class GeoWrangler
 
         RectD bounds = Clipper.GetBounds(ret);
 
-        PathD bound = new()
-        {
-            new (bounds.left, bounds.bottom),
-            new (bounds.left, bounds.top),
-            new (bounds.right, bounds.top),
-            new (bounds.right, bounds.bottom),
-            new (bounds.left, bounds.bottom)
-        };
+        PathD bound =
+        [
+            new PointD(bounds.left, bounds.bottom),
+            new PointD(bounds.left, bounds.top),
+            new PointD(bounds.right, bounds.top),
+            new PointD(bounds.right, bounds.bottom),
+            new PointD(bounds.left, bounds.bottom)
+        ];
 
         ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = false};
 
         c.AddSubject(ret);
         c.AddClip(bound);
 
-        PathsD simple = new();
+        PathsD simple = [];
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, simple);
         // ret = reOrderXY(simple);
 
@@ -165,7 +165,7 @@ public static partial class GeoWrangler
         {
             try
             {
-                firstLayerPaths = new (invertTone(firstLayerPaths_, preserveCollinear: preserveCollinear));
+                firstLayerPaths = new PathsD(invertTone(firstLayerPaths_, preserveCollinear: preserveCollinear));
             }
             catch (Exception)
             {
@@ -179,7 +179,7 @@ public static partial class GeoWrangler
         {
             try
             {
-                secondLayerPaths = new (invertTone(secondLayerPaths, preserveCollinear: preserveCollinear));
+                secondLayerPaths = new PathsD(invertTone(secondLayerPaths, preserveCollinear: preserveCollinear));
             }
             catch (Exception)
             {
@@ -190,9 +190,9 @@ public static partial class GeoWrangler
 
         if (firstLayerPaths[0].Count <= 1)
         {
-            return new (secondLayerPaths);
+            return new PathsD(secondLayerPaths);
         }
-        return secondLayerPaths[0].Count <= 1 ? new (firstLayerPaths) : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveCollinear: preserveCollinear);
+        return secondLayerPaths[0].Count <= 1 ? new PathsD(firstLayerPaths) : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveCollinear: preserveCollinear);
     }
 
     public static PathsD LayerBoolean(PathsD firstPaths, PathsD secondPaths, int booleanFlag, bool preserveCollinear = true)
@@ -208,7 +208,7 @@ public static partial class GeoWrangler
         c.AddSubject(firstPaths);
         c.AddClip(secondPaths);
 
-        PathsD outputPoints = new();
+        PathsD outputPoints = [];
 
         switch (booleanFlag)
         {

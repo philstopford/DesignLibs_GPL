@@ -15,7 +15,7 @@ internal sealed class CodeTable
     /// <summary>
     /// Array of entries in the code table
     /// </summary>
-    private Instruction[,] entries = new Instruction[256, 2];
+    private readonly Instruction[,] entries = new Instruction[256, 2];
 
     /// <summary>
     /// 
@@ -36,19 +36,19 @@ internal sealed class CodeTable
         switch (entries)
         {
             case null:
-                throw new ArgumentNullException("entries");
+                throw new ArgumentNullException(nameof(entries));
         }
         if (entries.Rank != 2)
         {
-            throw new ArgumentException("Array must be rectangular.", "entries");
+            throw new ArgumentException("Array must be rectangular.", nameof(entries));
         }
         if (entries.GetLength(0) != 256)
         {
-            throw new ArgumentException("Array must have outer length 256.", "entries");
+            throw new ArgumentException("Array must have outer length 256.", nameof(entries));
         }
         if (entries.GetLength(1) != 2)
         {
-            throw new ArgumentException("Array must have inner length 256.", "entries");
+            throw new ArgumentException("Array must have inner length 256.", nameof(entries));
         }
         Array.Copy(entries, 0, this.entries, 0, 512);
     }

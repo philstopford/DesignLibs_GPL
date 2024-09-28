@@ -173,7 +173,7 @@ namespace Clipper2Lib
         0 => pt2.Y < pt1.Y,
         1 => pt2.X > pt1.X,
         2 => pt2.Y > pt1.Y,
-        _ => pt2.X < pt1.X,
+        _ => pt2.X < pt1.X
       };
     }
 
@@ -748,8 +748,8 @@ namespace Clipper2Lib
     private void TidyEdgePair(int idx, List<OutPt2?> cw, List<OutPt2?> ccw)
     {
       if (ccw.Count == 0) return;
-      bool isHorz = ((idx == 1) || (idx == 3));
-      bool cwIsTowardLarger = ((idx == 1) || (idx == 2));
+      bool isHorz = idx is 1 or 3;
+      bool cwIsTowardLarger = idx is 1 or 2;
       int i = 0, j = 0;
       OutPt2? p1, p2, p1a, p2a, op, op2;
 

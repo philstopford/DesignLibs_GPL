@@ -27,7 +27,7 @@ public struct NonNullable<T> : IEquatable<NonNullable<T>> where T : class
     {
         this.value = value switch
         {
-            null => throw new ArgumentNullException("value"),
+            null => throw new ArgumentNullException(nameof(value)),
             _ => value
         };
     }

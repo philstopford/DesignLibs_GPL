@@ -35,10 +35,12 @@ public static partial class GeoWrangler
 
     private static PathD pSimplify(PathD iPoints)
     {
-        ClipperD c = new(Constants.roundingDecimalPrecision);
-        c.PreserveCollinear = false;
+        ClipperD c = new(Constants.roundingDecimalPrecision)
+        {
+            PreserveCollinear = false
+        };
         c.AddSubject(iPoints);
-        PathsD oPoly = new();
+        PathsD oPoly = [];
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         oPoly = pReorderXY(oPoly);

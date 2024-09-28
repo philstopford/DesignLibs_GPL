@@ -18,11 +18,11 @@ public static class Proximity
 
         if (!proxBiasNeeded)
         {
-            return new() { geometry = new (input), drawn = drawnPoly_.ToList() };
+            return new GeometryResult { geometry = new PathsD(input), drawn = drawnPoly_.ToList() };
         }
 
-        bool debug = false;
-        bool linear = false;
+        const bool debug = false;
+        const bool linear = false;
         
         /*
         // Helper code to dump input for offline Clipper review if needed.
@@ -40,23 +40,20 @@ public static class Proximity
         System.IO.File.WriteAllLines("/d/development/debugprox.txt", debuglines);
         */
 
-        PathsD preOverlapMergePolys = new();
+        PathsD preOverlapMergePolys = [];
 
-        PathsD dRays = new();
+        PathsD dRays = [];
 
         // Scale up our geometry for processing. Force a clockwise point order here due to potential upstream point order changes (e.g. polygon merging)
         PathsD sourceGeometry = new(input);
 
-        List<bool> overlapDrawnList = new();
+        List<bool> overlapDrawnList = [];
 
         // Ensure geometry meets our needs. This is important for the normal computation and calculations.
         // If this is not done, sawtooth profiles are seen due to problematic ray casts.
-        for (int p1 = 0; p1 < sourceGeometry.Count; p1++)
+        foreach (var t in sourceGeometry.Where(Clipper.IsPositive))
         {
-            if (Clipper.IsPositive(sourceGeometry[p1]))
-            {
-                sourceGeometry[p1].Reverse();
-            }
+            t.Reverse();
         }
         sourceGeometry = GeoWrangler.close(sourceGeometry);
 
@@ -77,7 +74,7 @@ public static class Proximity
             PathD sourcePoly = new(sourceGeometry[poly]);
             PathsD collisionGeometry = new(sourceGeometry);
             // collisionGeometry.RemoveAt(poly); // Don't actually want to remove the emission as self-aware proximity matters.
-            PathD deformedPoly = new();
+            PathD deformedPoly = [];
 
             // Threading operation here gets more tricky than the distance handler. We have a less clear trade off of threading based on the emission edge (the polygon being biased) vs the multisampling emission.
             // In batch calculation mode, this tradeoff gets more awkward.
@@ -130,7 +127,7 @@ public static class Proximity
                 {
                     // No biasing - ray never made it beyond the surface. Short-cut the 
                     case 0:
-                        deformedPoly.Add(new (clippedLines[line][0]));
+                        deformedPoly.Add(new PointD(clippedLines[line][0]));
                         continue;
                     case < 0:
                         lineLength *= -1;
@@ -169,7 +166,7 @@ public static class Proximity
                 displacedY += displacedAmount * aY;
                 displacedX += displacedAmount * aX;
 
-                deformedPoly.Add(new (displacedX, displacedY));
+                deformedPoly.Add(new PointD(displacedX, displacedY));
             }
             
             // Experimental clean-up
@@ -179,20 +176,21 @@ public static class Proximity
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 
-            preOverlapMergePolys.Add(new(deformedPoly));
+            preOverlapMergePolys.Add(new PathD(deformedPoly));
         }
 
         // Check for overlaps and process as needed post-biasing.
         GeometryResult ret = ProcessOverlaps.processOverlaps(preOverlapMergePolys, overlapDrawnList, extension:Convert.ToDouble(rayExtension), resolution:fragmenterResolution, forceOverride: false);
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-        if (debug)
+        if (!debug)
         {
-            foreach (PathD t in dRays)
-            {
-                ret.geometry.Add(new(t));
-                ret.drawn.Add(true);
-            }
+            return ret;
+        }
+        foreach (PathD t in dRays)
+        {
+            ret.geometry.Add(new PathD(t));
+            ret.drawn.Add(true);
         }
 
         return ret;

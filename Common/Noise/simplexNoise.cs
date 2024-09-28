@@ -88,12 +88,17 @@ public class SimplexNoiseOctave
         }
     }
 
-    private static readonly Grad[] grad3 = { new(1,1,0),new(-1,1,0),new(1,-1,0),new(-1,-1,0),
+    private static readonly Grad[] grad3 =
+    [
+        new(1,1,0),new(-1,1,0),new(1,-1,0),new(-1,-1,0),
         new(1,0,1),new(-1,0,1),new(1,0,-1),new(-1,0,-1),
-        new(0,1,1),new(0,-1,1),new(0,1,-1),new(0,-1,-1) };
+        new(0,1,1),new(0,-1,1),new(0,1,-1),new(0,-1,-1)
+    ];
 
     // Contains all the numbers between 0 and 255, these are put in a random order depending upon the seed
-    private static readonly short[] p_supply = { 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,
+    private static readonly short[] p_supply =
+    [
+        151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,
         36,103,30,69,142,8,99,37,240,21,10,23,190, 6,148,247,120,234,
         75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,
         149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,
@@ -108,7 +113,8 @@ public class SimplexNoiseOctave
         144,12,191,179,162,241,81,51,145,235,249,14,239,107,49,192,
         214,31,181,199,106,157,184,84,204,176,115,121,50,45,127,4,150,
         254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,
-        215,61,156,180 };
+        215,61,156,180
+    ];
 
     private readonly short[] p = new short[p_supply.Length];
 
@@ -274,16 +280,16 @@ public class SimplexNoiseOld
     private const double Div3 = 1.0 / 3.0;
 
     /* Unit vectors for gradients to points on cube,equal distances apart (ie vector from center to the middle of each side */
-    private static readonly int[][] Grad3 = new[]
-    {
-        new[] { 1, 1, 0 }, new[] { -1, 1, 0 }, new[] { 1, -1, 0 }, new[] { -1, -1, 0 },
-        new[] { 1, 0, 1 }, new[] { -1, 0, 1 }, new[] { 1, 0, -1 }, new[] { -1, 0, -1 },
-        new[] { 0, 1, 1 }, new[] { 0, -1, 1 }, new[] { 0, 1, -1 }, new[] { 0, -1, -1 }
-    };
+    private static readonly int[][] Grad3 =
+    [
+        [1, 1, 0], [-1, 1, 0], [1, -1, 0], [-1, -1, 0],
+        [1, 0, 1], [-1, 0, 1], [1, 0, -1], [-1, 0, -1],
+        [0, 1, 1], [0, -1, 1], [0, 1, -1], [0, -1, -1]
+    ];
 
     //0..255, randomized
     private static readonly int[] P =
-    {
+    [
         151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225, 140, 36, 103,
         30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148, 247, 120, 234, 75, 0, 26, 197,
         62, 94, 252, 219, 203, 117, 35, 11, 32, 57, 177, 33, 88, 237, 149, 56, 87, 174, 20,
@@ -298,7 +304,7 @@ public class SimplexNoiseOld
         191, 179, 162, 241, 81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199,
         106, 157, 184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93,
         222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180
-    };
+    ];
 
     private static readonly int[] Perm = new int[512];
 
@@ -355,7 +361,7 @@ public class SimplexNoiseOld
         return value;
     }
 
-    public double Noise(double xin, double yin)
+    public static double Noise(double xin, double yin)
     {
         double n0, n1, n2; // Noise contributions from the three corners
 

@@ -11,11 +11,11 @@ internal sealed class AddressCache
     private const byte SelfMode = 0;
     private const byte HereMode = 1;
 
-    private int nearSize;
-    private int sameSize;
-    private int[] near;
+    private readonly int nearSize;
+    private readonly int sameSize;
+    private readonly int[] near;
     private int nextNearSlot;
-    private int[] same;
+    private readonly int[] same;
 
     private Stream addressStream;
 

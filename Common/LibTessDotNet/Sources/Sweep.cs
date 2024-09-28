@@ -34,7 +34,6 @@
 using System;
 using System.Diagnostics;
 
-using Real = System.Double;
 namespace LibTessDotNet.Double;
 
 public partial class Tess
@@ -401,8 +400,8 @@ public partial class Tess
         {
             isect._data = _combineCallback(
                 isect._coords,
-                new [] { orgUp._data, dstUp._data, orgLo._data, dstLo._data },
-                new [] { w0, w1, w2, w3 }
+                [orgUp._data, dstUp._data, orgLo._data, dstLo._data],
+                [w0, w1, w2, w3]
             );
         }
     }
@@ -1090,10 +1089,7 @@ public partial class Tess
 
     private void DoneEdgeDict()
     {
-        int fixedEdges = 0;
-
-        ActiveRegion reg;
-        while ((reg = _dict.Min().Key) != null)
+        while (_dict.Min().Key is { } reg)
         {
             switch (reg._sentinel)
             {
@@ -1102,6 +1098,7 @@ public partial class Tess
                 // created by ConnectRightVertex().
                 case false:
                     Debug.Assert(reg._fixUpperEdge);
+                    var fixedEdges = 0;
                     Debug.Assert(++fixedEdges == 1);
                     break;
             }
@@ -1245,8 +1242,7 @@ public partial class Tess
         RemoveDegenerateFaces();
         InitEdgeDict();
 
-        MeshUtils.Vertex v;
-        while ((v = _pq.ExtractMin()) != null)
+        while (_pq.ExtractMin() is { } v)
         {
             while (true)
             {

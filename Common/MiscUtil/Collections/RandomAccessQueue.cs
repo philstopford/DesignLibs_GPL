@@ -36,11 +36,10 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// </summary>
     private int start;
 
-    private int count;
     /// <summary>
     /// The number of items in the queue.
     /// </summary>
-    public int Count => count;
+    public int Count { get; private set; }
 
     /// <summary>
     /// Indexer for the class, allowing items to be retrieved by
@@ -50,17 +49,17 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     {
         get
         {
-            if (index < 0 || index >= count)
+            if (index < 0 || index >= Count)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
             return buffer[(start + index) % Capacity];
         }
         set
         {
-            if (index < 0 || index >= count)
+            if (index < 0 || index >= Count)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
             version++;
             buffer[(start + index) % Capacity] = value;
@@ -108,7 +107,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     private RandomAccessQueue(T[] buffer, int count, int start)
     {
         this.buffer = (T[])buffer.Clone();
-        this.count = count;
+        this.Count = count;
         this.start = start;
     }
     #endregion
@@ -120,7 +119,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     public void Clear()
     {
         start = 0;
-        count = 0;
+        Count = 0;
         ((IList)buffer).Clear();
     }
 
@@ -144,7 +143,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// <param name="value">The item to add to the queue. The value can be a null reference.</param>
     public void Enqueue(T value)
     {
-        Enqueue(value, count);
+        Enqueue(value, Count);
     }
 
     /// <summary>
@@ -154,16 +153,16 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// <param name="index">The index of the newly added item</param>
     public void Enqueue(T value, int index)
     {
-        if (count == Capacity)
+        if (Count == Capacity)
         {
-            Resize(count * 2, index);
-            count++;
+            Resize(Count * 2, index);
+            Count++;
         }
         else
         {
-            count++;
+            Count++;
             // TODO: Make this vaguely efficient :)
-            for (int i = count - 2; i >= index; i--)
+            for (int i = Count - 2; i >= index; i--)
             {
                 this[i + 1] = this[i];
             }
@@ -177,7 +176,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// <returns>The item at the head of the queue</returns>
     public T Dequeue()
     {
-        switch (count)
+        switch (Count)
         {
             case 0:
                 throw new InvalidOperationException("Dequeue called on an empty queue.");
@@ -189,7 +188,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
         {
             start = 0;
         }
-        count--;
+        Count--;
         return ret;
     }
 
@@ -200,9 +199,9 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// <returns>The item which has been removed from the</returns>
     public T RemoveAt(int index)
     {
-        if (index < 0 || index >= count)
+        if (index < 0 || index >= Count)
         {
-            throw new ArgumentOutOfRangeException("index");
+            throw new ArgumentOutOfRangeException(nameof(index));
         }
 
         switch (index)
@@ -213,10 +212,10 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
         }
         T ret = this[index];
         // Special case: end of queue
-        if (index == count - 1)
+        if (index == Count - 1)
         {
             this[index] = default(T);
-            count--;
+            Count--;
             return ret;
         }
         T current = this[index];
@@ -231,8 +230,8 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
             // Move everything later than index down 1
             Array.Copy(buffer, start + index - Capacity + 1,
                 buffer, start + index - Capacity,
-                count - index - 1);
-            buffer[start + count - 1 - Capacity] = default(T);
+                Count - index - 1);
+            buffer[start + Count - 1 - Capacity] = default(T);
         }
         else
         {
@@ -241,7 +240,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
             buffer[start] = default(T);
             start++;
         }
-        count--;
+        Count--;
         version++;
         return ret;
     }
@@ -257,7 +256,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
         switch (dest)
         {
             case null:
-                throw new ArgumentNullException("dest");
+                throw new ArgumentNullException(nameof(dest));
         }
         T[] strongDest = dest as T[];
         switch (strongDest)
@@ -296,7 +295,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     {
         if (obj == null)
         {
-            if (count == 0 || buffer[start] != null)
+            if (Count == 0 || buffer[start] != null)
             {
                 return ~0;
             }
@@ -311,14 +310,14 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
                 throw new ArgumentException("obj does not implement IComparable");
         }
 
-        switch (count)
+        switch (Count)
         {
             case 0:
                 return ~0;
         }
 
         int min = 0;
-        int max = count - 1;
+        int max = Count - 1;
 
         while (min <= max)
         {
@@ -368,17 +367,17 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
         switch (comparer)
         {
             case null:
-                throw new ArgumentNullException("comparer");
+                throw new ArgumentNullException(nameof(comparer));
         }
 
-        switch (count)
+        switch (Count)
         {
             case 0:
                 return ~0;
         }
 
         int min = 0;
-        int max = count - 1;
+        int max = Count - 1;
 
         while (min <= max)
         {
@@ -480,7 +479,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// <returns>A clone of the current queue</returns>
     public RandomAccessQueue<T> Clone()
     {
-        return new RandomAccessQueue<T>(buffer, count, start);
+        return new RandomAccessQueue<T>(buffer, Count, start);
     }
     #endregion
 
@@ -503,15 +502,15 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
                 int firstChunkSize;
                 int secondChunkSize;
                 // If we don't wrap round, it's easy
-                if (buffer.Length - start >= count)
+                if (buffer.Length - start >= Count)
                 {
-                    firstChunkSize = count;
+                    firstChunkSize = Count;
                     secondChunkSize = 0;
                 }
                 else
                 {
                     firstChunkSize = buffer.Length - start;
-                    secondChunkSize = count - firstChunkSize;
+                    secondChunkSize = Count - firstChunkSize;
                 }
                 Array.Copy(buffer, start, newBuffer, 0, firstChunkSize);
                 Array.Copy(buffer, 0, newBuffer, firstChunkSize, secondChunkSize);
@@ -522,7 +521,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
                 // Aargh. The logic's too difficult to do prettily here. Do it simply instead...
                 int outIndex = 0;
                 int inIndex = start;
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     if (i == gapIndex)
                     {
@@ -547,7 +546,6 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
 
     #region Synchronization
 
-    private object syncRoot = new();
     /// <summary>
     /// An object reference to synchronize on when using the queue
     /// from multiple threads. This reference isn't used anywhere
@@ -555,7 +553,7 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
     /// for the same queue, and this will never be the same as the reference
     /// returned for a different queue, even a clone.
     /// </summary>
-    public object SyncRoot => syncRoot;
+    public object SyncRoot { get; } = new();
 
     /// <summary>
     /// Returns false, to indicate that this queue is not synchronized.
@@ -615,12 +613,12 @@ public sealed class RandomAccessQueue<T> : ICollection<T>, ICollection, IEnumera
         switch (dest)
         {
             case null:
-                throw new ArgumentNullException("dest");
+                throw new ArgumentNullException(nameof(dest));
         }
         switch (index)
         {
             case < 0:
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
         }
         if (dest.Length < index + Count)
         {

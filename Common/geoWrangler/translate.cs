@@ -8,22 +8,22 @@ public static partial class GeoWrangler
 {
     public static PointD move(PointD source, decimal x, decimal y)
     {
-        return move(source, (double)x, (double)y);
+        return new PointD(source.x + (double)x, source.y + (double)y);
     }
 
     public static PointD move(PointD source, int x, int y)
     {
-        return move(source, x, y);
+        return new PointD(source.x + x, source.y + y);
     }
 
-    public static PointD move(PointD source, Int64 x, Int64 y)
+    public static PointD move(PointD source, long x, long y)
     {
-        return move(source, x, y);
+        return new PointD(source.x + x, source.y + y);
     }
 
     public static PointD move(PointD source, double x, double y)
     {
-        return new (source.x + x, source.y + y, source.z);
+        return new PointD(source.x + x, source.y + y, source.z);
     }
 
     public static PathsD move(PathsD source, decimal x, decimal y)
@@ -46,7 +46,7 @@ public static partial class GeoWrangler
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new(pMove(source[i], x, y));
+                ret[i] = new PathD(pMove(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );
@@ -75,7 +75,7 @@ public static partial class GeoWrangler
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new(move(source[i], x, y));
+                ret[i] = new PointD(move(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );

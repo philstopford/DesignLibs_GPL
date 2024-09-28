@@ -15,7 +15,7 @@ public class SyncLock
     /// <summary>
     /// Lock for static mutable properties.
     /// </summary>
-    private static object staticLock = new();
+    private static readonly object staticLock = new();
     #endregion
 
     #region Properties
@@ -50,26 +50,23 @@ public class SyncLock
         }
     }
 
-    private int defaultTimeout;
     /// <summary>
     /// The default timeout for the 
     /// </summary>
-    public int DefaultTimeout => defaultTimeout;
+    public int DefaultTimeout { get; }
 
-    private string name;
     /// <summary>
     /// The name of this lock.
     /// </summary>
-    public string Name => name;
+    public string Name { get; }
 
-    private object monitor = new();
     /// <summary>
     /// The internal monitor used for locking. While this
     /// is owned by the thread, it can be used for waiting
     /// and pulsing in the usual way. Note that manually entering/exiting
     /// this monitor could result in the lock malfunctioning.
     /// </summary>
-    public object Monitor => monitor;
+    public object Monitor { get; } = new();
 
     #endregion
 
@@ -120,8 +117,8 @@ public class SyncLock
             null => "Anonymous Lock",
             _ => name
         };
-        this.name = name;
-        this.defaultTimeout = defaultTimeout;
+        this.Name = name;
+        this.DefaultTimeout = defaultTimeout;
     }
     #endregion
 
@@ -133,7 +130,7 @@ public class SyncLock
     /// <exception cref="LockTimeoutException">The operation times out.</exception>
     public LockToken Lock()
     {
-        return Lock(defaultTimeout);
+        return Lock(DefaultTimeout);
     }
 
     /// <summary>
@@ -146,14 +143,11 @@ public class SyncLock
     public LockToken Lock(TimeSpan timeout)
     {
         long millis = (long)timeout.TotalMilliseconds;
-        switch (millis)
+        return millis switch
         {
-            case < Timeout.Infinite:
-            case > int.MaxValue:
-                throw new ArgumentOutOfRangeException("Invalid timeout specified");
-            default:
-                return Lock((int)millis);
-        }
+            < Timeout.Infinite or > int.MaxValue => throw new ArgumentOutOfRangeException("Invalid timeout specified"),
+            _ => Lock((int)millis)
+        };
     }
 
     /// <summary>
@@ -175,9 +169,9 @@ public class SyncLock
                 throw new ArgumentOutOfRangeException("Invalid timeout specified");
         }
 
-        if (!System.Threading.Monitor.TryEnter(monitor, timeout))
+        if (!System.Threading.Monitor.TryEnter(Monitor, timeout))
         {
-            throw new LockTimeoutException("Failed to acquire lock {0}", name);
+            throw new LockTimeoutException("Failed to acquire lock {0}", Name);
         }
         return new LockToken(this);
     }
@@ -188,7 +182,7 @@ public class SyncLock
     /// </summary>
     protected internal virtual void Unlock()
     {
-        System.Threading.Monitor.Exit(monitor);
+        System.Threading.Monitor.Exit(Monitor);
     }
     #endregion
 }

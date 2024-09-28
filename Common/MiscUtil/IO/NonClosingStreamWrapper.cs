@@ -19,18 +19,17 @@ public sealed class NonClosingStreamWrapper : Stream
     /// <exception cref="ArgumentNullException">stream is null</exception>
     public NonClosingStreamWrapper(Stream stream)
     {
-        this.stream = stream switch
+        this.BaseStream = stream switch
         {
-            null => throw new ArgumentNullException("stream"),
+            null => throw new ArgumentNullException(nameof(stream)),
             _ => stream
         };
     }
 
-    private Stream stream;
     /// <summary>
     /// Stream wrapped by this wrapper
     /// </summary>
-    public Stream BaseStream => stream;
+    public Stream BaseStream { get; }
 
     /// <summary>
     /// Whether this stream has been closed or not
@@ -74,7 +73,7 @@ public sealed class NonClosingStreamWrapper : Stream
         AsyncCallback callback, object state)
     {
         CheckClosed();
-        return stream.BeginRead(buffer, offset, count, callback, state);
+        return BaseStream.BeginRead(buffer, offset, count, callback, state);
     }
 
     /// <summary>
@@ -98,23 +97,23 @@ public sealed class NonClosingStreamWrapper : Stream
         AsyncCallback callback, object state)
     {
         CheckClosed();
-        return stream.BeginWrite(buffer, offset, count, callback, state);
+        return BaseStream.BeginWrite(buffer, offset, count, callback, state);
     }
 
     /// <summary>
     /// Indicates whether or not the underlying stream can be read from.
     /// </summary>
-    public override bool CanRead => closed ? false : stream.CanRead;
+    public override bool CanRead => closed ? false : BaseStream.CanRead;
 
     /// <summary>
     /// Indicates whether or not the underlying stream supports seeking.
     /// </summary>
-    public override bool CanSeek => closed ? false : stream.CanSeek;
+    public override bool CanSeek => closed ? false : BaseStream.CanSeek;
 
     /// <summary>
     /// Indicates whether or not the underlying stream can be written to.
     /// </summary>
-    public override bool CanWrite => closed ? false : stream.CanWrite;
+    public override bool CanWrite => closed ? false : BaseStream.CanWrite;
 
     /// <summary>
     /// This method is not proxied to the underlying stream; instead, the wrapper
@@ -126,7 +125,7 @@ public sealed class NonClosingStreamWrapper : Stream
         switch (closed)
         {
             case false:
-                stream.Flush();
+                BaseStream.Flush();
                 break;
         }
 
@@ -160,7 +159,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override int EndRead(IAsyncResult asyncResult)
     {
         CheckClosed();
-        return stream.EndRead(asyncResult);
+        return BaseStream.EndRead(asyncResult);
     }
 
     /// <summary>
@@ -170,7 +169,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override void EndWrite(IAsyncResult asyncResult)
     {
         CheckClosed();
-        stream.EndWrite(asyncResult);
+        BaseStream.EndWrite(asyncResult);
     }
 
     /// <summary>
@@ -179,7 +178,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override void Flush()
     {
         CheckClosed();
-        stream.Flush();
+        BaseStream.Flush();
     }
     
     /// <summary>
@@ -190,7 +189,7 @@ public sealed class NonClosingStreamWrapper : Stream
         get
         {
             CheckClosed();
-            return stream.Length;
+            return BaseStream.Length;
         }
     }
 
@@ -202,12 +201,12 @@ public sealed class NonClosingStreamWrapper : Stream
         get
         {
             CheckClosed();
-            return stream.Position;
+            return BaseStream.Position;
         }
         set
         {
             CheckClosed();
-            stream.Position = value;
+            BaseStream.Position = value;
         }
     }
 
@@ -236,7 +235,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override int Read(byte[] buffer, int offset, int count)
     {
         CheckClosed();
-        return stream.Read(buffer, offset, count);
+        return BaseStream.Read(buffer, offset, count);
     }
 
     /// <summary>
@@ -247,7 +246,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override int ReadByte()
     {
         CheckClosed();
-        return stream.ReadByte();
+        return BaseStream.ReadByte();
     }
 
     /// <summary>
@@ -262,7 +261,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override long Seek(long offset, SeekOrigin origin)
     {
         CheckClosed();
-        return stream.Seek(offset, origin);
+        return BaseStream.Seek(offset, origin);
     }
 
     /// <summary>
@@ -272,7 +271,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override void SetLength(long value)
     {
         CheckClosed();
-        stream.SetLength(value);
+        BaseStream.SetLength(value);
     }
 
     /// <summary>
@@ -291,7 +290,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override void Write(byte[] buffer, int offset, int count)
     {
         CheckClosed();
-        stream.Write(buffer, offset, count);
+        BaseStream.Write(buffer, offset, count);
     }
 
     /// <summary>
@@ -302,7 +301,7 @@ public sealed class NonClosingStreamWrapper : Stream
     public override void WriteByte(byte value)
     {
         CheckClosed();
-        stream.WriteByte(value);
+        BaseStream.WriteByte(value);
     }
     #endregion
 }

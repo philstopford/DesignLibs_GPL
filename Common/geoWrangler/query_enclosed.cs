@@ -18,7 +18,7 @@ public static partial class GeoWrangler
         PathsD rationalizedSecondLayer = clockwise(b);
 
         // Intersection should not matter based on order.
-        PathsD intersectionPaths = new();
+        PathsD intersectionPaths = [];
         c.AddClip(rationalizedFirstLayer);
         c.AddSubject(rationalizedSecondLayer);
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intersectionPaths);
@@ -27,14 +27,10 @@ public static partial class GeoWrangler
         // We have an intersection, let's check for any full enclosure scenario.
         if (intersectionArea > 0)
         {
-            if ((Math.Abs(intersectionArea) == Math.Abs(a_area)) || 
-                (Math.Abs(intersectionArea) == Math.Abs(b_area)))
-            {
-                // Totally enclosed.
-                return false;
-            }
+            return (Math.Abs(Math.Abs(intersectionArea) - Math.Abs(a_area)) > Constants.tolerance) && 
+                   (Math.Abs(Math.Abs(intersectionArea) - Math.Abs(b_area)) > Constants.tolerance);
+            // Totally enclosed.
             // Partial overlap
-            return true;
         }
 
         // Default to no partial overlap.
@@ -47,7 +43,7 @@ public static partial class GeoWrangler
 
     private static bool pEnclosed(PathD a, PathsD b, bool strict = false)
     {
-        PathsD aPath = new() {a};
+        PathsD aPath = [a];
         return pEnclosed(aPath, b, strict);
     }
 
@@ -93,7 +89,7 @@ public static partial class GeoWrangler
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
         // Intersection should not matter based on order.
-        PathsD intersectionPaths = new();
+        PathsD intersectionPaths = [];
         c.AddClip(rationalizedSecondLayer);
         c.AddSubject(rationalizedFirstLayer);
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intersectionPaths);

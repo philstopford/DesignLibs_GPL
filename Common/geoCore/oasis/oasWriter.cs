@@ -85,8 +85,8 @@ public partial class oasWriter
         modal.texttype = -1;
         modal.circle_radius = -1;
         modal.repetition = -1;
-        modal.polygon_point_list = new ();
-        modal.repArray = new ();
+        modal.polygon_point_list = [];
+        modal.repArray = [];
     }
 
     public oasWriter(GeoCore gc, string filename)
@@ -98,7 +98,7 @@ public partial class oasWriter
     {
         if (!gc.isValid())
         {
-            throw new("Provided GeoCore instance is not marked as valid");
+            throw new Exception("Provided GeoCore instance is not marked as valid");
         }
         drawing_ = gc.getDrawing();
         filename_ = filename;
@@ -185,7 +185,7 @@ public partial class oasWriter
             cellCount++;
         }
 
-        List<string> cellNames_beingWritten = new();
+        List<string> cellNames_beingWritten = [];
         for (int i = 0; i < drawing_.cellList.Count; i++)
         {
             switch (drawing_.cellList[i].elementList)
@@ -222,15 +222,12 @@ public partial class oasWriter
 
         // Write out the layer names.
         // Layer name mapping
-        foreach (KeyValuePair<string, string> entry in namedLayers)
+        foreach (var (key, name) in namedLayers)
         {
             // split the key.
-            string key = entry.Key; // LxxxDyyy
             string[] tokens = key.Split('D');
             int datatype = Convert.ToInt32(tokens[1]);
             int layer = Convert.ToInt32(tokens[0].Split('L')[1]);
-
-            string name = entry.Value;
 
             bw.Write((byte)11);
             writeString(name);

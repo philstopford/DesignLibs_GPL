@@ -16,7 +16,7 @@ internal class GFG
 	// A DFS based recursive function 
 	// that returns true if a matching 
 	// for vertex u is possible 
-	private bool bpm(bool[,] bpGraph, int u,
+	private static bool bpm(bool[,] bpGraph, int u,
 		bool[] seen, int[] matchR)
 	{
 		// Try every job one by one 
@@ -52,7 +52,7 @@ internal class GFG
 		return false;
 	}
 
-	private bool bpm(bool[][] bpGraph, int u,
+	private static bool bpm(bool[][] bpGraph, int u,
 		bool[] seen, int[] matchR)
 	{
 		// Try every job one by one 
@@ -90,7 +90,7 @@ internal class GFG
 
 	// Returns maximum number of 
 	// matching from M to N 
-	private int maxBPM(bool[,] bpGraph)
+	private static int maxBPM(bool[,] bpGraph)
 	{
 		// An array to keep track of the 
 		// applicants assigned to jobs. 
@@ -123,7 +123,7 @@ internal class GFG
 		return result;
 	}
 
-	private int maxBPM(bool[][] bpGraph)
+	private static int maxBPM(bool[][] bpGraph)
 	{
 		// An array to keep track of the 
 		// applicants assigned to jobs. 

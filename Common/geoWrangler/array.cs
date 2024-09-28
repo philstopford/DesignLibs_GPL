@@ -17,7 +17,7 @@ public static partial class GeoWrangler
 
     private static PathsD pMakeArray(PathD source, int xCount, double xPitch, int yCount, double yPitch)
     {
-        PathsD ret = new();
+        PathsD ret = [];
         for (int x = 0; x < xCount; x++)
         {
             for (int y = 0; y < yCount; y++)
@@ -41,7 +41,7 @@ public static partial class GeoWrangler
 
     private static PathsD pMakeArray(PathsD source, int xCount, double xPitch, int yCount, double yPitch)
     {
-        PathsD ret = new();
+        PathsD ret = [];
         for (int x = 0; x < xCount; x++)
         {
             for (int y = 0; y < yCount; y++)

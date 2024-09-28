@@ -51,15 +51,6 @@ public class GeoLibMatrix
 {
     public double[] m { get; set; }
 
-    public GeoLibMatrix()
-    {
-        pGeoLibMatrix();
-    }
-
-    private void pGeoLibMatrix()
-    {
-    }
-
     public GeoLibMatrix(float m11, float m12, float m21, float m22, float dx, float dy)
     {
         pGeoLibMatrix(m11, m12, m21, m22, dx, dy);
@@ -148,7 +139,7 @@ public class GeoLibMatrix
             {
                 double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;
                 double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
-                source[pt] = new (x1, y1);
+                source[pt] = new Point64(x1, y1);
             }
 #if !GEOLIBSINGLETHREADED
         );
@@ -178,7 +169,7 @@ public class GeoLibMatrix
             {
                 double x1 = m11 * source[pt].x + m21 * source[pt].y + dx;
                 double y1 = m12 * source[pt].x + m22 * source[pt].y + dy;
-                source[pt] = new (x1, y1);
+                source[pt] = new PointD(x1, y1);
             }
 #if !GEOLIBSINGLETHREADED
         );

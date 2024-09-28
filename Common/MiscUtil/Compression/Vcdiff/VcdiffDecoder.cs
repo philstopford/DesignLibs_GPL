@@ -14,18 +14,18 @@ public sealed class VcdiffDecoder
     /// Reader containing original data, if any. May be null.
     /// If non-null, will be readable and seekable.
     /// </summary>
-    private Stream original;
+    private readonly Stream original;
 
     /// <summary>
     /// Stream containing delta data. Will be readable.
     /// </summary>
-    private Stream delta;
+    private readonly Stream delta;
 
     /// <summary>
     /// Stream containing target data. Will be readable,
     /// writable and seekable.
     /// </summary>
-    private Stream output;
+    private readonly Stream output;
 
     /// <summary>
     /// Code table to use for decoding.
@@ -73,12 +73,12 @@ public sealed class VcdiffDecoder
         #region Simple argument checking
         if (original != null && (!original.CanRead || !original.CanSeek))
         {
-            throw new ArgumentException("Must be able to read and seek in original stream", "original");
+            throw new ArgumentException("Must be able to read and seek in original stream", nameof(original));
         }
         switch (delta)
         {
             case null:
-                throw new ArgumentNullException("delta");
+                throw new ArgumentNullException(nameof(delta));
         }
         switch (delta.CanRead)
         {
@@ -88,11 +88,11 @@ public sealed class VcdiffDecoder
         switch (output)
         {
             case null:
-                throw new ArgumentNullException("output");
+                throw new ArgumentNullException(nameof(output));
         }
         if (!output.CanWrite || !output.CanRead || !output.CanSeek)
         {
-            throw new ArgumentException("Must be able to read, write and seek in output stream", "output");
+            throw new ArgumentException("Must be able to read, write and seek in output stream", nameof(output));
         }
         #endregion
 

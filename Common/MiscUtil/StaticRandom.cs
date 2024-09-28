@@ -10,8 +10,8 @@ namespace MiscUtil;
 /// </summary>
 public static class StaticRandom
 {
-    private static Random random = new();
-    private static object myLock = new();
+    private static readonly Random random = new();
+    private static readonly object myLock = new();
 
     /// <summary>
     /// Returns a nonnegative random number. 

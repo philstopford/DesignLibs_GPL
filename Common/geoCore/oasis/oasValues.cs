@@ -1,6 +1,6 @@
 namespace oasis;
 
-public class oasValues
+public static class oasValues
 {
     public const int PAD = 0;
     public const int START = 1;

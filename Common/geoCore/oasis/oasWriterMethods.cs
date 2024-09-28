@@ -151,7 +151,7 @@ public partial class oasWriter
             {
                 PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                 write1Delta(h, i % 2 == 0);
-                last = new(p[i]);
+                last = new Point64(p[i]);
             }
         }
         else
@@ -175,7 +175,7 @@ public partial class oasWriter
                 {
                     PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                     write1Delta(h, i % 2 == 1);
-                    last = new(p[i]);
+                    last = new Point64(p[i]);
                 }
             }
             else
@@ -194,7 +194,7 @@ public partial class oasWriter
                     {
                         PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                         write2Delta(h);
-                        last = new(p[i]);
+                        last = new Point64(p[i]);
                     }
                 }
                 else
@@ -213,7 +213,7 @@ public partial class oasWriter
                         {
                             PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                             write3Delta(h);
-                            last = new(p[i]);
+                            last = new Point64(p[i]);
                         }
                     }
                     else
@@ -235,7 +235,7 @@ public partial class oasWriter
                         {
                             PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                             writeGDelta(h);
-                            last = new(p[i]);
+                            last = new Point64(p[i]);
                         }
                     }
                 }
@@ -270,22 +270,17 @@ public partial class oasWriter
     private void write2Delta(PointD p)
     {
         int w;
-        if (p.x == 0 && p.y > 0)
+        if (p is { x: 0, y: > 0 })
         {
             w = ((int)p.y << 2) + 1;
         }
-        else if (p.x == 0)
-        {
-            w = ((int)-p.y << 2) + 3;
-        }
-        else if (p.x > 0)
-        {
-            w = ((int)p.x << 2) + 0;
-        }
         else
-        {
-            w = ((int)-p.x << 2) + 2;
-        }
+            w = p.x switch
+            {
+                0 => ((int)-p.y << 2) + 3,
+                > 0 => ((int)p.x << 2) + 0,
+                _ => ((int)-p.x << 2) + 2
+            };
 
         writeUnsignedInteger((uint)w);
     }
@@ -293,7 +288,7 @@ public partial class oasWriter
     private void write3Delta(PointD p)
     {
         int w;
-        if (p.x == 0 && p.y > 0)
+        if (p is { x: 0, y: > 0 })
         {
             w = ((int)p.y << 3) + 1;
         }
@@ -303,7 +298,7 @@ public partial class oasWriter
         }
         else
         {
-            if (p.y == 0 && p.x > 0)
+            if (p is { y: 0, x: > 0 })
             {
                 w = ((int)p.x << 3) + 0;
             }
@@ -313,22 +308,16 @@ public partial class oasWriter
             }
             else
             {
-                if (Math.Abs(p.y - p.x) <= double.Epsilon && p.y > 0)
+                w = Math.Abs(p.y - p.x) switch
                 {
-                    w = ((int)p.y << 3) + 4;
-                }
-                else if (Math.Abs(p.y - p.x) <= double.Epsilon)
-                {
-                    w = ((int)-p.y << 3) + 6;
-                }
-                else
-                {
-                    w = p.x switch
+                    <= double.Epsilon when p.y > 0 => ((int)p.y << 3) + 4,
+                    <= double.Epsilon => ((int)-p.y << 3) + 6,
+                    _ => p.x switch
                     {
                         > 0 => ((int)p.x << 3) + 7,
                         _ => ((int)-p.x << 3) + 5
-                    };
-                }
+                    }
+                };
             }
         }
 
@@ -525,14 +514,7 @@ public partial class oasWriter
 
     public void writeTrapezoid(int layerNum, int type, int x, int y, int w, int h, int da, int db, int d)
     {
-        if (!modal.absoluteMode)
-        {
-            modal.absoluteMode = true;
-        }
-        else
-        {
-            modal.absoluteMode = modal.absoluteMode;
-        }
+        modal.absoluteMode = true;
 
         byte info_byte = 0;  //write point-list;
         if (layerNum != modal.layer)
@@ -609,18 +591,18 @@ public partial class oasWriter
 
         if (da == 0)
         {
-            write1Delta(new(db, 0), false);
+            write1Delta(new PointD(db, 0), false);
         }
         else
         {
             if (db == 0)
             {
-                write1Delta(new(da, 0), false);
+                write1Delta(new PointD(da, 0), false);
             }
             else
             {
-                write1Delta(new(da, 0), false);
-                write1Delta(new(db, 0), false);
+                write1Delta(new PointD(da, 0), false);
+                write1Delta(new PointD(db, 0), false);
             }
         }
 

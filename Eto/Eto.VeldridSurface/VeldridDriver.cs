@@ -162,9 +162,9 @@ namespace VeldridEto;
 					depthClipEnabled: true,
 					scissorTestEnabled: false),
 				PrimitiveTopology = PrimitiveTopology.LineList,
-				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
+				ResourceLayouts = [viewMatrixLayout, modelMatrixLayout],
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new[] { vertexLayout },
+					vertexLayouts: [vertexLayout],
 					shaders: shaders),
 				Outputs = Surface!.Swapchain!.Framebuffer.OutputDescription
 			});
@@ -183,9 +183,9 @@ namespace VeldridEto;
 					depthClipEnabled: false,
 					scissorTestEnabled: false),
 				PrimitiveTopology = PrimitiveTopology.LineList,
-				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
+				ResourceLayouts = [viewMatrixLayout, modelMatrixLayout],
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new[] { vertexLayout },
+					vertexLayouts: [vertexLayout],
 					shaders: shaders),
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});
@@ -204,9 +204,9 @@ namespace VeldridEto;
 					depthClipEnabled: false,
 					scissorTestEnabled: false),
 				PrimitiveTopology = PrimitiveTopology.TriangleList,
-				ResourceLayouts = new[] { viewMatrixLayout, modelMatrixLayout },
+				ResourceLayouts = [viewMatrixLayout, modelMatrixLayout],
 				ShaderSet = new ShaderSetDescription(
-					vertexLayouts: new[] { vertexLayout },
+					vertexLayouts: [vertexLayout],
 					shaders: shaders),
 				Outputs = Surface.Swapchain.Framebuffer.OutputDescription
 			});

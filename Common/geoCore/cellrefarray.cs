@@ -25,9 +25,9 @@ public class GCCellRefArray : GCElement
 
     public GCCellRefArray(GCCell c, double angle, double mag, bool mirror_x, Repetition r)
     {
-        repetition = new(r);
+        repetition = new Repetition(r);
         cell_ref = c;
-        trans = new();
+        trans = new GCStrans();
         trans.reset();
         trans.angle = angle;
         trans.mag = mag;
@@ -51,8 +51,8 @@ public class GCCellRefArray : GCElement
             repetition.rows = 1;
         }
 
-        repetition.rowVector = new (Math.Ceiling((double)(array[1].X - array[0].X) / repetition.rows), Math.Ceiling((double)(array[1].Y - array[0].Y) / repetition.rows));
-        repetition.colVector = new(Math.Ceiling((double)(array[2].X - array[0].X) / repetition.columns), Math.Ceiling((double)(array[2].Y - array[0].Y) / repetition.columns));
+        repetition.rowVector = new Point64(Math.Ceiling((double)(array[1].X - array[0].X) / repetition.rows), Math.Ceiling((double)(array[1].Y - array[0].Y) / repetition.rows));
+        repetition.colVector = new Point64(Math.Ceiling((double)(array[2].X - array[0].X) / repetition.columns), Math.Ceiling((double)(array[2].Y - array[0].Y) / repetition.columns));
         repetition.type = Repetition.RepetitionType.Regular;
         if (((repetition.rowVector.X != 0) && (repetition.rowVector.Y != 0)) || ((repetition.colVector.X != 0) && (repetition.colVector.Y != 0)))
         {
@@ -75,8 +75,8 @@ public class GCCellRefArray : GCElement
             throw new Exception("No valid array provided");
         }
 
-        repetition = new();
-        trans = new();
+        repetition = new Repetition();
+        trans = new GCStrans();
         trans.reset();
 
         cell_ref = c;
@@ -106,16 +106,16 @@ public class GCCellRefArray : GCElement
             }
         }
 
-        repetition.offsets = new(explicitArray);
+        repetition.offsets = new Path64(explicitArray);
     }
 
     public GCCellRefArray(GCCell c, Point64 pos1, Point64 pos2, int xCount, int yCount)
     {
-        repetition = new();
+        repetition = new Repetition();
         cell_ref = c;
         point = pos1;
-        repetition.rowVector = new(pos1);
-        repetition.colVector = new(pos2);
+        repetition.rowVector = new Point64(pos1);
+        repetition.colVector = new Point64(pos2);
         repetition.columns = xCount;
         repetition.rows = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -131,7 +131,7 @@ public class GCCellRefArray : GCElement
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;
-        trans = new ();
+        trans = new GCStrans();
         trans.reset();
     }
 
@@ -238,7 +238,7 @@ public class GCCellRefArray : GCElement
 
     private void pMove(Point64 p)
     {
-        point = new (point.X + p.X, point.Y + p.Y);
+        point = new Point64(point.X + p.X, point.Y + p.Y);
     }
 
     public override void moveSelect(Point64 p)
@@ -288,7 +288,7 @@ public class GCCellRefArray : GCElement
 
     private void pSetPos(Point64 p)
     {
-        point = new(p);
+        point = new Point64(p);
     }
 
     public override double getScale()
@@ -338,26 +338,26 @@ public class GCCellRefArray : GCElement
 
     public override void setRowPitch(Point64 pt)
     {
-        repetition.rowVector = new(pt);
+        repetition.rowVector = new Point64(pt);
     }
     public override Point64 getRowPitch()
     {
-        return new(repetition.rowVector);
+        return new Point64(repetition.rowVector);
     }
     
     public override void setColPitch(Point64 pt)
     {
-        repetition.colVector = new(pt);
+        repetition.colVector = new Point64(pt);
     }
 
     public override Point64 getColPitch()
     {
-        return new(repetition.colVector);
+        return new Point64(repetition.colVector);
     }
 
     public override Point64 getCount()
     {
-        return new(repetition.columns, repetition.rows);
+        return new Point64(repetition.columns, repetition.rows);
     }
 
     public override void saveGDS(gdsWriter gw)
@@ -415,7 +415,7 @@ public class GCCellRefArray : GCElement
         Point64 pos = new(repetition.rowVector.X + point.X, (repetition.rowVector.Y * repetition.rows) + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
-        pos = new ((repetition.colVector.X * repetition.columns) + point.X, repetition.colVector.Y + point.Y);
+        pos = new Point64((repetition.colVector.X * repetition.columns) + point.X, repetition.colVector.Y + point.Y);
         gw.bw.Write((int)pos.X);
         gw.bw.Write((int)pos.Y);
         // endel
@@ -504,90 +504,99 @@ public class GCCellRefArray : GCElement
                 switch (repetition.type)
                 {
                     case Repetition.RepetitionType.Rectangular:
-                        if ((repetition.columns > 1) && (repetition.rows > 1))
+                        switch (repetition.columns)
                         {
-                            ow.modal.x_dimension = repetition.columns;
-                            ow.modal.y_dimension = repetition.rows;
-                            ow.modal.x_space = (int)(repetition.colVector.X + repetition.rowVector.X);
-                            ow.modal.y_space = (int)(repetition.colVector.Y + repetition.rowVector.Y);
-                            if (((repetition.colVector.X + repetition.rowVector.X) >= 0) &&
-                                ((repetition.colVector.Y + repetition.rowVector.Y) >= 0))
+                            case > 1 when (repetition.rows > 1):
                             {
-                                ow.writeUnsignedInteger(1);
-                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                                ow.writeUnsignedInteger((uint)ow.modal.x_space);
-                                ow.writeUnsignedInteger((uint)ow.modal.y_space);
+                                ow.modal.x_dimension = repetition.columns;
+                                ow.modal.y_dimension = repetition.rows;
+                                ow.modal.x_space = (int)(repetition.colVector.X + repetition.rowVector.X);
+                                ow.modal.y_space = (int)(repetition.colVector.Y + repetition.rowVector.Y);
+                                if (((repetition.colVector.X + repetition.rowVector.X) >= 0) &&
+                                    ((repetition.colVector.Y + repetition.rowVector.Y) >= 0))
+                                {
+                                    ow.writeUnsignedInteger(1);
+                                    ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                    ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                    ow.writeUnsignedInteger((uint)ow.modal.x_space);
+                                    ow.writeUnsignedInteger((uint)ow.modal.y_space);
+                                }
+                                else
+                                {
+                                    ow.writeUnsignedInteger(8);
+                                    ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                    ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                    ow.writeGDelta(new PointD(ow.modal.x_space, 0));
+                                    ow.writeGDelta(new PointD(0, ow.modal.y_space));
+                                }
+
+                                break;
                             }
-                            else
+                            case > 1:
                             {
-                                ow.writeUnsignedInteger(8);
-                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                                ow.writeGDelta(new(ow.modal.x_space, 0));
-                                ow.writeGDelta(new(0, ow.modal.y_space));
+                                ow.modal.x_dimension = repetition.columns;
+                                ow.modal.x_space = (int)(repetition.colVector.X + repetition.rowVector.X);
+                                if ((repetition.colVector.X + repetition.rowVector.X) >= 0)
+                                {
+                                    ow.writeUnsignedInteger(2);
+                                    ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                    ow.writeUnsignedInteger((uint)ow.modal.x_space);
+                                }
+                                else
+                                {
+                                    ow.writeUnsignedInteger(9);
+                                    ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                    ow.writeGDelta(new PointD(ow.modal.x_space, 0));
+                                }
+
+                                break;
                             }
-                        }
-                        else if (repetition.columns > 1)
-                        {
-                            ow.modal.x_dimension = repetition.columns;
-                            ow.modal.x_space = (int)(repetition.colVector.X + repetition.rowVector.X);
-                            if ((repetition.colVector.X + repetition.rowVector.X) >= 0)
+                            default:
                             {
-                                ow.writeUnsignedInteger(2);
-                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                                ow.writeUnsignedInteger((uint)ow.modal.x_space);
-                            }
-                            else
-                            {
-                                ow.writeUnsignedInteger(9);
-                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                                ow.writeGDelta(new(ow.modal.x_space, 0));
-                            }
-                        }
-                        else
-                        {
-                            ow.modal.y_dimension = repetition.rows;
-                            ow.modal.y_space = (int)repetition.rowVector.Y;
-                            if ((repetition.colVector.Y + repetition.rowVector.Y) >= 0)
-                            {
-                                ow.writeUnsignedInteger(3);
-                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                                ow.writeUnsignedInteger((uint)ow.modal.y_space);
-                            }
-                            else
-                            {
-                                ow.writeUnsignedInteger(9);
-                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                                ow.writeGDelta(new(0, ow.modal.y_space));
+                                ow.modal.y_dimension = repetition.rows;
+                                ow.modal.y_space = (int)repetition.rowVector.Y;
+                                if ((repetition.colVector.Y + repetition.rowVector.Y) >= 0)
+                                {
+                                    ow.writeUnsignedInteger(3);
+                                    ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                    ow.writeUnsignedInteger((uint)ow.modal.y_space);
+                                }
+                                else
+                                {
+                                    ow.writeUnsignedInteger(9);
+                                    ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                    ow.writeGDelta(new PointD(0, ow.modal.y_space));
+                                }
+
+                                break;
                             }
                         }
 
                         break;
                     case Repetition.RepetitionType.Regular:
-                        if ((repetition.columns > 1) && (repetition.rows > 1))
+                        switch (repetition.columns)
                         {
-                            ow.modal.x_dimension = repetition.columns;
-                            ow.modal.y_dimension = repetition.rows;
-                            ow.writeUnsignedInteger(8);
-                            ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                            ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                            ow.writeGDelta(new(repetition.colVector));
-                            ow.writeGDelta(new(repetition.rowVector));
-                        }
-                        else if (repetition.columns > 1)
-                        {
-                            ow.modal.x_dimension = repetition.columns;
-                            ow.writeUnsignedInteger(9);
-                            ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
-                            ow.writeGDelta(new(repetition.colVector));
-                        }
-                        else
-                        {
-                            ow.modal.y_dimension = repetition.rows;
-                            ow.writeUnsignedInteger(9);
-                            ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
-                            ow.writeGDelta(new(repetition.rowVector));
+                            case > 1 when (repetition.rows > 1):
+                                ow.modal.x_dimension = repetition.columns;
+                                ow.modal.y_dimension = repetition.rows;
+                                ow.writeUnsignedInteger(8);
+                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                ow.writeGDelta(new PointD(repetition.colVector));
+                                ow.writeGDelta(new PointD(repetition.rowVector));
+                                break;
+                            case > 1:
+                                ow.modal.x_dimension = repetition.columns;
+                                ow.writeUnsignedInteger(9);
+                                ow.writeUnsignedInteger((uint)(ow.modal.x_dimension - 2));
+                                ow.writeGDelta(new PointD(repetition.colVector));
+                                break;
+                            default:
+                                ow.modal.y_dimension = repetition.rows;
+                                ow.writeUnsignedInteger(9);
+                                ow.writeUnsignedInteger((uint)(ow.modal.y_dimension - 2));
+                                ow.writeGDelta(new PointD(repetition.rowVector));
+                                break;
                         }
 
                         break;
@@ -632,21 +641,21 @@ public class GCCellRefArray : GCElement
                     case Repetition.RepetitionType.Explicit:
                         if (repetition.offsets.Count > 0)
                         {
-                            Path64 out_ = new();
+                            Path64 out_ = [];
                             Point64 temp = new(0,0);
                             // out_.Add(new (temp));
                             for (int i = repetition.offsets.Count - 1; i >= 0; --i)
                             {
                                 out_.Add(GeoWrangler.Point64_distanceBetweenPoints(repetition.offsets[i], temp));
-                                temp = new (repetition.offsets[i]);
+                                temp = new Point64(repetition.offsets[i]);
                             }
                             
                             ow.writeUnsignedInteger(10);
                             ow.writeUnsignedInteger((uint)(out_.Count));
-                            ow.writeGDelta(new(0, 0));//repetition.offsets[0]));
-                            for (int i = 0; i < out_.Count; i++)
+                            ow.writeGDelta(new PointD(0, 0));//repetition.offsets[0]));
+                            foreach (var t in out_)
                             {
-                                ow.writeGDelta(new(out_[i]));
+                                ow.writeGDelta(new PointD(t));
                             }
                         }
 
@@ -662,7 +671,7 @@ public class GCCellRefArray : GCElement
         return pIsCellRefArray();
     }
 
-    private bool pIsCellRefArray()
+    private static bool pIsCellRefArray()
     {
         return true;
     }
@@ -709,7 +718,7 @@ public class GCCellRefArray : GCElement
 
         List<GCPolygon> ret = repetition.transform(tmp, trans.mag, trans.mirror_x, trans.angle);
 
-        Parallel.For(0, ret.Count, (p) =>
+        Parallel.For(0, ret.Count, p =>
         {
             ret[p].move(point);
             ret[p].resize(scaleFactor);

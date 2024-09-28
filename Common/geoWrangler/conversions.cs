@@ -10,7 +10,7 @@ public static partial class GeoWrangler
 
     private static Paths64 _pPaths64FromPathsD(PathsD source, double scaling = 1.0)
     {
-        Paths64 ret = new();
+        Paths64 ret = [];
         try
         {
             ret.AddRange(source.Select(t => _pPath64FromPathD(t, scaling)));
@@ -30,7 +30,7 @@ public static partial class GeoWrangler
         {
             length++; // close the geometry
         }
-        Path64 returnPath = new();
+        Path64 returnPath = [];
         try
         {
             returnPath.AddRange(source.Select(t => new Point64(t.x * scaling, t.y * scaling)));
@@ -50,7 +50,7 @@ public static partial class GeoWrangler
 
     private static PathsD _pPathsDFromPaths64(Paths64 source, double scaling = 1.0)
     {
-        return new (source.Select(t => _pPathDFromPath64(t, scaling)));
+        return new PathsD(source.Select(t => _pPathDFromPath64(t, scaling)));
     }
 
     public static PathD PathDFromPath64(Path64 source, double scaling = 1.0)
@@ -81,13 +81,13 @@ public static partial class GeoWrangler
 #endif
             {
                 
-                returnPath[pt] = new (source[pt]);
+                returnPath[pt] = new PointD(source[pt]);
             }
 #if !GWSINGLETHREADED
         );
 #endif
 
-        if (scaling != 1.0)
+        if (Math.Abs(scaling - 1.0) > Constants.tolerance)
         {
             returnPath = Clipper.ScalePath(returnPath, scaling);
         }
@@ -95,7 +95,7 @@ public static partial class GeoWrangler
         // Close the shape.
         if (length != sCount)
         {
-            returnPath[length - 1] = new (returnPath[0]);
+            returnPath[length - 1] = new PointD(returnPath[0]);
         }
         return returnPath;
     }

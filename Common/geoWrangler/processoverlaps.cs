@@ -11,8 +11,8 @@ public static class ProcessOverlaps
     {
         PathsD sourceData = new(sourceData_);
         // Filter drawn, process those, then do not-drawn. This allows for element counts to change.
-        PathsD drawnStuff = new();
-        PathsD notDrawnStuff = new();
+        PathsD drawnStuff = [];
+        PathsD notDrawnStuff = [];
         int sCount = sourceData.Count;
         for (int i = 0; i < sCount; i++)
         {
@@ -56,23 +56,23 @@ public static class ProcessOverlaps
     {
         if (sourceData.Count == 0)
         {
-            return new(sourceData);
+            return new PathsD(sourceData);
         }
         try
         {
             ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true};
             PathsD sourcePolyData = new(sourceData);
-            PathsD mergedPolyData = new();
+            PathsD mergedPolyData = [];
             
             // Union isn't always robust, so get a bounding box and run an intersection boolean to rationalize the geometry.
             RectD bounds = Clipper.GetBounds(sourcePolyData);
-            PathD bounding = new()
-            {
-                new (bounds.left, bounds.bottom),
-                new (bounds.left, bounds.top),
-                new (bounds.right, bounds.top),
-                new (bounds.right, bounds.bottom)
-            };
+            PathD bounding =
+            [
+                new PointD(bounds.left, bounds.bottom),
+                new PointD(bounds.left, bounds.top),
+                new PointD(bounds.right, bounds.top),
+                new PointD(bounds.right, bounds.bottom)
+            ];
 
             c.AddClip(sourcePolyData);
             c.AddSubject(bounding);
@@ -103,7 +103,7 @@ public static class ProcessOverlaps
                     c.Clear();
                     c.AddSubject(outers[outer]);
                     c.AddClip(cutters[cutter]);
-                    PathsD test = new();
+                    PathsD test = [];
                     c.Execute(ClipType.Union, FillRule.Positive, test);
                     test = GeoWrangler.reOrderXY(test);
 
@@ -126,7 +126,7 @@ public static class ProcessOverlaps
             if (noKeyHolesNeeded)
             {
                 // Send back our merged data to the caller; no keyholes needed and overlaps are reconciled.
-                return new(mergedPolyData);
+                return new PathsD(mergedPolyData);
             }
             
             // So it turns out we need to worry about keyholes if we didn't return already. Let's get started.
@@ -155,7 +155,7 @@ public static class ProcessOverlaps
             mergedPolyData = GeoWrangler.close(keyHoled);
 
             // We got some resulting geometry from our Boolean so let's process it to send back to the caller.
-            PathsD refinedData = new();
+            PathsD refinedData = [];
             
             int rpdCount = mergedPolyData.Count;
             
@@ -163,14 +163,14 @@ public static class ProcessOverlaps
             for (int rPoly = 0; rPoly < rpdCount; rPoly++)
             {
                 // We have to re-fragment as the overlap processing changed the geometry heavily.
-                refinedData.Add(new (f.fragmentPath(mergedPolyData[rPoly])));
+                refinedData.Add(new PathD(f.fragmentPath(mergedPolyData[rPoly])));
             }
 
             return refinedData;
         }
         catch (Exception)
         {
-            return new(sourceData);
+            return new PathsD(sourceData);
         }
     }
     

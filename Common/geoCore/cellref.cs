@@ -2,6 +2,7 @@
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;
 using geoWrangler;
@@ -65,7 +66,7 @@ public class GCCellref : GCElement
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;
-        point = new (0, 0);
+        point = new Point64(0, 0);
         trans = new GCStrans();
         trans.reset();
     }
@@ -77,7 +78,7 @@ public class GCCellref : GCElement
 
     private void pSetPos(Point64 p)
     {
-        point = new (p.X, p.Y);
+        point = new Point64(p.X, p.Y);
     }
 
     public override Point64 getPos()
@@ -261,7 +262,7 @@ public class GCCellref : GCElement
 
     private void pResize(double factor)
     {
-        point = new ((int)(point.X * factor), (int)(point.Y * factor));
+        point = new Point64((int)(point.X * factor), (int)(point.Y * factor));
     }
 
     public override double getScale()
@@ -299,7 +300,7 @@ public class GCCellref : GCElement
         return pIsCellref();
     }
 
-    private bool pIsCellref()
+    private static bool pIsCellref()
     {
         return true;
     }
@@ -459,11 +460,8 @@ public class GCCellref : GCElement
         {
             foreach (GCPolygon poly in ret)
             {
-                Path64 flipped = new();
-                foreach (Point64 pt in poly.pointarray)
-                {
-                    flipped.Add(new (pt.X, -pt.Y));
-                }
+                Path64 flipped = [];
+                flipped.AddRange(poly.pointarray.Select(pt => new Point64(pt.X, -pt.Y)));
                 poly.pointarray.Clear();
                 
                 poly.pointarray.AddRange(flipped);
@@ -477,8 +475,8 @@ public class GCCellref : GCElement
             for (int poly = 0; poly < ret.Count; poly++)
 #endif
             {
-                ret[poly].rotate(trans.angle, new (0,0));
-                ret[poly].scale(new (0,0), trans.mag);
+                ret[poly].rotate(trans.angle, new Point64(0,0));
+                ret[poly].scale(new Point64(0,0), trans.mag);
                 ret[poly].move(point);
                 ret[poly].resize(scaleFactor);
             }

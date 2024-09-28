@@ -31,7 +31,7 @@ public static partial class GeoWrangler
         double avX = minX + (maxX - minX) / 2.0f;
         double avY = minY + (maxY - minY) / 2.0f;
 
-        return new (avX, avY);
+        return new Point64(avX, avY);
     }
 
     public static PointD midPoint(Path64 source)
@@ -51,6 +51,6 @@ public static partial class GeoWrangler
         double avX = minX + (maxX - minX) / 2.0f;
         double avY = minY + (maxY - minY) / 2.0f;
 
-        return new (avX, avY);
+        return new PointD(avX, avY);
     }
 }

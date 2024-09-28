@@ -1,3 +1,4 @@
+using System.Linq;
 using Clipper2Lib;
 
 namespace geoWrangler;
@@ -6,11 +7,8 @@ public static partial class GeoWrangler
 {
     public static PathsD skeleton(PathsD source)
     {
-        PathsD ret = new();
-        foreach (PathD s in source)
-        {
-            ret.Add(skeleton(s));
-        }
+        PathsD ret = [];
+        ret.AddRange(source.Select(skeleton));
 
         return ret;
     }
@@ -27,16 +25,16 @@ public static partial class GeoWrangler
         c.AddOpenSubject(rays);
         c.AddClip(source);
 
-        PathsD unused = new();
-        PathsD rays_c1 = new();
+        PathsD unused = [];
+        PathsD rays_c1 = [];
 
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, rays_c1);
 
-        PathD median = new();
+        PathD median = [];
         foreach (PathD ray in rays_c1)
         {
             PointD v0 = new(ray[0]);
-            PointD dist = GeoWrangler.distanceBetweenPoints_point(ray[1], ray[0]);
+            PointD dist = distanceBetweenPoints_point(ray[1], ray[0]);
             PointD v1 = new(ray[0].x + (0.5 * dist.x), ray[0].y + (0.5 * dist.y));
             median.Add(v1);
         }

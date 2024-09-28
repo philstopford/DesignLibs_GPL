@@ -20,7 +20,7 @@ public sealed class ComparisonComparer<T> : IComparer<T>
     {
         this.comparison = comparison switch
         {
-            null => throw new ArgumentNullException("comparison"),
+            null => throw new ArgumentNullException(nameof(comparison)),
             _ => comparison
         };
     }
@@ -43,7 +43,7 @@ public sealed class ComparisonComparer<T> : IComparer<T>
     {
         return comparer switch
         {
-            null => throw new ArgumentNullException("comparer"),
+            null => throw new ArgumentNullException(nameof(comparer)),
             _ => delegate(T x, T y) { return comparer.Compare(x, y); }
         };
     }

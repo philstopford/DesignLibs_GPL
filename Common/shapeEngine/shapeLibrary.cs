@@ -2297,7 +2297,7 @@ public class ShapeLibrary
                     }
                 }
 
-                PathsD ret = Clipper.Difference(outers, inners, FillRule.EvenOdd);
+                PathsD ret = GeoWrangler.makeKeyHole(outers, inners, true, true);
                 return ret[0];
             default:
                 throw new Exception("Shape index not matched");

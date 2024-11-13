@@ -77,6 +77,9 @@ public class ShapeLibrary
     public MyRound[] round1 { get; private set; }
     public bool[] tips { get; private set; }
 
+    // Used to avoid recomputing custom shape fed in for complex cases.
+    private PathD original_custom_geometry;
+
     private class BoundingBox
     {
         private PointD midPoint;
@@ -1652,6 +1655,9 @@ public class ShapeLibrary
         geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.0);
 
         sourcePoly = GeoWrangler.close(sourcePoly);
+        
+        // Make a copy of the source geometry so that we can cheaply work with it later.
+        original_custom_geometry = new (sourcePoly);
 
         if (!geoCoreShapeOrthogonal)
         {
@@ -2226,14 +2232,84 @@ public class ShapeLibrary
     // Here we end up with a little confusion because we use this corner processing in two distinct ways in a major client application.
     // In PA search mode (inner corner with iCPA, outer corner with oCPA), the shape iCR setting has the variation already applied. We therefore use this value with the scalar.
     // In regular mode, iCV has the user-defined 3-sigma variation. We add the iCV value, scaled, to the ICR value.
-    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners, double resolution,
-        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0, double oCVariation_scalar = 0
-        )
+    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
+        double resolution,
+        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
+        double oCVariation_scalar = 0
+    )
     {
         if (!cageComputed)
         {
             computeCage();
         }
+        
+        // Complex case where we need to piecewise evaluate.
+        switch (shapeIndex)
+        {
+            case (int)shapeNames_all.rect:
+            case (int)shapeNames_all.text:
+            case (int)shapeNames_all.bounding:
+            case (int)shapeNames_all.Lshape:
+            case (int)shapeNames_all.Tshape:
+            case (int)shapeNames_all.Xshape:
+            case (int)shapeNames_all.Ushape:
+            case (int)shapeNames_all.Sshape:
+                return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                    iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+            case (int)shapeNames_all.GEOCORE:
+            case (int)shapeNames_all.complex:
+                PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
+                if (cleaned.Count == 1)
+                {
+                    return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                        iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                }
+                // Need to iterate across the shapes. Based on orientation, set outers or holes.
+                // Then set new shape configurations, etc.
+                bool firstOrientation = Clipper.IsPositive(cleaned[0]);
+                PathsD outers = new();
+                PathsD inners = new();
+                for (int ts = 0; ts < cleaned.Count; ts++)
+                {
+                    ShapeLibrary tmp = new ShapeLibrary(shapeMapping_fromClient, shapeIndex,
+                        layerSettings);
+                    tmp.setShape(shapeIndex, cleaned[ts]);
+                    // Flip the rounding for holes.
+                    bool inner = false;
+                    if (Clipper.IsPositive(cleaned[ts]) != firstOrientation)
+                    {
+                        inner = true;
+                        tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+                        tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+                    }
+                    tmp.computeCage();
+                    tmp.processEdgesForRounding();
+                    PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
+                        oCPA,
+                        iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    if (inner)
+                    {
+                        inners.Add(rounded);
+                    }
+                    else
+                    {
+                        outers.Add(rounded);
+                    }
+                }
+
+                PathsD ret = Clipper.Difference(outers, inners, FillRule.EvenOdd);
+                return ret[0];
+            default:
+                throw new Exception("Shape index not matched");
+        }
+    }
+
+    private PathD processCorners_actual(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
+        double resolution,
+        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
+        double oCVariation_scalar = 0
+    )
+    {
         bool doPASearch = iCPA || oCPA;
         double s0HO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
         double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0));

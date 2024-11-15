@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;
@@ -99,9 +100,12 @@ public static partial class GeoWrangler
     private static PathD pStripTerminators(PathD source_, bool keepLast)
     {
         PathD ret = new(source_);
-        bool firstLast_same = false;
+        try
+        {
+            bool firstLast_same = false;
         int pt_Check = ret.Count - 1;
-        if (distanceBetweenPoints(ret[pt_Check], ret[0]) < Constants.tolerance)
+        double dist = distanceBetweenPoints(ret[pt_Check], ret[0]);
+        if (dist < Constants.tolerance)
         {
             firstLast_same = true; // remove duplicated points. The shape will be closed later.
         }
@@ -109,10 +113,22 @@ public static partial class GeoWrangler
         {
             ret.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
             pt_Check--;
-            if (distanceBetweenPoints(ret[pt_Check], ret[0]) > Constants.tolerance)
+
+            if (pt_Check >= ret.Count || pt_Check < 0)
+            {
+                int x = 2;
+            }
+            dist = distanceBetweenPoints(ret[pt_Check], ret[0]);
+            if (dist > Constants.tolerance)
             {
                 firstLast_same = false; // stop at the first unmatched point.
             }
+        }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
 
         ret = keepLast switch

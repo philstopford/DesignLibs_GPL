@@ -311,7 +311,7 @@ public static partial class GeoWrangler
             
             return pClockwiseAndReorderXY(outers);
         }
-        catch (Exception)
+        catch (Exception e)
         {
             throw new Exception("pMakeKeyHole error");
         }

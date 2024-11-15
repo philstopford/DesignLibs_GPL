@@ -2258,46 +2258,69 @@ public class ShapeLibrary
                     iCV, iCVariation_scalar, oCV, oCVariation_scalar);
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
-                PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
+                PathsD cleaned = new();
+                PathD outerP = new() { new(-40, -40), new(-40, 40), new(40, 40), new(40, -40) };
+                PathD innerP = new() { new(-20, -10), new(-20,30), new(20, 30), new(20, -10) };
+                innerP.Reverse();
+                cleaned.Add(outerP);
+                cleaned.Add(innerP);
+                cleaned = GeoWrangler.close(cleaned);
+                // PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
                 if (cleaned.Count == 1)
                 {
-                    return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                    setShape(shapeIndex, outerP);
+                    computeCage();
+                    computeTips(0, 0);
+                    processEdgesForRounding();
+                    PathD tmp = processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    return tmp;
+                    // return GeoWrangler.makeKeyHole(new PathsD() { tmp }, false, false)[0];
                 }
+
                 // Need to iterate across the shapes. Based on orientation, set outers or holes.
                 // Then set new shape configurations, etc.
-                bool firstOrientation = Clipper.IsPositive(cleaned[0]);
+                PathsD[] decomposed = GeoWrangler.getDecomposed(cleaned);
+
                 PathsD outers = new();
-                PathsD inners = new();
-                for (int ts = 0; ts < cleaned.Count; ts++)
+                // Contour the outers
+                for (int i = 0; i < decomposed[0].Count; i++)
                 {
                     ShapeLibrary tmp = new ShapeLibrary(shapeMapping_fromClient, shapeIndex,
                         layerSettings);
-                    tmp.setShape(shapeIndex, cleaned[ts]);
-                    // Flip the rounding for holes.
-                    bool inner = false;
-                    if (Clipper.IsPositive(cleaned[ts]) != firstOrientation)
-                    {
-                        inner = true;
-                        tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
-                        tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
-                    }
+                    tmp.setShape(shapeIndex, decomposed[0][i]);
                     tmp.computeCage();
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
                         oCPA,
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
-                    if (inner)
-                    {
-                        inners.Add(rounded);
-                    }
-                    else
-                    {
-                        outers.Add(rounded);
-                    }
+                    rounded = GeoWrangler.close(rounded);
+                    outers.Add(rounded);
+                    
                 }
 
-                PathsD ret = GeoWrangler.makeKeyHole(outers, inners, true, true);
+                // Contour the inners.
+                PathsD inners = new();
+                for (int i = 0; i < decomposed[1].Count; i++)
+                {
+                    ShapeLibrary tmp = new ShapeLibrary(shapeMapping_fromClient, shapeIndex,
+                        layerSettings);
+                    // Flip the rounding for holes.
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+                    PathD tp = decomposed[1][i];
+                    // tp.Reverse();
+                    tmp.setShape(shapeIndex, tp);
+                    tmp.computeCage();
+                    tmp.processEdgesForRounding();
+                    PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
+                            oCPA,
+                            iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    rounded = GeoWrangler.close(rounded);
+                    inners.Add(rounded);
+                }
+
+                PathsD ret = GeoWrangler.makeKeyHole(outers, inners, false, false);
                 return ret[0];
             default:
                 throw new Exception("Shape index not matched");

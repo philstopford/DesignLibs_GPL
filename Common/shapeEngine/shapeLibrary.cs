@@ -2258,17 +2258,10 @@ public class ShapeLibrary
                     iCV, iCVariation_scalar, oCV, oCVariation_scalar);
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
-                PathsD cleaned = new();
-                PathD outerP = new() { new(-40, -40), new(-40, 40), new(40, 40), new(40, -40) };
-                PathD innerP = new() { new(-20, -10), new(-20,30), new(20, 30), new(20, -10) };
-                innerP.Reverse();
-                cleaned.Add(outerP);
-                cleaned.Add(innerP);
-                cleaned = GeoWrangler.close(cleaned);
-                // PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
+                PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
                 if (cleaned.Count == 1)
                 {
-                    setShape(shapeIndex, outerP);
+                    setShape(shapeIndex, original_custom_geometry);
                     computeCage();
                     computeTips(0, 0);
                     processEdgesForRounding();
@@ -2281,6 +2274,24 @@ public class ShapeLibrary
                 // Need to iterate across the shapes. Based on orientation, set outers or holes.
                 // Then set new shape configurations, etc.
                 PathsD[] decomposed = GeoWrangler.getDecomposed(cleaned);
+
+                // Sanitize to work with the shape engine.
+                for (int i = 0; i < decomposed[1].Count; i++)
+                {
+                    decomposed[1][i].Reverse();
+                }
+                decomposed[0] = GeoWrangler.clockwiseAndReorderXY(decomposed[0]);
+                decomposed[1] = GeoWrangler.clockwiseAndReorderXY(decomposed[1]);
+                decomposed[1] = GeoWrangler.close(decomposed[1]);
+
+                // Debug...
+                /*
+                SvgWriter svgWriter = new();
+                SvgUtils.AddSubject(svgWriter, decomposed[0]);
+                SvgUtils.AddSubject(svgWriter, decomposed[1]);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_init.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+                */
 
                 PathsD outers = new();
                 // Contour the outers
@@ -2296,9 +2307,15 @@ public class ShapeLibrary
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
                     rounded = GeoWrangler.close(rounded);
                     outers.Add(rounded);
-                    
                 }
-
+                
+                // Debug...
+                /*
+                SvgUtils.AddSubject(svgWriter, outers);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_outers.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+                */
+                
                 // Contour the inners.
                 PathsD inners = new();
                 for (int i = 0; i < decomposed[1].Count; i++)
@@ -2308,9 +2325,7 @@ public class ShapeLibrary
                     // Flip the rounding for holes.
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
-                    PathD tp = decomposed[1][i];
-                    // tp.Reverse();
-                    tmp.setShape(shapeIndex, tp);
+                    tmp.setShape(shapeIndex, decomposed[1][i]);
                     tmp.computeCage();
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
@@ -2320,7 +2335,34 @@ public class ShapeLibrary
                     inners.Add(rounded);
                 }
 
+                // Debug...
+                /*
+                SvgUtils.AddSubject(svgWriter, inners);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_inners.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, outers);
+                SvgUtils.AddSubject(svgWriter, inners);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+                */
+
+                // Keyholer expects a specific set of orientations. Flip things to oblige.
+                foreach (PathD t in outers)
+                {
+                    t.Reverse();
+                }
+                foreach (PathD t in inners)
+                {
+                    t.Reverse();
+                }
                 PathsD ret = GeoWrangler.makeKeyHole(outers, inners, false, false);
+                // Debug...
+                /*
+                SvgUtils.AddSubject(svgWriter, ret);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded_kh.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+                */
                 return ret[0];
             default:
                 throw new Exception("Shape index not matched");

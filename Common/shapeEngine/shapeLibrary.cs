@@ -2259,16 +2259,15 @@ public class ShapeLibrary
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
                 PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
+                // No keyholed geometry, so can just return the contoured shape.
                 if (cleaned.Count == 1)
                 {
                     setShape(shapeIndex, original_custom_geometry);
                     computeCage();
                     computeTips(0, 0);
                     processEdgesForRounding();
-                    PathD tmp = processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                    return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
-                    return tmp;
-                    // return GeoWrangler.makeKeyHole(new PathsD() { tmp }, false, false)[0];
                 }
 
                 // Need to iterate across the shapes. Based on orientation, set outers or holes.
@@ -2284,14 +2283,8 @@ public class ShapeLibrary
                 decomposed[1] = GeoWrangler.clockwiseAndReorderXY(decomposed[1]);
                 decomposed[1] = GeoWrangler.close(decomposed[1]);
 
-                // Debug...
-                /*
-                SvgWriter svgWriter = new();
-                SvgUtils.AddSubject(svgWriter, decomposed[0]);
-                SvgUtils.AddSubject(svgWriter, decomposed[1]);
-                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_init.svg", FillRule.EvenOdd);
-                svgWriter.ClearAll();
-                */
+                decomposed[0] = GeoWrangler.stripCollinear(decomposed[0]);
+                decomposed[1] = GeoWrangler.stripCollinear(decomposed[1]);
 
                 PathsD outers = new();
                 // Contour the outers
@@ -2308,13 +2301,6 @@ public class ShapeLibrary
                     rounded = GeoWrangler.close(rounded);
                     outers.Add(rounded);
                 }
-                
-                // Debug...
-                /*
-                SvgUtils.AddSubject(svgWriter, outers);
-                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_outers.svg", FillRule.EvenOdd);
-                svgWriter.ClearAll();
-                */
                 
                 // Contour the inners.
                 PathsD inners = new();
@@ -2372,25 +2358,13 @@ public class ShapeLibrary
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, -layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
                     tmp.computeCage();
                     tmp.processEdgesForRounding();
-                    PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
-                            oCPA,
-                            iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, oCPA,
+                            iCPA,
+                            oCV, oCVariation_scalar, iCV, iCVariation_scalar);
                     rounded = GeoWrangler.close(rounded);
                     inners.Add(rounded);
                 }
-
-                // Debug...
-                /*
-                SvgUtils.AddSubject(svgWriter, inners);
-                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_inners.svg", FillRule.EvenOdd);
-                svgWriter.ClearAll();
-
-                SvgUtils.AddSubject(svgWriter, outers);
-                SvgUtils.AddSubject(svgWriter, inners);
-                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded.svg", FillRule.EvenOdd);
-                svgWriter.ClearAll();
-                */
-
+                
                 // Keyholer expects a specific set of orientations. Flip things to oblige.
                 foreach (PathD t in outers)
                 {
@@ -2401,8 +2375,27 @@ public class ShapeLibrary
                     t.Reverse();
                 }
                 PathsD ret = GeoWrangler.makeKeyHole(outers, inners, false, false);
+
                 // Debug...
                 /*
+                SvgWriter svgWriter = new();
+                SvgUtils.AddSubject(svgWriter, decomposed[0]);
+                SvgUtils.AddSubject(svgWriter, decomposed[1]);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_init.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, outers);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_outers.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, inners);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_inners.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, outers);
+                SvgUtils.AddSubject(svgWriter, inners);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
                 SvgUtils.AddSubject(svgWriter, ret);
                 SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded_kh.svg", FillRule.EvenOdd);
                 svgWriter.ClearAll();

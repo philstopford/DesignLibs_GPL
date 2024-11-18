@@ -169,7 +169,7 @@ public class ShapeLibrary
         pShapesForClient(shapes);
         shapeIndex = shapeIndex_;
         shapeValid = false;
-        layerSettings = shapeSettings;
+        layerSettings = new(shapeSettings);
         pSetShape(shapeIndex);
     }
 
@@ -2323,9 +2323,9 @@ public class ShapeLibrary
                     ShapeLibrary tmp = new ShapeLibrary(shapeMapping_fromClient, shapeIndex,
                         layerSettings);
                     // Flip the rounding for holes.
+                    tmp.setShape(shapeIndex, decomposed[1][i]);
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
-                    tmp.setShape(shapeIndex, decomposed[1][i]);
                     tmp.computeCage();
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,

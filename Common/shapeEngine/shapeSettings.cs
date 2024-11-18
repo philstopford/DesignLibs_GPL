@@ -872,5 +872,36 @@ public class ShapeSettings
 
         return ret;
     }
+
+    public ShapeSettings()
+    {
+        
+    }
+    public ShapeSettings(ShapeSettings s)
+    {
+        foreach (properties_i p in Enum.GetValues(typeof(properties_i)))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                setInt(p, s.getInt(p), i);
+            }
+        }
+        
+        foreach (properties_decimal p in Enum.GetValues(typeof(properties_decimal)))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                setDecimal(p, s.getDecimal(p), i);
+            }
+        }
+        
+        foreach (properties_s p in Enum.GetValues(typeof(properties_s)))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                setString(p, s.getString(p));
+            }
+        }
+    }
     
 }

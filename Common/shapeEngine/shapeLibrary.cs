@@ -2326,6 +2326,50 @@ public class ShapeLibrary
                     tmp.setShape(shapeIndex, decomposed[1][i]);
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
                     tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+                    // Tips also need to be shuffled around due to the opposing edge for a hole.
+                    int tiploc = tmp.layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex);
+                    switch (tiploc)
+                    {
+                        case (int)ShapeSettings.tipLocations.B:
+                            tiploc = (int)ShapeSettings.tipLocations.T;
+                            break;
+                        case (int)ShapeSettings.tipLocations.T:
+                            tiploc = (int)ShapeSettings.tipLocations.B;
+                            break;
+                        case (int)ShapeSettings.tipLocations.L:
+                            tiploc = (int)ShapeSettings.tipLocations.R;
+                            break;
+                        case (int)ShapeSettings.tipLocations.R:
+                            tiploc = (int)ShapeSettings.tipLocations.L;
+                            break;
+                        case (int)ShapeSettings.tipLocations.BL:
+                            tiploc = (int)ShapeSettings.tipLocations.TR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.BR:
+                            tiploc = (int)ShapeSettings.tipLocations.TL;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TL:
+                            tiploc = (int)ShapeSettings.tipLocations.BR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TR:
+                            tiploc = (int)ShapeSettings.tipLocations.BL;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TLR:
+                            tiploc = (int)ShapeSettings.tipLocations.BLR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.BLR:
+                            tiploc = (int)ShapeSettings.tipLocations.TLR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TBL:
+                            tiploc = (int)ShapeSettings.tipLocations.TBR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TBR:
+                            tiploc = (int)ShapeSettings.tipLocations.TBL;
+                            break;
+                    }
+                    tmp.layerSettings.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, tiploc);
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, -layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, -layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
                     tmp.computeCage();
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,

@@ -47,7 +47,7 @@ public static class distortShape
                             // '1 -' or '1 +' drive the pincushion/barrel tone. Coefficients being negative will have the same effect, so just pick a direction and stick with it.
                             const int amplifier = 1000; // scales up end-user values to work within this approach.
                             double t1 = Convert.ToDouble(lDC1) * amplifier * Utils.myPow(Math.Abs(oRadius), 2);
-                            double t2 = Convert.ToDouble(lDC1) * Utils.myPow(amplifier, 2) *
+                            double t2 = Convert.ToDouble(lDC2) * Utils.myPow(amplifier, 2) *
                                         Utils.myPow(Math.Abs(oRadius), 4);
                             double sFactor = 1 - (t1 + t2);
 

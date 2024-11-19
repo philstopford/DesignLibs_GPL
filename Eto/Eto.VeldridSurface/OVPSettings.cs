@@ -534,7 +534,7 @@ public class OVPSettings
 		}
 
 		var tempPoly = new PointF[polyCount];
-		Parallel.For(0, forceClosed ? polyCount : polyCount - 1, pt => // (int pt = 0; pt < poly.Count; pt++)
+		Parallel.For(0, forceClosed ? polyCount - 1 : polyCount, pt => // (int pt = 0; pt < poly.Count; pt++)
 		{
 			tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
 		});

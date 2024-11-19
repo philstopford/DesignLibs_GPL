@@ -29,6 +29,8 @@ public static partial class GeoWrangler
     {
         PathsD firstLayer = new (firstLayer_);
         PathsD secondLayer = new (secondLayer_);
+        Fragmenter f = new(resolution);
+
         // In principle, 'rigorous' handling is only needed where the cutter is fully enclosed by the subject polygon.
         // The challenge is to know whether this is the case or not.
         // Possibility would be an intersection test and a vertex count and location comparison from before and after, to see whether anything changed.
@@ -57,7 +59,17 @@ public static partial class GeoWrangler
         // Squash incoming artifacts to allow boolean to resolve holes vs outers.
         // The 0.5 factor here allows for both sides of a keyhole cut to be moved to touch, thus merging.
         firstLayer = sliverGapRemoval(firstLayer, customSizing:0.5*keyhole_sizing);
+        for (int i = 0;  i < firstLayer.Count; i++)
+        {
+            firstLayer[i] = stripCollinear(firstLayer[i], 1);
+        }
+        firstLayer = f.fragmentPaths(firstLayer);
         secondLayer = sliverGapRemoval(secondLayer, customSizing:0.5*keyhole_sizing);
+        for (int i = 0;  i < secondLayer.Count; i++)
+        {
+            secondLayer[i] = stripCollinear(secondLayer[i], 1);
+        }
+        secondLayer = f.fragmentPaths(secondLayer);
         // Clipper strips terminating points, so force closed.
         firstLayer = close(firstLayer);
         secondLayer = close(secondLayer);
@@ -84,7 +96,6 @@ public static partial class GeoWrangler
         // Apply the keyholing and rationalize.
         if (holes)
         {
-            Fragmenter f = new(resolution);
             ret = f.fragmentPaths(ret);
             PathsD merged = makeKeyHole(ret, reverseEval:false, biDirectionalEval:true, extension:extension);
 

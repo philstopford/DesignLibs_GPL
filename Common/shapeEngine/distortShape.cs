@@ -34,10 +34,11 @@ public static class distortShape
 
                             // Need to calculate a new 'radius' from the origin for each point in the polygon, then scale the X/Y values accordingly in the polygon.
                             // Use scale factor to try and guarantee a -1 to +1 value range
-                            /*
-                            px /= scaleFactorForOperation;
-                            py /= scaleFactorForOperation;
-                            */
+                            px *= Constants.scalar_1E4_inv;
+                            py *= Constants.scalar_1E4_inv;
+                            
+                            // Need to calculate a new 'radius' from the origin for each point in the polygon, then scale the X/Y values accordingly in the polygon.
+                            // Use scale factor to try and guarantee a -1 to +1 value range
 
                             double oRadius = Math.Sqrt(Utils.myPow(px, 2) + Utils.myPow(py, 2));
                             // Polynomial radial distortion.
@@ -50,11 +51,9 @@ public static class distortShape
                                         Utils.myPow(Math.Abs(oRadius), 4);
                             double sFactor = 1 - (t1 + t2);
 
-                            /*
-                            px *= sFactor * scaleFactorForOperation;
-                            py *= sFactor * scaleFactorForOperation;
-                            */
-
+                            px *= sFactor * Constants.scalar_1E4;
+                            py *= sFactor * Constants.scalar_1E4;
+ 
                             ret[poly1][point] = new PointD(px, py);
 
                         }

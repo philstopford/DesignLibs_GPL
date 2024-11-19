@@ -58,13 +58,13 @@ public static partial class GeoWrangler
 
         // Squash incoming artifacts to allow boolean to resolve holes vs outers.
         // The 0.5 factor here allows for both sides of a keyhole cut to be moved to touch, thus merging.
-        firstLayer = sliverGapRemoval(firstLayer, customSizing:0.5*keyhole_sizing);
+        firstLayer = sliverGapRemoval(firstLayer, customSizing:1.42*keyhole_sizing);
         for (int i = 0;  i < firstLayer.Count; i++)
         {
             firstLayer[i] = stripCollinear(firstLayer[i], 1);
         }
         firstLayer = f.fragmentPaths(firstLayer);
-        secondLayer = sliverGapRemoval(secondLayer, customSizing:0.5*keyhole_sizing);
+        secondLayer = sliverGapRemoval(secondLayer, customSizing:1.42*keyhole_sizing);
         for (int i = 0;  i < secondLayer.Count; i++)
         {
             secondLayer[i] = stripCollinear(secondLayer[i], 1);
@@ -76,7 +76,7 @@ public static partial class GeoWrangler
         PathsD ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveCollinear: false);
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
-        ret = new PathsD(gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
+        ret = new PathsD(gapRemoval(ret, customSizing:1.42*keyhole_sizing,extension: extension));
 
         bool holes = false;
 

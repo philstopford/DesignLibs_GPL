@@ -83,10 +83,6 @@ public static partial class GeoWrangler
         foreach (PathD t in ret)
         {
             holes = !Clipper.IsPositive(t); // reports false for outers
-            bool gwHoles = !isClockwise(t); //reports false for outers
-            if (holes != gwHoles)
-            {
-            }
             if (holes)
             {
                 break;

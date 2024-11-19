@@ -56,15 +56,15 @@ public static partial class GeoWrangler
 
         // Squash incoming artifacts to allow boolean to resolve holes vs outers.
         // The 0.5 factor here allows for both sides of a keyhole cut to be moved to touch, thus merging.
-        firstLayer = sliverGapRemoval(firstLayer, customSizing:0.5*keyhole_sizing);
-        secondLayer = sliverGapRemoval(secondLayer, customSizing:0.5*keyhole_sizing);
+        firstLayer = sliverGapRemoval(firstLayer, customSizing:keyhole_sizing);
+        secondLayer = sliverGapRemoval(secondLayer, customSizing:keyhole_sizing);
         // Clipper strips terminating points, so force closed.
         firstLayer = close(firstLayer);
         secondLayer = close(secondLayer);
         PathsD ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveCollinear: false);
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
-        ret = new PathsD(gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
+        ret = new PathsD(gapRemoval(ret, customSizing:keyhole_sizing,extension: extension));
 
         bool holes = false;
 

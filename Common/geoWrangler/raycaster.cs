@@ -406,7 +406,7 @@ public class RayCast
                 {
                     resultX[outputIndex] = ray[tL][1].x;
                     resultY[outputIndex] = ray[tL][1].y;
-                    weight[outputIndex] = Convert.ToDouble(ray[tL][1].z) / 1E4;
+                    weight[outputIndex] = Convert.ToDouble(ray[tL][0].z) / 1E4;
                 }
                 finally
                 {
@@ -421,7 +421,7 @@ public class RayCast
                     // Clipper reversed the line direction, so we need to deal with this.
                     resultX[outputIndex] = ray[tL][0].x;
                     resultY[outputIndex] = ray[tL][0].y;
-                    weight[outputIndex] = Convert.ToDouble(ray[tL][0].z) / 1E4;
+                    weight[outputIndex] = Convert.ToDouble(ray[tL][1].z) / 1E4;
                 }
                 finally
                 {

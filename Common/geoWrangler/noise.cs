@@ -154,7 +154,29 @@ public static class NoiseC
             }
         }
 
+        /*
+        if (ret.Count != input.Count)
+        {
+            SvgWriter svgWriter = new SvgWriter();
+            SvgUtils.AddSubject(svgWriter, input);
+            SvgUtils.AddSolution(svgWriter, ret, false);
+            SvgUtils.SaveToFile(svgWriter, "/d/development/debug_prekh.svg", FillRule.Positive);
+            int xx = 2;
+        }
+        */
+
         ret = GeoWrangler.makeKeyHole(ret, false, false);
+
+        /*
+        if (ret.Count != input.Count)
+        {
+            SvgWriter svgWriter = new SvgWriter();
+            SvgUtils.AddSubject(svgWriter, input);
+            SvgUtils.AddSolution(svgWriter, ret, false);
+            SvgUtils.SaveToFile(svgWriter, "/d/development/debug.svg", FillRule.Positive);
+            int xx = 2;
+        }
+        */
 
         return ret;
     }    

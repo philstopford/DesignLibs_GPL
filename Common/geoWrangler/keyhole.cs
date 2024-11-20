@@ -46,7 +46,7 @@ public static partial class GeoWrangler
 
         // Limit the offset used in the removal otherwise we can cause self-intersections that
         // result in lots of artifacts and trouble.
-        PathsD input = pRemoveFragments(source, customSizing, extension);
+        PathsD input = pRemoveFragments(source, 0.5 * customSizing, extension);
         input = pStripCollinear(input);
 
         switch (input.Count)
@@ -56,6 +56,19 @@ public static partial class GeoWrangler
         }
 
         PathsD[] decomp = pGetDecomposed(input);
+
+        // No cutters found. Return.
+        if (decomp[1].Count == 0)
+        {
+            return new PathsD(source);
+        }
+
+        // Cutters have no area (perhaps a collinear open path) - ignore them.
+        if (Math.Abs(Clipper.Area(decomp[1])) <= Constants.tolerance)
+        {
+            return new PathsD(source);
+        }
+
         PathsD[] odecomp = new PathsD[decomp.Length];
         for (int i = 0; i < decomp.Length; i++)
         {
@@ -74,6 +87,10 @@ public static partial class GeoWrangler
         double origArea = sliverGapRemoval(source).Sum(Clipper.Area);
         double newArea = sliverGapRemoval(ret).Sum(Clipper.Area);
 
+        if (origArea < 0)
+        {
+            origArea = -origArea;
+        }
         if (newArea < 0)
         {
             newArea = -newArea;

@@ -50,7 +50,7 @@ public partial class MainForm : Form
 
 		GraphicsDeviceOptions options = new(
 			false,
-			Veldrid.PixelFormat.R32_Float,
+			Veldrid.PixelFormat.R32Float,
 			false,
 			ResourceBindingModel.Improved);
 

@@ -15,6 +15,7 @@
     <PackageReference Include="Eto.Forms" Version="2.8.3" />
     <PackageReference Include="ppy.Veldrid" Version="4.9.62-gca0239da6b" />
     <PackageReference Include="ppy.Veldrid.OpenGLBindings" Version="4.9.62-gca0239da6b" />
+    <PackageReference Include="ppy.Vk" Version="1.0.26" />
   </ItemGroup>
   
 </Project>

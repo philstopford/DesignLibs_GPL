@@ -2235,8 +2235,7 @@ public class ShapeLibrary
     public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
         double resolution,
         bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
-        double oCVariation_scalar = 0
-    )
+        double oCVariation_scalar = 0)
     {
         if (!cageComputed)
         {
@@ -2259,8 +2258,8 @@ public class ShapeLibrary
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
                 PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
-                // No keyholed geometry, so can just return the contoured shape.
-                if (cleaned.Count == 1)
+                // No keyholed geometry, so can just return the contoured shape. Or it's forced by the legacy option.
+                if (layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1 || cleaned.Count == 1)
                 {
                     setShape(shapeIndex, original_custom_geometry);
                     computeCage();

@@ -1219,7 +1219,7 @@ public class ShapeLibrary
 
         // Need midpoint of edge
         double tmpX2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) +
-                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
+                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         tmpX2 = tmpX - tmpX2;
         tmpX -= (tmpX2 * 0.5);
         Vertex[15] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
@@ -1236,7 +1236,7 @@ public class ShapeLibrary
 
         // Need midpoint of edge
         tmpX2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) +
-                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
+                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         tmpX2 = tmpX - tmpX2;
         tmpX -= (tmpX2 * 0.5);
         Vertex[19] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
@@ -1500,7 +1500,7 @@ public class ShapeLibrary
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         double tmpY2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
-                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
+                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         tmpY2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - tmpY2;
         tmpY += (tmpY2 * 0.5);
 
@@ -1534,7 +1534,7 @@ public class ShapeLibrary
         Vertex[17] = new MyVertex(tmpX, tmpY, typeDirection.right1, false, false, typeVertex.center);
 
         tmpY2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2)) +
-                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
+                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
         tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - tmpY2;
 
         Vertex[18] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
@@ -2257,9 +2257,19 @@ public class ShapeLibrary
                     iCV, iCVariation_scalar, oCV, oCVariation_scalar);
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
-                PathsD cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
-                // No keyholed geometry, so can just return the contoured shape. Or it's forced by the legacy option.
-                if (layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1 || cleaned.Count == 1)
+                bool useLegacyRounding = layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1;
+
+                // Improved contouring uses sliver-gap removal to find fully enclosed holes.
+                // If there are none, we can use the classical rounding, which is cheaper.
+                PathsD cleaned = null;
+                if (!useLegacyRounding)
+                {
+                    cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
+                    useLegacyRounding = cleaned.Count == 1;
+                }
+
+                // This returns the rounded shape using the cheap, single polygon approach.
+                if (useLegacyRounding)
                 {
                     setShape(shapeIndex, original_custom_geometry);
                     computeCage();
@@ -2269,9 +2279,11 @@ public class ShapeLibrary
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
                 }
 
+                // Here we use the expensive approach for multi-polygon (outers, holes) rounding.
+                
                 // Need to iterate across the shapes. Based on orientation, set outers or holes.
                 // Then set new shape configurations, etc.
-                PathsD[] decomposed = GeoWrangler.getDecomposed(cleaned);
+                PathsD[] decomposed = GeoWrangler.getDecomposed(cleaned!);
 
                 // Sanitize to work with the shape engine.
                 for (int i = 0; i < decomposed[1].Count; i++)
@@ -2358,8 +2370,8 @@ public class ShapeLibrary
                     tmp.computeCage();
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, oCPA,
-                            iCPA,
-                            oCV, oCVariation_scalar, iCV, iCVariation_scalar);
+                        iCPA,
+                        oCV, oCVariation_scalar, iCV, iCVariation_scalar);
                     rounded = GeoWrangler.close(rounded);
                     inners.Add(rounded);
                 }

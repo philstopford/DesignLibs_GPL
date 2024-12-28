@@ -116,7 +116,7 @@ public static partial class GeoWrangler
             ret = stripCollinear(ret);
         }
 
-        ret = sliverRemoval(ret, extension: extension); // experimental to try and remove any slivers.
+        // ret = sliverGapRemoval(ret, keyhole_sizing, extension: extension); // experimental to try and remove any slivers.
 
         if (rigorous && !holes)
         {

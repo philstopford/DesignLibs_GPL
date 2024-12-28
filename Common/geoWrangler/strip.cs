@@ -114,10 +114,13 @@ public static partial class GeoWrangler
             ret.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
             pt_Check--;
 
+            // We ought not to get here - this is something for debug checks.
+            /*
             if (pt_Check >= ret.Count || pt_Check < 0)
             {
                 int x = 2;
             }
+            */
             dist = distanceBetweenPoints(ret[pt_Check], ret[0]);
             if (dist > Constants.tolerance)
             {

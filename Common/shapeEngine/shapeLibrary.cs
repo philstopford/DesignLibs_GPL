@@ -77,6 +77,9 @@ public class ShapeLibrary
     public MyRound[] round1 { get; private set; }
     public bool[] tips { get; private set; }
 
+    // Used to avoid recomputing custom shape fed in for complex cases.
+    private PathD original_custom_geometry;
+
     private class BoundingBox
     {
         private PointD midPoint;
@@ -166,7 +169,7 @@ public class ShapeLibrary
         pShapesForClient(shapes);
         shapeIndex = shapeIndex_;
         shapeValid = false;
-        layerSettings = shapeSettings;
+        layerSettings = new(shapeSettings);
         pSetShape(shapeIndex);
     }
 
@@ -1216,7 +1219,7 @@ public class ShapeLibrary
 
         // Need midpoint of edge
         double tmpX2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) +
-                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
+                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         tmpX2 = tmpX - tmpX2;
         tmpX -= (tmpX2 * 0.5);
         Vertex[15] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
@@ -1233,7 +1236,7 @@ public class ShapeLibrary
 
         // Need midpoint of edge
         tmpX2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) +
-                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
+                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         tmpX2 = tmpX - tmpX2;
         tmpX -= (tmpX2 * 0.5);
         Vertex[19] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
@@ -1497,7 +1500,7 @@ public class ShapeLibrary
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         double tmpY2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
-                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
+                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         tmpY2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - tmpY2;
         tmpY += (tmpY2 * 0.5);
 
@@ -1531,7 +1534,7 @@ public class ShapeLibrary
         Vertex[17] = new MyVertex(tmpX, tmpY, typeDirection.right1, false, false, typeVertex.center);
 
         tmpY2 = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2)) +
-                       Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
+                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
         tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - tmpY2;
 
         Vertex[18] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
@@ -1652,6 +1655,9 @@ public class ShapeLibrary
         geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.0);
 
         sourcePoly = GeoWrangler.close(sourcePoly);
+        
+        // Make a copy of the source geometry so that we can cheaply work with it later.
+        original_custom_geometry = new (sourcePoly);
 
         if (!geoCoreShapeOrthogonal)
         {
@@ -2226,14 +2232,197 @@ public class ShapeLibrary
     // Here we end up with a little confusion because we use this corner processing in two distinct ways in a major client application.
     // In PA search mode (inner corner with iCPA, outer corner with oCPA), the shape iCR setting has the variation already applied. We therefore use this value with the scalar.
     // In regular mode, iCV has the user-defined 3-sigma variation. We add the iCV value, scaled, to the ICR value.
-    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners, double resolution,
-        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0, double oCVariation_scalar = 0
-        )
+    public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
+        double resolution,
+        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
+        double oCVariation_scalar = 0)
     {
         if (!cageComputed)
         {
             computeCage();
         }
+        
+        // Complex case where we need to piecewise evaluate.
+        switch (shapeIndex)
+        {
+            case (int)shapeNames_all.rect:
+            case (int)shapeNames_all.text:
+            case (int)shapeNames_all.bounding:
+            case (int)shapeNames_all.Lshape:
+            case (int)shapeNames_all.Tshape:
+            case (int)shapeNames_all.Xshape:
+            case (int)shapeNames_all.Ushape:
+            case (int)shapeNames_all.Sshape:
+                return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                    iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+            case (int)shapeNames_all.GEOCORE:
+            case (int)shapeNames_all.complex:
+                bool useLegacyRounding = layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1;
+
+                // Improved contouring uses sliver-gap removal to find fully enclosed holes.
+                // If there are none, we can use the classical rounding, which is cheaper.
+                PathsD cleaned = null;
+                if (!useLegacyRounding)
+                {
+                    cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
+                    useLegacyRounding = cleaned.Count == 1;
+                }
+
+                // This returns the rounded shape using the cheap, single polygon approach.
+                if (useLegacyRounding)
+                {
+                    setShape(shapeIndex, original_custom_geometry);
+                    computeCage();
+                    computeTips(0, 0);
+                    processEdgesForRounding();
+                    return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                        iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                }
+
+                // Here we use the expensive approach for multi-polygon (outers, holes) rounding.
+                
+                // Need to iterate across the shapes. Based on orientation, set outers or holes.
+                // Then set new shape configurations, etc.
+                PathsD[] decomposed = GeoWrangler.getDecomposed(cleaned!);
+
+                // Sanitize to work with the shape engine.
+                for (int i = 0; i < decomposed[1].Count; i++)
+                {
+                    decomposed[1][i].Reverse();
+                }
+                decomposed[0] = GeoWrangler.clockwiseAndReorderXY(decomposed[0]);
+                decomposed[1] = GeoWrangler.clockwiseAndReorderXY(decomposed[1]);
+                decomposed[1] = GeoWrangler.close(decomposed[1]);
+
+                decomposed[0] = GeoWrangler.stripCollinear(decomposed[0]);
+                decomposed[1] = GeoWrangler.stripCollinear(decomposed[1]);
+
+                PathsD outers = new();
+                // Contour the outers
+                for (int i = 0; i < decomposed[0].Count; i++)
+                {
+                    ShapeLibrary tmp = new ShapeLibrary(shapeMapping_fromClient, shapeIndex,
+                        layerSettings);
+                    tmp.setShape(shapeIndex, decomposed[0][i]);
+                    tmp.computeCage();
+                    tmp.processEdgesForRounding();
+                    PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
+                        oCPA,
+                        iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    rounded = GeoWrangler.close(rounded);
+                    outers.Add(rounded);
+                }
+                
+                // Contour the inners.
+                PathsD inners = new();
+                for (int i = 0; i < decomposed[1].Count; i++)
+                {
+                    ShapeLibrary tmp = new ShapeLibrary(shapeMapping_fromClient, shapeIndex,
+                        layerSettings);
+                    // Flip the rounding for holes.
+                    tmp.setShape(shapeIndex, decomposed[1][i]);
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.iCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.oCR, layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+                    // Tips also need to be shuffled around due to the opposing edge for a hole.
+                    int tiploc = tmp.layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex);
+                    switch (tiploc)
+                    {
+                        case (int)ShapeSettings.tipLocations.B:
+                            tiploc = (int)ShapeSettings.tipLocations.T;
+                            break;
+                        case (int)ShapeSettings.tipLocations.T:
+                            tiploc = (int)ShapeSettings.tipLocations.B;
+                            break;
+                        case (int)ShapeSettings.tipLocations.L:
+                            tiploc = (int)ShapeSettings.tipLocations.R;
+                            break;
+                        case (int)ShapeSettings.tipLocations.R:
+                            tiploc = (int)ShapeSettings.tipLocations.L;
+                            break;
+                        case (int)ShapeSettings.tipLocations.BL:
+                            tiploc = (int)ShapeSettings.tipLocations.TR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.BR:
+                            tiploc = (int)ShapeSettings.tipLocations.TL;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TL:
+                            tiploc = (int)ShapeSettings.tipLocations.BR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TR:
+                            tiploc = (int)ShapeSettings.tipLocations.BL;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TLR:
+                            tiploc = (int)ShapeSettings.tipLocations.BLR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.BLR:
+                            tiploc = (int)ShapeSettings.tipLocations.TLR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TBL:
+                            tiploc = (int)ShapeSettings.tipLocations.TBR;
+                            break;
+                        case (int)ShapeSettings.tipLocations.TBR:
+                            tiploc = (int)ShapeSettings.tipLocations.TBL;
+                            break;
+                    }
+                    tmp.layerSettings.setInt(ShapeSettings.properties_i.subShapeTipLocIndex, tiploc);
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.hTBias, -layerSettings.getDecimal(ShapeSettings.properties_decimal.hTBias));
+                    tmp.layerSettings.setDecimal(ShapeSettings.properties_decimal.vTBias, -layerSettings.getDecimal(ShapeSettings.properties_decimal.vTBias));
+                    tmp.computeCage();
+                    tmp.processEdgesForRounding();
+                    PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, oCPA,
+                        iCPA,
+                        oCV, oCVariation_scalar, iCV, iCVariation_scalar);
+                    rounded = GeoWrangler.close(rounded);
+                    inners.Add(rounded);
+                }
+                
+                // Keyholer expects a specific set of orientations. Flip things to oblige.
+                foreach (PathD t in outers)
+                {
+                    t.Reverse();
+                }
+                foreach (PathD t in inners)
+                {
+                    t.Reverse();
+                }
+                PathsD ret = GeoWrangler.makeKeyHole(outers, inners, false, false);
+
+                // Debug...
+                /*
+                SvgWriter svgWriter = new();
+                SvgUtils.AddSubject(svgWriter, decomposed[0]);
+                SvgUtils.AddSubject(svgWriter, decomposed[1]);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_init.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, outers);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_outers.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, inners);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_inners.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+
+                SvgUtils.AddSubject(svgWriter, outers);
+                SvgUtils.AddSubject(svgWriter, inners);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+                SvgUtils.AddSubject(svgWriter, ret);
+                SvgUtils.SaveToFile(svgWriter, "/d/development/decomp_rounded_kh.svg", FillRule.EvenOdd);
+                svgWriter.ClearAll();
+                */
+                return ret[0];
+            default:
+                throw new Exception("Shape index not matched");
+        }
+    }
+
+    private PathD processCorners_actual(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
+        double resolution,
+        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
+        double oCVariation_scalar = 0
+    )
+    {
         bool doPASearch = iCPA || oCPA;
         double s0HO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
         double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0));

@@ -13,15 +13,17 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Veldrid" Version="4.9.0" />
-      <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
+    <PackageReference Include="ppy.Veldrid" Version="4.9.62-gca0239da6b" />
+      <PackageReference Include="ppy.Veldrid.SPIRV" Version="1.0.15-gfbb03d21c2" />
     </ItemGroup>
 
+<!--
     <ItemGroup>
       <Reference Include="Veldrid.SPIRV">
         <HintPath>..\..\..\..\..\home\phil\.nuget\packages\veldrid.spirv\1.0.15\lib\netstandard2.0\Veldrid.SPIRV.dll</HintPath>
       </Reference>
     </ItemGroup>
+-->
 
     <ItemGroup>
       <ProjectReference Include="..\..\Common\clipper\clipper.csproj" />

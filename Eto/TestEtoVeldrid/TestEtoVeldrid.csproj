@@ -10,7 +10,7 @@
   
   <ItemGroup>
     <PackageReference Include="Eto.Forms" Version="2.8.3" />
-    <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
+      <PackageReference Include="ppy.Veldrid.SPIRV" Version="1.0.15-gfbb03d21c2" />
   </ItemGroup>
 
   <ItemGroup>

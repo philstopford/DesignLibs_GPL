@@ -111,6 +111,10 @@ public class ShapeSettings
     private const int default_flipV = 0;
     private const int default_alignGeom = 0;
 
+    // This is used in the rounding pipeline to enable legacy rounding where keyholed geometry
+    // is left unprocessed prior to rounding of corners.
+    private const int default_legacyRounding = 0;
+
     private int enabled = default_enabled;
     private int shapeIndex = default_shapeIndex;
     private int subShapeTipLocIndex = default_subShapeTipLocIndex;
@@ -128,6 +132,8 @@ public class ShapeSettings
     private int alignGeomX = default_alignGeom;
     private int alignGeomY = default_alignGeom;
 
+    private int legacyRounding = default_legacyRounding;
+
     private const string default_layerName = "";
     
     public enum properties_i
@@ -139,7 +145,8 @@ public class ShapeSettings
         edgeSlide,
         proxRays,proxSideRaysFallOff,
         lwrType, lwr2Type,
-        flipH, flipV, alignX, alignY
+        flipH, flipV, alignX, alignY,
+        legacyRounding
     }
 
     public int getInt(properties_i p, int _subShapeRef = -1)
@@ -167,6 +174,7 @@ public class ShapeSettings
             properties_i.flipV => flipV,
             properties_i.alignX => alignGeomX,
             properties_i.alignY => alignGeomY,
+            properties_i.legacyRounding => legacyRounding,
             _ => 0
         };
 
@@ -230,6 +238,9 @@ public class ShapeSettings
             case properties_i.alignY:
                 alignGeomY = val;
                 break;
+            case properties_i.legacyRounding:
+                legacyRounding = val;
+                break;
         }
     }
 
@@ -290,6 +301,9 @@ public class ShapeSettings
             case properties_i.alignY:
                 alignGeomY = default_alignGeom;
                 break;
+            case properties_i.legacyRounding:
+                legacyRounding = default_legacyRounding;
+                break;
         }
     }
 
@@ -318,6 +332,7 @@ public class ShapeSettings
             properties_i.flipV => default_flipV,
             properties_i.alignX => default_alignGeom,
             properties_i.alignY => default_alignGeom,
+            properties_i.legacyRounding => default_legacyRounding,
             _ => 0
         };
 
@@ -871,6 +886,37 @@ public class ShapeSettings
         };
 
         return ret;
+    }
+
+    public ShapeSettings()
+    {
+        
+    }
+    public ShapeSettings(ShapeSettings s)
+    {
+        foreach (properties_i p in Enum.GetValues(typeof(properties_i)))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                setInt(p, s.getInt(p), i);
+            }
+        }
+        
+        foreach (properties_decimal p in Enum.GetValues(typeof(properties_decimal)))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                setDecimal(p, s.getDecimal(p), i);
+            }
+        }
+        
+        foreach (properties_s p in Enum.GetValues(typeof(properties_s)))
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                setString(p, s.getString(p));
+            }
+        }
     }
     
 }

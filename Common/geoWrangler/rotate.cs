@@ -77,41 +77,29 @@ public static partial class GeoWrangler
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
-            for (Int32 pt = 0; pt < source.Length; pt++)
+            for (Int32 pt = 0; pt < sLength; pt++)
 #endif
             {
                 double newX = source[pt].x;
-                switch (H)
+                if (H)
                 {
-                    case true:
+                    newX = -newX;
+                    if (alignX)
                     {
-                        newX = -newX;
-                        switch (alignX)
-                        {
-                            case true:
-                                newX += 2 * pivot.x;
-                                break;
-                        }
-
-                        break;
+                        newX += 2 * pivot.x;
                     }
                 }
+
                 double newY = source[pt].y;
-                switch (V)
+                if (V)
                 {
-                    case true:
+                    newY = -newY;
+                    if (alignY)
                     {
-                        newY = -newY;
-                        switch (alignY)
-                        {
-                            case true:
-                                newY += 2 * pivot.y;
-                                break;
-                        }
-
-                        break;
+                        newY += 2 * pivot.y;
                     }
                 }
+
                 ret[pt] = new PointD(newX, newY);
             }
 #if !GWSINGLETHREADED

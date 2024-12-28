@@ -138,8 +138,8 @@ public class SimplexNoiseOctave
         // The seed determines the swaps that occur between the default order and the order we're actually going to use
         Parallel.For(0, NumberOfSwaps, i =>
         {
-            int swapFrom = RNG.nextint(p.Length);
-            int swapTo = RNG.nextint(p.Length);
+            int swapFrom = RNG.nextint(0, p.Length);
+            int swapTo = RNG.nextint(0, p.Length);
 
             (p[swapFrom], p[swapTo]) = (p[swapTo], p[swapFrom]);
         });

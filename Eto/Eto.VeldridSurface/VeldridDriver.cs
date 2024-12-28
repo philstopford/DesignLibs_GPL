@@ -150,7 +150,7 @@ namespace VeldridEto;
 		{
 			LinePipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
 			{
-				BlendState = BlendStateDescription.SingleOverrideBlend,
+				BlendState = BlendStateDescription.SINGLE_OVERRIDE_BLEND,
 				DepthStencilState = new DepthStencilStateDescription(
 					depthTestEnabled: true,
 					depthWriteEnabled: true,
@@ -171,7 +171,7 @@ namespace VeldridEto;
 
 			LinesPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
 			{
-				BlendState = BlendStateDescription.SingleAlphaBlend,
+				BlendState = BlendStateDescription.SINGLE_ALPHA_BLEND,
 				DepthStencilState = new DepthStencilStateDescription(
 					depthTestEnabled: false,
 					depthWriteEnabled: false,
@@ -192,7 +192,7 @@ namespace VeldridEto;
 
 			FilledPipeline = factory.CreateGraphicsPipeline(new GraphicsPipelineDescription
 			{
-				BlendState = BlendStateDescription.SingleAlphaBlend,
+				BlendState = BlendStateDescription.SINGLE_ALPHA_BLEND,
 				DepthStencilState = new DepthStencilStateDescription(
 					depthTestEnabled: false,
 					depthWriteEnabled: false,

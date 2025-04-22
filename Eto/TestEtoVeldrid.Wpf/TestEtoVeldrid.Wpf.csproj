@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0-windows</TargetFramework>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <Import Sdk="Microsoft.NET.Sdk.WindowsDesktop" Project="Sdk.props" />
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.8.3" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.9.0-ci-20250329.14150108340" />
 
     <!-- Please note that version 3.6.0 is the newest version of this toolkit
     that has licensing terms permitting use in commercial projects.

@@ -223,9 +223,9 @@ internal partial class gdsReader
                         break;
                     case 3: // UNITS
                         double_ = read8ByteReal();
-                        drawing_.userunits = double_;
+                        drawing_.userunits = double_ * 1E6;
                         double_ = read8ByteReal();
-                        drawing_.databaseunits = double_;
+                        drawing_.databaseunits = 1.0 / (double_ * 1E6) * 1E-2;
                         break;
                     case 4: // ENDLIB
                         break;

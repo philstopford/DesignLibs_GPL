@@ -46,7 +46,7 @@ class QuadraticBezierSamplingSwitcher
         switch (mode)
         {
             case SamplingMode.ByMaxSegmentLength:
-                double maxSegLen = 5 * scale;
+                double maxSegLen = 0.05 * scale;
                 samples = SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, maxSegLen);
                 break;
 

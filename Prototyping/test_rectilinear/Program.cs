@@ -24,8 +24,8 @@ namespace RectilinearCenteredTurns
             var finalPts = RectilinearizeCentered(bestTheta, origin);
 
             Console.WriteLine($"Optimal θ = {bestTheta * 180.0 / Math.PI:F2}° (Error = {bestErr:F6})\n");
-
             Console.WriteLine("Idx   Orig X,Y           →  Final X,Y    Angle (°)");
+
             var angles = ComputeAngles(finalPts);
             for (int i = 0; i < Orig.Count; i++)
             {
@@ -87,11 +87,7 @@ namespace RectilinearCenteredTurns
                         ? Math.Abs(D[i].Y)
                         : Math.Abs(D[i].X);
 
-                    // only alternate
-                    cost[i, axis] = Math.Min(
-                        cost[i - 1, 1 - axis] + projErr,
-                        INF
-                    );
+                    cost[i, axis] = cost[i - 1, 1 - axis] + projErr;
                 }
             }
 
@@ -111,14 +107,12 @@ namespace RectilinearCenteredTurns
                 P[i] = new Vector2(c * d.X - s * d.Y, s * d.X + c * d.Y);
             }
 
-            // 2) Deltas
+            // 2) Deltas & DP
             var D = new Vector2[N];
-            for (int i = 1; i < N; i++)
-                D[i] = P[i] - P[i - 1];
+            for (int i = 1; i < N; i++) D[i] = P[i] - P[i - 1];
 
-            // 3) DP & backtrack
             const double INF = 1e9;
-            var cost   = new double[N, 2];
+            var cost = new double[N, 2];
             var parent = new int[N, 2];
             cost[0, 0] = cost[0, 1] = 0;
             parent[0, 0] = parent[0, 1] = -1;
@@ -132,63 +126,61 @@ namespace RectilinearCenteredTurns
                         : Math.Abs(D[i].X);
 
                     double best = INF;
-                    int    par  = -1;
-
-                    for (int prev = 0; prev < 2; prev++)
+                    int par = -1;
+                    for (int prevAxis = 0; prevAxis < 2; prevAxis++)
                     {
-                        if (prev == axis) continue;
-                        double cst = cost[i - 1, prev] + projErr;
+                        if (prevAxis == axis) continue;
+                        double cst = cost[i - 1, prevAxis] + projErr;
                         if (cst < best)
                         {
                             best = cst;
-                            par  = prev;
+                            par = prevAxis;
                         }
                     }
-                    cost[i, axis]   = best;
+
+                    cost[i, axis] = best;
                     parent[i, axis] = par;
                 }
             }
 
+            // 3) Backtrack axis choices
             var axisChoice = new int[N];
             axisChoice[N - 1] = cost[N - 1, 0] < cost[N - 1, 1] ? 0 : 1;
             for (int i = N - 1; i > 0; i--)
                 axisChoice[i - 1] = parent[i, axisChoice[i]];
 
-            // 4) Reconstruct with centering
-            var Q = new List<Vector2> { P[0] };
+            // 4) Reconstruct with corrected intersections
+            var Q = new List<Vector2>(N) { P[0] };
             for (int i = 1; i < N; i++)
             {
                 var prev = Q[i - 1];
                 var curr = P[i];
+
                 if (axisChoice[i] == 0)
                 {
-                    // horizontal: y = midpoint of original Ys
-                    float midY = (prev.Y + curr.Y) * 0.5f;
-                    Q.Add(new Vector2(curr.X, midY));
+                    // horizontal: y = prev.Y, x = curr.X
+                    Q.Add(new Vector2(curr.X, prev.Y));
                 }
                 else
                 {
-                    // vertical: x = midpoint of original Xs
-                    float midX = (prev.X + curr.X) * 0.5f;
-                    Q.Add(new Vector2(midX, curr.Y));
+                    // vertical: x = prev.X, y = curr.Y
+                    Q.Add(new Vector2(prev.X, curr.Y));
                 }
             }
 
+            if (Q.Count != N)
+                throw new InvalidOperationException($"Expected {N} points, got {Q.Count}");
+
             // 5) Rotate back to world
             var result = new List<Vector2>(N);
-            float ic =  c, is_ = -s;
+            float ic = c, is_ = -s;
             foreach (var q in Q)
-            {
-                result.Add(new Vector2(
-                    ic * q.X - is_ * q.Y,
-                    is_ * q.X + ic * q.Y
-                ) + origin);
-            }
+                result.Add(new Vector2(ic * q.X - is_ * q.Y,
+                    is_ * q.X + ic * q.Y) + origin);
 
             return result;
         }
-        
-        // Compute interior angles at each point in the polyline
+
         static double[] ComputeAngles(List<Vector2> pts)
         {
             int N = pts.Count;
@@ -198,7 +190,6 @@ namespace RectilinearCenteredTurns
             {
                 if (i == 0 || i == N - 1)
                 {
-                    // no angle at endpoints in an open polyline
                     angles[i] = double.NaN;
                     continue;
                 }
@@ -206,12 +197,10 @@ namespace RectilinearCenteredTurns
                 Vector2 v1 = Vector2.Normalize(pts[i - 1] - pts[i]);
                 Vector2 v2 = Vector2.Normalize(pts[i + 1] - pts[i]);
                 double dot = Math.Clamp(Vector2.Dot(v1, v2), -1.0f, 1.0f);
-                // interior angle in radians, convert to degrees
                 angles[i] = Math.Acos(dot) * (180.0 / Math.PI);
             }
 
             return angles;
         }
-        
     }
 }

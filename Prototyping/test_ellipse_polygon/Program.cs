@@ -66,7 +66,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
             double radius = convex_radius;
             if (corner_types[i] == (int)types.concave)
             {
-                radius = convex_radius;
+                radius = concave_radius;
             }
 
             PathD current_corner = processCorner(startLine, endLine, radius);
@@ -87,26 +87,37 @@ class QuadraticBezierSamplingSwitcher_Polygon
     
     private enum types {concave, convex, shortedge}
     
-    static int[] categorizeCorners(PathD path)
+    static int[] categorizeCorners(PathD path_)
     {
+        // Need to do some prep work here.
+        // Prepare status list
+        int[] status = new int[path_.Count];
+        
+        // Remove our last point in case the polygon is explicitly closed - this avoids some trouble.
+        PathD path = new(path_);
+        bool trimmed_path = false;
+        if (path[0].x == path[^1].x && path[0].y == path[^1].y)
+        {
+            trimmed_path = true;
+            path.RemoveAt(path.Count-1);
+        }
+        
         // Determine polygon orientation: positive = CCW, negative = CW
         double area2 = 0;
         for (int i = 0; i < path.Count; i++)
         {
-            var p1 = path[i];
-            var p2 = path[(i + 1) % path.Count];
+            PointD p1 = path[i];
+            PointD p2 = path[(i + 1) % path.Count];
             area2 += p1.x * p2.y - p2.x * p1.y;
         }
         bool isCCW = area2 > 0;
 
-        // Prepare status list
-        var status = new int[path.Count];
 
-        for (int i = 0; i < path.Count - 1; i++)
+        for (int i = 0; i < path.Count; i++)
         {
-            var prev = path[(i - 1 + path.Count) % path.Count];
-            var curr = path[i];
-            var next = path[(i + 1) % path.Count];
+            PointD prev = path[(i - 1 + path.Count) % path.Count];
+            PointD curr = path[i];
+            PointD next = path[(i + 1) % path.Count];
 
             // Vectors: prev→curr and curr→next
             double vx1 = curr.x - prev.x;
@@ -119,11 +130,15 @@ class QuadraticBezierSamplingSwitcher_Polygon
 
             // For CCW polygon, positive crossZ = convex. For CW, negative = convex.
             bool isVertexConvex = isCCW ? (crossZ > 0) : (crossZ < 0);
+            
             status[i] = (int)(isVertexConvex ? types.convex : types.concave);
         }
-        
-        // Close path, first and last are the same
-        status[path.Count - 1] = status[0];
+
+        if (trimmed_path)
+        {
+            // Close path, first and last are the same
+            status[^1] = status[0];
+        }
 
         return status;
     }
@@ -132,35 +147,35 @@ class QuadraticBezierSamplingSwitcher_Polygon
     {
 
         // 1. Define base lines (scaled)
-        var startLineStart = startLine[0];
-        var startLineEnd   = startLine[1];
-        var endLineStart   = endLine[0];
-        var endLineEnd     = endLine[1];
+        PointD startLineStart = startLine[0];
+        PointD startLineEnd   = startLine[1];
+        PointD endLineStart   = endLine[0];
+        PointD endLineEnd     = endLine[1];
 
         // 2. Compute curve start/end
-        var startLength = Minus(startLineEnd, startLineStart);
-        var startDir = Normalized(startLength);
-        var endLength = Minus(endLineEnd, endLineStart);
-        var endDir   = Normalized(endLength);
+        PointD startLength = Minus(startLineEnd, startLineStart);
+        PointD startDir = Normalized(startLength);
+        PointD endLength = Minus(endLineEnd, endLineStart);
+        PointD endDir   = Normalized(endLength);
 
         // Set the radius for the curve each side.
         // Is the radius larger than our midpoint?
 
         double start_radius = radius;
-        double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y) * 0.5);
+        double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
         if (start_radius > half_edge_length)
         {
             start_radius = half_edge_length;
         }
-        var curveStartPoint = Add(startLineStart, Mult(startDir, start_radius));
+        PointD curveStartPoint = Add(startLineStart, Mult(startDir, start_radius));
 
         double end_radius = radius;
-        half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y) * 0.5);
+        half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
         if (end_radius > half_edge_length)
         {
             end_radius = half_edge_length;
         }
-        var curveEndPoint   = Add(endLineStart, Mult(endDir, end_radius));
+        PointD curveEndPoint   = Add(endLineStart, Mult(endDir, end_radius));
 
         // 3. Compute unique control point
         double dx = curveEndPoint.x - curveStartPoint.x;
@@ -170,7 +185,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
             throw new Exception("Tangent lines are parallel; no unique control point.");
 
         double tParam = (dx * endDir.y - dy * endDir.x) / det;
-        var controlPoint = Add(curveStartPoint, Mult(startDir, tParam));
+        PointD controlPoint = Add(curveStartPoint, Mult(startDir, tParam));
 
         // 4. Choose sampling mode
         SamplingMode mode = SamplingMode.ByMaxSegmentLength;
@@ -212,7 +227,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
     static PathD SampleByMaxSegmentLength(
         PointD P0, PointD P1, PointD P2, double maxSegLen)
     {
-        var pts = new PathD();
+        PathD pts = new PathD();
         pts.Add(P0);
         SubdivideByLength(P0, P1, P2, maxSegLen, pts);
         pts.Add(P2);
@@ -250,7 +265,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
     static PathD SampleByMaxAngle(
         PointD P0, PointD P1, PointD P2, double maxAngle)
     {
-        var pts = new PathD();
+        PathD pts = new PathD();
         pts.Add(P0);
         SubdivideByAngle(P0, P1, P2, maxAngle, pts);
         pts.Add(P2);
@@ -260,8 +275,8 @@ class QuadraticBezierSamplingSwitcher_Polygon
     static void SubdivideByAngle(
         PointD p0, PointD p1, PointD p2, double maxAngle, PathD outPts)
     {
-        var tan0 = Normalized((Minus(p1,p0)));
-        var tan1 = Normalized((Minus(p2, p1)));
+        PointD tan0 = Normalized((Minus(p1,p0)));
+        PointD tan1 = Normalized((Minus(p2, p1)));
         double dot = Math.Max(-1.0, Math.Min(1.0, tan0.x * tan1.x + tan0.y * tan1.y));
         double angle = Math.Acos(dot);
         if (angle <= maxAngle)
@@ -282,9 +297,9 @@ class QuadraticBezierSamplingSwitcher_Polygon
     // --- CSV & SVG Utilities ---
     static void WriteCsv(string path, PathD pts)
     {
-        var sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.AppendLine("X,Y");
-        foreach (var p in pts)
+        foreach (PointD p in pts)
             sb.AppendLine(
               $"{p.x.ToString(CultureInfo.InvariantCulture)}," +
               $"{p.y.ToString(CultureInfo.InvariantCulture)}");
@@ -301,7 +316,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
         minX -= mX; maxX += mX; minY -= mY; maxY += mY;
 
         string viewBox = $"{minX} {(-maxY)} {maxX-minX} {maxY-minY}";
-        var sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.AppendLine(
             $"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{viewBox}\">");
 
@@ -325,11 +340,11 @@ class QuadraticBezierSamplingSwitcher_Polygon
         sb.AppendLine(DrawLine(pts[2], pts[3], "#888", 1.5));
 
         sb.Append("  <polyline fill=\"none\" stroke=\"blue\" stroke-width=\"2\" points=\"");
-        foreach (var p in curvePts)
+        foreach (PointD p in curvePts)
             sb.Append($"{p.x},{-p.y} ");
         sb.AppendLine("\"/>");
 
-        var labels = new[] {
+        string[] labels = new[] {
             "startLineStart","startLineEnd",
             "endLineStart","endLineEnd",
             "curveStartPoint","curveEndPoint","controlPoint"

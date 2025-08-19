@@ -27,6 +27,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
         
         double concave_radius = 20.0;
         double convex_radius = 50.0;
+        double edge_resolution = 0.01;
 
         PathsD processed = new PathsD();
         // Need to now walk the corners.
@@ -40,19 +41,25 @@ class QuadraticBezierSamplingSwitcher_Polygon
             PathD endLine = new();
             endLine.Add(original_path[i]);
 
-            int look_back = 1;
+            // First and last points are the same, so need to modify in case of first and last point.
+            PointD midPoint;
             if (i == 0)
             {
-                look_back = 2;
+                midPoint = new ((original_path[i].x + original_path[^2].x) * 0.5, (original_path[i].y + original_path[^2].y) * 0.5);
             }
-            PointD midPoint = new ((original_path[i].x + original_path[i-look_back].x) * 0.5, (original_path[i].y + original_path[i-look_back].y) * 0.5);
+            else
+            {
+                midPoint = new ((original_path[i].x + original_path[i-1].x) * 0.5, (original_path[i].y + original_path[i-1].y) * 0.5);
+            }
             startLine.Add(midPoint);
-            int look_forward = 1;
             if (i == original_path.Count - 1)
             {
-                look_forward = 2;
+                midPoint = new ((original_path[i].x + original_path[2].x) * 0.5, (original_path[i].y + original_path[2].y) * 0.5);
             }
-            midPoint = new ((original_path[i].x + original_path[i+look_forward].x) * 0.5, (original_path[i].y + original_path[i+look_forward].y) * 0.5);
+            else
+            {
+                midPoint = new ((original_path[i].x + original_path[i+1].x) * 0.5, (original_path[i].y + original_path[i+1].y) * 0.5);
+            }
             endLine.Add(midPoint);
             
             // What's the nature of our corner?
@@ -67,7 +74,15 @@ class QuadraticBezierSamplingSwitcher_Polygon
         }
         
         // Processed now contains a list of corners that can be assembled.
-
+        // Hopefully.
+        PathD assembled = new();
+        for (int i = 0; i < processed.Count; i++)
+        {
+            assembled.AddRange(processed[i]);
+        }
+        
+        string svg = BuildDetailedSvg(original_path, assembled);
+        File.WriteAllText("assembled.svg", svg, Encoding.UTF8);
     }
     
     private enum types {concave, convex, shortedge}

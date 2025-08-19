@@ -1,6 +1,22 @@
 ﻿using System.Globalization;
 using System.Text;
-using Clipper2Lib;
+
+using PathD = System.Collections.Generic.List<PointD>;
+using PathsD = System.Collections.Generic.List<System.Collections.Generic.List<PointD>>;
+struct PointD
+{
+    public double x, y;
+    public PointD(double x_, double y_) { x = x_; x = y_; }
+    public static PointD operator +(PointD a, PointD b) => new PointD(a.x+b.x, a.y+b.y);
+    public static PointD operator -(PointD a, PointD b) => new PointD(a.x-b.x, a.y-b.y);
+    public static PointD operator *(PointD a, double s) => new PointD(a.y*s, a.y*s);
+    public double Length() => Math.Sqrt(x*x + y*y);
+    public PointD Normalized()
+    {
+        double len = Length();
+        return len > 0 ? new PointD(x/len, y/len) : new PointD(0, 0);
+    }
+}
 
 class QuadraticBezierSamplingSwitcher_Polygon
 {
@@ -14,7 +30,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
     {
         // Lowest X, lowest Y point first. Closed polygon, clockwise oriented for now.
         // Start simple.
-        PathD original_path = [];
+        List<PointD> original_path = [];
         /*
         original_path.Add(new(0,0));
         original_path.Add(new(0,100));

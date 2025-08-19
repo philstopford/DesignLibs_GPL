@@ -2,7 +2,6 @@
 using System.Text;
 using Clipper2Lib;
 
-
 class QuadraticBezierSamplingSwitcher_Polygon
 {
     enum SamplingMode
@@ -16,6 +15,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
         // Lowest X, lowest Y point first. Closed polygon, clockwise oriented for now.
         // Start simple.
         PathD original_path = [];
+        /*
         original_path.Add(new(0,0));
         original_path.Add(new(0,100));
         original_path.Add(new(100,100));
@@ -26,6 +26,19 @@ class QuadraticBezierSamplingSwitcher_Polygon
         original_path.Add(new(50,40));
         original_path.Add(new(15,20));
         original_path.Add(new(5,0));
+        original_path.Add(new(0,0));
+        */
+        
+        original_path.Add(new(0,0));
+        original_path.Add(new(0,100));
+        original_path.Add(new(20,100));
+        original_path.Add(new(20,80));
+        original_path.Add(new(40,80));
+        original_path.Add(new(40,60));
+        original_path.Add(new(60,60));
+        original_path.Add(new(60,40));
+        original_path.Add(new(80,40));
+        original_path.Add(new(80,0));
         original_path.Add(new(0,0));
 
         // Get our corner types

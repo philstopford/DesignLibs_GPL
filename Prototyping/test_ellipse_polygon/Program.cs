@@ -21,11 +21,11 @@ class QuadraticBezierSamplingSwitcher_Polygon
         original_path.Add(new(100,100));
         original_path.Add(new(90,50));
         original_path.Add(new(100,0));
-        original_path.Add(new(75,0));
+        original_path.Add(new(65,0));
         original_path.Add(new(75,50));
         original_path.Add(new(50,40));
-        original_path.Add(new(25,50));
-        original_path.Add(new(25,0));
+        original_path.Add(new(15,20));
+        original_path.Add(new(5,0));
         original_path.Add(new(0,0));
 
         // Get our corner types

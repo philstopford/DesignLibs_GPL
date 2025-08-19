@@ -28,6 +28,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
         double concave_radius = 20.0;
         double convex_radius = 50.0;
         double edge_resolution = 0.01;
+        double angular_resolution = 1;
 
         PathsD processed = new PathsD();
         // Need to now walk the corners.
@@ -69,7 +70,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
                 radius = concave_radius;
             }
 
-            PathD current_corner = processCorner(startLine, endLine, radius);
+            PathD current_corner = processCorner(startLine, endLine, radius, angular_resolution, edge_resolution, SamplingMode.ByMaxSegmentLength);
             processed.Add(current_corner);
         }
         
@@ -143,7 +144,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
         return status;
     }
     
-    static PathD processCorner(PathD startLine, PathD endLine, double radius)
+    static PathD processCorner(PathD startLine, PathD endLine, double radius, double angular_resolution, double edge_resolution, SamplingMode mode = SamplingMode.ByMaxAngle)
     {
 
         // 1. Define base lines (scaled)
@@ -188,18 +189,15 @@ class QuadraticBezierSamplingSwitcher_Polygon
         PointD controlPoint = Add(curveStartPoint, Mult(startDir, tParam));
 
         // 4. Choose sampling mode
-        SamplingMode mode = SamplingMode.ByMaxSegmentLength;
         PathD samples;
         switch (mode)
         {
             case SamplingMode.ByMaxSegmentLength:
-                double maxSegLen = 0.05;
-                samples = SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, maxSegLen);
+                samples = SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, edge_resolution);
                 break;
 
             case SamplingMode.ByMaxAngle:
-                double maxAngleDeg = 5.0;
-                double maxAngleRad = maxAngleDeg * Math.PI / 180.0;
+                double maxAngleRad = angular_resolution * Math.PI / 180.0;
                 samples = SampleByMaxAngle(curveStartPoint, controlPoint, curveEndPoint, maxAngleRad);
                 break;
 
@@ -208,19 +206,6 @@ class QuadraticBezierSamplingSwitcher_Polygon
         }
 
         return samples;
-
-        // 5. Export CSV & SVG
-        WriteCsv("quad_curve_samples.csv", samples);
-        Console.WriteLine($"<b>CSV saved ({samples.Count} pts)</b>");
-
-        var keyPoints = new[] {
-            startLineStart, startLineEnd,
-            endLineStart,   endLineEnd,
-            curveStartPoint, curveEndPoint, controlPoint
-        };
-        string svg = BuildDetailedSvg(keyPoints, samples);
-        File.WriteAllText("quad_curve_samples.svg", svg, Encoding.UTF8);
-        Console.WriteLine("<b>SVG saved</b>");
     }
 
     // --- Sampling by max segment length ---
@@ -376,20 +361,4 @@ class QuadraticBezierSamplingSwitcher_Polygon
     static string DrawText(string txt, PointD p, int dx, int dy) =>
         $"  <text x=\"{p.x+dx}\" y=\"{-p.y+dy}\" font-size=\"10\" fill=\"#000\">{txt}</text>";
 
-    /*
-    struct Point_
-    {
-        public double X, Y;
-        public Point(double x, double y) { X = x; Y = y; }
-        public static Point operator +(Point a, Point b) => new Point(a.X+b.X, a.Y+b.Y);
-        public static Point operator -(Point a, Point b) => new Point(a.X-b.X, a.Y-b.Y);
-        public static Point operator *(Point a, double s) => new Point(a.X*s, a.Y*s);
-        public double Length() => Math.Sqrt(X*X + Y*Y);
-        public Point Normalized()
-        {
-            double len = Length();
-            return len > 0 ? new Point(X/len, Y/len) : new Point(0, 0);
-        }
-    }
-    */
 }

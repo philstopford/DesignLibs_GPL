@@ -17,9 +17,13 @@ class QuadraticBezierSamplingSwitcher_Polygon
         // Start simple.
         PathD original_path = [];
         original_path.Add(new(0,0));
-        original_path.Add(new(0,50));
-        original_path.Add(new(50,50));
-        original_path.Add(new(50,0));
+        original_path.Add(new(0,100));
+        original_path.Add(new(100,100));
+        original_path.Add(new(100,0));
+        original_path.Add(new(75,0));
+        original_path.Add(new(75,50));
+        original_path.Add(new(25,50));
+        original_path.Add(new(25,0));
         original_path.Add(new(0,0));
 
         // Get our corner types
@@ -329,6 +333,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
             sb.Append($"{p.x},{-p.y} ");
         sb.AppendLine("\"/>");
 
+        /*
         string[] labels = new[] {
             "startLineStart","startLineEnd",
             "endLineStart","endLineEnd",
@@ -339,6 +344,7 @@ class QuadraticBezierSamplingSwitcher_Polygon
             sb.AppendLine(DrawCircle(pts[i], 4, "red"));
             sb.AppendLine(DrawText(labels[i], pts[i], 6, -6));
         }
+        */
 
         sb.AppendLine("</svg>");
         return sb.ToString();

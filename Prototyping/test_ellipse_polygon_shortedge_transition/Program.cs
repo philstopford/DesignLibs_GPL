@@ -1,27 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text;
 
 using PathD = System.Collections.Generic.List<PointD>;
 using PathsD = System.Collections.Generic.List<System.Collections.Generic.List<PointD>>;
-
-struct PointD
-{
-    public double x, y;
-    public PointD(double x_, double y_) { x = x_; y = y_; }
-    public static PointD operator +(PointD a, PointD b) => new PointD(a.x + b.x, a.y + b.y);
-    public static PointD operator -(PointD a, PointD b) => new PointD(a.x - b.x, a.y - b.y);
-    public static PointD operator *(PointD a, double s) => new PointD(a.x * s, a.y * s);
-    public double Length() => Math.Sqrt(x * x + y * y);
-    public PointD Normalized()
-    {
-        double len = Length();
-        return len > 0 ? new PointD(x / len, y / len) : new PointD(0, 0);
-    }
-}
 
 static class QuadraticBezierSamplingSwitcher_Polygon
 {
@@ -91,7 +72,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         }
 
         // Assemble, replacing runs of short-edge corners with diagonals
-        PathD assembled = AssembleWithDiagonals(processed, corner_types);
+        PathD assembled = AssembleWithDiagonals(processed, corner_types, short_edge_length, max_short_edge_length);
 
         // Write SVG for inspection
         string svg = BuildDetailedSvg(original_path, assembled);
@@ -254,8 +235,9 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         SubdivideByAngle(p0, p01, p012, maxAngle, outPts);
         SubdivideByAngle(p012, p12, p2, maxAngle, outPts);
     }
-    
-    static PathD AssembleWithDiagonals(PathsD processedCorners, int[] corner_types)
+
+    static PathD AssembleWithDiagonals(PathsD processedCorners, int[] corner_types, double short_edge_length,
+        double max_short_edge_length)
     {
         int n = processedCorners.Count;
         PathD outPts = new PathD();
@@ -270,7 +252,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         {
             if (!isShort[i])
             {
-                // append corner polyline, avoiding duplicating a point
+                // Append corner polyline, avoiding duplicating a point
                 PathD poly = processedCorners[i];
                 if (poly.Count > 0)
                 {
@@ -286,6 +268,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                             outPts.AddRange(poly);
                     }
                 }
+
                 i++;
                 continue;
             }
@@ -306,6 +289,13 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             PointD startPt = processedCorners[prevIdx].Last();
             PointD endPt = processedCorners[nextIdx].First();
 
+            // Calculate the length of the short edge
+            double shortEdgeLength = Length(Minus(endPt, startPt));
+
+            // Determine the blending factor
+            double blendFactor =
+                Math.Clamp((shortEdgeLength - short_edge_length) / (max_short_edge_length - short_edge_length), 0, 1);
+
             // Ensure startPt is present as last point to connect diagonal from
             if (outPts.Count == 0)
             {
@@ -318,10 +308,21 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                     outPts.Add(startPt);
             }
 
-            // Add diagonal by appending endPt (polyline will connect them as straight segment)
-            outPts.Add(endPt);
-
-            // Loop continues; nextIdx may be handled in subsequent iteration if not short
+            // Interpolate between diagonal and Bezier curve
+            if (blendFactor < 1e-9)
+            {
+                // Use diagonal
+                outPts.Add(endPt);
+            }
+            else
+            {
+                // Use Bezier curve
+                PointD controlPoint =
+                    new PointD((startPt.x + endPt.x) / 2, (startPt.y + endPt.y) / 2); // Simple midpoint control point
+                PathD bezierCurve =
+                    SampleByMaxSegmentLength(startPt, controlPoint, endPt, 0.5); // Adjust resolution as needed
+                outPts.AddRange(bezierCurve);
+            }
         }
 
         return outPts;
@@ -408,4 +409,18 @@ static class QuadraticBezierSamplingSwitcher_Polygon
 
     static string DrawText(string txt, PointD p, int dx, int dy) =>
         $"  <text x=\"{p.x + dx}\" y=\"{-p.y + dy}\" font-size=\"10\" fill=\"#000\">{txt}</text>";
+}
+struct PointD
+{
+    public double x, y;
+    public PointD(double x_, double y_) { x = x_; y = y_; }
+    public static PointD operator +(PointD a, PointD b) => new PointD(a.x + b.x, a.y + b.y);
+    public static PointD operator -(PointD a, PointD b) => new PointD(a.x - b.x, a.y - b.y);
+    public static PointD operator *(PointD a, double s) => new PointD(a.x * s, a.y * s);
+    public double Length() => Math.Sqrt(x * x + y * y);
+    public PointD Normalized()
+    {
+        double len = Length();
+        return len > 0 ? new PointD(x / len, y / len) : new PointD(0, 0);
+    }
 }

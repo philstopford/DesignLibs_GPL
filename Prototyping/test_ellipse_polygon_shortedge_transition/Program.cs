@@ -32,7 +32,7 @@ static void Main()
 
     double concave_radius = 20.0;
     double convex_radius = 50.0;
-    double edge_resolution = 0.5; // smaller -> more points on curves
+    double edge_resolution = 0.05; // smaller -> more points on curves
     double angular_resolution = 1.0;
     double short_edge_length = 20.0;
     double max_short_edge_length = 30.0;
@@ -86,12 +86,12 @@ static void Main()
     double insetFraction = 0.12; // fraction of diagonal length to inset at each end (0..0.5)
     double minInset = 2.0; // minimum inset in world units
     double maxInset = 40.0; // maximum inset
-    int diagStraightSample = 5; // samples for straight center section (0 = just endpoints)
+    int diagStraightSample = 10; // samples for straight center section (0 = just endpoints)
 
     // Assemble, replacing runs of short-edge corners with diagonals
     PathD assembled = AssembleWithDiagonals(processed, corner_types, cornerMidpoints, cornerVertices,
         short_edge_length, max_short_edge_length, smoothMode, easingMode, insetFraction, minInset, maxInset,
-        diagStraightSample);
+        diagStraightSample, edge_resolution);
 
     // Write SVG for inspection
     string svg = BuildDetailedSvg(original_path, assembled);
@@ -230,7 +230,7 @@ static PathD AssembleWithDiagonals(
     double insetFraction,
     double minInset,
     double maxInset,
-    int diagStraightSample)
+    int diagStraightSample, double edgeResolution)
 {
     int n = processedCorners.Count;
     if (cornerMidpoints == null || cornerMidpoints.Count != n)
@@ -389,41 +389,86 @@ static PathD AssembleWithDiagonals(
         PointD prevTangent = EstimateOutgoingTangent(processedCorners[prevIdx]);
         PointD nextTangent = EstimateIncomingTangent(processedCorners[nextIdx]);
 
-        if (Length(prevTangent) < 1e-12) prevTangent = fullDiagDir;
-        if (Length(nextTangent) < 1e-12) nextTangent = fullDiagDir;
+// ensure non-zero tangents (unit directions returned by your estimators)
+if (Length(prevTangent) < 1e-12) prevTangent = fullDiagDir;
+if (Length(nextTangent) < 1e-12) nextTangent = fullDiagDir;
 
-        PathD startSeg = null;
-        PathD endSeg = null;
+// unit directions
+PointD prevDirUnit = Normalized(prevTangent);
+PointD nextDirUnit = Normalized(nextTangent);
 
-        switch (easingStrategy)
-        {
-            case EasingStrategy.CubicBezierHermite:
-                startSeg = BuildC1Cubic(processedStartPt, S, prevTangent, fullDiagDir, inset);
-                endSeg = BuildC1Cubic(E, processedEndPt, Neg(fullDiagDir), nextTangent, inset);
-                break;
+// eased blends (0..1)
+double tPrevBlend = ApplySmooth(smoothMode, blendPrev);
+double tNextBlend = ApplySmooth(smoothMode, blendNext);
 
-            case EasingStrategy.QuinticHermite:
-                startSeg = BuildQuinticC2(processedStartPt, S, prevTangent, fullDiagDir, inset);
-                endSeg = BuildQuinticC2(E, processedEndPt, Neg(fullDiagDir), nextTangent, inset);
-                break;
+// blended directions toward diagonal (unit)
+PointD blendedPrevDir = Normalized(Add(Mul(prevDirUnit, 1 - tPrevBlend), Mul(fullDiagDir, tPrevBlend)));
+PointD blendedNextDir = Normalized(Add(Mul(nextDirUnit, 1 - tNextBlend), Mul(fullDiagDir, tNextBlend)));
 
-            case EasingStrategy.SmoothBlend:
-                startSeg = BuildSmoothBlendC1(processedStartPt, S, prevTangent, fullDiagDir, inset);
-                endSeg = BuildSmoothBlendC1(E, processedEndPt, Neg(fullDiagDir), nextTangent, inset);
-                break;
+// geometric Hermite segment lengths (parameter t in [0..1] spans the segment)
+double Lstart = Math.Max(1e-9, Length(Minus(S, processedStartPt)));
+double Lend = Math.Max(1e-9, Length(Minus(processedEndPt, E)));
 
-            case EasingStrategy.CircularArc:
-                startSeg = BuildCircularArcOrNull(processedStartPt, S, prevTangent, fullDiagDir, inset);
-                if (startSeg == null) startSeg = BuildC1Cubic(processedStartPt, S, prevTangent, fullDiagDir, inset);
-                endSeg = BuildCircularArcOrNull(E, processedEndPt, Neg(fullDiagDir), nextTangent, inset);
-                if (endSeg == null) endSeg = BuildC1Cubic(E, processedEndPt, Neg(fullDiagDir), nextTangent, inset);
-                break;
+// internal Hermite derivatives from blended unit directions
+// (these represent dP/dt over t in [0..1] for the start/end segments)
+PointD H_blended_start = Mul(blendedPrevDir, Lstart);
+PointD H_blended_end = Mul(blendedNextDir, Lend);
 
-            default:
-                startSeg = BuildC1Cubic(processedStartPt, S, prevTangent, fullDiagDir, inset);
-                endSeg = BuildC1Cubic(E, processedEndPt, Neg(fullDiagDir), nextTangent, inset);
-                break;
-        }
+// exact diagonal Hermite derivatives at inset points (what the center straight line uses)
+PointD H_diag_at_S = Mul(fullDiagDir, Lstart);    // derivative of center line at S (hermite units)
+PointD H_diag_at_E = Mul(Neg(fullDiagDir), Lend); // derivative at E (opposite sign)
+
+// Interpolate Hermite derivatives so the endpoint derivative equals the diagonal derivative
+// Use tPrevBlend/tNextBlend as interpolation weights (already eased). When weight==1 we match diag exactly.
+PointD T0_for_start = H_blended_start; // derivative at processedStartPt (start segment start)
+PointD T1_for_start = Add(Mul(H_blended_start, 1 - tPrevBlend), Mul(H_diag_at_S, tPrevBlend)); // derivative at S
+
+PointD T0_for_end = Add(Mul(H_diag_at_E, tNextBlend), Mul(H_blended_end, 1 - tNextBlend)); // derivative at E (start of end segment)
+PointD T1_for_end = H_blended_end; // derivative at processedEndPt
+
+// Now handle each easing strategy, using the computed Hermite derivatives.
+// For strategies that expected tangents in a different form, we fall back to Hermite sampling.
+PathD startSeg = null;
+PathD endSeg = null;
+
+switch (easingStrategy)
+{
+    case EasingStrategy.CubicBezierHermite:
+        // Use our Hermite derivatives (T0_for_start..T1_for_start etc.)
+        startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
+        endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
+        break;
+
+    case EasingStrategy.QuinticHermite:
+        // Full quintic C2 requires matching second derivatives; fallback to cubic Hermite here.
+        // Option: implement quintic builder that accepts first+second derivative values.
+        startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
+        endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
+        break;
+
+    case EasingStrategy.SmoothBlend:
+        // SmoothBlend could implement a special transition; for now use the Hermite segments with blended derivatives.
+        startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
+        endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
+        break;
+
+    case EasingStrategy.CircularArc:
+        // Try circular arcs that respect the diagonal direction; if not possible, fall back to Hermite with derivative matching.
+        startSeg = BuildCircularArcOrNull(processedStartPt, S, T0_for_start, fullDiagDir, inset);
+        if (startSeg == null)
+            startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
+
+        endSeg = BuildCircularArcOrNull(E, processedEndPt, Neg(fullDiagDir), T1_for_end, inset);
+        if (endSeg == null)
+            endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
+        break;
+
+    default:
+        // default to Hermite cubic
+        startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
+        endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
+        break;
+}
 
         // Append start segment (or S) avoiding duplicate first point
         if (startSeg != null)
@@ -476,6 +521,66 @@ static PathD AssembleWithDiagonals(
     return outPts;
 }
 
+// Build a helper to convert Hermite->Bezier and sample
+static PathD BuildCubicHermiteSampled(PointD A, PointD B, PointD T0, PointD T1, double maxSegLen)
+{
+    HermiteToBezier(A, B, T0, T1, out PointD b0, out PointD b1, out PointD b2, out PointD b3);
+    return SampleBezierByMaxSegmentLength(b0, b1, b2, b3, maxSegLen);
+}
+
+// Build sampled cubic Hermite segments (HermiteToBezier expects derivatives dP/dt)
+static PathD BuildC1CubicSampledForHermite(PointD A, PointD B, PointD T0, PointD T1, double maxSegLen)
+{
+    HermiteToBezier(A, B, T0, T1, out PointD b0, out PointD b1, out PointD b2, out PointD b3);
+    return SampleBezierByMaxSegmentLength(b0, b1, b2, b3, maxSegLen);
+}
+
+// Helper: convert Hermite endpoints/tangents to cubic Bezier control points
+// Hermite with endpoints P0,P1 and tangents T0,T1 maps to Bezier with
+// B0=P0, B1 = P0 + T0/3, B2 = P1 - T1/3, B3=P1.
+static void HermiteToBezier(PointD P0, PointD P1, PointD T0, PointD T1,
+    out PointD B0, out PointD B1, out PointD B2, out PointD B3)
+{
+    B0 = P0;
+    B1 = Add(P0, Mul(T0, 1.0 / 3.0));
+    B2 = Minus(P1, Mul(T1, 1.0 / 3.0));
+    B3 = P1;
+}
+
+// Helper: build and sample cubic Hermite segment from A->B with tangents TA/TB and desired inset length (used for spacing)
+static PathD BuildC1CubicSampled(PointD A, PointD B, PointD TA, PointD TB, double maxSegLen)
+{
+    HermiteToBezier(A, B, TA, TB, out PointD b0, out PointD b1, out PointD b2, out PointD b3);
+    return SampleBezierByMaxSegmentLength(b0, b1, b2, b3, maxSegLen);
+}
+static PathD SampleBezierByMaxSegmentLength(PointD b0, PointD b1, PointD b2, PointD b3, double maxLen)
+{
+    PathD outp = new PathD();
+    outp.Add(b0);
+    // simple recursive subdivide based on chord vs control polygon length
+    void Recurse(PointD p0, PointD p1, PointD p2, PointD p3)
+    {
+        // estimate flatness via control polygon length minus chord
+        double chord = Length(Minus(p3, p0));
+        double contLen = Length(Minus(p1, p0)) + Length(Minus(p2, p1)) + Length(Minus(p3, p2));
+        if (contLen - chord <= maxLen || chord <= maxLen)
+        {
+            outp.Add(p3);
+            return;
+        }
+        // subdivide
+        PointD p01 = Mul(Add(p0, p1), 0.5);
+        PointD p12 = Mul(Add(p1, p2), 0.5);
+        PointD p23 = Mul(Add(p2, p3), 0.5);
+        PointD p012 = Mul(Add(p01, p12), 0.5);
+        PointD p123 = Mul(Add(p12, p23), 0.5);
+        PointD p0123 = Mul(Add(p012, p123), 0.5);
+        Recurse(p0, p01, p012, p0123);
+        Recurse(p0123, p123, p23, p3);
+    }
+    Recurse(b0, b1, b2, b3);
+    return outp;
+}
 static PathD SampleByMaxSegmentLength(PointD P0, PointD P1, PointD P2, double maxSegLen)
     {
         PathD pts = new PathD();

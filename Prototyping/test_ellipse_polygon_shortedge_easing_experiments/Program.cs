@@ -325,7 +325,6 @@ static class QuadraticBezierSamplingSwitcher_Polygon_Easing
         for (int i = 0; i < n; i++)
             isShort[i] = (i < corner_types.Length && corner_types[i] == (int)CornerType.shortedge);
 
-        // ---- Main loop (keeps your original structure) ----
         int idx = 0;
         while (idx < n)
         {

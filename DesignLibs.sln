@@ -90,6 +90,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_ellipse_polygon_shorte
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_ellipse_polygon_shortedge_easing_experiments", "Prototyping\test_ellipse_polygon_shortedge_easing_experiments\test_ellipse_polygon_shortedge_easing_experiments.csproj", "{53B7C164-B319-480E-8001-DAF336FDF17E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test_ellipse_polygon_shortedge_transition", "Prototyping\test_ellipse_polygon_shortedge_transition\test_ellipse_polygon_shortedge_transition.csproj", "{795BC698-1D3C-415A-B59E-8801FDFEAB44}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -538,6 +540,18 @@ Global
 		{53B7C164-B319-480E-8001-DAF336FDF17E}.Release|x64.Build.0 = Release|Any CPU
 		{53B7C164-B319-480E-8001-DAF336FDF17E}.Release|x86.ActiveCfg = Release|Any CPU
 		{53B7C164-B319-480E-8001-DAF336FDF17E}.Release|x86.Build.0 = Release|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Debug|x64.Build.0 = Debug|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Debug|x86.Build.0 = Debug|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Release|x64.ActiveCfg = Release|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Release|x64.Build.0 = Release|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Release|x86.ActiveCfg = Release|Any CPU
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -585,6 +599,7 @@ Global
 		{8F40556B-FB89-4A55-8A58-4EB1291C0FC6} = {2B36E7D9-A515-49A4-89C7-15862264F516}
 		{90295F25-EF13-4496-A98B-8B7F032B1B89} = {2B36E7D9-A515-49A4-89C7-15862264F516}
 		{53B7C164-B319-480E-8001-DAF336FDF17E} = {2B36E7D9-A515-49A4-89C7-15862264F516}
+		{795BC698-1D3C-415A-B59E-8801FDFEAB44} = {2B36E7D9-A515-49A4-89C7-15862264F516}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B449416C-C504-4FA8-9E10-10857263A64A}

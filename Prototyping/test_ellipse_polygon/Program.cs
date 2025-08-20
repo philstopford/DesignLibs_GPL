@@ -6,11 +6,11 @@ using PathsD = System.Collections.Generic.List<System.Collections.Generic.List<P
 struct PointD
 {
     public double x, y;
-    public PointD(double x_, double y_) { x = x_; x = y_; }
+    public PointD(double x_, double y_) { x = x_; y = y_; }
     public static PointD operator +(PointD a, PointD b) => new PointD(a.x+b.x, a.y+b.y);
     public static PointD operator -(PointD a, PointD b) => new PointD(a.x-b.x, a.y-b.y);
     public static PointD operator *(PointD a, double s) => new PointD(a.y*s, a.y*s);
-    public double Length() => Math.Sqrt(x*x + y*y);
+    public double Length() => Math.Sqrt(x*x + y*y); 
     public PointD Normalized()
     {
         double len = Length();

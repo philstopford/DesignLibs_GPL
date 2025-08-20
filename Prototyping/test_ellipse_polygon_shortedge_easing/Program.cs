@@ -64,12 +64,15 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
         // --- Processing ---
         int[] corner_types = categorizeCorners(original_path, short_edge_length);
 
+        // Need to now walk the corners.
+        // Closed path expected.
         PathsD processed = new PathsD();
         for (int i = 0; i < original_path.Count - 1; i++)
         {
             PathD startLine = new PathD { original_path[i] };
             PathD endLine = new PathD { original_path[i] };
 
+            // First and last points are the same, so need to modify in case of first and last point.
             PointD midPrev = (i == 0) ? new PointD((original_path[i].x + original_path[^2].x) * 0.5, (original_path[i].y + original_path[^2].y) * 0.5)
                                       : new PointD((original_path[i].x + original_path[i - 1].x) * 0.5, (original_path[i].y + original_path[i - 1].y) * 0.5);
             startLine.Add(midPrev);
@@ -78,12 +81,16 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
                                                             : new PointD((original_path[i].x + original_path[i + 1].x) * 0.5, (original_path[i].y + original_path[i + 1].y) * 0.5);
             endLine.Add(midNext);
 
+            // What's the nature of our corner?
             double radius = convex_radius;
             if (corner_types[i] == (int)CornerType.concave) radius = concave_radius;
 
             processed.Add(processCorner(startLine, endLine, radius, angular_resolution, edge_resolution));
         }
 
+        // Processed now contains a list of corners that can be assembled.
+        // Hopefully.
+        // Easing here softens the transition between the bezier corner and any short-edge derived diagonals.
         PathD assembled = AssembleWithEasing(processed, corner_types, easingMode, insetFraction, minInset, maxInset, diagStraightSample);
 
         string svg = BuildDetailedSvg(original_path, assembled);
@@ -94,15 +101,21 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
     // --- categorizeCorners (unchanged logic) ---
     static int[] categorizeCorners(PathD path_, double short_edge_length)
     {
+        // Need to do some prep work here.
+        // Prepare status list
         int[] status = new int[path_.Count];
+
+        // Remove our last point in case the polygon is explicitly closed - this avoids some trouble.
         PathD path = new PathD(path_);
         bool trimmed = false;
+        // Remove our last point in case the polygon is explicitly closed - this avoids some trouble.
         if (path.Count > 1 && path[0].x == path[^1].x && path[0].y == path[^1].y)
         {
             trimmed = true;
             path.RemoveAt(path.Count - 1);
         }
 
+        // Determine polygon orientation: positive = CCW, negative = CW
         double area2 = 0;
         for (int i = 0; i < path.Count; i++)
         {
@@ -118,6 +131,7 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
             PointD curr = path[i];
             PointD next = path[(i + 1) % path.Count];
 
+            // Vectors: prev→curr and curr→next
             double vx1 = curr.x - prev.x;
             double vy1 = curr.y - prev.y;
             double vx2 = next.x - curr.x;
@@ -132,13 +146,17 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
                 continue;
             }
 
+            // Z component of 3D cross product
             double crossZ = vx1 * vy2 - vy1 * vx2;
+
+            // For CCW polygon, positive crossZ = convex. For CW, negative = convex.
             bool isVertexConvex = isCCW ? (crossZ > 0) : (crossZ < 0);
             status[i] = (int)(isVertexConvex ? CornerType.convex : CornerType.concave);
         }
 
         if (trimmed)
         {
+            // Close path, first and last are the same
             Array.Resize(ref status, status.Length + 1);
             status[^1] = status[0];
         }
@@ -149,40 +167,66 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
     // --- corner processing / sampling (unchanged) ---
     static PathD processCorner(PathD startLine, PathD endLine, double radius, double angular_resolution, double edge_resolution, SamplingMode mode = SamplingMode.ByMaxSegmentLength)
     {
+        // 1. Define base lines (scaled)
         PointD startLineStart = startLine[0];
-        PointD startLineEnd = startLine[1];
-        PointD endLineStart = endLine[0];
-        PointD endLineEnd = endLine[1];
+        PointD startLineEnd   = startLine[1];
+        PointD endLineStart   = endLine[0];
+        PointD endLineEnd     = endLine[1];
 
+        // 2. Compute curve start/end
         PointD startLength = Minus(startLineEnd, startLineStart);
         PointD startDir = Normalized(startLength);
         PointD endLength = Minus(endLineEnd, endLineStart);
-        PointD endDir = Normalized(endLength);
+        PointD endDir   = Normalized(endLength);
+
+        // Set the radius for the curve each side.
+        // Is the radius larger than our midpoint?
 
         double start_radius = radius;
         double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
-        if (start_radius > half_edge_length) start_radius = half_edge_length;
+        if (start_radius > half_edge_length)
+        {
+            start_radius = half_edge_length;
+        }
         PointD curveStartPoint = Add(startLineStart, Mult(startDir, start_radius));
 
         double end_radius = radius;
         half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
-        if (end_radius > half_edge_length) end_radius = half_edge_length;
-        PointD curveEndPoint = Add(endLineStart, Mult(endDir, end_radius));
+        if (end_radius > half_edge_length)
+        {
+            end_radius = half_edge_length;
+        }
+        PointD curveEndPoint   = Add(endLineStart, Mult(endDir, end_radius));
 
+        // 3. Compute unique control point
         double dx = curveEndPoint.x - curveStartPoint.x;
         double dy = curveEndPoint.y - curveStartPoint.y;
         double det = startDir.x * endDir.y - startDir.y * endDir.x;
-        if (Math.Abs(det) < 1e-9)
-        {
-            PathD straight = new PathD { curveStartPoint, curveEndPoint };
-            return straight;
-        }
+        if (Math.Abs(det) < 1e-6)
+            throw new Exception("Tangent lines are parallel; no unique control point.");
 
         double tParam = (dx * endDir.y - dy * endDir.x) / det;
         PointD controlPoint = Add(curveStartPoint, Mult(startDir, tParam));
 
-        // use fixed mode ByMaxSegmentLength for now
-        return SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, edge_resolution);
+        // 4. Choose sampling mode
+        PathD samples;
+        switch (mode)
+        {
+            case SamplingMode.ByMaxSegmentLength:
+                samples = SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, edge_resolution);
+                break;
+
+            case SamplingMode.ByMaxAngle:
+                double maxAngleRad = angular_resolution * Math.PI / 180.0;
+                samples = SampleByMaxAngle(curveStartPoint, controlPoint, curveEndPoint, maxAngleRad);
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return samples;
+
     }
 
     static PathD SampleByMaxSegmentLength(PointD P0, PointD P1, PointD P2, double maxSegLen)
@@ -206,6 +250,34 @@ class QuadraticBezierSamplingSwitcher_Polygon_Easing
         SubdivideByLength(p012, p12, p2, maxSegLen, outPts);
     }
     
+    // --- Sampling by max angle ---
+    static PathD SampleByMaxAngle(
+        PointD P0, PointD P1, PointD P2, double maxAngle)
+    {
+        PathD pts = new PathD();
+        pts.Add(P0);
+        SubdivideByAngle(P0, P1, P2, maxAngle, pts);
+        pts.Add(P2);
+        return pts;
+    }
+
+    static void SubdivideByAngle(
+        PointD p0, PointD p1, PointD p2, double maxAngle, PathD outPts)
+    {
+        PointD tan0 = Normalized((Minus(p1,p0)));
+        PointD tan1 = Normalized((Minus(p2, p1)));
+        double dot = Math.Max(-1.0, Math.Min(1.0, tan0.x * tan1.x + tan0.y * tan1.y));
+        double angle = Math.Acos(dot);
+        if (angle <= maxAngle)
+        {
+            outPts.Add(p2);
+            return;
+        }
+        PointD p01 = Mid(p0, p1), p12 = Mid(p1, p2), p012 = Mid(p01, p12);
+        SubdivideByAngle(p0,  p01,  p012, maxAngle, outPts);
+        SubdivideByAngle(p012, p12,  p2,   maxAngle, outPts);
+    }
+
     // --- Easing assembly ---
     static PathD AssembleWithEasing(
         PathsD processedCorners,

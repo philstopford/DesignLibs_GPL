@@ -4,7 +4,7 @@ using System.Numerics;
 
 namespace RectilinearCenteredTurns
 {
-    class Program
+    static class Program
     {
         static readonly List<Vector2> Orig = new List<Vector2> {
             new Vector2(-0.36600f, -0.39900f),

@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-class QuadraticBezierSamplingSwitcher
+static class QuadraticBezierSamplingSwitcher
 {
     enum SamplingMode
     {

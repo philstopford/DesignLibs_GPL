@@ -9,7 +9,7 @@ namespace PolygonClassification
         public Point(double x, double y) { X = x; Y = y; }
     }
 
-    class Program
+    static class Program
     {
         static void Main()
         {

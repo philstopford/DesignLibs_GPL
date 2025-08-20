@@ -24,7 +24,7 @@ struct PointD
     }
 }
 
-class QuadraticBezierSamplingSwitcher_Polygon_Easing
+static class QuadraticBezierSamplingSwitcher_Polygon_Easing
 {
     enum SamplingMode
     {

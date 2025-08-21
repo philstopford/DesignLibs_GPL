@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Configurations>Debug;Release</Configurations>
+        <ReleaseVersion>0.24</ReleaseVersion>
+        <LangVersion>12</LangVersion>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <DefineConstants>TRACE</DefineConstants>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <Optimize>true</Optimize>
+        <DefineConstants></DefineConstants>
+    </PropertyGroup>
+
+</Project>

@@ -33,6 +33,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace LibTessDotNet.Double;
 
@@ -77,6 +78,7 @@ internal class PriorityHeap<TValue> where TValue : class
         _handles[1] = new HandleElem { _key = null };
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void FloatDown(int curr)
     {
         int hCurr = _nodes[curr];
@@ -104,6 +106,7 @@ internal class PriorityHeap<TValue> where TValue : class
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void FloatUp(int curr)
     {
         int hCurr = _nodes[curr];

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Noise;
 
@@ -63,6 +64,7 @@ public class PerlinNoise
 		InitGradients();
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public double Noise(double x, double y, double z)
 	{
 		/* The main noise function. Looks up the pseudorandom gradients at the nearest
@@ -131,6 +133,7 @@ public class PerlinNoise
 		return Permutate(ix + Permutate(iy + Permutate(iz)));
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private double Lattice(int ix, int iy, int iz, double fx, double fy, double fz)
 	{
 		// Look up a random gradient at [ix,iy,iz] and dot it with the [fx,fy,fz] vector.
@@ -139,12 +142,14 @@ public class PerlinNoise
 		return _gradients[g] * fx + _gradients[g + 1] * fy + _gradients[g + 2] * fz;
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double Lerp(double t, double value0, double value1)
 	{
 		// Simple linear interpolation.
 		return value0 + t * (value1 - value0);
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private static double Smooth(double x)
 	{
 		/* Smoothing curve. This is used to calculate interpolants so that the noise

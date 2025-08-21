@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Buffers;
+using System.Runtime.CompilerServices;
 
 namespace KDTree;
 
@@ -57,62 +59,60 @@ public class IntervalHeap<T>
     /// <summary>
     /// Get the data with the smallest key.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Min
     {
         get
         {
-            return Size switch
-            {
-                0 => throw new Exception(),
-                _ => tData[0]
-            };
+            if (Size == 0)
+                throw new Exception();
+            return tData[0];
         }
     }
 
     /// <summary>
     /// Get the data with the largest key.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Max
     {
         get
         {
-            return Size switch
-            {
-                0 => throw new Exception(),
-                1 => tData[0],
-                _ => tData[1]
-            };
+            if (Size == 0)
+                throw new Exception();
+            if (Size == 1)
+                return tData[0];
+            return tData[1];
         }
     }
 
     /// <summary>
     /// Get the smallest key.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double MinKey
     {
         get
         {
-            return Size switch
-            {
-                0 => throw new Exception(),
-                _ => tKeys[0]
-            };
+            if (Size == 0)
+                throw new Exception();
+            return tKeys[0];
         }
     }
 
     /// <summary>
     /// Get the largest key.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double MaxKey
     {
         get
         {
-            return Size switch
-            {
-                0 => throw new Exception(),
-                1 => tKeys[0],
-                _ => tKeys[1]
-            };
+            if (Size == 0)
+                throw new Exception();
+            if (Size == 1)
+                return tKeys[0];
+            return tKeys[1];
         }
     }
 
@@ -121,23 +121,33 @@ public class IntervalHeap<T>
     /// </summary>
     /// <param name="key">The value which represents our data (i.e. a distance).</param>
     /// <param name="value">The data we want to store.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Insert(double key, T value)
     {
         // If more room is needed, double the array size.
         if (Size >= Capacity)
         {
-            // Double the capacity.
-            Capacity *= 2;
+            // Calculate the new capacity.
+            int newCapacity = Capacity * 2;
 
-            // Expand the data array.
-            T[] newData = new T[Capacity];
-            Array.Copy(tData, newData, tData.Length);
+            // Use ArrayPool for better memory management
+            T[] newData = ArrayPool<T>.Shared.Rent(newCapacity);
+            double[] newKeys = ArrayPool<double>.Shared.Rent(newCapacity);
+
+            // Copy existing data
+            tData.AsSpan(0, Size).CopyTo(newData.AsSpan());
+            tKeys.AsSpan(0, Size).CopyTo(newKeys.AsSpan());
+
+            // Return old arrays to pool
+            if (Capacity > DEFAULT_SIZE)
+            {
+                ArrayPool<T>.Shared.Return(tData, true);
+                ArrayPool<double>.Shared.Return(tKeys, true);
+            }
+
             tData = newData;
-
-            // Expand the key array.
-            double[] newKeys = new double[Capacity];
-            Array.Copy(tKeys, newKeys, tKeys.Length);
             tKeys = newKeys;
+            Capacity = newCapacity;
         }
 
         // Insert the new value at the end.

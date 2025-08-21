@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace MiscUtil;
 
@@ -24,15 +25,13 @@ internal class CachedBuffer : IBuffer
 
     public byte[] Bytes { get; }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Dispose()
     {
-        switch (clearOnDispose)
+        if (clearOnDispose)
         {
-            case true:
-                Array.Clear(Bytes, 0, Bytes.Length);
-                break;
+            Array.Clear(Bytes, 0, Bytes.Length);
         }
-
         available = true;
     }
 }

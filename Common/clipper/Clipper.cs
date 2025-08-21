@@ -378,6 +378,7 @@ namespace Clipper2Lib
       return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Path64 ScalePath(Path64 path, double scale)
     {
       if (InternalClipper.IsAlmostZero(scale - 1)) return path;
@@ -392,6 +393,7 @@ namespace Clipper2Lib
       return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Paths64 ScalePaths(Paths64 paths, double scale)
     {
       if (InternalClipper.IsAlmostZero(scale - 1)) return paths;
@@ -401,6 +403,7 @@ namespace Clipper2Lib
       return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static PathD ScalePath(PathD path, double scale)
     {
       if (InternalClipper.IsAlmostZero(scale - 1)) return path;
@@ -410,6 +413,7 @@ namespace Clipper2Lib
       return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static PathsD ScalePaths(PathsD paths, double scale)
     {
       if (InternalClipper.IsAlmostZero(scale - 1)) return paths;

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Buffers;
+using System.Runtime.CompilerServices;
 
 namespace KDTree;
 
@@ -58,23 +60,33 @@ public class MinHeap<T>
     /// </summary>
     /// <param name="key">The key which represents its position in the priority queue (ie. distance).</param>
     /// <param name="value">The value to be stored at the key.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Insert(double key, T value)
     {
         // If we need more room, double the space.
         if (Size >= Capacity)
         {
-            // Calcualte the new capacity.
-            Capacity *= 2;
+            // Calculate the new capacity.
+            int newCapacity = Capacity * 2;
 
-            // Copy the data array.
-            T[] newData = new T[Capacity];
-            Array.Copy(tData, newData, tData.Length);
+            // Use ArrayPool for better memory management
+            T[] newData = ArrayPool<T>.Shared.Rent(newCapacity);
+            double[] newKeys = ArrayPool<double>.Shared.Rent(newCapacity);
+
+            // Copy existing data
+            tData.AsSpan(0, Size).CopyTo(newData.AsSpan());
+            tKeys.AsSpan(0, Size).CopyTo(newKeys.AsSpan());
+
+            // Return old arrays to pool
+            if (Capacity > DEFAULT_SIZE)
+            {
+                ArrayPool<T>.Shared.Return(tData, true);
+                ArrayPool<double>.Shared.Return(tKeys, true);
+            }
+
             tData = newData;
-
-            // Copy the key array.
-            double[] newKeys = new double[Capacity];
-            Array.Copy(tKeys, newKeys, tKeys.Length);
             tKeys = newKeys;
+            Capacity = newCapacity;
         }
 
         // Insert new value at the end
@@ -87,12 +99,12 @@ public class MinHeap<T>
     /// <summary>
     /// Remove the smallest element.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void RemoveMin()
     {
-        switch (Size)
+        if (Size == 0)
         {
-            case 0:
-                throw new Exception();
+            throw new Exception();
         }
 
         Size--;
@@ -105,30 +117,28 @@ public class MinHeap<T>
     /// <summary>
     /// Get the data stored at the minimum element.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Min
     {
         get
         {
-            return Size switch
-            {
-                0 => throw new Exception(),
-                _ => tData[0]
-            };
+            if (Size == 0)
+                throw new Exception();
+            return tData[0];
         }
     }
 
     /// <summary>
     /// Get the key which represents the minimum element.
     /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double MinKey
     {
         get
         {
-            return Size switch
-            {
-                0 => throw new Exception(),
-                _ => tKeys[0]
-            };
+            if (Size == 0)
+                throw new Exception();
+            return tKeys[0];
         }
     }
 

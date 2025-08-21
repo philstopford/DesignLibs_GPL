@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace geoWrangler;
 
@@ -76,7 +77,12 @@ public static partial class GeoWrangler
             odecomp[i] = new PathsD(decomp[i]);
         }
         // Outer areas
-        List<double> outerAreas = decomp[(int)Type.outer].Select(Clipper.Area).ToList();
+        double maxOuterArea = double.MinValue;
+        for (int i = 0; i < decomp[(int)Type.outer].Count; i++)
+        {
+            double a = Clipper.Area(decomp[(int)Type.outer][i]);
+            if (a > maxOuterArea) maxOuterArea = a;
+        }
 
         // So here, things get annoying. We can have nested donuts, which means that we have outers fully covered by cutters (from the larger donut).
         // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
@@ -84,18 +90,19 @@ public static partial class GeoWrangler
         // First, we'll run the keyholer as usual.
         PathsD ret = pMakeKeyHole(decomp[(int)Type.outer], decomp[(int)Type.cutter], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
         
-        double origArea = sliverGapRemoval(source).Sum(Clipper.Area);
-        double newArea = sliverGapRemoval(ret).Sum(Clipper.Area);
+        double origArea = 0.0;
+        {
+            PathsD tmp = sliverGapRemoval(source);
+            for (int i = 0; i < tmp.Count; i++) origArea += Clipper.Area(tmp[i]);
+            origArea = Math.Abs(origArea);
+        }
+        double newArea = 0.0;
+        {
+            PathsD tmp = sliverGapRemoval(ret);
+            for (int i = 0; i < tmp.Count; i++) newArea += Clipper.Area(tmp[i]);
+            newArea = Math.Abs(newArea);
+        }
 
-        if (origArea < 0)
-        {
-            origArea = -origArea;
-        }
-        if (newArea < 0)
-        {
-            newArea = -newArea;
-        }
-        
         // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
         double lostArea = Math.Abs(origArea - newArea);
         
@@ -108,7 +115,7 @@ public static partial class GeoWrangler
                 double outerArea = Clipper.Area(tOuter);
                 if (outerArea > lostArea)
                 {
-                    if (Math.Abs(outerArea - outerAreas.Max()) <= Constants.tolerance)
+                    if (Math.Abs(outerArea - maxOuterArea) <= Constants.tolerance)
                     {
                         continue;
                     }
@@ -123,10 +130,11 @@ public static partial class GeoWrangler
                     c.AddClip(odecomp[(int) Type.cutter][cIndex]);
                     c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
                     test = pReorderXY(test);
-                    double area = test.Sum(Clipper.Area);
+                    double area = 0.0;
+                    for (int ti = 0; ti < test.Count; ti++) area += Clipper.Area(test[ti]);
 
                     // If area is zero, the cutter fully covered the outer and we need to skip it.
-                    if ((area != 0) && (area <= lostArea))
+                    if ((Math.Abs(area) > 0.0) && (Math.Abs(area) <= lostArea))
                     {
                         tCutters.Add(odecomp[(int) Type.cutter][cIndex]);
                     }
@@ -201,13 +209,13 @@ public static partial class GeoWrangler
     {
         PathD ret = null;
         // Need to find minimal length, ideally orthogonal.
-        double minLength = -1;
+        double minLengthSq = -1;
         bool minLength_ortho = false;
         int cutPathIndex = -1;
+        double sqTol = Constants.tolerance * Constants.tolerance;
+
         for (int r = 0; r < edges.Count; r++)
         {
-            // If the input geometry is purely orthogonal, this is a strong preference.
-            // Otherwise, we don't care and will take the minimum internal edge.
             if (orthogonalInput)
             {
                 bool ray_isOrtho = Math.Abs(edges[r][0].x - edges[r][1].x) < Constants.tolerance || Math.Abs(edges[r][0].y - edges[r][1].y) < Constants.tolerance;
@@ -216,27 +224,24 @@ public static partial class GeoWrangler
                     // Don't replace an orthogonal ray with a non-orthogonal ray.
                     continue;
                 }
-                        
+                
                 // Update our tracking with the ray ortho flag.
                 minLength_ortho = ray_isOrtho;
             }
 
-            double ray_length = Math.Abs(distanceBetweenPoints(edges[r][0], edges[r][1]));
+            double dx = edges[r][0].x - edges[r][1].x;
+            double dy = edges[r][0].y - edges[r][1].y;
+            double ray_length_sq = dx * dx + dy * dy;
 
-            switch (ray_length)
-            {
-                case <= Constants.tolerance:
-                    continue;
-            }
+            if (ray_length_sq <= sqTol) continue;
 
-            // First ray or a smaller distance causes us to make this the keyhole edge.
-            if (r != 0 && !(ray_length < minLength))
+            if (r != 0 && !(minLengthSq < 0 || ray_length_sq < minLengthSq))
             {
                 continue;
             }
 
             cutPathIndex = r;
-            minLength = ray_length;
+            minLengthSq = ray_length_sq;
         }
 
         if (cutPathIndex != -1)
@@ -271,7 +276,7 @@ public static partial class GeoWrangler
         return new_outers;
     }
     
-    private static PathsD pMakeKeyHole(PathsD outers_, PathsD cutters_, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static PathsD pMakeKeyHole(PathsD outers_, PathsD cutters_, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double angularTolerance = 0)
     {
         PathsD outers = new(outers_);
         PathsD cutters = new(cutters_);
@@ -323,7 +328,14 @@ public static partial class GeoWrangler
                 new_outers = Clipper.SimplifyPaths(new_outers, 0);
 
                 outers.Clear();
-                outers.AddRange(new_outers.Where(t1_ => Clipper.IsPositive(t1_) == outerOrient));
+                for (int idx = 0; idx < new_outers.Count; idx++)
+                {
+                    PathD pth = new_outers[idx];
+                    if (Clipper.IsPositive(pth) == outerOrient)
+                    {
+                        outers.Add(pth);
+                    }
+                }
             }
             
             return pClockwiseAndReorderXY(outers);
@@ -457,9 +469,11 @@ public static partial class GeoWrangler
             0 => keyhole_sizing,
             _ => customSizing
         };
-        double oArea = source.Sum(Clipper.Area);
+        double oArea = 0.0;
+        for (int i = 0; i < source.Count; i++) oArea += Clipper.Area(source[i]);
         PathsD ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify);
-        double nArea = ret.Sum(Clipper.Area);
+        double nArea = 0.0;
+        for (int i = 0; i < ret.Count; i++) nArea += Clipper.Area(ret[i]);
 
         return (Math.Abs(oArea) - Math.Abs(nArea)) switch
         {
@@ -516,7 +530,8 @@ public static partial class GeoWrangler
             cGeometry = stripCollinear(cGeometry);
         }
 
-        double newArea = cGeometry.Sum(Clipper.Area);
+        double newArea = 0.0;
+        for (int i = 0; i < cGeometry.Count; i++) newArea += Clipper.Area(cGeometry[i]);
 
         return Math.Abs(newArea) switch
         {
@@ -561,7 +576,8 @@ public static partial class GeoWrangler
             cGeometry = stripCollinear(cGeometry);
         }
 
-        double newArea = cGeometry.Sum(Clipper.Area);
+        double newArea = 0.0;
+        for (int i = 0; i < cGeometry.Count; i++) newArea += Clipper.Area(cGeometry[i]);
 
         switch (Math.Abs(newArea))
         {
@@ -579,12 +595,15 @@ public static partial class GeoWrangler
                     case < 0 when newArea > 0:
                     case > 0 when newArea < 0:
                     {
-                        // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
+                        // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the necessary paths.
                         bool orientation = Clipper.IsPositive(source);
                         bool origCG0_o = Clipper.IsPositive(cGeometry[0]);
-                        foreach (PathD t in cGeometry.Where(_ => origCG0_o != orientation))
+                        for (int ti = 0; ti < cGeometry.Count; ti++)
                         {
-                            t.Reverse();
+                            if (origCG0_o != orientation)
+                            {
+                                cGeometry[ti].Reverse();
+                            }
                         }
 
                         break;

@@ -1,5 +1,6 @@
 using Eto.Drawing;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Veldrid;
 
 namespace VeldridEto;
@@ -11,7 +12,7 @@ public partial class VeldridDriver
 	private async void pUpdateViewport()
 	{
 		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
-		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
+			(!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
 		{
 			return;
 		}
@@ -49,7 +50,7 @@ public partial class VeldridDriver
 		}
 		else
 		{
-			pointCountBeforeCurrentPolygon_fg = [];
+			pointCountBeforeCurrentPolygon_fg = new int[0];
 			totalPointCount_fg = 0;
 		}
 
@@ -70,7 +71,7 @@ public partial class VeldridDriver
 		}
 		else
 		{
-			pointCountBeforeCurrentPolygon_bg = [];
+			pointCountBeforeCurrentPolygon_bg = new int[0];
 			totalPointCount_bg = 0;
 		}
 
@@ -93,9 +94,9 @@ public partial class VeldridDriver
 			// Carve our Z-space up to stack polygons
 			int numPolys = totalPolyListCount;
 			// Create our first and count arrays for the vertex indices, to enable polygon separation when rendering.
-			polyIndices = [];
-			pointsIndices = [];
-			tessIndices = [];
+			polyIndices = new uint[0];
+			pointsIndices = new uint[0];
+			tessIndices = new uint[0];
 			
 			if (ovpSettings.drawFilled())
 			{
@@ -104,39 +105,36 @@ public partial class VeldridDriver
 
 			float
 				polyZStep = 1.0f / Math.Max(1,
-					numPolys +
-					1); // avoid a div by zero risk; pad the poly number also to reduce risk of adding a poly beyond the clipping range
+				numPolys +
+				1); // avoid a div by zero risk; pad the poly number also to reduce risk of adding a poly beyond the clipping range
 			
 			if (ovpSettings.drawFilled())
 			{
 				tessPolyList = new VertexPositionColor[tessPolyListCount * 3];
-				Parallel.For(0, tessPolyListCount, poly =>
-				// for (int poly = 0; poly < tessPolyListCount; poly++)
+				for (int poly = 0; poly < tessPolyListCount; poly++)
 				{
 					float alpha = ovpSettings.tessPolyList[poly].alpha;
 					float polyZ = poly * polyZStep;
-					Parallel.For(0, 3, pt =>
-					// for(int pt = 0; pt < 3; pt++)
+					for (int pt = 0; pt < 3; pt++)
 					{
 						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
 							new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X,
-								ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
+								o vpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
 							new RgbaFloat(ovpSettings.tessPolyList[poly].color.R,
-								ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
+								o vpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
 								alpha));
-					});
-				});
+					}
+				}
 				
 				tessIndices = new uint[tessPolyListCount * 3];
-				Parallel.For(0, tessPolyListCount * 3, i =>
+				for (int i = 0; i < tessPolyListCount * 3; i++)
 				{
 					tessIndices[i] = (uint)i;
-				});
+				}
 			}
 
 			// Pondering options here - this would make a nice border construct around the filled geometry, amongst other things.
-			Parallel.For(0, fgPolyListCount, poly => 
-			// for (int poly = 0; poly < fgPolyListCount; poly++)
+			for (int poly = 0; poly < fgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.polyList[poly].alpha;
 				if (ovpSettings.drawFilled())
@@ -155,8 +153,7 @@ public partial class VeldridDriver
 					point_index_offset = ((pointCountBeforeCurrentPolygon_fg[poly] * 6) - 6);
 				}
 
-				Parallel.For(0, polyLength, pt =>
-				// for (int pt = 0; pt < polyLength; pt++)
+				for (int pt = 0; pt < polyLength; pt++)
 				{
 					polyList[poly_index_offset + (pt * 2)] = new VertexPositionColor(
 						new Vector3(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y,
@@ -176,45 +173,43 @@ public partial class VeldridDriver
 						{
 							pointsList[point_index_offset + (pt * 6)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-									ovpSettings.polyList[poly].color.B, alpha));
+								ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 1)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-									ovpSettings.polyList[poly].color.B, alpha));
+								ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 2)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-									ovpSettings.polyList[poly].color.B, alpha));
+								ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 3)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-									ovpSettings.polyList[poly].color.B, alpha));
+								ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 4)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-									ovpSettings.polyList[poly].color.B, alpha));
+								ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 5)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-									ovpSettings.polyList[poly].color.B, alpha));
+								ovpSettings.polyList[poly].color.B, alpha));
 						}
 						catch (Exception ex)
 						{
 							Console.WriteLine(ex);
 						}
 					}
-				});
-			});
+				}
 
-			Parallel.For(0, bgPolyListCount, poly =>
-			//for (int poly = 0; poly < bgPolyListCount; poly++)
+			for (int poly = 0; poly < bgPolyListCount; poly++)
 			{
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				float polyZ = poly * polyZStep;
@@ -233,40 +228,33 @@ public partial class VeldridDriver
 				}
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;
-				Parallel.For(0, bgPolyLength, pt =>
-				//for (int pt = 0; pt < bgPolyLength; pt++)
+				for (int pt = 0; pt < bgPolyLength; pt++)
 				{
 					try
 					{
 						polyList[fg_poly_index_offset + poly_index_offset + (pt * 2)] = new VertexPositionColor(
 							new Vector3(ovpSettings.bgPolyList[poly].poly[pt].X,
-								ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
+							ovpSettings.bgPolyList[poly].poly[pt].Y, polyZ),
 							new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
-								ovpSettings.bgPolyList[poly].color.B, alpha));
+							ovpSettings.bgPolyList[poly].color.B, alpha));
 
 						polyList[fg_poly_index_offset + poly_index_offset + ((pt * 2) + 1)] = new VertexPositionColor(
 							new Vector3(ovpSettings.bgPolyList[poly].poly[pt + 1].X,
-								ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
+							ovpSettings.bgPolyList[poly].poly[pt + 1].Y, polyZ),
 							new RgbaFloat(ovpSettings.bgPolyList[poly].color.R, ovpSettings.bgPolyList[poly].color.G,
-								ovpSettings.bgPolyList[poly].color.B, alpha));
+							ovpSettings.bgPolyList[poly].color.B, alpha));
 					}
 					catch (Exception e)
 					{
 						Console.WriteLine(e);
 					}
-				});
-			});
+				}
 
 			polyIndices = new uint[totalPolyListCount];
-			Parallel.For(0, totalPolyListCount, i => // (int i = 0; i < totalPolyListCount; i++)
+			for (int i = 0; i < totalPolyListCount; i++) // (int i = 0; i < totalPolyListCount; i++)
 			{
 				polyIndices[i] = (uint)i;
-			});
-			pointsIndices = new uint[pointListCount];
-			Parallel.For(0, pointListCount, i => // (int i = 0; i < pointListCount; i++)
-			{
-				pointsIndices[i] = (uint)i;
-			});
+			}
 		}
 		catch (Exception ex)
 		{
@@ -282,25 +270,25 @@ public partial class VeldridDriver
 	{
 		if (fgPolyListCount > 0 || bgPolyListCount > 0)
 		{
-			updateBuffer(ref PolysVertexBuffer, polyList!.ToArray(), VertexPositionColor.SizeInBytes,
+			updateBuffer(ref PolysVertexBuffer, ref PolysVertexBufferCapacity, polyList!, VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
-			updateBuffer(ref PolysIndexBuffer, polyIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+			updateBuffer(ref PolysIndexBuffer, ref PolysIndexBufferCapacity, polyIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
 		if (ovpSettings.drawPoints() && fgPolyListCount > 0)
 		{
-			updateBuffer(ref PointsVertexBuffer, pointsList!.ToArray(), VertexPositionColor.SizeInBytes,
+			updateBuffer(ref PointsVertexBuffer, ref PointsVertexBufferCapacity, pointsList!, VertexPositionColor.SizeInBytes,
 				BufferUsage.VertexBuffer);
-			updateBuffer(ref PointsIndexBuffer, pointsIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+			updateBuffer(ref PointsIndexBuffer, ref PointsIndexBufferCapacity, pointsIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 		}
 
 		if (!ovpSettings.drawFilled() || tessPolyListCount <= 0)
 		{
 			return;
 		}
-		updateBuffer(ref TessVertexBuffer, tessPolyList!.ToArray(), VertexPositionColor.SizeInBytes,
+		updateBuffer(ref TessVertexBuffer, ref TessVertexBufferCapacity, tessPolyList!, VertexPositionColor.SizeInBytes,
 			BufferUsage.VertexBuffer);
-		updateBuffer(ref TessIndexBuffer, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+		updateBuffer(ref TessIndexBuffer, ref TessIndexBufferCapacity, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 
 	private int linesCount;
@@ -312,8 +300,8 @@ public partial class VeldridDriver
 		linesCount = ovpSettings.lineList!.Count;
 		if (linesCount == 0)
 		{
-			lineList = [];
-			linesIndices = [];
+			lineList = new VertexPositionColor[0];
+			linesIndices = new uint[0];
 			return Task.CompletedTask;
 		}
 
@@ -333,8 +321,7 @@ public partial class VeldridDriver
 			// Start and end points for each polygon are not duplicated.
 			// Allow for line shape to be closed.
 			lineList = new VertexPositionColor[(totalPointCount) * 2];
-			Parallel.For (0, linesCount, poly =>
-			// for (int poly = 0; poly < linesCount; poly++)
+			for (int poly = 0; poly < linesCount; poly++)
 			{
 				float alpha = ovpSettings.lineList[poly].alpha;
 				float polyZ = 1.0f;
@@ -346,8 +333,7 @@ public partial class VeldridDriver
 					// Start and end points for each polygon are not duplicated.
 					index_offset = (pointCountBeforeCurrentPolygon[poly] * 2);
 				}
-				Parallel.For (0, polyLength - 1, pt =>
-				// for (int pt = 0; pt < polyLength - 1; pt++)
+				for (int pt = 0; pt < polyLength - 1; pt++)
 				{
 					lineList[index_offset + (pt * 2)] = (new VertexPositionColor(
 						new Vector3(ovpSettings.lineList[poly].poly[pt].X,
@@ -361,17 +347,16 @@ public partial class VeldridDriver
 							ovpSettings.lineList[poly].poly[pt + 1].Y, polyZ),
 						new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G,
 							ovpSettings.lineList[poly].color.B, alpha)));
-				});
-				
-			});
+				}
+			}
 			
 			int counter = lineList.Length;
 			
 			linesIndices = new uint[counter];
-			Parallel.For(0, counter, i => // (int i = 0; i < counter; i++)
+			for (int i = 0; i < counter; i++) // (int i = 0; i < counter; i++)
 			{
 				linesIndices[i] = (uint)i;
-			});
+			}
 		}
 		catch (Exception ex)
 		{
@@ -388,9 +373,9 @@ public partial class VeldridDriver
 		{
 			return;
 		}
-		updateBuffer(ref LinesVertexBuffer, lineList!.ToArray(), VertexPositionColor.SizeInBytes,
+		updateBuffer(ref LinesVertexBuffer, ref LinesVertexBufferCapacity, lineList!, VertexPositionColor.SizeInBytes,
 			BufferUsage.VertexBuffer);
-		updateBuffer(ref LinesIndexBuffer, linesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+		updateBuffer(ref LinesIndexBuffer, ref LinesIndexBufferCapacity, linesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 
 	private List<VertexPositionColor>? grid;
@@ -419,7 +404,7 @@ public partial class VeldridDriver
 		float x = ovpSettings.getCameraX();
 		float y = ovpSettings.getCameraY();
 
-		grid = [];
+		grid = new List<VertexPositionColor>();
 
 		if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
 		{
@@ -552,13 +537,13 @@ public partial class VeldridDriver
 			case > 0:
 			{
 				gridIndices = new uint[gridCount];
-				Parallel.For(0, gridIndices.Length,  i => //; i < gridIndices.Length; i++)
+				for (int i = 0; i < gridIndices.Length; i++) //; i < gridIndices.Length; i++)
 				{
 					gridIndices[i] = (uint)i;
-				});
-				updateBuffer(ref GridVertexBuffer, grid.ToArray(), VertexPositionColor.SizeInBytes,
+				}
+				updateBuffer(ref GridVertexBuffer, ref GridVertexBufferCapacity, grid.ToArray(), VertexPositionColor.SizeInBytes,
 					BufferUsage.VertexBuffer);
-				updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				updateBuffer(ref GridIndexBuffer, ref GridIndexBufferCapacity, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
 
 				break;
 			}
@@ -594,15 +579,15 @@ public partial class VeldridDriver
 			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface!.RenderWidth * zoom, 0.0f, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 
-		axesIndices = [0, 1, 2, 3];
+		axesIndices = new uint[4] {0,1,2,3};
 		
 		return Task.CompletedTask;
 	}
 
 	private void updateAxesBuffers()
 	{
-		updateBuffer(ref AxesVertexBuffer, axesArray!, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-		updateBuffer(ref AxesIndexBuffer, axesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+		updateBuffer(ref AxesVertexBuffer, ref AxesVertexBufferCapacity, axesArray!, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+		updateBuffer(ref AxesIndexBuffer, ref AxesIndexBufferCapacity, axesIndices!, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 	
 	public void Draw()
@@ -623,7 +608,7 @@ public partial class VeldridDriver
 		float left = ovpSettings.getCameraX() - (float)Surface!.RenderWidth / 2 * zoom;
 		float right = ovpSettings.getCameraX() + (float)Surface!.RenderWidth / 2 * zoom;
 		float bottom = ovpSettings.getCameraY() + (float)Surface!.RenderHeight / 2 * zoom;
-		float top = ovpSettings.getCameraY() - (float)Surface!.RenderHeight / 2 * zoom;
+		float top = ovpSettings.getCameraY() - (float)Surface!. RenderHeight / 2 * zoom;
 
 		ViewMatrix = Matrix4x4.CreateOrthographicOffCenter(left, right, bottom, top, 0.0f, 1.0f);
 		CommandList.UpdateBuffer(ViewBuffer, 0, ViewMatrix);
@@ -764,91 +749,26 @@ public partial class VeldridDriver
 					}
 				}
 			}
-		}
 
-		if (PolysVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
-		{
-			if (LinePipeline == null)
-			{
-				throw new Exception("populate_command_list : LinesPipeline not initialized!");
-			}
-
-			lock (PolysVertexBuffer)
-			{
-				try
-				{
-					CommandList!.SetVertexBuffer(0, PolysVertexBuffer);
-					CommandList!.SetIndexBuffer(PolysIndexBuffer, IndexFormat.UInt32);
-					CommandList!.SetPipeline(LinesPipeline);
-					CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
-					CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
-
-					CommandList!.DrawIndexed(
-						indexCount:(uint)polyIndices.Length,
-						instanceCount:1,
-						indexStart:0,
-						vertexOffset:0,
-						instanceStart:0);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("Ex: " + ex);
-				}
-			}
-		}
-
-		if (LinesVertexBuffer != null && linesIndices != null && linesIndices.Length != 0 && ovpSettings.drawDrawn())
-		{
-			if (LinePipeline == null)
-			{
-				throw new Exception("populate_command_list : LinesPipeline not initialized!");
-			}
-
-			lock (LinesVertexBuffer)
-			{
-				try
-				{
-					CommandList!.SetVertexBuffer(0, LinesVertexBuffer);
-					CommandList!.SetIndexBuffer(LinesIndexBuffer, IndexFormat.UInt32);
-					CommandList!.SetPipeline(LinesPipeline);
-					CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
-					CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
-
-					CommandList!.DrawIndexed(
-						indexCount:(uint)linesIndices.Length,
-						instanceCount:1,
-						indexStart:0,
-						vertexOffset:0,
-						instanceStart:0);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("Ex: " + ex);
-				}
-			}
-		}
-
-		if (ovpSettings.drawPoints())
-		{
-			if (PointsVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
+			if (PolysVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
 			{
 				if (LinePipeline == null)
 				{
-					throw new Exception("populate_command_list : FilledPipeline not initialized!");
+					throw new Exception("populate_command_list : LinesPipeline not initialized!");
 				}
 
-				lock (PointsVertexBuffer)
+				lock (PolysVertexBuffer)
 				{
 					try
 					{
-						CommandList!.SetVertexBuffer(0, PointsVertexBuffer);
-						CommandList!.SetIndexBuffer(PointsIndexBuffer, IndexFormat.UInt32);
-						CommandList!.SetPipeline(FilledPipeline);
+						CommandList!.SetVertexBuffer(0, PolysVertexBuffer);
+						CommandList!.SetIndexBuffer(PolysIndexBuffer, IndexFormat.UInt32);
+						CommandList!.SetPipeline(LinesPipeline);
 						CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
 						CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
 
 						CommandList!.DrawIndexed(
-							indexCount:(uint)pointsIndices!.Length,
+							indexCount:(uint)polyIndices.Length,
 							instanceCount:1,
 							indexStart:0,
 							vertexOffset:0,
@@ -860,10 +780,74 @@ public partial class VeldridDriver
 					}
 				}
 			}
-		}
+
+			if (LinesVertexBuffer != null && linesIndices != null && linesIndices.Length != 0 && ovpSettings.drawDrawn())
+			{
+				if (LinePipeline == null)
+				{
+					throw new Exception("populate_command_list : LinesPipeline not initialized!");
+				}
+
+				lock (LinesVertexBuffer)
+				{
+					try
+					{
+						CommandList!.SetVertexBuffer(0, LinesVertexBuffer);
+						CommandList!.SetIndexBuffer(LinesIndexBuffer, IndexFormat.UInt32);
+						CommandList!.SetPipeline(LinesPipeline);
+						CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+						CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
+
+						CommandList!.DrawIndexed(
+							indexCount:(uint)linesIndices.Length,
+							instanceCount:1,
+							indexStart:0,
+							vertexOffset:0,
+							instanceStart:0);
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine("Ex: " + ex);
+					}
+				}
+			}
+
+			if (ovpSettings.drawPoints())
+			{
+				if (PointsVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
+				{
+					if (LinePipeline == null)
+					{
+						throw new Exception("populate_command_list : FilledPipeline not initialized!");
+					}
+
+					lock (PointsVertexBuffer)
+					{
+						try
+						{
+							CommandList!.SetVertexBuffer(0, PointsVertexBuffer);
+							CommandList!.SetIndexBuffer(PointsIndexBuffer, IndexFormat.UInt32);
+							CommandList!.SetPipeline(FilledPipeline);
+							CommandList!.SetGraphicsResourceSet(0, ViewMatrixSet);
+							CommandList!.SetGraphicsResourceSet(1, ModelMatrixSet);
+
+							CommandList!.DrawIndexed(
+								indexCount:(uint)pointsIndices!.Length,
+								instanceCount:1,
+								indexStart:0,
+								vertexOffset:0,
+								instanceStart:0);
+						}
+						catch (Exception ex)
+						{
+							Console.WriteLine("Ex: " + ex);
+						}
+					}
+				}
+			}
 	}
 
-	private void updateBuffer<T>(ref DeviceBuffer? buffer, T[]? data, uint elementSize, BufferUsage usage)
+	private void updateBuffer<T>(ref DeviceBuffer? buffer, ref uint bufferCapacity, T[]? data, uint elementSize, BufferUsage usage)
 		where T : unmanaged
 	{
 		if (data == null)
@@ -874,15 +858,34 @@ public partial class VeldridDriver
 		{
 			case > 0:
 			{
-				buffer?.Dispose();
-
+				// Reuse existing buffer unless capacity insufficient
+				uint neededSize = elementSize * (uint)data.Length;
 				ResourceFactory factory = Surface!.GraphicsDevice!.ResourceFactory;
 
-				buffer = factory.CreateBuffer(new BufferDescription(elementSize * (uint)data.Length, usage));
+				if (buffer == null || bufferCapacity < neededSize)
+				{
+					buffer?.Dispose();
+					buffer = factory.CreateBuffer(new BufferDescription(neededSize, usage));
+					bufferCapacity = neededSize;
+				}
 
 				Surface.GraphicsDevice.UpdateBuffer(buffer, 0, data);
 				break;
 			}
 		}
 	}
+
+	// Capacity fields for vertex/index buffers to avoid reallocation each frame
+	private uint PolysVertexBufferCapacity = 0;
+	private uint PolysIndexBufferCapacity = 0;
+	private uint PointsVertexBufferCapacity = 0;
+	private uint PointsIndexBufferCapacity = 0;
+	private uint TessVertexBufferCapacity = 0;
+	private uint TessIndexBufferCapacity = 0;
+	private uint LinesVertexBufferCapacity = 0;
+	private uint LinesIndexBufferCapacity = 0;
+	private uint GridVertexBufferCapacity = 0;
+	private uint GridIndexBufferCapacity = 0;
+	private uint AxesVertexBufferCapacity = 0;
+	private uint AxesIndexBufferCapacity = 0;
 }

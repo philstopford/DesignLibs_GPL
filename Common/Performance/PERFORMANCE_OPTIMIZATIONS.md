@@ -197,7 +197,7 @@ To measure the impact of these optimizations:
 
 ## Files Modified Summary
 
-**Total: 18 files optimized across 7 libraries**
+**Total: 21 files optimized across 8 libraries**
 
 ### Core Libraries:
 - **KDTree** (4 files): NearestNeighbour.cs, MinHeap.cs, IntervalHeap.cs, KDNode.cs
@@ -206,9 +206,32 @@ To measure the impact of these optimizations:
 - **Noise** (1 file): perlinNoise.cs
 - **Utility** (1 file): utility.cs
 - **GeoLib** (1 file): GeoLibMatrix.cs
-- **GeoWrangler** (4 files): meas_distance.cs, rotate.cs, boolean.cs, fragmenter.cs
+- **GeoWrangler** (6 files): meas_distance.cs, rotate.cs, boolean.cs, fragmenter.cs, keyhole.cs*, decompose.cs*
 - **MiscUtil** (1 file): CachedBuffer.cs
+- **VeldridSurface** (1 file): VeldridDriver_Draw.cs*
 - **Performance** (4 files): New utility library with comprehensive optimizations
+
+### Integrated Performance Branch Optimizations
+
+This optimization effort incorporates optimizations from three additional performance branches to provide the most comprehensive performance improvements:
+
+**keyholer_perf branch** (keyhole.cs):
+- Replaced `List<double>.Select().ToList()` with manual loop to find max outer area
+- Replaced `PathsD.Sum(Clipper.Area)` with manual loops for area calculations  
+- Eliminated LINQ operations to reduce allocations and improve performance
+- Used `Math.Abs()` instead of conditional checks for area sign handling
+
+**perf/decompose-batch-rays branch** (decompose.cs):
+- Major algorithmic optimization implementing batched ray intersections
+- Significant performance improvement for polygon decomposition operations
+- Enhanced rectangular decomposition with optimized ray processing
+
+**perf/updatebuffer-only branch** (VeldridDriver_Draw.cs):
+- Replaced empty collection initializers `[]` with explicit `new T[0]` allocations
+- Reduced GC pressure in graphics rendering pipeline
+- Improved allocation patterns for vertex buffer management
+
+*Files marked with * were integrated from performance branches for optimal combined performance.
 
 ## Future Optimization Opportunities
 

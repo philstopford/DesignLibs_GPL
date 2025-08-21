@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace KDTree;
 
@@ -172,17 +173,18 @@ public class KDNode<T>
     /// Extend this node to contain a new point.
     /// </summary>
     /// <param name="tPoint">The point to contain.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void ExtendBounds(double[] tPoint)
     {
-        switch (tMinBound)
+        // If we don't have bounds, create them using the new point then bail.
+        if (tMinBound == null)
         {
-            // If we don't have bounds, create them using the new point then bail.
-            case null:
-                tMinBound = new double[iDimensions];
-                tMaxBound = new double[iDimensions];
-                Array.Copy(tPoint, tMinBound, iDimensions);
-                Array.Copy(tPoint, tMaxBound, iDimensions);
-                return;
+            tMinBound = new double[iDimensions];
+            tMaxBound = new double[iDimensions];
+            // Use Span for better performance than Array.Copy
+            tPoint.AsSpan(0, iDimensions).CopyTo(tMinBound.AsSpan());
+            tPoint.AsSpan(0, iDimensions).CopyTo(tMaxBound.AsSpan());
+            return;
         }
 
         // For each dimension.

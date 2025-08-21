@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿﻿﻿using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -21,6 +21,11 @@ static class QuadraticBezierSamplingSwitcher_Polygon
      * - Added the missing HermiteToBezier helper (maps Hermite endpoints + tangents
      *   to cubic Bezier control points) so BuildCubicHermiteSampled and related helpers
      *   can operate.
+     *
+     * - Replace the sharp straight diagonal between S and E with a soft
+     *   quintic Hermite segment (C2) built from the eased derivatives. This
+     *   removes the abrupt curvature change where short-edge diagonals meet
+     *   the corner fillets and produces a visually much softer transition.
      *
      * Everything else is preserved so you can test with existing easingMode,
      * including the previously added QuinticC2 option.
@@ -489,20 +494,42 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                 if (outPts.Count == 0 || !PointsEqual(outPts[^1], S)) outPts.Add(S);
             }
 
-            if (diagStraightSample <= 0)
+            // --- Replace the previous straight diagonal with a soft Quintic Hermite middle segment.
+            // Build a C2 quintic bridging S -> E using the eased derivatives finalDerivAtS/finalDerivAtE.
+            // This yields a much softer curvature transition into/out-of the diagonal.
+            PathD midSeg = null;
+            try
             {
-                if (!PointsEqual(outPts[^1], E)) outPts.Add(E);
+                midSeg = BuildQuinticC2Segment(S, E, finalDerivAtS, finalDerivAtE, inset);
+            }
+            catch
+            {
+                midSeg = null;
+            }
+
+            if (midSeg != null && midSeg.Count >= 2)
+            {
+                if (!PointsEqual(outPts[^1], midSeg[0])) outPts.Add(midSeg[0]);
+                outPts.AddRange(midSeg.Skip(1));
             }
             else
             {
-                for (int s = 1; s <= diagStraightSample; s++)
+                // fallback to the previous straight sampling (should rarely happen)
+                if (diagStraightSample <= 0)
                 {
-                    double t = (double)s / (diagStraightSample + 1);
-                    PointD p = Add(S, Mul(diagDir, (diagLen - 2 * inset) * t));
-                    outPts.Add(p);
+                    if (!PointsEqual(outPts[^1], E)) outPts.Add(E);
                 }
+                else
+                {
+                    for (int s = 1; s <= diagStraightSample; s++)
+                    {
+                        double t = (double)s / (diagStraightSample + 1);
+                        PointD p = Add(S, Mul(diagDir, (diagLen - 2 * inset) * t));
+                        outPts.Add(p);
+                    }
 
-                outPts.Add(E);
+                    outPts.Add(E);
+                }
             }
 
             if (endSeg != null)

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 
@@ -39,55 +40,65 @@ public static class Utils
         return ret;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double myPow(double num, int exp)
     {
-        switch (exp)
+        return exp switch
         {
-            // Micro-optimization
-            case 2:
-                return num * num;
-        }
+            // Micro-optimizations for common cases
+            0 => 1.0,
+            1 => num,
+            2 => num * num,
+            3 => num * num * num,
+            4 => num * num * num * num,
+            -1 => 1.0 / num,
+            -2 => 1.0 / (num * num),
+            _ => FastPowGeneric(num, exp)
+        };
+    }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static double FastPowGeneric(double num, int exp)
+    {
         double result = 1.0;
         bool invertResult = false;
 
-        switch (exp)
+        if (exp < 0)
         {
-            case < 0:
-                invertResult = true;
-                exp = Math.Abs(exp);
-                break;
+            invertResult = true;
+            exp = -exp; // More efficient than Math.Abs for int
         }
 
+        // Fast exponentiation by squaring
         while (exp > 0)
         {
-            switch (exp % 2)
+            if ((exp & 1) == 1) // Check if odd using bitwise AND
             {
-                case 1:
-                    result *= num;
-                    break;
+                result *= num;
             }
             exp >>= 1;
             num *= num;
         }
 
-        result = invertResult switch
-        {
-            true => 1.0f / result,
-            _ => result
-        };
-
-        return result;
+        return invertResult ? 1.0 / result : result;
     }
 
+    /// <summary>
+    /// Optimized degrees to radians conversion with precomputed constant
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double toRadians(double deg)
     {
-        return deg * (Math.PI / 180.0f);
+        return deg * 0.017453292519943295; // Math.PI / 180.0 precomputed
     }
 
+    /// <summary>
+    /// Optimized radians to degrees conversion with precomputed constant
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double toDegrees(double rad)
     {
-        return rad / (Math.PI / 180.0f);
+        return rad * 57.29577951308232; // 180.0 / Math.PI precomputed
     }
 
     public static byte[] compress(byte[] data)

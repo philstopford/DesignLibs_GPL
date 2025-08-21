@@ -1,5 +1,6 @@
 ﻿using Clipper2Lib;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using utility;
 
@@ -42,20 +43,27 @@ public static partial class GeoWrangler
         return pRotate(pivot, point, angleDegree);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static PointD pRotate(PointD pivot, PointD point, double angleDegree)
     {
-        switch (Math.Abs(angleDegree))
+        // essentially a zero rotation clamp at 0.01 degrees
+        if (Math.Abs(angleDegree) < 1E-2)
         {
-            // essentially a zero rotation clamp at 0.01 degrees
-            case < 1E-2:
-                return new PointD(point);
+            return new PointD(point);
         }
 
         double angle = Utils.toRadians(angleDegree);
-        double x = pivot.x + ((point.x - pivot.x) * Math.Cos(angle) -
-                              (point.y - pivot.y) * Math.Sin(angle));
-        double y = pivot.y + ((point.x - pivot.x) * Math.Sin(angle) +
-                              (point.y - pivot.y) * Math.Cos(angle));
+        
+        // Cache sin/cos calculations
+        double cosAngle = Math.Cos(angle);
+        double sinAngle = Math.Sin(angle);
+        
+        // Cache relative position
+        double dx = point.x - pivot.x;
+        double dy = point.y - pivot.y;
+        
+        double x = pivot.x + (dx * cosAngle - dy * sinAngle);
+        double y = pivot.y + (dx * sinAngle + dy * cosAngle);
 
         return new PointD(x, y);
     }

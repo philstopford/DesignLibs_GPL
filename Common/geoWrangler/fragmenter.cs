@@ -1,6 +1,7 @@
 ﻿using Clipper2Lib;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace geoWrangler;
@@ -25,12 +26,12 @@ public class Fragmenter
         return pFragmentPaths(source);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PathsD pFragmentPaths(PathsD source)
     {
-        switch (source.Count)
+        if (source.Count == 0)
         {
-            case 0:
-                return new PathsD(source);
+            return new PathsD(source);
         }
 
         PathsD ret = new(source.Select(pFragmentPath));

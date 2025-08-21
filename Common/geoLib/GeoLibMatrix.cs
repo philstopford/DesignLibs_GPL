@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Clipper2Lib;
 
@@ -67,27 +68,36 @@ public class GeoLibMatrix
         m[5] = dy;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Rotate(double ang)
     {
         pRotate(ang);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void pRotate(double ang)
     {
         double m11 = m[0];
         double m22 = m[3];
 
-        m[0] = Math.Cos(ang * Math.PI / 180) * m11;
-        m[1] = Math.Sin(ang * Math.PI / 180) * m22;
-        m[2] = -Math.Sin(ang * Math.PI / 180) * m11;
-        m[3] = Math.Cos(ang * Math.PI / 180) * m22;
+        // Cache sin/cos calculations and convert to radians once
+        double angleRad = ang * Math.PI / 180.0;
+        double cosAngle = Math.Cos(angleRad);
+        double sinAngle = Math.Sin(angleRad);
+
+        m[0] = cosAngle * m11;
+        m[1] = sinAngle * m22;
+        m[2] = -sinAngle * m11;
+        m[3] = cosAngle * m22;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Scale(float sx, float sy)
     {
         pScale(sx, sy);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void pScale(float sx, float sy)
     {
         m[0] *= sx;

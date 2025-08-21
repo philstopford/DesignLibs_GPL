@@ -1,22 +1,46 @@
-﻿using System.Globalization;
+﻿﻿using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Text;
+using System.Collections.Generic;
 
 using PathD = System.Collections.Generic.List<PointD>;
 using PathsD = System.Collections.Generic.List<System.Collections.Generic.List<PointD>>;
 
 static class QuadraticBezierSamplingSwitcher_Polygon
 {
+    /*
+     * This file contains utilities for taking a closed polygon (possibly with short edges),
+     * categorising its corners (convex/concave/short-edge), generating rounded corners
+     * using quadratic/cubic/quintic sampling, and assembling the final polyline while
+     * replacing contiguous runs of short-edge corners with eased diagonals that blend
+     * tangentially into the neighbouring rounded corners.
+     *
+     * I added a final smoothing pass (SmoothPolylineSeams) that can be run after assembly
+     * to ease the transitions between center diagonals and the adjacent bezier/hermite
+     * segments. The smoothing pass detects sharp angles (seams) and replaces a small
+     * neighborhood around each seam with a sampled cubic-Hermite curve, preserving
+     * endpoints while smoothing the interior.
+     *
+     * The smoothing is intentionally local and conservative (it doesn't resample the whole
+     * polyline) so it preserves the overall shape while improving visual continuity at seams.
+     */
+
+    // -------------------------------------------------------------------------
+    // Enums and small configuration-like types
+    // -------------------------------------------------------------------------
     enum SamplingMode
     {
         ByMaxSegmentLength,
         ByMaxAngle
     }
 
-    private enum types
+    private enum CornerType
     {
-        concave,
-        convex,
-        shortedge
+        Concave,
+        Convex,
+        ShortEdge
     }
 
     private enum SmoothStepMode
@@ -26,109 +50,129 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         Quintic
     }
 
+    enum EasingStrategy
+    {
+        None,
+        CubicBezierHermite, // cubic bezier constructed from Hermite derivatives (no overshoot)
+        QuinticHermite,      // quintic Hermite (C2)
+        SmoothBlend,         // quintic Hermite sampled (soft)
+        CircularArc          // tangent arc with cubic fallback
+    }
+
+    // -------------------------------------------------------------------------
+    // Example/demo entry point
+    // -------------------------------------------------------------------------
     static void Main()
     {
-        // Input polygon (closed: first == last). Clockwise or CCW works.
-        List<PointD> original_path = new List<PointD>();
-        original_path.Add(new PointD(0, 0));
-        original_path.Add(new PointD(0, 120));
-        original_path.Add(new PointD(20, 120));
-        original_path.Add(new PointD(20, 100));
-        original_path.Add(new PointD(40, 100));
-        original_path.Add(new PointD(40, 80));
-        original_path.Add(new PointD(59, 80));
-        original_path.Add(new PointD(59, 59));
-        original_path.Add(new PointD(110, 59));
-        original_path.Add(new PointD(110, 0));
-        original_path.Add(new PointD(0, 0));
+        // Example polygon (closed - first == last)
+        List<PointD> original_path = new List<PointD>
+        {
+            new PointD(0, 0),
+            new PointD(0, 120),
+            new PointD(20, 120),
+            new PointD(20, 100),
+            new PointD(40, 100),
+            new PointD(40, 80),
+            new PointD(59, 80),
+            new PointD(59, 59),
+            new PointD(110, 59),
+            new PointD(110, 0),
+            new PointD(0, 0),
+        };
 
-        double concave_radius = 20.0;
-        double convex_radius = 50.0;
-        double edge_resolution = 0.05; // smaller -> more points on curves
-        double angular_resolution = 1.0;
-        double short_edge_length = 20.0;
-        double max_short_edge_length = 30.0;
+        // Parameters that control curvature, resolution and handling of short edges
+        double concaveRadius = 20.0;
+        double convexRadius = 50.0;
+        double edgeResolution = 0.05;   // smaller => more points on curves
+        double angularResolution = 1.0; // degrees
+        double shortEdgeLength = 20.0;
+        double maxShortEdgeLength = 30.0;
 
-        // Choose smoothing mode here: None (linear), Cubic, or Quintic
+        // smoothing to apply to the blend factor across the short-edge run
         SmoothStepMode smoothMode = SmoothStepMode.Quintic;
 
-        int[] corner_types = categorizeCorners(original_path, short_edge_length);
+        // 1) classify corners
+        int[] corner_types = CategorizeCorners(original_path, shortEdgeLength);
 
-        // Build per-corner sampled polylines AND collect midpoints used for each corner
+        // 2) build sampled corner polylines and record midpoints used for diagonals
         PathsD processed = new PathsD();
-        List<PointD> cornerMidpoints = new List<PointD>(); // midpoint on the outgoing edge for each corner
-        List<PointD> cornerVertices = new List<PointD>(); // store vertex positions for each corner (original_path[i])
+        List<PointD> cornerMidpoints = new List<PointD>(); // midpoint on outgoing edge for each corner
+        List<PointD> cornerVertices = new List<PointD>();  // original polygon vertex positions
+
         for (int i = 0; i < original_path.Count - 1; i++)
         {
             cornerVertices.Add(original_path[i]);
 
-            PathD startLine = new PathD();
-            startLine.Add(original_path[i]);
+            // start-line: vertex -> midpoint of incoming edge
+            PointD prevMid = (i == 0)
+                ? Mid(original_path[i], original_path[^2])
+                : Mid(original_path[i], original_path[i - 1]);
 
-            PointD prevMid;
-            if (i == 0)
-                prevMid = new PointD((original_path[i].x + original_path[^2].x) * 0.5,
-                    (original_path[i].y + original_path[^2].y) * 0.5);
-            else
-                prevMid = new PointD((original_path[i].x + original_path[i - 1].x) * 0.5,
-                    (original_path[i].y + original_path[i - 1].y) * 0.5);
-            startLine.Add(prevMid);
+            var startLine = new PathD { original_path[i], prevMid };
 
-            PathD endLine = new PathD();
-            endLine.Add(original_path[i]);
+            // end-line: vertex -> midpoint of outgoing edge
+            PointD nextMid = (i == original_path.Count - 2)
+                ? Mid(original_path[i], original_path[0])
+                : Mid(original_path[i], original_path[i + 1]);
 
-            PointD nextMid;
-            if (i == original_path.Count - 2)
-                nextMid = new PointD((original_path[i].x + original_path[0].x) * 0.5,
-                    (original_path[i].y + original_path[0].y) * 0.5);
-            else
-                nextMid = new PointD((original_path[i].x + original_path[i + 1].x) * 0.5,
-                    (original_path[i].y + original_path[i + 1].y) * 0.5);
-            endLine.Add(nextMid);
+            var endLine = new PathD { original_path[i], nextMid };
 
-            // store the midpoint on the outgoing edge for index i (we'll use these for diagonal length)
+            // store midpoint on the outgoing edge for index i
             cornerMidpoints.Add(nextMid);
 
-            double radius = convex_radius;
-            if (corner_types[i] == (int)types.concave)
-                radius = concave_radius;
+            // choose radius depending on concavity/convexity
+            double radius = convexRadius;
+            if (corner_types[i] == (int)CornerType.Concave)
+                radius = concaveRadius;
 
-            PathD current_corner = processCorner(startLine, endLine, radius, angular_resolution, edge_resolution,
+            // produce sampled corner polyline
+            PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
                 SamplingMode.ByMaxSegmentLength);
             processed.Add(current_corner);
         }
 
-        // Easing configuration:
+        // Easing configuration for assembling diagonals between short-edge runs and neighbours
         EasingStrategy easingMode = EasingStrategy.CubicBezierHermite;
-        double insetFraction = 0.12; // fraction of diagonal length to inset at each end (0..0.5)
-        double minInset = 2.0; // minimum inset in world units
-        double maxInset = 40.0; // maximum inset
+        double insetFraction = 0.12; // relative to diagonal length (0..0.5)
+        double minInset = 2.0;
+        double maxInset = 40.0;
         int diagStraightSample = 10; // samples for straight center section (0 = just endpoints)
 
-        // Assemble, replacing runs of short-edge corners with diagonals
+        // 3) assemble final polyline with easing across short-edge runs
         PathD assembled = AssembleWithEasing(processed, corner_types, easingMode, insetFraction, minInset, maxInset,
-            diagStraightSample, cornerMidpoints, cornerVertices, short_edge_length, max_short_edge_length, smoothMode,
-            edge_resolution);
+            diagStraightSample, cornerMidpoints, cornerVertices, shortEdgeLength, maxShortEdgeLength, smoothMode,
+            edgeResolution);
 
-        // Write SVG for inspection
-        string svg = BuildDetailedSvg(original_path, assembled);
+        // 4) optional final smoothing pass to ease any remaining seams between diagonals and curves
+        // Parameters here can be tuned: angleThresholdDeg, neighborhood radius (in vertex count), sample length hint
+        PathD smoothed = SmoothPolylineSeams(assembled, angleThresholdDeg: 8.0, neighborhoodRadius: 3, sampleLenHint: edgeResolution);
+
+        // 5) write an SVG for inspection
+        string svg = BuildDetailedSvg(original_path, smoothed);
         File.WriteAllText("assembled.svg", svg, Encoding.UTF8);
         Console.WriteLine("Wrote assembled.svg (smoothMode = " + smoothMode + ")");
     }
 
-    static int[] categorizeCorners(PathD path_, double short_edge_length)
+    // -------------------------------------------------------------------------
+    // Corner classification
+    // -------------------------------------------------------------------------
+    /// <summary>
+    /// Categorize each corner of a polygon as convex / concave / short-edge.
+    /// The input may be closed (first == last) and either winding order (CW/CCW) is handled.
+    /// </summary>
+    static int[] CategorizeCorners(PathD path_, double shortEdgeLength)
     {
-        int[] status = new int[path_.Count];
-
         PathD path = new PathD(path_);
         bool trimmed_path = false;
+
+        // If first == last, trim the duplicate closing point for processing but re-expand the result later.
         if (path.Count > 1 && path[0].x == path[^1].x && path[0].y == path[^1].y)
         {
             trimmed_path = true;
             path.RemoveAt(path.Count - 1);
         }
 
-        // signed area (positive = CCW)
+        // Compute signed area (positive => CCW)
         double area2 = 0;
         for (int i = 0; i < path.Count; i++)
         {
@@ -139,31 +183,34 @@ static class QuadraticBezierSamplingSwitcher_Polygon
 
         bool isCCW = area2 > 0;
 
+        int[] status = new int[path.Count];
+
         for (int i = 0; i < path.Count; i++)
         {
             PointD prev = path[(i - 1 + path.Count) % path.Count];
             PointD curr = path[i];
             PointD next = path[(i + 1) % path.Count];
 
-            double vx1 = curr.x - prev.x;
-            double vy1 = curr.y - prev.y;
-            double vx2 = next.x - curr.x;
-            double vy2 = next.y - curr.y;
+            PointD v1 = Minus(curr, prev);
+            PointD v2 = Minus(next, curr);
 
-            double len1 = Math.Sqrt(vx1 * vx1 + vy1 * vy1);
-            double len2 = Math.Sqrt(vx2 * vx2 + vy2 * vy2);
+            double len1 = Length(v1);
+            double len2 = Length(v2);
 
-            if (len1 <= short_edge_length && len2 <= short_edge_length)
+            // If both incident edges are short, mark as short-edge
+            if (len1 <= shortEdgeLength && len2 <= shortEdgeLength)
             {
-                status[i] = (int)types.shortedge;
+                status[i] = (int)CornerType.ShortEdge;
                 continue;
             }
 
-            double crossZ = vx1 * vy2 - vy1 * vx2;
+            // cross product gives orientation of turn (z component)
+            double crossZ = v1.x * v2.y - v1.y * v2.x;
             bool isVertexConvex = isCCW ? (crossZ > 0) : (crossZ < 0);
-            status[i] = (int)(isVertexConvex ? types.convex : types.concave);
+            status[i] = (int)(isVertexConvex ? CornerType.Convex : CornerType.Concave);
         }
 
+        // If we trimmed the path earlier, append a closing status equal to the first one
         if (trimmed_path)
         {
             Array.Resize(ref status, status.Length + 1);
@@ -173,79 +220,83 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return status;
     }
 
-    static PathD processCorner(PathD startLine, PathD endLine, double radius, double angular_resolution,
+    // -------------------------------------------------------------------------
+    // Corner processing: build sampled rounded corner between two "midpoint" lines
+    // -------------------------------------------------------------------------
+    /// <summary>
+    /// Given an incoming "start line" (vertex->prev-mid) and outgoing "end line"
+    /// (vertex->next-mid), carve off 'radius' from each and fit a quadratic-like
+    /// curve between the two offset points. The curve is then sampled using either
+    /// a maximum segment length or maximum angle sampling mode.
+    /// </summary>
+    static PathD ProcessCorner(PathD startLine, PathD endLine, double radius, double angular_resolution,
         double edge_resolution, SamplingMode mode = SamplingMode.ByMaxAngle)
     {
-        PointD startLineStart = startLine[0];
-        PointD startLineEnd = startLine[1];
-        PointD endLineStart = endLine[0];
-        PointD endLineEnd = endLine[1];
+        // startLine: [vertex, prevMid], endLine: [vertex, nextMid]
+        PointD startVertex = startLine[0];
+        PointD startMid = startLine[1];
+        PointD endVertex = endLine[0];
+        PointD endMid = endLine[1];
 
-        PointD startLength = Minus(startLineEnd, startLineStart);
-        PointD startDir = Normalized(startLength);
-        PointD endLength = Minus(endLineEnd, endLineStart);
-        PointD endDir = Normalized(endLength);
+        // directions along the incident edges from the vertex towards each midpoint
+        PointD startDir = Normalized(Minus(startMid, startVertex));
+        PointD endDir = Normalized(Minus(endMid, endVertex));
 
-        double start_radius = radius;
-        double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
-        if (start_radius > half_edge_length) start_radius = half_edge_length;
-        PointD curveStartPoint = Add(startLineStart, Mult(startDir, start_radius));
+        // clamp radius to half-edge-length to avoid overshoot
+        double startEdgeLen = Length(Minus(startMid, startVertex));
+        double startRadius = Math.Min(radius, Math.Abs(startEdgeLen));
 
-        double end_radius = radius;
-        half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
-        if (end_radius > half_edge_length) end_radius = half_edge_length;
-        PointD curveEndPoint = Add(endLineStart, Mult(endDir, end_radius));
+        double endEdgeLen = Length(Minus(endMid, endVertex));
+        double endRadius = Math.Min(radius, Math.Abs(endEdgeLen));
 
-        double dx = curveEndPoint.x - curveStartPoint.x;
-        double dy = curveEndPoint.y - curveStartPoint.y;
+        // curve endpoints are offset along the incident edges by the chosen radii
+        PointD curveStartPoint = Add(startVertex, Mul(startDir, startRadius));
+        PointD curveEndPoint = Add(endVertex, Mul(endDir, endRadius));
+
+        // If directions are nearly parallel, fallback to straight line
         double det = startDir.x * endDir.y - startDir.y * endDir.x;
         if (Math.Abs(det) < 1e-9)
         {
-            // fallback: straight line between curve endpoints
-            PathD straight = new PathD();
-            straight.Add(curveStartPoint);
-            straight.Add(curveEndPoint);
+            var straight = new PathD { curveStartPoint, curveEndPoint };
             return straight;
         }
 
+        // Solve for a quadratic control point that makes the curve tangent to both directions:
+        // Parameter t solves curveStart + startDir * t intersects ray from curveEnd with direction endDir.
+        double dx = curveEndPoint.x - curveStartPoint.x;
+        double dy = curveEndPoint.y - curveStartPoint.y;
         double tParam = (dx * endDir.y - dy * endDir.x) / det;
-        PointD controlPoint = Add(curveStartPoint, Mult(startDir, tParam));
+        PointD controlPoint = Add(curveStartPoint, Mul(startDir, tParam));
 
-        PathD samples;
-        switch (mode)
+        // Sample using chosen strategy
+        PathD samples = mode switch
         {
-            case SamplingMode.ByMaxSegmentLength:
-                samples = SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, edge_resolution);
-                break;
-            case SamplingMode.ByMaxAngle:
-                double maxAngleRad = angular_resolution * Math.PI / 180.0;
-                samples = SampleByMaxAngle(curveStartPoint, controlPoint, curveEndPoint, maxAngleRad);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+            SamplingMode.ByMaxSegmentLength => SampleByMaxSegmentLength(curveStartPoint, controlPoint, curveEndPoint, edge_resolution),
+            SamplingMode.ByMaxAngle => SampleByMaxAngle(curveStartPoint, controlPoint, curveEndPoint, angular_resolution * Math.PI / 180.0),
+            _ => throw new ArgumentOutOfRangeException(nameof(mode))
+        };
 
         return samples;
     }
 
-    enum EasingStrategy
-    {
-        None,
-        CubicBezierHermite, // cubic bezier constructed from Hermite derivatives (no overshoot)
-        QuinticHermite, // quintic Hermite (C2)
-        SmoothBlend, // quintic Hermite sampled (soft)
-        CircularArc // tangent arc with cubic fallback
-    }
-
+    // -------------------------------------------------------------------------
+    // Assembly: replace runs of short-edge corners with blended diagonals
+    // -------------------------------------------------------------------------
+    /// <summary>
+    /// Assembles the final polyline from processed per-corner polylines. Runs of
+    /// short-edge corners are replaced by eased diagonals anchored to neighbouring
+    /// non-short corners. Various easing strategies are supported (cubic Hermite,
+    /// quintic, circular arc fallback, etc). The function ensures C1 transitions
+    /// between the corner samples and the diagonal center when possible.
+    /// </summary>
     static PathD AssembleWithEasing(
         PathsD processedCorners,
         int[] corner_types,
-        EasingStrategy strategy, // choose algorithm
+        EasingStrategy strategy,
         double insetFraction,
         double minInset,
         double maxInset,
         int diagStraightSample,
-        // Added parameters from AssembleWithDiagonals:
         List<PointD> cornerMidpoints,
         List<PointD> cornerVertices,
         double short_edge_length,
@@ -258,13 +309,13 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             throw new ArgumentException("cornerMidpoints must be same length as processedCorners");
         if (cornerVertices == null || cornerVertices.Count != n)
             throw new ArgumentException("cornerVertices must be same length as processedCorners");
+
         PathD outPts = new PathD();
 
+        // local smoothstep helpers
         static double CubicSmoothstep(double t) => t <= 0 ? 0 : t >= 1 ? 1 : (3.0 * t * t - 2.0 * t * t * t);
-
         static double QuinticSmoothstep(double t) =>
             t <= 0 ? 0 : t >= 1 ? 1 : (6.0 * Math.Pow(t, 5) - 15.0 * Math.Pow(t, 4) + 10.0 * Math.Pow(t, 3));
-
         static double ApplySmooth(SmoothStepMode mode, double t) =>
             mode switch
             {
@@ -273,57 +324,56 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                 _ => Math.Clamp(t, 0.0, 1.0)
             };
 
+        // boolean mask: is this corner considered a short-edge?
         bool[] isShort = new bool[n];
         for (int i = 0; i < n; i++)
-            isShort[i] = (i < corner_types.Length && corner_types[i] == (int)types.shortedge);
+            isShort[i] = (i < corner_types.Length && corner_types[i] == (int)CornerType.ShortEdge);
 
         int idx = 0;
         while (idx < n)
         {
             if (!isShort[idx])
             {
-                // append corner polyline avoiding duplicate first point
+                // append corner polyline (avoid duplicate vertex if already present)
                 PathD poly = processedCorners[idx];
                 if (poly.Count > 0)
                 {
                     if (outPts.Count == 0) outPts.AddRange(poly);
                     else
                     {
-                        PointD last = outPts[^1];
-                        PointD first = poly[0];
-                        if (Math.Abs(last.x - first.x) < 1e-9 && Math.Abs(last.y - first.y) < 1e-9)
+                        if (PointsEqual(outPts[^1], poly[0]))
                             outPts.AddRange(poly.Skip(1));
                         else
                             outPts.AddRange(poly);
                     }
                 }
-
                 idx++;
                 continue;
             }
 
-            // found short run
+            // We've found a run of short edges; locate its extent [runStart .. runEnd]
             int runStart = idx;
             while (idx < n && isShort[idx]) idx++;
             int runEnd = idx - 1;
 
-            // find prev non-short index
+            // Find adjacent non-short indices (wrapping around)
             int prevIdx = (runStart - 1 + n) % n;
             while (isShort[prevIdx]) prevIdx = (prevIdx - 1 + n) % n;
 
-            // find next non-short index
             int nextIdx = (runEnd + 1) % n;
             while (isShort[nextIdx]) nextIdx = (nextIdx + 1) % n;
 
+            // endpoints to connect with diagonal (these are the last/first points of the processed corner polylines)
             PointD processedStartPt = processedCorners[prevIdx].Last();
             PointD processedEndPt = processedCorners[nextIdx].First();
 
-            // Midpoints and vertices for measuring shortness (per-side)
+            // gather midpoints/vertices to measure "shortness" on the two adjacent sides
             PointD diagStartMid = cornerMidpoints[prevIdx];
             PointD diagEndMid = cornerMidpoints[nextIdx];
             PointD vertexPrev = cornerVertices[prevIdx];
             PointD vertexNext = cornerVertices[nextIdx];
 
+            // distances used to compute blend factor (0..1)
             double dPrev = Length(Minus(diagStartMid, vertexPrev));
             double dNext = Length(Minus(diagEndMid, vertexNext));
 
@@ -334,7 +384,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             double blendPrev = ApplySmooth(smoothMode, tPrev);
             double blendNext = ApplySmooth(smoothMode, tNext);
 
-            // If both blends are near zero, draw straight diagonal (with optional sampling)
+            // If both blends are essentially zero, we just connect a straight diagonal (optionally sampled)
             if (blendPrev <= 1e-9 && blendNext <= 1e-9)
             {
                 if (outPts.Count == 0) outPts.Add(processedStartPt);
@@ -353,101 +403,85 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                         PointD p = new PointD(processedStartPt.x + diagFull.x * t, processedStartPt.y + diagFull.y * t);
                         outPts.Add(p);
                     }
-
                     outPts.Add(processedEndPt);
                 }
 
                 continue;
             }
 
-            // compute diagonal vector and inset
+            // Build diagonal segment S..E inset from the processed endpoints
             PointD diag = Minus(processedEndPt, processedStartPt);
             double diagLen = Length(diag);
             if (diagLen <= 1e-9)
             {
-                // degenerate: just append end
+                // degenerate: endpoints coincide
                 if (outPts.Count == 0 || !PointsEqual(outPts[^1], processedEndPt)) outPts.Add(processedEndPt);
                 continue;
             }
 
             PointD diagDir = Normalized(diag);
+
             double inset = Math.Max(minInset, Math.Min(maxInset, diagLen * insetFraction));
-            if (inset * 2.0 > diagLen) inset = diagLen * 0.5 * 0.999; // keep positive center
+            if (inset * 2.0 > diagLen) inset = diagLen * 0.5 * 0.999; // avoid collapsing
 
-            PointD S = Add(processedStartPt, Mul(diagDir, inset)); // inward from start
-            PointD E = Minus(processedEndPt, Mul(diagDir, inset)); // inward from end
+            PointD S = Add(processedStartPt, Mul(diagDir, inset));  // start of center straight
+            PointD E = Minus(processedEndPt, Mul(diagDir, inset)); // end of center straight
 
-            // estimate tangents from processed polylines to blend with
+            // Estimate tangents at the processed polyline ends to blend from/to
             PointD prevTangent = EstimateOutgoingTangent(processedCorners[prevIdx]);
             PointD nextTangent = EstimateIncomingTangent(processedCorners[nextIdx]);
 
-            // ensure tangents are non-zero; fallback to diag direction if needed
+            // Fallbacks for degenerate tangents: use diagonal direction
             if (Length(prevTangent) < 1e-12) prevTangent = diagDir;
             if (Length(nextTangent) < 1e-12) nextTangent = diagDir;
 
-            // unit directions
+            // Unit directions
             PointD prevDirUnit = Normalized(prevTangent);
             PointD nextDirUnit = Normalized(nextTangent);
 
-            // eased blends (0..1)
+            // eased blends (0..1) - apply the configured smooth step again
             double tPrevBlend = ApplySmooth(smoothMode, blendPrev);
             double tNextBlend = ApplySmooth(smoothMode, blendNext);
 
-            // blended directions toward diagonal (unit)
+            // blended directions move from the corner tangent toward the diagonal direction
             PointD blendedPrevDir = Normalized(Add(Mul(prevDirUnit, 1 - tPrevBlend), Mul(diagDir, tPrevBlend)));
             PointD blendedNextDir = Normalized(Add(Mul(nextDirUnit, 1 - tNextBlend), Mul(diagDir, tNextBlend)));
 
-            // geometric Hermite segment lengths (parameter t in [0..1] spans the segment)
+            // Compute Hermite handle lengths based on inset distances from processed endpoints to S/E
             double Lstart = Math.Max(1e-9, Length(Minus(S, processedStartPt)));
             double Lend = Math.Max(1e-9, Length(Minus(processedEndPt, E)));
 
-            // internal Hermite derivatives from blended unit directions
             PointD H_blended_start = Mul(blendedPrevDir, Lstart);
             PointD H_blended_end = Mul(blendedNextDir, Lend);
 
-            // exact diagonal Hermite derivatives at inset points (what the center straight line uses)
-            PointD H_diag_at_S = Mul(diagDir, Lstart);
-            PointD H_diag_at_E = Mul(Neg(diagDir), Lend);
-
-            // Match tangents at the S/E connection to ensure C1 continuity with the center diagonal.
-            // We preserve magnitudes from H_blended_* but rotate/scale them to align with the diagonal direction.
-            // Compute magnitudes
+            // We want the segment that meets the center straight to be tangent matched to the diagonal.
+            // Create final derivative directions that interpolate between blended direction and exact diagonal direction,
+            // while preserving magnitudes from the blended handles to avoid extreme curvature.
             double magStart = Length(H_blended_start);
             double magEnd = Length(H_blended_end);
 
-            // Desired diagonal-direction derivatives at S and E (preserve appropriate sign)
-            PointD desiredAtS = Mul(diagDir, magStart); // pointing along diag from S -> E
-            PointD desiredAtE = Mul(Neg(diagDir), magEnd); // pointing along diag from E -> S
-
-            // Interpolate between blended derivative and exact diagonal derivative using eased blend weights.
-            // When tPrevBlend==1 we fully match diagonal at S; when 0 we keep blended direction.
             PointD finalDirAtS = Normalized(Add(Mul(blendedPrevDir, 1 - tPrevBlend), Mul(diagDir, tPrevBlend)));
             PointD finalDirAtE = Normalized(Add(Mul(blendedNextDir, 1 - tNextBlend), Mul(Neg(diagDir), tNextBlend)));
 
-            // Use final directions but keep magnitudes from H_blended_* so curvature stays reasonable.
             PointD finalDerivAtS = Mul(finalDirAtS, magStart);
             PointD finalDerivAtE = Mul(finalDirAtE, magEnd);
 
-            // Now set Hermite derivatives: at processedStartPt (T0_for_start) keep blended incoming derivative,
-            // at S (T1_for_start) use finalDerivAtS to ensure the start segment exits tangent-matched to the center.
+            // Set Hermite derivatives for the two blending cubic/quintic segments:
+            // For the start segment (processedStartPt -> S):
             PointD T0_for_start = H_blended_start;
             PointD T1_for_start = finalDerivAtS;
 
-            // For end segment: at E (T0_for_end) use finalDerivAtE so it enters the center tangent-matched,
-            // and at processedEndPt (T1_for_end) keep blended outgoing derivative.
+            // For the end segment (E -> processedEndPt):
             PointD T0_for_end = finalDerivAtE;
             PointD T1_for_end = H_blended_end;
 
-
-            // If strategy is None, preserve original blended cubic path sampling behavior:
+            // If strategy==None, use a quick blended quadratic-like sample between endpoints (legacy behaviour)
             if (strategy == EasingStrategy.None)
             {
                 if (outPts.Count == 0) outPts.Add(processedStartPt);
                 else if (!PointsEqual(outPts[^1], processedStartPt)) outPts.Add(processedStartPt);
 
-                // Build a simple quadratic-like blended curve from processedStartPt->processedEndPt
-                // Here we sample a blended cubic defined by endpoints processedStartPt/processedEndPt and control = their midpoint,
-                // matching prior code behavior for None: use sampled blended curve (quick approach).
+                // midpoint control for a simple blended curve
                 PointD diagControl = new PointD((processedStartPt.x + processedEndPt.x) / 2.0,
                     (processedStartPt.y + processedEndPt.y) / 2.0);
                 PathD blendedCurve = SampleByMaxSegmentLength(processedStartPt, diagControl, processedEndPt, 0.5);
@@ -455,63 +489,53 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                 continue;
             }
 
-            // Now handle each easing strategy, using the computed Hermite derivatives.
+            // Build the two blended end segments according to the chosen strategy.
             PathD startSeg = null;
             PathD endSeg = null;
 
             switch (strategy)
             {
                 case EasingStrategy.CubicBezierHermite:
-                    // Use Hermite-sampled cubic producing C1 matching at endpoints
-                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start,
-                        edgeResolution);
+                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
                     endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
                     break;
 
                 case EasingStrategy.QuinticHermite:
-                    // Full quintic C2 builder would require second derivatives; fallback to sampled cubic Hermite.
-                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start,
-                        edgeResolution);
-                    endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
-                    break;
-
                 case EasingStrategy.SmoothBlend:
-                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start,
-                        edgeResolution);
+                    // behaviour falls back to cubic Hermite sampling in this implementation
+                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
                     endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
                     break;
 
                 case EasingStrategy.CircularArc:
-                    // Try circular arcs that respect the diagonal direction; fall back to cubic Hermite sampled if not possible.
-                    startSeg = BuildCircularArcOrNull(processedStartPt, S, T0_for_start, diagDir, inset);
-                    if (startSeg == null)
-                        startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start,
-                            edgeResolution);
+                    // try circular arcs that respect tangency and fallback to cubic Hermite if not possible
+                    startSeg = BuildCircularArcOrNull(processedStartPt, S, T0_for_start, diagDir, inset)
+                               ?? BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
 
-                    endSeg = BuildCircularArcOrNull(E, processedEndPt, Neg(diagDir), T1_for_end, inset);
-                    if (endSeg == null)
-                        endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
+                    endSeg = BuildCircularArcOrNull(E, processedEndPt, Neg(diagDir), T1_for_end, inset)
+                             ?? BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
                     break;
 
                 default:
-                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start,
-                        edgeResolution);
+                    startSeg = BuildCubicHermiteSampled(processedStartPt, S, T0_for_start, T1_for_start, edgeResolution);
                     endSeg = BuildCubicHermiteSampled(E, processedEndPt, T0_for_end, T1_for_end, edgeResolution);
                     break;
             }
 
-            // append start segment avoiding duplicate first point
-            if (startSeg != null)
+            // Append start segment (avoid duplicate vertex)
+            if (startSeg != null && startSeg.Count > 0)
             {
-                if (outPts.Count > 0 && PointsEqual(outPts[^1], startSeg[0])) outPts.AddRange(startSeg.Skip(1));
-                else outPts.AddRange(startSeg);
+                if (outPts.Count > 0 && PointsEqual(outPts[^1], startSeg[0]))
+                    outPts.AddRange(startSeg.Skip(1));
+                else
+                    outPts.AddRange(startSeg);
             }
             else
             {
                 if (outPts.Count == 0 || !PointsEqual(outPts[^1], S)) outPts.Add(S);
             }
 
-            // center straight S->E
+            // center straight S -> E (optionally sampled)
             if (diagStraightSample <= 0)
             {
                 if (!PointsEqual(outPts[^1], E)) outPts.Add(E);
@@ -524,12 +548,11 @@ static class QuadraticBezierSamplingSwitcher_Polygon
                     PointD p = Add(S, Mul(diagDir, (diagLen - 2 * inset) * t));
                     outPts.Add(p);
                 }
-
                 outPts.Add(E);
             }
 
-            // append end segment avoiding duplicate E
-            if (endSeg != null)
+            // Append end segment (avoid duplicating E)
+            if (endSeg != null && endSeg.Count > 0)
             {
                 if (PointsEqual(outPts[^1], endSeg[0])) outPts.AddRange(endSeg.Skip(1));
                 else outPts.AddRange(endSeg);
@@ -540,10 +563,11 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             }
         }
 
+        // Close the loop (make last identical to first) if there are points
         if (outPts.Count > 0)
         {
             if (Length(Minus(outPts[0], outPts[^1])) < 1e-9)
-                outPts[^1] = outPts[0]; // make identical
+                outPts[^1] = outPts[0];
             else
                 outPts.Add(outPts[0]);
         }
@@ -551,23 +575,144 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return outPts;
     }
 
-    // Build a helper to convert Hermite->Bezier and sample
+    // -------------------------------------------------------------------------
+    // Final smoothing pass: locally replace seam neighborhoods with cubic Hermite
+    // -------------------------------------------------------------------------
+    /// <summary>
+    /// Smooth local seams in a (closed) polyline by detecting vertices where the
+    /// angle between the incoming and outgoing segments is sharp and replacing a
+    /// small neighborhood around each seam with a sampled cubic-Hermite segment.
+    ///
+    /// Parameters:
+    /// - angleThresholdDeg: seams with absolute angle > this (degrees) are smoothed
+    /// - neighborhoodRadius: number of vertices on each side to include in the replacement
+    /// - sampleLenHint: passed to the sampler as the max segment length hint
+    /// </summary>
+    static PathD SmoothPolylineSeams(PathD pts, double angleThresholdDeg = 8.0, int neighborhoodRadius = 3, double sampleLenHint = 0.5)
+    {
+        if (pts == null || pts.Count < 5) return pts;
+
+        // Work on a non-duplicated closed polyline (remove final duplicate if present)
+        bool closed = PointsEqual(pts[0], pts[^1]);
+        PathD work = new PathD(pts);
+        if (closed) work.RemoveAt(work.Count - 1);
+
+        int n = work.Count;
+        if (n < 4)
+        {
+            if (closed) work.Add(work[0]);
+            return work;
+        }
+
+        double threshRad = Math.Abs(angleThresholdDeg) * Math.PI / 180.0;
+        var ranges = new List<(int s, int e)>();
+
+        // Identify seam centers (skip the first and last indices directly; use modular arithmetic)
+        for (int i = 0; i < n; i++)
+        {
+            int im1 = (i - 1 + n) % n;
+            int ip1 = (i + 1) % n;
+
+            PointD vprev = Minus(work[i], work[im1]);
+            PointD vnext = Minus(work[ip1], work[i]);
+            double lprev = Length(vprev);
+            double lnext = Length(vnext);
+            if (lprev < 1e-9 || lnext < 1e-9) continue;
+
+            double dot = Math.Max(-1.0, Math.Min(1.0, Dot(Normalized(vprev), Normalized(vnext))));
+            double ang = Math.Acos(dot);
+
+            if (Math.Abs(ang) > threshRad)
+            {
+                // build neighborhood indices (clamped for non-wrapping list)
+                int s = i - neighborhoodRadius;
+                int e = i + neighborhoodRadius;
+                // convert to 0..n-1 clamped
+                s = Math.Max(0, s);
+                e = Math.Min(n - 1, e);
+
+                // merge overlapping ranges
+                if (ranges.Count > 0 && s <= ranges[^1].e)
+                {
+                    var last = ranges[^1];
+                    ranges[^1] = (last.s, Math.Max(last.e, e));
+                }
+                else
+                {
+                    ranges.Add((s, e));
+                }
+            }
+        }
+
+        // If no ranges found, just return original (reclose if needed)
+        if (ranges.Count == 0)
+        {
+            if (closed) work.Add(work[0]);
+            return work;
+        }
+
+        // Apply replacements from last to first so indices remain valid
+        for (int ri = ranges.Count - 1; ri >= 0; ri--)
+        {
+            int s = ranges[ri].s;
+            int e = ranges[ri].e;
+            if (e - s < 2) continue; // nothing to replace
+
+            PointD A = work[s];
+            PointD B = work[e];
+
+            // Estimate endpoint derivatives from local neighbors
+            PointD neighborA = work[Math.Min(s + 1, n - 1)];
+            PointD neighborB = work[Math.Max(e - 1, 0)];
+
+            PointD dirA = Normalized(Minus(neighborA, A));
+            PointD dirB = Normalized(Minus(B, neighborB));
+            if (Length(dirA) < 1e-12) dirA = Normalized(Minus(B, A));
+            if (Length(dirB) < 1e-12) dirB = Normalized(Minus(B, A));
+
+            // Derivative magnitudes: set proportional to local distances (conservative)
+            double magA = Length(Minus(neighborA, A));
+            double magB = Length(Minus(B, neighborB));
+            // Ensure non-zero magnitude
+            magA = Math.Max(magA, Length(Minus(B, A)) * 0.1);
+            magB = Math.Max(magB, Length(Minus(B, A)) * 0.1);
+
+            PointD T0 = Mul(dirA, magA);
+            PointD T1 = Mul(dirB, magB);
+
+            // Sample replacement cubic Hermite between A and B
+            PathD replacement = BuildCubicHermiteSampled(A, B, T0, T1, sampleLenHint);
+
+            // Keep endpoints A and B, replace interior points s+1..e-1
+            // Build new work list: [0..s] + replacement (without A/B endpoints) + [e..end]
+            var newWork = new PathD();
+            for (int k = 0; k <= s; k++) newWork.Add(work[k]);
+            // add replacement interior (skip first and last because they equal A and B)
+            if (replacement.Count >= 2)
+            {
+                // skip endpoints
+                for (int k = 1; k < replacement.Count - 1; k++) newWork.Add(replacement[k]);
+            }
+            for (int k = e; k < n; k++) newWork.Add(work[k]);
+
+            work = newWork;
+            n = work.Count;
+        }
+
+        // Reclose if needed
+        if (closed && work.Count > 0) work.Add(work[0]);
+        return work;
+    }
+
+    // -------------------------------------------------------------------------
+    // Sampling & Builder helper functions
+    // -------------------------------------------------------------------------
     static PathD BuildCubicHermiteSampled(PointD A, PointD B, PointD T0, PointD T1, double maxSegLen)
     {
         HermiteToBezier(A, B, T0, T1, out PointD b0, out PointD b1, out PointD b2, out PointD b3);
         return SampleBezierByMaxSegmentLength(b0, b1, b2, b3, maxSegLen);
     }
 
-    // Build sampled cubic Hermite segments (HermiteToBezier expects derivatives dP/dt)
-    static PathD BuildC1CubicSampledForHermite(PointD A, PointD B, PointD T0, PointD T1, double maxSegLen)
-    {
-        HermiteToBezier(A, B, T0, T1, out PointD b0, out PointD b1, out PointD b2, out PointD b3);
-        return SampleBezierByMaxSegmentLength(b0, b1, b2, b3, maxSegLen);
-    }
-
-    // Helper: convert Hermite endpoints/tangents to cubic Bezier control points
-    // Hermite with endpoints P0,P1 and tangents T0,T1 maps to Bezier with
-    // B0=P0, B1 = P0 + T0/3, B2 = P1 - T1/3, B3=P1.
     static void HermiteToBezier(PointD P0, PointD P1, PointD T0, PointD T1,
         out PointD B0, out PointD B1, out PointD B2, out PointD B3)
     {
@@ -577,37 +722,30 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         B3 = P1;
     }
 
-    // Helper: build and sample cubic Hermite segment from A->B with tangents TA/TB and desired inset length (used for spacing)
-    static PathD BuildC1CubicSampled(PointD A, PointD B, PointD TA, PointD TB, double maxSegLen)
-    {
-        HermiteToBezier(A, B, TA, TB, out PointD b0, out PointD b1, out PointD b2, out PointD b3);
-        return SampleBezierByMaxSegmentLength(b0, b1, b2, b3, maxSegLen);
-    }
-
+    // Sample a cubic Bezier adaptively by chord vs control polygon length (simple recursion)
     static PathD SampleBezierByMaxSegmentLength(PointD b0, PointD b1, PointD b2, PointD b3, double maxLen)
     {
-        PathD outp = new PathD();
-        outp.Add(b0);
+        PathD outp = new PathD { b0 };
 
-        // simple recursive subdivide based on chord vs control polygon length
         void Recurse(PointD p0, PointD p1, PointD p2, PointD p3)
         {
-            // estimate flatness via control polygon length minus chord
             double chord = Length(Minus(p3, p0));
             double contLen = Length(Minus(p1, p0)) + Length(Minus(p2, p1)) + Length(Minus(p3, p2));
+
             if (contLen - chord <= maxLen || chord <= maxLen)
             {
                 outp.Add(p3);
                 return;
             }
 
-            // subdivide
+            // de Casteljau split
             PointD p01 = Mul(Add(p0, p1), 0.5);
             PointD p12 = Mul(Add(p1, p2), 0.5);
             PointD p23 = Mul(Add(p2, p3), 0.5);
             PointD p012 = Mul(Add(p01, p12), 0.5);
             PointD p123 = Mul(Add(p12, p23), 0.5);
             PointD p0123 = Mul(Add(p012, p123), 0.5);
+
             Recurse(p0, p01, p012, p0123);
             Recurse(p0123, p123, p23, p3);
         }
@@ -616,10 +754,10 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return outp;
     }
 
+    // Quadratic sampling helpers (subdivide by length or by angle)
     static PathD SampleByMaxSegmentLength(PointD P0, PointD P1, PointD P2, double maxSegLen)
     {
-        PathD pts = new PathD();
-        pts.Add(P0);
+        PathD pts = new PathD { P0 };
         SubdivideByLength(P0, P1, P2, maxSegLen, pts);
         pts.Add(P2);
         return pts;
@@ -640,8 +778,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
 
     static PathD SampleByMaxAngle(PointD P0, PointD P1, PointD P2, double maxAngle)
     {
-        PathD pts = new PathD();
-        pts.Add(P0);
+        PathD pts = new PathD { P0 };
         SubdivideByAngle(P0, P1, P2, maxAngle, pts);
         pts.Add(P2);
         return pts;
@@ -649,9 +786,9 @@ static class QuadraticBezierSamplingSwitcher_Polygon
 
     static void SubdivideByAngle(PointD p0, PointD p1, PointD p2, double maxAngle, PathD outPts)
     {
-        PointD tan0 = Normalized((Minus(p1, p0)));
-        PointD tan1 = Normalized((Minus(p2, p1)));
-        double dot = Math.Max(-1.0, Math.Min(1.0, tan0.x * tan1.x + tan0.y * tan1.y));
+        PointD tan0 = Normalized(Minus(p1, p0));
+        PointD tan1 = Normalized(Minus(p2, p1));
+        double dot = Math.Max(-1.0, Math.Min(1.0, Dot(tan0, tan1)));
         double angle = Math.Acos(dot);
         if (angle <= maxAngle)
         {
@@ -664,7 +801,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         SubdivideByAngle(p012, p12, p2, maxAngle, outPts);
     }
 
-    // Estimate outgoing tangent at end of a corner polyline (last - secondLast normalized)
+    // Estimate tangents (unit vectors) at polyline endpoints for blending
     static PointD EstimateOutgoingTangent(PathD poly)
     {
         if (poly == null || poly.Count < 2) return new PointD(1, 0);
@@ -675,7 +812,6 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return l > 0 ? Mult(t, 1.0 / l) : new PointD(1, 0);
     }
 
-    // Estimate incoming tangent at start of a corner polyline (second - first normalized)
     static PointD EstimateIncomingTangent(PathD poly)
     {
         if (poly == null || poly.Count < 2) return new PointD(1, 0);
@@ -686,102 +822,10 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return l > 0 ? Mult(t, 1.0 / l) : new PointD(1, 0);
     }
 
-    // Create quadratic samples between p0->p2 with control p1. Use max segment length as "sampleLenHint".
-    static PathD SampleQuadratic(PointD p0, PointD p1, PointD p2, double sampleLenHint)
-    {
-        // For these small easings, interpret sampleLenHint as desired maximum chord length
-        double maxSeg = Math.Max(0.5, sampleLenHint); // guard smallness
-        return SampleByMaxSegmentLength(p0, p1, p2, maxSeg);
-    }
-
-    // Convert Hermite (p0,p1,m0,m1) to cubic bezier and sample it
-    static PathD HermiteToCubicAndSample(PointD p0, PointD p1, PointD m0, PointD m1, double sampleLenHint)
-    {
-        // Cubic Bezier control points:
-        // b0 = p0
-        // b1 = p0 + m0/3
-        // b2 = p1 - m1/3
-        // b3 = p1
-        PointD b0 = p0;
-        PointD b1 = p0 + (1.0 / 3.0) * m0;
-        PointD b2 = p1 - (1.0 / 3.0) * m1;
-        PointD b3 = p1;
-        // Convert cubic to a polyline by simple recursive subdivision using chord length threshold
-        return SampleCubicByLength(b0, b1, b2, b3, Math.Max(0.5, sampleLenHint));
-    }
-
-    // Simple cubic subdivision sampling by chord length
-    static PathD SampleCubicByLength(PointD b0, PointD b1, PointD b2, PointD b3, double maxSegLen)
-    {
-        PathD pts = new PathD();
-        pts.Add(b0);
-        SubdivideCubicByLength(b0, b1, b2, b3, maxSegLen, pts);
-        pts.Add(b3);
-        return pts;
-    }
-
-    static void SubdivideCubicByLength(PointD p0, PointD p1, PointD p2, PointD p3, double maxSegLen, PathD outPts)
-    {
-        // If chord length small enough, emit p3
-        if (Length(Minus(p3, p0)) <= maxSegLen)
-        {
-            outPts.Add(p3);
-            return;
-        }
-
-        // de Casteljau split cubic
-        PointD p01 = Mid(p0, p1), p12 = Mid(p1, p2), p23 = Mid(p2, p3);
-        PointD p012 = Mid(p01, p12), p123 = Mid(p12, p23);
-        PointD p0123 = Mid(p012, p123);
-        SubdivideCubicByLength(p0, p01, p012, p0123, maxSegLen, outPts);
-        SubdivideCubicByLength(p0123, p123, p23, p3, maxSegLen, outPts);
-    }
-
-    // Solve circle center for tangency at p0 with dir0 and p1 with dir1 (used by CircularArc)
-    static bool TryBuildTangentArc(PointD p0, PointD dir0, PointD p1, PointD dir1, out PointD center, out double radius,
-        out double startAng, out double sweep)
-    {
-        center = new PointD(0, 0);
-        radius = 0;
-        startAng = 0;
-        sweep = 0;
-        // Equations: (p0 - C) dot dir0 = 0 and (p1 - C) dot dir1 = 0
-        double a11 = -dir0.x;
-        double a12 = -dir0.y;
-        double b1 = -(-dir0.x * p0.x - dir0.y * p0.y);
-        double a21 = -dir1.x;
-        double a22 = -dir1.y;
-        double b2 = -(-dir1.x * p1.x - dir1.y * p1.y);
-        double det = a11 * a22 - a12 * a21;
-        if (Math.Abs(det) < 1e-12) return false;
-        double cx = (b1 * a22 - a12 * b2) / det;
-        double cy = (a11 * b2 - b1 * a21) / det;
-        center = new PointD(cx, cy);
-        PointD v0 = new PointD(p0.x - cx, p0.y - cy);
-        PointD v1 = new PointD(p1.x - cx, p1.y - cy);
-        double r0 = Length(v0);
-        double r1 = Length(v1);
-        if (r0 < 1e-9 || r1 < 1e-9) return false;
-        if (Math.Abs(r0 - r1) > Math.Max(r0, r1) * 1e-3) return false;
-        radius = 0.5 * (r0 + r1);
-        startAng = Math.Atan2(v0.y, v0.x);
-        double endAng = Math.Atan2(v1.y, v1.x);
-        double rawSweep = endAng - startAng;
-        while (rawSweep <= -Math.PI) rawSweep += 2 * Math.PI;
-        while (rawSweep > Math.PI) rawSweep -= 2 * Math.PI;
-        // Ensure orientation matches tangent directions
-        PointD tangentAtStart = new PointD(-v0.y, v0.x);
-        double ssign = Math.Sign(Dot(tangentAtStart, dir0));
-        if (ssign == 0) ssign = 1;
-        if (ssign < 0 && rawSweep > 0) rawSweep -= 2 * Math.PI;
-        if (ssign > 0 && rawSweep < 0) rawSweep += 2 * Math.PI;
-        sweep = rawSweep;
-        if (Math.Abs(sweep) > Math.PI * 1.5) return false;
-        return true;
-    }
-
-
-    // uniform cubic Bezier sampler (inclusive endpoints)
+    // -------------------------------------------------------------------------
+    // Additional builders (Cubic/Quintic/CircularArc) used by assemble logic
+    // -------------------------------------------------------------------------
+    // Simple uniform cubic sampler (inclusive endpoints); used by BuildCubicFromHermite
     static PathD SampleCubicBezier(PointD p0, PointD b1, PointD b2, PointD p3, int samples)
     {
         PathD outp = new PathD();
@@ -799,11 +843,10 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             );
             outp.Add(p);
         }
-
         return outp;
     }
 
-    // quintic hermite sampler (C2)
+    // Quintic Hermite sampler (C2) - used by some builders for smoother blends
     static PathD SampleQuinticHermite(PointD p0, PointD p1, PointD m0, PointD m1, PointD s0, PointD s1, int samples)
     {
         PathD outp = new PathD();
@@ -826,40 +869,29 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             );
             outp.Add(p);
         }
-
         return outp;
     }
 
-    // quintic smoothstep (C2) — used only when needed
-    static double SmoothStep5(double t) =>
-        t <= 0 ? 0 : t >= 1 ? 1 : (6 * Math.Pow(t, 5) - 15 * Math.Pow(t, 4) + 10 * Math.Pow(t, 3));
-
-    // sample count heuristic
     static int SampleCountForInset(double ins)
     {
         int sc = Math.Max(8, (int)Math.Ceiling(ins * 40));
         return sc;
     }
 
-    // ---- Builders that guarantee C1 and avoid overshoot ----
-    // Convert Hermite derivatives m0,m1 to cubic Bezier controls (exact)
     static PathD BuildCubicFromHermite(PointD p0, PointD p1, PointD m0, PointD m1, int samples)
     {
-        // conversion: b1 = p0 + m0/3, b2 = p1 - m1/3
         PointD b1 = new PointD(p0.x + m0.x / 3.0, p0.y + m0.y / 3.0);
         PointD b2 = new PointD(p1.x - m1.x / 3.0, p1.y - m1.y / 3.0);
         return SampleCubicBezier(p0, b1, b2, p1, samples);
     }
 
-    // C1 cubic bezier builder that uses conservative handle magnitudes to avoid overshoot
     static PathD BuildC1Cubic(PointD a, PointD b, PointD tanA, PointD tanB, double inset)
     {
-        double HandleScale = 0.3; // conservative default — reduce to avoid overshoot, increase to soften
+        double HandleScale = 0.3;
         double maxHandle = inset * HandleScale;
-        // compute derivative vectors m0 (at a) and m1 (at b). We want these to be actual derivative vectors, not unit directions.
         PointD dirA = Normalized(tanA);
         PointD dirB = Normalized(tanB);
-        if (Length(dirA) < 1e-12) dirA = Normalized(Minus(b, a)); // fallback
+        if (Length(dirA) < 1e-12) dirA = Normalized(Minus(b, a));
         if (Length(dirB) < 1e-12) dirB = Normalized(Minus(b, a));
         PointD m0 = Mul(dirA, maxHandle);
         PointD m1 = Mul(dirB, maxHandle);
@@ -867,7 +899,6 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return BuildCubicFromHermite(a, b, m0, m1, samples);
     }
 
-    // Quintic Hermite builder (C2) with conservative derivative magnitudes
     static PathD BuildQuinticC2(PointD a, PointD b, PointD tanA, PointD tanB, double inset)
     {
         double HandleScale = 0.3;
@@ -884,10 +915,8 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return SampleQuinticHermite(a, b, m0, m1, s0, s1, samples);
     }
 
-    // Smooth blend implemented by sampling a quintic hermite (no remap with zero endpoint slope)
     static PathD BuildSmoothBlendC1(PointD a, PointD b, PointD tanA, PointD tanB, double inset)
     {
-        // Use quintic hermite but slightly bigger handle for a softer shape while keeping it conservative.
         double HandleScale = 0.35;
         double maxHandle = inset * HandleScale;
         PointD dirA = Normalized(tanA);
@@ -902,10 +931,10 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return SampleQuinticHermite(a, b, m0, m1, s0, s1, samples);
     }
 
-    // Circular arc builder; returns null if cannot build. Caller should fallback to BuildC1Cubic.
+    // Build a circular arc tangent to specified directions at endpoints if possible.
+    // Returns null if construction fails (caller should fallback to cubic).
     static PathD BuildCircularArcOrNull(PointD a, PointD b, PointD tanA, PointD tanB, double inset)
     {
-        // For tangency to diag direction at b we will pass tanB = -diagDir typically.
         if (!TryBuildTangentArc(a, tanA, b, tanB, out PointD center, out double radius, out double startAng,
                 out double sweep))
         {
@@ -921,11 +950,59 @@ static class QuadraticBezierSamplingSwitcher_Polygon
             PointD p = new PointD(center.x + radius * Math.Cos(ang), center.y + radius * Math.Sin(ang));
             outp.Add(p);
         }
-
         return outp;
     }
 
-    // --- CSV & SVG Utilities ---
+    // Solve for circle center that is tangent to two directions at p0 and p1.
+    static bool TryBuildTangentArc(PointD p0, PointD dir0, PointD p1, PointD dir1, out PointD center, out double radius,
+        out double startAng, out double sweep)
+    {
+        center = new PointD(0, 0);
+        radius = 0;
+        startAng = 0;
+        sweep = 0;
+
+        // Solve linear system for center C such that (p0 - C) dot dir0 = 0 and (p1 - C) dot dir1 = 0
+        double a11 = -dir0.x, a12 = -dir0.y;
+        double b1 = -(-dir0.x * p0.x - dir0.y * p0.y);
+        double a21 = -dir1.x, a22 = -dir1.y;
+        double b2 = -(-dir1.x * p1.x - dir1.y * p1.y);
+        double det = a11 * a22 - a12 * a21;
+        if (Math.Abs(det) < 1e-12) return false;
+
+        double cx = (b1 * a22 - a12 * b2) / det;
+        double cy = (a11 * b2 - b1 * a21) / det;
+        center = new PointD(cx, cy);
+
+        PointD v0 = Minus(p0, center);
+        PointD v1 = Minus(p1, center);
+        double r0 = Length(v0);
+        double r1 = Length(v1);
+        if (r0 < 1e-9 || r1 < 1e-9) return false;
+        if (Math.Abs(r0 - r1) > Math.Max(r0, r1) * 1e-3) return false;
+
+        radius = 0.5 * (r0 + r1);
+        startAng = Math.Atan2(v0.y, v0.x);
+        double endAng = Math.Atan2(v1.y, v1.x);
+        double rawSweep = endAng - startAng;
+        while (rawSweep <= -Math.PI) rawSweep += 2 * Math.PI;
+        while (rawSweep > Math.PI) rawSweep -= 2 * Math.PI;
+
+        // Ensure orientation matches tangent directions
+        PointD tangentAtStart = new PointD(-v0.y, v0.x);
+        double ssign = Math.Sign(Dot(tangentAtStart, dir0));
+        if (ssign == 0) ssign = 1;
+        if (ssign < 0 && rawSweep > 0) rawSweep -= 2 * Math.PI;
+        if (ssign > 0 && rawSweep < 0) rawSweep += 2 * Math.PI;
+
+        sweep = rawSweep;
+        if (Math.Abs(sweep) > Math.PI * 1.5) return false;
+        return true;
+    }
+
+    // -------------------------------------------------------------------------
+    // CSV & SVG Utilities (for debugging/visualisation)
+    // -------------------------------------------------------------------------
     static void WriteCsv(string path, PathD pts)
     {
         StringBuilder sb = new StringBuilder();
@@ -951,7 +1028,7 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         StringBuilder sb = new StringBuilder();
         sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{viewBox}\">");
 
-        // grid
+        // light grid
         double xs = NiceStep(w), ys = NiceStep(h);
         sb.AppendLine("  <g stroke=\"#ddd\" stroke-width=\"0.5\">");
         for (double x = Math.Ceiling(minX); x <= maxX; x += xs)
@@ -990,10 +1067,11 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         return bs * Math.Pow(10, e);
     }
 
-    static bool PointsEqual(PointD a, PointD b)
-    {
-        return Math.Abs(a.x - b.x) < 1e-9 && Math.Abs(a.y - b.y) < 1e-9;
-    }
+    // -------------------------------------------------------------------------
+    // Small geometric helpers
+    // -------------------------------------------------------------------------
+    static bool PointsEqual(PointD a, PointD b) =>
+        Math.Abs(a.x - b.x) < 1e-9 && Math.Abs(a.y - b.y) < 1e-9;
 
     static PointD Add(PointD a, PointD b) => new PointD(a.x + b.x, a.y + b.y);
     static PointD Minus(PointD a, PointD b) => new PointD(a.x - b.x, a.y - b.y);
@@ -1021,6 +1099,9 @@ static class QuadraticBezierSamplingSwitcher_Polygon
         $"  <text x=\"{p.x + dx}\" y=\"{-p.y + dy}\" font-size=\"10\" fill=\"#000\">{txt}</text>";
 }
 
+// -----------------------------------------------------------------------------
+// PointD: small 2D point struct with convenience operators
+// -----------------------------------------------------------------------------
 struct PointD
 {
     public double x, y;

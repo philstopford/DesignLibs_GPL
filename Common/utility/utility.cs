@@ -9,6 +9,8 @@ namespace utility;
 
 public static class Utils
 {
+    private static readonly double MathPiDiv180 = Math.PI / 180.0;
+    private static readonly double InvMathPiDiv180 = 180.0 / Math.PI;
     public static string friendlyNumber(int number)
     {
         return pFriendlyNumber(number);
@@ -82,18 +84,18 @@ public static class Utils
 
     public static double toRadians(double deg)
     {
-        return deg * (Math.PI / 180.0f);
+        return deg * MathPiDiv180;
     }
 
     public static double toDegrees(double rad)
     {
-        return rad / (Math.PI / 180.0f);
+        return rad * InvMathPiDiv180;
     }
 
     public static byte[] compress(byte[] data)
     {
-        MemoryStream compressedStream = new();
-        ZLibStream zipStream = new(compressedStream, CompressionMode.Compress);
+        using MemoryStream compressedStream = new();
+        using ZLibStream zipStream = new(compressedStream, CompressionMode.Compress);
         zipStream.Write(data, 0, data.Length);
         zipStream.Close();
         return compressedStream.ToArray();
@@ -101,9 +103,9 @@ public static class Utils
 
     public static byte[] decompress(byte[] data)
     {
-        MemoryStream compressedStream = new(data);
-        DeflateStream zipStream = new(compressedStream, CompressionMode.Decompress);
-        MemoryStream resultStream = new();
+        using MemoryStream compressedStream = new(data);
+        using DeflateStream zipStream = new(compressedStream, CompressionMode.Decompress);
+        using MemoryStream resultStream = new();
         zipStream.CopyTo(resultStream);
         return resultStream.ToArray();
     }
@@ -119,19 +121,19 @@ public static class Utils
 
     public static string GetMD5Hash(object input)
     {
-        MD5 hasher = MD5.Create();
+        using MD5 hasher = MD5.Create();
         return GetHash(hasher, input);
     }
         
     public static string GetSHA1Hash(object input)
     {
-        SHA1 hasher = SHA1.Create();
+        using SHA1 hasher = SHA1.Create();
         return GetHash(hasher, input);
     }
         
     public static string GetSHA256Hash(object input)
     {
-        SHA256 hasher = SHA256.Create();
+        using SHA256 hasher = SHA256.Create();
         return GetHash(hasher, input);
     }
 }

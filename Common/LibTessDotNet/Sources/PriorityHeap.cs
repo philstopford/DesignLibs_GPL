@@ -80,26 +80,30 @@ internal class PriorityHeap<TValue> where TValue : class
     private void FloatDown(int curr)
     {
         int hCurr = _nodes[curr];
+        int size = _size; // Cache field access
+        HandleElem[] handles = _handles; // Cache field access
+        int[] nodes = _nodes; // Cache field access
+        
         while (true)
         {
             int child = curr << 1;
-            if (child < _size && _leq(_handles[_nodes[child + 1]]._key, _handles[_nodes[child]]._key))
+            if (child < size && _leq(handles[nodes[child + 1]]._key, handles[nodes[child]]._key))
             {
                 ++child;
             }
 
             Debug.Assert(child <= _max);
 
-            int hChild = _nodes[child];
-            if (child > _size || _leq(_handles[hCurr]._key, _handles[hChild]._key))
+            int hChild = nodes[child];
+            if (child > size || _leq(handles[hCurr]._key, handles[hChild]._key))
             {
-                _nodes[curr] = hCurr;
-                _handles[hCurr]._node = curr;
+                nodes[curr] = hCurr;
+                handles[hCurr]._node = curr;
                 break;
             }
 
-            _nodes[curr] = hChild;
-            _handles[hChild]._node = curr;
+            nodes[curr] = hChild;
+            handles[hChild]._node = curr;
             curr = child;
         }
     }
@@ -107,18 +111,21 @@ internal class PriorityHeap<TValue> where TValue : class
     private void FloatUp(int curr)
     {
         int hCurr = _nodes[curr];
+        HandleElem[] handles = _handles; // Cache field access
+        int[] nodes = _nodes; // Cache field access
+        
         while (true)
         {
             int parent = curr >> 1;
-            int hParent = _nodes[parent];
-            if (parent == 0 || _leq(_handles[hParent]._key, _handles[hCurr]._key))
+            int hParent = nodes[parent];
+            if (parent == 0 || _leq(handles[hParent]._key, handles[hCurr]._key))
             {
-                _nodes[curr] = hCurr;
-                _handles[hCurr]._node = curr;
+                nodes[curr] = hCurr;
+                handles[hCurr]._node = curr;
                 break;
             }
-            _nodes[curr] = hParent;
-            _handles[hParent]._node = curr;
+            nodes[curr] = hParent;
+            handles[hParent]._node = curr;
             curr = parent;
         }
     }

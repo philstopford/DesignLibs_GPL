@@ -7,7 +7,7 @@ using utility;
 
 namespace geoAnalysis;
 
-public class DistanceHandler
+public sealed class DistanceHandler
 {
     public enum spacingCalcModes { spacing, enclosure, spacingOld, enclosureOld } // exp triggers projection from shortest edge for overlap evaluation.
 

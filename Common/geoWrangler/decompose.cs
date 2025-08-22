@@ -292,7 +292,7 @@ public static partial class GeoWrangler
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
-        RayCast rc = new(lPoly, lPoly, maxRayLength, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.force[...] ) ;
+        RayCast rc = new(lPoly, lPoly, maxRayLength, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
         //***************************************************************************
         // Get rays (unchanged)
         PathsD rays = rc.getRays();
@@ -302,7 +302,7 @@ public static partial class GeoWrangler
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
-        // ---------- BATCHED INTERSECTION + VERTEX LOOKUP ----------
+        // ---------- INDIVIDUAL RAY PROCESSING (restored original algorithm) ----------
         // If no rays, fallback to original behavior (nothing to do).
         if (rays == null || rays.Count == 0)
         {
@@ -331,101 +331,99 @@ public static partial class GeoWrangler
                 vertexLookup.Add(KeyFor(v, Constants.tolerance));
             }
 
-            // Batch all rays into a single Clipper execute - add all open subjects then the polygon as clip.
-            c.Clear();
-            foreach (PathD r in rays)
+            // Process rays individually in order - this is the original recursive ray emission approach
+            foreach (PathD ray in rays)
             {
                 if (abort) break;
-                c.AddOpenSubject(r);
-            }
-            c.AddClip(lPoly);
 
-            PolyTreeD pt = new();
-            PathsD p = new PathsD();
+                // Intersect this single ray with the polygon
+                c.Clear();
+                c.AddOpenSubject(ray);
+                c.AddClip(lPoly);
 
-            c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
-            c.Clear();
+                PolyTreeD pt = new();
+                PathsD raySegments = new PathsD();
+                c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, raySegments);
+                c.Clear();
 
-            // Filter segments: only keep those that have at least one endpoint on an existing polygon vertex.
-            for (int idx = p.Count - 1; idx >= 0; idx--)
-            {
-                if (abort) break;
-                var seg = p[idx];
-                if (seg.Count < 2)
-                {
-                    p.RemoveAt(idx);
-                    continue;
-                }
-
-                var aKey = KeyFor(seg[0], Constants.tolerance);
-                var bKey = KeyFor(seg[1], Constants.tolerance);
-
-                if (!vertexLookup.Contains(aKey) && !vertexLookup.Contains(bKey))
-                {
-                    p.RemoveAt(idx);
-                    continue;
-                }
-            }
-
-            // Axis filter (vertical/horizontal) -- same logic as original but performed after the batch.
-            for (int idx = p.Count - 1; idx >= 0; idx--)
-            {
-                if (abort) break;
-                var seg = p[idx];
-                if (vertical)
-                {
-                    if (Math.Abs(seg[0].x - seg[1].x) > Constants.tolerance)
-                    {
-                        p.RemoveAt(idx);
-                    }
-                }
-                else
-                {
-                    if (Math.Abs(seg[0].y - seg[1].y) > Constants.tolerance)
-                    {
-                        p.RemoveAt(idx);
-                    }
-                }
-            }
-
-            // Use the remaining candidate segments for the original offset-area screening.
-            if (p.Count > 0 && !abort)
-            {
-                bool breakOut = false;
-                foreach (PathD t1 in p)
+                // Filter segments for this ray: only keep those that have at least one endpoint on an existing polygon vertex.
+                for (int idx = raySegments.Count - 1; idx >= 0; idx--)
                 {
                     if (abort) break;
-
-                    bool edgeIsNew = true;
-                    // Use an area check to see if our edge was somehow coincident with the original geometry.
-                    ClipperOffset co = new();
-                    co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
-                    Paths64 inflated = [];
-                    co.Execute(1.0, inflated);
-
-                    double orig_area = Clipper.Area(inflated);
-                    Paths64 intersect = Clipper.Intersect(inflated, [Clipper.ScalePath64(lPoly, 1.0)], FillRule.EvenOdd);
-                    double intersect_area = Clipper.Area(intersect);
-
-                    // If we have a coincident edge, half of the offset will be inside the polygon and half outside, so we should get a measurable area difference.
-                    if (Math.Abs((Math.Abs(orig_area) * 0.5) - Math.Abs(intersect_area)) < 0.0001 )
+                    var seg = raySegments[idx];
+                    if (seg.Count < 2)
                     {
-                        edgeIsNew = false;
-                    }
-
-                    if (!edgeIsNew)
-                    {
+                        raySegments.RemoveAt(idx);
                         continue;
                     }
 
-                    newEdges.Add(t1);
-                    breakOut = true;
-                    break;
+                    var aKey = KeyFor(seg[0], Constants.tolerance);
+                    var bKey = KeyFor(seg[1], Constants.tolerance);
+
+                    if (!vertexLookup.Contains(aKey) && !vertexLookup.Contains(bKey))
+                    {
+                        raySegments.RemoveAt(idx);
+                        continue;
+                    }
                 }
-                // NOTE: original code broke out of the outer ray loop once one new edge was added; we maintain that behavior by stopping here.
+
+                // Axis filter (vertical/horizontal) for this ray's segments
+                for (int idx = raySegments.Count - 1; idx >= 0; idx--)
+                {
+                    if (abort) break;
+                    var seg = raySegments[idx];
+                    if (vertical)
+                    {
+                        if (Math.Abs(seg[0].x - seg[1].x) > Constants.tolerance)
+                        {
+                            raySegments.RemoveAt(idx);
+                        }
+                    }
+                    else
+                    {
+                        if (Math.Abs(seg[0].y - seg[1].y) > Constants.tolerance)
+                        {
+                            raySegments.RemoveAt(idx);
+                        }
+                    }
+                }
+
+                // Check if any segments from this ray represent a valid new edge
+                if (raySegments.Count > 0 && !abort)
+                {
+                    foreach (PathD segment in raySegments)
+                    {
+                        if (abort) break;
+
+                        bool edgeIsNew = true;
+                        // Use an area check to see if our edge was somehow coincident with the original geometry.
+                        ClipperOffset co = new();
+                        co.AddPath(Clipper.ScalePath64(segment, 1.0), JoinType.Square, EndType.Butt);
+                        Paths64 inflated = [];
+                        co.Execute(1.0, inflated);
+
+                        double orig_area = Clipper.Area(inflated);
+                        Paths64 intersect = Clipper.Intersect(inflated, [Clipper.ScalePath64(lPoly, 1.0)], FillRule.EvenOdd);
+                        double intersect_area = Clipper.Area(intersect);
+
+                        // If we have a coincident edge, half of the offset will be inside the polygon and half outside, so we should get a measurable area difference.
+                        if (Math.Abs((Math.Abs(orig_area) * 0.5) - Math.Abs(intersect_area)) < 0.0001 )
+                        {
+                            edgeIsNew = false;
+                        }
+
+                        if (edgeIsNew)
+                        {
+                            // Found the first valid new edge - this is the original recursive behavior
+                            newEdges.Add(segment);
+                            goto exitRayProcessing; // Break out of both loops
+                        }
+                    }
+                }
             }
+            exitRayProcessing:;
         }
-        // ---------- end batched section ----------
+        // ---------- end individual ray processing ----------
         //***************************************************************************
 
         PathsD final = [];

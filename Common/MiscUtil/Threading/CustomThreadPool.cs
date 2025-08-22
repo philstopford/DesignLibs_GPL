@@ -865,37 +865,42 @@ public class CustomThreadPool
     /// <summary>
     /// Executes the given work item, firing the BeforeWorkItem and AfterWorkItem events,
     /// and incrementing and decrementing the number of working threads.
+    /// Performance-optimized version with reduced lock contention.
     /// </summary>
     /// <param name="job">The work item to execute</param>
     private void ExecuteWorkItem(ThreadPoolWorkItem job)
     {
+        // Cache thread settings to reduce lock contention
+        ThreadPriority priority;
+        bool isBackground;
+        
         lock (stateLock)
         {
             workingThreads++;
-            Thread.CurrentThread.Priority = workerThreadPriority;
-            Thread.CurrentThread.IsBackground = workerThreadsAreBackground;
+            priority = workerThreadPriority;
+            isBackground = workerThreadsAreBackground;
         }
+        
+        Thread.CurrentThread.Priority = priority;
+        Thread.CurrentThread.IsBackground = isBackground;
+        
         try
         {
             bool cancel;
             OnBeforeWorkItem(job, out cancel);
-            switch (cancel)
+            if (cancel)
+                return;
+                
+            try
             {
-                case true:
-                    return;
-                default:
-                    try
-                    {
-                        job.Invoke();
-                    }
-                    catch (Exception e)
-                    {
-                        OnException(job, e);
-                        return;
-                    }
-                    OnAfterWorkItem(job);
-                    break;
+                job.Invoke();
             }
+            catch (Exception e)
+            {
+                OnException(job, e);
+                return;
+            }
+            OnAfterWorkItem(job);
         }
         finally
         {

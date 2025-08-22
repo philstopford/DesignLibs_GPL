@@ -9,7 +9,7 @@ using geoWrangler;
 
 namespace geoCoreLib;
 
-public class GCCell
+public sealed class GCCell
 {
     public string cellName { get; set; }
 

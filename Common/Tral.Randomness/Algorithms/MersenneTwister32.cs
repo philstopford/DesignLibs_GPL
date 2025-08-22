@@ -17,7 +17,7 @@ namespace Tral.Randomness.Algorithms;
 /// <remarks>
 /// Mersenne Twister (MT) was originally developed by Makoto Matsumoto and Takuji Nishimura in 1996/1997.
 /// </remarks>
-public class MersenneTwister32 : ISeedableAlgorithm
+public sealed class MersenneTwister32 : ISeedableAlgorithm
 {
     private const uint DefaultSeed = 5489U;
     private const int StateN = 624;

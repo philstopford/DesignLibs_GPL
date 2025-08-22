@@ -13,7 +13,7 @@ namespace Tral.Randomness.Algorithms;
 /// generator with 48 bits of internal state. It is not suitable to cryptographic applications.
 /// On construction, the initial state is populated with a fixed arbitrary value.
 /// </summary>
-public class Rand48 : ISeedableAlgorithm
+public sealed class Rand48 : ISeedableAlgorithm
 {
     private ulong _s;
 

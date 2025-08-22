@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace geoCoreLib;
 
-public class GCDrawingfield
+public sealed class GCDrawingfield
 {
     public const double default_databaseunits = 1E-9;
     public const double default_userunits = 1E-3;

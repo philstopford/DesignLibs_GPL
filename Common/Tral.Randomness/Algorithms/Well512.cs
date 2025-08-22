@@ -18,7 +18,7 @@ namespace Tral.Randomness.Algorithms;
 /// This implementation is derived from code put in the public domain by Chris Lomont. Refer
 /// to: http://www.lomont.org/Math/Papers/2008/Lomont_PRNG_2008.pdf
 /// </remarks>
-public class Well512 : ISeedableAlgorithm
+public sealed class Well512 : ISeedableAlgorithm
 {
     private int _index;
     private readonly uint[] _s = new uint[16];

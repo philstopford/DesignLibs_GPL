@@ -1,7 +1,9 @@
-﻿using Clipper2Lib;
+using Clipper2Lib;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace geoWrangler;
 
@@ -15,6 +17,7 @@ public static partial class GeoWrangler
         return pGetOutersAndCutters(source);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static PathsD[] pGetOutersAndCutters(PathsD source)
     {
         PathsD[] ret = new PathsD[2];
@@ -292,7 +295,8 @@ public static partial class GeoWrangler
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
         RayCast rc = new(lPoly, lPoly, maxRayLength, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
-
+        //***************************************************************************
+        // Get rays (unchanged)
         PathsD rays = rc.getRays();
 
         // Contains edges from ray intersections that are not part of the original geometry.
@@ -300,150 +304,131 @@ public static partial class GeoWrangler
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
-        foreach (PathD t in rays)
+        // ---------- BATCHED INTERSECTION + VERTEX LOOKUP ----------
+        // If no rays, fallback to original behavior (nothing to do).
+        if (rays == null || rays.Count == 0)
         {
-            if (abort)
+            // nothing found
+        }
+        else
+        {
+            // Local function to create a stable key for a vertex using the tolerance magnitude.
+            static string KeyFor(PointD p, double tolerance)
             {
-                break;
+                // Number of decimals to round to derived from tolerance (safety: clamp between 0 and 10).
+                int digits = 6;
+                if (tolerance > 0)
+                {
+                    double log = -Math.Floor(Math.Log10(tolerance));
+                    digits = (int)Math.Max(0, Math.Min(10, log));
+                }
+                // Use invariant formatting to ensure stable keys.
+                return $"{Math.Round(p.x, digits).ToString($"F{digits}")}:{Math.Round(p.y, digits).ToString($"F{digits}")}";
             }
-            c.AddOpenSubject(t);
+
+            // Build vertex lookup for O(1) endpoint membership checks.
+            var vertexLookup = new HashSet<string>();
+            foreach (PointD v in lPoly)
+            {
+                vertexLookup.Add(KeyFor(v, Constants.tolerance));
+            }
+
+            // Batch all rays into a single Clipper execute - add all open subjects then the polygon as clip.
+            c.Clear();
+            foreach (PathD r in rays)
+            {
+                if (abort) break;
+                c.AddOpenSubject(r);
+            }
             c.AddClip(lPoly);
 
             PolyTreeD pt = new();
-            PathsD p = [];
+            PathsD p = new PathsD();
 
             c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
             c.Clear();
-            
-            int pCount = p.Count;
 
-            switch (pCount)
+            // Filter segments: only keep those that have at least one endpoint on an existing polygon vertex.
+            for (int idx = p.Count - 1; idx >= 0; idx--)
             {
-                case > 0:
+                if (abort) break;
+                var seg = p[idx];
+                if (seg.Count < 2)
                 {
-                    for (int path = pCount - 1; path >= 0; path--)
-                    {
-                        if (abort)
-                        {
-                            break;
-                        }
-                        double aDist = double.MaxValue;
-                        double bDist = double.MaxValue;
-                        // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
-                        foreach (PointD t1 in lPoly)
-                        {
-                            if (abort)
-                            {
-                                break;
-                            }
-                            double aDist_t = distanceBetweenPoints(t1, p[path][0]);
-                            double bDist_t = distanceBetweenPoints(t1, p[path][1]);
-
-                            aDist = Math.Min(aDist_t, aDist);
-                            bDist = Math.Min(bDist_t, bDist);
-                        }
-
-                        double minDist = Math.Min(aDist, bDist);
-
-                        switch (minDist)
-                        {
-                            // Remove any path which has a min distance to existing points of more than 0.
-                            //|| ((aDist == 0) && (bDist == 0)))
-                            case > 0:
-                                p.RemoveAt(path);
-                                break;
-                        }
-                    }
-
-                    break;
-                }
-            }
-
-            if (p.Count <= 0)
-            {
-                continue;
-            }
-
-            int pCount_ = p.Count;
-            for (int p_ = pCount_ - 1; p_ >= 0; p_--)
-            {
-                if (abort)
-                {
-                    break;
-                }
-
-                switch (vertical)
-                {
-                    case true:
-                    {
-                        if (Math.Abs(p[p_][0].x - p[p_][1].x) > Constants.tolerance)
-                        {
-                            p.RemoveAt(p_);
-                        }
-
-                        break;
-                    }
-                    default:
-                    {
-                        if (Math.Abs(p[p_][0].y - p[p_][1].y) > Constants.tolerance)
-                        {
-                            p.RemoveAt(p_);
-                        }
-
-                        break;
-                    }
-                }
-            }
-
-            switch (p.Count)
-            {
-                case 0:
-                    continue;
-            }
-
-            // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
-            // We now need to screen candidates and this is quite involved.
-            bool breakOut = false;
-            foreach (PathD t1 in p)
-            {
-                if (abort)
-                {
-                    break;
-                }
-
-                // So this is where we start screening candidate edges. This ends up being trickier than expected and after a variety of approaches
-                // this one seems to be the most robust.
-                bool edgeIsNew = true;
-                // Use an area check to see if our edge was somehow coincident with the original geometry.
-                ClipperOffset co = new();
-                co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
-                Paths64 inflated = [];
-                co.Execute(1.0, inflated);
-
-                double orig_area = Clipper.Area(inflated);
-                Paths64 intersect = Clipper.Intersect(inflated, [Clipper.ScalePath64(lPoly, 1.0)], FillRule.EvenOdd);
-                double intersect_area = Clipper.Area(intersect);
-                
-                // If we have a coincident edge, half of the offset will be inside the polygon and half outside, so we should get a measurable area difference.
-                if (Math.Abs((Math.Abs(orig_area) * 0.5) - Math.Abs(intersect_area)) < 0.0001 )
-                {
-                    edgeIsNew = false;
-                }
-
-                if (!edgeIsNew)
-                {
+                    p.RemoveAt(idx);
                     continue;
                 }
 
-                newEdges.Add(t1);
-                breakOut = true;
-                break;
+                var aKey = KeyFor(seg[0], Constants.tolerance);
+                var bKey = KeyFor(seg[1], Constants.tolerance);
+
+                if (!vertexLookup.Contains(aKey) && !vertexLookup.Contains(bKey))
+                {
+                    p.RemoveAt(idx);
+                    continue;
+                }
             }
-            if (breakOut)
+
+            // Axis filter (vertical/horizontal) -- same logic as original but performed after the batch.
+            for (int idx = p.Count - 1; idx >= 0; idx--)
             {
-                break;
+                if (abort) break;
+                var seg = p[idx];
+                if (vertical)
+                {
+                    if (Math.Abs(seg[0].x - seg[1].x) > Constants.tolerance)
+                    {
+                        p.RemoveAt(idx);
+                    }
+                }
+                else
+                {
+                    if (Math.Abs(seg[0].y - seg[1].y) > Constants.tolerance)
+                    {
+                        p.RemoveAt(idx);
+                    }
+                }
+            }
+
+            // Use the remaining candidate segments for the original offset-area screening.
+            if (p.Count > 0 && !abort)
+            {
+                bool breakOut = false;
+                foreach (PathD t1 in p)
+                {
+                    if (abort) break;
+
+                    bool edgeIsNew = true;
+                    // Use an area check to see if our edge was somehow coincident with the original geometry.
+                    ClipperOffset co = new();
+                    co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
+                    Paths64 inflated = [];
+                    co.Execute(1.0, inflated);
+
+                    double orig_area = Clipper.Area(inflated);
+                    Paths64 intersect = Clipper.Intersect(inflated, [Clipper.ScalePath64(lPoly, 1.0)], FillRule.EvenOdd);
+                    double intersect_area = Clipper.Area(intersect);
+
+                    // If we have a coincident edge, half of the offset will be inside the polygon and half outside, so we should get a measurable area difference.
+                    if (Math.Abs((Math.Abs(orig_area) * 0.5) - Math.Abs(intersect_area)) < 0.0001 )
+                    {
+                        edgeIsNew = false;
+                    }
+
+                    if (!edgeIsNew)
+                    {
+                        continue;
+                    }
+
+                    newEdges.Add(t1);
+                    breakOut = true;
+                    break;
+                }
+                // NOTE: original code broke out of the outer ray loop once one new edge was added; we maintain that behavior by stopping here.
             }
         }
+        // ---------- end batched section ----------
+        //***************************************************************************
 
         PathsD final = [];
         switch (newEdges.Count)

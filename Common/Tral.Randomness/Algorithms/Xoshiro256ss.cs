@@ -23,7 +23,7 @@ namespace Tral.Randomness.Algorithms;
 /// derived from code put in the public domain by Sebastiano Vigna. Refer
 /// to: http://xoroshiro.di.unimi.it
 /// </remarks>
-public class Xoshiro256ss : IJumpableAlgorithm
+public sealed class Xoshiro256ss : IJumpableAlgorithm
 {
     // Long jump variant
     private static readonly ulong[] JumpConstants = { 0x76E15D3EFEFDCBBFUL, 0xC5004E441C522FB3UL, 0x77710069854EE241UL, 0x39109BB02ACBE635UL };

@@ -18,7 +18,7 @@ namespace Tral.Randomness.Algorithms;
 /// This implementation is derived from code put in the public domain by Sebastiano Vigna. Refer
 /// to: http://xoroshiro.di.unimi.it
 /// </remarks>
-public class SplitMix64 : ISeedableAlgorithm
+public sealed class SplitMix64 : ISeedableAlgorithm
 {
     private ulong _s = 0x675187BC468FEF54UL;
 

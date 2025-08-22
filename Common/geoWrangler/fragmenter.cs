@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace geoWrangler;
-public class Fragmenter
+public sealed class Fragmenter
 {
     private double resolution;
 
@@ -33,7 +33,11 @@ public class Fragmenter
                 return new PathsD(source);
         }
 
-        PathsD ret = new(source.Select(pFragmentPath));
+        PathsD ret = new(source.Count);
+        for (int i = 0, count = source.Count; i < count; i++)
+        {
+            ret.Add(pFragmentPath(source[i]));
+        }
 
         return ret;
     }

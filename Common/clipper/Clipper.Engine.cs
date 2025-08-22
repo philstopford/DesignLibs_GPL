@@ -326,7 +326,7 @@ namespace Clipper2Lib
     }
   }
 
-  public class ReuseableDataContainer64
+  public sealed class ReuseableDataContainer64
   {
     internal readonly List<LocalMinima> _minimaList;
     internal readonly List<Vertex> _vertexList;

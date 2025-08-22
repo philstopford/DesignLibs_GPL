@@ -19,7 +19,7 @@ namespace Tral.Randomness.Algorithms;
 /// The ISAAC algorithm was created by Bob Jenkins and is in the public domain. For more
 /// information, see: http://burtleburtle.net/bob/rand/isaacafa.html
 /// </remarks>
-public class Isaac64 : ISeedableAlgorithm
+public sealed class Isaac64 : ISeedableAlgorithm
 {
     private const int StateSize = 256;
     private const uint StateMask = 0xFF;

@@ -173,34 +173,34 @@ public partial class VeldridDriver
 						{
 							pointsList[point_index_offset + (pt * 6)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+									ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 1)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+									ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 2)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+									ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 3)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
+									ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+									ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 4)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+									ovpSettings.polyList[poly].color.B, alpha));
 							pointsList[point_index_offset + ((pt * 6) + 5)] = new VertexPositionColor(
 								new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f,
-								ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
+									ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f),
 								new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G,
-								ovpSettings.polyList[poly].color.B, alpha));
+									ovpSettings.polyList[poly].color.B, alpha));
 						}
 						catch (Exception ex)
 						{
@@ -208,6 +208,7 @@ public partial class VeldridDriver
 						}
 					}
 				}
+			}
 
 			for (int poly = 0; poly < bgPolyListCount; poly++)
 			{

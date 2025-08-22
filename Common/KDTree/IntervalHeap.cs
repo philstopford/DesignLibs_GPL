@@ -59,7 +59,6 @@ public class IntervalHeap<T>
     /// <summary>
     /// Get the data with the smallest key.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Min
     {
         get
@@ -73,7 +72,6 @@ public class IntervalHeap<T>
     /// <summary>
     /// Get the data with the largest key.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Max
     {
         get
@@ -89,7 +87,6 @@ public class IntervalHeap<T>
     /// <summary>
     /// Get the smallest key.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double MinKey
     {
         get
@@ -103,7 +100,6 @@ public class IntervalHeap<T>
     /// <summary>
     /// Get the largest key.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double MaxKey
     {
         get

@@ -117,7 +117,6 @@ public class MinHeap<T>
     /// <summary>
     /// Get the data stored at the minimum element.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public T Min
     {
         get
@@ -131,7 +130,6 @@ public class MinHeap<T>
     /// <summary>
     /// Get the key which represents the minimum element.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public double MinKey
     {
         get

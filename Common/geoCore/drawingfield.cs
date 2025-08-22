@@ -80,8 +80,7 @@ public class GCDrawingfield
 
     private double pGetDrawingScale()
     {
-        return databaseunits / 1E3;
-        //return 1E2;
+        return databaseunits / default_databaseunits;
     }
     
     public GCDrawingfield(GCDrawingfield drawing)

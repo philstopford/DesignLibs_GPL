@@ -84,40 +84,46 @@ public class RayCast
         // This is a serial evaluation as we need both the previous and the current normal for each point.
         ret.normals = new PointD[ptCount];
         ret.previousNormals = new PointD[ptCount];
+        
+        // Cache path span for better performance
+        ReadOnlySpan<PointD> pathSpan = path.ToArray().AsSpan();
+        Span<PointD> normalsSpan = ret.normals.AsSpan();
+        Span<PointD> prevNormalsSpan = ret.previousNormals.AsSpan();
+        
         for (int pt = 0; pt < ptCount; pt++)
         {
             // Start point
             double dx;
             double dy;
-            if (pt == path.Count - 1)
+            if (pt == ptCount - 1)
             {
                 if (closedPathEmitter)
                 {
                     // Last matches the first. Since we flip the dx and dy tone later, we need to compensate here.
-                    dx = -ret.normals[0].x;
-                    dy = -ret.normals[0].y;
+                    dx = -normalsSpan[0].x;
+                    dy = -normalsSpan[0].y;
                 }
                 else
                 {
-                    dx = path[ptCount - 1].x - endOffset.x;
-                    dy = path[ptCount - 1].y - endOffset.y;
+                    dx = pathSpan[ptCount - 1].x - endOffset.x;
+                    dy = pathSpan[ptCount - 1].y - endOffset.y;
                 }
             }
             else
             {
                 if (!closedPathEmitter && pt == 0)
                 {
-                    dx = path[0].x - startOffset.x;
-                    dy = path[0].y - startOffset.y;
+                    dx = pathSpan[0].x - startOffset.x;
+                    dy = pathSpan[0].y - startOffset.y;
                 }
                 else
                 {
-                    dx = path[pt + 1].x - path[pt].x;
-                    dy = path[pt + 1].y - path[pt].y;
+                    dx = pathSpan[pt + 1].x - pathSpan[pt].x;
+                    dy = pathSpan[pt + 1].y - pathSpan[pt].y;
                 }
             }
 
-            ret.normals[pt] = new PointD(-dx, -dy);
+            normalsSpan[pt] = new PointD(-dx, -dy);
 
             // Previous normal
             if (pt == 0)
@@ -125,20 +131,20 @@ public class RayCast
                 if (closedPathEmitter)
                 {
                     // n-1 identical to the 0-th point, so we need to dig a little deeper.
-                    dx = path[0].x - path[ptCount - 2].x;
-                    dy = path[0].y - path[ptCount - 2].y;
+                    dx = pathSpan[0].x - pathSpan[ptCount - 2].x;
+                    dy = pathSpan[0].y - pathSpan[ptCount - 2].y;
                 }
                 else
                 {
-                    dx = path[0].x - startOffset.x;
-                    dy = path[0].y - startOffset.y;
+                    dx = pathSpan[0].x - startOffset.x;
+                    dy = pathSpan[0].y - startOffset.y;
                 }
 
-                ret.previousNormals[pt] = new PointD(-dx, -dy);
+                prevNormalsSpan[pt] = new PointD(-dx, -dy);
             }
             else
             {
-                ret.previousNormals[pt] = new PointD(ret.normals[pt - 1]);
+                prevNormalsSpan[pt] = new PointD(normalsSpan[pt - 1]);
             }
         }
 
@@ -344,25 +350,19 @@ public class RayCast
         {
             // If we got no result, let's get that sorted out. End and start points are the same.
             case 0:
-                Monitor.Enter(resultLock);
-                try
+                lock (resultLock)
                 {
                     resultX[outputIndex] = startPoint.x;
                     resultY[outputIndex] = startPoint.y;
                     weight[outputIndex] = 1E4; // integer value, so represent float 1.0f with 1E4 
                 }
-                finally
-                {
-                    Monitor.Exit(resultLock);
-                }
-
                 break;
             case > 1:
             {
                 // We got two lines back. Need to check this carefully.
                 // We need to find the line that has a start/end point matched to our origin point for the ray.
                 int index = -1;
-                for (int tL = 0; tL < ray.Count; tL++)
+                for (int tL = 0; tL < rayPtCount; tL++)
                 {
                     double tL0X = ray[tL][0].x;
                     double tL0Y = ray[tL][0].y;
@@ -401,31 +401,21 @@ public class RayCast
             // Figure out which end of the result line matches our origin point.
             if (Math.Abs(ray[tL][0].x - startPoint.x) < 6 * Constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < 6 * Constants.tolerance)
             {
-                Monitor.Enter(resultLock);
-                try
+                lock (resultLock)
                 {
                     resultX[outputIndex] = ray[tL][1].x;
                     resultY[outputIndex] = ray[tL][1].y;
                     weight[outputIndex] = Convert.ToDouble(ray[tL][0].z) / 1E4;
                 }
-                finally
-                {
-                    Monitor.Exit(resultLock);
-                }
             }
             if (Math.Abs(ray[tL][1].x - startPoint.x) < 6 * Constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < 6 * Constants.tolerance)
             {
-                Monitor.Enter(resultLock);
-                try
+                lock (resultLock)
                 {
                     // Clipper reversed the line direction, so we need to deal with this.
                     resultX[outputIndex] = ray[tL][0].x;
                     resultY[outputIndex] = ray[tL][0].y;
                     weight[outputIndex] = Convert.ToDouble(ray[tL][1].z) / 1E4;
-                }
-                finally
-                {
-                    Monitor.Exit(resultLock);
                 }
             }
         }
@@ -449,7 +439,8 @@ public class RayCast
             case Falloff.none:
             {
                 // Average the result to give a weighted spacing across the rays.
-                for (int result = 0; result < resultX.Length; result++)
+                int resultLength = resultX.Length;
+                for (int result = 0; result < resultLength; result++)
                 {
                     switch (Math.Abs(resultX[result]))
                     {
@@ -484,10 +475,15 @@ public class RayCast
             }
             default:
             {
-                double totalWeight = weight.Sum();
+                double totalWeight = 0.0;
+                int weightLength = weight.Length;
+                for (int i = 0; i < weightLength; i++)
+                {
+                    totalWeight += weight[i];
+                }
 
                 // Average the result to give a weighted spacing across the rays.
-                for (int w = 0; w < weight.Length; w++)
+                for (int w = 0; w < weightLength; w++)
                 {
                     double weight_ = 1.0f;
                     if (sideRayFallOff != Falloff.none && !truncateRaysByWeight && totalWeight > 0)
@@ -561,14 +557,9 @@ public class RayCast
             
             PathsD rays = pGenerateRays(emissionPath, pt, maxRayLength, projectCorners, invert, multisampleRayCount, sideRayFallOff, sideRayFallOffMultiplier, nData, dirOverride);
             
-            Monitor.Enter(castLinesLock);
-            try
+            lock (castLinesLock)
             {
                 castLines_[pt] = new PathsD(rays);
-            }
-            finally
-            {
-                Monitor.Exit(castLinesLock);
             }
 
             double[] resultX = new double[rays.Count];
@@ -589,23 +580,20 @@ public class RayCast
             ResultData rData = pComputeWeightedResult(sideRayFallOff, ref resultX, ref resultY, ref weight);
 
             resultPath.Add(new PointD(rData.xAv, rData.yAv));
-            Monitor.Enter(clippedLinesLock);
-            try
+            lock (clippedLinesLock)
             {
                 clippedLines_[pt] = new PathD(resultPath);
-            }
-            finally
-            {
-                Monitor.Exit(clippedLinesLock);
             }
         });
 
         // Convert the array back to a list.
-        clippedLines = new PathsD(clippedLines_);
+        clippedLines = new PathsD();
+        clippedLines.AddRange(clippedLines_);
         castLines = [];
-        foreach (PathsD t in castLines_)
+        int castLinesLength = castLines_.Length;
+        for (int i = 0; i < castLinesLength; i++)
         {
-            castLines.AddRange(t);
+            castLines.AddRange(castLines_[i]);
         }
     }
 }

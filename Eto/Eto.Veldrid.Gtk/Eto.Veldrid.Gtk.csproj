@@ -4,7 +4,7 @@
     <DefineConstants>GTK3</DefineConstants>
     <Title>Veldrid Gtk implementation for Eto.Forms</Title>
     <Description>This provides the Gtk implementation of Eto.Veldrid for Eto.Forms</Description>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>12</LangVersion>
   </PropertyGroup>
 

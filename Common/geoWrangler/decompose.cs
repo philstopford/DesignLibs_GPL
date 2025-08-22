@@ -21,15 +21,16 @@ public static partial class GeoWrangler
         // Find cutters and outers.
         PathsD outers = [];
         PathsD cutters = [];
-        foreach (PathD t in source)
+        int sourceCount = source.Count;
+        for (int i = 0; i < sourceCount; i++)
         {
-            if (pIsClockwise(t))
+            if (pIsClockwise(source[i]))
             {
-                outers.Add(t);
+                outers.Add(source[i]);
             }
             else
             {
-                cutters.Add(t);
+                cutters.Add(source[i]);
             }
         }
         ret[(int)outerCutterIndex.outer] = outers;
@@ -54,19 +55,25 @@ public static partial class GeoWrangler
         }
 
         PathsD ret = [];
-
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
         // Reconcile each path separately to get a clean representation.
-        foreach (PathD t1 in source)
+        int sourceCount = source.Count;
+        for (int sourceIndex = 0; sourceIndex < sourceCount; sourceIndex++)
         {
+            PathD t1 = source[sourceIndex];
             double a1 = Clipper.Area(t1);
             c.Clear();
             c.AddSubject(t1);
             PathsD t = [];
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             t = pReorderXY(t);
-            double a2 = t.Sum(Clipper.Area);
+            double a2 = 0.0;
+            int tCount = t.Count;
+            for (int i = 0; i < tCount; i++)
+            {
+                a2 += Clipper.Area(t[i]);
+            }
             
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
@@ -181,8 +188,10 @@ public static partial class GeoWrangler
         // First path in source is always the outer orientation.
         bool outerOrient = Clipper.IsPositive(source[0]);
         
-        foreach (PathD t in source)
+        int sourceCount = source.Count;
+        for (int sourceIndex = 0; sourceIndex < sourceCount; sourceIndex++)
         {
+            PathD t = source[sourceIndex];
             // Outer was wrongly oriented, so fix up the current path for consistency.
             if (!outerOrient)
             {
@@ -212,14 +221,15 @@ public static partial class GeoWrangler
         PathsD polys = new(polys_);
         PathsD ret = [];
 
-        foreach (PathD t in polys)
+        int polysCount = polys.Count;
+        for (int i = 0; i < polysCount; i++)
         {
             if (abort)
             {
                 ret.Clear();
                 break;
             }
-            ret.AddRange(pRectangular_decomposition(ref abort, t, maxRayLength, angularTolerance, vertical));
+            ret.AddRange(pRectangular_decomposition(ref abort, polys[i], maxRayLength, angularTolerance, vertical));
         }
         
         return ret;
@@ -300,12 +310,14 @@ public static partial class GeoWrangler
 
         ClipperD c = new(Constants.roundingDecimalPrecision);
 
-        foreach (PathD t in rays)
+        int raysCount = rays.Count;
+        for (int rayIndex = 0; rayIndex < raysCount; rayIndex++)
         {
             if (abort)
             {
                 break;
             }
+            PathD t = rays[rayIndex];
             c.AddOpenSubject(t);
             c.AddClip(lPoly);
 
@@ -330,14 +342,16 @@ public static partial class GeoWrangler
                         double aDist = double.MaxValue;
                         double bDist = double.MaxValue;
                         // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
-                        foreach (PointD t1 in lPoly)
+                        int lPolyCount = lPoly.Count;
+                        for (int ptIndex = 0; ptIndex < lPolyCount; ptIndex++)
                         {
                             if (abort)
                             {
                                 break;
                             }
-                            double aDist_t = distanceBetweenPoints(t1, p[path][0]);
-                            double bDist_t = distanceBetweenPoints(t1, p[path][1]);
+                            PointD polyPt = lPoly[ptIndex];
+                            double aDist_t = distanceBetweenPoints(polyPt, p[path][0]);
+                            double bDist_t = distanceBetweenPoints(polyPt, p[path][1]);
 
                             aDist = Math.Min(aDist_t, aDist);
                             bDist = Math.Min(bDist_t, bDist);
@@ -404,19 +418,21 @@ public static partial class GeoWrangler
             // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
             // We now need to screen candidates and this is quite involved.
             bool breakOut = false;
-            foreach (PathD t1 in p)
+            int pCount_final = p.Count;
+            for (int pathIndex = 0; pathIndex < pCount_final; pathIndex++)
             {
                 if (abort)
                 {
                     break;
                 }
 
+                PathD currentPath = p[pathIndex];
                 // So this is where we start screening candidate edges. This ends up being trickier than expected and after a variety of approaches
                 // this one seems to be the most robust.
                 bool edgeIsNew = true;
                 // Use an area check to see if our edge was somehow coincident with the original geometry.
                 ClipperOffset co = new();
-                co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
+                co.AddPath(Clipper.ScalePath64(currentPath, 1.0), JoinType.Square, EndType.Butt);
                 Paths64 inflated = [];
                 co.Execute(1.0, inflated);
 
@@ -435,7 +451,7 @@ public static partial class GeoWrangler
                     continue;
                 }
 
-                newEdges.Add(t1);
+                newEdges.Add(currentPath);
                 breakOut = true;
                 break;
             }

@@ -15,7 +15,7 @@ public static partial class GeoWrangler
 
     public static PathsD makeKeyHole(PathsD outers, PathsD cutters, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(outers, cutters, reverseEval, biDirectionalEval, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+        return pMakeKeyHole(outers, cutters, reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
     }
 
     public static PathsD makeKeyHole(PathD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
@@ -25,7 +25,7 @@ public static partial class GeoWrangler
 
     public static PathsD makeKeyHole(PathsD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(source, reverseEval, biDirectionalEval, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+        return pMakeKeyHole(source, reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
     }
 
     private static PathsD pMakeKeyHole(PathsD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
@@ -276,7 +276,7 @@ public static partial class GeoWrangler
         return new_outers;
     }
     
-    private static PathsD pMakeKeyHole(PathsD outers_, PathsD cutters_, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double angularTolerance = 0)
+    private static PathsD pMakeKeyHole(PathsD outers_, PathsD cutters_, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         PathsD outers = new(outers_);
         PathsD cutters = new(cutters_);

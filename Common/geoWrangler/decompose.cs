@@ -323,7 +323,7 @@ public static partial class GeoWrangler
                     digits = (int)Math.Max(0, Math.Min(10, log));
                 }
                 // Use invariant formatting to ensure stable keys.
-                return $"{Math.Round(p.x, digits):F{digits}}:{Math.Round(p.y, digits):F{digits}}";
+                return $"{Math.Round(p.x, digits).ToString($"F{digits}")}:{Math.Round(p.y, digits).ToString($"F{digits}")}";
             }
 
             // Build vertex lookup for O(1) endpoint membership checks.

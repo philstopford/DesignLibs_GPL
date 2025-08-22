@@ -119,9 +119,9 @@ public partial class VeldridDriver
 					{
 						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
 							new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X,
-								o vpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
+								ovpSettings.tessPolyList[poly].poly[pt].Y, polyZ),
 							new RgbaFloat(ovpSettings.tessPolyList[poly].color.R,
-								o vpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
+								ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
 								alpha));
 					}
 				}
@@ -249,6 +249,7 @@ public partial class VeldridDriver
 						Console.WriteLine(e);
 					}
 				}
+			}
 
 			polyIndices = new uint[totalPolyListCount];
 			for (int i = 0; i < totalPolyListCount; i++) // (int i = 0; i < totalPolyListCount; i++)
@@ -845,6 +846,7 @@ public partial class VeldridDriver
 					}
 				}
 			}
+		}
 	}
 
 	private void updateBuffer<T>(ref DeviceBuffer? buffer, ref uint bufferCapacity, T[]? data, uint elementSize, BufferUsage usage)

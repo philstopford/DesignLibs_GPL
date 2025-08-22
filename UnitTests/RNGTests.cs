@@ -5,6 +5,35 @@ namespace UnitTests;
 public class RNGTests
 {
     private static int sampleCount = 25000;
+    
+    /// <summary>
+    /// High-performance parallel execution optimized for RNG operations
+    /// </summary>
+    private static void OptimizedParallelFor<T>(T[] array, Func<int, T> generator)
+    {
+        int processorCount = Environment.ProcessorCount;
+        int chunkSize = array.Length / processorCount;
+        
+        var tasks = new Task[processorCount];
+        
+        for (int p = 0; p < processorCount; p++)
+        {
+            int processorIndex = p;
+            tasks[p] = Task.Run(() =>
+            {
+                int start = processorIndex * chunkSize;
+                int end = processorIndex == processorCount - 1 ? array.Length : start + chunkSize;
+                
+                for (int i = start; i < end; i++)
+                {
+                    array[i] = generator(i);
+                }
+            });
+        }
+        
+        Task.WaitAll(tasks);
+    }
+    
     // [SetUp]
     public static void RNGTest()
     {
@@ -20,15 +49,16 @@ public class RNGTests
     public static void CryptoRNGTest()
     {
         double[] values = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values[i] = Crypto_RNG.random_gauss3()[0]; });
+        OptimizedParallelFor(values, i => Crypto_RNG.random_gauss3()[0]);
+        
         double[] values2 = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values2[i] = Crypto_RNG.random_gauss()[0]; });
+        OptimizedParallelFor(values2, i => Crypto_RNG.random_gauss()[0]);
 
         double[] values3 = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values3[i] = Crypto_RNG.nextdouble(); });
+        OptimizedParallelFor(values3, i => Crypto_RNG.nextdouble());
 
         int[] ints = new int[sampleCount];
-        Parallel.For(0, sampleCount, i => { ints[i] = Crypto_RNG.nextint(); });
+        OptimizedParallelFor(ints, i => Crypto_RNG.nextint());
         
         int[] duplicate_ints = ints
             .GroupBy( x => x )               // group matching items
@@ -59,16 +89,16 @@ public class RNGTests
     public static void MersenneTwisterRNGTest()
     {
         double[] values = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values[i] = MersenneTwister_RNG.random_gauss3()[0]; });
+        OptimizedParallelFor(values, i => MersenneTwister_RNG.random_gauss3()[0]);
 
         double[] values2 = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values2[i] = MersenneTwister_RNG.random_gauss()[0]; });
+        OptimizedParallelFor(values2, i => MersenneTwister_RNG.random_gauss()[0]);
 
         double[] values3 = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values3[i] = MersenneTwister_RNG.nextdouble(); });
+        OptimizedParallelFor(values3, i => MersenneTwister_RNG.nextdouble());
 
         int[] ints = new int[sampleCount];
-        Parallel.For(0, sampleCount, i => { ints[i] = MersenneTwister_RNG.nextint(); });
+        OptimizedParallelFor(ints, i => MersenneTwister_RNG.nextint());
 
         int[] duplicate_ints = ints
             .GroupBy( x => x )               // group matching items
@@ -99,16 +129,16 @@ public class RNGTests
     public static void SystemRNGTest()
     {
         double[] values = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values[i] = RNG.random_gauss3()[0]; });
+        OptimizedParallelFor(values, i => RNG.random_gauss3()[0]);
         
         double[] values2 = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values2[i] = RNG.random_gauss()[0]; });
+        OptimizedParallelFor(values2, i => RNG.random_gauss()[0]);
 
         double[] values3 = new double[sampleCount];
-        Parallel.For(0, sampleCount, i => { values3[i] = RNG.nextdouble(); });
+        OptimizedParallelFor(values3, i => RNG.nextdouble());
 
         int[] ints = new int[sampleCount];
-        Parallel.For(0, sampleCount, i => { ints[i] = RNG.nextint(); });
+        OptimizedParallelFor(ints, i => RNG.nextint());
         
         int[] duplicate_ints = ints
             .GroupBy( x => x )               // group matching items

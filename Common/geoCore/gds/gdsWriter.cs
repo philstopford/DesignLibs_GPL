@@ -32,6 +32,11 @@ public partial class gdsWriter
             throw new Exception("Provided GeoCore instance is not marked as valid");
         }
         drawing_ = gc.getDrawing();
+        double tmp = drawing_.userunits;
+        double tmp2 = drawing_.databaseunits;
+        drawing_.resize(100);
+        drawing_.userunits = tmp;
+        drawing_.databaseunits = tmp2;
         filename_ = filename;
     }
 
@@ -110,8 +115,8 @@ public partial class gdsWriter
         //units
         bw.Write((ushort)20);
         bw.Write(gdsValues.sUNITS);
-        write8ByteReal(drawing_.userunits);
-        write8ByteReal(drawing_.databaseunits);
+        write8ByteReal(drawing_.userunits * 1E-15);
+        write8ByteReal(drawing_.databaseunits * 1E-15);
 
         int cellCount = 0;
         foreach (GCCell t in drawing_.cellList)

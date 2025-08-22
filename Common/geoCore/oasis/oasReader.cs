@@ -94,8 +94,6 @@ internal partial class oasReader
     private string filename;
     private EndianBinaryReader br;
 
-    private double reader_scale = 100000;
-
     public oasReader(string filename_)
     {
         pOASReader(filename_);
@@ -231,9 +229,7 @@ internal partial class oasReader
                             error_msgs.Add(err2);
                             throw new Exception(err2);
                         }
-
-                        drawing_.databaseunits = 1;
-                        reader_scale = readReal();
+                        drawing_.databaseunits = 1E-6 / readReal();
                         i = readUnsignedInteger();
                         if (i == 0)
                         {
@@ -1208,10 +1204,6 @@ internal partial class oasReader
                 error_msgs.Add(err);
                 throw new Exception(err);
             }
-            
-            // Resize drawing to fit scale.
-            drawing_.resize(1.0 / (reader_scale * 1E-3));
-            drawing_.databaseunits = reader_scale;
 
             statusUpdateUI?.Invoke("Done");
             progressUpdateUI?.Invoke(1.0f);

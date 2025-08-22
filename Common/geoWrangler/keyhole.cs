@@ -84,8 +84,21 @@ public static partial class GeoWrangler
         // First, we'll run the keyholer as usual.
         PathsD ret = pMakeKeyHole(decomp[(int)Type.outer], decomp[(int)Type.cutter], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
         
-        double origArea = sliverGapRemoval(source).Sum(Clipper.Area);
-        double newArea = sliverGapRemoval(ret).Sum(Clipper.Area);
+        double origArea = 0.0;
+        PathsD origSliverRemoval = sliverGapRemoval(source);
+        int origSliverCount = origSliverRemoval.Count;
+        for (int i = 0; i < origSliverCount; i++)
+        {
+            origArea += Clipper.Area(origSliverRemoval[i]);
+        }
+        
+        double newArea = 0.0;
+        PathsD newSliverRemoval = sliverGapRemoval(ret);
+        int newSliverCount = newSliverRemoval.Count;
+        for (int i = 0; i < newSliverCount; i++)
+        {
+            newArea += Clipper.Area(newSliverRemoval[i]);
+        }
 
         if (origArea < 0)
         {
@@ -123,7 +136,12 @@ public static partial class GeoWrangler
                     c.AddClip(odecomp[(int) Type.cutter][cIndex]);
                     c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
                     test = pReorderXY(test);
-                    double area = test.Sum(Clipper.Area);
+                    double area = 0.0;
+                    int testCount = test.Count;
+                    for (int i = 0; i < testCount; i++)
+                    {
+                        area += Clipper.Area(test[i]);
+                    }
 
                     // If area is zero, the cutter fully covered the outer and we need to skip it.
                     if ((area != 0) && (area <= lostArea))
@@ -457,9 +475,19 @@ public static partial class GeoWrangler
             0 => keyhole_sizing,
             _ => customSizing
         };
-        double oArea = source.Sum(Clipper.Area);
+        double oArea = 0.0;
+        int sourceCount = source.Count;
+        for (int i = 0; i < sourceCount; i++)
+        {
+            oArea += Clipper.Area(source[i]);
+        }
         PathsD ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify);
-        double nArea = ret.Sum(Clipper.Area);
+        double nArea = 0.0;
+        int retCount = ret.Count;
+        for (int i = 0; i < retCount; i++)
+        {
+            nArea += Clipper.Area(ret[i]);
+        }
 
         return (Math.Abs(oArea) - Math.Abs(nArea)) switch
         {
@@ -516,7 +544,12 @@ public static partial class GeoWrangler
             cGeometry = stripCollinear(cGeometry);
         }
 
-        double newArea = cGeometry.Sum(Clipper.Area);
+        double newArea = 0.0;
+        int cGeometryCount = cGeometry.Count;
+        for (int i = 0; i < cGeometryCount; i++)
+        {
+            newArea += Clipper.Area(cGeometry[i]);
+        }
 
         return Math.Abs(newArea) switch
         {
@@ -561,7 +594,12 @@ public static partial class GeoWrangler
             cGeometry = stripCollinear(cGeometry);
         }
 
-        double newArea = cGeometry.Sum(Clipper.Area);
+        double newArea = 0.0;
+        int cGeometryCount2 = cGeometry.Count;
+        for (int i = 0; i < cGeometryCount2; i++)
+        {
+            newArea += Clipper.Area(cGeometry[i]);
+        }
 
         switch (Math.Abs(newArea))
         {

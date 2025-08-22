@@ -107,7 +107,12 @@ public static class ProcessOverlaps
                     c.Execute(ClipType.Union, FillRule.Positive, test);
                     test = GeoWrangler.reOrderXY(test);
 
-                    double uArea = test.Sum(t => Math.Abs(Clipper.Area(t)));
+                    double uArea = 0.0;
+                    int testCount = test.Count;
+                    for (int i = 0; i < testCount; i++)
+                    {
+                        uArea += Math.Abs(Clipper.Area(test[i]));
+                    }
 
                     if (!(Math.Abs(uArea - origArea) < Constants.tolerance))
                     {

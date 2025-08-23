@@ -219,8 +219,13 @@ public class ProgressivePolygonRenderer
 		var batchTessVertices = new List<VertexPositionColor>();
 		var batchTessIndices = new List<uint>();
 		
+		// Use Z-depth calculation that matches the synchronous rendering logic
 		var totalTessPolys = _settings.tessPolyList?.Count ?? 0;
-		var polyZStep = 1.0f / Math.Max(1, totalTessPolys + 1);
+		var totalForegroundPolys = _settings.polyList?.Count ?? 0;
+		var totalBackgroundPolys = _settings.bgPolyList?.Count ?? 0;
+		var totalPolyListCount = ((totalForegroundPolys * 2) + (totalBackgroundPolys * 2)) * 2; // Match synchronous calculation
+		var numPolys = totalPolyListCount + totalTessPolys;
+		var polyZStep = 1.0f / Math.Max(1, numPolys + 1); // Match synchronous calculation
 		
 		foreach (var poly in batch.Polygons)
 		{
@@ -230,25 +235,56 @@ public class ProgressivePolygonRenderer
 				continue; // Skip invalid polygons
 			}
 			
-			float alpha = poly.alpha;
+			// Additional validation for coordinate safety - critical for GPU stability
+			bool hasValidCoordinates = true;
+			for (int i = 0; i < Math.Min(3, poly.poly.Length) && hasValidCoordinates; i++)
+			{
+				var point = poly.poly[i];
+				if (float.IsNaN(point.X) || float.IsNaN(point.Y) || 
+				    float.IsInfinity(point.X) || float.IsInfinity(point.Y))
+				{
+					hasValidCoordinates = false;
+				}
+			}
+			
+			if (!hasValidCoordinates)
+			{
+				Console.WriteLine($"Skipping tessellated polygon with invalid coordinates in batch");
+				continue;
+			}
+			
+			float alpha = Math.Max(0.0f, Math.Min(1.0f, poly.alpha)); // Clamp alpha to valid range
+			
+			// Use Z-depth calculation that matches synchronous tessellated rendering
 			float polyZ = _processedTessellatedPolys * polyZStep;
 			
 			uint indexOffset = (uint)Math.Max(0, _progressiveTessList.Count + batchTessVertices.Count);
 			
-			// Each tessellated polygon should have exactly 3 vertices (triangle)
-			for (int pt = 0; pt < 3; pt++)
+			try
 			{
-				batchTessVertices.Add(new VertexPositionColor(
-					new Vector3(poly.poly[pt].X, poly.poly[pt].Y, polyZ),
-					new RgbaFloat(poly.color.R, poly.color.G, poly.color.B, alpha)));
+				// Each tessellated polygon should have exactly 3 vertices (triangle)
+				for (int pt = 0; pt < 3 && pt < poly.poly.Length; pt++)
+				{
+					batchTessVertices.Add(new VertexPositionColor(
+						new Vector3(poly.poly[pt].X, poly.poly[pt].Y, polyZ),
+						new RgbaFloat(poly.color.R, poly.color.G, poly.color.B, alpha)));
+				}
+				
+				// Only add triangle indices if we have exactly 3 vertices
+				if (batchTessVertices.Count >= 3 && (batchTessVertices.Count - (_progressiveTessList.Count)) % 3 == 0)
+				{
+					batchTessIndices.Add(indexOffset);
+					batchTessIndices.Add(indexOffset + 1);
+					batchTessIndices.Add(indexOffset + 2);
+				}
+				
+				_processedTessellatedPolys++;
 			}
-			
-			// Add triangle indices
-			batchTessIndices.Add(indexOffset);
-			batchTessIndices.Add(indexOffset + 1);
-			batchTessIndices.Add(indexOffset + 2);
-			
-			_processedTessellatedPolys++;
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error processing tessellated polygon: {ex.Message}");
+				continue; // Skip this polygon but continue processing
+			}
 		}
 		
 		_progressiveTessList.AddRange(batchTessVertices);

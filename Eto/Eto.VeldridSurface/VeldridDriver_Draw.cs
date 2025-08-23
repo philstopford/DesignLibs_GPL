@@ -57,14 +57,8 @@ public partial class VeldridDriver
 	
 	private bool ShouldUseProgressiveLoading()
 	{
-		// Temporarily disable progressive loading when filled polygons are enabled
-		// due to buffer coordination issues with tessellated polygon rendering
-		if (ovpSettings.drawFilled())
-		{
-			return false;
-		}
-		
-		// Use progressive loading if there are many polygons
+		// Use progressive loading if there are many polygons, regardless of filled mode
+		// Previous disabled for filled polygons, but with improved buffer coordination this should work
 		var totalPolygons = (ovpSettings.polyList?.Count ?? 0) + 
 		                   (ovpSettings.bgPolyList?.Count ?? 0) + 
 		                   (ovpSettings.tessPolyList?.Count ?? 0);
@@ -479,52 +473,68 @@ public partial class VeldridDriver
 				return;
 			}
 			
-			// Update polygon buffers with thread safety
+			// Update polygon buffers with thread safety and additional validation
 			lock (this) // Ensure only one buffer update at a time
 			{
-				// Update polygon buffers
-				if (batchData.PolyVertices?.Length > 0)
+				// Update polygon buffers (lines)
+				if (batchData.PolyVertices?.Length > 0 && batchData.PolyIndices?.Length > 0)
 				{
-					updateBuffer(ref PolysVertexBuffer, batchData.PolyVertices, VertexPositionColor.SizeInBytes,
-						BufferUsage.VertexBuffer);
-					
-					// Update indices arrays for rendering with null safety
-					polyIndices = batchData.PolyIndices ?? new uint[0];
-					if (polyIndices.Length > 0)
+					try
 					{
+						updateBuffer(ref PolysVertexBuffer, batchData.PolyVertices, VertexPositionColor.SizeInBytes,
+							BufferUsage.VertexBuffer);
+						
+						polyIndices = batchData.PolyIndices;
 						updateBuffer(ref PolysIndexBuffer, polyIndices, sizeof(uint), BufferUsage.IndexBuffer);
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"Error updating polygon line buffers: {ex.Message}");
 					}
 				}
 
 				// Update point buffers
-				if (ovpSettings.drawPoints() && batchData.PointVertices?.Length > 0)
+				if (ovpSettings.drawPoints() && batchData.PointVertices?.Length > 0 && batchData.PointIndices?.Length > 0)
 				{
-					updateBuffer(ref PointsVertexBuffer, batchData.PointVertices, VertexPositionColor.SizeInBytes,
-						BufferUsage.VertexBuffer);
-					
-					pointsIndices = batchData.PointIndices ?? new uint[0];
-					if (pointsIndices.Length > 0)
+					try
 					{
+						updateBuffer(ref PointsVertexBuffer, batchData.PointVertices, VertexPositionColor.SizeInBytes,
+							BufferUsage.VertexBuffer);
+						
+						pointsIndices = batchData.PointIndices;
 						updateBuffer(ref PointsIndexBuffer, pointsIndices, sizeof(uint), BufferUsage.IndexBuffer);
 					}
-				}
-
-				// Update tessellated buffers
-				if (ovpSettings.drawFilled() && batchData.TessVertices?.Length > 0)
-				{
-					updateBuffer(ref TessVertexBuffer, batchData.TessVertices, VertexPositionColor.SizeInBytes,
-						BufferUsage.VertexBuffer);
-					
-					tessIndices = batchData.TessIndices ?? new uint[0];
-					if (tessIndices.Length > 0)
+					catch (Exception ex)
 					{
-						updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+						Console.WriteLine($"Error updating point buffers: {ex.Message}");
 					}
 				}
 
-				// Update counts for rendering - be conservative to avoid crashes
-				// Note: We don't change the original polygon counts as that might break rendering logic
-				// Instead, we rely on the index arrays to determine what to render
+				// Update tessellated buffers (filled polygons) with extra safety checks
+				if (ovpSettings.drawFilled() && batchData.TessVertices?.Length > 0 && batchData.TessIndices?.Length > 0)
+				{
+					try
+					{
+						// Additional validation for tessellated polygons
+						if (batchData.TessVertices.Length % 3 == 0 && batchData.TessIndices.Length % 3 == 0)
+						{
+							updateBuffer(ref TessVertexBuffer, batchData.TessVertices, VertexPositionColor.SizeInBytes,
+								BufferUsage.VertexBuffer);
+							
+							tessIndices = batchData.TessIndices;
+							updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+						}
+						else
+						{
+							Console.WriteLine($"Warning: Invalid tessellated data - vertices: {batchData.TessVertices.Length}, indices: {batchData.TessIndices.Length}");
+						}
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine($"Error updating tessellated buffers: {ex.Message}");
+						// Don't fail completely, just skip tessellated updates
+					}
+				}
 			}
 		}
 		catch (Exception ex)
@@ -907,16 +917,25 @@ public partial class VeldridDriver
 		}
 		else
 		{
-			// When using progressive loading, ensure tessellated buffers are ready for filled polygons
-			// Progressive loading updates these via UpdateProgressivePolygonBuffers, but we need to ensure
-			// they're initialized properly to prevent crashes
-			if (ovpSettings.drawFilled() && TessVertexBuffer == null && tessPolyListCount > 0)
+			// When using progressive loading, ensure all buffer types are properly initialized
+			// This prevents crashes when switching between rendering modes
+			if (ovpSettings.drawFilled() && TessVertexBuffer == null && 
+			    (ovpSettings.tessPolyList?.Count ?? 0) > 0)
 			{
-				// Initialize empty tessellated buffers to prevent crashes
-				tessPolyList = new VertexPositionColor[0];
-				tessIndices = new uint[0];
-				updateBuffer(ref TessVertexBuffer, tessPolyList, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-				updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				// Initialize with minimal valid data to prevent crashes
+				var emptyTessVertices = new VertexPositionColor[3]; // Minimum for one triangle
+				var emptyTessIndices = new uint[] { 0, 1, 2 };
+				
+				try
+				{
+					updateBuffer(ref TessVertexBuffer, emptyTessVertices, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+					updateBuffer(ref TessIndexBuffer, emptyTessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+					tessIndices = emptyTessIndices; // Initialize the reference
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"Warning: Failed to initialize empty tessellated buffers: {ex.Message}");
+				}
 			}
 		}
 		
@@ -999,6 +1018,13 @@ public partial class VeldridDriver
 					Console.WriteLine("Warning: TessIndexBuffer is null, skipping filled polygon rendering");
 					return;
 				}
+				
+				// Additional safety check for tessellated data integrity
+				if (tessIndices.Length % 3 != 0)
+				{
+					Console.WriteLine($"Warning: Invalid tessellated indices count: {tessIndices.Length}, should be multiple of 3");
+					return;
+				}
 
 				lock (TessVertexBuffer)
 				{
@@ -1019,7 +1045,8 @@ public partial class VeldridDriver
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine("Ex: " + ex);
+						Console.WriteLine($"Error rendering filled polygons: {ex.Message}");
+						// Don't crash, just skip this rendering pass
 					}
 				}
 			}

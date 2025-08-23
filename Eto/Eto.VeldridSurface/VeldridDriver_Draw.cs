@@ -1,5 +1,4 @@
 using Eto.Drawing;
-using Eto.Forms;
 using System.Numerics;
 using Veldrid;
 
@@ -9,15 +8,6 @@ public partial class VeldridDriver
 {
 	private bool drawing = false;
 	private bool done_drawing = false;
-	
-	// Progressive loading support
-	private BatchedPolygonLoader? _batchedLoader;
-	private ProgressivePolygonRenderer? _progressiveRenderer;
-	private volatile bool _useProgressiveLoading = false;
-	private volatile bool _progressiveLoadingInProgress = false;
-	
-	public event Action<BatchLoadProgress>? ProgressiveLoadingProgress;
-	public event Action<string>? ProgressiveLoadingStatusChanged;
 	private async void pUpdateViewport()
 	{
 		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
@@ -29,152 +19,10 @@ public partial class VeldridDriver
 		drawing = true;
 		done_drawing = false;
 		
-		try
-		{
-			// Check if progressive loading should be used
-			_useProgressiveLoading = ovpSettings.progressiveLoadingEnabled() && ShouldUseProgressiveLoading();
-			
-			if (_useProgressiveLoading)
-			{
-				await StartProgressiveLoading();
-			}
-			else
-			{
-				// Use original synchronous loading
-				await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
-			}
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"Error in pUpdateViewport: {ex.Message}");
-		}
-		finally
-		{
-			done_drawing = true;
-			drawing = false; // Always reset drawing flag
-		}
-	}
-	
-	private bool ShouldUseProgressiveLoading()
-	{
-		// Use progressive loading if there are many polygons, regardless of filled mode
-		// Previous disabled for filled polygons, but with improved buffer coordination this should work
-		var totalPolygons = (ovpSettings.polyList?.Count ?? 0) + 
-		                   (ovpSettings.bgPolyList?.Count ?? 0) + 
-		                   (ovpSettings.tessPolyList?.Count ?? 0);
+		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
+		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
 		
-		return totalPolygons > ovpSettings.getBatchSize();
-	}
-	
-	private async Task StartProgressiveLoading()
-	{
-		if (_progressiveLoadingInProgress)
-		{
-			return; // Already loading
-		}
-		
-		_progressiveLoadingInProgress = true;
-		
-		try
-		{
-			// Initialize progressive loading components
-			_batchedLoader ??= new BatchedPolygonLoader(ovpSettings);
-			_progressiveRenderer ??= new ProgressivePolygonRenderer(ovpSettings);
-			
-			// Setup event handlers
-			_batchedLoader.LoadingStatusChanged += OnLoadingStatusChanged;
-			
-			// Reset progressive state
-			_progressiveRenderer.Reset();
-			
-			// Start non-polygon elements immediately
-			await Task.WhenAll(drawAxes(), drawGrid(), drawLines());
-			
-			// Start progressive polygon loading
-			var progress = new Progress<BatchLoadProgress>(OnProgressChanged);
-			
-			var result = await _batchedLoader.LoadPolygonsProgressivelyAsync(
-				OnBatchReady, progress);
-			
-			if (!result.Success)
-			{
-				Console.WriteLine($"Progressive loading failed: {result.ErrorMessage}");
-				// Fallback to synchronous loading
-				_useProgressiveLoading = false; // Disable progressive mode for fallback
-				await drawPolygons();
-			}
-			else
-			{
-				// Progressive loading completed successfully
-				Console.WriteLine($"Progressive loading completed successfully. Processed {result.ProcessedCount} polygons.");
-				// Ensure final refresh
-				TriggerViewportRefresh();
-			}
-		}
-		finally
-		{
-			_progressiveLoadingInProgress = false;
-			
-			// Cleanup event handlers
-			if (_batchedLoader != null)
-				_batchedLoader.LoadingStatusChanged -= OnLoadingStatusChanged;
-		}
-	}
-	
-	private async Task OnBatchReady(PolygonBatch batch)
-	{
-		if (_progressiveRenderer == null) return;
-		
-		// Process batch on background thread, but defer GPU updates to main thread
-		var batchData = await Task.Run(() => _progressiveRenderer.ProcessBatch(batch));
-		
-		// Ensure GPU buffer updates happen on main thread
-		await Application.Instance.InvokeAsync(() =>
-		{
-			try
-			{
-				UpdateProgressivePolygonBuffers(batchData);
-				// Trigger a viewport refresh to show the new polygons
-				TriggerViewportRefresh();
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"Error updating progressive buffers: {ex.Message}");
-			}
-		});
-	}
-	
-	private void TriggerViewportRefresh()
-	{
-		try
-		{
-			// Force a redraw to show the updated polygons
-			ovpSettings.changed = true;
-			// We can't call pUpdateViewport directly as it would interfere with progressive loading
-			// Instead, just ensure the surface redraws
-			Surface?.Invalidate();
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"Error triggering viewport refresh: {ex.Message}");
-		}
-	}
-	
-	private void OnRenderUpdateReady(RenderUpdateEventArgs args)
-	{
-		// This event handler is no longer needed since we handle updates directly in OnBatchReady
-		// Keeping for potential future use or custom rendering events
-	}
-	
-	private void OnLoadingStatusChanged(string status)
-	{
-		ProgressiveLoadingStatusChanged?.Invoke(status);
-		Console.WriteLine($"Progressive Loading: {status}");
-	}
-	
-	private void OnProgressChanged(BatchLoadProgress progress)
-	{
-		ProgressiveLoadingProgress?.Invoke(progress);
+		done_drawing = true;
 	}
 
 	private int fgPolyListCount;
@@ -453,95 +301,6 @@ public partial class VeldridDriver
 		updateBuffer(ref TessVertexBuffer, tessPolyList!.ToArray(), VertexPositionColor.SizeInBytes,
 			BufferUsage.VertexBuffer);
 		updateBuffer(ref TessIndexBuffer, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
-	}
-	
-	private void UpdateProgressivePolygonBuffers(RenderBatchData batchData)
-	{
-		try
-		{
-			// Validate input data
-			if (batchData == null)
-			{
-				Console.WriteLine("Warning: UpdateProgressivePolygonBuffers called with null batchData");
-				return;
-			}
-			
-			// Validate graphics device state
-			if (Surface?.GraphicsDevice == null)
-			{
-				Console.WriteLine("Warning: Graphics device not available for buffer update");
-				return;
-			}
-			
-			// Update polygon buffers with thread safety and additional validation
-			lock (this) // Ensure only one buffer update at a time
-			{
-				// Update polygon buffers (lines)
-				if (batchData.PolyVertices?.Length > 0 && batchData.PolyIndices?.Length > 0)
-				{
-					try
-					{
-						updateBuffer(ref PolysVertexBuffer, batchData.PolyVertices, VertexPositionColor.SizeInBytes,
-							BufferUsage.VertexBuffer);
-						
-						polyIndices = batchData.PolyIndices;
-						updateBuffer(ref PolysIndexBuffer, polyIndices, sizeof(uint), BufferUsage.IndexBuffer);
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine($"Error updating polygon line buffers: {ex.Message}");
-					}
-				}
-
-				// Update point buffers
-				if (ovpSettings.drawPoints() && batchData.PointVertices?.Length > 0 && batchData.PointIndices?.Length > 0)
-				{
-					try
-					{
-						updateBuffer(ref PointsVertexBuffer, batchData.PointVertices, VertexPositionColor.SizeInBytes,
-							BufferUsage.VertexBuffer);
-						
-						pointsIndices = batchData.PointIndices;
-						updateBuffer(ref PointsIndexBuffer, pointsIndices, sizeof(uint), BufferUsage.IndexBuffer);
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine($"Error updating point buffers: {ex.Message}");
-					}
-				}
-
-				// Update tessellated buffers (filled polygons) with extra safety checks
-				if (ovpSettings.drawFilled() && batchData.TessVertices?.Length > 0 && batchData.TessIndices?.Length > 0)
-				{
-					try
-					{
-						// Additional validation for tessellated polygons
-						if (batchData.TessVertices.Length % 3 == 0 && batchData.TessIndices.Length % 3 == 0)
-						{
-							updateBuffer(ref TessVertexBuffer, batchData.TessVertices, VertexPositionColor.SizeInBytes,
-								BufferUsage.VertexBuffer);
-							
-							tessIndices = batchData.TessIndices;
-							updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
-						}
-						else
-						{
-							Console.WriteLine($"Warning: Invalid tessellated data - vertices: {batchData.TessVertices.Length}, indices: {batchData.TessIndices.Length}");
-						}
-					}
-					catch (Exception ex)
-					{
-						Console.WriteLine($"Error updating tessellated buffers: {ex.Message}");
-						// Don't fail completely, just skip tessellated updates
-					}
-				}
-			}
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"Error in UpdateProgressivePolygonBuffers: {ex.Message}");
-			Console.WriteLine($"Stack trace: {ex.StackTrace}");
-		}
 	}
 
 	private int linesCount;
@@ -908,37 +667,7 @@ public partial class VeldridDriver
 	{
 		updateGridBuffers();
 		updateAxesBuffers();
-		
-		// Only update polygon buffers if not using progressive loading
-		// Progressive loading updates buffers via UpdateProgressivePolygonBuffers
-		if (!_useProgressiveLoading)
-		{
-			updatePolygonBuffers();
-		}
-		else
-		{
-			// When using progressive loading, ensure all buffer types are properly initialized
-			// This prevents crashes when switching between rendering modes
-			if (ovpSettings.drawFilled() && TessVertexBuffer == null && 
-			    (ovpSettings.tessPolyList?.Count ?? 0) > 0)
-			{
-				// Initialize with minimal valid data to prevent crashes
-				var emptyTessVertices = new VertexPositionColor[3]; // Minimum for one triangle
-				var emptyTessIndices = new uint[] { 0, 1, 2 };
-				
-				try
-				{
-					updateBuffer(ref TessVertexBuffer, emptyTessVertices, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-					updateBuffer(ref TessIndexBuffer, emptyTessIndices, sizeof(uint), BufferUsage.IndexBuffer);
-					tessIndices = emptyTessIndices; // Initialize the reference
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"Warning: Failed to initialize empty tessellated buffers: {ex.Message}");
-				}
-			}
-		}
-		
+		updatePolygonBuffers();
 		updateLineBuffers();
 
 		if (GridVertexBuffer != null && gridIndices != null && gridIndices.Length != 0)
@@ -1007,23 +736,9 @@ public partial class VeldridDriver
 		{
 			if (TessVertexBuffer != null && tessIndices != null && tessIndices.Length != 0)
 			{
-				if (FilledPipeline == null)
+				if (LinePipeline == null)
 				{
 					throw new Exception("populate_command_list : FilledPipeline not initialized!");
-				}
-
-				// Additional validation for progressive loading compatibility
-				if (TessIndexBuffer == null)
-				{
-					Console.WriteLine("Warning: TessIndexBuffer is null, skipping filled polygon rendering");
-					return;
-				}
-				
-				// Additional safety check for tessellated data integrity
-				if (tessIndices.Length % 3 != 0)
-				{
-					Console.WriteLine($"Warning: Invalid tessellated indices count: {tessIndices.Length}, should be multiple of 3");
-					return;
 				}
 
 				lock (TessVertexBuffer)
@@ -1045,8 +760,7 @@ public partial class VeldridDriver
 					}
 					catch (Exception ex)
 					{
-						Console.WriteLine($"Error rendering filled polygons: {ex.Message}");
-						// Don't crash, just skip this rendering pass
+						Console.WriteLine("Ex: " + ex);
 					}
 				}
 			}
@@ -1118,7 +832,7 @@ public partial class VeldridDriver
 		{
 			if (PointsVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
 			{
-				if (FilledPipeline == null)
+				if (LinePipeline == null)
 				{
 					throw new Exception("populate_command_list : FilledPipeline not initialized!");
 				}

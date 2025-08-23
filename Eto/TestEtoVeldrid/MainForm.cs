@@ -71,10 +71,6 @@ public partial class MainForm : Form
 			Surface = Surface
 		};
 
-		// Setup progressive loading event handlers
-		Driver.ProgressiveLoadingProgress += OnProgressiveLoadingProgress;
-		Driver.ProgressiveLoadingStatusChanged += OnProgressiveLoadingStatusChanged;
-
 		Surface.VeldridInitialized += (sender, e) =>
 		{
 			Driver.SetUpVeldrid();
@@ -225,24 +221,6 @@ public partial class MainForm : Form
 		Console.WriteLine($"Added {polyCount} polygons in {stopwatch.ElapsedMilliseconds}ms");
 	}
 
-	private void OnProgressiveLoadingProgress(VeldridEto.BatchLoadProgress progress)
-	{
-		// Update UI with loading progress
-		Application.Instance.Invoke(() =>
-		{
-			Title = $"Veldrid backend: {Surface.Backend} - Loading: {progress.ProcessedCount}/{progress.TotalCount} ({progress.OverallProgress:P1})";
-		});
-	}
-
-	private void OnProgressiveLoadingStatusChanged(string status)
-	{
-		// Update UI with loading status
-		Application.Instance.Invoke(() =>
-		{
-			Console.WriteLine($"Status: {status}");
-		});
-	}
-
 	private ContextMenu vp_menu;
 
 	private void createVPContextMenu()
@@ -287,13 +265,6 @@ public partial class MainForm : Form
 		VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
 		{
 			addPolys(true);
-			updateViewport();
-		};
-		displayOptionsSubItemIndex++;
-		VPMenuDisplayOptionsMenu.Items.Add(new ButtonMenuItem { Text = "Toggle Progressive Loading" });
-		VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
-		{
-			ovpSettings.setProgressiveLoading(!ovpSettings.progressiveLoadingEnabled());
 			updateViewport();
 		};
 		displayOptionsSubItemIndex++;

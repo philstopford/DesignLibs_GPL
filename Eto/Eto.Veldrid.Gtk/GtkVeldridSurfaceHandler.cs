@@ -42,9 +42,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			//
 			//   https://github.com/mellinoe/veldrid/issues/155
 			//
-			SwapchainSource source = SwapchainSource.CreateXlib(
-				X11Interop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
-				X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
+			SwapchainSource source = CreatePlatformSwapchainSource();
 
 			Size renderSize = RenderSize;
 			swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
@@ -58,6 +56,41 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 
 		return swapchain;
+	}
+
+	private SwapchainSource CreatePlatformSwapchainSource()
+	{
+		var displayServerType = LinuxPlatformInterop.GetDisplayServerType(Control.Display.Handle);
+		
+		switch (displayServerType)
+		{
+			case LinuxPlatformInterop.DisplayServerType.X11:
+			case LinuxPlatformInterop.DisplayServerType.XWayland:
+				// For X11 and XWayland, use X11 swapchain source
+				return SwapchainSource.CreateXlib(
+					LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
+					LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
+
+			case LinuxPlatformInterop.DisplayServerType.Wayland:
+				// For native Wayland, use Wayland swapchain source
+				return SwapchainSource.CreateWayland(
+					LinuxPlatformInterop.gdk_wayland_display_get_wl_display(Control.Display.Handle),
+					LinuxPlatformInterop.gdk_wayland_window_get_wl_surface(Control.Window.Handle));
+
+			default:
+				// Fallback to X11 for unknown display servers
+				try
+				{
+					return SwapchainSource.CreateXlib(
+						LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
+						LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
+				}
+				catch
+				{
+					throw new NotSupportedException($"Unsupported display server type: {displayServerType}. " +
+						"This platform requires X11, Wayland, or XWayland support.");
+				}
+		}
 	}
 
 	private void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -140,7 +173,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	// TODO: Figure this one out! The docstring for this property in Veldrid's OpenGLPlatformInfo is ambiguous.
 	IntPtr VeldridSurface.IOpenGL.OpenGLContextHandle => glArea?.Context.Handle ?? IntPtr.Zero;
 
-	IntPtr VeldridSurface.IOpenGL.GetProcAddress(string name) => X11Interop.glXGetProcAddress(name);
+	IntPtr VeldridSurface.IOpenGL.GetProcAddress(string name) => LinuxPlatformInterop.glXGetProcAddress(name);
 
 	void VeldridSurface.IOpenGL.MakeCurrent(IntPtr context) => MakeCurrent();
 

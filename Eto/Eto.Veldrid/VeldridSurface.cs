@@ -124,9 +124,17 @@ public class VeldridSurface : Control
 		{
 			backend = GraphicsBackend.Direct3D11;
 		}
-		else if (EtoEnvironment.Platform.IsLinux && GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
+		else if (EtoEnvironment.Platform.IsLinux)
 		{
-			backend = GraphicsBackend.OpenGL;
+			// On Linux, prefer Vulkan over OpenGL for better performance and features
+			if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan))
+			{
+				backend = GraphicsBackend.Vulkan;
+			}
+			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
+			{
+				backend = GraphicsBackend.OpenGL;
+			}
 		}
 
 		if (backend == null)

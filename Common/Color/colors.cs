@@ -2,15 +2,26 @@ using System.Collections.Generic;
 
 namespace color;
 
+/// <summary>
+/// Manages color schemes for various UI elements and application layers.
+/// Provides default colors and the ability to reset colors to defaults.
+/// Used by Eto.Forms-based viewports and end-user tools.
+/// </summary>
 public class Colors
 {
+    /// <summary>Color for subshape 1 elements</summary>
     public MyColor subshape1_Color { get; set; }
+    /// <summary>Color for subshape 2 elements</summary>
     public MyColor subshape2_Color { get; set; }
+    /// <summary>Color for subshape 3 elements</summary>
     public MyColor subshape3_Color { get; set; }
+    /// <summary>Color for enabled elements</summary>
     public MyColor enabled_Color { get; set; }
 
+    /// <summary>Color for selected elements</summary>
     public MyColor selected_Color { get; set; }
 
+    /// <summary>Color for deselected elements</summary>
     public MyColor deselected_Color { get; set; }
 
     public MyColor layer1_Color { get; set; }
@@ -81,22 +92,36 @@ public class Colors
     public MyColor default_axis_Color { get; set; }
     public MyColor default_background_Color { get; set; }
 
+    /// <summary>Color collections for simulation output display</summary>
     public List<MyColor> simOutputColors { get; set; }
+    /// <summary>Color collections for simulation preview display</summary>
     public List<MyColor> simPreviewColors { get; set; }
+    /// <summary>Array of result colors for easy indexing</summary>
     public MyColor[] resultColors { get; set; }
 
+    /// <summary>Default color for implant resist</summary>
     public MyColor default_implantResist_Color { get; set; }
+    /// <summary>Default color for implant minimum</summary>
     public MyColor default_implantMin_Color { get; set; }
+    /// <summary>Default color for implant mean</summary>
     public MyColor default_implantMean_Color { get; set; }
+    /// <summary>Default color for implant maximum</summary>
     public MyColor default_implantMax_Color { get; set; }
 
+    /// <summary>Default color for extents display</summary>
     public MyColor default_extents_Color { get; set; }
 
+    /// <summary>
+    /// Initializes a new Colors instance with default color values.
+    /// </summary>
     public Colors()
     {
         pColors();
     }
 
+    /// <summary>
+    /// Initializes all default color values and sets current colors to defaults.
+    /// </summary>
     private void pColors()
     {
         default_selected_Color = MyColor.Black;
@@ -148,11 +173,18 @@ public class Colors
         reset();
     }
 
+    /// <summary>
+    /// Rebuilds the color collections (simPreviewColors, simOutputColors, resultColors).
+    /// Should be called after changing individual color values.
+    /// </summary>
     public void rebuildLists()
     {
         pRebuildLists();
     }
 
+    /// <summary>
+    /// Internal implementation for rebuilding color collections.
+    /// </summary>
     private void pRebuildLists()
     {
         simPreviewColors =
@@ -190,11 +222,17 @@ public class Colors
         resultColors[3] = result4_Color;
     }
 
+    /// <summary>
+    /// Resets all colors to their default values and rebuilds color collections.
+    /// </summary>
     public void reset()
     {
         pReset();
     }
 
+    /// <summary>
+    /// Internal implementation for resetting colors to defaults.
+    /// </summary>
     private void pReset()
     {
         selected_Color = new MyColor(default_selected_Color);

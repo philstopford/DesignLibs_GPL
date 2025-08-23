@@ -71,6 +71,58 @@ public class OVPSettings
 	private bool antiAlias;
 	private bool lockedViewport;
 
+	// Progressive loading settings
+	private bool enableProgressiveLoading;
+	private int batchSize;
+	private int maxBatchProcessingTimeMs;
+
+	public bool progressiveLoadingEnabled()
+	{
+		return enableProgressiveLoading;
+	}
+
+	public void setProgressiveLoading(bool val)
+	{
+		if (enableProgressiveLoading == val)
+		{
+			return;
+		}
+		enableProgressiveLoading = val;
+		changed = true;
+	}
+
+	public int getBatchSize()
+	{
+		return batchSize;
+	}
+
+	public void setBatchSize(int val)
+	{
+		if (val <= 0) val = 100; // Minimum batch size
+		if (batchSize == val)
+		{
+			return;
+		}
+		batchSize = val;
+		changed = true;
+	}
+
+	public int getMaxBatchProcessingTimeMs()
+	{
+		return maxBatchProcessingTimeMs;
+	}
+
+	public void setMaxBatchProcessingTimeMs(int val)
+	{
+		if (val <= 0) val = 16; // Minimum 16ms (roughly 60fps)
+		if (maxBatchProcessingTimeMs == val)
+		{
+			return;
+		}
+		maxBatchProcessingTimeMs = val;
+		changed = true;
+	}
+
 	public bool aA()
 	{
 		return antiAlias;
@@ -454,6 +506,9 @@ public class OVPSettings
 		grid_spacing = 10;
 		antiAlias = true;
 		zoomStep = 1;
+		enableProgressiveLoading = false; // Disabled by default for backward compatibility
+		batchSize = 200; // Default batch size
+		maxBatchProcessingTimeMs = 16; // Target 60fps
 		fullReset(defX, defY);
 	}
 

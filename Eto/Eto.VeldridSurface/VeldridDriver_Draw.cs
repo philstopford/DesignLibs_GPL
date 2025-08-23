@@ -1,4 +1,5 @@
 using Eto.Drawing;
+using Eto.Forms;
 using System.Numerics;
 using Veldrid;
 
@@ -8,6 +9,15 @@ public partial class VeldridDriver
 {
 	private bool drawing = false;
 	private bool done_drawing = false;
+	
+	// Progressive loading support
+	private BatchedPolygonLoader? _batchedLoader;
+	private ProgressivePolygonRenderer? _progressiveRenderer;
+	private volatile bool _useProgressiveLoading = false;
+	private volatile bool _progressiveLoadingInProgress = false;
+	
+	public event Action<BatchLoadProgress>? ProgressiveLoadingProgress;
+	public event Action<string>? ProgressiveLoadingStatusChanged;
 	private async void pUpdateViewport()
 	{
 		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
@@ -19,10 +29,118 @@ public partial class VeldridDriver
 		drawing = true;
 		done_drawing = false;
 		
-		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
-		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
+		// Check if progressive loading should be used
+		_useProgressiveLoading = ovpSettings.progressiveLoadingEnabled() && ShouldUseProgressiveLoading();
+		
+		if (_useProgressiveLoading)
+		{
+			await StartProgressiveLoading();
+		}
+		else
+		{
+			// Use original synchronous loading
+			await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
+		}
 		
 		done_drawing = true;
+	}
+	
+	private bool ShouldUseProgressiveLoading()
+	{
+		// Use progressive loading if there are many polygons
+		var totalPolygons = (ovpSettings.polyList?.Count ?? 0) + 
+		                   (ovpSettings.bgPolyList?.Count ?? 0) + 
+		                   (ovpSettings.tessPolyList?.Count ?? 0);
+		
+		return totalPolygons > ovpSettings.getBatchSize();
+	}
+	
+	private async Task StartProgressiveLoading()
+	{
+		if (_progressiveLoadingInProgress)
+		{
+			return; // Already loading
+		}
+		
+		_progressiveLoadingInProgress = true;
+		
+		try
+		{
+			// Initialize progressive loading components
+			_batchedLoader ??= new BatchedPolygonLoader(ovpSettings);
+			_progressiveRenderer ??= new ProgressivePolygonRenderer(ovpSettings);
+			
+			// Setup event handlers
+			_batchedLoader.LoadingStatusChanged += OnLoadingStatusChanged;
+			_progressiveRenderer.RenderUpdateReady += OnRenderUpdateReady;
+			
+			// Reset progressive state
+			_progressiveRenderer.Reset();
+			
+			// Start non-polygon elements immediately
+			await Task.WhenAll(drawAxes(), drawGrid(), drawLines());
+			
+			// Start progressive polygon loading
+			var progress = new Progress<BatchLoadProgress>(OnProgressChanged);
+			
+			var result = await _batchedLoader.LoadPolygonsProgressivelyAsync(
+				OnBatchReady, progress);
+			
+			if (!result.Success)
+			{
+				Console.WriteLine($"Progressive loading failed: {result.ErrorMessage}");
+				// Fallback to synchronous loading
+				await drawPolygons();
+			}
+		}
+		finally
+		{
+			_progressiveLoadingInProgress = false;
+			
+			// Cleanup event handlers
+			if (_batchedLoader != null)
+				_batchedLoader.LoadingStatusChanged -= OnLoadingStatusChanged;
+			if (_progressiveRenderer != null)
+				_progressiveRenderer.RenderUpdateReady -= OnRenderUpdateReady;
+		}
+	}
+	
+	private async Task OnBatchReady(PolygonBatch batch)
+	{
+		if (_progressiveRenderer == null) return;
+		
+		// Process batch on background thread
+		await Task.Run(() => _progressiveRenderer.ProcessBatch(batch));
+	}
+	
+	private void OnRenderUpdateReady(RenderUpdateEventArgs args)
+	{
+		// Update GPU buffers with new batch data
+		Application.Instance.Invoke(() =>
+		{
+			try
+			{
+				if (args.BatchData != null)
+				{
+					UpdateProgressivePolygonBuffers(args.BatchData);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error updating progressive buffers: {ex.Message}");
+			}
+		});
+	}
+	
+	private void OnLoadingStatusChanged(string status)
+	{
+		ProgressiveLoadingStatusChanged?.Invoke(status);
+		Console.WriteLine($"Progressive Loading: {status}");
+	}
+	
+	private void OnProgressChanged(BatchLoadProgress progress)
+	{
+		ProgressiveLoadingProgress?.Invoke(progress);
 	}
 
 	private int fgPolyListCount;
@@ -301,6 +419,59 @@ public partial class VeldridDriver
 		updateBuffer(ref TessVertexBuffer, tessPolyList!.ToArray(), VertexPositionColor.SizeInBytes,
 			BufferUsage.VertexBuffer);
 		updateBuffer(ref TessIndexBuffer, tessIndices!, sizeof(uint), BufferUsage.IndexBuffer);
+	}
+	
+	private void UpdateProgressivePolygonBuffers(RenderBatchData batchData)
+	{
+		try
+		{
+			// Update polygon buffers
+			if (batchData.PolyVertices?.Length > 0)
+			{
+				updateBuffer(ref PolysVertexBuffer, batchData.PolyVertices, VertexPositionColor.SizeInBytes,
+					BufferUsage.VertexBuffer);
+				if (batchData.PolyIndices?.Length > 0)
+				{
+					updateBuffer(ref PolysIndexBuffer, batchData.PolyIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				}
+			}
+
+			// Update point buffers
+			if (ovpSettings.drawPoints() && batchData.PointVertices?.Length > 0)
+			{
+				updateBuffer(ref PointsVertexBuffer, batchData.PointVertices, VertexPositionColor.SizeInBytes,
+					BufferUsage.VertexBuffer);
+				if (batchData.PointIndices?.Length > 0)
+				{
+					updateBuffer(ref PointsIndexBuffer, batchData.PointIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				}
+			}
+
+			// Update tessellated buffers
+			if (ovpSettings.drawFilled() && batchData.TessVertices?.Length > 0)
+			{
+				updateBuffer(ref TessVertexBuffer, batchData.TessVertices, VertexPositionColor.SizeInBytes,
+					BufferUsage.VertexBuffer);
+				if (batchData.TessIndices?.Length > 0)
+				{
+					updateBuffer(ref TessIndexBuffer, batchData.TessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				}
+			}
+
+			// Update counts for rendering
+			fgPolyListCount = (batchData.PolyVertices?.Length ?? 0) / 2; // Each polygon segment has 2 vertices
+			tessPolyListCount = (batchData.TessVertices?.Length ?? 0) / 3; // Each triangle has 3 vertices
+			bgPolyListCount = 0; // Background polygons are included in PolyVertices
+			
+			// Update indices arrays for rendering
+			polyIndices = batchData.PolyIndices;
+			pointsIndices = batchData.PointIndices;
+			tessIndices = batchData.TessIndices;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"Error in UpdateProgressivePolygonBuffers: {ex.Message}");
+		}
 	}
 
 	private int linesCount;

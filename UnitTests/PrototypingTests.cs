@@ -544,6 +544,163 @@ namespace UnitTests
 
         #endregion
 
+        #region Rectilinear Path Approximation Tests
+
+        [Test]
+        public void TestRectilinearErrorComputation()
+        {
+            // Arrange: Simple path that should align better with axis-aligned coordinates
+            var testVertices = new List<PrototypeTestHelpers.Point>
+            {
+                new(0, 0),
+                new(1, 0),  // Horizontal segment
+                new(1, 1)   // Vertical segment
+            };
+
+            // Simulate the algorithm with test data
+            var origin = testVertices[0];
+            
+            // Act: Test error computation at different angles
+            double error0 = ComputeRectilinearErrorSimulated(0, origin, testVertices);
+            double error45 = ComputeRectilinearErrorSimulated(Math.PI / 4, origin, testVertices);
+            
+            // Assert: 0-degree rotation should be better for axis-aligned path
+            Assert.That(error0, Is.LessThan(error45), 
+                "0-degree rotation should provide better rectilinear approximation for axis-aligned path");
+            Assert.That(error0, Is.EqualTo(0).Within(1e-10), 
+                "Axis-aligned path should have zero error at 0-degree rotation");
+        }
+
+        [Test]
+        public void TestRectilinearPathGeneration()
+        {
+            // Arrange: Simple L-shaped path
+            var testVertices = new List<PrototypeTestHelpers.Point>
+            {
+                new(0, 0),
+                new(0, 1),
+                new(1, 1)
+            };
+
+            // Act: Generate rectilinear approximation
+            var result = GenerateRectilinearPathSimulated(0, testVertices[0], testVertices);
+
+            // Assert: Should maintain start point and have rectilinear structure
+            Assert.That(result.Count, Is.EqualTo(testVertices.Count));
+            Assert.That(result[0].X, Is.EqualTo(testVertices[0].X).Within(1e-10));
+            Assert.That(result[0].Y, Is.EqualTo(testVertices[0].Y).Within(1e-10));
+            
+            // For L-shaped path, the final point should be reachable via rectilinear path
+            Assert.That(result[^1].X, Is.EqualTo(testVertices[^1].X).Within(1e-10).Or.EqualTo(result[^2].X).Within(1e-10));
+            Assert.That(result[^1].Y, Is.EqualTo(testVertices[^1].Y).Within(1e-10).Or.EqualTo(result[^2].Y).Within(1e-10));
+        }
+
+        [Test]
+        public void TestRectilinearAngles()
+        {
+            // Arrange: Perfect rectilinear path
+            var rectPath = new List<PrototypeTestHelpers.Point>
+            {
+                new(0, 0),
+                new(1, 0),  // Horizontal
+                new(1, 1),  // Vertical
+                new(0, 1)   // Horizontal
+            };
+
+            // Act: Compute angles
+            var angles = ComputeAnglesSimulated(rectPath);
+
+            // Assert: Interior angles should be 90 degrees (allowing for numerical tolerance)
+            for (int i = 1; i < angles.Length - 1; i++)
+            {
+                if (!double.IsNaN(angles[i]))
+                {
+                    Assert.That(Math.Abs(angles[i] - 90.0), Is.LessThan(1e-6), 
+                        $"Rectilinear path should have 90-degree angles, got {angles[i]} at vertex {i}");
+                }
+            }
+        }
+
+        // Simplified simulation methods for testing rectilinear algorithms
+        private double ComputeRectilinearErrorSimulated(double theta, PrototypeTestHelpers.Point origin, 
+            List<PrototypeTestHelpers.Point> vertices)
+        {
+            double c = Math.Cos(theta), s = Math.Sin(theta);
+            double totalError = 0;
+
+            // Simplified error computation
+            for (int i = 1; i < vertices.Count; i++)
+            {
+                var p1 = vertices[i - 1] - origin;
+                var p2 = vertices[i] - origin;
+                
+                // Rotate to test frame
+                var r1 = new PrototypeTestHelpers.Point(c * p1.X - s * p1.Y, s * p1.X + c * p1.Y);
+                var r2 = new PrototypeTestHelpers.Point(c * p2.X - s * p2.Y, s * p2.X + c * p2.Y);
+                
+                var delta = r2 - r1;
+                
+                // For rectilinear approximation, prefer segments aligned with axes
+                double errorX = Math.Abs(delta.Y);  // Error if treated as horizontal
+                double errorY = Math.Abs(delta.X);  // Error if treated as vertical
+                totalError += Math.Min(errorX, errorY);
+            }
+
+            return totalError;
+        }
+
+        private List<PrototypeTestHelpers.Point> GenerateRectilinearPathSimulated(double theta, 
+            PrototypeTestHelpers.Point origin, List<PrototypeTestHelpers.Point> vertices)
+        {
+            var result = new List<PrototypeTestHelpers.Point> { vertices[0] };
+
+            // Simplified rectilinear path generation - create Manhattan-style path
+            for (int i = 1; i < vertices.Count; i++)
+            {
+                var prev = result[i - 1];
+                var target = vertices[i];
+                
+                // Create L-shaped path: first horizontal, then vertical (or vice versa)
+                if (i % 2 == 1)
+                {
+                    // Go horizontal first, then vertical
+                    result.Add(new PrototypeTestHelpers.Point(target.X, prev.Y));
+                }
+                else
+                {
+                    // Go vertical first, then horizontal  
+                    result.Add(new PrototypeTestHelpers.Point(prev.X, target.Y));
+                }
+            }
+
+            return result;
+        }
+
+        private double[] ComputeAnglesSimulated(List<PrototypeTestHelpers.Point> pts)
+        {
+            int N = pts.Count;
+            var angles = new double[N];
+
+            for (int i = 0; i < N; i++)
+            {
+                if (i == 0 || i == N - 1)
+                {
+                    angles[i] = double.NaN;
+                    continue;
+                }
+
+                var v1 = (pts[i - 1] - pts[i]).Normalized();
+                var v2 = (pts[i + 1] - pts[i]).Normalized();
+                
+                double dot = Math.Clamp(v1.X * v2.X + v1.Y * v2.Y, -1.0, 1.0);
+                angles[i] = Math.Acos(dot) * (180.0 / Math.PI);
+            }
+
+            return angles;
+        }
+
+        #endregion
+
         #region Point and Vector Operation Tests
 
         [Test]

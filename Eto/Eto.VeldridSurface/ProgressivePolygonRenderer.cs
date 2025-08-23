@@ -87,7 +87,25 @@ public class ProgressivePolygonRenderer
 				continue; // Skip invalid polygons
 			}
 			
-			float alpha = poly.alpha;
+			// Additional validation for coordinate safety
+			bool hasValidCoordinates = true;
+			for (int i = 0; i < poly.poly.Length && hasValidCoordinates; i++)
+			{
+				var point = poly.poly[i];
+				if (float.IsNaN(point.X) || float.IsNaN(point.Y) || 
+				    float.IsInfinity(point.X) || float.IsInfinity(point.Y))
+				{
+					hasValidCoordinates = false;
+				}
+			}
+			
+			if (!hasValidCoordinates)
+			{
+				Console.WriteLine($"Skipping polygon with invalid coordinates in foreground batch");
+				continue;
+			}
+			
+			float alpha = Math.Max(0.0f, Math.Min(1.0f, poly.alpha)); // Clamp alpha
 			if (_settings.drawFilled())
 			{
 				alpha = 1.0f;
@@ -103,26 +121,34 @@ public class ProgressivePolygonRenderer
 			// Process polygon vertices
 			for (int pt = 0; pt < polyLength; pt++)
 			{
-				// Add polygon line segments
-				batchPolyVertices.Add(new VertexPositionColor(
-					new Vector3(poly.poly[pt].X, poly.poly[pt].Y, polyZ),
-					new RgbaFloat(poly.color.R, poly.color.G, poly.color.B, alpha)));
-				
-				batchPolyVertices.Add(new VertexPositionColor(
-					new Vector3(poly.poly[pt + 1].X, poly.poly[pt + 1].Y, polyZ),
-					new RgbaFloat(poly.color.R, poly.color.G, poly.color.B, alpha)));
-				
-				// Add indices for the line segment
-				batchPolyIndices.Add(polyIndexOffset + (uint)(pt * 2));
-				batchPolyIndices.Add(polyIndexOffset + (uint)(pt * 2 + 1));
-				
-				// Add point vertices if enabled
-				if (_settings.drawPoints())
+				try
 				{
-					const float pointWidth = 2.0f;
-					// Create 6 vertices for 2 triangles (quad) for each point
-					AddPointQuad(batchPointVertices, batchPointIndices, 
-						poly.poly[pt], pointWidth, polyZ, poly.color, alpha, pointIndexOffset + (uint)(pt * 6));
+					// Add polygon line segments
+					batchPolyVertices.Add(new VertexPositionColor(
+						new Vector3(poly.poly[pt].X, poly.poly[pt].Y, polyZ),
+						new RgbaFloat(poly.color.R, poly.color.G, poly.color.B, alpha)));
+					
+					batchPolyVertices.Add(new VertexPositionColor(
+						new Vector3(poly.poly[pt + 1].X, poly.poly[pt + 1].Y, polyZ),
+						new RgbaFloat(poly.color.R, poly.color.G, poly.color.B, alpha)));
+					
+					// Add indices for the line segment
+					batchPolyIndices.Add(polyIndexOffset + (uint)(pt * 2));
+					batchPolyIndices.Add(polyIndexOffset + (uint)(pt * 2 + 1));
+					
+					// Add point vertices if enabled
+					if (_settings.drawPoints())
+					{
+						const float pointWidth = 2.0f;
+						// Create 6 vertices for 2 triangles (quad) for each point
+						AddPointQuad(batchPointVertices, batchPointIndices, 
+							poly.poly[pt], pointWidth, polyZ, poly.color, alpha, pointIndexOffset + (uint)(pt * 6));
+					}
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"Error processing polygon vertex {pt}: {ex.Message}");
+					continue; // Skip this vertex but continue with the polygon
 				}
 			}
 			

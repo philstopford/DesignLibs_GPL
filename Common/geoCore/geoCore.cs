@@ -11,6 +11,12 @@ using Clipper2Lib;
 
 namespace geoCoreLib;
 
+/// <summary>
+/// Core geometric design library that provides file format handling and geometric operations.
+/// GeoCore is a hybrid design inspired by multiple libraries including layouteditor and KLayout.
+/// It handles GDSII and OASIS format parsing and provides integer-based geometry representation
+/// to avoid precision issues.
+/// </summary>
 public class GeoCore
 {
     /*
@@ -20,83 +26,192 @@ public class GeoCore
      * By design, this tool is all integer based internally. Mapping to the layout grid is deferred to avoid precision issues.
      */
     
+    /// <summary>
+    /// The main drawing field containing all geometric data and layout information.
+    /// </summary>
     private GCDrawingfield drawingField;
     
+    /// <summary>
+    /// Default tolerance value used for geometric operations and comparisons.
+    /// Set to 0.001 to provide appropriate precision for layout operations.
+    /// </summary>
     public static double tolerance = 0.001;
     
+    /// <summary>
+    /// Collection of error messages generated during file parsing or geometric operations.
+    /// Used to provide feedback about issues encountered during processing.
+    /// </summary>
     public List<string> error_msgs;
+    
+    /// <summary>
+    /// Internal flag indicating whether the GeoCore instance contains valid data.
+    /// </summary>
     private bool valid;
 
+    /// <summary>
+    /// Sets the validity state of the GeoCore instance.
+    /// </summary>
+    /// <param name="val">True if the instance contains valid data, false otherwise</param>
     public void setValid(bool val)
     {
         pSetValid(val);
     }
 
+    /// <summary>
+    /// Internal implementation for setting the validity state.
+    /// </summary>
+    /// <param name="val">The validity state to set</param>
     private void pSetValid(bool val)
     {
         valid = val;
     }
 
+    /// <summary>
+    /// Gets the current validity state of the GeoCore instance.
+    /// </summary>
+    /// <returns>True if the instance contains valid data, false otherwise</returns>
     public bool isValid()
     {
         return pIsValid();
     }
 
+    /// <summary>
+    /// Internal implementation for getting the validity state.
+    /// </summary>
+    /// <returns>The current validity state</returns>
     private bool pIsValid()
     {
         return valid;
     }
 
+    /// <summary>
+    /// The filename of the currently loaded file.
+    /// </summary>
     private string filename;
+    
+    /// <summary>
+    /// Internal identifier for the file format type.
+    /// </summary>
     private int fileFormat;
-    public enum fileType { gds, oasis }
+    
+    /// <summary>
+    /// Enumeration of supported file format types.
+    /// </summary>
+    public enum fileType 
+    { 
+        /// <summary>GDSII Stream format</summary>
+        gds, 
+        /// <summary>OASIS format</summary>
+        oasis 
+    }
 
+    /// <summary>
+    /// Dictionary mapping layer numbers to their string names for improved readability.
+    /// </summary>
     private Dictionary<string, string> layerNames;
 
+    /// <summary>
+    /// Internal list of structure names in the loaded file.
+    /// </summary>
     private List<string> pStructureList;
 
+    /// <summary>
+    /// Gets the list of structure names from the loaded file.
+    /// </summary>
+    /// <returns>List of structure names</returns>
     public List<string> getStructureList()
     {
         return pGetStructureList();
     }
 
+    /// <summary>
+    /// Internal implementation for getting the structure list.
+    /// </summary>
+    /// <returns>List of structure names</returns>
     private List<string> pGetStructureList()
     {
         return pStructureList;
     }
 
+    /// <summary>
+    /// Internal list of layer/datatype combinations for the active structure.
+    /// </summary>
     private List<string> pActiveStructure_LDList;
 
+    /// <summary>
+    /// Gets the layer/datatype list for the currently active structure.
+    /// </summary>
+    /// <returns>List of layer/datatype combinations</returns>
     public List<string> getActiveStructureLDList()
     {
         return pGetActiveStructureLDList();
     }
 
+    /// <summary>
+    /// Internal implementation for getting the active structure's layer/datatype list.
+    /// </summary>
+    /// <returns>List of layer/datatype combinations</returns>
     private List<string> pGetActiveStructureLDList()
     {
         return pActiveStructure_LDList;
     }
 
+    /// <summary>
+    /// Observable collection of structure names for UI binding support.
+    /// </summary>
     public ObservableCollection<string> structureList_ { get; set; }
+    
+    /// <summary>
+    /// Observable collection of layer/datatype combinations for the active structure for UI binding.
+    /// </summary>
     public ObservableCollection<string> activeStructure_LayerDataTypeList_ { get; set; }
 
+    /// <summary>
+    /// Index of the currently active structure.
+    /// </summary>
     public int activeStructure { get; set; }
+    
+    /// <summary>
+    /// Index of the currently active layer/datatype combination.
+    /// </summary>
     public int activeLD { get; set; }
+    
+    /// <summary>
+    /// List of layer/datatype combinations for each structure in the file.
+    /// </summary>
     private List<List<string>> structure_LayerDataTypeList;
+    
+    /// <summary>
+    /// Gets the complete list of layer/datatype combinations for all structures.
+    /// </summary>
+    /// <returns>Nested list where each inner list contains layer/datatype combinations for a structure</returns>
     public List<List<string>> getStructureLayerDataTypeList()
     {
         return pGetStructureLayerDataTypeList();
     }
 
+    /// <summary>
+    /// Internal implementation for getting the structure layer/datatype list.
+    /// </summary>
+    /// <returns>Nested list of layer/datatype combinations</returns>
     private List<List<string>> pGetStructureLayerDataTypeList()
     {
         return structure_LayerDataTypeList;
     }
 
+    /// <summary>
+    /// Internal class representing a layout structure containing geometric elements.
+    /// </summary>
     private class Structure
     {
+        /// <summary>
+        /// List of layer/datatype combinations present in this structure.
+        /// </summary>
         public List<string> layerDataTypes;
 
+        /// <summary>
+        /// List of geometric elements (polygons, paths, cell references) in this structure.
+        /// </summary>
         public List<Element> elements;
 
         private List<string> bakedGeo_LD;

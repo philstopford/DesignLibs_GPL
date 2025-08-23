@@ -72,7 +72,6 @@ public partial class VeldridDriver
 			
 			// Setup event handlers
 			_batchedLoader.LoadingStatusChanged += OnLoadingStatusChanged;
-			_progressiveRenderer.RenderUpdateReady += OnRenderUpdateReady;
 			
 			// Reset progressive state
 			_progressiveRenderer.Reset();
@@ -100,8 +99,6 @@ public partial class VeldridDriver
 			// Cleanup event handlers
 			if (_batchedLoader != null)
 				_batchedLoader.LoadingStatusChanged -= OnLoadingStatusChanged;
-			if (_progressiveRenderer != null)
-				_progressiveRenderer.RenderUpdateReady -= OnRenderUpdateReady;
 		}
 	}
 	
@@ -109,27 +106,27 @@ public partial class VeldridDriver
 	{
 		if (_progressiveRenderer == null) return;
 		
-		// Process batch on background thread
-		await Task.Run(() => _progressiveRenderer.ProcessBatch(batch));
-	}
-	
-	private void OnRenderUpdateReady(RenderUpdateEventArgs args)
-	{
-		// Update GPU buffers with new batch data
-		Application.Instance.Invoke(() =>
+		// Process batch on background thread, but defer GPU updates to main thread
+		var batchData = await Task.Run(() => _progressiveRenderer.ProcessBatch(batch));
+		
+		// Ensure GPU buffer updates happen on main thread
+		await Application.Instance.InvokeAsync(() =>
 		{
 			try
 			{
-				if (args.BatchData != null)
-				{
-					UpdateProgressivePolygonBuffers(args.BatchData);
-				}
+				UpdateProgressivePolygonBuffers(batchData);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Error updating progressive buffers: {ex.Message}");
 			}
 		});
+	}
+	
+	private void OnRenderUpdateReady(RenderUpdateEventArgs args)
+	{
+		// This event handler is no longer needed since we handle updates directly in OnBatchReady
+		// Keeping for potential future use or custom rendering events
 	}
 	
 	private void OnLoadingStatusChanged(string status)
@@ -425,6 +422,13 @@ public partial class VeldridDriver
 	{
 		try
 		{
+			// Validate input data
+			if (batchData == null)
+			{
+				Console.WriteLine("Warning: UpdateProgressivePolygonBuffers called with null batchData");
+				return;
+			}
+			
 			// Update polygon buffers
 			if (batchData.PolyVertices?.Length > 0)
 			{
@@ -458,19 +462,20 @@ public partial class VeldridDriver
 				}
 			}
 
-			// Update counts for rendering
-			fgPolyListCount = (batchData.PolyVertices?.Length ?? 0) / 2; // Each polygon segment has 2 vertices
-			tessPolyListCount = (batchData.TessVertices?.Length ?? 0) / 3; // Each triangle has 3 vertices
+			// Update counts for rendering - use safe calculations
+			fgPolyListCount = Math.Max(0, (batchData.PolyVertices?.Length ?? 0) / 2); // Each polygon segment has 2 vertices
+			tessPolyListCount = Math.Max(0, (batchData.TessVertices?.Length ?? 0) / 3); // Each triangle has 3 vertices
 			bgPolyListCount = 0; // Background polygons are included in PolyVertices
 			
-			// Update indices arrays for rendering
-			polyIndices = batchData.PolyIndices;
-			pointsIndices = batchData.PointIndices;
-			tessIndices = batchData.TessIndices;
+			// Update indices arrays for rendering with null safety
+			polyIndices = batchData.PolyIndices ?? new uint[0];
+			pointsIndices = batchData.PointIndices ?? new uint[0];
+			tessIndices = batchData.TessIndices ?? new uint[0];
 		}
 		catch (Exception ex)
 		{
 			Console.WriteLine($"Error in UpdateProgressivePolygonBuffers: {ex.Message}");
+			Console.WriteLine($"Stack trace: {ex.StackTrace}");
 		}
 	}
 

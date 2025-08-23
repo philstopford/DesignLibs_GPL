@@ -8,6 +8,7 @@ namespace VeldridEto;
 public class ProgressivePolygonRenderer
 {
 	private readonly OVPSettings _settings;
+	private readonly object _lockObject = new object(); // Thread safety lock
 	
 	// Batch tracking for incremental updates
 	private readonly List<VertexPositionColor> _progressivePolyList = new();
@@ -22,8 +23,6 @@ public class ProgressivePolygonRenderer
 	private int _processedBackgroundPolys = 0;
 	private int _processedTessellatedPolys = 0;
 	
-	public event Action<RenderUpdateEventArgs>? RenderUpdateReady;
-	
 	public ProgressivePolygonRenderer(OVPSettings settings)
 	{
 		_settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -31,51 +30,49 @@ public class ProgressivePolygonRenderer
 	
 	public void Reset()
 	{
-		_progressivePolyList.Clear();
-		_progressivePointsList.Clear();
-		_progressiveTessList.Clear();
-		_progressivePolyIndices.Clear();
-		_progressivePointsIndices.Clear();
-		_progressiveTessIndices.Clear();
-		
-		_processedForegroundPolys = 0;
-		_processedBackgroundPolys = 0;
-		_processedTessellatedPolys = 0;
+		lock (_lockObject)
+		{
+			_progressivePolyList.Clear();
+			_progressivePointsList.Clear();
+			_progressiveTessList.Clear();
+			_progressivePolyIndices.Clear();
+			_progressivePointsIndices.Clear();
+			_progressiveTessIndices.Clear();
+			
+			_processedForegroundPolys = 0;
+			_processedBackgroundPolys = 0;
+			_processedTessellatedPolys = 0;
+		}
 	}
 	
 	public RenderBatchData ProcessBatch(PolygonBatch batch)
 	{
-		var batchData = new RenderBatchData();
-		
-		switch (batch.PolygonType)
+		lock (_lockObject)
 		{
-			case PolygonType.Foreground:
-				ProcessForegroundBatch(batch, batchData);
-				break;
-			case PolygonType.Background:
-				ProcessBackgroundBatch(batch, batchData);
-				break;
-			case PolygonType.Tessellated:
-				ProcessTessellatedBatch(batch, batchData);
-				break;
+			var batchData = new RenderBatchData();
+			
+			switch (batch.PolygonType)
+			{
+				case PolygonType.Foreground:
+					ProcessForegroundBatch(batch, batchData);
+					break;
+				case PolygonType.Background:
+					ProcessBackgroundBatch(batch, batchData);
+					break;
+				case PolygonType.Tessellated:
+					ProcessTessellatedBatch(batch, batchData);
+					break;
+			}
+			
+			return batchData;
 		}
-		
-		// Trigger render update
-		RenderUpdateReady?.Invoke(new RenderUpdateEventArgs
-		{
-			BatchData = batchData,
-			TotalVertices = _progressivePolyList.Count + _progressivePointsList.Count + _progressiveTessList.Count,
-			BatchType = batch.PolygonType,
-			IsLastBatch = batch.IsLastBatch
-		});
-		
-		return batchData;
 	}
 	
 	private void ProcessForegroundBatch(PolygonBatch batch, RenderBatchData batchData)
 	{
 		var tessPolyListCount = _settings.tessPolyList?.Count ?? 0;
-		var polyZStep = 1.0f / Math.Max(1, tessPolyListCount + (_settings.polyList?.Count ?? 0) + 1);
+		var totalForegroundPolys = _settings.polyList?.Count ?? 0;
+		var polyZStep = 1.0f / Math.Max(1, tessPolyListCount + totalForegroundPolys + 1);
 		
 		var batchPolyVertices = new List<VertexPositionColor>();
 		var batchPointVertices = new List<VertexPositionColor>();
@@ -84,6 +81,12 @@ public class ProgressivePolygonRenderer
 		
 		foreach (var poly in batch.Polygons)
 		{
+			// Validate polygon data
+			if (poly?.poly == null || poly.poly.Length < 2)
+			{
+				continue; // Skip invalid polygons
+			}
+			
 			float alpha = poly.alpha;
 			if (_settings.drawFilled())
 			{
@@ -93,9 +96,9 @@ public class ProgressivePolygonRenderer
 			float polyZ = (tessPolyListCount * polyZStep) + (_processedForegroundPolys * polyZStep);
 			int polyLength = poly.poly.Length - 1;
 			
-			// Calculate offsets for this polygon
-			uint polyIndexOffset = (uint)_progressivePolyList.Count + (uint)batchPolyVertices.Count;
-			uint pointIndexOffset = (uint)_progressivePointsList.Count + (uint)batchPointVertices.Count;
+			// Calculate offsets for this polygon with bounds checking
+			uint polyIndexOffset = (uint)Math.Max(0, _progressivePolyList.Count + batchPolyVertices.Count);
+			uint pointIndexOffset = (uint)Math.Max(0, _progressivePointsList.Count + batchPointVertices.Count);
 			
 			// Process polygon vertices
 			for (int pt = 0; pt < polyLength; pt++)
@@ -141,18 +144,25 @@ public class ProgressivePolygonRenderer
 	
 	private void ProcessBackgroundBatch(PolygonBatch batch, RenderBatchData batchData)
 	{
-		var polyZStep = 1.0f / Math.Max(1, (_settings.bgPolyList?.Count ?? 0) + 1);
+		var totalBackgroundPolys = _settings.bgPolyList?.Count ?? 0;
+		var polyZStep = 1.0f / Math.Max(1, totalBackgroundPolys + 1);
 		
 		var batchPolyVertices = new List<VertexPositionColor>();
 		var batchPolyIndices = new List<uint>();
 		
 		foreach (var poly in batch.Polygons)
 		{
+			// Validate polygon data
+			if (poly?.poly == null || poly.poly.Length < 2)
+			{
+				continue; // Skip invalid polygons
+			}
+			
 			float alpha = poly.alpha;
 			float polyZ = _processedBackgroundPolys * polyZStep;
 			
 			int polyLength = poly.poly.Length - 1;
-			uint indexOffset = (uint)_progressivePolyList.Count + (uint)batchPolyVertices.Count;
+			uint indexOffset = (uint)Math.Max(0, _progressivePolyList.Count + batchPolyVertices.Count);
 			
 			for (int pt = 0; pt < polyLength; pt++)
 			{
@@ -183,14 +193,21 @@ public class ProgressivePolygonRenderer
 		var batchTessVertices = new List<VertexPositionColor>();
 		var batchTessIndices = new List<uint>();
 		
-		var polyZStep = 1.0f / Math.Max(1, (_settings.tessPolyList?.Count ?? 0) + 1);
+		var totalTessPolys = _settings.tessPolyList?.Count ?? 0;
+		var polyZStep = 1.0f / Math.Max(1, totalTessPolys + 1);
 		
 		foreach (var poly in batch.Polygons)
 		{
+			// Validate polygon data - tessellated polygons should have exactly 3 vertices
+			if (poly?.poly == null || poly.poly.Length < 3)
+			{
+				continue; // Skip invalid polygons
+			}
+			
 			float alpha = poly.alpha;
 			float polyZ = _processedTessellatedPolys * polyZStep;
 			
-			uint indexOffset = (uint)_progressiveTessList.Count + (uint)batchTessVertices.Count;
+			uint indexOffset = (uint)Math.Max(0, _progressiveTessList.Count + batchTessVertices.Count);
 			
 			// Each tessellated polygon should have exactly 3 vertices (triangle)
 			for (int pt = 0; pt < 3; pt++)
@@ -218,6 +235,32 @@ public class ProgressivePolygonRenderer
 	private static void AddPointQuad(List<VertexPositionColor> vertices, List<uint> indices,
 		Eto.Drawing.PointF point, float pointWidth, float z, Eto.Drawing.Color color, float alpha, uint startIndex)
 	{
+		// Validate input parameters
+		if (vertices == null || indices == null)
+		{
+			Console.WriteLine("Warning: AddPointQuad called with null vertices or indices lists");
+			return;
+		}
+		
+		if (float.IsNaN(point.X) || float.IsNaN(point.Y) || float.IsInfinity(point.X) || float.IsInfinity(point.Y))
+		{
+			Console.WriteLine($"Warning: AddPointQuad called with invalid point coordinates: ({point.X}, {point.Y})");
+			return;
+		}
+		
+		if (pointWidth <= 0 || float.IsNaN(pointWidth) || float.IsInfinity(pointWidth))
+		{
+			pointWidth = 2.0f; // Default safe value
+		}
+		
+		if (float.IsNaN(z) || float.IsInfinity(z))
+		{
+			z = 0.0f; // Default safe value
+		}
+		
+		// Clamp alpha to valid range
+		alpha = Math.Max(0.0f, Math.Min(1.0f, alpha));
+		
 		var rgbaColor = new RgbaFloat(color.R, color.G, color.B, alpha);
 		
 		// Create quad vertices (2 triangles)
@@ -237,15 +280,18 @@ public class ProgressivePolygonRenderer
 	
 	public RenderBatchData GetCurrentRenderData()
 	{
-		return new RenderBatchData
+		lock (_lockObject)
 		{
-			PolyVertices = _progressivePolyList.ToArray(),
-			PolyIndices = _progressivePolyIndices.ToArray(),
-			PointVertices = _progressivePointsList.ToArray(),
-			PointIndices = _progressivePointsIndices.ToArray(),
-			TessVertices = _progressiveTessList.ToArray(),
-			TessIndices = _progressiveTessIndices.ToArray()
-		};
+			return new RenderBatchData
+			{
+				PolyVertices = _progressivePolyList.ToArray(),
+				PolyIndices = _progressivePolyIndices.ToArray(),
+				PointVertices = _progressivePointsList.ToArray(),
+				PointIndices = _progressivePointsIndices.ToArray(),
+				TessVertices = _progressiveTessList.ToArray(),
+				TessIndices = _progressiveTessIndices.ToArray()
+			};
+		}
 	}
 }
 

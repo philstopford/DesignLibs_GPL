@@ -20,7 +20,7 @@ namespace ProgressiveLoadingTests
             for (int i = 0; i < 25; i++)
             {
                 var poly = CreateTestPolygon(i * 10, i * 10);
-                settings.addPolygon(poly, Color.Red, 1.0f, false, i);
+                settings.addPolygon(poly, new Color(1.0f, 0.0f, 0.0f), 1.0f, false, i);
             }
             
             var loader = new BatchedPolygonLoader(settings);
@@ -53,7 +53,7 @@ namespace ProgressiveLoadingTests
             {
                 Polygons = new()
                 {
-                    new ovp_Poly(CreateTestPolygon(0, 0), Color.Blue, 1.0f)
+                    new ovp_Poly(CreateTestPolygon(0, 0), new Color(0.0f, 0.0f, 1.0f), 1.0f)
                 },
                 PolygonType = PolygonType.Foreground,
                 BatchIndex = 0,
@@ -104,7 +104,7 @@ namespace ProgressiveLoadingTests
             
             // Should be able to add polygons normally
             var poly = CreateTestPolygon(0, 0);
-            settings.addPolygon(poly, Color.Green, 1.0f, false, 1);
+            settings.addPolygon(poly, new Color(0.0f, 1.0f, 0.0f), 1.0f, false, 1);
             
             Assert.Equal(1, settings.polyList?.Count);
         }

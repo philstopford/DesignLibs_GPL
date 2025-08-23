@@ -83,10 +83,10 @@ public class BatchedPolygonLoader
 			LoadingStatusChanged?.Invoke($"Loading {totalCount} polygons in batches of {batchSize}...");
 			
 			// Process foreground polygons in batches
-			if (_totalForegroundCount > 0)
+			if (_totalForegroundCount > 0 && _settings.polyList != null)
 			{
 				await ProcessPolygonListInBatches(
-					_settings.polyList!,
+					_settings.polyList,
 					PolygonType.Foreground,
 					batchSize,
 					onBatchReady,
@@ -95,10 +95,10 @@ public class BatchedPolygonLoader
 			}
 			
 			// Process background polygons in batches
-			if (_totalBackgroundCount > 0 && !_shouldCancel)
+			if (_totalBackgroundCount > 0 && !_shouldCancel && _settings.bgPolyList != null)
 			{
 				await ProcessPolygonListInBatches(
-					_settings.bgPolyList!,
+					_settings.bgPolyList,
 					PolygonType.Background,
 					batchSize,
 					onBatchReady,
@@ -107,10 +107,10 @@ public class BatchedPolygonLoader
 			}
 			
 			// Process tessellated polygons in batches
-			if (_totalTessellatedCount > 0 && !_shouldCancel)
+			if (_totalTessellatedCount > 0 && !_shouldCancel && _settings.tessPolyList != null)
 			{
 				await ProcessPolygonListInBatches(
-					_settings.tessPolyList!,
+					_settings.tessPolyList,
 					PolygonType.Tessellated,
 					batchSize,
 					onBatchReady,
@@ -190,7 +190,16 @@ public class BatchedPolygonLoader
 			};
 			
 			// Process batch
-			await onBatchReady(batch);
+			try
+			{
+				await onBatchReady(batch);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error processing batch {batch.BatchIndex}: {ex.Message}");
+				// Continue processing other batches instead of failing completely
+				continue;
+			}
 			
 			// Update progress
 			processedCount = endIndex;

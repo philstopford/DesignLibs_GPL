@@ -71,6 +71,8 @@ public class OVPSettings
 	private bool antiAlias;
 	private bool lockedViewport;
 
+
+
 	public bool aA()
 	{
 		return antiAlias;

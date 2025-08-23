@@ -100,6 +100,11 @@ public partial class MainForm : Form
 
 	private void addPolys()
 	{
+		addPolys(false);
+	}
+
+	private void addPolys(bool addManyPolygons)
+	{
 		ovpSettings.clear();
 
 		float r = 0.0f;
@@ -170,6 +175,50 @@ public partial class MainForm : Form
 		ovpSettings.addBGPolygon(testPolyBG2, Color.FromArgb(0, 255, 255), 1.0f, 3);
 
 		ovpSettings.addBGPolygon(testPolyBG1, Color.FromArgb(255, 0, 0), 1.0f, 4);
+
+		// Add performance test case with many polygons
+		if (addManyPolygons)
+		{
+			addManyTestPolygons();
+		}
+	}
+
+	private void addManyTestPolygons()
+	{
+		Console.WriteLine("Adding many polygons for performance testing...");
+		var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+		
+		const int polyCount = 5000; // Start with 5000 polygons for performance testing
+		Random rand = new(42); // Fixed seed for reproducible results
+		
+		for (int i = 0; i < polyCount; i++)
+		{
+			// Create random polygon positions across a larger area
+			float baseX = (float)(rand.NextDouble() * 2000.0 - 1000.0);
+			float baseY = (float)(rand.NextDouble() * 2000.0 - 1000.0);
+			float size = (float)(rand.NextDouble() * 20.0 + 5.0);
+			
+			// Create a simple rectangular polygon
+			PointF[] poly = new PointF[5];
+			poly[0] = new PointF(baseX, baseY);
+			poly[1] = new PointF(baseX + size, baseY);
+			poly[2] = new PointF(baseX + size, baseY + size);
+			poly[3] = new PointF(baseX, baseY + size);
+			poly[4] = new PointF(baseX, baseY); // Close the polygon
+			
+			// Use random colors
+			Color color = Color.FromArgb(
+				rand.Next(128, 256),
+				rand.Next(128, 256),
+				rand.Next(128, 256));
+			
+			float alpha = (float)(rand.NextDouble() * 0.5 + 0.5); // Alpha between 0.5 and 1.0
+			
+			ovpSettings.addPolygon(poly, color, alpha, false, i + 100);
+		}
+		
+		stopwatch.Stop();
+		Console.WriteLine($"Added {polyCount} polygons in {stopwatch.ElapsedMilliseconds}ms");
 	}
 
 	private ContextMenu vp_menu;
@@ -209,6 +258,13 @@ public partial class MainForm : Form
 		VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
 		{
 			ovpSettings.drawPoints(!ovpSettings.drawPoints());
+			updateViewport();
+		};
+		displayOptionsSubItemIndex++;
+		VPMenuDisplayOptionsMenu.Items.Add(new ButtonMenuItem { Text = "Test Performance" });
+		VPMenuDisplayOptionsMenu.Items[displayOptionsSubItemIndex].Click += delegate
+		{
+			addPolys(true);
 			updateViewport();
 		};
 		displayOptionsSubItemIndex++;
@@ -349,8 +405,8 @@ public partial class MainForm : Form
 		Application.Instance.Invoke(() =>
 		{
 			Monitor.Enter(ovpSettings);
-			// Force a geometry re-add here, just to test the fill system. Wouldn't be necessary in real world cases.
-			addPolys();
+			// Note: Removed automatic re-adding of polygons to allow for performance testing
+			// addPolys();
 
 			try
 			{

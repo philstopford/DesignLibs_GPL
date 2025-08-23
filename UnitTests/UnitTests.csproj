@@ -28,12 +28,16 @@
     <ItemGroup>
       <ProjectReference Include="..\Common\clipper\clipper.csproj" />
       <ProjectReference Include="..\Common\Color\color.csproj" />
+      <ProjectReference Include="..\Common\Email\Email.csproj" />
       <ProjectReference Include="..\Common\entropyRNG\entropyRNG.csproj" />
       <ProjectReference Include="..\Common\geoAnalysis\geoAnalysis.csproj" />
       <ProjectReference Include="..\Common\geoCore\geoCore.csproj" />
       <ProjectReference Include="..\Common\geoLib\geoLib.csproj" />
       <ProjectReference Include="..\Common\geoWrangler\geoWrangler.csproj" />
+      <ProjectReference Include="..\Common\KDTree\KDTree.csproj" />
+      <ProjectReference Include="..\Common\MiscUtil\MiscUtil.csproj" />
       <ProjectReference Include="..\Common\shapeEngine\shapeEngine.csproj" />
+      <ProjectReference Include="..\Common\Tral.Randomness\Tral.Randomness.csproj" />
       <ProjectReference Include="..\Common\utility\utility.csproj" />
     </ItemGroup>
 

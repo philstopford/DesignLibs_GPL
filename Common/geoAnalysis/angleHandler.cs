@@ -5,25 +5,66 @@ using utility;
 
 namespace geoAnalysis;
 
+/// <summary>
+/// Analyzes the minimum intersection angle between two sets of polygonal paths.
+/// This class computes geometric intersections and determines the smallest angle
+/// formed between intersecting polygon edges.
+/// </summary>
 public class angleHandler
 {
+    /// <summary>
+    /// Gets the minimum intersection angle in degrees between the analyzed polygon sets.
+    /// Returns 180.0 if no intersections are found.
+    /// </summary>
     public double minimumIntersectionAngle { get; private set; }
+    
+    /// <summary>
+    /// Internal storage for intersection polygon results from boolean operations.
+    /// </summary>
     private PathsD listOfOutputPoints;
+    
+    /// <summary>
+    /// Gets the result paths highlighting the location of the minimum intersection angle.
+    /// Contains visualization geometry for the minimum angle intersection point.
+    /// </summary>
     public PathsD resultPaths { get; private set; } // will only have one path, for minimum angle.
 
+    /// <summary>
+    /// Callback function for Z-fill operations during polygon intersection.
+    /// Tags intersection points with a specific Z value for identification.
+    /// </summary>
+    /// <param name="bot1">Bottom point of first edge</param>
+    /// <param name="top1">Top point of first edge</param>
+    /// <param name="bot2">Bottom point of second edge</param>
+    /// <param name="top2">Top point of second edge</param>
+    /// <param name="pt">Reference to the intersection point to be tagged</param>
     private static void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
         pt.z = -1; // Tag our intersection points.
     }
 
-    // Distance functions to drive scale-up of intersection marker if needed.
+    /// <summary>
+    /// Minimum distance threshold for intersection marker scaling.
+    /// Used to ensure visibility of intersection points in visualization.
+    /// </summary>
     private const double minDistance = 10.0;
 
+    /// <summary>
+    /// Initializes a new instance of the angleHandler class and performs intersection angle analysis.
+    /// </summary>
+    /// <param name="layerAPath">First set of polygonal paths for intersection analysis</param>
+    /// <param name="layerBPath">Second set of polygonal paths for intersection analysis</param>
     public angleHandler(PathsD layerAPath, PathsD layerBPath)
     {
         angleHandlerLogic(layerAPath, layerBPath);
     }
 
+    /// <summary>
+    /// Core logic for computing minimum intersection angles between two polygon sets.
+    /// Performs boolean intersection, analyzes edge angles, and creates visualization geometry.
+    /// </summary>
+    /// <param name="layerAPath">First polygon set</param>
+    /// <param name="layerBPath">Second polygon set</param>
     private void angleHandlerLogic(PathsD layerAPath, PathsD layerBPath)
     {
         listOfOutputPoints = [];

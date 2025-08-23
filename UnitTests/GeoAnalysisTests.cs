@@ -289,4 +289,145 @@ public class GeoAnalysisTests
         angleHandler aH = new angleHandler(aPaths, bPaths);
         Assert.That(Math.Abs(45.0 - aH.minimumIntersectionAngle), Is.LessThanOrEqualTo(0.001));
     }
+
+    [Test]
+    public static void testAngleHandler_NoIntersection()
+    {
+        PathsD aPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0, 0,
+                0, 50,
+                50, 50,
+                50, 0
+            }),
+        };
+        PathsD bPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                60, 0,
+                60, 50,
+                110, 50,
+                110, 0
+            })
+        };
+
+        angleHandler aH = new angleHandler(aPaths, bPaths);
+        // Should be 180 degrees when no intersection
+        Assert.That(aH.minimumIntersectionAngle, Is.EqualTo(180.0));
+    }
+
+    [Test]
+    public static void testAreaHandler_EmptyPaths()
+    {
+        PathsD aPaths = new();
+        PathsD bPaths = new();
+        
+        AreaHandler aH = new AreaHandler(aPaths, bPaths, true, false);
+        Assert.That(aH.area, Is.EqualTo(0));
+    }
+
+    [Test]
+    public static void testDistanceHandler_OverlappingShapes()
+    {
+        PathsD aPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0, 0,
+                0, 20,
+                20, 20,
+                20, 0
+            })
+        };
+        PathsD bPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                10, 10,
+                10, 30,
+                30, 30,
+                30, 10
+            })
+        };
+        
+        DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
+        // Overlapping shapes should give negative distance
+        Assert.That(double.Parse(dH.distanceString), Is.LessThan(0));
+    }
+
+    [Test]
+    public static void testChordHandler_EdgeCases()
+    {
+        // Test with very thin shapes
+        PathsD aPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0, 0,
+                0, 1,
+                100, 1,
+                100, 0
+            }),
+        };
+        PathsD bPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                -10, -5,
+                -10, 5,
+                110, 5,
+                110, -5
+            })
+        };
+        
+        // Test all calculation modes
+        ChordHandler cH_a = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.a);
+        ChordHandler cH_b = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.b);
+        ChordHandler cH_both = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.b + 1);
+        
+        Assert.That(cH_a.aChordLengths[0], Is.GreaterThan(0));
+        Assert.That(cH_b.bChordLengths[0], Is.GreaterThan(0));
+        Assert.That(cH_both.aChordLengths[0], Is.GreaterThan(0));
+        Assert.That(cH_both.bChordLengths[0], Is.GreaterThan(0));
+    }
+
+    [Test]
+    public static void testDistanceHandler_AllModes()
+    {
+        PathsD aPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0, 0,
+                0, 10,
+                10, 10,
+                10, 0
+            })
+        };
+        PathsD bPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                15, 0,
+                15, 10,
+                25, 10,
+                25, 0
+            })
+        };
+        
+        // Test all distance calculation modes
+        DistanceHandler dH_spacing = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
+        DistanceHandler dH_spacingOld = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacingOld, false);
+        DistanceHandler dH_enclosure = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosure, false);
+        DistanceHandler dH_enclosureOld = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosureOld, false);
+        
+        // All should give same result for non-overlapping shapes
+        Assert.That(dH_spacing.distanceString, Is.EqualTo(dH_spacingOld.distanceString));
+        Assert.That(dH_enclosure.distanceString, Is.EqualTo(dH_enclosureOld.distanceString));
+        // Distance should be 5 (gap between shapes)
+        Assert.That(Math.Abs(5.0 - double.Parse(dH_spacing.distanceString)), Is.LessThanOrEqualTo(0.001));
+    }
 }

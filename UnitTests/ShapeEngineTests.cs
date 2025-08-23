@@ -4,6 +4,11 @@ using shapeEngine;
 
 namespace UnitTests;
 
+/// <summary>
+/// Comprehensive tests for the shapeEngine library, which provides shape generation
+/// and manipulation capabilities including rectangles, L-shapes, T-shapes, X-shapes,
+/// U-shapes, S-shapes, and other complex geometric forms for layout design.
+/// </summary>
 public class ShapeEngineTests
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/shapeengine_out/";
@@ -40,6 +45,151 @@ public class ShapeEngineTests
         (int)ShapeLibrary.shapeNames_all.bounding,
         (int)ShapeLibrary.shapeNames_all.complex
     };
+
+    #region New Unit Tests
+
+    /// <summary>
+    /// Tests ShapeLibrary constructor and basic initialization.
+    /// </summary>
+    [Test]
+    public static void ShapeLibrary_Constructor_InitializesCorrectly()
+    {
+        // Arrange
+        ShapeSettings shapeSettings = new ShapeSettings();
+        
+        // Act
+        ShapeLibrary shapeLib = new ShapeLibrary(shapeTable, shapeSettings);
+
+        // Assert: New instance should be properly initialized
+        Assert.That(shapeLib.last_error, Is.EqualTo(""));
+        Assert.That(shapeLib.shapeValid, Is.False);
+        Assert.That(shapeLib.geoCoreShapeOrthogonal, Is.False);
+    }
+
+    /// <summary>
+    /// Tests shapeNames_all enumeration contains all expected values.
+    /// </summary>
+    [Test]
+    public static void ShapeLibrary_ShapeNamesEnum_ContainsExpectedValues()
+    {
+        // Assert: All expected shape types are available
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.none), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.rect), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.Lshape), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.Tshape), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.Xshape), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.Ushape), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.Sshape), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.GEOCORE), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.BOOLEAN), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.text), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.bounding), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeLibrary.shapeNames_all), ShapeLibrary.shapeNames_all.complex), Is.True);
+    }
+
+    /// <summary>
+    /// Tests shapesForClient method with valid input.
+    /// </summary>
+    [Test]
+    public static void ShapeLibrary_ShapesForClient_ValidInput_ConfiguresCorrectly()
+    {
+        // Arrange
+        ShapeSettings shapeSettings = new ShapeSettings();
+        ShapeLibrary shapeLib = new ShapeLibrary(shapeTable, shapeSettings);
+        int[] clientShapeDefinition = { 0, 1, 2, 3 };
+
+        // Act
+        shapeLib.shapesForClient(clientShapeDefinition);
+
+        // Assert: Should complete without throwing
+        Assert.That(shapeLib.last_error, Is.EqualTo(""));
+    }
+
+    /// <summary>
+    /// Tests shapesForClient method with too many shapes.
+    /// </summary>
+    [Test]
+    public static void ShapeLibrary_ShapesForClient_TooManyShapes_ThrowsException()
+    {
+        // Arrange
+        ShapeSettings shapeSettings = new ShapeSettings();
+        ShapeLibrary shapeLib = new ShapeLibrary(shapeTable, shapeSettings);
+        int[] tooManyShapes = new int[20]; // More than available shapes
+
+        // Act & Assert
+        Assert.Throws<Exception>(() => shapeLib.shapesForClient(tooManyShapes));
+    }
+
+    /// <summary>
+    /// Tests getAvailableShapes static method.
+    /// </summary>
+    [Test]
+    public static void ShapeLibrary_GetAvailableShapes_ReturnsCorrectNames()
+    {
+        // Arrange
+        int[] clientShapeDefinition = { 0, 1, 2 };
+
+        // Act
+        List<string> shapes = ShapeLibrary.getAvailableShapes(clientShapeDefinition);
+
+        // Assert
+        Assert.That(shapes.Count, Is.EqualTo(3));
+        Assert.That(shapes[0], Is.EqualTo("(None)"));
+        Assert.That(shapes[1], Is.EqualTo("Rectangle/Square"));
+        Assert.That(shapes[2], Is.EqualTo("L-shape"));
+    }
+
+    /// <summary>
+    /// Tests ShapeLibrary enum values correspond to expected integer values.
+    /// </summary>
+    [Test]
+    public static void ShapeLibrary_EnumValues_HaveCorrectIntegerValues()
+    {
+        // Assert: Enum values should match expected integers
+        Assert.That((int)ShapeLibrary.shapeNames_all.none, Is.EqualTo(0));
+        Assert.That((int)ShapeLibrary.shapeNames_all.rect, Is.EqualTo(1));
+        Assert.That((int)ShapeLibrary.shapeNames_all.Lshape, Is.EqualTo(2));
+        Assert.That((int)ShapeLibrary.shapeNames_all.Tshape, Is.EqualTo(3));
+        Assert.That((int)ShapeLibrary.shapeNames_all.Xshape, Is.EqualTo(4));
+        Assert.That((int)ShapeLibrary.shapeNames_all.Ushape, Is.EqualTo(5));
+        Assert.That((int)ShapeLibrary.shapeNames_all.Sshape, Is.EqualTo(6));
+        Assert.That((int)ShapeLibrary.shapeNames_all.GEOCORE, Is.EqualTo(7));
+        Assert.That((int)ShapeLibrary.shapeNames_all.BOOLEAN, Is.EqualTo(8));
+        Assert.That((int)ShapeLibrary.shapeNames_all.text, Is.EqualTo(9));
+        Assert.That((int)ShapeLibrary.shapeNames_all.bounding, Is.EqualTo(10));
+        Assert.That((int)ShapeLibrary.shapeNames_all.complex, Is.EqualTo(11));
+    }
+
+    /// <summary>
+    /// Tests ShapeSettings tipLocations enumeration.
+    /// </summary>
+    [Test]
+    public static void ShapeSettings_TipLocations_ContainsExpectedValues()
+    {
+        // Assert: All expected tip locations are available
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.tipLocations), ShapeSettings.tipLocations.none), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.tipLocations), ShapeSettings.tipLocations.L), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.tipLocations), ShapeSettings.tipLocations.R), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.tipLocations), ShapeSettings.tipLocations.all), Is.True);
+    }
+
+    /// <summary>
+    /// Tests ShapeSettings subShapeLocations enumeration.
+    /// </summary>
+    [Test]
+    public static void ShapeSettings_SubShapeLocations_ContainsExpectedValues()
+    {
+        // Assert: All expected sub-shape locations are available
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.TL), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.TR), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.BL), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.BR), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.C), Is.True);
+    }
+
+    #endregion
+
+    #region Original Integration Tests
 
     // [SetUp]
     public static void ShapeEngineSetup()
@@ -1488,4 +1638,6 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(27));
     }
+
+    #endregion
 }

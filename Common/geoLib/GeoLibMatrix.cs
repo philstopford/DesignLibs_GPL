@@ -4,17 +4,30 @@ using Clipper2Lib;
 
 namespace geoLib;
 
+/// <summary>
+/// 3D vector implementation for geometric calculations.
+/// </summary>
 public class GeoLibVector3
 {
+    /// <summary>X component of the vector</summary>
     public double x { get; set; }
+    
+    /// <summary>Y component of the vector</summary>
     public double y { get; set; }
+    
+    /// <summary>Z component of the vector</summary>
     public double z { get; set; }
 
+    /// <summary>
+    /// Creates a copy of an existing vector.
+    /// </summary>
+    /// <param name="source">Vector to copy from</param>
     public GeoLibVector3(GeoLibVector3 source)
     {
         pGeoLibVector3(source);
     }
 
+    /// <summary>Internal copy initialization</summary>
     private void pGeoLibVector3(GeoLibVector3 source)
     {
         x = source.x;
@@ -22,11 +35,18 @@ public class GeoLibVector3
         z = source.z;
     }
 
+    /// <summary>
+    /// Creates a new vector with integer coordinates.
+    /// </summary>
+    /// <param name="X">X component</param>
+    /// <param name="Y">Y component</param>
+    /// <param name="Z">Z component</param>
     public GeoLibVector3(int X, int Y, int Z)
     {
         pGeoLibVector3(X, Y, Z);
     }
 
+    /// <summary>Internal initialization with integer values</summary>
     private void pGeoLibVector3(int X, int Y, int Z)
     {
         x = X;
@@ -34,11 +54,18 @@ public class GeoLibVector3
         z = Z;
     }
 
+    /// <summary>
+    /// Creates a new vector with floating-point coordinates.
+    /// </summary>
+    /// <param name="X">X component</param>
+    /// <param name="Y">Y component</param>
+    /// <param name="Z">Z component</param>
     public GeoLibVector3(double X, double Y, double Z)
     {
         pGeoLibVector3(X, Y, Z);
     }
 
+    /// <summary>Internal initialization with double values</summary>
     private void pGeoLibVector3(double X, double Y, double Z)
     {
         x = X;

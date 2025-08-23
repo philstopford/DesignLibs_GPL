@@ -5,10 +5,282 @@ using utility;
 
 namespace UnitTests;
 
+/// <summary>
+/// Comprehensive tests for the geoCore library, which provides geometric file format handling
+/// and integer-based geometric operations for GDSII and OASIS formats.
+/// These unit tests complement the extensive integration tests with focused class testing.
+/// </summary>
 public class GeoCoreTests
 {
     static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";  
     static string outDir = "/d/development/geocore_out/";
+
+    #region GeoCore Basic Unit Tests
+
+    /// <summary>
+    /// Tests basic GeoCore construction and validity state management.
+    /// </summary>
+    [Test]
+    public static void GeoCore_Construction_InitializesCorrectly()
+    {
+        // Arrange & Act
+        GeoCore geoCore = new GeoCore();
+
+        // Assert: New instance should start invalid
+        Assert.That(geoCore.isValid(), Is.False);
+        Assert.That(geoCore.error_msgs, Is.Not.Null);
+    }
+
+    /// <summary>
+    /// Tests validity state management in GeoCore.
+    /// </summary>
+    [Test]
+    public static void GeoCore_ValidityState_CanBeSetAndRetrieved()
+    {
+        // Arrange
+        GeoCore geoCore = new GeoCore();
+
+        // Act: Set valid state to true
+        geoCore.setValid(true);
+
+        // Assert
+        Assert.That(geoCore.isValid(), Is.True);
+
+        // Act: Set valid state to false
+        geoCore.setValid(false);
+
+        // Assert
+        Assert.That(geoCore.isValid(), Is.False);
+    }
+
+    /// <summary>
+    /// Tests that GeoCore tolerance has expected default value.
+    /// </summary>
+    [Test]
+    public static void GeoCore_Tolerance_HasExpectedDefaultValue()
+    {
+        // Assert: Static tolerance should be set to expected precision
+        Assert.That(GeoCore.tolerance, Is.EqualTo(0.001));
+    }
+
+    /// <summary>
+    /// Tests GeoCore file type enumeration values.
+    /// </summary>
+    [Test]
+    public static void GeoCore_FileType_ContainsExpectedValues()
+    {
+        // Assert: All expected file types are available
+        Assert.That(Enum.IsDefined(typeof(GeoCore.fileType), GeoCore.fileType.gds), Is.True);
+        Assert.That(Enum.IsDefined(typeof(GeoCore.fileType), GeoCore.fileType.oasis), Is.True);
+    }
+
+    #endregion
+
+    #region GCPolygon Unit Tests
+
+    /// <summary>
+    /// Tests GCPolygon default constructor creates empty polygon correctly.
+    /// </summary>
+    [Test]
+    public static void GCPolygon_DefaultConstructor_CreatesEmptyPolygon()
+    {
+        // Arrange & Act
+        GCPolygon polygon = new GCPolygon();
+
+        // Assert
+        Assert.That(polygon.pointarray, Is.Not.Null);
+        Assert.That(polygon.pointarray.Count, Is.EqualTo(0));
+        Assert.That(polygon.text, Is.False);
+    }
+
+    /// <summary>
+    /// Tests GCPolygon constructor with points, layer, and datatype.
+    /// </summary>
+    [Test]
+    public static void GCPolygon_ParameterizedConstructor_InitializesCorrectly()
+    {
+        // Arrange
+        Path64 points = new Path64
+        {
+            new Point64(0, 0),
+            new Point64(100, 0),
+            new Point64(100, 100),
+            new Point64(0, 100)
+        };
+        int expectedLayer = 1;
+        int expectedDatatype = 0;
+
+        // Act
+        GCPolygon polygon = new GCPolygon(points, expectedLayer, expectedDatatype);
+
+        // Assert
+        Assert.That(polygon.pointarray.Count, Is.EqualTo(4));
+        Assert.That(polygon.layer_nr, Is.EqualTo(expectedLayer));
+        Assert.That(polygon.datatype_nr, Is.EqualTo(expectedDatatype));
+        
+        // Verify points are copied correctly
+        Assert.That(polygon.pointarray[0].X, Is.EqualTo(0));
+        Assert.That(polygon.pointarray[0].Y, Is.EqualTo(0));
+        Assert.That(polygon.pointarray[1].X, Is.EqualTo(100));
+        Assert.That(polygon.pointarray[1].Y, Is.EqualTo(0));
+        Assert.That(polygon.pointarray[2].X, Is.EqualTo(100));
+        Assert.That(polygon.pointarray[2].Y, Is.EqualTo(100));
+        Assert.That(polygon.pointarray[3].X, Is.EqualTo(0));
+        Assert.That(polygon.pointarray[3].Y, Is.EqualTo(100));
+    }
+
+    /// <summary>
+    /// Tests GCPolygon copy constructor creates correct deep copy.
+    /// </summary>
+    [Test]
+    public static void GCPolygon_CopyConstructor_CreatesDeepCopy()
+    {
+        // Arrange
+        Path64 originalPoints = new Path64
+        {
+            new Point64(10, 20),
+            new Point64(30, 40),
+            new Point64(50, 60)
+        };
+        GCPolygon originalPolygon = new GCPolygon(originalPoints, 2, 1);
+        originalPolygon.text = true;
+        originalPolygon.name = "TestPolygon";
+
+        // Act
+        GCPolygon copiedPolygon = new GCPolygon(originalPolygon);
+
+        // Assert: Values should be copied
+        Assert.That(copiedPolygon.pointarray.Count, Is.EqualTo(originalPolygon.pointarray.Count));
+        Assert.That(copiedPolygon.layer_nr, Is.EqualTo(originalPolygon.layer_nr));
+        Assert.That(copiedPolygon.datatype_nr, Is.EqualTo(originalPolygon.datatype_nr));
+
+        // Assert: Should be deep copy (different references)
+        Assert.That(ReferenceEquals(copiedPolygon.pointarray, originalPolygon.pointarray), Is.False);
+        
+        // Verify point data is copied correctly
+        for (int i = 0; i < originalPolygon.pointarray.Count; i++)
+        {
+            Assert.That(copiedPolygon.pointarray[i].X, Is.EqualTo(originalPolygon.pointarray[i].X));
+            Assert.That(copiedPolygon.pointarray[i].Y, Is.EqualTo(originalPolygon.pointarray[i].Y));
+        }
+    }
+
+    /// <summary>
+    /// Tests GCPolygon with various polygon shapes.
+    /// </summary>
+    [Test]
+    public static void GCPolygon_VariousShapes_HandledCorrectly()
+    {
+        // Test triangle
+        Path64 trianglePoints = new Path64
+        {
+            new Point64(0, 0),
+            new Point64(100, 0),
+            new Point64(50, 100)
+        };
+        GCPolygon triangle = new GCPolygon(trianglePoints, 1, 0);
+        Assert.That(triangle.pointarray.Count, Is.EqualTo(3));
+
+        // Test complex polygon (hexagon)
+        Path64 hexagonPoints = new Path64
+        {
+            new Point64(100, 0),
+            new Point64(150, 50),
+            new Point64(150, 150),
+            new Point64(100, 200),
+            new Point64(50, 150),
+            new Point64(50, 50)
+        };
+        GCPolygon hexagon = new GCPolygon(hexagonPoints, 2, 1);
+        Assert.That(hexagon.pointarray.Count, Is.EqualTo(6));
+    }
+
+    /// <summary>
+    /// Tests GCPolygon properties can be modified after construction.
+    /// </summary>
+    [Test]
+    public static void GCPolygon_Properties_CanBeModified()
+    {
+        // Arrange
+        GCPolygon polygon = new GCPolygon();
+
+        // Act
+        polygon.text = true;
+        polygon.name = "ModifiedPolygon";
+        polygon.layer_nr = 5;
+        polygon.datatype_nr = 3;
+
+        // Assert
+        Assert.That(polygon.text, Is.True);
+        Assert.That(polygon.name, Is.EqualTo("ModifiedPolygon"));
+        Assert.That(polygon.layer_nr, Is.EqualTo(5));
+        Assert.That(polygon.datatype_nr, Is.EqualTo(3));
+    }
+
+    #endregion
+
+    #region GCCell Unit Tests
+
+    /// <summary>
+    /// Tests GCCell default constructor initialization.
+    /// </summary>
+    [Test]
+    public static void GCCell_DefaultConstructor_InitializesWithCurrentDateTime()
+    {
+        // Arrange
+        DateTime beforeConstruction = DateTime.Now;
+
+        // Act
+        GCCell cell = new GCCell();
+
+        // Arrange
+        DateTime afterConstruction = DateTime.Now;
+
+        // Assert: Cell should be initialized with current date/time
+        Assert.That(cell.elementList, Is.Not.Null);
+        Assert.That(cell.saved, Is.False);
+        
+        // Verify date/time fields are reasonable (within test execution timeframe)
+        Assert.That(cell.modyear, Is.GreaterThanOrEqualTo(beforeConstruction.Year));
+        Assert.That(cell.modyear, Is.LessThanOrEqualTo(afterConstruction.Year));
+        Assert.That(cell.modmonth, Is.GreaterThanOrEqualTo(1));
+        Assert.That(cell.modmonth, Is.LessThanOrEqualTo(12));
+        Assert.That(cell.modday, Is.GreaterThanOrEqualTo(1));
+        Assert.That(cell.modday, Is.LessThanOrEqualTo(31));
+    }
+
+    /// <summary>
+    /// Tests GCCell properties can be set and retrieved correctly.
+    /// </summary>
+    [Test]
+    public static void GCCell_Properties_CanBeSetAndRetrieved()
+    {
+        // Arrange
+        GCCell cell = new GCCell();
+
+        // Act
+        cell.cellName = "TestCell";
+        cell.saved = true;
+        cell.modyear = 2023;
+        cell.modmonth = 6;
+        cell.modday = 15;
+
+        // Assert
+        Assert.That(cell.cellName, Is.EqualTo("TestCell"));
+        Assert.That(cell.saved, Is.True);
+        Assert.That(cell.modyear, Is.EqualTo(2023));
+        Assert.That(cell.modmonth, Is.EqualTo(6));
+        Assert.That(cell.modday, Is.EqualTo(15));
+    }
+
+    #endregion
+
+    #region Integration Test Preservation
+
+    /// <summary>
+    /// Original klayout GDS array reference test - preserved for compatibility.
+    /// Tests comprehensive GDSII file parsing and cell array handling.
+    /// </summary>
 
     [Test]
     public static void klayout_gds_aref_test()
@@ -9147,4 +9419,6 @@ public class GeoCoreTests
         ow.save();
         Assert.That(File.Exists(out_filename), Is.True);
     }
+
+    #endregion
 }

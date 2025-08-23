@@ -3,6 +3,11 @@ using geoWrangler;
 
 namespace UnitTests;
 
+/// <summary>
+/// Comprehensive tests for the geoWrangler library, which provides geometric processing
+/// and manipulation utilities including arrays, boolean operations, transformations,
+/// and geometric analysis functions.
+/// </summary>
 public class GeoWranglerTests
 {
     private static string root_loc = "/d/development/DesignLibs_GPL/geowrangler_out/";
@@ -41,6 +46,276 @@ public class GeoWranglerTests
             unidirectional_bias();
         }
     }
+
+    #region Constants Tests
+
+    /// <summary>
+    /// Tests that geoWrangler Constants have expected values.
+    /// </summary>
+    [Test]
+    public static void Constants_Values_AreCorrect()
+    {
+        // Assert: Verify all constant values are as expected
+        Assert.That(Constants.roundingDecimalPrecision, Is.EqualTo(4));
+        Assert.That(Constants.tolerance, Is.EqualTo(0.001));
+        Assert.That(Constants.scalar_1E2, Is.EqualTo(100));
+        Assert.That(Constants.scalar_1E2_inv, Is.EqualTo(0.01));
+        Assert.That(Constants.scalar_1E4, Is.EqualTo(10000));
+        Assert.That(Constants.scalar_1E4_inv, Is.EqualTo(0.0001));
+    }
+
+    /// <summary>
+    /// Tests that inverse scaling constants are mathematically correct.
+    /// </summary>
+    [Test]
+    public static void Constants_InverseScaling_IsCorrect()
+    {
+        // Assert: Inverse constants should be mathematically correct
+        Assert.That(Constants.scalar_1E2 * Constants.scalar_1E2_inv, Is.EqualTo(1.0).Within(0.000001));
+        Assert.That(Constants.scalar_1E4 * Constants.scalar_1E4_inv, Is.EqualTo(1.0).Within(0.000001));
+    }
+
+    #endregion
+
+    #region Array Generation Tests
+
+    /// <summary>
+    /// Tests basic array generation with single path and integer counts.
+    /// </summary>
+    [Test]
+    public static void MakeArray_SinglePath_CreatesCorrectArray()
+    {
+        // Arrange: Create a simple rectangle
+        PathD sourcePath = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(10, 0),
+            new PointD(10, 10),
+            new PointD(0, 10)
+        };
+        int xCount = 3;
+        int yCount = 2;
+        double xPitch = 20.0;
+        double yPitch = 30.0;
+
+        // Act: Generate array
+        PathsD result = GeoWrangler.makeArray(sourcePath, xCount, xPitch, yCount, yPitch);
+
+        // Assert: Should create 3x2 = 6 paths
+        Assert.That(result.Count, Is.EqualTo(6));
+        
+        // Verify first path (origin)
+        Assert.That(result[0][0].x, Is.EqualTo(0).Within(0.001));
+        Assert.That(result[0][0].y, Is.EqualTo(0).Within(0.001));
+        
+        // Verify translated paths
+        Assert.That(result[1][0].x, Is.EqualTo(0).Within(0.001));    // x=0, y=1
+        Assert.That(result[1][0].y, Is.EqualTo(30).Within(0.001));
+        
+        Assert.That(result[2][0].x, Is.EqualTo(20).Within(0.001));   // x=1, y=0
+        Assert.That(result[2][0].y, Is.EqualTo(0).Within(0.001));
+    }
+
+    /// <summary>
+    /// Tests array generation with multiple source paths.
+    /// </summary>
+    [Test]
+    public static void MakeArray_MultiplePaths_CreatesCorrectArray()
+    {
+        // Arrange: Create two source paths
+        PathsD sourcePaths = new PathsD
+        {
+            new PathD
+            {
+                new PointD(0, 0),
+                new PointD(5, 0),
+                new PointD(5, 5),
+                new PointD(0, 5)
+            },
+            new PathD
+            {
+                new PointD(10, 10),
+                new PointD(15, 10),
+                new PointD(15, 15),
+                new PointD(10, 15)
+            }
+        };
+        int xCount = 2;
+        int yCount = 2;
+        double xPitch = 25.0;
+        double yPitch = 25.0;
+
+        // Act
+        PathsD result = GeoWrangler.makeArray(sourcePaths, xCount, xPitch, yCount, yPitch);
+
+        // Assert: Should create 2x2 array positions × 2 source paths = 8 total paths
+        Assert.That(result.Count, Is.EqualTo(8));
+        
+        // Each array position should contain both source paths
+        Assert.That(result[0][0].x, Is.EqualTo(0).Within(0.001));    // First path, first position
+        Assert.That(result[1][0].x, Is.EqualTo(10).Within(0.001));   // Second path, first position
+    }
+
+    /// <summary>
+    /// Tests array generation with decimal pitch values.
+    /// </summary>
+    [Test]
+    public static void MakeArray_DecimalPitch_HandlesCorrectly()
+    {
+        // Arrange
+        PathD sourcePath = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(1, 1)
+        };
+        decimal xPitch = 1.5m;
+        decimal yPitch = 2.5m;
+
+        // Act
+        PathsD result = GeoWrangler.makeArray(sourcePath, 2, xPitch, 2, yPitch);
+
+        // Assert: Should handle decimal pitches correctly
+        Assert.That(result.Count, Is.EqualTo(4));
+        Assert.That(result[2][0].x, Is.EqualTo(1.5).Within(0.001));  // x=1, y=0 position
+        Assert.That(result[1][0].y, Is.EqualTo(2.5).Within(0.001));  // x=0, y=1 position
+    }
+
+    /// <summary>
+    /// Tests array generation with zero counts.
+    /// </summary>
+    [Test]
+    public static void MakeArray_ZeroCounts_ReturnsEmpty()
+    {
+        // Arrange
+        PathD sourcePath = new PathD { new PointD(0, 0), new PointD(1, 1) };
+
+        // Act & Assert: Zero counts should return empty arrays
+        PathsD result1 = GeoWrangler.makeArray(sourcePath, 0, 10.0, 2, 10.0);
+        Assert.That(result1.Count, Is.EqualTo(0));
+
+        PathsD result2 = GeoWrangler.makeArray(sourcePath, 2, 10.0, 0, 10.0);
+        Assert.That(result2.Count, Is.EqualTo(0));
+    }
+
+    #endregion
+
+    #region Boolean Operations Tests
+
+    /// <summary>
+    /// Tests GeoWrangler boolean operation enumeration values.
+    /// </summary>
+    [Test]
+    public static void BooleanOperation_Enum_ContainsExpectedValues()
+    {
+        // Assert: All expected boolean operations are available
+        Assert.That(Enum.IsDefined(typeof(GeoWrangler.booleanOperation), GeoWrangler.booleanOperation.AND), Is.True);
+        Assert.That(Enum.IsDefined(typeof(GeoWrangler.booleanOperation), GeoWrangler.booleanOperation.OR), Is.True);
+    }
+
+    /// <summary>
+    /// Tests LayerFlag enumeration values.
+    /// </summary>
+    [Test]
+    public static void LayerFlag_Enum_ContainsExpectedValues()
+    {
+        // Assert: All expected layer flags are available
+        Assert.That(Enum.IsDefined(typeof(GeoWrangler.LayerFlag), GeoWrangler.LayerFlag.none), Is.True);
+        Assert.That(Enum.IsDefined(typeof(GeoWrangler.LayerFlag), GeoWrangler.LayerFlag.NOT), Is.True);
+    }
+
+    /// <summary>
+    /// Tests custom boolean operation with basic input.
+    /// </summary>
+    [Test]
+    public static void CustomBoolean_BasicOperation_ReturnsResult()
+    {
+        // Arrange: Create two overlapping rectangles
+        PathsD firstLayer = new PathsD
+        {
+            new PathD
+            {
+                new PointD(0, 0),
+                new PointD(20, 0),
+                new PointD(20, 20),
+                new PointD(0, 20)
+            }
+        };
+        
+        PathsD secondLayer = new PathsD
+        {
+            new PathD
+            {
+                new PointD(10, 10),
+                new PointD(30, 10),
+                new PointD(30, 30),
+                new PointD(10, 30)
+            }
+        };
+
+        // Act: Perform boolean AND operation
+        PathsD result = GeoWrangler.customBoolean(
+            (int)GeoWrangler.LayerFlag.none, firstLayer,
+            (int)GeoWrangler.LayerFlag.none, secondLayer,
+            (int)GeoWrangler.booleanOperation.AND,
+            0.01, 0.0);
+
+        // Assert: Should return intersection result
+        Assert.That(result, Is.Not.Null);
+        // Note: Exact result depends on implementation details, 
+        // but should have some geometric content for overlapping inputs
+    }
+
+    #endregion
+
+    #region Edge Case Tests
+
+    /// <summary>
+    /// Tests array generation with single count in one dimension.
+    /// </summary>
+    [Test]
+    public static void MakeArray_SingleCount_WorksCorrectly()
+    {
+        // Arrange
+        PathD sourcePath = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(5, 5)
+        };
+
+        // Act: 1xN and Nx1 arrays
+        PathsD result1 = GeoWrangler.makeArray(sourcePath, 1, 10.0, 3, 10.0);
+        PathsD result2 = GeoWrangler.makeArray(sourcePath, 3, 10.0, 1, 10.0);
+
+        // Assert
+        Assert.That(result1.Count, Is.EqualTo(3));  // 1x3 = 3
+        Assert.That(result2.Count, Is.EqualTo(3));  // 3x1 = 3
+    }
+
+    /// <summary>
+    /// Tests array generation with empty source path.
+    /// </summary>
+    [Test]
+    public static void MakeArray_EmptySource_HandlesGracefully()
+    {
+        // Arrange
+        PathD emptyPath = new PathD();
+
+        // Act
+        PathsD result = GeoWrangler.makeArray(emptyPath, 2, 10.0, 2, 10.0);
+
+        // Assert: Should create array of empty paths
+        Assert.That(result.Count, Is.EqualTo(4));
+        Assert.That(result[0].Count, Is.EqualTo(0));
+    }
+
+    #endregion
+
+    #region Integration Test Preservation
+
+    /// <summary>
+    /// Original array test - preserved for compatibility.
+    /// Tests basic array functionality and SVG output generation.
+    /// </summary>
 
     [Test]
     public static void array_test()
@@ -3516,4 +3791,6 @@ public class GeoWranglerTests
         Assert.That(booleanPaths.Count, Is.EqualTo(1));
         Assert.That(Math.Abs(notArea_expected - notArea), Is.LessThanOrEqualTo(0.0011));
     }
+
+    #endregion
 }

@@ -2,6 +2,11 @@
 
 namespace color;
 
+/// <summary>
+/// Custom color implementation to avoid platform-specific quirks of System.Drawing.
+/// Provides both integer (0-255) and floating-point (0.0-1.0) color component access.
+/// Based on web color standards: https://en.wikipedia.org/wiki/Web_colors
+/// </summary>
 public class MyColor
 {
     // Reimplementation to avoid platform-quirks of System.Drawing.
@@ -72,16 +77,53 @@ public class MyColor
 
     public static readonly MyColor Algae = new(78, 161, 71);
 
+    /// <summary>
+    /// Gets or sets the red component as a floating-point value (0.0 to 1.0).
+    /// </summary>
     public float Rf { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the green component as a floating-point value (0.0 to 1.0).
+    /// </summary>
     public float Gf { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the blue component as a floating-point value (0.0 to 1.0).
+    /// </summary>
     public float Bf { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the alpha (transparency) component as a floating-point value (0.0 to 1.0).
+    /// </summary>
     public float Af { get; set; }
 
+    /// <summary>
+    /// Gets or sets the red component as an integer value (0 to 255).
+    /// </summary>
     public int R { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the green component as an integer value (0 to 255).
+    /// </summary>
     public int G { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the blue component as an integer value (0 to 255).
+    /// </summary>
     public int B { get; set; }
+    
+    /// <summary>
+    /// Gets or sets the alpha (transparency) component as an integer value (0 to 255).
+    /// </summary>
     public int A { get; set; }
 
+    /// <summary>
+    /// Initializes the color components from integer RGB values.
+    /// Sets alpha to full opacity (255/1.0).
+    /// </summary>
+    /// <param name="R">Red component (0-255)</param>
+    /// <param name="G">Green component (0-255)</param>
+    /// <param name="B">Blue component (0-255)</param>
     private void init(int R, int G, int B)
     {
         this.R = R;
@@ -97,16 +139,37 @@ public class MyColor
         Af = 1.0f;
     }
 
+    /// <summary>
+    /// Initializes a new MyColor instance with integer RGB values.
+    /// Alpha is set to full opacity (255).
+    /// </summary>
+    /// <param name="R">Red component (0-255)</param>
+    /// <param name="G">Green component (0-255)</param>
+    /// <param name="B">Blue component (0-255)</param>
     public MyColor(int R, int G, int B)
     {
         init(R, G, B);
     }
 
+    /// <summary>
+    /// Initializes a new MyColor instance with floating-point RGB values.
+    /// Alpha is set to full opacity (1.0).
+    /// </summary>
+    /// <param name="R">Red component (0.0-1.0)</param>
+    /// <param name="G">Green component (0.0-1.0)</param>
+    /// <param name="B">Blue component (0.0-1.0)</param>
     public MyColor(float R, float G, float B)
     {
         init(R, G, B);
     }
 
+    /// <summary>
+    /// Initializes the color components from floating-point RGB values.
+    /// Sets alpha to full opacity (255/1.0).
+    /// </summary>
+    /// <param name="R">Red component (0.0-1.0)</param>
+    /// <param name="G">Green component (0.0-1.0)</param>
+    /// <param name="B">Blue component (0.0-1.0)</param>
     private void init(float R, float G, float B)
     {
         Rf = R;
@@ -122,11 +185,20 @@ public class MyColor
         Af = 1.0f;
     }
 
+    /// <summary>
+    /// Initializes a new MyColor instance by copying values from another MyColor.
+    /// </summary>
+    /// <param name="sourceColor">The source color to copy from</param>
     public MyColor(MyColor sourceColor)
     {
         init(sourceColor.R, sourceColor.G, sourceColor.B);
     }
 
+    /// <summary>
+    /// Converts the color to an ARGB integer value.
+    /// The format is 0xAARRGGBB where AA=alpha, RR=red, GG=green, BB=blue.
+    /// </summary>
+    /// <returns>32-bit ARGB integer representation</returns>
     public int toArgb()
     {
         string aHex = A.ToString("X2");  // gives you hex
@@ -138,6 +210,10 @@ public class MyColor
         return myNewInt;
     }
 
+    /// <summary>
+    /// Converts the color to HTML/CSS hex color format.
+    /// </summary>
+    /// <returns>HTML color string in #RRGGBB format</returns>
     public string ToHtml()
     {
         return "#" + R.ToString("X2") + G.ToString("X2") + B.ToString("X2");

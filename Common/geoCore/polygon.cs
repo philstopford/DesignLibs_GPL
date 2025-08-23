@@ -9,27 +9,59 @@ using Clipper2Lib;
 
 namespace geoCoreLib;
 
+/// <summary>
+/// Represents a polygonal geometric element in the GeoCore library.
+/// GCPolygon stores integer-based coordinate data and provides methods for
+/// geometric operations including scaling, manipulation, and conversion.
+/// </summary>
 public class GCPolygon : GCElement
 {
+    /// <summary>
+    /// Indicates whether this polygon represents text geometry.
+    /// </summary>
     public bool text;
+    
+    /// <summary>
+    /// Optional name identifier for the polygon.
+    /// </summary>
     public string name;
+    
+    /// <summary>
+    /// The point array defining the polygon vertices using 64-bit integer coordinates.
+    /// Uses Clipper2Lib's Path64 for precise integer-based geometric operations.
+    /// </summary>
     public Path64 pointarray { get; set; }
 
+    /// <summary>
+    /// Initializes a new instance of the GCPolygon class with an empty point array.
+    /// </summary>
     public GCPolygon()
     {
         pGCPolygon();
     }
 
+    /// <summary>
+    /// Internal initialization for creating an empty polygon.
+    /// </summary>
     private void pGCPolygon()
     {
         pointarray = [];
     }
 
+    /// <summary>
+    /// Initializes a new instance of the GCPolygon class as a copy of an existing polygon.
+    /// </summary>
+    /// <param name="source">The source polygon to copy from</param>
     public GCPolygon(GCPolygon source)
     {
         pGCPolygon(source);
     }
 
+    /// <summary>
+    /// Internal copy constructor implementation.
+    /// Creates a deep copy of the source polygon including point array and layer information.
+    /// </summary>
+    /// <param name="source">The source polygon to copy from</param>
     private void pGCPolygon(GCPolygon source)
     {
         pointarray = new Path64(source.pointarray);
@@ -37,11 +69,23 @@ public class GCPolygon : GCElement
         datatype_nr = source.datatype_nr;
     }
 
+    /// <summary>
+    /// Initializes a new instance of the GCPolygon class with specified points and layer information.
+    /// </summary>
+    /// <param name="points">The point array defining the polygon vertices</param>
+    /// <param name="layer">The layer number for this polygon</param>
+    /// <param name="datatype">The datatype number for this polygon</param>
     public GCPolygon(Path64 points, int layer, int datatype)
     {
         pGCPolygon(points, layer, datatype);
     }
 
+    /// <summary>
+    /// Internal constructor implementation for creating a polygon with specified parameters.
+    /// </summary>
+    /// <param name="points">The point array defining the polygon vertices</param>
+    /// <param name="layer">The layer number for this polygon</param>
+    /// <param name="datatype">The datatype number for this polygon</param>
     private void pGCPolygon(Path64 points, int layer, int datatype)
     {
         pointarray = new Path64(points);

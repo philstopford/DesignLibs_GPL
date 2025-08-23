@@ -2,27 +2,48 @@
 
 namespace geoLib;
 
+/// <summary>
+/// Rectangle implementation to avoid platform-specific quirks of System.Drawing.
+/// Provides basic rectangle operations for multi-platform compatibility.
+/// </summary>
 public class GeoLibRectangle
 {
+    /// <summary>Location of the rectangle's top-left corner</summary>
     public Point64 Location { get; set; }
+    
+    /// <summary>Width of the rectangle</summary>
     public int Width { get; set; }
+    
+    /// <summary>Height of the rectangle</summary>
     public int Height { get; set; }
 
+    /// <summary>
+    /// Creates a new rectangle at origin with zero dimensions.
+    /// </summary>
     public GeoLibRectangle()
     {
         pGeoLibRectangle();
     }
 
+    /// <summary>Internal initialization for default constructor</summary>
     private void pGeoLibRectangle()
     {
 
     }
 
+    /// <summary>
+    /// Creates a new rectangle with specified location and dimensions.
+    /// </summary>
+    /// <param name="x">X coordinate of top-left corner</param>
+    /// <param name="y">Y coordinate of top-left corner</param>
+    /// <param name="width">Width of rectangle</param>
+    /// <param name="height">Height of rectangle</param>
     public GeoLibRectangle(int x, int y, int width, int height)
     {
         pGeoLibRectangle(x, y, width, height);
     }
 
+    /// <summary>Internal initialization with parameters</summary>
     private void pGeoLibRectangle(int x, int y, int width, int height)
     {
         Location = new Point64(x, y);
@@ -30,11 +51,16 @@ public class GeoLibRectangle
         Height = height;
     }
 
+    /// <summary>
+    /// Creates a copy of an existing rectangle.
+    /// </summary>
+    /// <param name="source">Rectangle to copy from</param>
     public GeoLibRectangle(GeoLibRectangle source)
     {
         pGeoLibRectangle(source);
     }
 
+    /// <summary>Internal initialization from source rectangle</summary>
     private void pGeoLibRectangle(GeoLibRectangle source)
     {
         Location = new Point64(source.Location);
@@ -42,11 +68,16 @@ public class GeoLibRectangle
         Height = source.Height;
     }
     
+    /// <summary>
+    /// Moves the rectangle by the specified offset.
+    /// </summary>
+    /// <param name="offset">Amount to move the rectangle</param>
     public void Offset(Point64 offset)
     {
         pOffset(offset);
     }
 
+    /// <summary>Internal implementation of offset operation</summary>
     private void pOffset(Point64 offset)
     {
         Location = new Point64(Location.X + offset.X, Location.Y + offset.Y);

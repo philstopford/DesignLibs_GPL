@@ -57,6 +57,13 @@ public partial class VeldridDriver
 	
 	private bool ShouldUseProgressiveLoading()
 	{
+		// Temporarily disable progressive loading when filled polygons are enabled
+		// due to buffer coordination issues with tessellated polygon rendering
+		if (ovpSettings.drawFilled())
+		{
+			return false;
+		}
+		
 		// Use progressive loading if there are many polygons
 		var totalPolygons = (ovpSettings.polyList?.Count ?? 0) + 
 		                   (ovpSettings.bgPolyList?.Count ?? 0) + 
@@ -898,6 +905,20 @@ public partial class VeldridDriver
 		{
 			updatePolygonBuffers();
 		}
+		else
+		{
+			// When using progressive loading, ensure tessellated buffers are ready for filled polygons
+			// Progressive loading updates these via UpdateProgressivePolygonBuffers, but we need to ensure
+			// they're initialized properly to prevent crashes
+			if (ovpSettings.drawFilled() && TessVertexBuffer == null && tessPolyListCount > 0)
+			{
+				// Initialize empty tessellated buffers to prevent crashes
+				tessPolyList = new VertexPositionColor[0];
+				tessIndices = new uint[0];
+				updateBuffer(ref TessVertexBuffer, tessPolyList, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref TessIndexBuffer, tessIndices, sizeof(uint), BufferUsage.IndexBuffer);
+			}
+		}
 		
 		updateLineBuffers();
 
@@ -967,9 +988,16 @@ public partial class VeldridDriver
 		{
 			if (TessVertexBuffer != null && tessIndices != null && tessIndices.Length != 0)
 			{
-				if (LinePipeline == null)
+				if (FilledPipeline == null)
 				{
 					throw new Exception("populate_command_list : FilledPipeline not initialized!");
+				}
+
+				// Additional validation for progressive loading compatibility
+				if (TessIndexBuffer == null)
+				{
+					Console.WriteLine("Warning: TessIndexBuffer is null, skipping filled polygon rendering");
+					return;
 				}
 
 				lock (TessVertexBuffer)
@@ -1063,7 +1091,7 @@ public partial class VeldridDriver
 		{
 			if (PointsVertexBuffer != null && polyIndices != null && polyIndices.Length != 0)
 			{
-				if (LinePipeline == null)
+				if (FilledPipeline == null)
 				{
 					throw new Exception("populate_command_list : FilledPipeline not initialized!");
 				}

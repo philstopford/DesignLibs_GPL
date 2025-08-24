@@ -36,4 +36,53 @@ internal static class X11Interop
 	// OpenGL function
 	[DllImport(linux_libGL_name)]
 	public static extern IntPtr glXGetProcAddress(string name);
+
+	/// <summary>
+	/// Determines if the current display is X11-based by checking the display name.
+	/// </summary>
+	public static bool IsX11Display(IntPtr gdkDisplay)
+	{
+		try
+		{
+			var displayNamePtr = gdk_display_get_name(gdkDisplay);
+			if (displayNamePtr == IntPtr.Zero)
+				return false;
+				
+			var displayName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr);
+			if (string.IsNullOrEmpty(displayName))
+				return false;
+
+			// X11 displays typically have names like ":0", ":0.0", "localhost:10.0", etc.
+			// They don't contain "wayland" in the name
+			return displayName.Contains(":") && !displayName.ToLower().Contains("wayland");
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Determines if the current display is Wayland-based by checking the display name.
+	/// </summary>
+	public static bool IsWaylandDisplay(IntPtr gdkDisplay)
+	{
+		try
+		{
+			var displayNamePtr = gdk_display_get_name(gdkDisplay);
+			if (displayNamePtr == IntPtr.Zero)
+				return false;
+				
+			var displayName = System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr);
+			if (string.IsNullOrEmpty(displayName))
+				return false;
+
+			// Wayland displays typically have names like "wayland-0", "wayland-1", etc.
+			return displayName.ToLower().Contains("wayland");
+		}
+		catch
+		{
+			return false;
+		}
+	}
 }

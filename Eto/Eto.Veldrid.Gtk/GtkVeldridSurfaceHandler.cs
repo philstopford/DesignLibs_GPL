@@ -92,7 +92,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	{
 		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
 		
-		// Ensure the widget is realized
+		// Ensure the widget is realized and properly configured
 		if (!Control.IsRealized)
 		{
 			Console.WriteLine("[DEBUG] Widget not realized, calling Realize()...");
@@ -105,22 +105,50 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			throw new InvalidOperationException("Control window is null - widget not properly initialized");
 		}
 		
+		// Ensure the window is visible and mapped
+		if (!Control.Window.IsVisible)
+		{
+			Console.WriteLine("[DEBUG] Window not visible, showing widget...");
+			Control.ShowAll();
+			
+			// Process events to ensure the window is properly mapped
+			while (global::Gtk.Application.EventsPending())
+			{
+				global::Gtk.Application.RunIteration(false);
+			}
+		}
+		
 		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Handle: {Control.Window.Handle}");
 		
-		// Get Wayland handles
+		// Additional check: ensure the widget has been allocated proper size
+		var allocation = Control.Allocation;
+		if (allocation.Width <= 1 || allocation.Height <= 1)
+		{
+			Console.WriteLine($"[DEBUG] Widget has small allocation ({allocation.Width}x{allocation.Height}), this may cause issues");
+		}
+		
+		// Get Wayland handles with enhanced error checking
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
 		if (waylandDisplay == IntPtr.Zero)
 		{
-			throw new InvalidOperationException("Failed to get Wayland display handle");
+			throw new InvalidOperationException("Failed to get Wayland display handle - display may not be ready");
 		}
 		
 		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
 		if (waylandSurface == IntPtr.Zero)
 		{
-			throw new InvalidOperationException("Failed to get Wayland window surface handle");
+			throw new InvalidOperationException("Failed to get Wayland window surface handle - surface may not be ready");
 		}
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
+		
+		// Additional safety: commit any pending operations to ensure surface is ready
+		Console.WriteLine("[DEBUG] Processing any pending Wayland events before creating swapchain");
+		while (global::Gtk.Application.EventsPending())
+		{
+			global::Gtk.Application.RunIteration(false);
+		}
+		
 		return SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
 	}
 
@@ -147,6 +175,28 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+	}
+
+	private bool _waylandInitialized = false;
+	
+	private void Control_InitializeGraphicsBackendWayland(object? sender, EventArgs e)
+	{
+		// For Wayland, we only want to initialize once and only after the widget has been
+		// properly sized and configured by the compositor
+		if (_waylandInitialized)
+			return;
+		
+		if (sender is EtoEventBox box && box.Allocation.Width > 1 && box.Allocation.Height > 1)
+		{
+			Console.WriteLine("[DEBUG] Wayland widget properly sized, proceeding with initialization");
+			_waylandInitialized = true;
+			
+			// Add a small delay to ensure the surface is fully committed by the compositor
+			global::GLib.Timeout.Add(50, () => {
+				Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+				return false; // Don't repeat
+			});
+		}
 	}
 
 	private bool skipDraw;
@@ -274,16 +324,17 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			box.CanFocus = true;
 			box.CanDefault = true;
 			
-			// For Wayland with Vulkan, we need to wait until the window is properly mapped
+			// For Wayland with Vulkan, we need to wait until the window is properly configured
 			// before initializing the graphics backend
 			var gdkDisplay = box.Display?.Handle ?? X11Interop.gdk_display_get_default();
 			bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
 			
 			if (isWayland)
 			{
-				Console.WriteLine("[DEBUG] Detected Wayland, using deferred initialization");
-				// For Wayland, wait until the widget is mapped, not just realized
-				box.Mapped += Control_InitializeGraphicsBackend;
+				Console.WriteLine("[DEBUG] Detected Wayland, using maximum deferred initialization");
+				// For Wayland, wait until the widget has processed its first configure event
+				// This ensures the surface is fully ready for graphics operations
+				box.SizeAllocated += Control_InitializeGraphicsBackendWayland;
 			}
 			else
 			{

@@ -60,58 +60,61 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private SwapchainSource CreatePlatformSwapchainSource()
 	{
-		var displayServerType = LinuxPlatformInterop.GetDisplayServerType(Control.Display.Handle);
-		Console.WriteLine($"[GtkVeldridSurfaceHandler] Detected display server type: {displayServerType}");
+		// In a pure Wayland session, try Wayland first to avoid X11 compatibility issues
+		string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
+		Console.WriteLine($"[GtkVeldridSurfaceHandler] XDG_SESSION_TYPE: {xdgSessionType}");
 		
-		switch (displayServerType)
+		if (xdgSessionType == "wayland")
 		{
-			case LinuxPlatformInterop.DisplayServerType.X11:
-			case LinuxPlatformInterop.DisplayServerType.XWayland:
-				// For X11 and XWayland, use X11 swapchain source
-				Console.WriteLine("[GtkVeldridSurfaceHandler] Creating X11 swapchain source");
-				try
+			Console.WriteLine("[GtkVeldridSurfaceHandler] Detected Wayland session, trying Wayland swapchain first");
+			try
+			{
+				// Try to validate window as Wayland and create Wayland swapchain
+				if (LinuxPlatformInterop.SafelyCheckWaylandWindow(Control.Window.Handle))
 				{
-					return SwapchainSource.CreateXlib(
-						LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
-						LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"[GtkVeldridSurfaceHandler] Failed to create X11 swapchain source: {ex}");
-					throw new NotSupportedException($"Failed to create X11 swapchain source for display server type {displayServerType}: {ex.Message}", ex);
-				}
-
-			case LinuxPlatformInterop.DisplayServerType.Wayland:
-				// For native Wayland, use Wayland swapchain source
-				Console.WriteLine("[GtkVeldridSurfaceHandler] Creating Wayland swapchain source");
-				try
-				{
+					Console.WriteLine("[GtkVeldridSurfaceHandler] Window is valid Wayland window, creating Wayland swapchain");
 					return SwapchainSource.CreateWayland(
 						LinuxPlatformInterop.gdk_wayland_display_get_wl_display(Control.Display.Handle),
 						LinuxPlatformInterop.gdk_wayland_window_get_wl_surface(Control.Window.Handle));
 				}
-				catch (Exception ex)
+				else
 				{
-					Console.WriteLine($"[GtkVeldridSurfaceHandler] Failed to create Wayland swapchain source: {ex}");
-					throw new NotSupportedException($"Failed to create Wayland swapchain source: {ex.Message}", ex);
+					Console.WriteLine("[GtkVeldridSurfaceHandler] Window is not Wayland despite Wayland session - falling back to XWayland");
 				}
-
-			default:
-				// Fallback to X11 for unknown display servers
-				Console.WriteLine("[GtkVeldridSurfaceHandler] Unknown display server, trying X11 fallback");
-				try
-				{
-					return SwapchainSource.CreateXlib(
-						LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
-						LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine($"[GtkVeldridSurfaceHandler] X11 fallback failed: {ex}");
-					throw new NotSupportedException($"Unsupported display server type: {displayServerType}. " +
-						$"This platform requires X11, Wayland, or XWayland support. Error: {ex.Message}", ex);
-				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[GtkVeldridSurfaceHandler] Wayland swapchain failed in Wayland session: {ex.Message}");
+				Console.WriteLine("[GtkVeldridSurfaceHandler] Falling back to XWayland");
+			}
 		}
+
+		// Try X11/XWayland approach
+		Console.WriteLine("[GtkVeldridSurfaceHandler] Trying X11/XWayland swapchain");
+		try
+		{
+			// Validate that the window can be used for X11 operations
+			if (LinuxPlatformInterop.SafelyCheckX11Window(Control.Window.Handle))
+			{
+				Console.WriteLine("[GtkVeldridSurfaceHandler] Window is valid X11 window, creating X11 swapchain");
+				return SwapchainSource.CreateXlib(
+					LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
+					LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
+			}
+			else
+			{
+				Console.WriteLine("[GtkVeldridSurfaceHandler] Window is not valid for X11 operations");
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[GtkVeldridSurfaceHandler] X11 swapchain failed: {ex.Message}");
+		}
+
+		// If we reach here, neither Wayland nor X11 worked
+		var displayServerType = LinuxPlatformInterop.GetDisplayServerType(Control.Display.Handle, Control.Window.Handle);
+		throw new NotSupportedException($"Unable to create swapchain for display server type: {displayServerType}. " +
+			"Neither Wayland nor X11 swapchain creation succeeded. This may indicate an incompatible graphics configuration.");
 	}
 
 	private void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)

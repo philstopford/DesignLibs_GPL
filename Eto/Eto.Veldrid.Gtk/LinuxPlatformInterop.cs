@@ -49,12 +49,20 @@ public static class LinuxPlatformInterop
 	[DllImport(linux_libgdk_wayland_name)]
 	public static extern bool gdk_display_is_wayland(IntPtr display);
 
+	// Window validation functions
+	[DllImport(linux_libgdk_x11_name)]
+	public static extern bool gdk_window_is_x11(IntPtr window);
+
+	[DllImport(linux_libgdk_wayland_name)]
+	public static extern bool gdk_window_is_wayland(IntPtr window);
+
 	/// <summary>
 	/// Determines the type of display server currently being used
 	/// </summary>
 	/// <param name="gdkDisplay">The GDK display handle</param>
+	/// <param name="gdkWindow">The GDK window handle</param>
 	/// <returns>The type of display server</returns>
-	public static DisplayServerType GetDisplayServerType(IntPtr gdkDisplay)
+	public static DisplayServerType GetDisplayServerType(IntPtr gdkDisplay, IntPtr gdkWindow)
 	{
 		if (gdkDisplay == IntPtr.Zero)
 		{
@@ -62,13 +70,29 @@ public static class LinuxPlatformInterop
 			return DisplayServerType.Unknown;
 		}
 
+		if (gdkWindow == IntPtr.Zero)
+		{
+			Console.WriteLine("[LinuxPlatformInterop] GDK window handle is null");
+			return DisplayServerType.Unknown;
+		}
+
 		try
 		{
-			// Check if it's an X11 display (this works for both native X11 and XWayland)
-			bool isX11 = gdk_display_is_x11(gdkDisplay);
-			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_x11(): {isX11}");
+			// First check if the window itself is a Wayland window
+			bool windowIsWayland = gdk_window_is_wayland(gdkWindow);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_window_is_wayland(): {windowIsWayland}");
 			
-			if (isX11)
+			if (windowIsWayland)
+			{
+				Console.WriteLine("[LinuxPlatformInterop] Detected native Wayland window");
+				return DisplayServerType.Wayland;
+			}
+
+			// Then check if the window is an X11 window
+			bool windowIsX11 = gdk_window_is_x11(gdkWindow);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_window_is_x11(): {windowIsX11}");
+			
+			if (windowIsX11)
 			{
 				// Check if we're running under XWayland by looking at the session type
 				string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
@@ -76,20 +100,37 @@ public static class LinuxPlatformInterop
 				
 				if (xdgSessionType == "wayland")
 				{
-					Console.WriteLine("[LinuxPlatformInterop] Detected XWayland (X11 in Wayland session)");
+					Console.WriteLine("[LinuxPlatformInterop] Detected XWayland (X11 window in Wayland session)");
 					return DisplayServerType.XWayland;
 				}
-				Console.WriteLine("[LinuxPlatformInterop] Detected native X11");
+				Console.WriteLine("[LinuxPlatformInterop] Detected native X11 window");
 				return DisplayServerType.X11;
 			}
 
-			// Check if it's a Wayland display
-			bool isWayland = gdk_display_is_wayland(gdkDisplay);
-			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_wayland(): {isWayland}");
+			// Fallback to display-level detection
+			bool displayIsX11 = gdk_display_is_x11(gdkDisplay);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_x11(): {displayIsX11}");
 			
-			if (isWayland)
+			if (displayIsX11)
 			{
-				Console.WriteLine("[LinuxPlatformInterop] Detected native Wayland");
+				string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
+				Console.WriteLine($"[LinuxPlatformInterop] XDG_SESSION_TYPE: {xdgSessionType}");
+				
+				if (xdgSessionType == "wayland")
+				{
+					Console.WriteLine("[LinuxPlatformInterop] Detected XWayland (X11 display in Wayland session)");
+					return DisplayServerType.XWayland;
+				}
+				Console.WriteLine("[LinuxPlatformInterop] Detected native X11 display");
+				return DisplayServerType.X11;
+			}
+
+			bool displayIsWayland = gdk_display_is_wayland(gdkDisplay);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_wayland(): {displayIsWayland}");
+			
+			if (displayIsWayland)
+			{
+				Console.WriteLine("[LinuxPlatformInterop] Detected native Wayland display");
 				return DisplayServerType.Wayland;
 			}
 		}
@@ -105,9 +146,26 @@ public static class LinuxPlatformInterop
 			// If the functions don't exist, fall back to environment detection
 			return GetDisplayServerTypeFromEnvironment();
 		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[LinuxPlatformInterop] Error during detection, falling back to environment detection: {ex.Message}");
+			return GetDisplayServerTypeFromEnvironment();
+		}
 
 		Console.WriteLine("[LinuxPlatformInterop] Unknown display server type");
 		return DisplayServerType.Unknown;
+	}
+
+	/// <summary>
+	/// Determines the type of display server currently being used (legacy method)
+	/// </summary>
+	/// <param name="gdkDisplay">The GDK display handle</param>
+	/// <returns>The type of display server</returns>
+	public static DisplayServerType GetDisplayServerType(IntPtr gdkDisplay)
+	{
+		// Legacy method - falls back to environment detection for safety
+		Console.WriteLine("[LinuxPlatformInterop] Using legacy detection method, falling back to environment detection");
+		return GetDisplayServerTypeFromEnvironment();
 	}
 
 	/// <summary>
@@ -147,5 +205,41 @@ public static class LinuxPlatformInterop
 		}
 
 		return DisplayServerType.Unknown;
+	}
+
+	/// <summary>
+	/// Safely checks if a window is a Wayland window
+	/// </summary>
+	/// <param name="window">The GDK window handle</param>
+	/// <returns>True if the window is a Wayland window, false otherwise</returns>
+	public static bool SafelyCheckWaylandWindow(IntPtr window)
+	{
+		try
+		{
+			return gdk_window_is_wayland(window);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[LinuxPlatformInterop] Failed to check if window is Wayland: {ex.Message}");
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Safely checks if a window is an X11 window
+	/// </summary>
+	/// <param name="window">The GDK window handle</param>
+	/// <returns>True if the window is an X11 window, false otherwise</returns>
+	public static bool SafelyCheckX11Window(IntPtr window)
+	{
+		try
+		{
+			return gdk_window_is_x11(window);
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[LinuxPlatformInterop] Failed to check if window is X11: {ex.Message}");
+			return false;
+		}
 	}
 }

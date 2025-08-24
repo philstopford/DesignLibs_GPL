@@ -188,11 +188,18 @@ public partial class Tess
     /// </summary>
     public int ElementCount { get; private set; }
 
+    /// <summary>
+    /// Creates a new tessellator instance with the default pool implementation.
+    /// </summary>
     public Tess()
         : this(new DefaultPool())
     {
     }
 
+    /// <summary>
+    /// Creates a new tessellator instance with a custom memory pool for optimization.
+    /// </summary>
+    /// <param name="pool">The memory pool to use for internal allocations. Pass null to use a no-op pool.</param>
     public Tess(IPool pool)
     {
         Normal = Vec3.Zero;

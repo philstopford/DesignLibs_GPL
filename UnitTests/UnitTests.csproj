@@ -34,7 +34,10 @@
       <ProjectReference Include="..\Common\geoCore\geoCore.csproj" />
       <ProjectReference Include="..\Common\geoLib\geoLib.csproj" />
       <ProjectReference Include="..\Common\geoWrangler\geoWrangler.csproj" />
+      <ProjectReference Include="..\Common\info.lundin.math\info.lundin.math.csproj" />
       <ProjectReference Include="..\Common\KDTree\KDTree.csproj" />
+      <ProjectReference Include="..\Common\LibTessDotNet\LibTessDotNet.csproj" />
+      <ProjectReference Include="..\Common\MersenneTwister\mersenneTwister.csproj" />
       <ProjectReference Include="..\Common\MiscUtil\MiscUtil.csproj" />
       <ProjectReference Include="..\Common\shapeEngine\shapeEngine.csproj" />
       <ProjectReference Include="..\Common\Tral.Randomness\Tral.Randomness.csproj" />

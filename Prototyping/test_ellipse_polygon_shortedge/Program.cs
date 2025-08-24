@@ -158,6 +158,21 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
     }
 
     /// <summary>
+    /// Processes a corner with an adaptive radius, using the enhanced algorithm.
+    /// </summary>
+    /// <param name="startLine">Incoming edge definition</param>
+    /// <param name="endLine">Outgoing edge definition</param>
+    /// <param name="adaptiveRadius">Radius adjusted for edge constraints</param>
+    /// <param name="angular_resolution">Angular sampling threshold</param>
+    /// <param name="edge_resolution">Edge sampling density</param>
+    /// <returns>Processed corner curve points</returns>
+    public static PathD ProcessCornerWithAdaptiveRadius(PathD startLine, PathD endLine, 
+        double adaptiveRadius, double angular_resolution, double edge_resolution)
+    {
+        return processCorner(startLine, endLine, adaptiveRadius, angular_resolution, edge_resolution, SamplingMode.ByMaxSegmentLength);
+    }
+
+    /// <summary>
     /// Computes an adaptive radius that respects edge length constraints.
     /// 
     /// This is the key innovation of the short edge handling algorithm.
@@ -240,27 +255,8 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         line.Add(midPoint);
         return line;
     }
-                midPoint = new PointD((original_path[i].x + original_path[i + 1].x) * 0.5, (original_path[i].y + original_path[i + 1].y) * 0.5);
-            endLine.Add(midPoint);
 
-            double radius = convex_radius;
-            if (corner_types[i] == (int)types.concave)
-                radius = concave_radius;
-
-            PathD current_corner = processCorner(startLine, endLine, radius, angular_resolution, edge_resolution, SamplingMode.ByMaxSegmentLength);
-            processed.Add(current_corner);
-        }
-
-        // Assemble, replacing runs of short-edge corners with diagonals
-        PathD assembled = AssembleWithDiagonals(processed, corner_types);
-
-        // Write SVG for inspection
-        string svg = BuildDetailedSvg(original_path, assembled);
-        File.WriteAllText("assembled.svg", svg, Encoding.UTF8);
-        Console.WriteLine("Wrote assembled.svg");
-    }
-
-    static int[] categorizeCorners(PathD path_, double short_edge_length)
+    static int[] CategorizeCorners(PathD path_, double short_edge_length)
     {
         int[] status = new int[path_.Count];
 
@@ -298,13 +294,13 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
 
             if (len1 <= short_edge_length && len2 <= short_edge_length)
             {
-                status[i] = (int)types.shortedge;
+                status[i] = (int)CornerType.ShortEdge;
                 continue;
             }
 
             double crossZ = vx1 * vy2 - vy1 * vx2;
             bool isVertexConvex = isCCW ? (crossZ > 0) : (crossZ < 0);
-            status[i] = (int)(isVertexConvex ? types.convex : types.concave);
+            status[i] = (int)(isVertexConvex ? CornerType.Convex : CornerType.Concave);
         }
 
         if (trimmed_path)
@@ -437,7 +433,7 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         // Mark short corners (only consider first n entries of corner_types)
         bool[] isShort = new bool[n];
         for (int k = 0; k < n; k++)
-            isShort[k] = (k < corner_types.Length && corner_types[k] == (int)types.shortedge);
+            isShort[k] = (k < corner_types.Length && corner_types[k] == (int)CornerType.ShortEdge);
 
         int i = 0;
         while (i < n)
@@ -499,6 +495,40 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         }
 
         return outPts;
+    }
+
+    /// <summary>
+    /// Assembles processed corner curves into a single continuous path.
+    /// </summary>
+    /// <param name="processedCorners">List of processed corner curves</param>
+    /// <returns>Assembled continuous path</returns>
+    static PathD AssembleProcessedCorners(PathsD processedCorners)
+    {
+        PathD assembled = new PathD();
+        
+        for (int i = 0; i < processedCorners.Count; i++)
+        {
+            PathD corner = processedCorners[i];
+            if (corner.Count > 0)
+            {
+                if (assembled.Count == 0)
+                {
+                    assembled.AddRange(corner);
+                }
+                else
+                {
+                    // Avoid duplicating points at connections
+                    PointD last = assembled[^1];
+                    PointD first = corner[0];
+                    if (Math.Abs(last.x - first.x) < 1e-9 && Math.Abs(last.y - first.y) < 1e-9)
+                        assembled.AddRange(corner.Skip(1));
+                    else
+                        assembled.AddRange(corner);
+                }
+            }
+        }
+        
+        return assembled;
     }
 
     // --- CSV & SVG Utilities ---

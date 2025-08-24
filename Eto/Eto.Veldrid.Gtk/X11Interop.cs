@@ -7,14 +7,24 @@ internal static class X11Interop
 {
 	private const string
 		linux_libgdk_name = "libgdk-3.so.0",
-		linux_libGL_name = "libGL.so.1";
+		linux_libGL_name = "libGL.so.1",
+		linux_libglib_name = "libglib-2.0.so.0";
 
-	// Common GDK functions
+	// GDK backend detection functions
 	[DllImport(linux_libgdk_name)]
 	public static extern IntPtr gdk_display_get_default();
 
 	[DllImport(linux_libgdk_name)]
 	public static extern IntPtr gdk_display_get_name(IntPtr display);
+
+	[DllImport(linux_libgdk_name)]
+	public static extern IntPtr gdk_display_get_default_display();
+	
+	// Helper to convert IntPtr to string
+	private static string? PtrToString(IntPtr ptr)
+	{
+		return ptr == IntPtr.Zero ? null : Marshal.PtrToStringAnsi(ptr);
+	}
 
 	// X11-specific functions
 	[DllImport(linux_libgdk_name)]
@@ -44,7 +54,26 @@ internal static class X11Interop
 	{
 		try
 		{
-			// Try to get X11 display handle - if this succeeds, we're on X11
+			// First try: Check display name for X11 indicators
+			var displayNamePtr = gdk_display_get_name(gdkDisplay);
+			var displayName = PtrToString(displayNamePtr);
+			
+			if (!string.IsNullOrEmpty(displayName))
+			{
+				// X11 displays typically have format like ":0", ":1", "hostname:0", etc.
+				if (displayName.Contains(':') && !displayName.StartsWith("wayland"))
+				{
+					return true;
+				}
+				// Explicit wayland indicator
+				if (displayName.StartsWith("wayland"))
+				{
+					return false;
+				}
+			}
+
+			// Second try: Attempt to call X11-specific function as fallback
+			// This is risky but we wrap it in try-catch
 			var xDisplay = gdk_x11_display_get_xdisplay(gdkDisplay);
 			return xDisplay != IntPtr.Zero;
 		}
@@ -61,7 +90,26 @@ internal static class X11Interop
 	{
 		try
 		{
-			// Try to get Wayland display handle - if this succeeds, we're on Wayland
+			// First try: Check display name for Wayland indicators
+			var displayNamePtr = gdk_display_get_name(gdkDisplay);
+			var displayName = PtrToString(displayNamePtr);
+			
+			if (!string.IsNullOrEmpty(displayName))
+			{
+				// Explicit wayland indicator
+				if (displayName.StartsWith("wayland"))
+				{
+					return true;
+				}
+				// X11 displays typically have format like ":0", ":1", "hostname:0", etc.
+				if (displayName.Contains(':') && !displayName.StartsWith("wayland"))
+				{
+					return false;
+				}
+			}
+
+			// Second try: Attempt to call Wayland-specific function as fallback
+			// This is risky but we wrap it in try-catch
 			var waylandDisplay = gdk_wayland_display_get_wl_display(gdkDisplay);
 			return waylandDisplay != IntPtr.Zero;
 		}

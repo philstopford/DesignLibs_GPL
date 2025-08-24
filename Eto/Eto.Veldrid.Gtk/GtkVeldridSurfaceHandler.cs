@@ -63,9 +63,38 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 				
 				try
 				{
-					// Fall back to Wayland path
+					// Ensure the widget is realized before accessing Wayland surface
+					if (!Control.IsRealized)
+					{
+						Console.WriteLine("[DEBUG] Widget not realized, calling Realize()...");
+						Control.Realize();
+					}
+					
+					// Ensure the window is visible and mapped
+					if (!Control.Window.IsVisible)
+					{
+						Console.WriteLine("[DEBUG] Window not visible, showing widget...");
+						Control.ShowAll();
+						
+						// Process pending events to ensure window is properly mapped
+						while (global::Gtk.Application.EventsPending())
+						{
+							global::Gtk.Application.RunIteration();
+						}
+					}
+					
+					// Fall back to Wayland path with proper error checking
 					var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+					if (waylandDisplay == IntPtr.Zero)
+					{
+						throw new InvalidOperationException("Failed to get Wayland display handle");
+					}
+					
 					var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
+					if (waylandSurface == IntPtr.Zero)
+					{
+						throw new InvalidOperationException("Failed to get Wayland window surface handle");
+					}
 					
 					source = SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
 					Console.WriteLine("[DEBUG] Successfully created Wayland SwapchainSource");

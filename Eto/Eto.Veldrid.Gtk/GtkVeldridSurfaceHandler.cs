@@ -42,9 +42,29 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			//
 			//   https://github.com/mellinoe/veldrid/issues/155
 			//
-			SwapchainSource source = SwapchainSource.CreateXlib(
-				X11Interop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
-				X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
+			SwapchainSource source;
+
+			// Detect whether we're running on X11 or Wayland and create appropriate SwapchainSource
+			var gdkDisplay = Control.Display.Handle;
+
+			if (X11Interop.IsX11Display(gdkDisplay))
+			{
+				// X11 path - use Xlib SwapchainSource
+				source = SwapchainSource.CreateXlib(
+					X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
+					X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
+			}
+			else if (X11Interop.IsWaylandDisplay(gdkDisplay))
+			{
+				// Wayland path - use Wayland SwapchainSource
+				source = SwapchainSource.CreateWayland(
+					X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay),
+					X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle));
+			}
+			else
+			{
+				throw new NotSupportedException("Unsupported windowing system. Only X11 and Wayland are supported for Vulkan backend.");
+			}
 
 			Size renderSize = RenderSize;
 			swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(

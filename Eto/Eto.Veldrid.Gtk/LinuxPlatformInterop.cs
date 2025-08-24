@@ -49,12 +49,8 @@ public static class LinuxPlatformInterop
 	[DllImport(linux_libgdk_wayland_name)]
 	public static extern bool gdk_display_is_wayland(IntPtr display);
 
-	// Window validation functions
-	[DllImport(linux_libgdk_x11_name)]
-	public static extern bool gdk_window_is_x11(IntPtr window);
-
-	[DllImport(linux_libgdk_wayland_name)]
-	public static extern bool gdk_window_is_wayland(IntPtr window);
+	// Note: gdk_window_is_x11 and gdk_window_is_wayland were added in GDK 4
+	// For GDK 3, we use display-level detection and try-catch approaches
 
 	/// <summary>
 	/// Determines the type of display server currently being used
@@ -78,41 +74,22 @@ public static class LinuxPlatformInterop
 
 		try
 		{
-			// First check if the window itself is a Wayland window
-			bool windowIsWayland = gdk_window_is_wayland(gdkWindow);
-			Console.WriteLine($"[LinuxPlatformInterop] gdk_window_is_wayland(): {windowIsWayland}");
+			// Use display-level detection since window-level functions don't exist in GDK 3
+			bool displayIsWayland = gdk_display_is_wayland(gdkDisplay);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_wayland(): {displayIsWayland}");
 			
-			if (windowIsWayland)
+			if (displayIsWayland)
 			{
-				Console.WriteLine("[LinuxPlatformInterop] Detected native Wayland window");
+				Console.WriteLine("[LinuxPlatformInterop] Detected Wayland display");
 				return DisplayServerType.Wayland;
 			}
 
-			// Then check if the window is an X11 window
-			bool windowIsX11 = gdk_window_is_x11(gdkWindow);
-			Console.WriteLine($"[LinuxPlatformInterop] gdk_window_is_x11(): {windowIsX11}");
-			
-			if (windowIsX11)
-			{
-				// Check if we're running under XWayland by looking at the session type
-				string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
-				Console.WriteLine($"[LinuxPlatformInterop] XDG_SESSION_TYPE: {xdgSessionType}");
-				
-				if (xdgSessionType == "wayland")
-				{
-					Console.WriteLine("[LinuxPlatformInterop] Detected XWayland (X11 window in Wayland session)");
-					return DisplayServerType.XWayland;
-				}
-				Console.WriteLine("[LinuxPlatformInterop] Detected native X11 window");
-				return DisplayServerType.X11;
-			}
-
-			// Fallback to display-level detection
 			bool displayIsX11 = gdk_display_is_x11(gdkDisplay);
 			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_x11(): {displayIsX11}");
 			
 			if (displayIsX11)
 			{
+				// Check if we're running under XWayland by looking at the session type
 				string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
 				Console.WriteLine($"[LinuxPlatformInterop] XDG_SESSION_TYPE: {xdgSessionType}");
 				
@@ -123,15 +100,6 @@ public static class LinuxPlatformInterop
 				}
 				Console.WriteLine("[LinuxPlatformInterop] Detected native X11 display");
 				return DisplayServerType.X11;
-			}
-
-			bool displayIsWayland = gdk_display_is_wayland(gdkDisplay);
-			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_wayland(): {displayIsWayland}");
-			
-			if (displayIsWayland)
-			{
-				Console.WriteLine("[LinuxPlatformInterop] Detected native Wayland display");
-				return DisplayServerType.Wayland;
 			}
 		}
 		catch (DllNotFoundException ex)
@@ -208,37 +176,61 @@ public static class LinuxPlatformInterop
 	}
 
 	/// <summary>
-	/// Safely checks if a window is a Wayland window
+	/// Safely checks if a window supports Wayland operations by attempting to use Wayland functions
 	/// </summary>
+	/// <param name="display">The GDK display handle</param>
 	/// <param name="window">The GDK window handle</param>
-	/// <returns>True if the window is a Wayland window, false otherwise</returns>
-	public static bool SafelyCheckWaylandWindow(IntPtr window)
+	/// <returns>True if the window supports Wayland operations, false otherwise</returns>
+	public static bool SafelyCheckWaylandWindow(IntPtr display, IntPtr window)
 	{
 		try
 		{
-			return gdk_window_is_wayland(window);
+			// First check if the display is Wayland
+			if (!gdk_display_is_wayland(display))
+			{
+				Console.WriteLine("[LinuxPlatformInterop] Display is not Wayland");
+				return false;
+			}
+
+			// Try to get Wayland surface - if this works, the window supports Wayland
+			IntPtr wlSurface = gdk_wayland_window_get_wl_surface(window);
+			bool result = wlSurface != IntPtr.Zero;
+			Console.WriteLine($"[LinuxPlatformInterop] Wayland surface check result: {result}");
+			return result;
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"[LinuxPlatformInterop] Failed to check if window is Wayland: {ex.Message}");
+			Console.WriteLine($"[LinuxPlatformInterop] Failed to check Wayland window support: {ex.Message}");
 			return false;
 		}
 	}
 
 	/// <summary>
-	/// Safely checks if a window is an X11 window
+	/// Safely checks if a window supports X11 operations by attempting to use X11 functions
 	/// </summary>
+	/// <param name="display">The GDK display handle</param>
 	/// <param name="window">The GDK window handle</param>
-	/// <returns>True if the window is an X11 window, false otherwise</returns>
-	public static bool SafelyCheckX11Window(IntPtr window)
+	/// <returns>True if the window supports X11 operations, false otherwise</returns>
+	public static bool SafelyCheckX11Window(IntPtr display, IntPtr window)
 	{
 		try
 		{
-			return gdk_window_is_x11(window);
+			// First check if the display is X11
+			if (!gdk_display_is_x11(display))
+			{
+				Console.WriteLine("[LinuxPlatformInterop] Display is not X11");
+				return false;
+			}
+
+			// Try to get X11 window ID - if this works, the window supports X11
+			IntPtr xid = gdk_x11_window_get_xid(window);
+			bool result = xid != IntPtr.Zero;
+			Console.WriteLine($"[LinuxPlatformInterop] X11 window ID check result: {result}");
+			return result;
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"[LinuxPlatformInterop] Failed to check if window is X11: {ex.Message}");
+			Console.WriteLine($"[LinuxPlatformInterop] Failed to check X11 window support: {ex.Message}");
 			return false;
 		}
 	}

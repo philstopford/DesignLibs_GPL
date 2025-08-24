@@ -42,9 +42,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			//
 			//   https://github.com/mellinoe/veldrid/issues/155
 			//
-			SwapchainSource source = SwapchainSource.CreateXlib(
-				X11Interop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
-				X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
+			SwapchainSource source = CreatePlatformSwapchainSource();
 
 			Size renderSize = RenderSize;
 			swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
@@ -58,6 +56,95 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 
 		return swapchain;
+	}
+
+	private SwapchainSource CreatePlatformSwapchainSource()
+	{
+		// In a pure Wayland session, try Wayland first to avoid X11 compatibility issues
+		string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
+		Console.WriteLine($"[GtkVeldridSurfaceHandler] XDG_SESSION_TYPE: {xdgSessionType}");
+		
+		if (xdgSessionType == "wayland")
+		{
+			Console.WriteLine("[GtkVeldridSurfaceHandler] Detected Wayland session, trying Wayland swapchain first");
+			try
+			{
+				// Try to validate window as Wayland and create Wayland swapchain
+				if (LinuxPlatformInterop.SafelyCheckWaylandWindow(Control.Display.Handle, Control.Window.Handle))
+				{
+					Console.WriteLine("[GtkVeldridSurfaceHandler] Window supports Wayland operations, creating Wayland swapchain");
+					return SwapchainSource.CreateWayland(
+						LinuxPlatformInterop.gdk_wayland_display_get_wl_display(Control.Display.Handle),
+						LinuxPlatformInterop.gdk_wayland_window_get_wl_surface(Control.Window.Handle));
+				}
+				else
+				{
+					Console.WriteLine("[GtkVeldridSurfaceHandler] Window does not support Wayland operations - falling back to XWayland");
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[GtkVeldridSurfaceHandler] Wayland swapchain failed in Wayland session: {ex.Message}");
+				Console.WriteLine("[GtkVeldridSurfaceHandler] Falling back to XWayland");
+			}
+		}
+
+		// Try X11/XWayland approach
+		Console.WriteLine("[GtkVeldridSurfaceHandler] Trying X11/XWayland swapchain");
+		try
+		{
+			// Validate that the window can be used for X11 operations
+			if (LinuxPlatformInterop.SafelyCheckX11Window(Control.Display.Handle, Control.Window.Handle))
+			{
+				Console.WriteLine("[GtkVeldridSurfaceHandler] Window supports X11 operations, creating X11 swapchain");
+				return SwapchainSource.CreateXlib(
+					LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
+					LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
+			}
+			else
+			{
+				Console.WriteLine("[GtkVeldridSurfaceHandler] Window does not support X11 operations");
+			}
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[GtkVeldridSurfaceHandler] X11 swapchain failed: {ex.Message}");
+		}
+
+		// If we reach here, neither validation worked. Try a direct approach.
+		// In pure Wayland environments, sometimes we need to attempt creation directly
+		if (xdgSessionType == "wayland")
+		{
+			Console.WriteLine("[GtkVeldridSurfaceHandler] Validation failed, attempting direct Wayland swapchain creation");
+			try
+			{
+				return SwapchainSource.CreateWayland(
+					LinuxPlatformInterop.gdk_wayland_display_get_wl_display(Control.Display.Handle),
+					LinuxPlatformInterop.gdk_wayland_window_get_wl_surface(Control.Window.Handle));
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[GtkVeldridSurfaceHandler] Direct Wayland creation failed: {ex.Message}");
+			}
+		}
+
+		// As a final fallback, try direct X11 creation
+		Console.WriteLine("[GtkVeldridSurfaceHandler] Attempting direct X11 swapchain creation as final fallback");
+		try
+		{
+			return SwapchainSource.CreateXlib(
+				LinuxPlatformInterop.gdk_x11_display_get_xdisplay(Control.Display.Handle),
+				LinuxPlatformInterop.gdk_x11_window_get_xid(Control.Window.Handle));
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[GtkVeldridSurfaceHandler] Direct X11 creation failed: {ex.Message}");
+		}
+
+		// If we reach here, neither Wayland nor X11 worked
+		var displayServerType = LinuxPlatformInterop.GetDisplayServerType(Control.Display.Handle, Control.Window.Handle);
+		throw new NotSupportedException($"Unable to create swapchain for display server type: {displayServerType}. " +
+			"Neither Wayland nor X11 swapchain creation succeeded. This may indicate an incompatible graphics configuration.");
 	}
 
 	private void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -140,7 +227,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	// TODO: Figure this one out! The docstring for this property in Veldrid's OpenGLPlatformInfo is ambiguous.
 	IntPtr VeldridSurface.IOpenGL.OpenGLContextHandle => glArea?.Context.Handle ?? IntPtr.Zero;
 
-	IntPtr VeldridSurface.IOpenGL.GetProcAddress(string name) => X11Interop.glXGetProcAddress(name);
+	IntPtr VeldridSurface.IOpenGL.GetProcAddress(string name) => LinuxPlatformInterop.glXGetProcAddress(name);
 
 	void VeldridSurface.IOpenGL.MakeCurrent(IntPtr context) => MakeCurrent();
 

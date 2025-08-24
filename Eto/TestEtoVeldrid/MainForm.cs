@@ -92,6 +92,10 @@ public partial class MainForm : Form
 		}
 
 		Title = $"Veldrid backend: {Surface.Backend.ToString()}";
+		
+		// Display platform detection information in console
+		Console.WriteLine($"Backend selected: {Surface.Backend}");
+		Console.WriteLine($"GraphicsDevice: {Surface.GraphicsDevice?.GetType().Name ?? "null"}");
 
 		createVPContextMenu();
 

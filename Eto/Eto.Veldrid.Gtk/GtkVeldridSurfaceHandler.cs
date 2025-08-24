@@ -44,36 +44,36 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			//
 			SwapchainSource source;
 
-			// Detect whether we're running on X11 or Wayland and create appropriate SwapchainSource
+			// Try X11 first, then fall back to Wayland if X11 fails
 			var gdkDisplay = Control.Display.Handle;
 
-			bool isX11 = X11Interop.IsX11Display(gdkDisplay);
-			bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-
-			// Add debugging information for diagnostic purposes
-			var displayNamePtr = X11Interop.gdk_display_get_name(gdkDisplay);
-			var displayName = displayNamePtr == IntPtr.Zero ? "unknown" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr) ?? "unknown";
-			Console.WriteLine($"[DEBUG] Display name: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
-
-			if (isX11 && !isWayland)
+			try
 			{
-				// X11 path - use Xlib SwapchainSource
-				Console.WriteLine("[DEBUG] Using X11/Xlib SwapchainSource");
-				source = SwapchainSource.CreateXlib(
-					X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
-					X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
+				// Try X11 path first - if this works, we're on X11
+				Console.WriteLine("[DEBUG] Attempting X11 SwapchainSource creation...");
+				var xDisplay = X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay);
+				var xWindow = X11Interop.gdk_x11_window_get_xid(Control.Window.Handle);
+				
+				source = SwapchainSource.CreateXlib(xDisplay, xWindow);
+				Console.WriteLine("[DEBUG] Successfully created X11/Xlib SwapchainSource");
 			}
-			else if (isWayland && !isX11)
+			catch (Exception ex)
 			{
-				// Wayland path - use Wayland SwapchainSource
-				Console.WriteLine("[DEBUG] Using Wayland SwapchainSource");
-				source = SwapchainSource.CreateWayland(
-					X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay),
-					X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle));
-			}
-			else
-			{
-				throw new NotSupportedException($"Unsupported or ambiguous windowing system detected. Display: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}. Only X11 and Wayland are supported for Vulkan backend.");
+				Console.WriteLine($"[DEBUG] X11 creation failed: {ex.Message}, trying Wayland...");
+				
+				try
+				{
+					// Fall back to Wayland path
+					var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+					var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
+					
+					source = SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
+					Console.WriteLine("[DEBUG] Successfully created Wayland SwapchainSource");
+				}
+				catch (Exception waylandEx)
+				{
+					throw new NotSupportedException($"Failed to create SwapchainSource for both X11 and Wayland. X11 error: {ex.Message}, Wayland error: {waylandEx.Message}");
+				}
 			}
 
 			Size renderSize = RenderSize;

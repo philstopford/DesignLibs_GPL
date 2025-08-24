@@ -57,65 +57,91 @@ public static class LinuxPlatformInterop
 	public static DisplayServerType GetDisplayServerType(IntPtr gdkDisplay)
 	{
 		if (gdkDisplay == IntPtr.Zero)
+		{
+			Console.WriteLine("[LinuxPlatformInterop] GDK display handle is null");
 			return DisplayServerType.Unknown;
+		}
 
 		try
 		{
-			// Check if it's a Wayland display
-			if (gdk_display_is_wayland(gdkDisplay))
+			// Check if it's an X11 display (this works for both native X11 and XWayland)
+			bool isX11 = gdk_display_is_x11(gdkDisplay);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_x11(): {isX11}");
+			
+			if (isX11)
 			{
-				// Check if we're actually running under XWayland
-				// XWayland sets the DISPLAY environment variable
-				string? display = Environment.GetEnvironmentVariable("DISPLAY");
-				if (!string.IsNullOrEmpty(display))
+				// Check if we're running under XWayland by looking at the session type
+				string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
+				Console.WriteLine($"[LinuxPlatformInterop] XDG_SESSION_TYPE: {xdgSessionType}");
+				
+				if (xdgSessionType == "wayland")
 				{
+					Console.WriteLine("[LinuxPlatformInterop] Detected XWayland (X11 in Wayland session)");
 					return DisplayServerType.XWayland;
 				}
-				return DisplayServerType.Wayland;
-			}
-
-			// Check if it's an X11 display
-			if (gdk_display_is_x11(gdkDisplay))
-			{
+				Console.WriteLine("[LinuxPlatformInterop] Detected native X11");
 				return DisplayServerType.X11;
 			}
+
+			// Check if it's a Wayland display
+			bool isWayland = gdk_display_is_wayland(gdkDisplay);
+			Console.WriteLine($"[LinuxPlatformInterop] gdk_display_is_wayland(): {isWayland}");
+			
+			if (isWayland)
+			{
+				Console.WriteLine("[LinuxPlatformInterop] Detected native Wayland");
+				return DisplayServerType.Wayland;
+			}
 		}
-		catch (DllNotFoundException)
+		catch (DllNotFoundException ex)
 		{
+			Console.WriteLine($"[LinuxPlatformInterop] DLL not found, falling back to environment detection: {ex.Message}");
 			// If we can't load the libraries, fall back to environment detection
 			return GetDisplayServerTypeFromEnvironment();
 		}
-		catch (EntryPointNotFoundException)
+		catch (EntryPointNotFoundException ex)
 		{
+			Console.WriteLine($"[LinuxPlatformInterop] Entry point not found, falling back to environment detection: {ex.Message}");
 			// If the functions don't exist, fall back to environment detection
 			return GetDisplayServerTypeFromEnvironment();
 		}
 
+		Console.WriteLine("[LinuxPlatformInterop] Unknown display server type");
 		return DisplayServerType.Unknown;
 	}
 
 	/// <summary>
 	/// Fallback method to detect display server type from environment variables
+	/// This is used when GDK functions are not available
 	/// </summary>
 	/// <returns>The detected display server type</returns>
 	public static DisplayServerType GetDisplayServerTypeFromEnvironment()
 	{
-		// Check for Wayland session
+		// Check environment variables to determine the session type
 		string? waylandDisplay = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
 		string? xdgSessionType = Environment.GetEnvironmentVariable("XDG_SESSION_TYPE");
 		string? display = Environment.GetEnvironmentVariable("DISPLAY");
 
-		if (!string.IsNullOrEmpty(waylandDisplay) || xdgSessionType == "wayland")
+		// If the session type is explicitly set, use that
+		if (xdgSessionType == "wayland")
 		{
-			// If we have both WAYLAND_DISPLAY and DISPLAY, we're likely in XWayland
-			if (!string.IsNullOrEmpty(display))
-			{
-				return DisplayServerType.XWayland;
-			}
+			// In a Wayland session, if we have DISPLAY, it could be XWayland
+			// But since we can't use GDK functions here, assume native Wayland
 			return DisplayServerType.Wayland;
 		}
 
-		if (!string.IsNullOrEmpty(display) || xdgSessionType == "x11")
+		if (xdgSessionType == "x11")
+		{
+			return DisplayServerType.X11;
+		}
+
+		// Fallback to checking display variables
+		if (!string.IsNullOrEmpty(waylandDisplay))
+		{
+			return DisplayServerType.Wayland;
+		}
+
+		if (!string.IsNullOrEmpty(display))
 		{
 			return DisplayServerType.X11;
 		}

@@ -144,6 +144,28 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			Console.WriteLine($"[DEBUG] Warning: Widget has small allocation ({allocation.Width}x{allocation.Height})");
 		}
 		
+		// Enhanced surface synchronization for Wayland
+		Console.WriteLine("[DEBUG] Performing enhanced surface synchronization");
+		
+		// Force multiple rounds of event processing to ensure surface is fully committed
+		for (int i = 0; i < 3; i++)
+		{
+			while (global::Gtk.Application.EventsPending())
+			{
+				global::Gtk.Application.RunIteration(false);
+			}
+			
+			// Force window updates using non-deprecated methods
+			if (Control.Window.IsVisible)
+			{
+				Control.Window.ProcessUpdates(true);
+				// Force a sync by triggering a redraw cycle
+				Control.QueueDraw();
+			}
+			
+			System.Threading.Thread.Sleep(25); // Small delay between synchronization rounds
+		}
+		
 		// Get Wayland handles with enhanced error checking
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
 		if (waylandDisplay == IntPtr.Zero)
@@ -159,17 +181,11 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
 		
-		// Ensure all pending surface operations are committed before creating swapchain
-		Console.WriteLine("[DEBUG] Committing surface state before swapchain creation");
+		// Final surface commit to ensure the compositor has fully processed the surface
+		Console.WriteLine("[DEBUG] Performing final surface commit and synchronization");
 		while (global::Gtk.Application.EventsPending())
 		{
 			global::Gtk.Application.RunIteration(false);
-		}
-		
-		// Force a surface commit to ensure the compositor has fully processed the surface
-		if (Control.Window.IsVisible)
-		{
-			Control.Window.ProcessUpdates(false);
 		}
 		
 		return SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
@@ -201,6 +217,39 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	}
 
 	private bool _waylandInitialized = false;
+	
+	private void Control_InitializeGraphicsBackendWaylandDraw(object? sender, global::Gtk.DrawnArgs e)
+	{
+		// For Wayland, initialize only on the first draw request when the surface is truly ready
+		if (_waylandInitialized)
+			return;
+		
+		if (sender is EtoEventBox box && box.IsVisible && box.IsMapped && 
+		    box.Window != null && box.Window.IsVisible)
+		{
+			Console.WriteLine("[DEBUG] Wayland widget received first draw request, initializing graphics backend");
+			_waylandInitialized = true;
+			
+			// Disconnect the event to prevent repeated initialization
+			box.Drawn -= Control_InitializeGraphicsBackendWaylandDraw;
+			
+			// Wait a moment for all compositor operations to complete
+			global::GLib.Timeout.Add(150, () => {
+				if (box.Window != null && box.Window.IsVisible && box.IsMapped)
+				{
+					// Process all pending events to ensure surface is fully committed
+					while (global::Gtk.Application.EventsPending())
+					{
+						global::Gtk.Application.RunIteration(false);
+					}
+					
+					Console.WriteLine("[DEBUG] Surface fully ready, proceeding with backend initialization");
+					Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+				}
+				return false; // Don't repeat
+			});
+		}
+	}
 	
 	private void Control_InitializeGraphicsBackendWayland(object? sender, EventArgs e)
 	{
@@ -368,10 +417,10 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			
 			if (isWayland)
 			{
-				Console.WriteLine("[DEBUG] Detected Wayland, using maximum deferred initialization");
-				// For Wayland, wait until the widget is fully mapped and visible
-				// This ensures the surface is completely ready for graphics operations
-				box.Mapped += Control_InitializeGraphicsBackendWayland;
+				Console.WriteLine("[DEBUG] Detected Wayland, using ultra-deferred initialization");
+				// For Wayland, wait until the widget receives its first draw request
+				// This ensures the surface is completely ready and committed by the compositor
+				box.Drawn += Control_InitializeGraphicsBackendWaylandDraw;
 			}
 			else
 			{

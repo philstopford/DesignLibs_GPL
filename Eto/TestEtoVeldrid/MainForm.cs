@@ -55,7 +55,12 @@ public partial class MainForm : Form
 			ResourceBindingModel.Improved);
 
 		Surface = new VeldridSurface(backend, options);
-		Surface.VeldridInitialized += (sender, e) => VeldridReady = true;
+		Surface.VeldridInitialized += (sender, e) =>
+		{
+			// Only set VeldridReady flag, don't call SetUpVeldrid directly
+			// SetUpVeldrid will be called by the VeldridReady setter
+			VeldridReady = true;
+		};
 
 		Content = Surface;
 
@@ -69,13 +74,6 @@ public partial class MainForm : Form
 		Driver = new VeldridDriver(ref ovpSettings, ref Surface)
 		{
 			Surface = Surface
-		};
-
-		Surface.VeldridInitialized += (sender, e) =>
-		{
-			Driver.SetUpVeldrid();
-			
-			_veldridReady = true;
 		};
 		
 		// TODO: Make this binding actually work both ways.
@@ -91,6 +89,7 @@ public partial class MainForm : Form
 				return;
 		}
 
+		Driver.SetUpVeldrid();
 		Title = $"Veldrid backend: {Surface.Backend.ToString()}";
 
 		createVPContextMenu();

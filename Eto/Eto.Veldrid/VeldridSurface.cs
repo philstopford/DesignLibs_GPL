@@ -183,6 +183,9 @@ public class VeldridSurface : Control
 
 		Swapchain = Handler.CreateSwapchain();
 
+		Console.WriteLine($"[DEBUG] Swapchain creation result: {(Swapchain != null ? "Success" : "Failed")}");
+
+		// Trigger VeldridInitialized event - swapchain creation is now immediate
 		OnVeldridInitialized(e);
 	}
 

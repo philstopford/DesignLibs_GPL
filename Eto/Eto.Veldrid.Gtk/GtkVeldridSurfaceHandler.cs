@@ -55,19 +55,11 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return null;
 		}
 
-		// For Wayland, ensure the window is visible and has been committed by compositor
+		// Get display info for debugging
 		var gdkDisplay = drawingArea.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
 		
-		if (isWayland)
-		{
-			// On Wayland, ensure window is visible before accessing surface
-			if (!drawingArea.Window.IsVisible)
-			{
-				Console.WriteLine("[DEBUG] Wayland window not visible, cannot create swapchain");
-				return null;
-			}
-		}
+		Console.WriteLine($"[DEBUG] Creating Vulkan swapchain - Wayland: {isWayland}, Realized: {drawingArea.IsRealized}, Window: {drawingArea.Window != null}");
 
 		SwapchainSource source = CreateSwapchainSource();
 		
@@ -84,6 +76,10 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		if (swapchain != null)
 		{
 			Console.WriteLine("[DEBUG] Vulkan swapchain created successfully");
+		}
+		else
+		{
+			Console.WriteLine("[DEBUG] Failed to create Vulkan swapchain");
 		}
 
 		return swapchain;

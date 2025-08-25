@@ -13,13 +13,14 @@ namespace Eto.Veldrid.Gtk;
 public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler, VeldridSurface.IOpenGL
 {
 	private GLArea? glArea;
+	private DrawingArea? drawingArea;
 	private System.Action _makeCurrent;
 	private System.Action _clearCurrent;
 	public Size RenderSize => Size.Round((SizeF)Widget.Size * Scale);
 
 	private float Scale => Widget.ParentWindow?.Screen?.LogicalPixelSize ?? 1;
 
-	public override global::Gtk.Widget ContainerContentControl => glArea ?? base.ContainerContentControl;
+	public override global::Gtk.Widget ContainerContentControl => glArea ?? drawingArea ?? base.ContainerContentControl;
 
 	public GtkVeldridSurfaceHandler()
 	{
@@ -34,49 +35,42 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return Widget.GraphicsDevice?.MainSwapchain;
 		}
 
-		// For Vulkan backend, create swapchain immediately using simplified approach
-		return CreateSwapchainNow();
+		// For Vulkan backend, create swapchain using proper GTK+Vulkan patterns
+		return CreateVulkanSwapchain();
 	}
 
-	private Swapchain? CreateSwapchainNow()
+	private Swapchain? CreateVulkanSwapchain()
 	{
-		// To embed Veldrid in an Eto control, these platform-specific
-		// versions of CreateSwapchain use the technique outlined here:
-		//
-		//   https://github.com/mellinoe/veldrid/issues/155
-		//
-		SwapchainSource source;
+		// Ensure we have a proper native window for Vulkan operations
+		if (drawingArea?.Window == null)
+		{
+			Console.WriteLine("[DEBUG] DrawingArea window not available for Vulkan swapchain creation");
+			return null;
+		}
 
-		// Detect whether we're running on X11 or Wayland and create appropriate SwapchainSource
-		var gdkDisplay = Control.Display.Handle;
+		// Ensure the widget is properly realized and has a native window
+		if (!drawingArea.IsRealized)
+		{
+			Console.WriteLine("[DEBUG] DrawingArea not realized, cannot create Vulkan swapchain");
+			return null;
+		}
 
-		bool isX11 = X11Interop.IsX11Display(gdkDisplay);
+		// For Wayland, ensure the window is visible and has been committed by compositor
+		var gdkDisplay = drawingArea.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-
-		// Add debugging information for diagnostic purposes
-		var displayNamePtr = X11Interop.gdk_display_get_name(gdkDisplay);
-		var displayName = displayNamePtr == IntPtr.Zero ? "unknown" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr) ?? "unknown";
-		Console.WriteLine($"[DEBUG] Display name: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
-
-		if (isX11 && !isWayland)
+		
+		if (isWayland)
 		{
-			// X11 path - use Xlib SwapchainSource
-			Console.WriteLine("[DEBUG] Using X11/Xlib SwapchainSource");
-			source = SwapchainSource.CreateXlib(
-				X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
-				X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
-		}
-		else if (isWayland && !isX11)
-		{
-			// Wayland path - use Wayland SwapchainSource with simplified approach
-			Console.WriteLine("[DEBUG] Using Wayland SwapchainSource");
-			source = CreateWaylandSwapchainSource(gdkDisplay);
-		}
-		else
-		{
-			throw new NotSupportedException($"Unsupported or ambiguous windowing system detected. Display: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}. Only X11 and Wayland are supported for Vulkan backend.");
+			// On Wayland, ensure window is visible before accessing surface
+			if (!drawingArea.Window.IsVisible)
+			{
+				Console.WriteLine("[DEBUG] Wayland window not visible, cannot create swapchain");
+				return null;
+			}
 		}
 
+		SwapchainSource source = CreateSwapchainSource();
+		
 		Size renderSize = RenderSize;
 		var swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
 			new SwapchainDescription(
@@ -87,30 +81,60 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 				Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
 				Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
 
+		if (swapchain != null)
+		{
+			Console.WriteLine("[DEBUG] Vulkan swapchain created successfully");
+		}
+
 		return swapchain;
+	}
+
+	private SwapchainSource CreateSwapchainSource()
+	{
+		// Use drawingArea for Vulkan operations instead of Control
+		var gdkDisplay = drawingArea!.Display.Handle;
+		
+		bool isX11 = X11Interop.IsX11Display(gdkDisplay);
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+
+		// Add debugging information
+		var displayNamePtr = X11Interop.gdk_display_get_name(gdkDisplay);
+		var displayName = displayNamePtr == IntPtr.Zero ? "unknown" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr) ?? "unknown";
+		Console.WriteLine($"[DEBUG] Display name: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
+
+		if (isX11 && !isWayland)
+		{
+			Console.WriteLine("[DEBUG] Creating X11/Xlib SwapchainSource");
+			return SwapchainSource.CreateXlib(
+				X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
+				X11Interop.gdk_x11_window_get_xid(drawingArea.Window.Handle));
+		}
+		else if (isWayland && !isX11)
+		{
+			Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
+			return CreateWaylandSwapchainSource(gdkDisplay);
+		}
+		else
+		{
+			throw new NotSupportedException($"Unsupported or ambiguous windowing system. Display: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
+		}
 	}
 
 	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
 	{
-		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
+		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource from DrawingArea");
 		
-		// Ensure widget is properly realized before accessing Wayland handles
-		if (!Control.IsRealized)
+		// Use drawingArea for Wayland operations
+		if (drawingArea?.Window == null)
 		{
-			throw new InvalidOperationException("Widget must be realized before creating Wayland surface");
+			throw new InvalidOperationException("DrawingArea window is null");
 		}
 		
-		// Basic validation that we have a valid window
-		if (Control.Window == null)
-		{
-			throw new InvalidOperationException("Widget window is null");
-		}
+		Console.WriteLine($"[DEBUG] DrawingArea window state - Visible: {drawingArea.Window.IsVisible}, Realized: {drawingArea.IsRealized}");
 		
-		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Realized: {Control.IsRealized}, Handle: {Control.Window.Handle}");
-		
-		// Get Wayland handles
+		// Get Wayland handles from DrawingArea
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
+		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
 		
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
@@ -142,10 +166,41 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		glArea.Resize += glArea_Resize;
 	}
 
+	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
+	{
+		Console.WriteLine("[DEBUG] DrawingArea backend initialization triggered");
+		
+		// Ensure native window for proper Vulkan surface access
+		if (drawingArea?.Window != null)
+		{
+			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
+			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
+		}
+		
+		// For Wayland, we need to ensure the window is properly mapped before initializing
+		var gdkDisplay = drawingArea!.Display.Handle;
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+		
+		if (isWayland && !drawingArea.Window.IsVisible)
+		{
+			Console.WriteLine("[DEBUG] Wayland window not visible yet, deferring initialization");
+			// Defer initialization until window is visible
+			drawingArea.Shown += (s, args) => {
+				Console.WriteLine("[DEBUG] Wayland window shown, initializing backend");
+				Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+			};
+			return;
+		}
+		
+		// Initialize immediately for X11 or when Wayland window is ready
+		Console.WriteLine("[DEBUG] Initializing graphics backend");
+		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+	}
+
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		// Simple immediate backend initialization for both X11 and Wayland
-		Console.WriteLine("[DEBUG] Initializing graphics backend");
+		// Legacy method for EtoEventBox - kept for compatibility
+		Console.WriteLine("[DEBUG] Initializing graphics backend (legacy)");
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 	}
 
@@ -264,20 +319,28 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 			glArea.HasDepthBuffer = true;
 			glArea.HasStencilBuffer = true;
-			// Control.Child = glArea;
 			glArea.Realized += glArea_InitializeGraphicsBackend;
 			return glArea;
 		}
 		else
 		{
-			EtoEventBox box = new();
-			box.CanFocus = true;
-			box.CanDefault = true;
+			// Use DrawingArea for Vulkan backend instead of EtoEventBox for better native window support
+			drawingArea = new DrawingArea();
+			drawingArea.CanFocus = true;
+			drawingArea.CanDefault = true;
 			
-			// Use Realized event for both X11 and Wayland - keep it simple
-			box.Realized += Control_InitializeGraphicsBackend;
+			// Set minimum size to ensure proper widget allocation
+			drawingArea.SetSizeRequest(100, 100);
 			
-			return box;
+			// Ensure native window creation for proper Vulkan surface access
+			// This is critical for Wayland support
+			drawingArea.AppPaintable = true;
+			
+			// Use Realized event for initialization
+			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;
+			
+			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
+			return drawingArea;
 		}
 	}
 }

@@ -33,6 +33,10 @@ internal static class X11Interop
 	[DllImport(linux_libgdk_name)]
 	public static extern IntPtr gdk_wayland_window_get_wl_surface(IntPtr gdkWindow);
 
+	// Additional GDK functions for native window management
+	[DllImport(linux_libgdk_name)]
+	public static extern void gdk_window_ensure_native(IntPtr gdkWindow);
+
 	// OpenGL function
 	[DllImport(linux_libGL_name)]
 	public static extern IntPtr glXGetProcAddress(string name);

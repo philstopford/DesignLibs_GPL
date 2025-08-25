@@ -198,6 +198,33 @@ public class VeldridSurface : Control
 		}
 	}
 
+	/// <summary>
+	/// Attempts to create the swapchain if it was deferred during initialization.
+	/// This is called when the surface is ready for rendering operations.
+	/// </summary>
+	public void TryCreateDeferredSwapchain()
+	{
+		if (Swapchain != null)
+			return; // Already have a swapchain
+
+		Console.WriteLine("[DEBUG] Attempting to create deferred swapchain");
+		
+		var newSwapchain = Handler.CreateSwapchain();
+		if (newSwapchain != null)
+		{
+			Swapchain = newSwapchain;
+			Console.WriteLine("[DEBUG] Deferred swapchain created successfully");
+			
+			// Trigger VeldridInitialized event now that we have a swapchain
+			var renderSize = RenderSize;
+			OnVeldridInitialized(new InitializeEventArgs(renderSize));
+		}
+		else
+		{
+			Console.WriteLine("[DEBUG] Deferred swapchain creation still not ready");
+		}
+	}
+
 	protected virtual void OnDraw(EventArgs e) => Properties.TriggerEvent(DrawEvent, this, e);
 
 	protected virtual void OnResize(ResizeEventArgs e)

@@ -35,7 +35,18 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return Widget.GraphicsDevice?.MainSwapchain;
 		}
 
-		// For Vulkan backend, create swapchain using proper GTK+Vulkan patterns
+		// For Vulkan backend, use deferred creation pattern on Wayland
+		var gdkDisplay = drawingArea?.Display.Handle ?? IntPtr.Zero;
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+		
+		if (isWayland && Widget.Backend == GraphicsBackend.Vulkan)
+		{
+			Console.WriteLine("[DEBUG] Wayland + Vulkan detected - using deferred swapchain creation");
+			// Return null initially - swapchain will be created on first draw request
+			return null;
+		}
+
+		// For X11 Vulkan, create swapchain immediately
 		return CreateVulkanSwapchain();
 	}
 
@@ -59,30 +70,45 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		var gdkDisplay = drawingArea.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
 		
-		Console.WriteLine($"[DEBUG] Creating Vulkan swapchain - Wayland: {isWayland}, Realized: {drawingArea.IsRealized}, Window: {drawingArea.Window != null}");
+		Console.WriteLine($"[DEBUG] Creating Vulkan swapchain - Wayland: {isWayland}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
 
-		SwapchainSource source = CreateSwapchainSource();
-		
-		Size renderSize = RenderSize;
-		var swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
-			new SwapchainDescription(
-				source,
-				(uint)renderSize.Width,
-				(uint)renderSize.Height,
-				Widget.GraphicsDeviceOptions.SwapchainDepthFormat,
-				Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
-				Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
-
-		if (swapchain != null)
+		// For Wayland, check if widget is properly mapped (visible and interactive)
+		if (isWayland && !drawingArea.IsMapped)
 		{
-			Console.WriteLine("[DEBUG] Vulkan swapchain created successfully");
-		}
-		else
-		{
-			Console.WriteLine("[DEBUG] Failed to create Vulkan swapchain");
+			Console.WriteLine("[DEBUG] Wayland widget not mapped, deferring swapchain creation");
+			return null;
 		}
 
-		return swapchain;
+		try
+		{
+			SwapchainSource source = CreateSwapchainSource();
+			
+			Size renderSize = RenderSize;
+			var swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
+				new SwapchainDescription(
+					source,
+					(uint)renderSize.Width,
+					(uint)renderSize.Height,
+					Widget.GraphicsDeviceOptions.SwapchainDepthFormat,
+					Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
+					Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
+
+			if (swapchain != null)
+			{
+				Console.WriteLine("[DEBUG] Vulkan swapchain created successfully");
+			}
+			else
+			{
+				Console.WriteLine("[DEBUG] Failed to create Vulkan swapchain");
+			}
+
+			return swapchain;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[DEBUG] Exception creating Vulkan swapchain: {ex.Message}");
+			return null;
+		}
 	}
 
 	private SwapchainSource CreateSwapchainSource()
@@ -220,6 +246,26 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		{
 			Console.WriteLine($"[DEBUG] Graphics backend initialization failed: {ex.Message}");
 			throw;
+		}
+	}
+
+	private void DrawingArea_HandleDeferredSwapchain(object? sender, DrawnArgs e)
+	{
+		// Only attempt deferred swapchain creation for Wayland Vulkan
+		var gdkDisplay = drawingArea?.Display.Handle ?? IntPtr.Zero;
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+		
+		if (isWayland && Widget.Backend == GraphicsBackend.Vulkan && Widget.Swapchain == null)
+		{
+			Console.WriteLine("[DEBUG] Draw event triggered, attempting deferred swapchain creation");
+			Widget.TryCreateDeferredSwapchain();
+			
+			// If swapchain was created, disconnect this handler to avoid repeated attempts
+			if (Widget.Swapchain != null && drawingArea != null)
+			{
+				drawingArea.Drawn -= DrawingArea_HandleDeferredSwapchain;
+				Console.WriteLine("[DEBUG] Deferred swapchain creation successful, disconnected draw handler");
+			}
 		}
 	}
 
@@ -367,6 +413,9 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			
 			// Use Map event for initialization - ensures widget is visible and ready for graphics operations
 			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
+			
+			// For Wayland Vulkan deferred swapchain creation, also handle draw event
+			drawingArea.Drawn += DrawingArea_HandleDeferredSwapchain;
 			
 			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
 			return drawingArea;

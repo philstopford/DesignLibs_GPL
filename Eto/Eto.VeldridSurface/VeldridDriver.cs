@@ -52,7 +52,8 @@ namespace VeldridEto;
 			// Check if swapchain is available - if not, defer resource creation
 			if (Surface?.Swapchain == null)
 			{
-				Console.WriteLine("[DEBUG] Swapchain not available yet, deferring resource creation");
+				// For Wayland systems, the swapchain might not be available immediately
+				// This is normal and expected - we'll retry when VeldridInitialized is called again
 				return;
 			}
 			
@@ -151,7 +152,7 @@ namespace VeldridEto;
 
 			CommandList = factory.CreateCommandList();
 			
-			Console.WriteLine("[DEBUG] VeldridDriver resources successfully created");
+			// VeldridDriver resources successfully created - no debug message needed
 		}
 
 		public void CompleteResourceCreation()

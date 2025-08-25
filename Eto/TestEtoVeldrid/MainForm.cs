@@ -57,6 +57,8 @@ public partial class MainForm : Form
 		Surface = new VeldridSurface(backend, options);
 		Surface.VeldridInitialized += (sender, e) =>
 		{
+			// Only set VeldridReady flag, don't call SetUpVeldrid directly
+			// SetUpVeldrid will be called by the VeldridReady setter
 			VeldridReady = true;
 		};
 

@@ -27,10 +27,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		_clearCurrent = ClearCurrent;
 	}
 
-	private bool _swapchainCreationInProgress;
-	private bool _veldridInitializedFired = false;
-	private bool _isWaylandVulkan = false;
-
 	public Swapchain? CreateSwapchain()
 	{
 		if (Widget.Backend == GraphicsBackend.OpenGL)
@@ -38,23 +34,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return Widget.GraphicsDevice?.MainSwapchain;
 		}
 
-		// Detect Wayland + Vulkan combination
-		var gdkDisplay = Control.Display.Handle;
-		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-		_isWaylandVulkan = isWayland && Widget.Backend == GraphicsBackend.Vulkan;
-		
-		if (_isWaylandVulkan)
-		{
-			Console.WriteLine("[DEBUG] Detected Wayland + Vulkan - using ultra-conservative approach");
-			if (!IsWaylandSurfaceReadyForVulkan())
-			{
-				Console.WriteLine("[DEBUG] Wayland surface not ready for swapchain creation, deferring...");
-				ScheduleDeferredSwapchainCreation();
-				return null; // Return null swapchain until surface is ready
-			}
-		}
-
-		// Proceed with immediate swapchain creation (X11 or ready Wayland)
+		// For Vulkan backend, create swapchain immediately using simplified approach
 		return CreateSwapchainNow();
 	}
 
@@ -88,7 +68,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 		else if (isWayland && !isX11)
 		{
-			// Wayland path - use Wayland SwapchainSource
+			// Wayland path - use Wayland SwapchainSource with simplified approach
 			Console.WriteLine("[DEBUG] Using Wayland SwapchainSource");
 			source = CreateWaylandSwapchainSource(gdkDisplay);
 		}
@@ -110,233 +90,36 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		return swapchain;
 	}
 
-	private bool IsWaylandSurfaceReadyForVulkan()
+	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
 	{
-		// Comprehensive checks to ensure Wayland surface is ready for Vulkan operations
-		if (Control?.Window == null || !Control.IsRealized || !Control.IsMapped || !Control.Window.IsVisible)
+		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
+		
+		// Ensure widget is properly realized before accessing Wayland handles
+		if (!Control.IsRealized)
 		{
-			Console.WriteLine("[DEBUG] Wayland surface not ready - widget state insufficient");
-			return false;
+			throw new InvalidOperationException("Widget must be realized before creating Wayland surface");
 		}
-
-		// Check that the widget has been allocated a reasonable size
-		var allocation = Control.Allocation;
-		if (allocation.Width <= 1 || allocation.Height <= 1)
+		
+		// Basic validation that we have a valid window
+		if (Control.Window == null)
 		{
-			Console.WriteLine("[DEBUG] Wayland surface not ready - widget not properly sized");
-			return false;
+			throw new InvalidOperationException("Widget window is null");
 		}
-
-		// Verify we can get valid Wayland handles
-		var gdkDisplay = Control.Display.Handle;
+		
+		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Realized: {Control.IsRealized}, Handle: {Control.Window.Handle}");
+		
+		// Get Wayland handles
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
 		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
 		
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
-			Console.WriteLine("[DEBUG] Wayland surface not ready - invalid handles");
-			return false;
+			throw new InvalidOperationException($"Failed to get Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
 		}
-
-		// Additional check: ensure window has been properly configured by compositor
-		// This is critical for Vulkan on Wayland
-		if (!IsWaylandSurfaceConfigured())
-		{
-			Console.WriteLine("[DEBUG] Wayland surface not ready - surface not configured by compositor");
-			return false;
-		}
-
-		Console.WriteLine("[DEBUG] Wayland surface is ready for Vulkan operations");
-		return true;
-	}
-
-	private bool IsWaylandSurfaceConfigured()
-	{
-		// In Wayland, a surface must be configured by the compositor before it can be used
-		// This typically happens after the first commit and the compositor responds with configure events
-		
-		// Basic heuristic: if the window is visible, mapped, and has received size allocation,
-		// it's likely that the compositor has configured it
-		var allocation = Control.Allocation;
-		bool hasValidSize = allocation.Width > 1 && allocation.Height > 1;
-		bool isProperlyMapped = Control.IsMapped && Control.Window.IsVisible;
-		
-		// Additional check: ensure some time has passed for compositor interaction
-		// This is a simple heuristic since we don't have direct access to Wayland configure events
-		return hasValidSize && isProperlyMapped;
-	}
-
-	private void ScheduleDeferredSwapchainCreation()
-	{
-		if (_swapchainCreationInProgress || _veldridInitializedFired)
-			return;
-
-		_swapchainCreationInProgress = true;
-		Console.WriteLine("[DEBUG] Scheduling ultra-conservative deferred Wayland swapchain creation");
-
-		// Use longer delays for ultra-conservative approach
-		global::GLib.Timeout.Add(100, () => {
-			try
-			{
-				if (IsWaylandSurfaceReadyForVulkan())
-				{
-					Console.WriteLine("[DEBUG] Wayland surface ready for ultra-conservative swapchain creation");
-					_swapchainCreationInProgress = false;
-					
-					// Additional safety delay before swapchain creation
-					global::GLib.Timeout.Add(50, () => {
-						try
-						{
-							// Double-check surface is still ready
-							if (IsWaylandSurfaceReadyForVulkan() && !_veldridInitializedFired)
-							{
-								// Create the swapchain and update the widget
-								var swapchain = CreateSwapchainNow();
-								if (swapchain != null)
-								{
-									// Use reflection to set the swapchain on the widget since it's normally set during initialization
-									var swapchainProperty = typeof(VeldridSurface).GetProperty("Swapchain");
-									if (swapchainProperty != null && swapchainProperty.CanWrite)
-									{
-										swapchainProperty.SetValue(Widget, swapchain);
-										Console.WriteLine("[DEBUG] Ultra-conservative swapchain successfully set on widget");
-										
-										// Add final delay before triggering VeldridInitialized event
-										global::GLib.Timeout.Add(50, () => {
-											if (!_veldridInitializedFired)
-											{
-												// Now trigger VeldridInitialized event for the first and only time
-												var initEventArgs = new InitializeEventArgs(RenderSize);
-												var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
-													System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-												onVeldridInitializedMethod?.Invoke(Widget, new object[] { initEventArgs });
-												_veldridInitializedFired = true;
-												Console.WriteLine("[DEBUG] Ultra-conservative VeldridInitialized event triggered");
-											}
-											return false;
-										});
-									}
-								}
-							}
-						}
-						catch (Exception ex)
-						{
-							Console.WriteLine($"[DEBUG] Error during ultra-conservative swapchain creation: {ex.Message}");
-						}
-						return false;
-					});
-					return false; // Don't repeat
-				}
-				else
-				{
-					// Continue retrying with exponential backoff
-					global::GLib.Timeout.Add(200, () => {
-						if (IsWaylandSurfaceReadyForVulkan() && !_veldridInitializedFired)
-						{
-							Console.WriteLine("[DEBUG] Wayland surface ready after extended retry, creating swapchain");
-							var swapchain = CreateSwapchainNow();
-							if (swapchain != null)
-							{
-								var swapchainProperty = typeof(VeldridSurface).GetProperty("Swapchain");
-								if (swapchainProperty != null && swapchainProperty.CanWrite)
-								{
-									swapchainProperty.SetValue(Widget, swapchain);
-									Console.WriteLine("[DEBUG] Extended retry swapchain successfully set on widget");
-									
-									// Add final delay before triggering VeldridInitialized event
-									global::GLib.Timeout.Add(50, () => {
-										if (!_veldridInitializedFired)
-										{
-											// Now trigger VeldridInitialized event for the first and only time
-											var initEventArgs = new InitializeEventArgs(RenderSize);
-											var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
-												System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-											onVeldridInitializedMethod?.Invoke(Widget, new object[] { initEventArgs });
-											_veldridInitializedFired = true;
-											Console.WriteLine("[DEBUG] Extended retry VeldridInitialized event triggered");
-										}
-										return false;
-									});
-								}
-							}
-						}
-						else
-						{
-							Console.WriteLine("[DEBUG] Wayland surface still not ready for swapchain after extended retry");
-						}
-						_swapchainCreationInProgress = false;
-						return false;
-					});
-					return false; // Don't repeat this timeout
-				}
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"[DEBUG] Error during ultra-conservative deferred swapchain creation: {ex.Message}");
-				_swapchainCreationInProgress = false;
-				return false;
-			}
-		});
-	}
-
-	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
-	{
-		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
-		
-		// At this point, IsWaylandSurfaceReadyForVulkan() has already validated 
-		// that the widget is properly realized, mapped, and has valid dimensions
-		
-		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Mapped: {Control.IsMapped}, Handle: {Control.Window.Handle}");
-		
-		// Perform additional surface synchronization to ensure compositor acknowledgment
-		PerformWaylandSurfaceSynchronization();
-		
-		// Get Wayland handles - these should be valid since we've already checked
-		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
 		
 		return SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
-	}
-
-	private void PerformWaylandSurfaceSynchronization()
-	{
-		Console.WriteLine("[DEBUG] Performing ultra-conservative Wayland surface synchronization");
-		
-		// Ensure all pending GTK/GDK events are processed
-		for (int round = 0; round < 3; round++)
-		{
-			while (global::Gtk.Application.EventsPending())
-			{
-				global::Gtk.Application.RunIteration(false);
-			}
-			System.Threading.Thread.Sleep(25);
-		}
-		
-		// Force window to show and be visible
-		Control.ShowAll();
-		
-		// Additional event processing with longer delays
-		for (int i = 0; i < 10; i++)
-		{
-			while (global::Gtk.Application.EventsPending())
-			{
-				global::Gtk.Application.RunIteration(false);
-			}
-			System.Threading.Thread.Sleep(20);
-		}
-		
-		// Final validation that surface is truly ready
-		if (!Control.IsRealized || !Control.IsMapped || !Control.Window.IsVisible)
-		{
-			throw new InvalidOperationException("Wayland surface could not be properly synchronized for Vulkan operations");
-		}
-		
-		// Additional delay to allow compositor to fully commit surface changes
-		System.Threading.Thread.Sleep(50);
-		
-		Console.WriteLine("[DEBUG] Ultra-conservative Wayland surface synchronization complete");
 	}
 
 	private void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -361,8 +144,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		// Use immediate backend initialization for all cases
-		// Wayland-specific timing is now handled in CreateSwapchain method
+		// Simple immediate backend initialization for both X11 and Wayland
+		Console.WriteLine("[DEBUG] Initializing graphics backend");
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 	}
 
@@ -491,8 +274,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			box.CanFocus = true;
 			box.CanDefault = true;
 			
-			// For both X11 and Wayland, use Realized event
-			// Wayland-specific timing is now handled in CreateSwapchain method
+			// Use Realized event for both X11 and Wayland - keep it simple
 			box.Realized += Control_InitializeGraphicsBackend;
 			
 			return box;

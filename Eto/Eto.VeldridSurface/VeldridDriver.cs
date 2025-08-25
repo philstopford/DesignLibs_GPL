@@ -49,6 +49,13 @@ namespace VeldridEto;
 
 		private void CreateResources()
 		{
+			// Check if swapchain is available - if not, defer resource creation
+			if (Surface?.Swapchain == null)
+			{
+				Console.WriteLine("[DEBUG] Swapchain not available yet, deferring resource creation");
+				return;
+			}
+			
 			// Veldrid.SPIRV is an additional library that complements Veldrid
 			// by simplifying the development of cross-backend shaders, and is
 			// currently the recommended approach to doing so:
@@ -143,6 +150,23 @@ namespace VeldridEto;
 			create_pipelines(ref factory, ref viewMatrixLayout, ref modelMatrixLayout, ref shaders, ref vertexLayout);
 
 			CommandList = factory.CreateCommandList();
+			
+			Console.WriteLine("[DEBUG] VeldridDriver resources successfully created");
+		}
+
+		public void CompleteResourceCreation()
+		{
+			// This method can be called when the swapchain becomes available
+			// to complete resource creation that was deferred
+			if (Surface?.Swapchain != null && !Ready)
+			{
+				Console.WriteLine("[DEBUG] Completing deferred VeldridDriver resource creation");
+				CreateResources();
+				if (CommandList != null)
+				{
+					Ready = true;
+				}
+			}
 		}
 
 		private void create_pipelines(ref ResourceFactory factory, ref ResourceLayout viewMatrixLayout,

@@ -27,7 +27,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		_clearCurrent = ClearCurrent;
 	}
 
-	private bool _backendInitializationInProgress;
+	private bool _swapchainCreationInProgress;
 
 	public Swapchain? CreateSwapchain()
 	{
@@ -36,8 +36,21 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return Widget.GraphicsDevice?.MainSwapchain;
 		}
 
-		// For Vulkan backend, proceed with immediate swapchain creation
-		// Wayland-specific timing is now handled at the graphics backend initialization level
+		// For Wayland Vulkan backend, use deferred swapchain creation
+		var gdkDisplay = Control.Display.Handle;
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+		
+		if (isWayland && Widget.Backend == GraphicsBackend.Vulkan)
+		{
+			if (!IsWaylandSurfaceReadyForVulkan())
+			{
+				Console.WriteLine("[DEBUG] Wayland surface not ready for swapchain creation, deferring...");
+				ScheduleDeferredSwapchainCreation();
+				return null; // Return null swapchain until surface is ready
+			}
+		}
+
+		// Proceed with immediate swapchain creation (X11 or ready Wayland)
 		return CreateSwapchainNow();
 	}
 
@@ -125,42 +138,72 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		return true;
 	}
 
-	private void ScheduleDeferredBackendInitialization(EventArgs originalEventArgs)
+	private void ScheduleDeferredSwapchainCreation()
 	{
-		if (_backendInitializationInProgress)
+		if (_swapchainCreationInProgress)
 			return;
 
-		_backendInitializationInProgress = true;
-		Console.WriteLine("[DEBUG] Scheduling deferred Wayland backend initialization");
+		_swapchainCreationInProgress = true;
+		Console.WriteLine("[DEBUG] Scheduling deferred Wayland swapchain creation");
 
-		// Use a timeout to retry backend initialization when the surface might be ready
-		global::GLib.Timeout.Add(100, () => {
+		// Use a timeout to retry swapchain creation when the surface might be ready
+		global::GLib.Timeout.Add(50, () => {
 			try
 			{
 				if (IsWaylandSurfaceReadyForVulkan())
 				{
-					Console.WriteLine("[DEBUG] Wayland surface now ready, initializing backend");
-					_backendInitializationInProgress = false;
+					Console.WriteLine("[DEBUG] Wayland surface ready for swapchain, creating now");
+					_swapchainCreationInProgress = false;
 					
-					// Trigger the full backend initialization
-					Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+					// Create the swapchain and update the widget
+					var swapchain = CreateSwapchainNow();
+					if (swapchain != null)
+					{
+						// Use reflection to set the swapchain on the widget since it's normally set during initialization
+						var swapchainProperty = typeof(VeldridSurface).GetProperty("Swapchain");
+						if (swapchainProperty != null && swapchainProperty.CanWrite)
+						{
+							swapchainProperty.SetValue(Widget, swapchain);
+							Console.WriteLine("[DEBUG] Swapchain successfully set on widget");
+							
+							// Trigger VeldridInitialized event to complete initialization
+							var initEventArgs = new InitializeEventArgs(RenderSize);
+							var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
+								System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+							onVeldridInitializedMethod?.Invoke(Widget, new object[] { initEventArgs });
+						}
+					}
 					return false; // Don't repeat
 				}
 				else
 				{
-					Console.WriteLine("[DEBUG] Wayland surface still not ready, retrying backend initialization...");
-					// Continue retrying with exponential backoff
-					global::GLib.Timeout.Add(200, () => {
+					// Continue retrying
+					global::GLib.Timeout.Add(100, () => {
 						if (IsWaylandSurfaceReadyForVulkan())
 						{
-							Console.WriteLine("[DEBUG] Wayland surface ready after extended wait, initializing backend");
-							Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+							Console.WriteLine("[DEBUG] Wayland surface ready after retry, creating swapchain");
+							var swapchain = CreateSwapchainNow();
+							if (swapchain != null)
+							{
+								var swapchainProperty = typeof(VeldridSurface).GetProperty("Swapchain");
+								if (swapchainProperty != null && swapchainProperty.CanWrite)
+								{
+									swapchainProperty.SetValue(Widget, swapchain);
+									Console.WriteLine("[DEBUG] Deferred swapchain successfully set on widget");
+									
+									// Trigger VeldridInitialized event to complete initialization
+									var initEventArgs = new InitializeEventArgs(RenderSize);
+									var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
+										System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+									onVeldridInitializedMethod?.Invoke(Widget, new object[] { initEventArgs });
+								}
+							}
 						}
 						else
 						{
-							Console.WriteLine("[DEBUG] Wayland surface still not ready after extended wait, giving up");
+							Console.WriteLine("[DEBUG] Wayland surface still not ready for swapchain after retry");
 						}
-						_backendInitializationInProgress = false;
+						_swapchainCreationInProgress = false;
 						return false;
 					});
 					return false; // Don't repeat this timeout
@@ -168,8 +211,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"[DEBUG] Error during deferred backend initialization: {ex.Message}");
-				_backendInitializationInProgress = false;
+				Console.WriteLine($"[DEBUG] Error during deferred swapchain creation: {ex.Message}");
+				_swapchainCreationInProgress = false;
 				return false;
 			}
 		});
@@ -215,21 +258,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		// For Wayland Vulkan backend, defer initialization until surface is ready
-		var gdkDisplay = Control.Display.Handle;
-		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-		
-		if (isWayland && Widget.Backend == GraphicsBackend.Vulkan)
-		{
-			if (!IsWaylandSurfaceReadyForVulkan())
-			{
-				Console.WriteLine("[DEBUG] Deferring Vulkan backend initialization until Wayland surface is ready");
-				ScheduleDeferredBackendInitialization(e);
-				return;
-			}
-		}
-		
-		// Proceed with immediate initialization (X11 or OpenGL or ready Wayland)
+		// Use immediate backend initialization for all cases
+		// Wayland-specific timing is now handled in CreateSwapchain method
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 	}
 

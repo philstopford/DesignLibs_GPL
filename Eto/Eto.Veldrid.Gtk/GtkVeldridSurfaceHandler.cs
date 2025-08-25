@@ -72,11 +72,27 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		Console.WriteLine($"[DEBUG] Creating Vulkan swapchain - Wayland: {isWayland}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
 
-		// For Wayland, check if widget is properly mapped (visible and interactive)
-		if (isWayland && !drawingArea.IsMapped)
+		// For Wayland, validate that we can obtain valid surface handles instead of relying on mapping state
+		if (isWayland)
 		{
-			Console.WriteLine("[DEBUG] Wayland widget not mapped, deferring swapchain creation");
-			return null;
+			try
+			{
+				var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+				var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
+				
+				if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
+				{
+					Console.WriteLine($"[DEBUG] Wayland handles not ready - Display: {waylandDisplay}, Surface: {waylandSurface}");
+					return null;
+				}
+				
+				Console.WriteLine($"[DEBUG] Wayland surface ready - valid handles obtained");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[DEBUG] Failed to validate Wayland handles: {ex.Message}");
+				return null;
+			}
 		}
 
 		try

@@ -57,7 +57,6 @@ public partial class MainForm : Form
 		Surface = new VeldridSurface(backend, options);
 		Surface.VeldridInitialized += (sender, e) =>
 		{
-			Driver.SetUpVeldrid();
 			VeldridReady = true;
 		};
 
@@ -88,6 +87,7 @@ public partial class MainForm : Form
 				return;
 		}
 
+		Driver.SetUpVeldrid();
 		Title = $"Veldrid backend: {Surface.Backend.ToString()}";
 
 		createVPContextMenu();

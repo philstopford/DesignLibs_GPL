@@ -177,22 +177,31 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
 		}
 		
-		// For Wayland, we need to ensure the window is properly mapped before initializing
+		// Ensure the widget is shown - this is critical for Wayland
+		if (drawingArea != null && !drawingArea.Visible)
+		{
+			Console.WriteLine("[DEBUG] Making DrawingArea visible");
+			drawingArea.ShowAll();
+		}
+		
+		// For Wayland, wait a bit for the surface to be committed by the compositor
 		var gdkDisplay = drawingArea!.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
 		
-		if (isWayland && !drawingArea.Window.IsVisible)
+		if (isWayland)
 		{
-			Console.WriteLine("[DEBUG] Wayland window not visible yet, deferring initialization");
-			// Defer initialization until window is visible
-			drawingArea.Shown += (s, args) => {
-				Console.WriteLine("[DEBUG] Wayland window shown, initializing backend");
-				Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
-			};
-			return;
+			Console.WriteLine("[DEBUG] Wayland detected, processing events before initialization");
+			// Process pending events to ensure surface is ready
+			while (global::Gtk.Application.EventsPending())
+			{
+				global::Gtk.Application.RunIteration();
+			}
+			
+			// Small delay to ensure compositor has committed the surface
+			System.Threading.Thread.Sleep(50);
 		}
 		
-		// Initialize immediately for X11 or when Wayland window is ready
+		// Initialize graphics backend
 		Console.WriteLine("[DEBUG] Initializing graphics backend");
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 	}
@@ -335,6 +344,9 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// Ensure native window creation for proper Vulkan surface access
 			// This is critical for Wayland support
 			drawingArea.AppPaintable = true;
+			
+			// Make sure the widget is visible
+			drawingArea.Visible = true;
 			
 			// Use Realized event for initialization
 			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;

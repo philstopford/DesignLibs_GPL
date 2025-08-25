@@ -106,9 +106,9 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 		
 		// Ensure the window is visible and mapped
-		if (!Control.Window.IsVisible)
+		if (!Control.Window.IsVisible || !Control.IsMapped)
 		{
-			Console.WriteLine("[DEBUG] Window not visible, showing widget...");
+			Console.WriteLine("[DEBUG] Window not visible/mapped, showing widget...");
 			Control.ShowAll();
 			
 			// Process events to ensure the window is properly mapped
@@ -116,15 +116,32 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			{
 				global::Gtk.Application.RunIteration(false);
 			}
+			
+			// Wait for the widget to be properly mapped
+			int attempts = 0;
+			while (!Control.IsMapped && attempts < 50)
+			{
+				System.Threading.Thread.Sleep(10);
+				while (global::Gtk.Application.EventsPending())
+				{
+					global::Gtk.Application.RunIteration(false);
+				}
+				attempts++;
+			}
+			
+			if (!Control.IsMapped)
+			{
+				throw new InvalidOperationException("Widget could not be properly mapped for Wayland surface creation");
+			}
 		}
 		
-		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Handle: {Control.Window.Handle}");
+		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Mapped: {Control.IsMapped}, Handle: {Control.Window.Handle}");
 		
 		// Additional check: ensure the widget has been allocated proper size
 		var allocation = Control.Allocation;
 		if (allocation.Width <= 1 || allocation.Height <= 1)
 		{
-			Console.WriteLine($"[DEBUG] Widget has small allocation ({allocation.Width}x{allocation.Height}), this may cause issues");
+			Console.WriteLine($"[DEBUG] Warning: Widget has small allocation ({allocation.Width}x{allocation.Height})");
 		}
 		
 		// Get Wayland handles with enhanced error checking
@@ -142,11 +159,17 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
 		
-		// Additional safety: commit any pending operations to ensure surface is ready
-		Console.WriteLine("[DEBUG] Processing any pending Wayland events before creating swapchain");
+		// Ensure all pending surface operations are committed before creating swapchain
+		Console.WriteLine("[DEBUG] Committing surface state before swapchain creation");
 		while (global::Gtk.Application.EventsPending())
 		{
 			global::Gtk.Application.RunIteration(false);
+		}
+		
+		// Force a surface commit to ensure the compositor has fully processed the surface
+		if (Control.Window.IsVisible)
+		{
+			Control.Window.ProcessUpdates(false);
 		}
 		
 		return SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
@@ -182,20 +205,34 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	private void Control_InitializeGraphicsBackendWayland(object? sender, EventArgs e)
 	{
 		// For Wayland, we only want to initialize once and only after the widget has been
-		// properly sized and configured by the compositor
+		// properly mapped and visible to avoid protocol errors
 		if (_waylandInitialized)
 			return;
 		
-		if (sender is EtoEventBox box && box.Allocation.Width > 1 && box.Allocation.Height > 1)
+		if (sender is EtoEventBox box && box.IsVisible && box.IsMapped && 
+		    box.Allocation.Width > 1 && box.Allocation.Height > 1)
 		{
-			Console.WriteLine("[DEBUG] Wayland widget properly sized, proceeding with initialization");
+			Console.WriteLine("[DEBUG] Wayland widget fully mapped and visible, proceeding with initialization");
 			_waylandInitialized = true;
 			
-			// Add a small delay to ensure the surface is fully committed by the compositor
-			global::GLib.Timeout.Add(50, () => {
-				Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
-				return false; // Don't repeat
-			});
+			// Ensure the widget's window is also properly configured
+			if (box.Window != null && box.Window.IsVisible)
+			{
+				// Process all pending events to ensure surface is fully committed
+				while (global::Gtk.Application.EventsPending())
+				{
+					global::Gtk.Application.RunIteration(false);
+				}
+				
+				// Additional delay to ensure compositor has fully processed the surface
+				global::GLib.Timeout.Add(100, () => {
+					if (box.Window != null && box.Window.IsVisible && box.IsMapped)
+					{
+						Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+					}
+					return false; // Don't repeat
+				});
+			}
 		}
 	}
 
@@ -324,17 +361,17 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			box.CanFocus = true;
 			box.CanDefault = true;
 			
-			// For Wayland with Vulkan, we need to wait until the window is properly configured
-			// before initializing the graphics backend
+			// For Wayland with Vulkan, we need to wait until the window is properly mapped
+			// and visible before initializing the graphics backend
 			var gdkDisplay = box.Display?.Handle ?? X11Interop.gdk_display_get_default();
 			bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
 			
 			if (isWayland)
 			{
 				Console.WriteLine("[DEBUG] Detected Wayland, using maximum deferred initialization");
-				// For Wayland, wait until the widget has processed its first configure event
-				// This ensures the surface is fully ready for graphics operations
-				box.SizeAllocated += Control_InitializeGraphicsBackendWayland;
+				// For Wayland, wait until the widget is fully mapped and visible
+				// This ensures the surface is completely ready for graphics operations
+				box.Mapped += Control_InitializeGraphicsBackendWayland;
 			}
 			else
 			{

@@ -27,166 +27,203 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		_clearCurrent = ClearCurrent;
 	}
 
+	private Swapchain? _deferredSwapchain;
+	private bool _swapchainCreationInProgress;
+
 	public Swapchain? CreateSwapchain()
 	{
-		Swapchain? swapchain;
-
 		if (Widget.Backend == GraphicsBackend.OpenGL)
 		{
-			swapchain = Widget.GraphicsDevice?.MainSwapchain;
+			return Widget.GraphicsDevice?.MainSwapchain;
+		}
+
+		// For Vulkan backend, implement surface-ready deferred swapchain creation
+		var gdkDisplay = Control.Display.Handle;
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+		
+		if (isWayland)
+		{
+			// For Wayland, defer swapchain creation until surface is truly ready
+			if (_deferredSwapchain != null)
+			{
+				return _deferredSwapchain;
+			}
+			
+			if (_swapchainCreationInProgress)
+			{
+				// Return null to indicate swapchain is not ready yet
+				return null;
+			}
+			
+			// Check if the widget and surface are properly ready for Vulkan operations
+			if (!IsWaylandSurfaceReadyForVulkan())
+			{
+				// Schedule deferred swapchain creation
+				ScheduleDeferredSwapchainCreation();
+				return null;
+			}
+		}
+
+		// Proceed with immediate swapchain creation (X11 or ready Wayland)
+		return CreateSwapchainNow();
+	}
+
+	private Swapchain? CreateSwapchainNow()
+	{
+		// To embed Veldrid in an Eto control, these platform-specific
+		// versions of CreateSwapchain use the technique outlined here:
+		//
+		//   https://github.com/mellinoe/veldrid/issues/155
+		//
+		SwapchainSource source;
+
+		// Detect whether we're running on X11 or Wayland and create appropriate SwapchainSource
+		var gdkDisplay = Control.Display.Handle;
+
+		bool isX11 = X11Interop.IsX11Display(gdkDisplay);
+		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+
+		// Add debugging information for diagnostic purposes
+		var displayNamePtr = X11Interop.gdk_display_get_name(gdkDisplay);
+		var displayName = displayNamePtr == IntPtr.Zero ? "unknown" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr) ?? "unknown";
+		Console.WriteLine($"[DEBUG] Display name: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
+
+		if (isX11 && !isWayland)
+		{
+			// X11 path - use Xlib SwapchainSource
+			Console.WriteLine("[DEBUG] Using X11/Xlib SwapchainSource");
+			source = SwapchainSource.CreateXlib(
+				X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
+				X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
+		}
+		else if (isWayland && !isX11)
+		{
+			// Wayland path - use Wayland SwapchainSource
+			Console.WriteLine("[DEBUG] Using Wayland SwapchainSource");
+			source = CreateWaylandSwapchainSource(gdkDisplay);
 		}
 		else
 		{
-			// To embed Veldrid in an Eto control, these platform-specific
-			// versions of CreateSwapchain use the technique outlined here:
-			//
-			//   https://github.com/mellinoe/veldrid/issues/155
-			//
-			SwapchainSource source;
+			throw new NotSupportedException($"Unsupported or ambiguous windowing system detected. Display: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}. Only X11 and Wayland are supported for Vulkan backend.");
+		}
 
-			// Detect whether we're running on X11 or Wayland and create appropriate SwapchainSource
-			var gdkDisplay = Control.Display.Handle;
+		Size renderSize = RenderSize;
+		var swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
+			new SwapchainDescription(
+				source,
+				(uint)renderSize.Width,
+				(uint)renderSize.Height,
+				Widget.GraphicsDeviceOptions.SwapchainDepthFormat,
+				Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
+				Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
 
-			bool isX11 = X11Interop.IsX11Display(gdkDisplay);
-			bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-
-			// Add debugging information for diagnostic purposes
-			var displayNamePtr = X11Interop.gdk_display_get_name(gdkDisplay);
-			var displayName = displayNamePtr == IntPtr.Zero ? "unknown" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr) ?? "unknown";
-			Console.WriteLine($"[DEBUG] Display name: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
-
-			if (isX11 && !isWayland)
-			{
-				// X11 path - use Xlib SwapchainSource
-				Console.WriteLine("[DEBUG] Using X11/Xlib SwapchainSource");
-				source = SwapchainSource.CreateXlib(
-					X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
-					X11Interop.gdk_x11_window_get_xid(Control.Window.Handle));
-			}
-			else if (isWayland && !isX11)
-			{
-				// Wayland path - use Wayland SwapchainSource
-				Console.WriteLine("[DEBUG] Using Wayland SwapchainSource");
-				source = CreateWaylandSwapchainSource(gdkDisplay);
-			}
-			else
-			{
-				throw new NotSupportedException($"Unsupported or ambiguous windowing system detected. Display: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}. Only X11 and Wayland are supported for Vulkan backend.");
-			}
-
-			Size renderSize = RenderSize;
-			swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
-				new SwapchainDescription(
-					source,
-					(uint)renderSize.Width,
-					(uint)renderSize.Height,
-					Widget.GraphicsDeviceOptions.SwapchainDepthFormat,
-					Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
-					Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
+		// Cache the swapchain for Wayland to avoid recreating it
+		var gdkDisplayCheck = Control.Display.Handle;
+		if (X11Interop.IsWaylandDisplay(gdkDisplayCheck))
+		{
+			_deferredSwapchain = swapchain;
 		}
 
 		return swapchain;
+	}
+
+	private bool IsWaylandSurfaceReadyForVulkan()
+	{
+		// Comprehensive checks to ensure Wayland surface is ready for Vulkan operations
+		if (Control?.Window == null || !Control.IsRealized || !Control.IsMapped || !Control.Window.IsVisible)
+		{
+			Console.WriteLine("[DEBUG] Wayland surface not ready - widget state insufficient");
+			return false;
+		}
+
+		// Check that the widget has been allocated a reasonable size
+		var allocation = Control.Allocation;
+		if (allocation.Width <= 1 || allocation.Height <= 1)
+		{
+			Console.WriteLine("[DEBUG] Wayland surface not ready - widget not properly sized");
+			return false;
+		}
+
+		// Verify we can get valid Wayland handles
+		var gdkDisplay = Control.Display.Handle;
+		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
+		
+		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
+		{
+			Console.WriteLine("[DEBUG] Wayland surface not ready - invalid handles");
+			return false;
+		}
+
+		Console.WriteLine("[DEBUG] Wayland surface is ready for Vulkan operations");
+		return true;
+	}
+
+	private void ScheduleDeferredSwapchainCreation()
+	{
+		if (_swapchainCreationInProgress)
+			return;
+
+		_swapchainCreationInProgress = true;
+		Console.WriteLine("[DEBUG] Scheduling deferred Wayland swapchain creation");
+
+		// Use a timeout to retry swapchain creation when the surface might be ready
+		global::GLib.Timeout.Add(100, () => {
+			try
+			{
+				if (IsWaylandSurfaceReadyForVulkan())
+				{
+					Console.WriteLine("[DEBUG] Wayland surface now ready, creating swapchain");
+					_deferredSwapchain = CreateSwapchainNow();
+					_swapchainCreationInProgress = false;
+					
+					// Trigger a redraw to use the new swapchain
+					Control?.QueueDraw();
+					return false; // Don't repeat
+				}
+				else
+				{
+					Console.WriteLine("[DEBUG] Wayland surface still not ready, retrying...");
+					// Continue retrying with exponential backoff
+					global::GLib.Timeout.Add(200, () => {
+						if (IsWaylandSurfaceReadyForVulkan())
+						{
+							_deferredSwapchain = CreateSwapchainNow();
+							_swapchainCreationInProgress = false;
+							Control?.QueueDraw();
+						}
+						else
+						{
+							_swapchainCreationInProgress = false; // Give up after extended wait
+						}
+						return false;
+					});
+					return false; // Don't repeat this timeout
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[DEBUG] Error during deferred swapchain creation: {ex.Message}");
+				_swapchainCreationInProgress = false;
+				return false;
+			}
+		});
 	}
 
 	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
 	{
 		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
 		
-		// Ensure the widget is realized and properly configured
-		if (!Control.IsRealized)
-		{
-			Console.WriteLine("[DEBUG] Widget not realized, calling Realize()...");
-			Control.Realize();
-		}
-		
-		// Ensure we have a window
-		if (Control.Window == null)
-		{
-			throw new InvalidOperationException("Control window is null - widget not properly initialized");
-		}
-		
-		// Ensure the window is visible and mapped
-		if (!Control.Window.IsVisible || !Control.IsMapped)
-		{
-			Console.WriteLine("[DEBUG] Window not visible/mapped, showing widget...");
-			Control.ShowAll();
-			
-			// Process events to ensure the window is properly mapped
-			while (global::Gtk.Application.EventsPending())
-			{
-				global::Gtk.Application.RunIteration(false);
-			}
-			
-			// Wait for the widget to be properly mapped
-			int attempts = 0;
-			while (!Control.IsMapped && attempts < 50)
-			{
-				System.Threading.Thread.Sleep(10);
-				while (global::Gtk.Application.EventsPending())
-				{
-					global::Gtk.Application.RunIteration(false);
-				}
-				attempts++;
-			}
-			
-			if (!Control.IsMapped)
-			{
-				throw new InvalidOperationException("Widget could not be properly mapped for Wayland surface creation");
-			}
-		}
+		// At this point, IsWaylandSurfaceReadyForVulkan() has already validated 
+		// that the widget is properly realized, mapped, and has valid dimensions
 		
 		Console.WriteLine($"[DEBUG] Window state - Visible: {Control.Window.IsVisible}, Mapped: {Control.IsMapped}, Handle: {Control.Window.Handle}");
 		
-		// Additional check: ensure the widget has been allocated proper size
-		var allocation = Control.Allocation;
-		if (allocation.Width <= 1 || allocation.Height <= 1)
-		{
-			Console.WriteLine($"[DEBUG] Warning: Widget has small allocation ({allocation.Width}x{allocation.Height})");
-		}
-		
-		// Enhanced surface synchronization for Wayland
-		Console.WriteLine("[DEBUG] Performing enhanced surface synchronization");
-		
-		// Force multiple rounds of event processing to ensure surface is fully committed
-		for (int i = 0; i < 3; i++)
-		{
-			while (global::Gtk.Application.EventsPending())
-			{
-				global::Gtk.Application.RunIteration(false);
-			}
-			
-			// Force window updates using non-deprecated methods
-			if (Control.Window.IsVisible)
-			{
-				Control.Window.ProcessUpdates(true);
-				// Force a sync by triggering a redraw cycle
-				Control.QueueDraw();
-			}
-			
-			System.Threading.Thread.Sleep(25); // Small delay between synchronization rounds
-		}
-		
-		// Get Wayland handles with enhanced error checking
+		// Get Wayland handles - these should be valid since we've already checked
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-		if (waylandDisplay == IntPtr.Zero)
-		{
-			throw new InvalidOperationException("Failed to get Wayland display handle - display may not be ready");
-		}
-		
 		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(Control.Window.Handle);
-		if (waylandSurface == IntPtr.Zero)
-		{
-			throw new InvalidOperationException("Failed to get Wayland window surface handle - surface may not be ready");
-		}
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
-		
-		// Final surface commit to ensure the compositor has fully processed the surface
-		Console.WriteLine("[DEBUG] Performing final surface commit and synchronization");
-		while (global::Gtk.Application.EventsPending())
-		{
-			global::Gtk.Application.RunIteration(false);
-		}
 		
 		return SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
 	}
@@ -214,75 +251,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
-	}
-
-	private bool _waylandInitialized = false;
-	
-	private void Control_InitializeGraphicsBackendWaylandDraw(object? sender, global::Gtk.DrawnArgs e)
-	{
-		// For Wayland, initialize only on the first draw request when the surface is truly ready
-		if (_waylandInitialized)
-			return;
-		
-		if (sender is EtoEventBox box && box.IsVisible && box.IsMapped && 
-		    box.Window != null && box.Window.IsVisible)
-		{
-			Console.WriteLine("[DEBUG] Wayland widget received first draw request, initializing graphics backend");
-			_waylandInitialized = true;
-			
-			// Disconnect the event to prevent repeated initialization
-			box.Drawn -= Control_InitializeGraphicsBackendWaylandDraw;
-			
-			// Wait a moment for all compositor operations to complete
-			global::GLib.Timeout.Add(150, () => {
-				if (box.Window != null && box.Window.IsVisible && box.IsMapped)
-				{
-					// Process all pending events to ensure surface is fully committed
-					while (global::Gtk.Application.EventsPending())
-					{
-						global::Gtk.Application.RunIteration(false);
-					}
-					
-					Console.WriteLine("[DEBUG] Surface fully ready, proceeding with backend initialization");
-					Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
-				}
-				return false; // Don't repeat
-			});
-		}
-	}
-	
-	private void Control_InitializeGraphicsBackendWayland(object? sender, EventArgs e)
-	{
-		// For Wayland, we only want to initialize once and only after the widget has been
-		// properly mapped and visible to avoid protocol errors
-		if (_waylandInitialized)
-			return;
-		
-		if (sender is EtoEventBox box && box.IsVisible && box.IsMapped && 
-		    box.Allocation.Width > 1 && box.Allocation.Height > 1)
-		{
-			Console.WriteLine("[DEBUG] Wayland widget fully mapped and visible, proceeding with initialization");
-			_waylandInitialized = true;
-			
-			// Ensure the widget's window is also properly configured
-			if (box.Window != null && box.Window.IsVisible)
-			{
-				// Process all pending events to ensure surface is fully committed
-				while (global::Gtk.Application.EventsPending())
-				{
-					global::Gtk.Application.RunIteration(false);
-				}
-				
-				// Additional delay to ensure compositor has fully processed the surface
-				global::GLib.Timeout.Add(100, () => {
-					if (box.Window != null && box.Window.IsVisible && box.IsMapped)
-					{
-						Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
-					}
-					return false; // Don't repeat
-				});
-			}
-		}
 	}
 
 	private bool skipDraw;
@@ -410,23 +378,9 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			box.CanFocus = true;
 			box.CanDefault = true;
 			
-			// For Wayland with Vulkan, we need to wait until the window is properly mapped
-			// and visible before initializing the graphics backend
-			var gdkDisplay = box.Display?.Handle ?? X11Interop.gdk_display_get_default();
-			bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-			
-			if (isWayland)
-			{
-				Console.WriteLine("[DEBUG] Detected Wayland, using ultra-deferred initialization");
-				// For Wayland, wait until the widget receives its first draw request
-				// This ensures the surface is completely ready and committed by the compositor
-				box.Drawn += Control_InitializeGraphicsBackendWaylandDraw;
-			}
-			else
-			{
-				// For X11, use the regular initialization timing
-				box.Realized += Control_InitializeGraphicsBackend;
-			}
+			// For both X11 and Wayland, use Realized event
+			// Wayland-specific timing is now handled in CreateSwapchain method
+			box.Realized += Control_InitializeGraphicsBackend;
 			
 			return box;
 		}

@@ -126,7 +126,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			throw new InvalidOperationException("DrawingArea window is null");
 		}
 		
-		Console.WriteLine($"[DEBUG] DrawingArea window state - Visible: {drawingArea.Window.IsVisible}, Realized: {drawingArea.IsRealized}");
+		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}, Window.IsVisible: {drawingArea.Window.IsVisible}");
 		
 		// Get Wayland handles from DrawingArea
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
@@ -139,7 +139,17 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
 		
-		return SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
+		try
+		{
+			var swapchainSource = SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
+			Console.WriteLine("[DEBUG] Wayland SwapchainSource created successfully");
+			return swapchainSource;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[DEBUG] Failed to create Wayland SwapchainSource: {ex.Message}");
+			throw;
+		}
 	}
 
 	private void glArea_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -164,7 +174,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		Console.WriteLine("[DEBUG] DrawingArea backend initialization triggered");
+		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
 		
 		// Ensure native window for proper Vulkan surface access
 		if (drawingArea?.Window != null)
@@ -180,7 +190,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			drawingArea.ShowAll();
 		}
 		
-		// For Wayland, wait a bit for the surface to be committed by the compositor
+		// Get display info for debugging
 		var gdkDisplay = drawingArea!.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
 		
@@ -197,9 +207,20 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			System.Threading.Thread.Sleep(50);
 		}
 		
+		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
+		
 		// Initialize graphics backend
 		Console.WriteLine("[DEBUG] Initializing graphics backend");
-		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+		
+		try
+		{
+			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[DEBUG] Graphics backend initialization failed: {ex.Message}");
+			throw;
+		}
 	}
 
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -344,8 +365,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// Make sure the widget is visible
 			drawingArea.Visible = true;
 			
-			// Use Realized event for initialization
-			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;
+			// Use Map event for initialization - ensures widget is visible and ready for graphics operations
+			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
 			
 			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
 			return drawingArea;

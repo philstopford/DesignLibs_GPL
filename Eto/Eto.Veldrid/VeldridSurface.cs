@@ -183,11 +183,18 @@ public class VeldridSurface : Control
 
 		Swapchain = Handler.CreateSwapchain();
 
+		Console.WriteLine($"[DEBUG] Swapchain creation result: {(Swapchain != null ? "Success" : "Failed/Deferred")}");
+
 		// Only trigger VeldridInitialized if swapchain was successfully created
 		// For deferred swapchain creation (Wayland Vulkan), this will be called later when ready
 		if (Swapchain != null)
 		{
+			Console.WriteLine("[DEBUG] Triggering VeldridInitialized event");
 			OnVeldridInitialized(e);
+		}
+		else
+		{
+			Console.WriteLine("[DEBUG] Swapchain not available, VeldridInitialized event deferred");
 		}
 	}
 

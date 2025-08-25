@@ -183,46 +183,10 @@ public class VeldridSurface : Control
 
 		Swapchain = Handler.CreateSwapchain();
 
-		Console.WriteLine($"[DEBUG] Swapchain creation result: {(Swapchain != null ? "Success" : "Failed/Deferred")}");
+		Console.WriteLine($"[DEBUG] Swapchain creation result: {(Swapchain != null ? "Success" : "Failed")}");
 
-		// Only trigger VeldridInitialized if swapchain was successfully created
-		// For deferred swapchain creation (Wayland Vulkan), this will be called later when ready
-		if (Swapchain != null)
-		{
-			Console.WriteLine("[DEBUG] Triggering VeldridInitialized event");
-			OnVeldridInitialized(e);
-		}
-		else
-		{
-			Console.WriteLine("[DEBUG] Swapchain not available, VeldridInitialized event deferred");
-		}
-	}
-
-	/// <summary>
-	/// Attempts to create the swapchain if it was deferred during initialization.
-	/// This is called when the surface is ready for rendering operations.
-	/// </summary>
-	public void TryCreateDeferredSwapchain()
-	{
-		if (Swapchain != null)
-			return; // Already have a swapchain
-
-		Console.WriteLine("[DEBUG] Attempting to create deferred swapchain");
-		
-		var newSwapchain = Handler.CreateSwapchain();
-		if (newSwapchain != null)
-		{
-			Swapchain = newSwapchain;
-			Console.WriteLine("[DEBUG] Deferred swapchain created successfully");
-			
-			// Trigger VeldridInitialized event now that we have a swapchain
-			var renderSize = RenderSize;
-			OnVeldridInitialized(new InitializeEventArgs(renderSize));
-		}
-		else
-		{
-			Console.WriteLine("[DEBUG] Deferred swapchain creation still not ready");
-		}
+		// Trigger VeldridInitialized event - swapchain creation is now immediate
+		OnVeldridInitialized(e);
 	}
 
 	protected virtual void OnDraw(EventArgs e) => Properties.TriggerEvent(DrawEvent, this, e);

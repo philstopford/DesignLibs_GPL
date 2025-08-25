@@ -183,7 +183,12 @@ public class VeldridSurface : Control
 
 		Swapchain = Handler.CreateSwapchain();
 
-		OnVeldridInitialized(e);
+		// Only trigger VeldridInitialized if swapchain was successfully created
+		// For deferred swapchain creation (Wayland Vulkan), this will be called later when ready
+		if (Swapchain != null)
+		{
+			OnVeldridInitialized(e);
+		}
 	}
 
 	protected virtual void OnDraw(EventArgs e) => Properties.TriggerEvent(DrawEvent, this, e);

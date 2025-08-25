@@ -166,7 +166,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 							swapchainProperty.SetValue(Widget, swapchain);
 							Console.WriteLine("[DEBUG] Swapchain successfully set on widget");
 							
-							// Trigger VeldridInitialized event to complete initialization
+							// Trigger VeldridInitialized event for the first time (since it was deferred earlier)
 							var initEventArgs = new InitializeEventArgs(RenderSize);
 							var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
 								System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -191,7 +191,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 									swapchainProperty.SetValue(Widget, swapchain);
 									Console.WriteLine("[DEBUG] Deferred swapchain successfully set on widget");
 									
-									// Trigger VeldridInitialized event to complete initialization
+									// Trigger VeldridInitialized event for the first time (since it was deferred earlier)
 									var initEventArgs = new InitializeEventArgs(RenderSize);
 									var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
 										System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);

@@ -28,6 +28,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	}
 
 	private bool _swapchainCreationInProgress;
+	private bool _veldridInitializedFired = false;
 
 	public Swapchain? CreateSwapchain()
 	{
@@ -140,7 +141,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void ScheduleDeferredSwapchainCreation()
 	{
-		if (_swapchainCreationInProgress)
+		if (_swapchainCreationInProgress || _veldridInitializedFired)
 			return;
 
 		_swapchainCreationInProgress = true;
@@ -157,7 +158,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 					
 					// Create the swapchain and update the widget
 					var swapchain = CreateSwapchainNow();
-					if (swapchain != null)
+					if (swapchain != null && !_veldridInitializedFired)
 					{
 						// Use reflection to set the swapchain on the widget since it's normally set during initialization
 						var swapchainProperty = typeof(VeldridSurface).GetProperty("Swapchain");
@@ -166,11 +167,12 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 							swapchainProperty.SetValue(Widget, swapchain);
 							Console.WriteLine("[DEBUG] Swapchain successfully set on widget");
 							
-							// Trigger VeldridInitialized event for the first time (since it was deferred earlier)
+							// Now trigger VeldridInitialized event for the first and only time
 							var initEventArgs = new InitializeEventArgs(RenderSize);
 							var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
 								System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 							onVeldridInitializedMethod?.Invoke(Widget, new object[] { initEventArgs });
+							_veldridInitializedFired = true;
 						}
 					}
 					return false; // Don't repeat
@@ -179,7 +181,7 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 				{
 					// Continue retrying
 					global::GLib.Timeout.Add(100, () => {
-						if (IsWaylandSurfaceReadyForVulkan())
+						if (IsWaylandSurfaceReadyForVulkan() && !_veldridInitializedFired)
 						{
 							Console.WriteLine("[DEBUG] Wayland surface ready after retry, creating swapchain");
 							var swapchain = CreateSwapchainNow();
@@ -191,11 +193,12 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 									swapchainProperty.SetValue(Widget, swapchain);
 									Console.WriteLine("[DEBUG] Deferred swapchain successfully set on widget");
 									
-									// Trigger VeldridInitialized event for the first time (since it was deferred earlier)
+									// Now trigger VeldridInitialized event for the first and only time
 									var initEventArgs = new InitializeEventArgs(RenderSize);
 									var onVeldridInitializedMethod = typeof(VeldridSurface).GetMethod("OnVeldridInitialized", 
 										System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 									onVeldridInitializedMethod?.Invoke(Widget, new object[] { initEventArgs });
+									_veldridInitializedFired = true;
 								}
 							}
 						}

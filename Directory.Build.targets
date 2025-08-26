@@ -21,11 +21,20 @@
     </PropertyGroup>
 
     <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
+        <!-- Try the official Veldrid package path first -->
         <Copy
                 SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
                 DestinationFolder="$(OutputPath)"
                 SkipUnchangedFiles="true"
                 ContinueOnError="true"/>
+        
+        <!-- Try the ppy.Veldrid.SPIRV package path if the official one failed -->
+        <Copy
+                SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))ppy.veldrid.spirv\1.0.15-gfbb03d21c2\runtimes\linux-x64\native\libveldrid-spirv.so"
+                DestinationFolder="$(OutputPath)"
+                SkipUnchangedFiles="true"
+                ContinueOnError="true"
+                Condition="$(RuntimeIdentifier.Contains('linux')) OR $(RuntimeID) == 'linux-x64'"/>
     </Target>
 
     <Target Name="Cleanup" AfterTargets="SetPaths" Condition="$(Configuration.Contains('Release'))">

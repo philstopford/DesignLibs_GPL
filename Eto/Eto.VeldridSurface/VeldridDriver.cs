@@ -143,14 +143,46 @@ namespace VeldridEto;
 			Shader[] shaders;
 			try
 			{
+				// Test if SPIRV compilation is available by attempting a simple operation
+				Console.WriteLine("[DEBUG] Testing SPIRV library availability...");
+				
 				shaders = factory.CreateFromSpirv(vertex, fragment, options);
-				Console.WriteLine($"[DEBUG] Successfully created {shaders.Length} shaders");
+				Console.WriteLine($"[DEBUG] Successfully created {shaders.Length} shaders using SPIRV");
+			}
+			catch (DllNotFoundException dllEx)
+			{
+				Console.WriteLine($"[ERROR] SPIRV native library not found: {dllEx.Message}");
+				Console.WriteLine("[ERROR] This is likely due to missing libveldrid-spirv.so");
+				Console.WriteLine("[ERROR] Falling back to alternative shader creation method...");
+				
+				// For now, throw a more descriptive error
+				throw new InvalidOperationException(
+					"SPIRV shader compilation is not available. This is likely due to missing native dependencies (libveldrid-spirv.so). " +
+					"Please ensure the Veldrid.SPIRV native library is properly installed.", dllEx);
+			}
+			catch (ArgumentNullException argEx)
+			{
+				Console.WriteLine($"[ERROR] Null argument in shader creation: {argEx.Message}");
+				Console.WriteLine($"[ERROR] This might be due to backend mismatch or SPIRV compilation failure");
+				
+				// Check if the bytes are actually null
+				Console.WriteLine($"[DEBUG] Vertex shader bytes null: {vertexShaderSpirvBytes == null}");
+				Console.WriteLine($"[DEBUG] Fragment shader bytes null: {fragmentShaderSpirvBytes == null}");
+				
+				throw new InvalidOperationException(
+					$"Shader creation failed with null bytes. Backend: {Surface.GraphicsDevice.BackendType}, " +
+					$"Vertex bytes: {vertexShaderSpirvBytes?.Length ?? 0}, Fragment bytes: {fragmentShaderSpirvBytes?.Length ?? 0}", argEx);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"[ERROR] Failed to create shaders: {ex.GetType().Name}: {ex.Message}");
 				Console.WriteLine($"[ERROR] Stack trace: {ex.StackTrace}");
-				throw;
+				
+				// Provide more context in the error message
+				throw new InvalidOperationException(
+					$"Shader creation failed for {Surface.GraphicsDevice.BackendType} backend. " +
+					$"This might be due to missing native dependencies or backend compatibility issues. " +
+					$"Original error: {ex.GetType().Name}: {ex.Message}", ex);
 			}
 
 			ResourceLayout modelMatrixLayout = factory.CreateResourceLayout(

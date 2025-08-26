@@ -191,11 +191,11 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
 		}
 		
-		// Ensure the widget is shown - this is critical for Wayland
+		// Ensure the widget is visible within its parent container
 		if (drawingArea != null && !drawingArea.Visible)
 		{
-			Console.WriteLine("[DEBUG] Making DrawingArea visible");
-			drawingArea.ShowAll();
+			Console.WriteLine("[DEBUG] Making DrawingArea visible within parent container");
+			drawingArea.Visible = true;
 		}
 		
 		// Get display info for debugging

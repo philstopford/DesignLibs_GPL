@@ -223,12 +223,39 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		try
 		{
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+			
+			// Add a draw event handler for continuous rendering
+			if (drawingArea != null)
+			{
+				drawingArea.Drawn += DrawingArea_Draw;
+				Console.WriteLine("[DEBUG] Added DrawingArea draw event handler");
+			}
 		}
 		catch (Exception ex)
 		{
 			Console.WriteLine($"[DEBUG] Graphics backend initialization failed: {ex.Message}");
 			throw;
 		}
+	}
+
+	private void DrawingArea_Draw(object o, DrawnArgs args)
+	{
+		if (!skipDraw)
+		{
+			skipDraw = true;
+			
+			try
+			{
+				// Trigger Veldrid drawing for Vulkan backend
+				Console.WriteLine("[DEBUG] DrawingArea draw event triggered");
+				Callback.OnDraw(Widget, EventArgs.Empty);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[DEBUG] Exception in DrawingArea_Draw: {ex.Message}");
+			}
+		}
+		skipDraw = false;
 	}
 
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -330,13 +357,42 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	void Forms.Control.IHandler.Invalidate(Rectangle rect, bool invalidateChildren)
 	{
 		skipDraw = false;
-		glArea?.QueueRender();
+		if (glArea != null)
+		{
+			glArea.QueueRender();
+		}
+		else if (drawingArea != null)
+		{
+			// For Vulkan backend, trigger drawing directly
+			TriggerVulkanDraw();
+		}
 	}
 
 	void Forms.Control.IHandler.Invalidate(bool invalidateChildren)
 	{
 		skipDraw = false;
-		glArea?.QueueRender();
+		if (glArea != null)
+		{
+			glArea.QueueRender();
+		}
+		else if (drawingArea != null)
+		{
+			// For Vulkan backend, trigger drawing directly
+			TriggerVulkanDraw();
+		}
+	}
+
+	private void TriggerVulkanDraw()
+	{
+		try
+		{
+			// Queue a draw on the DrawingArea widget to trigger the Drawn event
+			drawingArea?.QueueDraw();
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"[DEBUG] Exception in TriggerVulkanDraw: {ex.Message}");
+		}
 	}
 
 	protected override global::Gtk.Widget CreateControl()

@@ -136,13 +136,14 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}, Window.IsVisible: {drawingArea.Window.IsVisible}");
 		
-		// Try to get Wayland handles from DrawingArea without forcing native window creation
+		// Try to get Wayland handles from DrawingArea WITHOUT forcing native window creation
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
 		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
 		
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
-			Console.WriteLine("[DEBUG] Failed to get Wayland handles from DrawingArea, trying parent window");
+			Console.WriteLine("[DEBUG] Failed to get Wayland handles from DrawingArea directly");
+			Console.WriteLine($"[DEBUG] waylandDisplay: {waylandDisplay}, waylandSurface: {waylandSurface}");
 			
 			// Try to use the parent window's surface instead of creating a native window
 			// This should prevent the separate window issue
@@ -156,22 +157,15 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 				{
 					Console.WriteLine("[DEBUG] Successfully got Wayland surface from parent window");
 				}
+				else
+				{
+					Console.WriteLine("[DEBUG] Failed to get Wayland surface from parent window");
+				}
 			}
 			
 			if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 			{
-				// As a last resort, try native window creation - but this may cause separation
-				Console.WriteLine("[DEBUG] Still no Wayland handles, reluctantly trying native window creation");
-				Console.WriteLine("[DEBUG] WARNING: This may cause the viewport to appear as a separate window");
-				X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
-				
-				waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-				waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
-				
-				if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
-				{
-					throw new InvalidOperationException($"Failed to get Wayland handles even after native window creation - Display: {waylandDisplay}, Surface: {waylandSurface}");
-				}
+				throw new InvalidOperationException($"Failed to get Wayland handles without native window creation - Display: {waylandDisplay}, Surface: {waylandSurface}. This prevents the viewport from appearing as a separate window.");
 			}
 		}
 		

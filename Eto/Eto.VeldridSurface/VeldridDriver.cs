@@ -1,6 +1,8 @@
 ﻿using Eto.Veldrid;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.IO;
+using System.Linq;
 using Veldrid;
 using Veldrid.SPIRV;
 using VeldridEto;
@@ -49,6 +51,16 @@ namespace VeldridEto;
 
 		private void CreateResources()
 		{
+			// Check if libveldrid-spirv.so is available for SPIRV compilation
+			bool nativeLibExists = File.Exists("libveldrid-spirv.so");
+			Console.WriteLine($"[DEBUG] libveldrid-spirv.so exists in current directory: {nativeLibExists}");
+			if (!nativeLibExists)
+			{
+				Console.WriteLine($"[DEBUG] Current directory: {Directory.GetCurrentDirectory()}");
+				var files = Directory.GetFiles(".", "*.so").Take(5);
+				Console.WriteLine($"[DEBUG] Available .so files: {string.Join(", ", files)}");
+			}
+			
 			// Veldrid.SPIRV is an additional library that complements Veldrid
 			// by simplifying the development of cross-backend shaders, and is
 			// currently the recommended approach to doing so:
@@ -115,7 +127,25 @@ namespace VeldridEto;
 			Console.WriteLine($"[DEBUG] About to create shaders using CreateFromSpirv for backend: {Surface.GraphicsDevice.BackendType}");
 			Console.WriteLine($"[DEBUG] ResourceFactory type: {factory.GetType().Name}");
 			
-			Shader[] shaders = factory.CreateFromSpirv(vertex, fragment, options);
+			Shader[] shaders;
+			try 
+			{
+				shaders = factory.CreateFromSpirv(vertex, fragment, options);
+				Console.WriteLine($"[DEBUG] Successfully created {shaders.Length} shaders using SPIRV compilation");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[DEBUG] SPIRV shader compilation failed: {ex.GetType().Name}: {ex.Message}");
+				Console.WriteLine($"[DEBUG] Exception stack trace: {ex.StackTrace}");
+				
+				// If SPIRV compilation fails, it's likely due to missing native library or GLSL source being treated as SPIRV
+				Console.WriteLine($"[DEBUG] This error suggests either:");
+				Console.WriteLine($"[DEBUG] 1. libveldrid-spirv.so is not available or not loadable");
+				Console.WriteLine($"[DEBUG] 2. GLSL source files are being passed to SPIRV compiler instead of pre-compiled bytecode");
+				Console.WriteLine($"[DEBUG] 3. The shader files contain invalid GLSL syntax");
+				
+				throw;
+			}
 
 			ResourceLayout modelMatrixLayout = factory.CreateResourceLayout(
 				new ResourceLayoutDescription(

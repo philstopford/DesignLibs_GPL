@@ -55,9 +55,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return null;
 		}
 
-		// Conditionally ensure native window only when absolutely necessary for Vulkan operations
-		// This prevents the widget from becoming a separate window
-		if (drawingArea.Window != null && !drawingArea.Window.HasNative)
+		// Only ensure native window if we're properly embedded and the widget is visible
+		if (drawingArea.Window != null && drawingArea.Parent != null && drawingArea.Visible)
 		{
 			Console.WriteLine("[DEBUG] Creating native window for Vulkan operations");
 			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
@@ -190,7 +189,14 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
+		Console.WriteLine("[DEBUG] DrawingArea realized and ready for graphics initialization");
+		
+		// Validate proper widget embedding before proceeding
+		if (drawingArea?.Parent == null)
+		{
+			Console.WriteLine("[DEBUG] DrawingArea parent is null, deferring initialization");
+			return;
+		}
 		
 		// Get display info for debugging
 		var gdkDisplay = drawingArea!.Display.Handle;
@@ -419,11 +425,9 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// Ensure proper widget properties for embedding
 			drawingArea.AppPaintable = true;
 			
-			// DO NOT set visibility here to prevent premature window creation
-			// Let GTK handle visibility through the parent container hierarchy
-			
-			// Use Map event for initialization - ensures widget is visible and ready for graphics operations
-			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
+			// Use Realized event instead of Mapped to ensure proper widget hierarchy
+			// Realized occurs after the widget is properly embedded in its parent
+			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;
 			
 			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
 			return drawingArea;

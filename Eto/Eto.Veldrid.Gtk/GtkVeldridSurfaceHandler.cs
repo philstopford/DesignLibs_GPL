@@ -191,13 +191,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
 		}
 		
-		// Ensure the widget is visible within its parent container
-		if (drawingArea != null && !drawingArea.Visible)
-		{
-			Console.WriteLine("[DEBUG] Making DrawingArea visible within parent container");
-			drawingArea.Visible = true;
-		}
-		
 		// Get display info for debugging
 		var gdkDisplay = drawingArea!.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
@@ -426,8 +419,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// This is critical for Wayland support
 			drawingArea.AppPaintable = true;
 			
-			// Make sure the widget is visible
-			drawingArea.Visible = true;
+			// Don't manually set visibility - let GTK handle this through parent container hierarchy
+			// Setting visibility prematurely can cause the widget to appear as a top-level window
 			
 			// Use Map event for initialization - ensures widget is visible and ready for graphics operations
 			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;

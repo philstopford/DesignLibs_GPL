@@ -139,18 +139,41 @@ public class VeldridSurface : Control
 
 	private void InitializeGraphicsBackend(InitializeEventArgs e)
 	{
+		Console.WriteLine($"[DEBUG] InitializeGraphicsBackend called with backend: {Backend}");
+		
 		switch (Backend)
 		{
 			case GraphicsBackend.Metal:
+				Console.WriteLine("[DEBUG] Creating Metal graphics device");
 				GraphicsDevice = GraphicsDevice.CreateMetal(GraphicsDeviceOptions);
 				break;
 			case GraphicsBackend.Direct3D11:
+				Console.WriteLine("[DEBUG] Creating Direct3D11 graphics device");
 				GraphicsDevice = GraphicsDevice.CreateD3D11(GraphicsDeviceOptions);
 				break;
 			case GraphicsBackend.Vulkan:
-				GraphicsDevice = GraphicsDevice.CreateVulkan(GraphicsDeviceOptions);
+				Console.WriteLine("[DEBUG] Creating Vulkan graphics device");
+				
+				// Check if Vulkan is supported before attempting to create the device
+				if (!GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan))
+				{
+					Console.WriteLine("[ERROR] Vulkan backend is not supported on this system");
+					throw new NotSupportedException("Vulkan backend is not supported on this system");
+				}
+				
+				try
+				{
+					GraphicsDevice = GraphicsDevice.CreateVulkan(GraphicsDeviceOptions);
+					Console.WriteLine("[DEBUG] Vulkan graphics device created successfully");
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine($"[ERROR] Failed to create Vulkan graphics device: {ex.GetType().Name}: {ex.Message}");
+					throw;
+				}
 				break;
 			case GraphicsBackend.OpenGL:
+				Console.WriteLine("[DEBUG] Creating OpenGL graphics device");
 				GraphicsDevice = GraphicsDevice.CreateOpenGL(
 					GraphicsDeviceOptions,
 					new OpenGLPlatformInfo(
@@ -179,6 +202,14 @@ public class VeldridSurface : Control
 				}
 
 				throw new ArgumentException(message);
+		}
+		
+		Console.WriteLine($"[DEBUG] Graphics device created with backend type: {GraphicsDevice?.BackendType}");
+
+		// Verify that we actually got the backend we requested
+		if (GraphicsDevice?.BackendType != Backend)
+		{
+			Console.WriteLine($"[WARNING] Backend mismatch! Requested: {Backend}, Got: {GraphicsDevice?.BackendType}");
 		}
 
 		Swapchain = Handler.CreateSwapchain();

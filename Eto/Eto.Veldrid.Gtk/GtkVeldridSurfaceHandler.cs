@@ -151,11 +151,9 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 				// Create native window only when widget is properly embedded and mapped
 				X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
 				
-				// Process events to ensure native window creation is complete
-				while (global::Gtk.Application.EventsPending())
-				{
-					global::Gtk.Application.RunIteration();
-				}
+				// Simple delay to allow native window creation to complete
+				// without complex event processing that can cause crashes
+				System.Threading.Thread.Sleep(10);
 				
 				// Retry getting handles after native window creation
 				waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);

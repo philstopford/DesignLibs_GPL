@@ -49,26 +49,6 @@ namespace VeldridEto;
 
 		private void CreateResources()
 		{
-			// Check if swapchain is available - if not, defer resource creation
-			if (Surface?.Swapchain == null)
-			{
-				Console.WriteLine("[DEBUG] Swapchain not available yet, deferring resource creation");
-				// For Wayland systems, the swapchain might not be available immediately
-				// This is normal and expected - we'll retry when VeldridInitialized is called again
-				return;
-			}
-			
-			// Add debugging for graphics device backend
-			Console.WriteLine($"[DEBUG] Graphics device backend type: {Surface.GraphicsDevice?.BackendType}");
-			Console.WriteLine($"[DEBUG] Expected backend type: {Surface.Backend}");
-			
-			// Check for backend mismatch
-			if (Surface.GraphicsDevice?.BackendType != Surface.Backend)
-			{
-				Console.WriteLine($"[ERROR] Backend mismatch! Expected: {Surface.Backend}, Got: {Surface.GraphicsDevice?.BackendType}");
-				throw new InvalidOperationException($"Graphics device backend mismatch. Expected: {Surface.Backend}, Got: {Surface.GraphicsDevice?.BackendType}");
-			}
-			
 			// Veldrid.SPIRV is an additional library that complements Veldrid
 			// by simplifying the development of cross-backend shaders, and is
 			// currently the recommended approach to doing so:
@@ -80,14 +60,6 @@ namespace VeldridEto;
 			// writing and maintaining custom shader code for each platform.
 			byte[] vertexShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Vertex);
 			byte[] fragmentShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Fragment);
-
-			Console.WriteLine($"[DEBUG] Vertex shader bytes loaded: {vertexShaderSpirvBytes?.Length ?? 0} bytes");
-			Console.WriteLine($"[DEBUG] Fragment shader bytes loaded: {fragmentShaderSpirvBytes?.Length ?? 0} bytes");
-
-			if (vertexShaderSpirvBytes == null || fragmentShaderSpirvBytes == null)
-			{
-				throw new InvalidOperationException("Failed to load shader bytecode");
-			}
 
 			CrossCompileOptions? options = new();
 			switch (Surface!.GraphicsDevice!.BackendType)
@@ -136,54 +108,7 @@ namespace VeldridEto;
 
 			ShaderDescription vertex = new(ShaderStages.Vertex, vertexShaderSpirvBytes, "main", true);
 			ShaderDescription fragment = new(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
-			
-			Console.WriteLine($"[DEBUG] About to create shaders using CreateFromSpirv for backend: {Surface.GraphicsDevice.BackendType}");
-			Console.WriteLine($"[DEBUG] ResourceFactory type: {factory.GetType().FullName}");
-			
-			Shader[] shaders;
-			try
-			{
-				// Test if SPIRV compilation is available by attempting a simple operation
-				Console.WriteLine("[DEBUG] Testing SPIRV library availability...");
-				
-				shaders = factory.CreateFromSpirv(vertex, fragment, options);
-				Console.WriteLine($"[DEBUG] Successfully created {shaders.Length} shaders using SPIRV");
-			}
-			catch (DllNotFoundException dllEx)
-			{
-				Console.WriteLine($"[ERROR] SPIRV native library not found: {dllEx.Message}");
-				Console.WriteLine("[ERROR] This is likely due to missing libveldrid-spirv.so");
-				Console.WriteLine("[ERROR] Falling back to alternative shader creation method...");
-				
-				// For now, throw a more descriptive error
-				throw new InvalidOperationException(
-					"SPIRV shader compilation is not available. This is likely due to missing native dependencies (libveldrid-spirv.so). " +
-					"Please ensure the Veldrid.SPIRV native library is properly installed.", dllEx);
-			}
-			catch (ArgumentNullException argEx)
-			{
-				Console.WriteLine($"[ERROR] Null argument in shader creation: {argEx.Message}");
-				Console.WriteLine($"[ERROR] This might be due to backend mismatch or SPIRV compilation failure");
-				
-				// Check if the bytes are actually null
-				Console.WriteLine($"[DEBUG] Vertex shader bytes null: {vertexShaderSpirvBytes == null}");
-				Console.WriteLine($"[DEBUG] Fragment shader bytes null: {fragmentShaderSpirvBytes == null}");
-				
-				throw new InvalidOperationException(
-					$"Shader creation failed with null bytes. Backend: {Surface.GraphicsDevice.BackendType}, " +
-					$"Vertex bytes: {vertexShaderSpirvBytes?.Length ?? 0}, Fragment bytes: {fragmentShaderSpirvBytes?.Length ?? 0}", argEx);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"[ERROR] Failed to create shaders: {ex.GetType().Name}: {ex.Message}");
-				Console.WriteLine($"[ERROR] Stack trace: {ex.StackTrace}");
-				
-				// Provide more context in the error message
-				throw new InvalidOperationException(
-					$"Shader creation failed for {Surface.GraphicsDevice.BackendType} backend. " +
-					$"This might be due to missing native dependencies or backend compatibility issues. " +
-					$"Original error: {ex.GetType().Name}: {ex.Message}", ex);
-			}
+			Shader[] shaders = factory.CreateFromSpirv(vertex, fragment, options);
 
 			ResourceLayout modelMatrixLayout = factory.CreateResourceLayout(
 				new ResourceLayoutDescription(
@@ -218,23 +143,6 @@ namespace VeldridEto;
 			create_pipelines(ref factory, ref viewMatrixLayout, ref modelMatrixLayout, ref shaders, ref vertexLayout);
 
 			CommandList = factory.CreateCommandList();
-			
-			// VeldridDriver resources successfully created - no debug message needed
-		}
-
-		public void CompleteResourceCreation()
-		{
-			// This method can be called when the swapchain becomes available
-			// to complete resource creation that was deferred
-			if (Surface?.Swapchain != null && !Ready)
-			{
-				Console.WriteLine("[DEBUG] Completing deferred VeldridDriver resource creation");
-				CreateResources();
-				if (CommandList != null)
-				{
-					Ready = true;
-				}
-			}
 		}
 
 		private void create_pipelines(ref ResourceFactory factory, ref ResourceLayout viewMatrixLayout,
@@ -309,8 +217,6 @@ namespace VeldridEto;
 			string name = $"VertexColor-{stage.ToString().ToLowerInvariant()}.450.glsl";
 			string full = $"Eto.VeldridSurface.shaders.{name}";
 
-			Console.WriteLine($"[DEBUG] Loading shader: {name} from resource: {full}");
-
 			// Precompiled SPIR-V bytecode can speed up program start by saving
 			// the need to load text files and compile them before converting
 			// the result to the final backend shader format. If they're not
@@ -318,21 +224,9 @@ namespace VeldridEto;
 			// up glslangValidator to learn how to compile SPIR-V binary files.
 
 			using (Stream? stream = GetType().Assembly.GetManifestResourceStream(full))
+			using (BinaryReader? reader = new(stream!))
 			{
-				if (stream == null)
-				{
-					Console.WriteLine($"[ERROR] Could not find shader resource: {full}");
-					throw new InvalidOperationException($"Could not find shader resource: {full}");
-				}
-				
-				Console.WriteLine($"[DEBUG] Shader resource found, length: {stream.Length} bytes");
-				
-				using (BinaryReader? reader = new(stream))
-				{
-					byte[] result = reader.ReadBytes((int)stream.Length);
-					Console.WriteLine($"[DEBUG] Successfully loaded {result.Length} bytes for {stage} shader");
-					return result;
-				}
+				return reader.ReadBytes((int)stream!.Length);
 			}
 		}
 	}

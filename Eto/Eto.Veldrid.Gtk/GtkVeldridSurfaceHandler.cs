@@ -55,13 +55,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return null;
 		}
 
-		// Only ensure native window if we're properly embedded and the widget is visible
-		if (drawingArea.Window != null && drawingArea.Parent != null && drawingArea.Visible)
-		{
-			Console.WriteLine("[DEBUG] Creating native window for Vulkan operations");
-			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
-		}
-
 		// Get display info for debugging
 		var gdkDisplay = drawingArea.Display.Handle;
 		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
@@ -189,13 +182,20 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		Console.WriteLine("[DEBUG] DrawingArea realized and ready for graphics initialization");
+		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
 		
 		// Validate proper widget embedding before proceeding
 		if (drawingArea?.Parent == null)
 		{
 			Console.WriteLine("[DEBUG] DrawingArea parent is null, deferring initialization");
 			return;
+		}
+		
+		// Only ensure native window after widget is properly embedded
+		if (drawingArea?.Window != null)
+		{
+			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
+			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
 		}
 		
 		// Get display info for debugging
@@ -422,12 +422,12 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// Set minimum size to ensure proper widget allocation
 			drawingArea.SetSizeRequest(100, 100);
 			
-			// Ensure proper widget properties for embedding
+			// Ensure native window creation for proper Vulkan surface access
+			// This is critical for Wayland support
 			drawingArea.AppPaintable = true;
 			
-			// Use Realized event instead of Mapped to ensure proper widget hierarchy
-			// Realized occurs after the widget is properly embedded in its parent
-			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;
+			// Use Map event for initialization - ensures widget is visible and ready for graphics operations
+			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
 			
 			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
 			return drawingArea;

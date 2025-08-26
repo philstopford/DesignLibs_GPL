@@ -142,7 +142,18 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
-			throw new InvalidOperationException($"Failed to get Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
+			Console.WriteLine("[DEBUG] Failed to get Wayland handles initially, trying native window creation");
+			// Only create native window as a last resort
+			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
+			
+			// Try again after native window creation
+			waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+			waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
+			
+			if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
+			{
+				throw new InvalidOperationException($"Failed to get Wayland handles even after native window creation - Display: {waylandDisplay}, Surface: {waylandSurface}");
+			}
 		}
 		
 		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
@@ -182,20 +193,13 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
+		Console.WriteLine("[DEBUG] DrawingArea realized and ready for graphics initialization");
 		
 		// Validate proper widget embedding before proceeding
 		if (drawingArea?.Parent == null)
 		{
 			Console.WriteLine("[DEBUG] DrawingArea parent is null, deferring initialization");
 			return;
-		}
-		
-		// Only ensure native window after widget is properly embedded
-		if (drawingArea?.Window != null)
-		{
-			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
-			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
 		}
 		
 		// Get display info for debugging
@@ -205,14 +209,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		if (isWayland)
 		{
 			Console.WriteLine("[DEBUG] Wayland detected, processing events before initialization");
-			// Process pending events to ensure surface is ready
-			while (global::Gtk.Application.EventsPending())
-			{
-				global::Gtk.Application.RunIteration();
-			}
-			
-			// Small delay to ensure compositor has committed the surface
-			System.Threading.Thread.Sleep(50);
 		}
 		
 		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
@@ -426,8 +422,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// This is critical for Wayland support
 			drawingArea.AppPaintable = true;
 			
-			// Use Map event for initialization - ensures widget is visible and ready for graphics operations
-			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
+			// Use Realized event for initialization - ensures widget hierarchy is established
+			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;
 			
 			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
 			return drawingArea;

@@ -61,6 +61,9 @@ namespace VeldridEto;
 			byte[] vertexShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Vertex);
 			byte[] fragmentShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Fragment);
 
+			Console.WriteLine($"[DEBUG] Vertex shader bytes loaded: {vertexShaderSpirvBytes?.Length ?? 0} bytes");
+			Console.WriteLine($"[DEBUG] Fragment shader bytes loaded: {fragmentShaderSpirvBytes?.Length ?? 0} bytes");
+
 			CrossCompileOptions? options = new();
 			switch (Surface!.GraphicsDevice!.BackendType)
 			{
@@ -108,6 +111,10 @@ namespace VeldridEto;
 
 			ShaderDescription vertex = new(ShaderStages.Vertex, vertexShaderSpirvBytes, "main", true);
 			ShaderDescription fragment = new(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
+			
+			Console.WriteLine($"[DEBUG] About to create shaders using CreateFromSpirv for backend: {Surface.GraphicsDevice.BackendType}");
+			Console.WriteLine($"[DEBUG] ResourceFactory type: {factory.GetType().Name}");
+			
 			Shader[] shaders = factory.CreateFromSpirv(vertex, fragment, options);
 
 			ResourceLayout modelMatrixLayout = factory.CreateResourceLayout(
@@ -223,10 +230,22 @@ namespace VeldridEto;
 			// available, though, the plain .glsl files will do just fine. Look
 			// up glslangValidator to learn how to compile SPIR-V binary files.
 
+			Console.WriteLine($"[DEBUG] Loading shader: {name} from resource: {full}");
 			using (Stream? stream = GetType().Assembly.GetManifestResourceStream(full))
-			using (BinaryReader? reader = new(stream!))
 			{
-				return reader.ReadBytes((int)stream!.Length);
+				if (stream == null)
+				{
+					Console.WriteLine($"[DEBUG] Shader resource not found: {full}");
+					throw new InvalidOperationException($"Shader resource not found: {full}");
+				}
+				
+				Console.WriteLine($"[DEBUG] Shader resource found, length: {stream.Length} bytes");
+				using (BinaryReader? reader = new(stream))
+				{
+					byte[] bytes = reader.ReadBytes((int)stream.Length);
+					Console.WriteLine($"[DEBUG] Successfully loaded {bytes.Length} bytes for {stage} shader");
+					return bytes;
+				}
 			}
 		}
 	}

@@ -28,13 +28,29 @@
                 SkipUnchangedFiles="true"
                 ContinueOnError="true"/>
         
-        <!-- Try the ppy.Veldrid.SPIRV package path if the official one failed -->
+        <!-- Try the ppy.Veldrid.SPIRV package path for Linux -->
         <Copy
                 SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))ppy.veldrid.spirv\1.0.15-gfbb03d21c2\runtimes\linux-x64\native\libveldrid-spirv.so"
                 DestinationFolder="$(OutputPath)"
                 SkipUnchangedFiles="true"
-                ContinueOnError="true"
-                Condition="$(RuntimeIdentifier.Contains('linux')) OR $(RuntimeID) == 'linux-x64'"/>
+                ContinueOnError="false"
+                Condition="$([MSBuild]::IsOSPlatform('Linux'))"/>
+        
+        <!-- Try the ppy.Veldrid.SPIRV package path for Windows -->
+        <Copy
+                SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))ppy.veldrid.spirv\1.0.15-gfbb03d21c2\runtimes\win-x64\native\libveldrid-spirv.dll"
+                DestinationFolder="$(OutputPath)"
+                SkipUnchangedFiles="true"
+                ContinueOnError="false"
+                Condition="$([MSBuild]::IsOSPlatform('Windows'))"/>
+        
+        <!-- Try the ppy.Veldrid.SPIRV package path for macOS -->
+        <Copy
+                SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))ppy.veldrid.spirv\1.0.15-gfbb03d21c2\runtimes\osx\native\libveldrid-spirv.dylib"
+                DestinationFolder="$(OutputPath)"
+                SkipUnchangedFiles="true"
+                ContinueOnError="false"
+                Condition="$([MSBuild]::IsOSPlatform('OSX'))"/>
     </Target>
 
     <Target Name="Cleanup" AfterTargets="SetPaths" Condition="$(Configuration.Contains('Release'))">

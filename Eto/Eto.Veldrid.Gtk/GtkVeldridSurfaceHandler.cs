@@ -136,22 +136,35 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		
 		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}, Window.IsVisible: {drawingArea.Window.IsVisible}");
 		
-		// Ensure native window only if Wayland handles can't be obtained without it
+		// First attempt to get Wayland handles without forcing native window creation
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
 		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
 		
+		// Only create native window if handles are not available and we're in a proper widget hierarchy context
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
-			Console.WriteLine("[DEBUG] Wayland handles not available, ensuring native window as last resort");
-			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
+			Console.WriteLine("[DEBUG] Wayland handles not available, ensuring native window for Vulkan operations");
 			
-			// Retry getting handles after ensuring native window
-			waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-			waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
+			// Ensure the widget is properly embedded in its parent before creating native window
+			if (drawingArea.Parent != null && drawingArea.IsMapped)
+			{
+				// Create native window only when widget is properly embedded and mapped
+				X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
+				
+				// Process events to ensure native window creation is complete
+				while (global::Gtk.Application.EventsPending())
+				{
+					global::Gtk.Application.RunIteration();
+				}
+				
+				// Retry getting handles after native window creation
+				waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+				waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
+			}
 			
 			if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 			{
-				throw new InvalidOperationException($"Failed to get Wayland handles even after ensuring native window - Display: {waylandDisplay}, Surface: {waylandSurface}");
+				throw new InvalidOperationException($"Failed to get Wayland handles even with native window - Display: {waylandDisplay}, Surface: {waylandSurface}");
 			}
 		}
 		
@@ -194,9 +207,11 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	{
 		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
 		
-		// Note: Removed gdk_window_ensure_native call as it was causing the DrawingArea
-		// to appear as a separate window instead of being embedded in the parent container.
-		// Native window creation is handled automatically by GTK when needed for Vulkan operations.
+		// For Vulkan operations, we need a native window, but creating it immediately
+		// during initialization can cause the DrawingArea to appear as a separate window.
+		// Instead, we defer native window creation until it's actually needed for Vulkan surface operations.
+		// This ensures proper widget hierarchy is maintained.
+		Console.WriteLine("[DEBUG] Deferring native window creation to maintain proper widget embedding");
 		
 		// Get display info for debugging
 		var gdkDisplay = drawingArea!.Display.Handle;

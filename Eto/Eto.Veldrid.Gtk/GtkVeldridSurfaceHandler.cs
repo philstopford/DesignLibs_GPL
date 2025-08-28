@@ -44,11 +44,12 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			_backendHandler = VeldridBackendFactory.CreateBackendHandler(Widget.Backend);
 			Console.WriteLine($"GtkVeldridSurfaceHandler: Created backend handler: {_backendHandler.GetType().Name}");
 			
-			_backendHandler.SetupEventHandlers(Callback, Widget);
-			Console.WriteLine("GtkVeldridSurfaceHandler: Setup event handlers");
-			
 			_widget = _backendHandler.CreateWidget();
 			Console.WriteLine($"GtkVeldridSurfaceHandler: Created widget: {_widget?.GetType().Name}");
+			
+			// Setup event handlers AFTER the widget is created
+			_backendHandler.SetupEventHandlers(Callback, Widget);
+			Console.WriteLine("GtkVeldridSurfaceHandler: Setup event handlers");
 			
 			return _widget;
 		}

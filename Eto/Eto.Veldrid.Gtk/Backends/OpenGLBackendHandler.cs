@@ -156,18 +156,10 @@ internal class OpenGLBackendHandler : IVeldridBackendHandler, VeldridSurface.IOp
             _glArea.Render += OnGLAreaRender;
             _glArea.Resize += OnGLAreaResize;
             
-            // Schedule a manual initialization check in case Realized event doesn't fire
-            // This is common in headless/CI environments
-            GLib.Timeout.Add(50, () => {
-                Console.WriteLine($"OpenGLBackendHandler: Manual initialization check - IsRealized: {_glArea.IsRealized}");
-                if (!_glArea.IsRealized && _surface?.GraphicsDevice == null)
-                {
-                    Console.WriteLine("OpenGLBackendHandler: GLArea not realized after timeout, attempting manual initialization");
-                    // Try to trigger manual initialization
-                    TryManualInitialization();
-                }
-                return false; // Don't repeat
-            });
+            Console.WriteLine("OpenGLBackendHandler: Setting up immediate initialization");
+            
+            // Try immediate initialization - don't wait for GTK events
+            TryManualInitialization();
         }
     }
 
@@ -185,13 +177,39 @@ internal class OpenGLBackendHandler : IVeldridBackendHandler, VeldridSurface.IOp
             return;
         }
         
-        // For headless environments, we may need to force the size
-        var width = _glArea.AllocatedWidth > 0 ? _glArea.AllocatedWidth : 800;
-        var height = _glArea.AllocatedHeight > 0 ? _glArea.AllocatedHeight : 600;
+        if (_surface.GraphicsDevice != null)
+        {
+            Console.WriteLine("OpenGLBackendHandler: Graphics device already exists, skipping manual initialization");
+            return;
+        }
         
-        Console.WriteLine($"OpenGLBackendHandler: Manual initialization with size {width}x{height}");
-        var size = new Size(width, height);
-        _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
+        try
+        {
+            Console.WriteLine("OpenGLBackendHandler: Starting manual initialization");
+            
+            // Force GLArea to show and map if needed
+            if (!_glArea.IsMapped)
+            {
+                Console.WriteLine("OpenGLBackendHandler: GLArea not mapped, attempting to map");
+                _glArea.Show();
+            }
+            
+            // For headless environments, we may need to force the size
+            var width = _glArea.AllocatedWidth > 0 ? _glArea.AllocatedWidth : 800;
+            var height = _glArea.AllocatedHeight > 0 ? _glArea.AllocatedHeight : 600;
+            
+            Console.WriteLine($"OpenGLBackendHandler: Manual initialization with size {width}x{height}");
+            Console.WriteLine($"OpenGLBackendHandler: GLArea state - IsRealized: {_glArea.IsRealized}, IsMapped: {_glArea.IsMapped}, Visible: {_glArea.Visible}");
+            
+            var size = new Size(width, height);
+            _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
+            Console.WriteLine("OpenGLBackendHandler: Manual initialization completed successfully");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"OpenGLBackendHandler: Error in manual initialization: {ex.Message}");
+            Console.WriteLine($"OpenGLBackendHandler: Stack trace: {ex.StackTrace}");
+        }
     }
     
     private void TryInitialization()

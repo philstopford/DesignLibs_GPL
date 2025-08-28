@@ -10,8 +10,11 @@ namespace TestEtoVeldrid.Gtk
 		[STAThread]
 		public static void Main(string[] args)
 		{
-			// Check for headless environment
-			if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")))
+			// Check for headless environment - but be less strict about it
+			var display = Environment.GetEnvironmentVariable("DISPLAY");
+			var waylandDisplay = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
+			
+			if (string.IsNullOrEmpty(display) && string.IsNullOrEmpty(waylandDisplay))
 			{
 				Console.WriteLine("ERROR: No display available. This application requires a graphical environment.");
 				Console.WriteLine("For headless testing, consider using Xvfb:");

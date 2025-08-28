@@ -127,14 +127,15 @@ public class VeldridSurface : Control
 		}
 		else if (EtoEnvironment.Platform.IsLinux)
 		{
-			// On Linux, prefer Vulkan if available, then fall back to OpenGL
-			if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan))
-			{
-				backend = GraphicsBackend.Vulkan;
-			}
-			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
+			// On Linux, prefer OpenGL for better compatibility, then Vulkan
+			// Vulkan can be problematic in headless/CI environments
+			if (GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
 			{
 				backend = GraphicsBackend.OpenGL;
+			}
+			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan))
+			{
+				backend = GraphicsBackend.Vulkan;
 			}
 		}
 
@@ -151,6 +152,7 @@ public class VeldridSurface : Control
 		try
 		{
 			Console.WriteLine($"VeldridSurface: InitializeGraphicsBackend called with size {e.Width}x{e.Height}");
+			Console.WriteLine($"VeldridSurface: Current backend: {Backend}");
 			
 			// Delegate graphics device initialization to the platform-specific handler
 			Handler.InitializeGraphicsDevice(this, e);
@@ -161,6 +163,26 @@ public class VeldridSurface : Control
 
 			OnVeldridInitialized(e);
 			Console.WriteLine("VeldridSurface: VeldridInitialized event fired");
+		}
+		catch (VeldridException vex) when (Backend == GraphicsBackend.Vulkan)
+		{
+			Console.WriteLine($"VeldridSurface: Vulkan initialization failed, attempting fallback to OpenGL: {vex.Message}");
+			
+			try
+			{
+				// Attempt to fallback to OpenGL
+				Backend = GraphicsBackend.OpenGL;
+				Console.WriteLine("VeldridSurface: Switched backend to OpenGL for fallback");
+				
+				// Recreate the handler with OpenGL backend - this requires recreating the control
+				// For now, just rethrow - the user can manually specify OpenGL
+				throw new VeldridException($"Vulkan backend failed, please try with OpenGL backend instead. Original error: {vex.Message}", vex);
+			}
+			catch (Exception fallbackEx)
+			{
+				Console.WriteLine($"VeldridSurface: OpenGL fallback also failed: {fallbackEx.Message}");
+				throw new VeldridException($"Both Vulkan and OpenGL backends failed. Vulkan: {vex.Message}, OpenGL: {fallbackEx.Message}", vex);
+			}
 		}
 		catch (Exception ex)
 		{

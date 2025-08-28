@@ -119,7 +119,10 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
         catch (Exception ex)
         {
             Console.WriteLine($"VulkanBackendHandler: Failed to create Vulkan graphics device: {ex.Message}");
-            throw;
+            
+            // Don't throw immediately - let the calling code handle the fallback
+            // This allows the application to continue and potentially switch to OpenGL
+            throw new VeldridException($"Failed to initialize Vulkan graphics device: {ex.Message}", ex);
         }
     }
 

@@ -44,44 +44,63 @@ public partial class MainForm : Form
 	}
 	public MainForm(GraphicsBackend backend)
 	{
-		InitializeComponent();
-
-		Shown += (sender, e) => FormReady = true;
-
-		GraphicsDeviceOptions options = new(
-			false,
-			Veldrid.PixelFormat.R32Float,
-			false,
-			ResourceBindingModel.Improved);
-
-		Surface = new VeldridSurface(backend, options);
-		Surface.VeldridInitialized += (sender, e) => 
+		try
 		{
-			Console.WriteLine("MainForm: VeldridInitialized event received");
-			VeldridReady = true;
-		};
+			Console.WriteLine($"MainForm: Creating form with backend: {backend}");
+			InitializeComponent();
 
-		Content = Surface;
+			Shown += (sender, e) => 
+			{
+				Console.WriteLine("MainForm: Form shown event fired");
+				FormReady = true;
+			};
 
-		ovpSettings = new OVPSettings();
-		ovpSettings.drawFilled(true);
-		ovpSettings.drawDrawn(true);
-		ovpSettings.drawPoints(true);
+			GraphicsDeviceOptions options = new(
+				false,
+				Veldrid.PixelFormat.R32Float,
+				false,
+				ResourceBindingModel.Improved);
 
-		addPolys();
-
-		Driver = new VeldridDriver(ref ovpSettings, ref Surface)
-		{
-			Surface = Surface
-		};
-
-		Surface.VeldridInitialized += (sender, e) =>
-		{
-			Console.WriteLine("MainForm: VeldridInitialized event received (second handler)");
-			Driver.SetUpVeldrid();
+			Console.WriteLine("MainForm: Creating VeldridSurface...");
+			Surface = new VeldridSurface(backend, options);
+			Console.WriteLine("MainForm: VeldridSurface created successfully");
 			
-			_veldridReady = true;
-		};
+			Surface.VeldridInitialized += (sender, e) => 
+			{
+				Console.WriteLine("MainForm: VeldridInitialized event received");
+				VeldridReady = true;
+			};
+
+			Content = Surface;
+
+			ovpSettings = new OVPSettings();
+			ovpSettings.drawFilled(true);
+			ovpSettings.drawDrawn(true);
+			ovpSettings.drawPoints(true);
+
+			addPolys();
+
+			Driver = new VeldridDriver(ref ovpSettings, ref Surface)
+			{
+				Surface = Surface
+			};
+
+			Surface.VeldridInitialized += (sender, e) =>
+			{
+				Console.WriteLine("MainForm: VeldridInitialized event received (second handler)");
+				Driver.SetUpVeldrid();
+				
+				_veldridReady = true;
+			};
+			
+			Console.WriteLine("MainForm: Constructor completed successfully");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"MainForm: Error in constructor: {ex.Message}");
+			Console.WriteLine($"MainForm: Stack trace: {ex.StackTrace}");
+			throw;
+		}
 		
 		// TODO: Make this binding actually work both ways.
 		// CmdAnimate.Bind<bool>("Checked", Driver, "Animate");

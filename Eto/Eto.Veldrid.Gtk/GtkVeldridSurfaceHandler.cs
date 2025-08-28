@@ -212,8 +212,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		{
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 			
-			// Add a draw event handler for continuous rendering
-			if (drawingArea != null)
+			// Add a draw event handler for continuous rendering - but ensure it's safe
+			if (drawingArea != null && Widget.GraphicsDevice != null)
 			{
 				drawingArea.Drawn += DrawingArea_Draw;
 				Console.WriteLine("[DEBUG] Added DrawingArea draw event handler");
@@ -222,28 +222,35 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		catch (Exception ex)
 		{
 			Console.WriteLine($"[DEBUG] Graphics backend initialization failed: {ex.Message}");
+			Console.WriteLine($"[DEBUG] Stack trace: {ex.StackTrace}");
 			throw;
 		}
 	}
 
 	private void DrawingArea_Draw(object o, DrawnArgs args)
 	{
-		if (!skipDraw)
+		if (!skipDraw && Widget.GraphicsDevice != null)
 		{
 			skipDraw = true;
 			
 			try
 			{
-				// Trigger Veldrid drawing for Vulkan backend
-				Console.WriteLine("[DEBUG] DrawingArea draw event triggered");
-				Callback.OnDraw(Widget, EventArgs.Empty);
+				// Only trigger drawing if we have a valid graphics device and are ready
+				if (Widget.GraphicsDevice != null && Widget.GraphicsDevice.MainSwapchain != null)
+				{
+					Callback.OnDraw(Widget, EventArgs.Empty);
+				}
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"[DEBUG] Exception in DrawingArea_Draw: {ex.Message}");
+				Console.WriteLine($"[DEBUG] Stack trace: {ex.StackTrace}");
+			}
+			finally
+			{
+				skipDraw = false;
 			}
 		}
-		skipDraw = false;
 	}
 
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -374,8 +381,12 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	{
 		try
 		{
-			// Queue a draw on the DrawingArea widget to trigger the Drawn event
-			drawingArea?.QueueDraw();
+			// Only trigger drawing if we have a valid graphics device and swapchain
+			if (Widget.GraphicsDevice != null && Widget.GraphicsDevice.MainSwapchain != null && drawingArea != null)
+			{
+				// Queue a draw on the DrawingArea widget to trigger the Drawn event
+				drawingArea.QueueDraw();
+			}
 		}
 		catch (Exception ex)
 		{

@@ -65,20 +65,24 @@ namespace VeldridEto;
 
 		private void CreateResources()
 		{
-			// Veldrid.SPIRV is an additional library that complements Veldrid
-			// by simplifying the development of cross-backend shaders, and is
-			// currently the recommended approach to doing so:
-			//
-			//   https://veldrid.dev/articles/portable-shaders.html
-			//
-			// If you decide against using it, you can try out Veldrid developer
-			// mellinoe's other project, ShaderGen, or drive yourself crazy by
-			// writing and maintaining custom shader code for each platform.
-			byte[] vertexShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Vertex);
-			byte[] fragmentShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Fragment);
+			Console.WriteLine("VeldridDriver: CreateResources called");
+			
+			// Load GLSL shader source code
+			byte[] vertexShaderBytes = LoadShaderBytes(ShaderStages.Vertex);
+			byte[] fragmentShaderBytes = LoadShaderBytes(ShaderStages.Fragment);
 
+			Console.WriteLine($"VeldridDriver: Loaded vertex shader: {vertexShaderBytes.Length} bytes");
+			Console.WriteLine($"VeldridDriver: Loaded fragment shader: {fragmentShaderBytes.Length} bytes");
+
+			// Convert byte arrays to strings for GLSL compilation
+			string vertexShaderCode = System.Text.Encoding.UTF8.GetString(vertexShaderBytes);
+			string fragmentShaderCode = System.Text.Encoding.UTF8.GetString(fragmentShaderBytes);
+
+			Console.WriteLine($"VeldridDriver: Using graphics backend: {Surface!.GraphicsDevice!.BackendType}");
+
+			// Veldrid.SPIRV is used to cross-compile GLSL to the target backend
 			CrossCompileOptions? options = new();
-			switch (Surface!.GraphicsDevice!.BackendType)
+			switch (Surface.GraphicsDevice.BackendType)
 			{
 				// InvertVertexOutputY and FixClipSpaceZ address two major
 				// differences between Veldrid's various graphics APIs, as
@@ -122,9 +126,30 @@ namespace VeldridEto;
 			ViewMatrixSet = factory.CreateResourceSet(new ResourceSetDescription(
 				viewMatrixLayout, ViewBuffer));
 
-			ShaderDescription vertex = new(ShaderStages.Vertex, vertexShaderSpirvBytes, "main", true);
-			ShaderDescription fragment = new(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
+			// Compile GLSL source code to SPIR-V bytecode
+			Console.WriteLine("VeldridDriver: Compiling GLSL to SPIRV...");
+			SpirvCompilationResult vertexResult = SpirvCompilation.CompileGlslToSpirv(
+				vertexShaderCode, 
+				"vertex.glsl", 
+				ShaderStages.Vertex, 
+				new GlslCompileOptions());
+			
+			SpirvCompilationResult fragmentResult = SpirvCompilation.CompileGlslToSpirv(
+				fragmentShaderCode, 
+				"fragment.glsl", 
+				ShaderStages.Fragment, 
+				new GlslCompileOptions());
+
+			Console.WriteLine($"VeldridDriver: Vertex SPIRV compilation succeeded: {vertexResult.SpirvBytes.Length} bytes");
+			Console.WriteLine($"VeldridDriver: Fragment SPIRV compilation succeeded: {fragmentResult.SpirvBytes.Length} bytes");
+
+			// Use the compiled SPIR-V bytecode to create shaders
+			ShaderDescription vertex = new(ShaderStages.Vertex, vertexResult.SpirvBytes, "main");
+			ShaderDescription fragment = new(ShaderStages.Fragment, fragmentResult.SpirvBytes, "main");
+			
+			Console.WriteLine("VeldridDriver: Creating shaders from SPIRV...");
 			Shader[] shaders = factory.CreateFromSpirv(vertex, fragment, options);
+			Console.WriteLine($"VeldridDriver: Successfully created {shaders.Length} shaders");
 
 			ResourceLayout modelMatrixLayout = factory.CreateResourceLayout(
 				new ResourceLayoutDescription(
@@ -156,9 +181,11 @@ namespace VeldridEto;
 				new VertexElementDescription("Color", VertexElementSemantic.TextureCoordinate,
 					VertexElementFormat.Float4));
 
+			Console.WriteLine("VeldridDriver: Creating pipelines...");
 			create_pipelines(ref factory, ref viewMatrixLayout, ref modelMatrixLayout, ref shaders, ref vertexLayout);
 
 			CommandList = factory.CreateCommandList();
+			Console.WriteLine("VeldridDriver: CreateResources completed successfully");
 		}
 
 		private void create_pipelines(ref ResourceFactory factory, ref ResourceLayout viewMatrixLayout,
@@ -228,21 +255,27 @@ namespace VeldridEto;
 			});
 		}
 
-		private byte[] LoadSpirvBytes(ShaderStages stage)
+		private byte[] LoadShaderBytes(ShaderStages stage)
 		{
 			string name = $"VertexColor-{stage.ToString().ToLowerInvariant()}.450.glsl";
 			string full = $"Eto.VeldridSurface.shaders.{name}";
 
-			// Precompiled SPIR-V bytecode can speed up program start by saving
-			// the need to load text files and compile them before converting
-			// the result to the final backend shader format. If they're not
-			// available, though, the plain .glsl files will do just fine. Look
-			// up glslangValidator to learn how to compile SPIR-V binary files.
+			Console.WriteLine($"VeldridDriver: Loading shader resource: {full}");
 
 			using (Stream? stream = GetType().Assembly.GetManifestResourceStream(full))
-			using (BinaryReader? reader = new(stream!))
 			{
-				return reader.ReadBytes((int)stream!.Length);
+				if (stream == null)
+				{
+					Console.WriteLine($"VeldridDriver: Failed to load shader resource: {full}");
+					throw new InvalidOperationException($"Could not load shader resource: {full}");
+				}
+
+				Console.WriteLine($"VeldridDriver: Successfully loaded shader resource, length: {stream.Length}");
+				
+				using (BinaryReader reader = new(stream))
+				{
+					return reader.ReadBytes((int)stream.Length);
+				}
 			}
 		}
 	}

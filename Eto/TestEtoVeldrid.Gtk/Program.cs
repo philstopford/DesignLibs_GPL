@@ -10,6 +10,16 @@ namespace TestEtoVeldrid.Gtk
 		[STAThread]
 		public static void Main(string[] args)
 		{
+			// Check for headless environment
+			if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")))
+			{
+				Console.WriteLine("ERROR: No display available. This application requires a graphical environment.");
+				Console.WriteLine("For headless testing, consider using Xvfb:");
+				Console.WriteLine("  xvfb-run -a dotnet run");
+				Console.WriteLine("Or set up a virtual display.");
+				Environment.Exit(1);
+			}
+
 			var platform = new Eto.GtkSharp.Platform();
 			var app = new Application(platform);
 
@@ -71,6 +81,18 @@ namespace TestEtoVeldrid.Gtk
 			catch (Exception ex)
 			{
 				Console.WriteLine($"Application failed to start: {ex.Message}");
+				
+				// Check if this is likely a display/graphics issue
+				if (ex.Message.Contains("display") || ex.Message.Contains("GL") || ex.Message.Contains("graphics"))
+				{
+					Console.WriteLine();
+					Console.WriteLine("This appears to be a graphics/display issue. Common solutions:");
+					Console.WriteLine("1. Ensure you have working graphics drivers installed");
+					Console.WriteLine("2. For headless environments, use: xvfb-run -a dotnet run");
+					Console.WriteLine("3. Try running with software rendering: LIBGL_ALWAYS_SOFTWARE=1 dotnet run");
+					Console.WriteLine("4. Check that your X11/Wayland display is working with: glxinfo");
+				}
+				
 				Environment.Exit(1);
 			}
 

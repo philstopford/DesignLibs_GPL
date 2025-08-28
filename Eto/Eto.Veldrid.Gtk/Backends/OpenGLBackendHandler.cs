@@ -29,19 +29,40 @@ internal class OpenGLBackendHandler : IVeldridBackendHandler, VeldridSurface.IOp
 
     public global::Gtk.Widget CreateWidget()
     {
-        _glArea = new GLArea
+        try
         {
-            CanFocus = true,
-            CanDefault = true,
-            HasDepthBuffer = true,
-            HasStencilBuffer = true
-        };
+            Console.WriteLine("OpenGLBackendHandler: Creating GLArea widget");
+            
+            _glArea = new GLArea
+            {
+                CanFocus = true,
+                CanDefault = true,
+                HasDepthBuffer = true,
+                HasStencilBuffer = true
+            };
 
-        // Veldrid technically supports as low as OpenGL 3.0, but the full
-        // complement of features is only available with 3.3 and higher.
-        _glArea.SetRequiredVersion(3, 3);
+            // Veldrid technically supports as low as OpenGL 3.0, but the full
+            // complement of features is only available with 3.3 and higher.
+            _glArea.SetRequiredVersion(3, 3);
+            
+            // Try to set auto render for better compatibility in headless environments
+            try
+            {
+                _glArea.AutoRender = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"OpenGLBackendHandler: Warning - could not set AutoRender: {ex.Message}");
+            }
 
-        return _glArea;
+            Console.WriteLine("OpenGLBackendHandler: GLArea widget created successfully");
+            return _glArea;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"OpenGLBackendHandler: Error creating GLArea widget: {ex.Message}");
+            throw;
+        }
     }
 
     public Swapchain? CreateSwapchain(VeldridSurface surface, Size renderSize)
@@ -52,34 +73,63 @@ internal class OpenGLBackendHandler : IVeldridBackendHandler, VeldridSurface.IOp
 
     public void InitializeGraphicsDevice(VeldridSurface surface, Size renderSize)
     {
-        if (_glArea == null)
-            return;
-
-        // Make context current to manually initialize a Veldrid GraphicsDevice
-        _glArea.Context.MakeCurrent();
-
-        // Create the OpenGL graphics device
-        surface.GraphicsDevice = GraphicsDevice.CreateOpenGL(
-            surface.GraphicsDeviceOptions,
-            new OpenGLPlatformInfo(
-                OpenGLContextHandle,
-                GetProcAddress,
-                MakeCurrent,
-                GetCurrentContext,
-                ClearCurrentContext,
-                DeleteContext,
-                SwapBuffers,
-                SetSyncToVerticalBlank,
-                SetSwapchainFramebuffer,
-                ResizeSwapchain),
-            (uint)renderSize.Width,
-            (uint)renderSize.Height);
-
-        // Clear context in the worker thread for now to make Mesa happy
-        if (surface.GraphicsDevice?.GetOpenGLInfo(out BackendInfoOpenGL glInfo) == true)
+        try
         {
-            // This action has to wait so GTK can manage the context after this method
-            glInfo.ExecuteOnGLThread(_clearCurrent);
+            Console.WriteLine($"OpenGLBackendHandler: InitializeGraphicsDevice called with size {renderSize}");
+            
+            if (_glArea == null)
+            {
+                Console.WriteLine("OpenGLBackendHandler: GLArea is null, cannot initialize");
+                return;
+            }
+
+            Console.WriteLine($"OpenGLBackendHandler: GLArea context available: {_glArea.Context != null}");
+            
+            // Make context current to manually initialize a Veldrid GraphicsDevice
+            try
+            {
+                _glArea.Context.MakeCurrent();
+                Console.WriteLine("OpenGLBackendHandler: Made OpenGL context current");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"OpenGLBackendHandler: Failed to make context current: {ex.Message}");
+                throw new VeldridException($"Failed to make OpenGL context current: {ex.Message}", ex);
+            }
+
+            // Create the OpenGL graphics device
+            Console.WriteLine("OpenGLBackendHandler: Creating OpenGL graphics device...");
+            surface.GraphicsDevice = GraphicsDevice.CreateOpenGL(
+                surface.GraphicsDeviceOptions,
+                new OpenGLPlatformInfo(
+                    OpenGLContextHandle,
+                    GetProcAddress,
+                    MakeCurrent,
+                    GetCurrentContext,
+                    ClearCurrentContext,
+                    DeleteContext,
+                    SwapBuffers,
+                    SetSyncToVerticalBlank,
+                    SetSwapchainFramebuffer,
+                    ResizeSwapchain),
+                (uint)renderSize.Width,
+                (uint)renderSize.Height);
+
+            Console.WriteLine($"OpenGLBackendHandler: Successfully created graphics device: {surface.GraphicsDevice}");
+
+            // Clear context in the worker thread for now to make Mesa happy
+            if (surface.GraphicsDevice?.GetOpenGLInfo(out BackendInfoOpenGL glInfo) == true)
+            {
+                Console.WriteLine("OpenGLBackendHandler: Clearing context on GL thread");
+                // This action has to wait so GTK can manage the context after this method
+                glInfo.ExecuteOnGLThread(_clearCurrent);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"OpenGLBackendHandler: Error in InitializeGraphicsDevice: {ex.Message}");
+            Console.WriteLine($"OpenGLBackendHandler: Stack trace: {ex.StackTrace}");
+            throw new VeldridException($"Failed to initialize OpenGL graphics device: {ex.Message}", ex);
         }
     }
 
@@ -105,15 +155,55 @@ internal class OpenGLBackendHandler : IVeldridBackendHandler, VeldridSurface.IOp
             _glArea.Realized += OnGLAreaRealized;
             _glArea.Render += OnGLAreaRender;
             _glArea.Resize += OnGLAreaResize;
+            
+            // Schedule a manual initialization check in case Realized event doesn't fire
+            // This is common in headless/CI environments
+            GLib.Timeout.Add(50, () => {
+                Console.WriteLine($"OpenGLBackendHandler: Manual initialization check - IsRealized: {_glArea.IsRealized}");
+                if (!_glArea.IsRealized && _surface?.GraphicsDevice == null)
+                {
+                    Console.WriteLine("OpenGLBackendHandler: GLArea not realized after timeout, attempting manual initialization");
+                    // Try to trigger manual initialization
+                    TryManualInitialization();
+                }
+                return false; // Don't repeat
+            });
         }
     }
 
     private void OnGLAreaRealized(object? sender, EventArgs e)
     {
+        Console.WriteLine("OpenGLBackendHandler: OnGLAreaRealized called");
+        TryInitialization();
+    }
+    
+    private void TryManualInitialization()
+    {
         if (_glArea == null || _callback == null || _surface == null)
+        {
+            Console.WriteLine("OpenGLBackendHandler: Manual initialization failed - missing components");
             return;
+        }
+        
+        // For headless environments, we may need to force the size
+        var width = _glArea.AllocatedWidth > 0 ? _glArea.AllocatedWidth : 800;
+        var height = _glArea.AllocatedHeight > 0 ? _glArea.AllocatedHeight : 600;
+        
+        Console.WriteLine($"OpenGLBackendHandler: Manual initialization with size {width}x{height}");
+        var size = new Size(width, height);
+        _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
+    }
+    
+    private void TryInitialization()
+    {
+        if (_glArea == null || _callback == null || _surface == null)
+        {
+            Console.WriteLine("OpenGLBackendHandler: Initialization failed - missing components");
+            return;
+        }
 
         var size = new Size((int)_glArea.AllocatedWidth, (int)_glArea.AllocatedHeight);
+        Console.WriteLine($"OpenGLBackendHandler: Initializing with size {size}");
         _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
     }
 

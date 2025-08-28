@@ -146,10 +146,46 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
         {
             _eventBox.Realized += OnEventBoxRealized;
             _eventBox.SizeAllocated += OnEventBoxSizeAllocated;
+            
+            // Schedule a manual initialization check in case Realized event doesn't fire
+            // This is common in headless/CI environments
+            GLib.Timeout.Add(50, () => {
+                Console.WriteLine($"VulkanBackendHandler: Manual initialization check - IsRealized: {_eventBox.IsRealized}");
+                if (!_eventBox.IsRealized && _surface?.GraphicsDevice == null)
+                {
+                    Console.WriteLine("VulkanBackendHandler: EventBox not realized after timeout, attempting manual initialization");
+                    // Try to trigger manual initialization
+                    TryManualInitialization();
+                }
+                return false; // Don't repeat
+            });
         }
     }
 
     private void OnEventBoxRealized(object? sender, EventArgs e)
+    {
+        Console.WriteLine("VulkanBackendHandler: OnEventBoxRealized called");
+        TryInitialization();
+    }
+    
+    private void TryManualInitialization()
+    {
+        if (_eventBox == null || _callback == null || _surface == null)
+        {
+            Console.WriteLine("VulkanBackendHandler: Manual initialization failed - missing components");
+            return;
+        }
+        
+        // For headless environments, we may need to force the size
+        var width = _eventBox.AllocatedWidth > 0 ? _eventBox.AllocatedWidth : 800;
+        var height = _eventBox.AllocatedHeight > 0 ? _eventBox.AllocatedHeight : 600;
+        
+        Console.WriteLine($"VulkanBackendHandler: Manual initialization with size {width}x{height}");
+        var size = new Size(width, height);
+        _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
+    }
+    
+    private void TryInitialization()
     {
         try
         {
@@ -169,7 +205,7 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"VulkanBackendHandler: Error in OnEventBoxRealized: {ex.Message}");
+            Console.WriteLine($"VulkanBackendHandler: Error in TryInitialization: {ex.Message}");
             Console.WriteLine($"VulkanBackendHandler: Stack trace: {ex.StackTrace}");
         }
     }

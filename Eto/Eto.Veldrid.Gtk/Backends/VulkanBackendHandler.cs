@@ -147,10 +147,7 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
             _eventBox.Realized += OnEventBoxRealized;
             _eventBox.SizeAllocated += OnEventBoxSizeAllocated;
             
-            Console.WriteLine("VulkanBackendHandler: Setting up immediate initialization");
-            
-            // Try immediate initialization - don't wait for GTK events
-            TryManualInitialization();
+            Console.WriteLine("VulkanBackendHandler: Event handlers setup complete");
         }
     }
 
@@ -158,49 +155,6 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
     {
         Console.WriteLine("VulkanBackendHandler: OnEventBoxRealized called");
         TryInitialization();
-    }
-    
-    private void TryManualInitialization()
-    {
-        if (_eventBox == null || _callback == null || _surface == null)
-        {
-            Console.WriteLine("VulkanBackendHandler: Manual initialization failed - missing components");
-            return;
-        }
-        
-        if (_surface.GraphicsDevice != null)
-        {
-            Console.WriteLine("VulkanBackendHandler: Graphics device already exists, skipping manual initialization");
-            return;
-        }
-        
-        try
-        {
-            Console.WriteLine("VulkanBackendHandler: Starting manual initialization");
-            
-            // Force EventBox to show and map if needed
-            if (!_eventBox.IsMapped)
-            {
-                Console.WriteLine("VulkanBackendHandler: EventBox not mapped, attempting to map");
-                _eventBox.Show();
-            }
-            
-            // For headless environments, we may need to force the size
-            var width = _eventBox.AllocatedWidth > 0 ? _eventBox.AllocatedWidth : 800;
-            var height = _eventBox.AllocatedHeight > 0 ? _eventBox.AllocatedHeight : 600;
-            
-            Console.WriteLine($"VulkanBackendHandler: Manual initialization with size {width}x{height}");
-            Console.WriteLine($"VulkanBackendHandler: EventBox state - IsRealized: {_eventBox.IsRealized}, IsMapped: {_eventBox.IsMapped}, Visible: {_eventBox.Visible}");
-            
-            var size = new Size(width, height);
-            _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
-            Console.WriteLine("VulkanBackendHandler: Manual initialization completed successfully");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"VulkanBackendHandler: Error in manual initialization: {ex.Message}");
-            Console.WriteLine($"VulkanBackendHandler: Stack trace: {ex.StackTrace}");
-        }
     }
     
     private void TryInitialization()

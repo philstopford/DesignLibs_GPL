@@ -14,13 +14,14 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 {
 	private GLArea? glArea;
 	private DrawingArea? drawingArea;
+	private Frame? frameContainer; // Container for Vulkan DrawingArea
 	private System.Action _makeCurrent;
 	private System.Action _clearCurrent;
 	public Size RenderSize => Size.Round((SizeF)Widget.Size * Scale);
 
 	private float Scale => Widget.ParentWindow?.Screen?.LogicalPixelSize ?? 1;
 
-	public override global::Gtk.Widget ContainerContentControl => glArea ?? drawingArea ?? base.ContainerContentControl;
+	public override global::Gtk.Widget ContainerContentControl => glArea ?? frameContainer ?? drawingArea ?? base.ContainerContentControl;
 
 	public GtkVeldridSurfaceHandler()
 	{
@@ -126,46 +127,47 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
 	{
-		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource from DrawingArea");
+		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource from frame-wrapped DrawingArea");
 		
 		// Use drawingArea for Wayland operations
 		if (drawingArea?.Window == null)
 		{
-			throw new InvalidOperationException("DrawingArea window is null");
+			Console.WriteLine("[DEBUG] DrawingArea window is null, attempting to create native window within frame container");
+			
+			// Only create native window if absolutely necessary and ensure it's done within the container context
+			if (frameContainer != null && frameContainer.Window != null)
+			{
+				Console.WriteLine("[DEBUG] Frame container has window, ensuring DrawingArea has native window");
+				X11Interop.gdk_window_ensure_native(drawingArea.Window?.Handle ?? IntPtr.Zero);
+			}
+			
+			// Check again after potential native window creation
+			if (drawingArea?.Window == null)
+			{
+				throw new InvalidOperationException("DrawingArea window is still null after native window creation attempt");
+			}
 		}
 		
 		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}, Window.IsVisible: {drawingArea.Window.IsVisible}");
 		
-		// Try to get Wayland handles from DrawingArea WITHOUT forcing native window creation
+		// Get Wayland handles from DrawingArea
 		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
 		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
 		
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
-			Console.WriteLine("[DEBUG] Failed to get Wayland handles from DrawingArea directly");
-			Console.WriteLine($"[DEBUG] waylandDisplay: {waylandDisplay}, waylandSurface: {waylandSurface}");
+			Console.WriteLine("[DEBUG] Failed to get Wayland handles from DrawingArea, trying frame container approach");
 			
-			// Try to use the parent window's surface instead of creating a native window
-			// This should prevent the separate window issue
-			var topLevelWindow = drawingArea.Toplevel;
-			if (topLevelWindow?.Window != null)
+			// Fallback: try to use the frame container's window if DrawingArea doesn't have proper handles
+			if (frameContainer?.Window != null)
 			{
-				Console.WriteLine("[DEBUG] Trying to use parent window for Wayland surface");
-				waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(topLevelWindow.Window.Handle);
-				
-				if (waylandSurface != IntPtr.Zero)
-				{
-					Console.WriteLine("[DEBUG] Successfully got Wayland surface from parent window");
-				}
-				else
-				{
-					Console.WriteLine("[DEBUG] Failed to get Wayland surface from parent window");
-				}
+				Console.WriteLine("[DEBUG] Attempting to get Wayland surface from frame container");
+				waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(frameContainer.Window.Handle);
 			}
 			
 			if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 			{
-				throw new InvalidOperationException($"Failed to get Wayland handles without native window creation - Display: {waylandDisplay}, Surface: {waylandSurface}. This prevents the viewport from appearing as a separate window.");
+				throw new InvalidOperationException($"Failed to get Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
 			}
 		}
 		
@@ -206,13 +208,20 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		Console.WriteLine("[DEBUG] DrawingArea realized and ready for graphics initialization");
+		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
 		
-		// Validate proper widget embedding before proceeding
-		if (drawingArea?.Parent == null)
+		// Ensure native window for proper Vulkan surface access
+		if (drawingArea?.Window != null)
 		{
-			Console.WriteLine("[DEBUG] DrawingArea parent is null, deferring initialization");
-			return;
+			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
+			Console.WriteLine("[DEBUG] Ensured native window for DrawingArea");
+		}
+		
+		// Ensure the widget is shown - this is critical for Wayland
+		if (drawingArea != null && !drawingArea.Visible)
+		{
+			Console.WriteLine("[DEBUG] Making DrawingArea visible");
+			drawingArea.ShowAll();
 		}
 		
 		// Get display info for debugging
@@ -222,6 +231,14 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		if (isWayland)
 		{
 			Console.WriteLine("[DEBUG] Wayland detected, processing events before initialization");
+			// Process pending events to ensure surface is ready
+			while (global::Gtk.Application.EventsPending())
+			{
+				global::Gtk.Application.RunIteration();
+			}
+			
+			// Small delay to ensure compositor has committed the surface
+			System.Threading.Thread.Sleep(50);
 		}
 		
 		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
@@ -423,7 +440,15 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 		else
 		{
-			// Use DrawingArea for Vulkan backend instead of EtoEventBox for better native window support
+			// Alternative approach: Use a Frame container to wrap the DrawingArea
+			// This approach avoids the separate window issue by maintaining proper GTK hierarchy
+			Console.WriteLine("[DEBUG] Creating frame-wrapped Vulkan widget approach");
+			
+			frameContainer = new Frame(null);
+			frameContainer.CanFocus = true;
+			frameContainer.CanDefault = true;
+			frameContainer.ShadowType = ShadowType.None; // No visible frame border
+			
 			drawingArea = new DrawingArea();
 			drawingArea.CanFocus = true;
 			drawingArea.CanDefault = true;
@@ -431,15 +456,22 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// Set minimum size to ensure proper widget allocation
 			drawingArea.SetSizeRequest(100, 100);
 			
-			// Ensure native window creation for proper Vulkan surface access
-			// This is critical for Wayland support
+			// Make the DrawingArea expand to fill the frame
+			drawingArea.Hexpand = true;
+			drawingArea.Vexpand = true;
+			
+			// DO NOT force native window creation or visibility during initialization
+			// Let GTK manage the widget lifecycle naturally within the frame
 			drawingArea.AppPaintable = true;
 			
-			// Use Realized event for initialization - ensures widget hierarchy is established
-			drawingArea.Realized += DrawingArea_InitializeGraphicsBackend;
+			// Add the DrawingArea to the frame
+			frameContainer.Add(drawingArea);
 			
-			Console.WriteLine("[DEBUG] Created DrawingArea for Vulkan backend");
-			return drawingArea;
+			// Use Map event for initialization - ensures widget is properly embedded
+			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
+			
+			Console.WriteLine("[DEBUG] Created frame-wrapped DrawingArea for Vulkan backend");
+			return frameContainer;
 		}
 	}
 }

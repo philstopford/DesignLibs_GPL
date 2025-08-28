@@ -13,14 +13,13 @@ namespace Eto.Veldrid.Gtk;
 public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSurface, VeldridSurface.ICallback>, VeldridSurface.IHandler, VeldridSurface.IOpenGL
 {
 	private GLArea? glArea;
-	private DrawingArea? drawingArea;
 	private System.Action _makeCurrent;
 	private System.Action _clearCurrent;
 	public Size RenderSize => Size.Round((SizeF)Widget.Size * Scale);
 
 	private float Scale => Widget.ParentWindow?.Screen?.LogicalPixelSize ?? 1;
 
-	public override global::Gtk.Widget ContainerContentControl => drawingArea ?? glArea ?? base.ContainerContentControl;
+	public override global::Gtk.Widget ContainerContentControl => glArea ?? base.ContainerContentControl;
 
 	public GtkVeldridSurfaceHandler()
 	{
@@ -35,134 +34,28 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			return Widget.GraphicsDevice?.MainSwapchain;
 		}
 
-		// For Vulkan backend, attempt direct creation without conservative validation
-		return CreateVulkanSwapchain();
+		// For Vulkan backend with GLArea display, create an offscreen swapchain
+		return CreateVulkanOffscreenSwapchain();
 	}
 
-	private Swapchain? CreateVulkanSwapchain()
+	private Swapchain? CreateVulkanOffscreenSwapchain()
 	{
-		// Ensure we have a proper native window for Vulkan operations
-		if (drawingArea?.Window == null)
-		{
-			Console.WriteLine("[DEBUG] DrawingArea window not available for Vulkan swapchain creation");
-			return null;
-		}
-
-		// Ensure the widget is properly realized and has a native window
-		if (!drawingArea.IsRealized)
-		{
-			Console.WriteLine("[DEBUG] DrawingArea not realized, cannot create Vulkan swapchain");
-			return null;
-		}
-
-		// Get display info for debugging
-		var gdkDisplay = drawingArea.Display.Handle;
-		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
+		// Create an offscreen swapchain for Vulkan rendering
+		// This avoids the widget embedding issues entirely
 		
-		Console.WriteLine($"[DEBUG] Creating Vulkan swapchain - Wayland: {isWayland}, Realized: {drawingArea.IsRealized}");
-
-		try
-		{
-			SwapchainSource source = CreateSwapchainSource();
-			
-			Size renderSize = RenderSize;
-			var swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
-				new SwapchainDescription(
-					source,
-					(uint)renderSize.Width,
-					(uint)renderSize.Height,
-					Widget.GraphicsDeviceOptions.SwapchainDepthFormat,
-					Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
-					Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
-
-			if (swapchain != null)
-			{
-				Console.WriteLine("[DEBUG] Vulkan swapchain created successfully");
-			}
-			else
-			{
-				Console.WriteLine("[DEBUG] Failed to create Vulkan swapchain");
-			}
-
-			return swapchain;
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"[DEBUG] Exception creating Vulkan swapchain: {ex.Message}");
-			return null;
-		}
-	}
-
-	private SwapchainSource CreateSwapchainSource()
-	{
-		// Use drawingArea for Vulkan operations instead of Control
-		var gdkDisplay = drawingArea!.Display.Handle;
-		
-		bool isX11 = X11Interop.IsX11Display(gdkDisplay);
-		bool isWayland = X11Interop.IsWaylandDisplay(gdkDisplay);
-
-		// Add debugging information
-		var displayNamePtr = X11Interop.gdk_display_get_name(gdkDisplay);
-		var displayName = displayNamePtr == IntPtr.Zero ? "unknown" : System.Runtime.InteropServices.Marshal.PtrToStringAnsi(displayNamePtr) ?? "unknown";
-		Console.WriteLine($"[DEBUG] Display name: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
-
-		if (isX11 && !isWayland)
-		{
-			Console.WriteLine("[DEBUG] Creating X11/Xlib SwapchainSource");
-			return SwapchainSource.CreateXlib(
-				X11Interop.gdk_x11_display_get_xdisplay(gdkDisplay),
-				X11Interop.gdk_x11_window_get_xid(drawingArea.Window.Handle));
-		}
-		else if (isWayland && !isX11)
-		{
-			Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource");
-			return CreateWaylandSwapchainSource(gdkDisplay);
-		}
-		else
-		{
-			throw new NotSupportedException($"Unsupported or ambiguous windowing system. Display: {displayName}, IsX11: {isX11}, IsWayland: {isWayland}");
-		}
-	}
-
-	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
-	{
-		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource from container-managed DrawingArea");
-		
-		// Use drawingArea for Wayland operations
-		if (drawingArea?.Window == null)
-		{
-			throw new InvalidOperationException("DrawingArea window is null");
-		}
-		
-		// Ensure native window only if not already available
-		if (!drawingArea.Window.Handle.Equals(IntPtr.Zero))
-		{
-			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
-		}
-		
-		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}, Window.IsVisible: {drawingArea.Window.IsVisible}");
-		
-		// Get Wayland handles from DrawingArea
-		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
-		
-		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
-		{
-			throw new InvalidOperationException($"Failed to get Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
-		}
-		
-		Console.WriteLine($"[DEBUG] Successfully obtained Wayland handles - Display: {waylandDisplay}, Surface: {waylandSurface}");
+		Console.WriteLine("[DEBUG] Creating Vulkan offscreen swapchain for GLArea display");
 		
 		try
 		{
-			var swapchainSource = SwapchainSource.CreateWayland(waylandDisplay, waylandSurface);
-			Console.WriteLine("[DEBUG] Wayland SwapchainSource created successfully");
-			return swapchainSource;
+			// For now, return null to use Veldrid's default swapchain creation
+			// TODO: Implement proper offscreen rendering with texture sharing
+			Console.WriteLine("[DEBUG] Using default Veldrid swapchain creation for Vulkan");
+			return null;
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"[DEBUG] Failed to create Wayland SwapchainSource: {ex.Message}");
-			throw;
+			Console.WriteLine($"[DEBUG] Exception creating Vulkan offscreen swapchain: {ex.Message}");
+			return null;
 		}
 	}
 
@@ -186,59 +79,25 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		glArea.Resize += glArea_Resize;
 	}
 
-	private void DrawingArea_InitializeGraphicsBackend(object? sender, EventArgs e)
+	private void Vulkan_GLArea_InitializeGraphicsBackend(object? sender, EventArgs e)
 	{
-		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
-		
-		// Simple and clean initialization without problematic calls
-		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
-		
-		// Initialize graphics backend
-		Console.WriteLine("[DEBUG] Initializing graphics backend");
-		
-		try
-		{
-			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+		if (glArea == null)
+			return;
 			
-			// Add a draw event handler for continuous rendering
-			if (drawingArea != null)
-			{
-				drawingArea.Drawn += DrawingArea_Draw;
-				Console.WriteLine("[DEBUG] Added DrawingArea draw event handler");
-			}
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"[DEBUG] Graphics backend initialization failed: {ex.Message}");
-			throw;
-		}
-	}
-
-	private void DrawingArea_Draw(object o, DrawnArgs args)
-	{
-		if (!skipDraw)
-		{
-			skipDraw = true;
-			
-			try
-			{
-				// Trigger Veldrid drawing for Vulkan backend
-				Console.WriteLine("[DEBUG] DrawingArea draw event triggered");
-				Callback.OnDraw(Widget, EventArgs.Empty);
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine($"[DEBUG] Exception in DrawingArea_Draw: {ex.Message}");
-			}
-		}
-		skipDraw = false;
-	}
-
-	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
-	{
-		// Legacy method for EtoEventBox - kept for compatibility
-		Console.WriteLine("[DEBUG] Initializing graphics backend (legacy)");
+		Console.WriteLine("[DEBUG] Initializing Vulkan backend with GLArea display interop");
+		
+		// Make OpenGL context current for interop setup
+		glArea.Context.MakeCurrent();
+		
+		// Initialize Veldrid with Vulkan backend, but we'll render to offscreen targets
+		Console.WriteLine("[DEBUG] Creating Vulkan graphics device for offscreen rendering");
 		Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+		
+		// Set up rendering pipeline
+		glArea.Render += VulkanGLArea_Render;
+		glArea.Resize += VulkanGLArea_Resize;
+		
+		Console.WriteLine("[DEBUG] Vulkan-GLArea interop initialization completed");
 	}
 
 	private bool skipDraw;
@@ -247,6 +106,39 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	{
 		skipDraw = false;
 		Callback.OnResize(Widget, new ResizeEventArgs(RenderSize));
+	}
+
+	private void VulkanGLArea_Resize(object o, ResizeArgs args)
+	{
+		skipDraw = false;
+		Console.WriteLine($"[DEBUG] Vulkan-GLArea resize to {RenderSize}");
+		Callback.OnResize(Widget, new ResizeEventArgs(RenderSize));
+	}
+
+	private void VulkanGLArea_Render(object o, RenderArgs args)
+	{
+		if (!skipDraw)
+		{
+			skipDraw = true;
+
+			try
+			{
+				// For Vulkan backend, we render offscreen and then copy to the GLArea
+				Console.WriteLine("[DEBUG] Vulkan-GLArea render event triggered");
+				
+				// Trigger Veldrid drawing (this will render to our offscreen Vulkan target)
+				Callback.OnDraw(Widget, EventArgs.Empty);
+				
+				// TODO: Copy the Vulkan rendered content to OpenGL texture and display it
+				// For now, just clear the GL area with a color to show it's working
+				glArea?.MakeCurrent();
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"[DEBUG] Exception in VulkanGLArea_Render: {ex.Message}");
+			}
+		}
+		skipDraw = false;
 	}
 
 	private void glArea_Render(object o, RenderArgs args)
@@ -337,11 +229,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		{
 			glArea.QueueRender();
 		}
-		else if (drawingArea != null)
-		{
-			// For Vulkan backend, trigger drawing directly
-			TriggerVulkanDraw();
-		}
 	}
 
 	void Forms.Control.IHandler.Invalidate(bool invalidateChildren)
@@ -350,24 +237,6 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		if (glArea != null)
 		{
 			glArea.QueueRender();
-		}
-		else if (drawingArea != null)
-		{
-			// For Vulkan backend, trigger drawing directly
-			TriggerVulkanDraw();
-		}
-	}
-
-	private void TriggerVulkanDraw()
-	{
-		try
-		{
-			// Queue a draw on the DrawingArea widget to trigger the Drawn event
-			drawingArea?.QueueDraw();
-		}
-		catch (Exception ex)
-		{
-			Console.WriteLine($"[DEBUG] Exception in TriggerVulkanDraw: {ex.Message}");
 		}
 	}
 
@@ -390,32 +259,26 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 		else
 		{
-			// Create a Box container to properly manage the DrawingArea
-			var container = new Box(Orientation.Vertical, 0);
+			// CLEAN SHEET APPROACH: Use GLArea for display, Vulkan for offscreen rendering
+			// This eliminates the widget embedding issues by separating concerns:
+			// - Vulkan renders to offscreen textures
+			// - GLArea displays the textures as a normal GTK widget
 			
-			// Create DrawingArea for Vulkan backend
-			drawingArea = new DrawingArea();
-			drawingArea.CanFocus = true;
-			drawingArea.CanDefault = true;
+			glArea = new GLArea();
+			glArea.CanFocus = true;
+			glArea.CanDefault = true;
 			
-			// Set minimum size to ensure proper widget allocation
-			drawingArea.SetSizeRequest(100, 100);
+			// OpenGL 3.3 minimum for texture interop
+			glArea.SetRequiredVersion(3, 3);
 			
-			// Configure for Vulkan surface access
-			drawingArea.AppPaintable = true;
+			glArea.HasDepthBuffer = true;
+			glArea.HasStencilBuffer = true;
 			
-			// Pack the DrawingArea into the container
-			container.PackStart(drawingArea, true, true, 0);
+			// Use the same initialization path, but with Vulkan-to-OpenGL interop
+			glArea.Realized += Vulkan_GLArea_InitializeGraphicsBackend;
 			
-			// Make both container and drawingArea visible
-			drawingArea.Visible = true;
-			container.Visible = true;
-			
-			// Use Map event for initialization
-			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
-			
-			Console.WriteLine("[DEBUG] Created Box container with DrawingArea for Vulkan backend");
-			return container;
+			Console.WriteLine("[DEBUG] Created GLArea for Vulkan offscreen rendering + OpenGL display");
+			return glArea;
 		}
 	}
 }

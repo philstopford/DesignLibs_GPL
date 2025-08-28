@@ -1,6 +1,7 @@
 ﻿using Eto.Veldrid;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Text;
 using Veldrid;
 using Veldrid.SPIRV;
 using VeldridEto;
@@ -78,15 +79,16 @@ namespace VeldridEto;
 			// If you decide against using it, you can try out Veldrid developer
 			// mellinoe's other project, ShaderGen, or drive yourself crazy by
 			// writing and maintaining custom shader code for each platform.
-			byte[] vertexShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Vertex);
-			byte[] fragmentShaderSpirvBytes = LoadSpirvBytes(ShaderStages.Fragment);
+			// Load GLSL source code from embedded resources
+			string vertexShaderSource = LoadGlslSource(ShaderStages.Vertex);
+			string fragmentShaderSource = LoadGlslSource(ShaderStages.Fragment);
 
-			Console.WriteLine($"[DEBUG] Vertex shader bytes loaded: {vertexShaderSpirvBytes?.Length ?? 0} bytes");
-			Console.WriteLine($"[DEBUG] Fragment shader bytes loaded: {fragmentShaderSpirvBytes?.Length ?? 0} bytes");
+			Console.WriteLine($"[DEBUG] Vertex shader source loaded: {vertexShaderSource?.Length ?? 0} characters");
+			Console.WriteLine($"[DEBUG] Fragment shader source loaded: {fragmentShaderSource?.Length ?? 0} characters");
 
-			if (vertexShaderSpirvBytes == null || fragmentShaderSpirvBytes == null)
+			if (string.IsNullOrEmpty(vertexShaderSource) || string.IsNullOrEmpty(fragmentShaderSource))
 			{
-				throw new InvalidOperationException("Failed to load shader bytecode");
+				throw new InvalidOperationException("Failed to load shader source code");
 			}
 
 			CrossCompileOptions? options = new();
@@ -134,8 +136,8 @@ namespace VeldridEto;
 			ViewMatrixSet = factory.CreateResourceSet(new ResourceSetDescription(
 				viewMatrixLayout, ViewBuffer));
 
-			ShaderDescription vertex = new(ShaderStages.Vertex, vertexShaderSpirvBytes, "main", true);
-			ShaderDescription fragment = new(ShaderStages.Fragment, fragmentShaderSpirvBytes, "main", true);
+			ShaderDescription vertex = new(ShaderStages.Vertex, Encoding.UTF8.GetBytes(vertexShaderSource), "main");
+			ShaderDescription fragment = new(ShaderStages.Fragment, Encoding.UTF8.GetBytes(fragmentShaderSource), "main");
 			
 			Console.WriteLine($"[DEBUG] About to create shaders using CreateFromSpirv for backend: {Surface.GraphicsDevice.BackendType}");
 			Console.WriteLine($"[DEBUG] ResourceFactory type: {factory.GetType().FullName}");
@@ -165,13 +167,13 @@ namespace VeldridEto;
 				Console.WriteLine($"[ERROR] Null argument in shader creation: {argEx.Message}");
 				Console.WriteLine($"[ERROR] This might be due to backend mismatch or SPIRV compilation failure");
 				
-				// Check if the bytes are actually null
-				Console.WriteLine($"[DEBUG] Vertex shader bytes null: {vertexShaderSpirvBytes == null}");
-				Console.WriteLine($"[DEBUG] Fragment shader bytes null: {fragmentShaderSpirvBytes == null}");
+				// Check if the source is actually null
+				Console.WriteLine($"[DEBUG] Vertex shader source null: {string.IsNullOrEmpty(vertexShaderSource)}");
+				Console.WriteLine($"[DEBUG] Fragment shader source null: {string.IsNullOrEmpty(fragmentShaderSource)}");
 				
 				throw new InvalidOperationException(
 					$"Shader creation failed with null bytes. Backend: {Surface.GraphicsDevice.BackendType}, " +
-					$"Vertex bytes: {vertexShaderSpirvBytes?.Length ?? 0}, Fragment bytes: {fragmentShaderSpirvBytes?.Length ?? 0}", argEx);
+					$"Vertex source: {vertexShaderSource?.Length ?? 0}, Fragment source: {fragmentShaderSource?.Length ?? 0}", argEx);
 			}
 			catch (Exception ex)
 			{
@@ -304,18 +306,12 @@ namespace VeldridEto;
 			});
 		}
 
-		private byte[] LoadSpirvBytes(ShaderStages stage)
+		private string LoadGlslSource(ShaderStages stage)
 		{
 			string name = $"VertexColor-{stage.ToString().ToLowerInvariant()}.450.glsl";
 			string full = $"Eto.VeldridSurface.shaders.{name}";
 
-			Console.WriteLine($"[DEBUG] Loading shader: {name} from resource: {full}");
-
-			// Precompiled SPIR-V bytecode can speed up program start by saving
-			// the need to load text files and compile them before converting
-			// the result to the final backend shader format. If they're not
-			// available, though, the plain .glsl files will do just fine. Look
-			// up glslangValidator to learn how to compile SPIR-V binary files.
+			Console.WriteLine($"[DEBUG] Loading GLSL source: {name} from resource: {full}");
 
 			using (Stream? stream = GetType().Assembly.GetManifestResourceStream(full))
 			{
@@ -327,10 +323,10 @@ namespace VeldridEto;
 				
 				Console.WriteLine($"[DEBUG] Shader resource found, length: {stream.Length} bytes");
 				
-				using (BinaryReader? reader = new(stream))
+				using (StreamReader reader = new(stream))
 				{
-					byte[] result = reader.ReadBytes((int)stream.Length);
-					Console.WriteLine($"[DEBUG] Successfully loaded {result.Length} bytes for {stage} shader");
+					string result = reader.ReadToEnd();
+					Console.WriteLine($"[DEBUG] Successfully loaded {result.Length} characters of GLSL source for {stage} shader");
 					return result;
 				}
 			}

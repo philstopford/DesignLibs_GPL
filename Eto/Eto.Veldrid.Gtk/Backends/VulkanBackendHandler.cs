@@ -23,6 +23,7 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
     public VulkanBackendHandler()
     {
         _windowingSystem = WindowingSystemDetector.DetectWindowingSystem();
+        Console.WriteLine($"VulkanBackendHandler: Detected windowing system: {_windowingSystem}");
     }
 
     public global::Gtk.Widget CreateWidget()
@@ -38,19 +39,36 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
 
     public Swapchain? CreateSwapchain(VeldridSurface surface, Size renderSize)
     {
-        if (_eventBox == null || surface.GraphicsDevice == null)
-            return null;
+        try
+        {
+            Console.WriteLine($"VulkanBackendHandler: Attempting to create swapchain with size {renderSize}");
+            
+            if (_eventBox == null || surface.GraphicsDevice == null)
+            {
+                Console.WriteLine($"VulkanBackendHandler: Cannot create swapchain - eventBox: {_eventBox != null}, graphicsDevice: {surface.GraphicsDevice != null}");
+                return null;
+            }
 
-        SwapchainSource source = CreateSwapchainSource();
+            SwapchainSource source = CreateSwapchainSource();
+            Console.WriteLine($"VulkanBackendHandler: Created swapchain source for {_windowingSystem}");
 
-        return surface.GraphicsDevice.ResourceFactory.CreateSwapchain(
-            new SwapchainDescription(
-                source,
-                (uint)renderSize.Width,
-                (uint)renderSize.Height,
-                surface.GraphicsDeviceOptions.SwapchainDepthFormat,
-                surface.GraphicsDeviceOptions.SyncToVerticalBlank,
-                surface.GraphicsDeviceOptions.SwapchainSrgbFormat));
+            var swapchain = surface.GraphicsDevice.ResourceFactory.CreateSwapchain(
+                new SwapchainDescription(
+                    source,
+                    (uint)renderSize.Width,
+                    (uint)renderSize.Height,
+                    surface.GraphicsDeviceOptions.SwapchainDepthFormat,
+                    surface.GraphicsDeviceOptions.SyncToVerticalBlank,
+                    surface.GraphicsDeviceOptions.SwapchainSrgbFormat));
+            
+            Console.WriteLine($"VulkanBackendHandler: Successfully created swapchain: {swapchain}");
+            return swapchain;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"VulkanBackendHandler: Failed to create swapchain: {ex.Message}");
+            throw;
+        }
     }
 
     private SwapchainSource CreateSwapchainSource()
@@ -89,8 +107,20 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
 
     public void InitializeGraphicsDevice(VeldridSurface surface, Size renderSize)
     {
-        // Create the Vulkan graphics device
-        surface.GraphicsDevice = GraphicsDevice.CreateVulkan(surface.GraphicsDeviceOptions);
+        try
+        {
+            Console.WriteLine($"VulkanBackendHandler: Attempting to create Vulkan graphics device with size {renderSize}");
+            
+            // Create the Vulkan graphics device
+            surface.GraphicsDevice = GraphicsDevice.CreateVulkan(surface.GraphicsDeviceOptions);
+            
+            Console.WriteLine($"VulkanBackendHandler: Successfully created Vulkan graphics device: {surface.GraphicsDevice}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"VulkanBackendHandler: Failed to create Vulkan graphics device: {ex.Message}");
+            throw;
+        }
     }
 
     public void HandleResize(Size newSize)
@@ -118,11 +148,27 @@ internal class VulkanBackendHandler : IVeldridBackendHandler
 
     private void OnEventBoxRealized(object? sender, EventArgs e)
     {
-        if (_eventBox == null || _callback == null || _surface == null)
-            return;
+        try
+        {
+            Console.WriteLine("VulkanBackendHandler: EventBox realized");
+            
+            if (_eventBox == null || _callback == null || _surface == null)
+            {
+                Console.WriteLine($"VulkanBackendHandler: Missing components - eventBox: {_eventBox != null}, callback: {_callback != null}, surface: {_surface != null}");
+                return;
+            }
 
-        var size = new Size(_eventBox.AllocatedWidth, _eventBox.AllocatedHeight);
-        _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
+            var size = new Size(_eventBox.AllocatedWidth, _eventBox.AllocatedHeight);
+            Console.WriteLine($"VulkanBackendHandler: EventBox size: {size}");
+            
+            _callback.OnInitializeBackend(_surface, new InitializeEventArgs(size));
+            Console.WriteLine("VulkanBackendHandler: Called OnInitializeBackend");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"VulkanBackendHandler: Error in OnEventBoxRealized: {ex.Message}");
+            Console.WriteLine($"VulkanBackendHandler: Stack trace: {ex.StackTrace}");
+        }
     }
 
     private void OnEventBoxSizeAllocated(object o, SizeAllocatedArgs args)

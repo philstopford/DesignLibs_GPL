@@ -148,12 +148,26 @@ public class VeldridSurface : Control
 
 	private void InitializeGraphicsBackend(InitializeEventArgs e)
 	{
-		// Delegate graphics device initialization to the platform-specific handler
-		Handler.InitializeGraphicsDevice(this, e);
+		try
+		{
+			Console.WriteLine($"VeldridSurface: InitializeGraphicsBackend called with size {e.Width}x{e.Height}");
+			
+			// Delegate graphics device initialization to the platform-specific handler
+			Handler.InitializeGraphicsDevice(this, e);
+			Console.WriteLine($"VeldridSurface: Graphics device initialized: {GraphicsDevice}");
 
-		Swapchain = Handler.CreateSwapchain();
+			Swapchain = Handler.CreateSwapchain();
+			Console.WriteLine($"VeldridSurface: Swapchain created: {Swapchain}");
 
-		OnVeldridInitialized(e);
+			OnVeldridInitialized(e);
+			Console.WriteLine("VeldridSurface: VeldridInitialized event fired");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"VeldridSurface: Error in InitializeGraphicsBackend: {ex.Message}");
+			Console.WriteLine($"VeldridSurface: Stack trace: {ex.StackTrace}");
+			throw;
+		}
 	}
 
 	protected virtual void OnDraw(EventArgs e) => Properties.TriggerEvent(DrawEvent, this, e);

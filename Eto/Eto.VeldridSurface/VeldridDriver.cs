@@ -42,9 +42,25 @@ namespace VeldridEto;
 
 		public void SetUpVeldrid()
 		{
-			CreateResources();
+			Console.WriteLine("VeldridDriver: SetUpVeldrid called");
+			
+			try
+			{
+				Console.WriteLine($"VeldridDriver: Surface GraphicsDevice: {Surface?.GraphicsDevice}");
+				Console.WriteLine($"VeldridDriver: Surface Swapchain: {Surface?.Swapchain}");
+				
+				CreateResources();
+				Console.WriteLine("VeldridDriver: Resources created successfully");
 
-			Ready = true;
+				Ready = true;
+				Console.WriteLine("VeldridDriver: Ready set to true");
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"VeldridDriver: Error in SetUpVeldrid: {ex.Message}");
+				Console.WriteLine($"VeldridDriver: Stack trace: {ex.StackTrace}");
+				throw;
+			}
 		}
 
 		private void CreateResources()

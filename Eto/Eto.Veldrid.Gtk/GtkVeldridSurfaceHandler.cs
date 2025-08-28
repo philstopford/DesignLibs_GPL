@@ -35,12 +35,29 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	protected override global::Gtk.Widget CreateControl()
 	{
-		// Create appropriate backend handler based on the graphics backend
-		_backendHandler = VeldridBackendFactory.CreateBackendHandler(Widget.Backend);
-		_backendHandler.SetupEventHandlers(Callback, Widget);
-		
-		_widget = _backendHandler.CreateWidget();
-		return _widget;
+		try
+		{
+			Console.WriteLine($"GtkVeldridSurfaceHandler: CreateControl called");
+			Console.WriteLine($"GtkVeldridSurfaceHandler: Widget.Backend = {Widget.Backend}");
+			
+			// Create appropriate backend handler based on the graphics backend
+			_backendHandler = VeldridBackendFactory.CreateBackendHandler(Widget.Backend);
+			Console.WriteLine($"GtkVeldridSurfaceHandler: Created backend handler: {_backendHandler.GetType().Name}");
+			
+			_backendHandler.SetupEventHandlers(Callback, Widget);
+			Console.WriteLine("GtkVeldridSurfaceHandler: Setup event handlers");
+			
+			_widget = _backendHandler.CreateWidget();
+			Console.WriteLine($"GtkVeldridSurfaceHandler: Created widget: {_widget?.GetType().Name}");
+			
+			return _widget;
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine($"GtkVeldridSurfaceHandler: Error in CreateControl: {ex.Message}");
+			Console.WriteLine($"GtkVeldridSurfaceHandler: Stack trace: {ex.StackTrace}");
+			throw;
+		}
 	}
 
 	// IOpenGL interface implementation - delegate to OpenGL backend handler if available

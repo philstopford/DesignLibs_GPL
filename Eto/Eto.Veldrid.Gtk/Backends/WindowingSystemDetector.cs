@@ -31,13 +31,18 @@ internal static class WindowingSystemDetector
 
     private static WindowingSystem DetectWindowingSystemImpl()
     {
+        Console.WriteLine("WindowingSystemDetector: Starting windowing system detection");
+        
         // First check environment variables
         string? waylandDisplay = Environment.GetEnvironmentVariable("WAYLAND_DISPLAY");
         string? x11Display = Environment.GetEnvironmentVariable("DISPLAY");
+        
+        Console.WriteLine($"WindowingSystemDetector: WAYLAND_DISPLAY={waylandDisplay}, DISPLAY={x11Display}");
 
         // If WAYLAND_DISPLAY is set and DISPLAY is not, we're likely on Wayland
         if (!string.IsNullOrEmpty(waylandDisplay) && string.IsNullOrEmpty(x11Display))
         {
+            Console.WriteLine("WindowingSystemDetector: Detected pure Wayland (no X11)");
             return WindowingSystem.Wayland;
         }
 
@@ -47,8 +52,10 @@ internal static class WindowingSystemDetector
             // Check if we're running under XWayland
             if (IsRunningUnderXWayland())
             {
+                Console.WriteLine("WindowingSystemDetector: Detected XWayland");
                 return WindowingSystem.Wayland;
             }
+            Console.WriteLine("WindowingSystemDetector: Detected X11");
             return WindowingSystem.X11;
         }
 
@@ -59,29 +66,34 @@ internal static class WindowingSystemDetector
             if (display != null)
             {
                 string displayTypeName = display.GetType().Name;
+                Console.WriteLine($"WindowingSystemDetector: GDK display type: {displayTypeName}");
                 
                 if (displayTypeName.Contains("Wayland", StringComparison.OrdinalIgnoreCase))
                 {
+                    Console.WriteLine("WindowingSystemDetector: Detected Wayland via GDK");
                     return WindowingSystem.Wayland;
                 }
                 else if (displayTypeName.Contains("X11", StringComparison.OrdinalIgnoreCase))
                 {
+                    Console.WriteLine("WindowingSystemDetector: Detected X11 via GDK");
                     return WindowingSystem.X11;
                 }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore errors in display detection
+            Console.WriteLine($"WindowingSystemDetector: Error in GDK display detection: {ex.Message}");
         }
 
         // Fall back to checking if Wayland compositor is available
         if (!string.IsNullOrEmpty(waylandDisplay))
         {
+            Console.WriteLine("WindowingSystemDetector: Fallback to Wayland (WAYLAND_DISPLAY present)");
             return WindowingSystem.Wayland;
         }
 
         // Default to X11 if we can't determine
+        Console.WriteLine("WindowingSystemDetector: Fallback to X11 (default)");
         return WindowingSystem.X11;
     }
 

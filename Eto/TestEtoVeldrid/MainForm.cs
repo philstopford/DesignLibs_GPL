@@ -55,7 +55,11 @@ public partial class MainForm : Form
 			ResourceBindingModel.Improved);
 
 		Surface = new VeldridSurface(backend, options);
-		Surface.VeldridInitialized += (sender, e) => VeldridReady = true;
+		Surface.VeldridInitialized += (sender, e) => 
+		{
+			Console.WriteLine("MainForm: VeldridInitialized event received");
+			VeldridReady = true;
+		};
 
 		Content = Surface;
 
@@ -73,6 +77,7 @@ public partial class MainForm : Form
 
 		Surface.VeldridInitialized += (sender, e) =>
 		{
+			Console.WriteLine("MainForm: VeldridInitialized event received (second handler)");
 			Driver.SetUpVeldrid();
 			
 			_veldridReady = true;
@@ -85,17 +90,22 @@ public partial class MainForm : Form
 
 	private void SetUpVeldrid()
 	{
+		Console.WriteLine($"MainForm: SetUpVeldrid called - FormReady: {FormReady}, VeldridReady: {VeldridReady}");
+		
 		switch (FormReady && VeldridReady)
 		{
 			case false:
+				Console.WriteLine("MainForm: Not ready to set up Veldrid yet");
 				return;
 		}
 
+		Console.WriteLine($"MainForm: Setting up Veldrid with backend: {Surface.Backend}");
 		Title = $"Veldrid backend: {Surface.Backend.ToString()}";
 
 		createVPContextMenu();
 
 		Driver.Clock.Start();
+		Console.WriteLine("MainForm: Veldrid setup complete");
 	}
 
 	private void addPolys()

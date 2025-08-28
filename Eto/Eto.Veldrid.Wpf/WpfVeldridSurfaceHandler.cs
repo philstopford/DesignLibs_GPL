@@ -4,6 +4,7 @@ using Eto.Veldrid.Wpf;
 using System;
 using System.Runtime.InteropServices;
 using Veldrid;
+using Veldrid.OpenGL;
 
 [assembly: Eto.ExportHandler(typeof(VeldridSurface), typeof(WpfVeldridSurfaceHandler))]
 
@@ -18,6 +19,51 @@ namespace Eto.Veldrid.Wpf
 		public WpfVeldridSurfaceHandler() : base(new WinFormsVeldridUserControl())
 		{
 			Control.Loaded += Control_Loaded;
+		}
+
+		public void InitializeGraphicsDevice(VeldridSurface surface, InitializeEventArgs e)
+		{
+			switch (surface.Backend)
+			{
+				case GraphicsBackend.Metal:
+					surface.GraphicsDevice = GraphicsDevice.CreateMetal(surface.GraphicsDeviceOptions);
+					break;
+				case GraphicsBackend.Direct3D11:
+					surface.GraphicsDevice = GraphicsDevice.CreateD3D11(surface.GraphicsDeviceOptions);
+					break;
+				case GraphicsBackend.Vulkan:
+					surface.GraphicsDevice = GraphicsDevice.CreateVulkan(surface.GraphicsDeviceOptions);
+					break;
+				case GraphicsBackend.OpenGL:
+					surface.GraphicsDevice = GraphicsDevice.CreateOpenGL(
+						surface.GraphicsDeviceOptions,
+						new OpenGLPlatformInfo(
+							surface.OpenGL.OpenGLContextHandle,
+							surface.OpenGL.GetProcAddress,
+							surface.OpenGL.MakeCurrent,
+							surface.OpenGL.GetCurrentContext,
+							surface.OpenGL.ClearCurrentContext,
+							surface.OpenGL.DeleteContext,
+							surface.OpenGL.SwapBuffers,
+							surface.OpenGL.SetSyncToVerticalBlank,
+							surface.OpenGL.SetSwapchainFramebuffer,
+							surface.OpenGL.ResizeSwapchain),
+						(uint)e.Width,
+						(uint)e.Height);
+					break;
+				default:
+					string message;
+					if (!Enum.IsDefined(typeof(GraphicsBackend), surface.Backend))
+					{
+						message = "Unrecognized backend!";
+					}
+					else
+					{
+						message = "Specified backend not supported on this platform!";
+					}
+
+					throw new ArgumentException(message);
+			}
 		}
 
 		public Swapchain? CreateSwapchain()

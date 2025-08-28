@@ -102,9 +102,9 @@ namespace Eto.Veldrid.Gtk.Examples
                       $"Device: {device?.DeviceName}\n" +
                       $"Vendor: {device?.VendorName}\n" +
                       $"API Version: {device?.ApiVersion}\n" +
-                      $"Driver: {device?.DriverName} {device?.DriverInfo}\n" +
                       $"Uniform Buffer Alignment: {device?.UniformBufferMinOffsetAlignment}\n" +
-                      $"Max Texture Size: {device?.GetPixelFormatSupport(PixelFormat.R8G8B8A8UNorm, TextureType.Texture2D, TextureUsage.Sampled)}";
+                      $"UV Origin Top Left: {device?.IsUvOriginTopLeft}\n" +
+                      $"Depth Range Zero To One: {device?.IsDepthRangeZeroToOne}";
                       
             MessageBox.Show(this, info, "Backend Information");
         }

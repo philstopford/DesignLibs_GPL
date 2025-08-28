@@ -17,6 +17,7 @@ public class VeldridSurface : Control
 	{
 		Size RenderSize { get; }
 		Swapchain? CreateSwapchain();
+		void InitializeGraphicsDevice(VeldridSurface surface, InitializeEventArgs e);
 	}
 
 	private new IHandler Handler => (IHandler)base.Handler;
@@ -72,7 +73,7 @@ public class VeldridSurface : Control
 	public int RenderHeight => RenderSize.Height;
 
 	public GraphicsBackend Backend { get; private set; }
-	public GraphicsDevice? GraphicsDevice { get; private set; }
+	public GraphicsDevice? GraphicsDevice { get; set; }
 	public GraphicsDeviceOptions GraphicsDeviceOptions { get; private set; }
 	public Swapchain? Swapchain { get; private set; }
 
@@ -124,9 +125,17 @@ public class VeldridSurface : Control
 		{
 			backend = GraphicsBackend.Direct3D11;
 		}
-		else if (EtoEnvironment.Platform.IsLinux && GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
+		else if (EtoEnvironment.Platform.IsLinux)
 		{
-			backend = GraphicsBackend.OpenGL;
+			// On Linux, prefer Vulkan if available, then fall back to OpenGL
+			if (GraphicsDevice.IsBackendSupported(GraphicsBackend.Vulkan))
+			{
+				backend = GraphicsBackend.Vulkan;
+			}
+			else if (GraphicsDevice.IsBackendSupported(GraphicsBackend.OpenGL))
+			{
+				backend = GraphicsBackend.OpenGL;
+			}
 		}
 
 		if (backend == null)
@@ -139,47 +148,8 @@ public class VeldridSurface : Control
 
 	private void InitializeGraphicsBackend(InitializeEventArgs e)
 	{
-		switch (Backend)
-		{
-			case GraphicsBackend.Metal:
-				GraphicsDevice = GraphicsDevice.CreateMetal(GraphicsDeviceOptions);
-				break;
-			case GraphicsBackend.Direct3D11:
-				GraphicsDevice = GraphicsDevice.CreateD3D11(GraphicsDeviceOptions);
-				break;
-			case GraphicsBackend.Vulkan:
-				GraphicsDevice = GraphicsDevice.CreateVulkan(GraphicsDeviceOptions);
-				break;
-			case GraphicsBackend.OpenGL:
-				GraphicsDevice = GraphicsDevice.CreateOpenGL(
-					GraphicsDeviceOptions,
-					new OpenGLPlatformInfo(
-						OpenGL.OpenGLContextHandle,
-						OpenGL.GetProcAddress,
-						OpenGL.MakeCurrent,
-						OpenGL.GetCurrentContext,
-						OpenGL.ClearCurrentContext,
-						OpenGL.DeleteContext,
-						OpenGL.SwapBuffers,
-						OpenGL.SetSyncToVerticalBlank,
-						OpenGL.SetSwapchainFramebuffer,
-						OpenGL.ResizeSwapchain),
-					(uint)e.Width,
-					(uint)e.Height);
-				break;
-			default:
-				string message;
-				if (!Enum.IsDefined(typeof(GraphicsBackend), Backend))
-				{
-					message = "Unrecognized backend!";
-				}
-				else
-				{
-					message = "Specified backend not supported on this platform!";
-				}
-
-				throw new ArgumentException(message);
-		}
+		// Delegate graphics device initialization to the platform-specific handler
+		Handler.InitializeGraphicsDevice(this, e);
 
 		Swapchain = Handler.CreateSwapchain();
 

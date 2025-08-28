@@ -14,14 +14,13 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 {
 	private GLArea? glArea;
 	private DrawingArea? drawingArea;
-	private Frame? frameContainer; // Container for Vulkan DrawingArea
 	private System.Action _makeCurrent;
 	private System.Action _clearCurrent;
 	public Size RenderSize => Size.Round((SizeF)Widget.Size * Scale);
 
 	private float Scale => Widget.ParentWindow?.Screen?.LogicalPixelSize ?? 1;
 
-	public override global::Gtk.Widget ContainerContentControl => glArea ?? frameContainer ?? drawingArea ?? base.ContainerContentControl;
+	public override global::Gtk.Widget ContainerContentControl => drawingArea ?? glArea ?? base.ContainerContentControl;
 
 	public GtkVeldridSurfaceHandler()
 	{
@@ -127,33 +126,25 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private SwapchainSource CreateWaylandSwapchainSource(IntPtr gdkDisplay)
 	{
-		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource from frame-wrapped DrawingArea");
+		Console.WriteLine("[DEBUG] Creating Wayland SwapchainSource from container-managed DrawingArea");
 		
-		// Get Wayland handles - try DrawingArea first, then fall back to frame container
-		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
-		IntPtr waylandSurface = IntPtr.Zero;
-		
-		// Try to get surface from DrawingArea first
-		if (drawingArea?.Window != null)
+		// Use drawingArea for Wayland operations
+		if (drawingArea?.Window == null)
 		{
-			Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
-			waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
+			throw new InvalidOperationException("DrawingArea window is null");
 		}
 		
-		// Fallback to frame container if DrawingArea doesn't provide proper surface
-		if (waylandSurface == IntPtr.Zero && frameContainer?.Window != null)
+		// Ensure native window only if not already available
+		if (!drawingArea.Window.Handle.Equals(IntPtr.Zero))
 		{
-			Console.WriteLine("[DEBUG] Falling back to frame container for Wayland surface");
-			waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(frameContainer.Window.Handle);
-		}
-		
-		// Last resort: create native window only if absolutely necessary and within frame context
-		if (waylandSurface == IntPtr.Zero && drawingArea?.Window != null && frameContainer != null)
-		{
-			Console.WriteLine("[DEBUG] Last resort: creating native window within frame container context");
 			X11Interop.gdk_window_ensure_native(drawingArea.Window.Handle);
-			waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
 		}
+		
+		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}, Window.IsVisible: {drawingArea.Window.IsVisible}");
+		
+		// Get Wayland handles from DrawingArea
+		var waylandDisplay = X11Interop.gdk_wayland_display_get_wl_display(gdkDisplay);
+		var waylandSurface = X11Interop.gdk_wayland_window_get_wl_surface(drawingArea.Window.Handle);
 		
 		if (waylandDisplay == IntPtr.Zero || waylandSurface == IntPtr.Zero)
 		{
@@ -199,11 +190,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	{
 		Console.WriteLine("[DEBUG] DrawingArea mapped and ready for graphics initialization");
 		
-		// DO NOT call gdk_window_ensure_native() or ShowAll() here!
-		// These calls cause GTK to treat the DrawingArea as a separate top-level window
-		// The frame-container approach ensures proper widget hierarchy management
-		
-		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea?.Visible}, Realized: {drawingArea?.IsRealized}, Mapped: {drawingArea?.IsMapped}");
+		// Simple and clean initialization without problematic calls
+		Console.WriteLine($"[DEBUG] DrawingArea state - Visible: {drawingArea.Visible}, Realized: {drawingArea.IsRealized}, Mapped: {drawingArea.IsMapped}");
 		
 		// Initialize graphics backend
 		Console.WriteLine("[DEBUG] Initializing graphics backend");
@@ -212,8 +200,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		{
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
 			
-			// Add a draw event handler for continuous rendering - but ensure it's safe
-			if (drawingArea != null && Widget.GraphicsDevice != null)
+			// Add a draw event handler for continuous rendering
+			if (drawingArea != null)
 			{
 				drawingArea.Drawn += DrawingArea_Draw;
 				Console.WriteLine("[DEBUG] Added DrawingArea draw event handler");
@@ -222,35 +210,28 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		catch (Exception ex)
 		{
 			Console.WriteLine($"[DEBUG] Graphics backend initialization failed: {ex.Message}");
-			Console.WriteLine($"[DEBUG] Stack trace: {ex.StackTrace}");
 			throw;
 		}
 	}
 
 	private void DrawingArea_Draw(object o, DrawnArgs args)
 	{
-		if (!skipDraw && Widget.GraphicsDevice != null)
+		if (!skipDraw)
 		{
 			skipDraw = true;
 			
 			try
 			{
-				// Only trigger drawing if we have a valid graphics device and are ready
-				if (Widget.GraphicsDevice != null && Widget.GraphicsDevice.MainSwapchain != null)
-				{
-					Callback.OnDraw(Widget, EventArgs.Empty);
-				}
+				// Trigger Veldrid drawing for Vulkan backend
+				Console.WriteLine("[DEBUG] DrawingArea draw event triggered");
+				Callback.OnDraw(Widget, EventArgs.Empty);
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine($"[DEBUG] Exception in DrawingArea_Draw: {ex.Message}");
-				Console.WriteLine($"[DEBUG] Stack trace: {ex.StackTrace}");
-			}
-			finally
-			{
-				skipDraw = false;
 			}
 		}
+		skipDraw = false;
 	}
 
 	private void Control_InitializeGraphicsBackend(object? sender, EventArgs e)
@@ -381,12 +362,8 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 	{
 		try
 		{
-			// Only trigger drawing if we have a valid graphics device and swapchain
-			if (Widget.GraphicsDevice != null && Widget.GraphicsDevice.MainSwapchain != null && drawingArea != null)
-			{
-				// Queue a draw on the DrawingArea widget to trigger the Drawn event
-				drawingArea.QueueDraw();
-			}
+			// Queue a draw on the DrawingArea widget to trigger the Drawn event
+			drawingArea?.QueueDraw();
 		}
 		catch (Exception ex)
 		{
@@ -413,15 +390,10 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 		}
 		else
 		{
-			// Alternative approach: Use a Frame container to wrap the DrawingArea
-			// This approach avoids the separate window issue by maintaining proper GTK hierarchy
-			Console.WriteLine("[DEBUG] Creating frame-wrapped Vulkan widget approach");
+			// Create a Box container to properly manage the DrawingArea
+			var container = new Box(Orientation.Vertical, 0);
 			
-			frameContainer = new Frame(null);
-			frameContainer.CanFocus = true;
-			frameContainer.CanDefault = true;
-			frameContainer.ShadowType = ShadowType.None; // No visible frame border
-			
+			// Create DrawingArea for Vulkan backend
 			drawingArea = new DrawingArea();
 			drawingArea.CanFocus = true;
 			drawingArea.CanDefault = true;
@@ -429,22 +401,21 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			// Set minimum size to ensure proper widget allocation
 			drawingArea.SetSizeRequest(100, 100);
 			
-			// Make the DrawingArea expand to fill the frame
-			drawingArea.Hexpand = true;
-			drawingArea.Vexpand = true;
-			
-			// DO NOT force native window creation or visibility during initialization
-			// Let GTK manage the widget lifecycle naturally within the frame
+			// Configure for Vulkan surface access
 			drawingArea.AppPaintable = true;
 			
-			// Add the DrawingArea to the frame
-			frameContainer.Add(drawingArea);
+			// Pack the DrawingArea into the container
+			container.PackStart(drawingArea, true, true, 0);
 			
-			// Use Map event for initialization - ensures widget is properly embedded
+			// Make both container and drawingArea visible
+			drawingArea.Visible = true;
+			container.Visible = true;
+			
+			// Use Map event for initialization
 			drawingArea.Mapped += DrawingArea_InitializeGraphicsBackend;
 			
-			Console.WriteLine("[DEBUG] Created frame-wrapped DrawingArea for Vulkan backend");
-			return frameContainer;
+			Console.WriteLine("[DEBUG] Created Box container with DrawingArea for Vulkan backend");
+			return container;
 		}
 	}
 }

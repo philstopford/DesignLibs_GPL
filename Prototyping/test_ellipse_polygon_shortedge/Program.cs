@@ -325,13 +325,15 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         PointD endDir = Normalized(endLength);
 
         double start_radius = radius;
-        double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
-        if (start_radius > half_edge_length) start_radius = half_edge_length;
+        double distance_to_midpoint = Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y);
+        double max_start_radius = distance_to_midpoint * 0.5;
+        if (start_radius > max_start_radius) start_radius = max_start_radius;
         PointD curveStartPoint = Add(startLineStart, Mult(startDir, start_radius));
 
         double end_radius = radius;
-        half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
-        if (end_radius > half_edge_length) end_radius = half_edge_length;
+        distance_to_midpoint = Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y);
+        double max_end_radius = distance_to_midpoint * 0.5;
+        if (end_radius > max_end_radius) end_radius = max_end_radius;
         PointD curveEndPoint = Add(endLineStart, Mult(endDir, end_radius));
 
         double dx = curveEndPoint.x - curveStartPoint.x;

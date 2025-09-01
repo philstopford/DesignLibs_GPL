@@ -789,8 +789,8 @@ namespace UnitTests
             
             // Verify the result has a reasonable number of points (not too few, not too many)
             Console.WriteLine($"Result points: {result.Count}");
-            Assert.That(result.Count, Is.InRange(30, 150), 
-                "Result should have a reasonable number of curve points indicating proper radius application");
+            Assert.That(result.Count, Is.InRange(100, 250), 
+                "Result should have more curve points indicating proper radius application");
         }
 
         [Test]

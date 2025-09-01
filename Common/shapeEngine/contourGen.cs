@@ -176,19 +176,19 @@ public static class contourGen
         PointD endLength = Helper.Minus(endLineEnd, endLineStart);
         PointD endDir = Helper.Normalized(endLength);
 
-        // Compute actual edge lengths (distance from corner to edge midpoint)
-        double startEdgeLength = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
-        double endEdgeLength = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
+        // Compute distances from corner to midpoints of adjacent edges
+        double distToStartMidpoint = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
+        double distToEndMidpoint = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
         
         // Apply adaptive radius limiting based on edge classification
-        double adaptiveRadius = ComputeAdaptiveRadius(startEdgeLength, endEdgeLength, radius, shortEdgeThreshold);
+        double adaptiveRadius = ComputeAdaptiveRadius(distToStartMidpoint, distToEndMidpoint, radius, shortEdgeThreshold);
         
         double start_radius = adaptiveRadius;
-        if (start_radius > startEdgeLength) start_radius = startEdgeLength;
+        if (start_radius > distToStartMidpoint) start_radius = distToStartMidpoint;
         PointD curveStartPoint = Helper.Add(startLineStart, Helper.Mult(startDir, start_radius));
 
         double end_radius = adaptiveRadius;
-        if (end_radius > endEdgeLength) end_radius = endEdgeLength;
+        if (end_radius > distToEndMidpoint) end_radius = distToEndMidpoint;
         PointD curveEndPoint = Helper.Add(endLineStart, Helper.Mult(endDir, end_radius));
 
         double dx = curveEndPoint.x - curveStartPoint.x;
@@ -224,29 +224,28 @@ public static class contourGen
 
     /// <summary>
     /// Computes an adaptive radius that respects edge length constraints.
-    /// For short edges, applies more restrictive limiting. For normal edges,
-    /// allows larger radii while still preventing geometric issues.
+    /// The distances provided are from the corner to the midpoints of adjacent edges,
+    /// which represent the maximum radius we can use without going beyond midpoints.
     /// </summary>
-    static double ComputeAdaptiveRadius(double startEdgeLength, double endEdgeLength, 
+    static double ComputeAdaptiveRadius(double distToStartMidpoint, double distToEndMidpoint, 
         double desiredRadius, double shortEdgeThreshold)
     {
-        // Check if either edge qualifies as "short"
-        bool hasShortEdge = (startEdgeLength <= shortEdgeThreshold) || (endEdgeLength <= shortEdgeThreshold);
+        // Check if either distance qualifies as "short"
+        bool hasShortEdge = (distToStartMidpoint <= shortEdgeThreshold) || (distToEndMidpoint <= shortEdgeThreshold);
         
         if (hasShortEdge)
         {
-            // For short edges, limit radius to a fraction of the shortest edge
-            double minEdgeLength = Math.Min(startEdgeLength, endEdgeLength);
-            double maxAllowableRadius = minEdgeLength * 0.4;  // Use 40% of edge length
+            // For short edges, limit radius to a fraction of the shortest distance
+            double minDistance = Math.Min(distToStartMidpoint, distToEndMidpoint);
+            double maxAllowableRadius = minDistance * 0.4;  // Use 40% of distance to midpoint
             return Math.Min(desiredRadius, maxAllowableRadius);
         }
         
-        // For normal edges, use desired radius with standard half-edge limiting
-        double halfStartEdge = startEdgeLength * 0.5;
-        double halfEndEdge = endEdgeLength * 0.5;
-        double maxStandardRadius = Math.Min(halfStartEdge, halfEndEdge);
+        // For normal edges, constrain radius by distance to closest midpoint
+        // This ensures the Bezier curve doesn't extend beyond the midpoints
+        double maxRadius = Math.Min(distToStartMidpoint, distToEndMidpoint);
         
-        return Math.Min(desiredRadius, maxStandardRadius);
+        return Math.Min(desiredRadius, maxRadius);
     }
 
     static PathD AssembleWithEasing(

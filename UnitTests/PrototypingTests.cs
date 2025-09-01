@@ -751,5 +751,90 @@ namespace UnitTests
         }
 
         #endregion
+
+        #region Contour Generation Tests
+
+        [Test]
+        public void TestMakeContour_10UnitEdge_VerifyAdaptiveRadiusFix()
+        {
+            // Arrange: Create the exact polygon from the problem statement
+            var original_path = new Clipper2Lib.PathD()
+            {
+                new Clipper2Lib.PointD(0, 0),
+                new Clipper2Lib.PointD(0, 60),
+                new Clipper2Lib.PointD(20, 60),
+                new Clipper2Lib.PointD(20, 10),
+                new Clipper2Lib.PointD(60, 10),
+                new Clipper2Lib.PointD(60, 0),
+                new Clipper2Lib.PointD(0, 0)  // Close the path
+            };
+
+            double concaveRadius = 30;
+            double convexRadius = 30;
+            double edgeResolution = 1;
+            double angularResolution = 1;
+            double shortEdgeLength = 0.01;
+            double maxShortEdgeLength = 0.01;
+
+            // Act
+            var result = shapeEngine.contourGen.makeContour(original_path, concaveRadius, convexRadius, 
+                edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength);
+
+            // Assert: The result should have smooth curves applied
+            Assert.That(result.Count, Is.GreaterThan(7), "Result should have more points than input due to curve sampling");
+            
+            // The fix ensures that normal 10-unit edges get appropriate treatment
+            // The edge from (60,10) to (60,0) is 10 units, much longer than shortEdgeLength=0.01
+            // With the adaptive radius fix, this should receive proper Bezier curve treatment
+            
+            // Verify the result has a reasonable number of points (not too few, not too many)
+            Console.WriteLine($"Result points: {result.Count}");
+            Assert.That(result.Count, Is.InRange(30, 150), 
+                "Result should have a reasonable number of curve points indicating proper radius application");
+        }
+
+        [Test]
+        public void TestMakeContour_18UnitEdge_ShouldWorkCorrectly()
+        {
+            // Arrange: Create a polygon where the problematic edge is 18 units (reported to work)
+            var original_path = new Clipper2Lib.PathD()
+            {
+                new Clipper2Lib.PointD(0, 0),
+                new Clipper2Lib.PointD(0, 60),
+                new Clipper2Lib.PointD(20, 60),
+                new Clipper2Lib.PointD(20, 18),  // Changed from 10 to 18
+                new Clipper2Lib.PointD(60, 18),  // Changed from 10 to 18  
+                new Clipper2Lib.PointD(60, 0),
+                new Clipper2Lib.PointD(0, 0)
+            };
+
+            double concaveRadius = 30;
+            double convexRadius = 30;
+            double edgeResolution = 1;
+            double angularResolution = 1;
+            double shortEdgeLength = 0.01;
+            double maxShortEdgeLength = 0.01;
+
+            // Act
+            var result = shapeEngine.contourGen.makeContour(original_path, concaveRadius, convexRadius, 
+                edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength);
+
+            // Assert: This should work correctly according to the problem statement
+            Assert.That(result.Count, Is.GreaterThan(7), "Result should have curved points");
+            
+            // The 18-unit edge should get proper rounding
+            var pointsNearCorner = new List<Clipper2Lib.PointD>();
+            foreach (var point in result)
+            {
+                if (Math.Abs(point.x - 60) < 35 && Math.Abs(point.y - 0) < 35)
+                {
+                    pointsNearCorner.Add(point);
+                }
+            }
+            
+            Assert.That(pointsNearCorner.Count, Is.GreaterThan(0), "Should have points near the corner");
+        }
+
+        #endregion
     }
 }

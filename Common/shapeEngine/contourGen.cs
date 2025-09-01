@@ -88,7 +88,7 @@ public static class contourGen
                 radius = concaveRadius;
 
             PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
-                SamplingMode.ByMaxSegmentLength);
+                shortEdgeLength, SamplingMode.ByMaxSegmentLength);
             processed.Add(current_corner);
         }
         
@@ -164,7 +164,7 @@ public static class contourGen
     }
 
     static PathD ProcessCorner(PathD startLine, PathD endLine, double radius, double angular_resolution,
-        double edge_resolution, SamplingMode mode = SamplingMode.ByMaxAngle)
+        double edge_resolution, double shortEdgeThreshold, SamplingMode mode = SamplingMode.ByMaxAngle)
     {
         PointD startLineStart = startLine[0];
         PointD startLineEnd = startLine[1];
@@ -176,14 +176,19 @@ public static class contourGen
         PointD endLength = Helper.Minus(endLineEnd, endLineStart);
         PointD endDir = Helper.Normalized(endLength);
 
-        double start_radius = radius;
-        double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
-        if (start_radius > half_edge_length) start_radius = half_edge_length;
+        // Compute actual edge lengths (distance from corner to edge midpoint)
+        double startEdgeLength = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
+        double endEdgeLength = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
+        
+        // Apply adaptive radius limiting based on edge classification
+        double adaptiveRadius = ComputeAdaptiveRadius(startEdgeLength, endEdgeLength, radius, shortEdgeThreshold);
+        
+        double start_radius = adaptiveRadius;
+        if (start_radius > startEdgeLength) start_radius = startEdgeLength;
         PointD curveStartPoint = Helper.Add(startLineStart, Helper.Mult(startDir, start_radius));
 
-        double end_radius = radius;
-        half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
-        if (end_radius > half_edge_length) end_radius = half_edge_length;
+        double end_radius = adaptiveRadius;
+        if (end_radius > endEdgeLength) end_radius = endEdgeLength;
         PointD curveEndPoint = Helper.Add(endLineStart, Helper.Mult(endDir, end_radius));
 
         double dx = curveEndPoint.x - curveStartPoint.x;
@@ -215,6 +220,33 @@ public static class contourGen
         }
 
         return samples;
+    }
+
+    /// <summary>
+    /// Computes an adaptive radius that respects edge length constraints.
+    /// For short edges, applies more restrictive limiting. For normal edges,
+    /// allows larger radii while still preventing geometric issues.
+    /// </summary>
+    static double ComputeAdaptiveRadius(double startEdgeLength, double endEdgeLength, 
+        double desiredRadius, double shortEdgeThreshold)
+    {
+        // Check if either edge qualifies as "short"
+        bool hasShortEdge = (startEdgeLength <= shortEdgeThreshold) || (endEdgeLength <= shortEdgeThreshold);
+        
+        if (hasShortEdge)
+        {
+            // For short edges, limit radius to a fraction of the shortest edge
+            double minEdgeLength = Math.Min(startEdgeLength, endEdgeLength);
+            double maxAllowableRadius = minEdgeLength * 0.4;  // Use 40% of edge length
+            return Math.Min(desiredRadius, maxAllowableRadius);
+        }
+        
+        // For normal edges, use desired radius with standard half-edge limiting
+        double halfStartEdge = startEdgeLength * 0.5;
+        double halfEndEdge = endEdgeLength * 0.5;
+        double maxStandardRadius = Math.Min(halfStartEdge, halfEndEdge);
+        
+        return Math.Min(desiredRadius, maxStandardRadius);
     }
 
     static PathD AssembleWithEasing(

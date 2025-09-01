@@ -2563,7 +2563,7 @@ public class ShapeLibrary
             convex_corner_radius = oCR + (oCVariation_scalar * oCV);
         }
         
-        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, .01, .01);
+        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, .01, .01, optimizeCorners);
 
         PathD clockwise_path = GeoWrangler.clockwiseAndReorderXY(GeoWrangler.close(contoured_path));
         

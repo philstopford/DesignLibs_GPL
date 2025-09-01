@@ -87,7 +87,10 @@ public static class contourGen
             if (corner_types[i] == (int)CornerType.Concave)
                 radius = concaveRadius;
 
-            PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
+            // Use adaptive radius computation to handle short edges properly
+            double adaptiveRadius = ComputeAdaptiveRadius(startLine, endLine, radius, shortEdgeLength);
+
+            PathD current_corner = ProcessCorner(startLine, endLine, adaptiveRadius, angularResolution, edgeResolution,
                 SamplingMode.ByMaxSegmentLength);
             processed.Add(current_corner);
         }
@@ -163,6 +166,54 @@ public static class contourGen
         return status;
     }
 
+    /// <summary>
+    /// Computes an adaptive radius that respects edge length constraints.
+    /// This ensures that the curve radius never exceeds what the available
+    /// edge geometry can support, preventing self-intersection and
+    /// maintaining geometric validity.
+    /// </summary>
+    /// <param name="startLine">Incoming edge definition</param>
+    /// <param name="endLine">Outgoing edge definition</param>
+    /// <param name="desiredRadius">Base radius from corner type</param>
+    /// <param name="shortEdgeThreshold">Length threshold for short edge detection</param>
+    /// <returns>Geometrically valid radius value</returns>
+    static double ComputeAdaptiveRadius(PathD startLine, PathD endLine, 
+        double desiredRadius, double shortEdgeThreshold)
+    {
+        // Compute actual edge lengths
+        double startEdgeLength = ComputeEdgeLength(startLine);
+        double endEdgeLength = ComputeEdgeLength(endLine);
+        
+        // Check if either edge qualifies as "short"
+        bool hasShortEdge = (startEdgeLength <= shortEdgeThreshold) || (endEdgeLength <= shortEdgeThreshold);
+        
+        if (hasShortEdge)
+        {
+            // For short edges, limit radius to a fraction of the shortest edge
+            double minEdgeLength = Math.Min(startEdgeLength, endEdgeLength);
+            double maxAllowableRadius = minEdgeLength * 0.4;  // Use 40% of edge length
+            return Math.Min(desiredRadius, maxAllowableRadius);
+        }
+        
+        // For normal edges, use desired radius with standard half-edge limiting
+        double halfStartEdge = startEdgeLength * 0.5;
+        double halfEndEdge = endEdgeLength * 0.5;
+        double maxStandardRadius = Math.Min(halfStartEdge, halfEndEdge);
+        
+        return Math.Min(desiredRadius, maxStandardRadius);
+    }
+
+    /// <summary>
+    /// Computes the length of an edge defined by a two-point line.
+    /// </summary>
+    static double ComputeEdgeLength(PathD line)
+    {
+        if (line.Count < 2) return 0;
+        
+        var delta = Helper.Minus(line[1], line[0]);
+        return Math.Sqrt(delta.x * delta.x + delta.y * delta.y);
+    }
+
     static PathD ProcessCorner(PathD startLine, PathD endLine, double radius, double angular_resolution,
         double edge_resolution, SamplingMode mode = SamplingMode.ByMaxAngle)
     {
@@ -177,13 +228,9 @@ public static class contourGen
         PointD endDir = Helper.Normalized(endLength);
 
         double start_radius = radius;
-        double half_edge_length = Math.Abs(Math.Sqrt(startLength.x * startLength.x + startLength.y * startLength.y));
-        if (start_radius > half_edge_length) start_radius = half_edge_length;
         PointD curveStartPoint = Helper.Add(startLineStart, Helper.Mult(startDir, start_radius));
 
         double end_radius = radius;
-        half_edge_length = Math.Abs(Math.Sqrt(endLength.x * endLength.x + endLength.y * endLength.y));
-        if (end_radius > half_edge_length) end_radius = half_edge_length;
         PointD curveEndPoint = Helper.Add(endLineStart, Helper.Mult(endDir, end_radius));
 
         double dx = curveEndPoint.x - curveStartPoint.x;

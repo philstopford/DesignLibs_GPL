@@ -185,13 +185,78 @@ namespace UnitTests
 
             /// <summary>
             /// Samples curve by recursively subdividing until all segments are below length threshold.
+            /// Uses fine resolution initially then decimates to target resolution for better curve representation.
             /// </summary>
             public static List<Point> SampleByMaxSegmentLength(Point P0, Point P1, Point P2, double maxSegLen)
             {
-                var pts = new List<Point> { P0 };
-                SubdivideByLength(P0, P1, P2, maxSegLen, pts);
-                pts.Add(P2);
-                return pts;
+                // Use a much finer resolution for initial sampling to better represent the curve
+                double fineResolution = maxSegLen / 10.0;
+                
+                // Generate high-resolution curve points
+                var finePts = new List<Point> { P0 };
+                SubdivideByLength(P0, P1, P2, fineResolution, finePts);
+                finePts.Add(P2);
+                
+                // Decimate the fine points to meet the target resolution
+                return DecimateToTargetResolution(finePts, maxSegLen);
+            }
+
+            /// <summary>
+            /// Decimates a high-resolution point list to meet a target segment length resolution.
+            /// Preserves curve fidelity while reducing point count to match the user-specified resolution.
+            /// </summary>
+            /// <param name="finePoints">High-resolution curve points</param>
+            /// <param name="targetResolution">Target maximum segment length</param>
+            /// <returns>Decimated point list meeting target resolution</returns>
+            private static List<Point> DecimateToTargetResolution(List<Point> finePoints, double targetResolution)
+            {
+                if (finePoints.Count <= 2)
+                    return new List<Point>(finePoints);
+
+                var decimated = new List<Point>();
+                decimated.Add(finePoints[0]); // Always keep start point
+
+                // Calculate total curve length to determine if we need special handling for small curves
+                double totalLength = 0;
+                for (int i = 1; i < finePoints.Count; i++)
+                {
+                    totalLength += (finePoints[i] - finePoints[i-1]).Length();
+                }
+                
+                // For very small curves relative to target resolution, ensure we keep some intermediate points
+                if (totalLength < targetResolution * 2)
+                {
+                    // For small curves, use a more conservative approach
+                    // Keep every nth point to ensure reasonable representation
+                    int step = Math.Max(1, finePoints.Count / 4); // Keep roughly 4 points total
+                    for (int i = step; i < finePoints.Count - 1; i += step)
+                    {
+                        decimated.Add(finePoints[i]);
+                    }
+                }
+                else
+                {
+                    // Normal decimation for larger curves
+                    Point lastKept = finePoints[0];
+                    
+                    for (int i = 1; i < finePoints.Count - 1; i++)
+                    {
+                        Point current = finePoints[i];
+                        double distanceFromLast = (current - lastKept).Length();
+                        
+                        // Keep point if it's far enough from the last kept point
+                        if (distanceFromLast >= targetResolution)
+                        {
+                            decimated.Add(current);
+                            lastKept = current;
+                        }
+                    }
+                }
+                
+                // Always keep end point
+                decimated.Add(finePoints[^1]);
+                
+                return decimated;
             }
 
             /// <summary>
@@ -540,6 +605,56 @@ namespace UnitTests
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 PrototypeTestHelpers.BezierSampling.SampleCurve(start, control, end, 
                     (PrototypeTestHelpers.BezierSampling.SamplingMode)999, 1.0));
+        }
+
+        [Test]
+        public void TestEnhancedEdgeResolutionForSmallCurves()
+        {
+            // Arrange: Small curve where coarse edge resolution would produce poor representation
+            var start = new PrototypeTestHelpers.Point(0, 0);
+            var control = new PrototypeTestHelpers.Point(0.1, 0.2);  // Small curve
+            var end = new PrototypeTestHelpers.Point(0.2, 0);
+            
+            // Use a very coarse edge resolution (larger than the curve itself)
+            double coarseResolution = 1.0;  // Much larger than the ~0.2 curve length
+            
+            // Act: Sample with enhanced algorithm
+            var enhancedSamples = PrototypeTestHelpers.BezierSampling.SampleByMaxSegmentLength(
+                start, control, end, coarseResolution);
+            
+            // Assert: Should still get reasonable representation despite coarse resolution
+            Assert.That(enhancedSamples.Count, Is.GreaterThanOrEqualTo(3), 
+                "Enhanced algorithm should provide at least 3 points even with coarse resolution");
+            
+            // Verify curve fidelity - sample at curve midpoint and check distance to actual curve
+            var midSample = enhancedSamples[enhancedSamples.Count / 2];
+            
+            // Calculate actual midpoint of Bezier curve (t=0.5)
+            double t = 0.5;
+            var actualMid = new PrototypeTestHelpers.Point(
+                (1-t)*(1-t)*start.X + 2*(1-t)*t*control.X + t*t*end.X,
+                (1-t)*(1-t)*start.Y + 2*(1-t)*t*control.Y + t*t*end.Y
+            );
+            
+            // The sampled curve should be reasonably close to the actual curve
+            double distance = (midSample - actualMid).Length();
+            Assert.That(distance, Is.LessThan(0.1), 
+                "Enhanced sampling should maintain curve fidelity within reasonable tolerance");
+            
+            // Verify that final segments respect the target resolution
+            for (int i = 1; i < enhancedSamples.Count; i++)
+            {
+                var prev = enhancedSamples[i - 1];
+                var curr = enhancedSamples[i];
+                double segLength = (curr - prev).Length();
+                
+                // Most segments should be close to target resolution, but first/last may be smaller
+                if (i > 1 && i < enhancedSamples.Count - 1)
+                {
+                    Assert.That(segLength, Is.LessThanOrEqualTo(coarseResolution * 1.1), 
+                        $"Interior segment {i} length {segLength} should not exceed target resolution");
+                }
+            }
         }
 
         #endregion

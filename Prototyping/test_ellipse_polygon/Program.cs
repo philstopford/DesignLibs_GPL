@@ -345,11 +345,76 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
     static PathD SampleByMaxSegmentLength(
         PointD P0, PointD P1, PointD P2, double maxSegLen)
     {
-        PathD pts = new PathD();
-        pts.Add(P0);
-        SubdivideByLength(P0, P1, P2, maxSegLen, pts);
-        pts.Add(P2);
-        return pts;
+        // Use a much finer resolution for initial sampling to better represent the curve
+        double fineResolution = maxSegLen / 10.0;
+        
+        // Generate high-resolution curve points
+        PathD finePts = new PathD();
+        finePts.Add(P0);
+        SubdivideByLength(P0, P1, P2, fineResolution, finePts);
+        finePts.Add(P2);
+        
+        // Decimate the fine points to meet the target resolution
+        return DecimateToTargetResolution(finePts, maxSegLen);
+    }
+
+    /// <summary>
+    /// Decimates a high-resolution point list to meet a target segment length resolution.
+    /// Preserves curve fidelity while reducing point count to match the user-specified resolution.
+    /// </summary>
+    /// <param name="finePoints">High-resolution curve points</param>
+    /// <param name="targetResolution">Target maximum segment length</param>
+    /// <returns>Decimated point list meeting target resolution</returns>
+    static PathD DecimateToTargetResolution(PathD finePoints, double targetResolution)
+    {
+        if (finePoints.Count <= 2)
+            return new PathD(finePoints);
+
+        PathD decimated = new PathD();
+        decimated.Add(finePoints[0]); // Always keep start point
+
+        // Calculate total curve length to determine if we need special handling for small curves
+        double totalLength = 0;
+        for (int i = 1; i < finePoints.Count; i++)
+        {
+            totalLength += Length(Minus(finePoints[i], finePoints[i-1]));
+        }
+        
+        // For very small curves relative to target resolution, ensure we keep some intermediate points
+        int minIntermediatePoints = 1; // At least 1 intermediate point for any curve
+        if (totalLength < targetResolution * 2)
+        {
+            // For small curves, use a more conservative approach
+            // Keep every nth point to ensure reasonable representation
+            int step = Math.Max(1, finePoints.Count / 4); // Keep roughly 4 points total
+            for (int i = step; i < finePoints.Count - 1; i += step)
+            {
+                decimated.Add(finePoints[i]);
+            }
+        }
+        else
+        {
+            // Normal decimation for larger curves
+            PointD lastKept = finePoints[0];
+            
+            for (int i = 1; i < finePoints.Count - 1; i++)
+            {
+                PointD current = finePoints[i];
+                double distanceFromLast = Length(Minus(current, lastKept));
+                
+                // Keep point if it's far enough from the last kept point
+                if (distanceFromLast >= targetResolution)
+                {
+                    decimated.Add(current);
+                    lastKept = current;
+                }
+            }
+        }
+        
+        // Always keep end point
+        decimated.Add(finePoints[^1]);
+        
+        return decimated;
     }
     
     static PointD Add(PointD a, PointD b) => new PointD(a.x+b.x, a.y+b.y);

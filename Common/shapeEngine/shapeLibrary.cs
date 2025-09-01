@@ -2530,6 +2530,64 @@ public class ShapeLibrary
         double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0));
         double iCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
         double oCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+
+        // Compute our initial polygon, using the Vertex information.
+        PathD init_path = new();
+        
+        for (int v = 0; v < Vertex.Length; v+= 2)
+        {
+            init_path.Add(new(Vertex[v].X, Vertex[v].Y));
+        }
+        
+        RectD bounds = Clipper.GetBounds(init_path);
+        if ((bounds.Width < 10) || (bounds.Height < 10))
+        {
+            return init_path;
+        }
+        
+        // Close if not already closed.
+        init_path = GeoWrangler.close(init_path);
+        
+        // Preview mode doesn't apply the variation - just the base value of rounding.
+        // PA search works by setting rounding value directly in the settings, no variation needs to be added.
+        double concave_corner_radius = 0;
+        double convex_corner_radius = 0;
+        if (doPASearch || previewMode)
+        {
+            concave_corner_radius = iCR;
+            convex_corner_radius = oCR;
+        }
+        else
+        {
+            concave_corner_radius = iCR + (iCVariation_scalar * iCV);
+            convex_corner_radius = oCR + (oCVariation_scalar * oCV);
+        }
+        
+        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, .01, .01);
+
+        PathD clockwise_path = GeoWrangler.clockwiseAndReorderXY(GeoWrangler.close(contoured_path));
+        
+        // Need to displace using the subshape 1 offsets now.
+        PathD ret = GeoWrangler.move(clockwise_path, s0HO, s0VO);
+
+        // Fragment the path to ensure we have sufficient resolution.
+        Fragmenter f = new Fragmenter();
+        PathD frag_ret = f.fragmentPath(ret, resolution);
+
+        return frag_ret;
+    }
+
+    private PathD legacy_processCorners_actual(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
+        double resolution,
+        bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
+        double oCVariation_scalar = 0
+    )
+    {
+        bool doPASearch = iCPA || oCPA;
+        double s0HO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 0));
+        double s0VO = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0));
+        double iCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+        double oCR = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
         Fragmenter fragment = new(resolution);
         PathD mcPoints = [];
         PathD

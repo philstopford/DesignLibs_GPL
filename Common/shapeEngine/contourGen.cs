@@ -57,6 +57,13 @@ public static class contourGen
 
     public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength)
     {
+        // Handle degenerate cases - paths with fewer than 3 points cannot form polygons with corners
+        if (original_path == null || original_path.Count < 3)
+        {
+            // Return a copy of the original path since there are no corners to process
+            return new PathD(original_path ?? new PathD());
+        }
+
         SmoothStepMode smoothMode = SmoothStepMode.Quintic;
 
         int[] corner_types = CategorizeCorners(original_path, shortEdgeLength);

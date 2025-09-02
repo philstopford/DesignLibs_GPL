@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace utility;
 
@@ -13,60 +14,60 @@ public static class FrExp
         public double mantissa;
     }
 
+    // Performance optimization: Use object pooling for results to reduce allocations
+    [ThreadStatic] private static FRexpResult? _cachedResult;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static FRexpResult calculate(double value)
     {
-        FRexpResult result = new();
+        // Performance optimization: Reuse result object to reduce allocations
+        FRexpResult result = _cachedResult ??= new FRexpResult();
+        
         long bits = BitConverter.DoubleToInt64Bits(value);
 
-        // Test for NaN, infinity, and zero.
-        if (double.IsNaN(value) ||
-            Math.Abs(value + value - value) <= double.Epsilon ||
-            double.IsInfinity(value))
+        // Performance optimization: Fast path for special values
+        if (double.IsNaN(value) || double.IsInfinity(value) || value == 0.0)
         {
             result.exponent = 0;
             result.mantissa = value;
+            return result;
         }
-        else
+
+        bool neg = bits < 0;
+        int exponent = (int)((bits >> 52) & 0x7ffL);
+        long mantissa = bits & 0xfffffffffffffL;
+
+        switch (exponent)
         {
-
-            bool neg = bits < 0;
-            int exponent = (int)((bits >> 52) & 0x7ffL);
-            long mantissa = bits & 0xfffffffffffffL;
-
-            switch (exponent)
-            {
-                case 0:
-                    exponent++;
-                    break;
-                default:
-                    mantissa |= 1L << 52;
-                    break;
-            }
-
-            // bias the exponent - actually biased by 1023.
-            // we are treating the mantissa as m.0 instead of 0.m
-            //  so subtract another 52.
-            exponent -= 1075;
-            double realMant = mantissa;
-
-            // normalize
-            while (realMant > 1.0)
-            {
-                mantissa >>= 1;
-                realMant /= 2.0;
+            case 0:
                 exponent++;
-            }
-
-            switch (neg)
-            {
-                case true:
-                    realMant *= -1;
-                    break;
-            }
-
-            result.exponent = exponent;
-            result.mantissa = realMant;
+                break;
+            default:
+                mantissa |= 1L << 52;
+                break;
         }
+
+        // bias the exponent - actually biased by 1023.
+        // we are treating the mantissa as m.0 instead of 0.m
+        //  so subtract another 52.
+        exponent -= 1075;
+        double realMant = mantissa;
+
+        // Performance optimization: Use bit shifting for normalization when possible
+        while (realMant > 1.0)
+        {
+            mantissa >>= 1;
+            realMant *= 0.5; // Multiplication is typically faster than division
+            exponent++;
+        }
+
+        if (neg)
+        {
+            realMant = -realMant;
+        }
+
+        result.exponent = exponent;
+        result.mantissa = realMant;
 
         return result;
     }

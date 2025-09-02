@@ -4,11 +4,33 @@ using System.IO;
 using System.IO.Compression;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace utility;
 
 public static class Utils
 {
+    // Performance optimization: Cache for commonly used hash algorithm instances
+    private static readonly ThreadLocal<MD5> _threadLocalMD5 = new(() => MD5.Create());
+    private static readonly ThreadLocal<SHA1> _threadLocalSHA1 = new(() => SHA1.Create());
+    private static readonly ThreadLocal<SHA256> _threadLocalSHA256 = new(() => SHA256.Create());
+    
+    // Performance optimization: Lookup table for small integer powers
+    private static readonly double[] PowersOfTwo = new double[32];
+    private static readonly double[] PowersOfTen = new double[16];
+    
+    static Utils()
+    {
+        // Pre-calculate common powers for fast lookup
+        for (int i = 0; i < PowersOfTwo.Length; i++)
+        {
+            PowersOfTwo[i] = Math.Pow(2.0, i);
+        }
+        for (int i = 0; i < PowersOfTen.Length; i++)
+        {
+            PowersOfTen[i] = Math.Pow(10.0, i);
+        }
+    }
     public static string friendlyNumber(int number)
     {
         return pFriendlyNumber(number);
@@ -41,11 +63,31 @@ public static class Utils
 
     public static double myPow(double num, int exp)
     {
+        // Performance optimization: Handle common cases with lookup tables
+        if (num == 2.0 && exp >= 0 && exp < PowersOfTwo.Length)
+        {
+            return PowersOfTwo[exp];
+        }
+        
+        if (num == 10.0 && exp >= 0 && exp < PowersOfTen.Length)
+        {
+            return PowersOfTen[exp];
+        }
+
         switch (exp)
         {
-            // Micro-optimization
+            // Performance optimization: Handle more common cases
+            case 0:
+                return 1.0;
+            case 1:
+                return num;
             case 2:
                 return num * num;
+            case 3:
+                return num * num * num;
+            case 4:
+                var numSquared = num * num;
+                return numSquared * numSquared;
         }
 
         double result = 1.0;
@@ -59,13 +101,12 @@ public static class Utils
                 break;
         }
 
+        // Performance optimization: Use binary exponentiation (exponentiation by squaring)
         while (exp > 0)
         {
-            switch (exp % 2)
+            if ((exp & 1) == 1)
             {
-                case 1:
-                    result *= num;
-                    break;
+                result *= num;
             }
             exp >>= 1;
             num *= num;
@@ -73,7 +114,7 @@ public static class Utils
 
         result = invertResult switch
         {
-            true => 1.0f / result,
+            true => 1.0 / result,
             _ => result
         };
 
@@ -113,25 +154,26 @@ public static class Utils
         using MemoryStream memoryStream = new();
         DataContractSerializer serializer = new(input.GetType());
         serializer.WriteObject(memoryStream, input);
-        hashAlgorithm.ComputeHash(memoryStream.ToArray());
-        return hashAlgorithm.Hash != null ? Convert.ToBase64String(hashAlgorithm.Hash) : "";
+        byte[] inputBytes = memoryStream.ToArray();
+        byte[] hashBytes = hashAlgorithm.ComputeHash(inputBytes);
+        return Convert.ToBase64String(hashBytes);
     }
 
     public static string GetMD5Hash(object input)
     {
-        MD5 hasher = MD5.Create();
+        var hasher = _threadLocalMD5.Value!;
         return GetHash(hasher, input);
     }
         
     public static string GetSHA1Hash(object input)
     {
-        SHA1 hasher = SHA1.Create();
+        var hasher = _threadLocalSHA1.Value!;
         return GetHash(hasher, input);
     }
         
     public static string GetSHA256Hash(object input)
     {
-        SHA256 hasher = SHA256.Create();
+        var hasher = _threadLocalSHA256.Value!;
         return GetHash(hasher, input);
     }
 }

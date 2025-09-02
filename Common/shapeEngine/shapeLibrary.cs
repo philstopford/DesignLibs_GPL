@@ -2337,7 +2337,8 @@ public class ShapeLibrary
     public PathD processCorners(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
         double resolution,
         bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
-        double oCVariation_scalar = 0)
+        double oCVariation_scalar = 0,
+        double shortEdgeLength = 0, double maxShortEdgeLength = 0)
     {
         if (!cageComputed)
         {
@@ -2356,7 +2357,7 @@ public class ShapeLibrary
             case (int)shapeNames_all.Ushape:
             case (int)shapeNames_all.Sshape:
                 return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
-                    iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    iCV, iCVariation_scalar, oCV, oCVariation_scalar, shortEdgeLength, maxShortEdgeLength);
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
                 bool useLegacyRounding = layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1;
@@ -2522,7 +2523,8 @@ public class ShapeLibrary
     private PathD processCorners_actual(bool previewMode, bool cornerCheck, int cornerSegments, int optimizeCorners,
         double resolution,
         bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, double oCV = 0,
-        double oCVariation_scalar = 0
+        double oCVariation_scalar = 0,
+        double shortEdgeLength = 0, double maxShortEdgeLength = 0
     )
     {
         bool doPASearch = iCPA || oCPA;
@@ -2563,7 +2565,7 @@ public class ShapeLibrary
             convex_corner_radius = oCR + (oCVariation_scalar * oCV);
         }
         
-        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, .01, .01, optimizeCorners);
+        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, shortEdgeLength, maxShortEdgeLength, optimizeCorners);
 
         PathD clockwise_path = GeoWrangler.clockwiseAndReorderXY(GeoWrangler.close(contoured_path));
         

@@ -354,6 +354,7 @@ public class ShapeSettings
     private const decimal default_sideBias = 0;
     private const decimal default_horTipBias = 0;
     private const decimal default_verTipBias = 0;
+    private const decimal default_shortEdgeLength = 0;
     private const decimal default_innerCRR = 0;
     private const decimal default_outerCRR = 0;
     public const decimal default_rotation = 0;
@@ -383,6 +384,8 @@ public class ShapeSettings
     public decimal subShape3HorOffset = default_subShape3HorOffset;
     public decimal subShape3VerLength = default_subShape3VerLength;
     public decimal subShape3VerOffset = default_subShape3HorOffset;
+    public decimal shortEdgeLength = default_shortEdgeLength;
+    public decimal maxShortEdgeLength = default_shortEdgeLength;
     private decimal innerCRR = default_innerCRR;
     private decimal outerCRR = default_outerCRR;
     private decimal globalHorOffset = default_globalHorOffset;
@@ -413,6 +416,7 @@ public class ShapeSettings
         horOffset,
         verOffset,
         gHorOffset, gVerOffset,
+        shortEdgeLength, maxShortEdgeLength,
         iCR, oCR,
         sBias, hTBias, hTNVar, hTPVar, vTBias, vTNVar, vTPVar,
         lwr, lwrFreq, lwr2, lwr2Freq,
@@ -461,6 +465,8 @@ public class ShapeSettings
             },
             properties_decimal.gHorOffset => globalHorOffset,
             properties_decimal.gVerOffset => globalVerOffset,
+            properties_decimal.shortEdgeLength => shortEdgeLength,
+            properties_decimal.maxShortEdgeLength => maxShortEdgeLength,
             properties_decimal.iCR => innerCRR,
             properties_decimal.oCR => outerCRR,
             properties_decimal.sBias => sideBias,
@@ -557,6 +563,12 @@ public class ShapeSettings
                 break;
             case properties_decimal.gVerOffset:
                 globalVerOffset = val;
+                break;
+            case properties_decimal.shortEdgeLength:
+                shortEdgeLength = val;
+                break;
+            case properties_decimal.maxShortEdgeLength:
+                maxShortEdgeLength = val;
                 break;
             case properties_decimal.iCR:
                 innerCRR = val;
@@ -692,6 +704,12 @@ public class ShapeSettings
             case properties_decimal.gVerOffset:
                 globalVerOffset = default_globalVerOffset;
                 break;
+            case properties_decimal.shortEdgeLength:
+                shortEdgeLength = default_shortEdgeLength;
+                break;
+            case properties_decimal.maxShortEdgeLength:
+                maxShortEdgeLength = default_shortEdgeLength;
+                break;
             case properties_decimal.iCR:
                 innerCRR = default_innerCRR;
                 break;
@@ -795,6 +813,8 @@ public class ShapeSettings
             },
             properties_decimal.gHorOffset => default_globalHorOffset,
             properties_decimal.gVerOffset => default_globalVerOffset,
+            properties_decimal.maxShortEdgeLength => default_shortEdgeLength,
+            properties_decimal.shortEdgeLength => default_shortEdgeLength,
             properties_decimal.iCR => default_innerCRR,
             properties_decimal.oCR => default_outerCRR,
             properties_decimal.sBias => default_sideBias,

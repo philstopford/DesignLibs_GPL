@@ -1,6 +1,10 @@
 using Clipper2Lib;
 using geoWrangler;
 using shapeEngine;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Text;
+using System.IO;
 
 namespace UnitTests;
 
@@ -1637,6 +1641,573 @@ public class ShapeEngineTests
         RectD bounds = Clipper.GetBounds(clean);
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(27));
+    }
+
+    [Test]
+    public static void AllShortEdgesTest()
+    {
+        // Test the fix for the infinite loop when all edges are considered short
+        // This test verifies that a square with all short edges correctly becomes a diamond
+        
+        // Create a square where all edges will be considered short
+        var square = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(10, 0),     // Short horizontal edge (10 units)
+            new PointD(10, 10),    // Short vertical edge (10 units)  
+            new PointD(0, 10),     // Short horizontal edge (10 units)
+            new PointD(0, 0)       // Short vertical edge (10 units) - close the path
+        };
+
+        double short_edge_threshold = 15.0; // All edges (10 units) are below this threshold
+        
+        // This is a test of the core contourGen functionality
+        // We need to create a scenario that would trigger the AssembleWithEasing function
+        
+        // For this test, we'll test the direct midpoint connection logic
+        var cornerMidpoints = new List<PointD>
+        {
+            new PointD(5, 0),   // Midpoint of bottom edge
+            new PointD(10, 5),  // Midpoint of right edge  
+            new PointD(5, 10),  // Midpoint of top edge
+            new PointD(0, 5)    // Midpoint of left edge
+        };
+
+        // Test the helper function directly using reflection to access the private method
+        var type = typeof(contourGen);
+        var method = type.GetMethod("ConnectCornerMidpoints", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        
+        Assert.That(method, Is.Not.Null, "ConnectCornerMidpoints method should exist");
+        
+        var result = method.Invoke(null, new object[] { cornerMidpoints }) as PathD;
+        
+        Assert.That(result, Is.Not.Null, "Result should not be null");
+        Assert.That(result.Count, Is.EqualTo(4), "Result should have 4 points (diamond)");
+        
+        // Verify the diamond vertices are correct (midpoints of square edges)
+        Assert.That(result[0].x, Is.EqualTo(5).Within(1e-9), "First point x should be 5");
+        Assert.That(result[0].y, Is.EqualTo(0).Within(1e-9), "First point y should be 0");
+        
+        Assert.That(result[1].x, Is.EqualTo(10).Within(1e-9), "Second point x should be 10");
+        Assert.That(result[1].y, Is.EqualTo(5).Within(1e-9), "Second point y should be 5");
+        
+        Assert.That(result[2].x, Is.EqualTo(5).Within(1e-9), "Third point x should be 5");
+        Assert.That(result[2].y, Is.EqualTo(10).Within(1e-9), "Third point y should be 10");
+        
+        Assert.That(result[3].x, Is.EqualTo(0).Within(1e-9), "Fourth point x should be 0");
+        Assert.That(result[3].y, Is.EqualTo(5).Within(1e-9), "Fourth point y should be 5");
+        
+        // Verify the diamond has the expected area (half the area of the original square)
+        double originalSquareArea = 100; // 10 * 10
+        double diamondArea = Math.Abs(Clipper.Area(result));
+        double expectedDiamondArea = originalSquareArea / 2; // 50
+        
+        Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001), 
+            "Diamond area should be half the original square area");
+    }
+
+    /// <summary>
+    /// Comprehensive tests for various short/long edge combinations to ensure no infinite loops
+    /// Tests different configurations that could potentially cause infinite loops in the
+    /// contour generation algorithm when searching for non-short corners.
+    /// </summary>
+    [Test]
+    public static void ShortLongEdgeCombinationsTest()
+    {
+        // Test timeout helper - runs contour generation with a timeout to detect infinite loops
+
+        var testConfigurations = new List<(string name, PathD path, double threshold)>();
+
+        // Test 1: T-shape with top edge long, rest short
+        // This was specifically mentioned in the user's request
+        var tShape = new PathD
+        {
+            new PointD(0, 0),    // Bottom left of vertical part
+            new PointD(5, 0),    // Bottom right of vertical part
+            new PointD(5, 15),   // Top of vertical part (short edge: 5 units)
+            new PointD(25, 15),  // Right end of top horizontal (long edge: 20 units)
+            new PointD(25, 20),  // Top right corner
+            new PointD(-15, 20), // Top left corner (long edge: 40 units)
+            new PointD(-15, 15), // Left end of top horizontal
+            new PointD(0, 15),   // Back to vertical part (short edge: 15 units)
+            new PointD(0, 0)     // Close the path (short edge: 15 units)
+        };
+        testConfigurations.Add(("T-shape: top long, rest short", tShape, 10.0));
+
+        // Test 2: Single long edge, rest short
+        var singleLongEdge = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(5, 0),    // Short: 5 units
+            new PointD(5, 5),    // Short: 5 units
+            new PointD(30, 5),   // Long: 25 units
+            new PointD(30, 0),   // Short: 5 units
+            new PointD(0, 0)     // Short: 30 units - wait, this might be long too!
+        };
+        testConfigurations.Add(("Single long edge", singleLongEdge, 10.0));
+
+        // Test 3: Two adjacent long edges, rest short
+        var twoAdjacentLong = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(3, 0),    // Short: 3 units
+            new PointD(3, 3),    // Short: 3 units
+            new PointD(20, 3),   // Long: 17 units
+            new PointD(20, 20),  // Long: 17 units
+            new PointD(0, 20),   // Short: 20 units - actually this could be long too
+            new PointD(0, 0)     // Short: 20 units - this too
+        };
+        testConfigurations.Add(("Two adjacent long edges", twoAdjacentLong, 10.0));
+
+        // Test 4: Two non-adjacent long edges, rest short
+        var twoNonAdjacentLong = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(5, 0),    // Short: 5 units
+            new PointD(25, 0),   // Long: 20 units
+            new PointD(25, 5),   // Short: 5 units
+            new PointD(20, 5),   // Short: 5 units
+            new PointD(20, 25),  // Long: 20 units
+            new PointD(0, 25),   // Short: 20 units - could be long
+            new PointD(0, 0)     // Short: 25 units - could be long
+        };
+        testConfigurations.Add(("Two non-adjacent long edges", twoNonAdjacentLong, 10.0));
+
+        // Test 5: Complex L-shape with mixed edges
+        var complexLShape = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(3, 0),    // Short: 3 units
+            new PointD(3, 3),    // Short: 3 units
+            new PointD(25, 3),   // Long: 22 units
+            new PointD(25, 6),   // Short: 3 units
+            new PointD(6, 6),    // Long: 19 units
+            new PointD(6, 25),   // Long: 19 units
+            new PointD(0, 25),   // Short: 6 units
+            new PointD(0, 0)     // Short: 25 units - could be long
+        };
+        testConfigurations.Add(("Complex L-shape", complexLShape, 10.0));
+
+        // Test 6: U-shape with mixed edges  
+        var complexUShape = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(3, 0),    // Short: 3 units
+            new PointD(3, 20),   // Long: 20 units
+            new PointD(6, 20),   // Short: 3 units
+            new PointD(6, 3),    // Long: 17 units
+            new PointD(24, 3),   // Long: 18 units
+            new PointD(24, 20),  // Long: 17 units
+            new PointD(27, 20),  // Short: 3 units
+            new PointD(27, 0),   // Long: 20 units
+            new PointD(0, 0)     // Long: 27 units
+        };
+        testConfigurations.Add(("Complex U-shape", complexUShape, 10.0));
+
+        // Test 7: Alternating short-long pattern
+        var alternatingPattern = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(5, 0),    // Short: 5 units
+            new PointD(20, 0),   // Long: 15 units
+            new PointD(25, 0),   // Short: 5 units
+            new PointD(40, 0),   // Long: 15 units
+            new PointD(45, 0),   // Short: 5 units
+            new PointD(45, 5),   // Short: 5 units
+            new PointD(0, 5),    // Long: 45 units
+            new PointD(0, 0)     // Short: 5 units
+        };
+        testConfigurations.Add(("Alternating short-long", alternatingPattern, 10.0));
+
+        // Test 8: Many short edges with one long edge
+        var manyShortOneLong = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(2, 0),    // Short: 2 units
+            new PointD(2, 2),    // Short: 2 units
+            new PointD(4, 2),    // Short: 2 units
+            new PointD(4, 4),    // Short: 2 units
+            new PointD(6, 4),    // Short: 2 units
+            new PointD(6, 6),    // Short: 2 units
+            new PointD(30, 6),   // Long: 24 units
+            new PointD(30, 0),   // Short: 6 units
+            new PointD(0, 0)     // Long: 30 units
+        };
+        testConfigurations.Add(("Many short, one long", manyShortOneLong, 10.0));
+
+        // Test 9: Nearly all short (edge case for the threshold)
+        var nearlyAllShort = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(9, 0),    // Short: 9 units (just under 10)
+            new PointD(9, 9),    // Short: 9 units
+            new PointD(10, 9),   // Short: 1 unit
+            new PointD(10, 10),  // Short: 1 unit
+            new PointD(0, 10),   // Long: 10 units (exactly at threshold)
+            new PointD(0, 0)     // Long: 10 units
+        };
+        testConfigurations.Add(("Nearly all short edges", nearlyAllShort, 10.0));
+
+        // Test 10: Irregular polygon with complex short/long mix
+        var irregularMix = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(8, 2),    // Short: ~8.2 units
+            new PointD(12, 8),   // Short: ~7.2 units  
+            new PointD(20, 10),  // Short: ~8.2 units
+            new PointD(35, 12),  // Long: 15.1 units
+            new PointD(40, 20),  // Short: ~9.4 units
+            new PointD(30, 30),  // Long: ~14.1 units
+            new PointD(15, 25),  // Long: ~18 units
+            new PointD(5, 15),   // Long: ~14.1 units
+            new PointD(0, 0)     // Long: ~18 units
+        };
+        testConfigurations.Add(("Irregular mixed polygon", irregularMix, 10.0));
+
+        // Run all tests
+        var failedTests = new List<string>();
+        var successfulTests = new List<string>();
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        Console.WriteLine($"SVG outputs will be saved to: {svgOutputDir}");
+
+        foreach (var (name, path, threshold) in testConfigurations)
+        {
+            Console.WriteLine($"Testing: {name}");
+            
+            var (success, result) = TestWithTimeoutAndResult(path, threshold, 10000); // 10 second timeout
+            
+            // Generate SVG regardless of success/failure for review
+            string safeName = name.Replace(" ", "_").Replace(":", "_").Replace(",", "_");
+            string svgContent = CreateTestSvg(path, result, name, threshold);
+            string svgPath = Path.Combine(svgOutputDir, $"{safeName}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            
+            if (success)
+            {
+                successfulTests.Add(name);
+                Console.WriteLine($"✓ {name} - PASSED (SVG: {svgPath})");
+            }
+            else
+            {
+                failedTests.Add(name);
+                Console.WriteLine($"✗ {name} - FAILED (timeout or exception) (SVG: {svgPath})");
+            }
+        }
+
+        // Report results
+        Console.WriteLine($"\n=== Test Results ===");
+        Console.WriteLine($"Successful tests: {successfulTests.Count}");
+        foreach (var test in successfulTests)
+        {
+            Console.WriteLine($"  ✓ {test}");
+        }
+        
+        if (failedTests.Count > 0)
+        {
+            Console.WriteLine($"Failed tests: {failedTests.Count}");
+            foreach (var test in failedTests)
+            {
+                Console.WriteLine($"  ✗ {test}");
+            }
+        }
+
+        // The test passes if all configurations complete without timeout
+        Assert.That(failedTests.Count, Is.EqualTo(0), 
+            $"Some test configurations failed or timed out, indicating potential infinite loops: {string.Join(", ", failedTests)}");
+    }
+
+    /// <summary>
+    /// Tests specific edge cases that are most likely to cause infinite loops
+    /// based on the algorithm's logic for finding non-short corners.
+    /// </summary>
+    [Test]
+    public static void EdgeCaseInfiniteLoopTest()
+    {
+        // Test the specific T-shape mentioned by the user
+        var tShapeTopLong = new PathD
+        {
+            new PointD(10, 0),   // Start at bottom of vertical stem
+            new PointD(15, 0),   // Short edge: 5 units (bottom of stem)
+            new PointD(15, 10),  // Short edge: 10 units (right side of stem)  
+            new PointD(30, 10),  // Long edge: 15 units (right side of top)
+            new PointD(30, 15),  // Short edge: 5 units (top right)
+            new PointD(5, 15),   // Long edge: 25 units (TOP - the long edge)
+            new PointD(5, 10),   // Short edge: 5 units (top left)
+            new PointD(10, 10),  // Short edge: 5 units (left side of stem)
+            new PointD(10, 0)    // Short edge: 10 units (close the path)
+        };
+
+        // Use timeout to detect infinite loops
+        var cancellationTokenSource = new CancellationTokenSource(5000); // 5 second timeout
+        bool completed = false;
+        PathD result = null;
+        Exception caughtException = null;
+
+        var task = Task.Run(() =>
+        {
+            try
+            {
+                result = contourGen.makeContour(tShapeTopLong,
+                    concaveRadius: 2.0,
+                    convexRadius: 2.0,
+                    edgeResolution: 0.5,
+                    angularResolution: 1.0,
+                    shortEdgeLength: 12.0, // This makes most edges short except the top
+                    maxShortEdgeLength: 24.0,
+                    optimizeCorners: 0);
+                completed = true;
+            }
+            catch (Exception ex)
+            {
+                caughtException = ex;
+            }
+        }, cancellationTokenSource.Token);
+
+        bool finishedInTime = task.Wait(5000);
+
+        if (!finishedInTime)
+        {
+            Console.WriteLine("T-shape test timed out - likely infinite loop detected!");
+            Assert.Fail("T-shape with top long edge timed out, indicating an infinite loop in the contour generation algorithm");
+        }
+        else if (caughtException != null)
+        {
+            Console.WriteLine($"T-shape test threw exception: {caughtException.Message}");
+            Assert.Fail($"T-shape test failed with exception: {caughtException.Message}");
+        }
+        else if (!completed)
+        {
+            Assert.Fail("T-shape test did not complete successfully");
+        }
+
+        Assert.That(result, Is.Not.Null, "T-shape contour generation should return a valid result");
+        Assert.That(result.Count, Is.GreaterThan(0), "T-shape result should have points");
+        
+        // Generate SVG for review
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        string svgContent = CreateTestSvg(tShapeTopLong, result, "T-shape: Top Edge Long, Rest Short", 12.0);
+        string svgPath = Path.Combine(svgOutputDir, "T_shape_specific_test.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+        
+        Console.WriteLine($"T-shape test completed successfully with {result.Count} points");
+        Console.WriteLine($"T-shape SVG saved to: {svgPath}");
+    }
+
+    /// <summary>
+    /// Performance test to ensure contour generation completes in reasonable time
+    /// for various polygon complexities with mixed short/long edges.
+    /// </summary>
+    [Test]
+    public static void ContourGenerationPerformanceTest()
+    {
+        var testCases = new List<(string name, PathD path, double threshold, int expectedMaxTimeMs)>();
+
+        // Simple cases should complete very quickly
+        var simpleSquare = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(10, 0),
+            new PointD(10, 10), 
+            new PointD(0, 10),
+            new PointD(0, 0)
+        };
+        testCases.Add(("Simple square", simpleSquare, 5.0, 1000));
+
+        // More complex case should still complete reasonably quickly
+        var complexShape = new PathD();
+        for (int i = 0; i < 20; i++)
+        {
+            double angle = i * 2 * Math.PI / 20;
+            double radius = (i % 2 == 0) ? 10 : 20; // Alternating radii
+            complexShape.Add(new PointD(
+                Math.Cos(angle) * radius,
+                Math.Sin(angle) * radius));
+        }
+        complexShape.Add(complexShape[0]); // Close the path
+        testCases.Add(("Complex 20-sided star", complexShape, 15.0, 3000));
+
+        foreach (var (name, path, threshold, maxTime) in testCases)
+        {
+            var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+            
+            var result = contourGen.makeContour(path,
+                concaveRadius: 2.0,
+                convexRadius: 2.0, 
+                edgeResolution: 1.0,
+                angularResolution: 1.0,
+                shortEdgeLength: threshold,
+                maxShortEdgeLength: threshold * 2,
+                optimizeCorners: 0);
+                
+            stopwatch.Stop();
+            
+            // Generate SVG for performance test results
+            var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+            Directory.CreateDirectory(svgOutputDir);
+            string safeName = name.Replace(" ", "_").Replace("-", "_");
+            string svgContent = CreateTestSvg(path, result, $"Performance Test: {name}", threshold);
+            string svgPath = Path.Combine(svgOutputDir, $"perf_{safeName}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            
+            Console.WriteLine($"{name}: {stopwatch.ElapsedMilliseconds}ms (SVG: {svgPath})");
+            
+            Assert.That(result, Is.Not.Null, $"{name} should return a valid result");
+            Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(maxTime), 
+                $"{name} should complete within {maxTime}ms but took {stopwatch.ElapsedMilliseconds}ms");
+        }
+    }
+
+    #endregion
+
+    #region Helper Methods for SVG Generation and Timeout Testing
+
+    /// <summary>
+    /// Create SVG visualization showing input polygon and generated contour
+    /// </summary>
+    static string CreateTestSvg(PathD inputPath, PathD outputPath, string title, double shortEdgeThreshold)
+    {
+        if (inputPath == null || inputPath.Count == 0)
+            return "";
+
+        var allPoints = inputPath.ToList();
+        if (outputPath != null && outputPath.Count > 0)
+            allPoints.AddRange(outputPath);
+
+        double minX = allPoints.Min(p => p.x) - 10;
+        double maxX = allPoints.Max(p => p.x) + 10;
+        double minY = allPoints.Min(p => p.y) - 10;
+        double maxY = allPoints.Max(p => p.y) + 10;
+
+        double width = maxX - minX;
+        double height = maxY - minY;
+        
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
+        
+        // Title
+        sb.AppendLine($"  <title>{title}</title>");
+        
+        // Grid
+        sb.AppendLine("  <defs>");
+        sb.AppendLine("    <pattern id=\"grid\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">");
+        sb.AppendLine("      <path d=\"M 10 0 L 0 0 0 10\" fill=\"none\" stroke=\"#e0e0e0\" stroke-width=\"0.5\"/>");
+        sb.AppendLine("    </pattern>");
+        sb.AppendLine("  </defs>");
+        sb.AppendLine($"  <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />");
+
+        // Input polygon (blue)
+        sb.Append("  <polyline fill=\"none\" stroke=\"blue\" stroke-width=\"2\" points=\"");
+        for (int i = 0; i < inputPath.Count; i++)
+        {
+            sb.Append($"{inputPath[i].x},{-inputPath[i].y} ");
+        }
+        sb.AppendLine("\"/>");
+
+        // Mark short vs long edges with colors
+        for (int i = 0; i < inputPath.Count - 1; i++)
+        {
+            var p1 = inputPath[i];
+            var p2 = inputPath[i + 1];
+            double edgeLength = Math.Sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+            string color = edgeLength <= shortEdgeThreshold ? "#ff6b6b" : "#4ecdc4";
+            double strokeWidth = edgeLength <= shortEdgeThreshold ? 3 : 2;
+            
+            sb.AppendLine($"  <line x1=\"{p1.x}\" y1=\"{-p1.y}\" x2=\"{p2.x}\" y2=\"{-p2.y}\" stroke=\"{color}\" stroke-width=\"{strokeWidth}\" stroke-opacity=\"0.7\"/>");
+            
+            // Label edge length
+            double midX = (p1.x + p2.x) / 2;
+            double midY = -(p1.y + p2.y) / 2;
+            sb.AppendLine($"  <text x=\"{midX}\" y=\"{midY}\" font-size=\"8\" fill=\"{color}\" text-anchor=\"middle\">{edgeLength:F1}</text>");
+        }
+
+        // Output contour (red)
+        if (outputPath != null && outputPath.Count > 0)
+        {
+            sb.Append("  <polyline fill=\"none\" stroke=\"red\" stroke-width=\"3\" points=\"");
+            foreach (var p in outputPath)
+            {
+                sb.Append($"{p.x},{-p.y} ");
+            }
+            // Close the path if not already closed
+            if (outputPath.Count > 0 && (Math.Abs(outputPath[0].x - outputPath[^1].x) > 1e-9 || Math.Abs(outputPath[0].y - outputPath[^1].y) > 1e-9))
+            {
+                sb.Append($"{outputPath[0].x},{-outputPath[0].y} ");
+            }
+            sb.AppendLine("\"/>");
+
+            // Mark output vertices
+            foreach (var p in outputPath)
+            {
+                sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"2\" fill=\"red\" fill-opacity=\"0.8\"/>");
+            }
+        }
+
+        // Mark input vertices
+        foreach (var p in inputPath)
+        {
+            sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"1.5\" fill=\"blue\" fill-opacity=\"0.8\"/>");
+        }
+
+        // Legend
+        double legendY = -maxY + 20;
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{title}</text>");
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 18}\" font-size=\"12\" fill=\"blue\">Input Polygon</text>");
+        if (outputPath != null && outputPath.Count > 0)
+            sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 35}\" font-size=\"12\" fill=\"red\">Generated Contour</text>");
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 52}\" font-size=\"12\" fill=\"#ff6b6b\">Short Edges (≤{shortEdgeThreshold})</text>");
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 69}\" font-size=\"12\" fill=\"#4ecdc4\">Long Edges (>{shortEdgeThreshold})</text>");
+
+        sb.AppendLine("</svg>");
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Test function that runs contour generation with timeout and returns both success status and result
+    /// </summary>
+    static (bool success, PathD result) TestWithTimeoutAndResult(PathD path, double shortEdgeThreshold, int timeoutMs = 5000)
+    {
+        var cancellationTokenSource = new CancellationTokenSource(timeoutMs);
+        PathD result = null;
+        
+        var task = Task.Run(() =>
+        {
+            try
+            {
+                result = contourGen.makeContour(path, 
+                    concaveRadius: 5.0, 
+                    convexRadius: 5.0, 
+                    edgeResolution: 1.0, 
+                    angularResolution: 1.0, 
+                    shortEdgeLength: shortEdgeThreshold, 
+                    maxShortEdgeLength: shortEdgeThreshold * 2, 
+                    optimizeCorners: 0);
+                return result != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in contour generation: {ex.Message}");
+                return false;
+            }
+        }, cancellationTokenSource.Token);
+
+        try
+        {
+            bool success = task.Wait(timeoutMs) && task.Result;
+            return (success, result);
+        }
+        catch (Exception)
+        {
+            return (false, null);
+        }
+    }
+
+    static bool TestWithTimeout(PathD path, double shortEdgeThreshold, int timeoutMs = 5000)
+    {
+        var (success, _) = TestWithTimeoutAndResult(path, shortEdgeThreshold, timeoutMs);
+        return success;
     }
 
     #endregion

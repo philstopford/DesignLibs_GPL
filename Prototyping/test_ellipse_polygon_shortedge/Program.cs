@@ -109,13 +109,16 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         PathsD processed = ProcessAllCornersWithShortEdgeHandling(original_path, corner_types,
             concave_radius, convex_radius, edge_resolution, angular_resolution, short_edge_length);
 
-        // Assemble and export final result
-        PathD assembled = AssembleProcessedCorners(processed);
+        // Assemble and export final result using the fixed assembly method
+        PathD assembled = AssembleWithDiagonals(processed, corner_types);
         
         string svg = BuildDetailedSvg(original_path, assembled);
         File.WriteAllText("assembled_shortedge.svg", svg, Encoding.UTF8);
         
         WriteCsv("shortedge_corners.csv", assembled);
+
+        // Test the all-short-edges fix
+        TestAllShortEdgesFix();
     }
 
     /// <summary>
@@ -435,6 +438,13 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         for (int k = 0; k < n; k++)
             isShort[k] = (k < corner_types.Length && corner_types[k] == (int)CornerType.ShortEdge);
 
+        // Special case: all edges are short - connect midpoints to avoid infinite loops
+        bool allShort = isShort.All(x => x);
+        if (allShort)
+        {
+            return ConnectMidpoints(processedCorners);
+        }
+
         int i = 0;
         while (i < n)
         {
@@ -495,6 +505,34 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
         }
 
         return outPts;
+    }
+
+    /// <summary>
+    /// Connects midpoints of edges when all edges are classified as short.
+    /// This solves the problem where the algorithm would loop infinitely 
+    /// trying to find non-short corners when none exist.
+    /// For example, a square with all short edges becomes a diamond.
+    /// </summary>
+    /// <param name="processedCorners">List of processed corner polylines</param>
+    /// <returns>Path connecting midpoints of all edges</returns>
+    static PathD ConnectMidpoints(PathsD processedCorners)
+    {
+        PathD midpoints = new PathD();
+        
+        for (int i = 0; i < processedCorners.Count; i++)
+        {
+            PathD corner = processedCorners[i];
+            if (corner.Count >= 2)
+            {
+                // Calculate midpoint of the edge represented by this corner
+                PointD p1 = corner[0];
+                PointD p2 = corner[^1]; // Last point
+                PointD midpoint = new PointD((p1.x + p2.x) / 2.0, (p1.y + p2.y) / 2.0);
+                midpoints.Add(midpoint);
+            }
+        }
+
+        return midpoints;
     }
 
     /// <summary>
@@ -601,4 +639,156 @@ public static class QuadraticBezierSamplingSwitcher_Polygon
 
     static string DrawText(string txt, PointD p, int dx, int dy) =>
         $"  <text x=\"{p.x + dx}\" y=\"{-p.y + dy}\" font-size=\"10\" fill=\"#000\">{txt}</text>";
+
+    /// <summary>
+    /// Test function to demonstrate the all-short-edges fix.
+    /// This can be called after the main test to verify the fix works.
+    /// </summary>
+    static void TestAllShortEdgesFix()
+    {
+        Console.WriteLine("\n=== Testing All Short Edges Fix ===");
+        
+        // Create a square where all edges will be considered short
+        var square = new List<PointD>
+        {
+            new PointD(0, 0),
+            new PointD(10, 0),     // Short horizontal edge (10 units)
+            new PointD(10, 10),    // Short vertical edge (10 units)  
+            new PointD(0, 10),     // Short horizontal edge (10 units)
+            new PointD(0, 0)       // Short vertical edge (10 units) - close the path
+        };
+
+        double short_edge_threshold = 15.0; // All edges (10 units) are below this threshold
+        
+        Console.WriteLine("Original square vertices:");
+        for (int i = 0; i < square.Count; i++)
+        {
+            Console.WriteLine($"  {i}: ({square[i].x}, {square[i].y})");
+        }
+
+        // Classify corners
+        int[] corner_types = CategorizeCorners(square, short_edge_threshold);
+        
+        Console.WriteLine("\nCorner classifications:");
+        for (int i = 0; i < corner_types.Length; i++)
+        {
+            string type = corner_types[i] == (int)CornerType.ShortEdge ? "ShortEdge" : 
+                         corner_types[i] == (int)CornerType.Convex ? "Convex" : "Concave";
+            Console.WriteLine($"  Corner {i}: {type}");
+        }
+
+        // Create dummy processed corners for testing the assembly
+        PathsD processedCorners = new PathsD();
+        for (int i = 0; i < square.Count - 1; i++)
+        {
+            PathD corner = new PathD();
+            corner.Add(square[i]);
+            corner.Add(square[i + 1]);
+            processedCorners.Add(corner);
+        }
+
+        PathD result = AssembleWithDiagonals(processedCorners, corner_types);
+        
+        Console.WriteLine("\nResult (diamond from square midpoints):");
+        for (int i = 0; i < result.Count; i++)
+        {
+            Console.WriteLine($"  {i}: ({result[i].x}, {result[i].y})");
+        }
+
+        // Expected diamond points: (5,0), (10,5), (5,10), (0,5)
+        var expectedDiamond = new List<PointD>
+        {
+            new PointD(5, 0),   // Midpoint of bottom edge
+            new PointD(10, 5),  // Midpoint of right edge  
+            new PointD(5, 10),  // Midpoint of top edge
+            new PointD(0, 5)    // Midpoint of left edge
+        };
+
+        Console.WriteLine("\nExpected diamond vertices:");
+        for (int i = 0; i < expectedDiamond.Count; i++)
+        {
+            Console.WriteLine($"  {i}: ({expectedDiamond[i].x}, {expectedDiamond[i].y})");
+        }
+
+        // Verify the result matches expectations
+        bool matches = result.Count == expectedDiamond.Count;
+        for (int i = 0; i < Math.Min(result.Count, expectedDiamond.Count) && matches; i++)
+        {
+            if (Math.Abs(result[i].x - expectedDiamond[i].x) > 1e-9 || 
+                Math.Abs(result[i].y - expectedDiamond[i].y) > 1e-9)
+            {
+                matches = false;
+            }
+        }
+
+        Console.WriteLine($"\nTest result: {(matches ? "PASS" : "FAIL")} - Square correctly converted to diamond");
+        
+        // Create simple SVG for verification
+        string svg = BuildComparisonSvg(square, result);
+        File.WriteAllText("square_to_diamond_test.svg", svg, Encoding.UTF8);
+        Console.WriteLine("SVG saved to square_to_diamond_test.svg");
+    }
+
+    /// <summary>
+    /// Create SVG showing both the original polygon and the result
+    /// </summary>
+    static string BuildComparisonSvg(List<PointD> original, PathD result)
+    {
+        var allPoints = original.Concat(result).ToList();
+        double minX = allPoints.Min(p => p.x) - 2;
+        double maxX = allPoints.Max(p => p.x) + 2;
+        double minY = allPoints.Min(p => p.y) - 2;
+        double maxY = allPoints.Max(p => p.y) + 2;
+
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"400\" viewBox=\"{minX} {-maxY} {maxX - minX} {maxY - minY}\">");
+        
+        // Grid background
+        sb.AppendLine("  <defs>");
+        sb.AppendLine("    <pattern id=\"grid\" width=\"2\" height=\"2\" patternUnits=\"userSpaceOnUse\">");
+        sb.AppendLine("      <path d=\"M 2 0 L 0 0 0 2\" fill=\"none\" stroke=\"#f0f0f0\" stroke-width=\"0.3\"/>");
+        sb.AppendLine("    </pattern>");
+        sb.AppendLine("  </defs>");
+        sb.AppendLine($"  <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />");
+
+        // Axes
+        sb.AppendLine("  <g stroke=\"#ccc\" stroke-width=\"0.5\">");
+        sb.AppendLine($"    <line x1=\"{minX}\" y1=\"0\" x2=\"{maxX}\" y2=\"0\"/>");
+        sb.AppendLine($"    <line x1=\"0\" y1=\"{-maxY}\" x2=\"0\" y2=\"{-minY}\"/>");
+        sb.AppendLine("  </g>");
+
+        // Original polygon (blue)
+        sb.Append("  <polyline fill=\"none\" stroke=\"blue\" stroke-width=\"2\" points=\"");
+        for (int i = 0; i < original.Count; i++)
+        {
+            sb.Append($"{original[i].x},{-original[i].y} ");
+        }
+        sb.AppendLine("\"/>");
+
+        // Result (red)
+        sb.Append("  <polyline fill=\"none\" stroke=\"red\" stroke-width=\"3\" points=\"");
+        foreach (var p in result)
+        {
+            sb.Append($"{p.x},{-p.y} ");
+        }
+        // Close the path for clarity
+        if (result.Count > 0)
+        {
+            sb.Append($"{result[0].x},{-result[0].y} ");
+        }
+        sb.AppendLine("\"/>");
+
+        // Add points as circles for clarity
+        foreach (var p in result)
+        {
+            sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"0.3\" fill=\"red\"/>");
+        }
+
+        // Legend
+        sb.AppendLine($"  <text x=\"{minX + 0.5}\" y=\"{-maxY + 1}\" font-size=\"1\" fill=\"blue\">Original (blue)</text>");
+        sb.AppendLine($"  <text x=\"{minX + 0.5}\" y=\"{-maxY + 2.5}\" font-size=\"1\" fill=\"red\">Result (red)</text>");
+
+        sb.AppendLine("</svg>");
+        return sb.ToString();
+    }
 }

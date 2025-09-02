@@ -3,6 +3,8 @@ using geoWrangler;
 using shapeEngine;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Text;
+using System.IO;
 
 namespace UnitTests;
 
@@ -1714,39 +1716,6 @@ public class ShapeEngineTests
     public static void ShortLongEdgeCombinationsTest()
     {
         // Test timeout helper - runs contour generation with a timeout to detect infinite loops
-        static bool TestWithTimeout(PathD path, double shortEdgeThreshold, int timeoutMs = 5000)
-        {
-            var cancellationTokenSource = new CancellationTokenSource(timeoutMs);
-            var task = Task.Run(() =>
-            {
-                try
-                {
-                    var result = contourGen.makeContour(path, 
-                        concaveRadius: 5.0, 
-                        convexRadius: 5.0, 
-                        edgeResolution: 1.0, 
-                        angularResolution: 1.0, 
-                        shortEdgeLength: shortEdgeThreshold, 
-                        maxShortEdgeLength: shortEdgeThreshold * 2, 
-                        optimizeCorners: 0);
-                    return result != null;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Exception in contour generation: {ex.Message}");
-                    return false;
-                }
-            }, cancellationTokenSource.Token);
-
-            try
-            {
-                return task.Wait(timeoutMs) && task.Result;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
 
         var testConfigurations = new List<(string name, PathD path, double threshold)>();
 
@@ -1899,22 +1868,31 @@ public class ShapeEngineTests
         // Run all tests
         var failedTests = new List<string>();
         var successfulTests = new List<string>();
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        Console.WriteLine($"SVG outputs will be saved to: {svgOutputDir}");
 
         foreach (var (name, path, threshold) in testConfigurations)
         {
             Console.WriteLine($"Testing: {name}");
             
-            bool success = TestWithTimeout(path, threshold, 10000); // 10 second timeout
+            var (success, result) = TestWithTimeoutAndResult(path, threshold, 10000); // 10 second timeout
+            
+            // Generate SVG regardless of success/failure for review
+            string safeName = name.Replace(" ", "_").Replace(":", "_").Replace(",", "_");
+            string svgContent = CreateTestSvg(path, result, name, threshold);
+            string svgPath = Path.Combine(svgOutputDir, $"{safeName}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
             
             if (success)
             {
                 successfulTests.Add(name);
-                Console.WriteLine($"✓ {name} - PASSED");
+                Console.WriteLine($"✓ {name} - PASSED (SVG: {svgPath})");
             }
             else
             {
                 failedTests.Add(name);
-                Console.WriteLine($"✗ {name} - FAILED (timeout or exception)");
+                Console.WriteLine($"✗ {name} - FAILED (timeout or exception) (SVG: {svgPath})");
             }
         }
 
@@ -2007,7 +1985,15 @@ public class ShapeEngineTests
         Assert.That(result, Is.Not.Null, "T-shape contour generation should return a valid result");
         Assert.That(result.Count, Is.GreaterThan(0), "T-shape result should have points");
         
+        // Generate SVG for review
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        string svgContent = CreateTestSvg(tShapeTopLong, result, "T-shape: Top Edge Long, Rest Short", 12.0);
+        string svgPath = Path.Combine(svgOutputDir, "T_shape_specific_test.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+        
         Console.WriteLine($"T-shape test completed successfully with {result.Count} points");
+        Console.WriteLine($"T-shape SVG saved to: {svgPath}");
     }
 
     /// <summary>
@@ -2058,12 +2044,170 @@ public class ShapeEngineTests
                 
             stopwatch.Stop();
             
-            Console.WriteLine($"{name}: {stopwatch.ElapsedMilliseconds}ms");
+            // Generate SVG for performance test results
+            var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+            Directory.CreateDirectory(svgOutputDir);
+            string safeName = name.Replace(" ", "_").Replace("-", "_");
+            string svgContent = CreateTestSvg(path, result, $"Performance Test: {name}", threshold);
+            string svgPath = Path.Combine(svgOutputDir, $"perf_{safeName}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            
+            Console.WriteLine($"{name}: {stopwatch.ElapsedMilliseconds}ms (SVG: {svgPath})");
             
             Assert.That(result, Is.Not.Null, $"{name} should return a valid result");
             Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(maxTime), 
                 $"{name} should complete within {maxTime}ms but took {stopwatch.ElapsedMilliseconds}ms");
         }
+    }
+
+    #endregion
+
+    #region Helper Methods for SVG Generation and Timeout Testing
+
+    /// <summary>
+    /// Create SVG visualization showing input polygon and generated contour
+    /// </summary>
+    static string CreateTestSvg(PathD inputPath, PathD outputPath, string title, double shortEdgeThreshold)
+    {
+        if (inputPath == null || inputPath.Count == 0)
+            return "";
+
+        var allPoints = inputPath.ToList();
+        if (outputPath != null && outputPath.Count > 0)
+            allPoints.AddRange(outputPath);
+
+        double minX = allPoints.Min(p => p.x) - 10;
+        double maxX = allPoints.Max(p => p.x) + 10;
+        double minY = allPoints.Min(p => p.y) - 10;
+        double maxY = allPoints.Max(p => p.y) + 10;
+
+        double width = maxX - minX;
+        double height = maxY - minY;
+        
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
+        
+        // Title
+        sb.AppendLine($"  <title>{title}</title>");
+        
+        // Grid
+        sb.AppendLine("  <defs>");
+        sb.AppendLine("    <pattern id=\"grid\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">");
+        sb.AppendLine("      <path d=\"M 10 0 L 0 0 0 10\" fill=\"none\" stroke=\"#e0e0e0\" stroke-width=\"0.5\"/>");
+        sb.AppendLine("    </pattern>");
+        sb.AppendLine("  </defs>");
+        sb.AppendLine($"  <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />");
+
+        // Input polygon (blue)
+        sb.Append("  <polyline fill=\"none\" stroke=\"blue\" stroke-width=\"2\" points=\"");
+        for (int i = 0; i < inputPath.Count; i++)
+        {
+            sb.Append($"{inputPath[i].x},{-inputPath[i].y} ");
+        }
+        sb.AppendLine("\"/>");
+
+        // Mark short vs long edges with colors
+        for (int i = 0; i < inputPath.Count - 1; i++)
+        {
+            var p1 = inputPath[i];
+            var p2 = inputPath[i + 1];
+            double edgeLength = Math.Sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+            string color = edgeLength <= shortEdgeThreshold ? "#ff6b6b" : "#4ecdc4";
+            double strokeWidth = edgeLength <= shortEdgeThreshold ? 3 : 2;
+            
+            sb.AppendLine($"  <line x1=\"{p1.x}\" y1=\"{-p1.y}\" x2=\"{p2.x}\" y2=\"{-p2.y}\" stroke=\"{color}\" stroke-width=\"{strokeWidth}\" stroke-opacity=\"0.7\"/>");
+            
+            // Label edge length
+            double midX = (p1.x + p2.x) / 2;
+            double midY = -(p1.y + p2.y) / 2;
+            sb.AppendLine($"  <text x=\"{midX}\" y=\"{midY}\" font-size=\"8\" fill=\"{color}\" text-anchor=\"middle\">{edgeLength:F1}</text>");
+        }
+
+        // Output contour (red)
+        if (outputPath != null && outputPath.Count > 0)
+        {
+            sb.Append("  <polyline fill=\"none\" stroke=\"red\" stroke-width=\"3\" points=\"");
+            foreach (var p in outputPath)
+            {
+                sb.Append($"{p.x},{-p.y} ");
+            }
+            // Close the path if not already closed
+            if (outputPath.Count > 0 && (Math.Abs(outputPath[0].x - outputPath[^1].x) > 1e-9 || Math.Abs(outputPath[0].y - outputPath[^1].y) > 1e-9))
+            {
+                sb.Append($"{outputPath[0].x},{-outputPath[0].y} ");
+            }
+            sb.AppendLine("\"/>");
+
+            // Mark output vertices
+            foreach (var p in outputPath)
+            {
+                sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"2\" fill=\"red\" fill-opacity=\"0.8\"/>");
+            }
+        }
+
+        // Mark input vertices
+        foreach (var p in inputPath)
+        {
+            sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"1.5\" fill=\"blue\" fill-opacity=\"0.8\"/>");
+        }
+
+        // Legend
+        double legendY = -maxY + 20;
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{title}</text>");
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 18}\" font-size=\"12\" fill=\"blue\">Input Polygon</text>");
+        if (outputPath != null && outputPath.Count > 0)
+            sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 35}\" font-size=\"12\" fill=\"red\">Generated Contour</text>");
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 52}\" font-size=\"12\" fill=\"#ff6b6b\">Short Edges (≤{shortEdgeThreshold})</text>");
+        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 69}\" font-size=\"12\" fill=\"#4ecdc4\">Long Edges (>{shortEdgeThreshold})</text>");
+
+        sb.AppendLine("</svg>");
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Test function that runs contour generation with timeout and returns both success status and result
+    /// </summary>
+    static (bool success, PathD result) TestWithTimeoutAndResult(PathD path, double shortEdgeThreshold, int timeoutMs = 5000)
+    {
+        var cancellationTokenSource = new CancellationTokenSource(timeoutMs);
+        PathD result = null;
+        
+        var task = Task.Run(() =>
+        {
+            try
+            {
+                result = contourGen.makeContour(path, 
+                    concaveRadius: 5.0, 
+                    convexRadius: 5.0, 
+                    edgeResolution: 1.0, 
+                    angularResolution: 1.0, 
+                    shortEdgeLength: shortEdgeThreshold, 
+                    maxShortEdgeLength: shortEdgeThreshold * 2, 
+                    optimizeCorners: 0);
+                return result != null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception in contour generation: {ex.Message}");
+                return false;
+            }
+        }, cancellationTokenSource.Token);
+
+        try
+        {
+            bool success = task.Wait(timeoutMs) && task.Result;
+            return (success, result);
+        }
+        catch (Exception)
+        {
+            return (false, null);
+        }
+    }
+
+    static bool TestWithTimeout(PathD path, double shortEdgeThreshold, int timeoutMs = 5000)
+    {
+        var (success, _) = TestWithTimeoutAndResult(path, shortEdgeThreshold, timeoutMs);
+        return success;
     }
 
     #endregion

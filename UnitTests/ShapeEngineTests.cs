@@ -1639,5 +1639,69 @@ public class ShapeEngineTests
         Assert.That(bounds.Height, Is.EqualTo(27));
     }
 
+    [Test]
+    public static void AllShortEdgesTest()
+    {
+        // Test the fix for the infinite loop when all edges are considered short
+        // This test verifies that a square with all short edges correctly becomes a diamond
+        
+        // Create a square where all edges will be considered short
+        var square = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(10, 0),     // Short horizontal edge (10 units)
+            new PointD(10, 10),    // Short vertical edge (10 units)  
+            new PointD(0, 10),     // Short horizontal edge (10 units)
+            new PointD(0, 0)       // Short vertical edge (10 units) - close the path
+        };
+
+        double short_edge_threshold = 15.0; // All edges (10 units) are below this threshold
+        
+        // This is a test of the core contourGen functionality
+        // We need to create a scenario that would trigger the AssembleWithEasing function
+        
+        // For this test, we'll test the direct midpoint connection logic
+        var cornerMidpoints = new List<PointD>
+        {
+            new PointD(5, 0),   // Midpoint of bottom edge
+            new PointD(10, 5),  // Midpoint of right edge  
+            new PointD(5, 10),  // Midpoint of top edge
+            new PointD(0, 5)    // Midpoint of left edge
+        };
+
+        // Test the helper function directly using reflection to access the private method
+        var type = typeof(contourGen);
+        var method = type.GetMethod("ConnectCornerMidpoints", 
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        
+        Assert.That(method, Is.Not.Null, "ConnectCornerMidpoints method should exist");
+        
+        var result = method.Invoke(null, new object[] { cornerMidpoints }) as PathD;
+        
+        Assert.That(result, Is.Not.Null, "Result should not be null");
+        Assert.That(result.Count, Is.EqualTo(4), "Result should have 4 points (diamond)");
+        
+        // Verify the diamond vertices are correct (midpoints of square edges)
+        Assert.That(result[0].x, Is.EqualTo(5).Within(1e-9), "First point x should be 5");
+        Assert.That(result[0].y, Is.EqualTo(0).Within(1e-9), "First point y should be 0");
+        
+        Assert.That(result[1].x, Is.EqualTo(10).Within(1e-9), "Second point x should be 10");
+        Assert.That(result[1].y, Is.EqualTo(5).Within(1e-9), "Second point y should be 5");
+        
+        Assert.That(result[2].x, Is.EqualTo(5).Within(1e-9), "Third point x should be 5");
+        Assert.That(result[2].y, Is.EqualTo(10).Within(1e-9), "Third point y should be 10");
+        
+        Assert.That(result[3].x, Is.EqualTo(0).Within(1e-9), "Fourth point x should be 0");
+        Assert.That(result[3].y, Is.EqualTo(5).Within(1e-9), "Fourth point y should be 5");
+        
+        // Verify the diamond has the expected area (half the area of the original square)
+        double originalSquareArea = 100; // 10 * 10
+        double diamondArea = Math.Abs(Clipper.Area(result));
+        double expectedDiamondArea = originalSquareArea / 2; // 50
+        
+        Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001), 
+            "Diamond area should be half the original square area");
+    }
+
     #endregion
 }

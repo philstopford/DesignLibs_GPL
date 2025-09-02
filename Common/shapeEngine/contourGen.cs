@@ -1,4 +1,5 @@
 using Clipper2Lib;
+using System.Linq;
 
 namespace shapeEngine;
 
@@ -283,6 +284,19 @@ public static class contourGen
         return samples;
     }
 
+    /// <summary>
+    /// Connects midpoints when all edges are classified as short.
+    /// This solves the problem where the algorithm would loop infinitely 
+    /// trying to find non-short corners when none exist.
+    /// For example, a square with all short edges becomes a diamond.
+    /// </summary>
+    /// <param name="cornerMidpoints">List of corner midpoints</param>
+    /// <returns>Path connecting all midpoints</returns>
+    static PathD ConnectCornerMidpoints(List<PointD> cornerMidpoints)
+    {
+        return new PathD(cornerMidpoints);
+    }
+
     static PathD AssembleWithEasing(
         PathsD processedCorners,
         int[] corner_types,
@@ -335,6 +349,13 @@ public static class contourGen
         bool[] isShort = new bool[n];
         for (int i = 0; i < n; i++)
             isShort[i] = (i < corner_types.Length && corner_types[i] == (int)CornerType.ShortEdge);
+
+        // Special case: all edges are short - connect midpoints to avoid infinite loops
+        bool allShort = isShort.All(x => x);
+        if (allShort)
+        {
+            return ConnectCornerMidpoints(cornerMidpoints);
+        }
 
         int idx = 0;
         while (idx < n)

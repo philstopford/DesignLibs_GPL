@@ -220,6 +220,27 @@ namespace UnitTests
 
             private static void SubdivideByAngle(Point p0, Point p1, Point p2, double maxAngle, List<Point> outPts)
             {
+                const int maxDepth = 50; // Prevent stack overflow
+                SubdivideByAngleRecursive(p0, p1, p2, maxAngle, outPts, 0, maxDepth);
+            }
+
+            private static void SubdivideByAngleRecursive(Point p0, Point p1, Point p2, double maxAngle, List<Point> outPts, int depth, int maxDepth)
+            {
+                // Prevent stack overflow by limiting recursion depth
+                if (depth >= maxDepth)
+                {
+                    outPts.Add(p2);
+                    return;
+                }
+
+                // Additional fallback: if segment is very small, don't subdivide further
+                double segmentLength = (p2 - p0).Length();
+                if (segmentLength < 1e-10)
+                {
+                    outPts.Add(p2);
+                    return;
+                }
+
                 var tan0 = (p1 - p0).Normalized();
                 var tan1 = (p2 - p1).Normalized();
                 
@@ -233,8 +254,8 @@ namespace UnitTests
                 }
                 
                 Point p01 = Mid(p0, p1), p12 = Mid(p1, p2), p012 = Mid(p01, p12);
-                SubdivideByAngle(p0,  p01,  p012, maxAngle, outPts);
-                SubdivideByAngle(p012, p12,  p2,   maxAngle, outPts);
+                SubdivideByAngleRecursive(p0,  p01,  p012, maxAngle, outPts, depth + 1, maxDepth);
+                SubdivideByAngleRecursive(p012, p12,  p2,   maxAngle, outPts, depth + 1, maxDepth);
             }
 
             private static Point Mid(Point a, Point b) => new Point((a.X + b.X) / 2, (a.Y + b.Y) / 2);
@@ -748,6 +769,47 @@ namespace UnitTests
             var normalizedZero = zero.Normalized();
             Assert.That(normalizedZero.X, Is.EqualTo(0));
             Assert.That(normalizedZero.Y, Is.EqualTo(0));
+        }
+
+        #endregion
+
+        #region Stack Overflow Prevention Tests
+
+        [Test]
+        public void TestSubdivideByAngleStackOverflowPrevention()
+        {
+            // This test creates a degenerate case that would cause stack overflow
+            // with the original recursive implementation
+            var p0 = new PrototypeTestHelpers.Point(0, 0);
+            var p1 = new PrototypeTestHelpers.Point(1e-15, 1e-15); // Very close to p0
+            var p2 = new PrototypeTestHelpers.Point(2e-15, 0); // Very close to p0
+            
+            // Use a very small angle threshold that would trigger deep recursion
+            double maxAngle = 1e-6; // Very small angle in radians
+            
+            // This should not cause a stack overflow and should complete in reasonable time
+            var result = PrototypeTestHelpers.BezierSampling.SampleByMaxAngle(p0, p1, p2, maxAngle);
+            
+            // Should return some points without stack overflow
+            Assert.That(result.Count, Is.GreaterThan(0));
+            Assert.That(result.Count, Is.LessThan(10000)); // Should not generate excessive points
+        }
+
+        [Test] 
+        public void TestSubdivideByAngleWithCollinearPoints()
+        {
+            // Test with nearly collinear points that could cause issues
+            var p0 = new PrototypeTestHelpers.Point(0, 0);
+            var p1 = new PrototypeTestHelpers.Point(1, 1e-10); // Almost collinear
+            var p2 = new PrototypeTestHelpers.Point(2, 0);
+            
+            double maxAngle = 1e-3; // Small angle threshold
+            
+            // Should complete without stack overflow
+            var result = PrototypeTestHelpers.BezierSampling.SampleByMaxAngle(p0, p1, p2, maxAngle);
+            
+            Assert.That(result.Count, Is.GreaterThan(0));
+            Assert.That(result.Count, Is.LessThan(1000));
         }
 
         #endregion

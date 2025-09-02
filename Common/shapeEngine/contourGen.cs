@@ -795,6 +795,27 @@ public static class contourGen
 
     static void SubdivideByAngle(PointD p0, PointD p1, PointD p2, double maxAngle, PathD outPts)
     {
+        const int maxDepth = 50; // Prevent stack overflow
+        SubdivideByAngleRecursive(p0, p1, p2, maxAngle, outPts, 0, maxDepth);
+    }
+
+    static void SubdivideByAngleRecursive(PointD p0, PointD p1, PointD p2, double maxAngle, PathD outPts, int depth, int maxDepth)
+    {
+        // Prevent stack overflow by limiting recursion depth
+        if (depth >= maxDepth)
+        {
+            outPts.Add(p2);
+            return;
+        }
+
+        // Additional fallback: if segment is very small, don't subdivide further
+        double segmentLength = Helper.Length(Helper.Minus(p2, p0));
+        if (segmentLength < 1e-10)
+        {
+            outPts.Add(p2);
+            return;
+        }
+
         PointD tan0 = Helper.Normalized((Helper.Minus(p1, p0)));
         PointD tan1 = Helper.Normalized((Helper.Minus(p2, p1)));
         double dot = Math.Max(-1.0, Math.Min(1.0, tan0.x * tan1.x + tan0.y * tan1.y));
@@ -806,8 +827,8 @@ public static class contourGen
         }
 
         PointD p01 = Helper.Mid(p0, p1), p12 = Helper.Mid(p1, p2), p012 = Helper.Mid(p01, p12);
-        SubdivideByAngle(p0, p01, p012, maxAngle, outPts);
-        SubdivideByAngle(p012, p12, p2, maxAngle, outPts);
+        SubdivideByAngleRecursive(p0, p01, p012, maxAngle, outPts, depth + 1, maxDepth);
+        SubdivideByAngleRecursive(p012, p12, p2, maxAngle, outPts, depth + 1, maxDepth);
     }
 
     static PointD EstimateOutgoingTangent(PathD poly)

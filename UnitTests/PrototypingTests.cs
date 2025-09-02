@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using Clipper2Lib;
+using shapeEngine;
 
 namespace UnitTests
 {
@@ -269,6 +271,17 @@ namespace UnitTests
     [TestFixture]
     public class PrototypingTests
     {
+        static int[] shapeTable = {
+            (int)ShapeLibrary.shapeNames_all.none,
+            (int)ShapeLibrary.shapeNames_all.rect,
+            (int)ShapeLibrary.shapeNames_all.Lshape,
+            (int)ShapeLibrary.shapeNames_all.Tshape,
+            (int)ShapeLibrary.shapeNames_all.Xshape,
+            (int)ShapeLibrary.shapeNames_all.Ushape,
+            (int)ShapeLibrary.shapeNames_all.Sshape,
+            (int)ShapeLibrary.shapeNames_all.GEOCORE,
+            (int)ShapeLibrary.shapeNames_all.BOOLEAN
+        };
         #region Corner Categorization Tests
 
         [Test]
@@ -810,6 +823,59 @@ namespace UnitTests
             
             Assert.That(result.Count, Is.GreaterThan(0));
             Assert.That(result.Count, Is.LessThan(1000));
+        }
+
+        [Test]
+        public void TestSubdivideByAngleNormalCase()
+        {
+            // Test with a normal curved case to ensure quality is preserved
+            var p0 = new PrototypeTestHelpers.Point(0, 0);
+            var p1 = new PrototypeTestHelpers.Point(1, 1); // Clear curve
+            var p2 = new PrototypeTestHelpers.Point(2, 0);
+            
+            double maxAngle = Math.PI / 18; // 10 degrees
+            
+            // Should generate a reasonable number of points for the curve
+            var result = PrototypeTestHelpers.BezierSampling.SampleByMaxAngle(p0, p1, p2, maxAngle);
+            
+            Assert.That(result.Count, Is.GreaterThan(2)); // At least start, end, and some intermediate
+            Assert.That(result.Count, Is.LessThan(100)); // Not excessive
+            Assert.That(result[0].X, Is.EqualTo(0).Within(1e-10)); // Starts at p0
+            Assert.That(result[0].Y, Is.EqualTo(0).Within(1e-10));
+            Assert.That(result[^1].X, Is.EqualTo(2).Within(1e-10)); // Ends at p2
+            Assert.That(result[^1].Y, Is.EqualTo(0).Within(1e-10));
+        }
+
+        [Test]
+        public void TestShapeEngineWithComplexGeometry()
+        {
+            // Integration test to ensure the actual shapeEngine SubdivideByAngle method works
+            // This creates a shape that would use the angle-based subdivision
+            ShapeSettings shapeSettings = new ShapeSettings();
+            shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.rect);
+            shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
+            shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 0);
+            shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 3); // Inner corner radius
+            shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 3); // Outer corner radius
+
+            ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
+            shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
+            
+            // Process corners - this should use the SubdivideByAngle method internally
+            PathD result = shape.processCorners(false, false, 90, 1, 0.1); // Small resolution to trigger subdivision
+            
+            // Should complete without stack overflow and produce reasonable results
+            Assert.That(result.Count, Is.GreaterThan(4)); // Should have corner points
+            Assert.That(result.Count, Is.LessThan(1000)); // Should not be excessive
+            
+            // Check basic bounds to ensure the shape is reasonable
+            RectD bounds = Clipper.GetBounds(result);
+            Assert.That(bounds.Width, Is.GreaterThanOrEqualTo(10)); // Should be at least as wide as the shape
+            Assert.That(bounds.Height, Is.GreaterThanOrEqualTo(10)); // Should be at least as tall as the shape
+            
+            // Verify that the result has a reasonable shape area
+            double area = Math.Abs(Clipper.Area(result));
+            Assert.That(area, Is.GreaterThan(90)); // Should have substantial area (100 - corner reductions)
         }
 
         #endregion

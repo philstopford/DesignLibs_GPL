@@ -103,15 +103,15 @@ public class GeoWranglerTests
 
         // Assert: Should create 3x2 = 6 paths
         Assert.That(result.Count, Is.EqualTo(6));
-        
+
         // Verify first path (origin)
         Assert.That(result[0][0].x, Is.EqualTo(0).Within(0.001));
         Assert.That(result[0][0].y, Is.EqualTo(0).Within(0.001));
-        
+
         // Verify translated paths
         Assert.That(result[1][0].x, Is.EqualTo(0).Within(0.001));    // x=0, y=1
         Assert.That(result[1][0].y, Is.EqualTo(30).Within(0.001));
-        
+
         Assert.That(result[2][0].x, Is.EqualTo(20).Within(0.001));   // x=1, y=0
         Assert.That(result[2][0].y, Is.EqualTo(0).Within(0.001));
     }
@@ -150,7 +150,7 @@ public class GeoWranglerTests
 
         // Assert: Should create 2x2 array positions × 2 source paths = 8 total paths
         Assert.That(result.Count, Is.EqualTo(8));
-        
+
         // Each array position should contain both source paths
         Assert.That(result[0][0].x, Is.EqualTo(0).Within(0.001));    // First path, first position
         Assert.That(result[1][0].x, Is.EqualTo(10).Within(0.001));   // Second path, first position
@@ -240,7 +240,7 @@ public class GeoWranglerTests
                 new PointD(0, 20)
             }
         };
-        
+
         PathsD secondLayer = new PathsD
         {
             new PathD
@@ -338,7 +338,7 @@ public class GeoWranglerTests
         Assert.That(bounds.top, Is.EqualTo(0));
         Assert.That(bounds.right, Is.EqualTo(30));
         Assert.That(bounds.bottom, Is.EqualTo(50));
-        
+
         PathsD arrayed_arrayed = GeoWrangler.makeArray(arrayed, 2, 40m, 3, 60m);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, arrayed_arrayed, true);
@@ -381,7 +381,7 @@ public class GeoWranglerTests
         // Assert.AreEqual(3, fromSoup.Count);
         // Assert.AreEqual((80*80) - ((40*20) + (30*30)), Clipper.Area(fromSoup));
     }
-    
+
     [Test]
     public static void clean_and_flatten_test()
     {
@@ -411,7 +411,7 @@ public class GeoWranglerTests
         //Assert.AreEqual(1, clean_flat.Count);
         //Assert.AreEqual((80*80) - (40*20), Clipper.Area(clean_flat));
     }
-    
+
     [Test]
     public static void reorder_test()
     {
@@ -438,7 +438,7 @@ public class GeoWranglerTests
         Assert.That(xy_reordered[0].x, Is.EqualTo(-15));
         Assert.That(xy_reordered[0].y, Is.EqualTo(4));
 
-        
+
         // Should get minimum Y value, then minimum X, maintaining original orientation.
         PathD yx_reordered = GeoWrangler.reOrderYX(source_cw);
         Assert.That(GeoWrangler.isClockwise(yx_reordered), Is.EqualTo(orig_orientation));
@@ -454,7 +454,7 @@ public class GeoWranglerTests
         Assert.That(xy_reordered_i[0].X, Is.EqualTo(-15));
         Assert.That(xy_reordered_i[0].Y, Is.EqualTo(4));
 
-        
+
         // Should get minimum Y value, then minimum X, maintaining original orientation.
         Path64 yx_reordered_i = GeoWrangler.reOrderYX(source_cw_i);
         Assert.That(GeoWrangler.isClockwise(yx_reordered_i), Is.EqualTo(orig_orientation));
@@ -478,7 +478,7 @@ public class GeoWranglerTests
         Assert.That(closed.Count, Is.EqualTo(5));
         Assert.That(closed[^1].x, Is.EqualTo(closed[0].x));
         Assert.That(closed[^1].y, Is.EqualTo(closed[0].y));
-        
+
         PathD source2 = new()
         {
             new(0, 0),
@@ -492,14 +492,14 @@ public class GeoWranglerTests
         Assert.That(closed.Count, Is.EqualTo(5));
         Assert.That(closed2[^1].x, Is.EqualTo(closed2[0].x));
         Assert.That(closed2[^1].y, Is.EqualTo(closed2[0].y));
-        
+
         source.Add(new(10, 0));
         PathD closed3 = GeoWrangler.close(source);
         Assert.That(source.Count, Is.EqualTo(5));
         Assert.That(closed3.Count, Is.EqualTo(5));
         Assert.That(closed3[^1].x, Is.EqualTo(closed3[0].x));
         Assert.That(closed3[^1].y, Is.EqualTo(closed3[0].y));
-        
+
         source2.Add(new(0, 0));
         PathD closed4 = GeoWrangler.close(source2);
         Assert.That(source2.Count, Is.EqualTo(5));
@@ -519,7 +519,7 @@ public class GeoWranglerTests
 
         PathD width_1 = GeoWrangler.inflatePath(ray, 100);
         SvgWriter svgSrc = new SvgWriter();
-        SvgUtils.AddSolution(svgSrc, new () {width_1}, true);
+        SvgUtils.AddSolution(svgSrc, new() { width_1 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_1.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_1 = Clipper.GetBounds(width_1);
         Assert.That(bounds_1.Width, Is.EqualTo(2));
@@ -529,7 +529,7 @@ public class GeoWranglerTests
 
         PathD resized = GeoWrangler.resize(width_1, 2.0);
         svgSrc.ClearAll();
-        SvgUtils.AddSolution(svgSrc, new () {resized}, true);
+        SvgUtils.AddSolution(svgSrc, new() { resized }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_resized.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_2 = Clipper.GetBounds(resized);
         Assert.That(bounds_2.Width, Is.EqualTo(2 * bounds_1.Width));
@@ -542,7 +542,7 @@ public class GeoWranglerTests
         };
         PathD width_2 = GeoWrangler.inflatePath(ray2, 1);
         svgSrc.ClearAll();
-        SvgUtils.AddSolution(svgSrc, new () {width_2}, true);
+        SvgUtils.AddSolution(svgSrc, new() { width_2 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inflate_width_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD bounds_3 = Clipper.GetBounds(width_2);
         Assert.That(bounds_3.Width, Is.EqualTo(20.02));
@@ -606,9 +606,9 @@ public class GeoWranglerTests
         Assert.That(inverted_box[1][1].y, Is.EqualTo(10));
         Assert.That(inverted_box[1][2].x, Is.EqualTo(10));
         Assert.That(inverted_box[1][2].y, Is.EqualTo(10));
-        
+
         double ib_area = Clipper.Area(inverted_box);
-        Assert.That(ib_area, Is.EqualTo(unbounded_area - (10*10)));
+        Assert.That(ib_area, Is.EqualTo(unbounded_area - (10 * 10)));
 
         // Stripped collinear points
         Assert.That(inverted_fragmented_box.Count, Is.EqualTo(2));
@@ -621,7 +621,7 @@ public class GeoWranglerTests
         Assert.That(inverted_fragmented_box[1].Count, Is.EqualTo(5));
 
         double ifb_area = Clipper.Area(inverted_fragmented_box);
-        Assert.That(ifb_area, Is.EqualTo(unbounded_area - (10*10)));
+        Assert.That(ifb_area, Is.EqualTo(unbounded_area - (10 * 10)));
 
         // Retained collinear points
         Assert.That(inverted_fragmented_box_cl.Count, Is.EqualTo(2));
@@ -636,9 +636,9 @@ public class GeoWranglerTests
         Assert.That(inverted_fragmented_box_cl[1][1].x, Is.EqualTo(0));
         Assert.That(inverted_fragmented_box_cl[1][1].y, Is.EqualTo(1));
         Assert.That(inverted_fragmented_box_cl[1].Count, Is.EqualTo(41));
-        
+
         double ifbcl_area = Clipper.Area(inverted_fragmented_box_cl);
-        Assert.That(ifbcl_area, Is.EqualTo(unbounded_area - (10*10)));
+        Assert.That(ifbcl_area, Is.EqualTo(unbounded_area - (10 * 10)));
 
         // Triangulation tests.
 
@@ -665,7 +665,7 @@ public class GeoWranglerTests
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, inverted_boxes, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes.svg", FillRule.EvenOdd, 800, 800, 10);
-        
+
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, inverted_boxes_cl, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl.svg", FillRule.EvenOdd, 800, 800, 10);
@@ -693,7 +693,7 @@ public class GeoWranglerTests
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, inverted_boxes_cl_bounds_tri, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "inverted_boxes_cl_bounds_tri.svg", FillRule.EvenOdd, 800, 800, 10);
-        
+
         // Do we have the area reduction that we expect?
         double area_reduction = 10 * 10 * 2;
         double ibx_area = Clipper.Area(inverted_boxes);
@@ -723,7 +723,7 @@ public class GeoWranglerTests
             0, 0,
             1, 0
         });
-        
+
         PathD _m90 = Clipper.MakePath(new double[]
         {
             0, 1,
@@ -737,14 +737,14 @@ public class GeoWranglerTests
             0, 0,
             1, 1
         });
-        
+
         PathD _r45 = Clipper.MakePath(new double[]
         {
             1, 1,
             0, 0,
             1, 0
         });
-        
+
         PathD _mr45 = Clipper.MakePath(new double[]
         {
             -1, 1,
@@ -762,7 +762,7 @@ public class GeoWranglerTests
         Assert.That(Math.Abs(90 - angle_3), Is.LessThanOrEqualTo(0.001));
         Assert.That(Math.Abs(45 - angle_4), Is.LessThanOrEqualTo(0.001));
         Assert.That(Math.Abs(45 - angle_5), Is.LessThanOrEqualTo(0.001));
-        
+
         // Compare with integer handling.
         Path64 _90i = Clipper.ScalePath64(_90, 1.0);
         Path64 _m90i = Clipper.ScalePath64(_m90, 1.0);
@@ -897,7 +897,7 @@ public class GeoWranglerTests
         Assert.That(max_yi, Is.EqualTo(1));
         Assert.That(min_y, Is.EqualTo(0));
         Assert.That(min_yi, Is.EqualTo(0));
-        
+
         PointD max = GeoWrangler.getMaximumPoint(path);
         Point64 maxi = GeoWrangler.getMaximumPoint(pathi);
         PointD min = GeoWrangler.getMinimumPoint(path);
@@ -912,7 +912,7 @@ public class GeoWranglerTests
         Assert.That(min.y, Is.EqualTo(5));
         Assert.That(mini.Y, Is.EqualTo(5));
     }
-    
+
     [Test]
     public static void query_angles_test()
     {
@@ -968,11 +968,11 @@ public class GeoWranglerTests
         Assert.That(Clipper.IsPositive(source), Is.True);
 
         PathD clockwise_path = GeoWrangler.clockwise(source);
-        
+
         Assert.That(GeoWrangler.isClockwise(clockwise_path), Is.True);
         // Clipper's cooordinate system is Y-inverted, so this will be false, annoyingly.
         Assert.That(Clipper.IsPositive(clockwise_path), Is.False);
-        
+
         PathD source_cw = new()
         {
             new(10, 10),
@@ -994,7 +994,7 @@ public class GeoWranglerTests
         Assert.That(GeoWrangler.isClockwise(xy_cw), Is.True);
         Assert.That(xy_cw[0].x, Is.EqualTo(-15));
         Assert.That(xy_cw[0].y, Is.EqualTo(4));
-        
+
         // Should get minimum Y value, then minimum X
         PathD yx_cw = GeoWrangler.clockwiseAndReorderYX(source_cw);
         Assert.That(GeoWrangler.isClockwise(yx_cw), Is.True);
@@ -1021,7 +1021,7 @@ public class GeoWranglerTests
                 new PointD(15, 6)
             },
         };
-        
+
         // Should get minimum X value, then minimum Y, clockwise.
         PathsD xy_cw_paths = GeoWrangler.clockwiseAndReorderXY(paths);
         Assert.That(GeoWrangler.isClockwise(xy_cw_paths[0]), Is.True);
@@ -1030,9 +1030,9 @@ public class GeoWranglerTests
         Assert.That(Math.Abs(21.485 - xy_cw_paths[0][0].y), Is.LessThanOrEqualTo(0.001));
         Assert.That(xy_cw_paths[1][0].x, Is.EqualTo(-15));
         Assert.That(xy_cw_paths[1][0].y, Is.EqualTo(4));
-        
+
         // Should get minimum Y value, then minimum X, clockwise
-        PathsD yx_cw_paths= GeoWrangler.clockwiseAndReorderYX(paths);
+        PathsD yx_cw_paths = GeoWrangler.clockwiseAndReorderYX(paths);
         Assert.That(GeoWrangler.isClockwise(yx_cw_paths[0]), Is.True);
         Assert.That(GeoWrangler.isClockwise(yx_cw_paths[1]), Is.True);
         Assert.That(Math.Abs(10.656 - yx_cw_paths[0][0].x), Is.LessThanOrEqualTo(0.001));
@@ -1176,10 +1176,10 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_small2-in-outer.svg", FillRule.NonZero, 800, 800, 10);
         // Overlap? Overlap means no enclosure
-        bool olap_small2_in_outer = GeoWrangler.anyPartialOverlap(new() {small2}, new() { outer });
+        bool olap_small2_in_outer = GeoWrangler.anyPartialOverlap(new() { small2 }, new() { outer });
         // Is small2 enclosed by outer? Enclosure means no overlap.
-        bool enc_small2_in_outer = GeoWrangler.enclosed(small2, new() { outer }, false); 
-        bool enc_small2_in_outer_strict = GeoWrangler.enclosed(small2, new() { outer }, true); 
+        bool enc_small2_in_outer = GeoWrangler.enclosed(small2, new() { outer }, false);
+        bool enc_small2_in_outer_strict = GeoWrangler.enclosed(small2, new() { outer }, true);
 
         // No overlap
         svgSrc.ClearAll();
@@ -1187,10 +1187,10 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_small3-in-outer.svg", FillRule.NonZero, 800, 800, 10);
         // Overlap? Overlap means no enclosure
-        bool olap_small3_in_outer = GeoWrangler.anyPartialOverlap(new() {small3}, new() { outer });
+        bool olap_small3_in_outer = GeoWrangler.anyPartialOverlap(new() { small3 }, new() { outer });
         // Is small3 enclosed by outer? Enclosure means no overlap.
-        bool enc_small3_in_outer = GeoWrangler.enclosed(small3, new() { outer }, false); 
-        bool enc_small3_in_outer_strict = GeoWrangler.enclosed(small3, new() { outer }, true); 
+        bool enc_small3_in_outer = GeoWrangler.enclosed(small3, new() { outer }, false);
+        bool enc_small3_in_outer_strict = GeoWrangler.enclosed(small3, new() { outer }, true);
 
         // Reversed queries
         svgSrc.ClearAll();
@@ -1201,7 +1201,7 @@ public class GeoWranglerTests
         bool olap_outer_in_small = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small });
         // Is outer enclosed by small? Enclosure means no overlap.
         bool enc_outer_in_small = GeoWrangler.enclosed(outer, new() { small }, false);
-        bool enc_outer_in_small_strict = GeoWrangler.enclosed(outer, new() { small }, true); 
+        bool enc_outer_in_small_strict = GeoWrangler.enclosed(outer, new() { small }, true);
 
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small2);
@@ -1210,8 +1210,8 @@ public class GeoWranglerTests
         // Overlap? Overlap means no enclosure
         bool olap_outer_in_small2 = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small2 });
         // Is outer enclosed by small2? Enclosure means no overlap.
-        bool enc_outer_in_small2 = GeoWrangler.enclosed(outer, new() { small2 }, false); 
-        bool enc_outer_in_small2_strict = GeoWrangler.enclosed(outer, new() { small2 }, true); 
+        bool enc_outer_in_small2 = GeoWrangler.enclosed(outer, new() { small2 }, false);
+        bool enc_outer_in_small2_strict = GeoWrangler.enclosed(outer, new() { small2 }, true);
 
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, small3);
@@ -1220,8 +1220,8 @@ public class GeoWranglerTests
         // Overlap? Overlap means no enclosure
         bool olap_outer_in_small3 = GeoWrangler.anyPartialOverlap(new() { outer }, new() { small3 });
         // Is outer enclosed by small3? Enclosure means no overlap.
-        bool enc_outer_in_small3 = GeoWrangler.enclosed(outer, new() { small3 }, false); 
-        bool enc_outer_in_small3_strict = GeoWrangler.enclosed(outer, new() { small3 }, true); 
+        bool enc_outer_in_small3 = GeoWrangler.enclosed(outer, new() { small3 }, false);
+        bool enc_outer_in_small3_strict = GeoWrangler.enclosed(outer, new() { small3 }, true);
 
         // Multi-polygon tests
         // Both inners here are fully enclosed in the large outer
@@ -1230,9 +1230,9 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, large_outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
         bool enc_largeouter_in_inners = GeoWrangler.enclosed(large_outer, inners, false);
-        bool enc_largeouter_in_inners_strict = GeoWrangler.enclosed(large_outer, inners, true); 
+        bool enc_largeouter_in_inners_strict = GeoWrangler.enclosed(large_outer, inners, true);
         bool enc_inners_in_largeouter = GeoWrangler.enclosed(inners, large_outer, false);
-        bool enc_inners_in_largeouter_strict = GeoWrangler.enclosed(inners, large_outer, true); 
+        bool enc_inners_in_largeouter_strict = GeoWrangler.enclosed(inners, large_outer, true);
         bool olap_inners_in_largeouter = GeoWrangler.anyPartialOverlap(inners, large_outer);
         bool olap_largeouter_in_inners = GeoWrangler.anyPartialOverlap(large_outer, inners);
 
@@ -1242,33 +1242,33 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, large_outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners2-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
         bool enc_largeouter_in_inners2 = GeoWrangler.enclosed(large_outer, inners2, false);
-        bool enc_largeouter_in_inners2_strict = GeoWrangler.enclosed(large_outer, inners2, true); 
+        bool enc_largeouter_in_inners2_strict = GeoWrangler.enclosed(large_outer, inners2, true);
         bool enc_inners2_in_largeouter = GeoWrangler.enclosed(inners2, large_outer, false);
-        bool enc_inners2_in_largeouter_strict = GeoWrangler.enclosed(inners2, large_outer, true); 
+        bool enc_inners2_in_largeouter_strict = GeoWrangler.enclosed(inners2, large_outer, true);
         bool olap_inners2_in_largeouter = GeoWrangler.anyPartialOverlap(inners2, large_outer);
         bool olap_largeouter_in_inners2 = GeoWrangler.anyPartialOverlap(large_outer, inners2);
-        
+
         // No inner is within the large outer.
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, inners3);
         SvgUtils.AddClip(svgSrc, large_outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners3-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
         bool enc_largeouter_in_inners3 = GeoWrangler.enclosed(large_outer, inners3, false);
-        bool enc_largeouter_in_inners3_strict = GeoWrangler.enclosed(large_outer, inners3, true); 
+        bool enc_largeouter_in_inners3_strict = GeoWrangler.enclosed(large_outer, inners3, true);
         bool enc_inners3_in_largeouter = GeoWrangler.enclosed(inners3, large_outer, false);
-        bool enc_inners3_in_largeouter_strict = GeoWrangler.enclosed(inners3, large_outer, true); 
+        bool enc_inners3_in_largeouter_strict = GeoWrangler.enclosed(inners3, large_outer, true);
         bool olap_inners3_in_largeouter = GeoWrangler.anyPartialOverlap(inners3, large_outer);
         bool olap_largeouter_in_inners3 = GeoWrangler.anyPartialOverlap(large_outer, inners3);
-        
+
         // One inner is outside the large outer. One has a partial overlap
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, inners4);
         SvgUtils.AddClip(svgSrc, large_outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners4-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
         bool enc_largeouter_in_inners4 = GeoWrangler.enclosed(large_outer, inners4, false);
-        bool enc_largeouter_in_inners4_strict = GeoWrangler.enclosed(large_outer, inners4, true); 
+        bool enc_largeouter_in_inners4_strict = GeoWrangler.enclosed(large_outer, inners4, true);
         bool enc_inners4_in_largeouter = GeoWrangler.enclosed(inners4, large_outer, false);
-        bool enc_inners4_in_largeouter_strict = GeoWrangler.enclosed(inners4, large_outer, true); 
+        bool enc_inners4_in_largeouter_strict = GeoWrangler.enclosed(inners4, large_outer, true);
         bool olap_inners4_in_largeouter = GeoWrangler.anyPartialOverlap(inners4, large_outer);
         bool olap_largeouter_in_inners4 = GeoWrangler.anyPartialOverlap(large_outer, inners4);
 
@@ -1278,9 +1278,9 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, large_outer);
         SvgUtils.SaveToFile(svgSrc, root_loc + "enc_inners5-in-largeouter.svg", FillRule.NonZero, 800, 800, 10);
         bool enc_largeouter_in_inners5 = GeoWrangler.enclosed(large_outer, inners5, false);
-        bool enc_largeouter_in_inners5_strict = GeoWrangler.enclosed(large_outer, inners5, true); 
+        bool enc_largeouter_in_inners5_strict = GeoWrangler.enclosed(large_outer, inners5, true);
         bool enc_inners5_in_largeouter = GeoWrangler.enclosed(inners5, large_outer, false);
-        bool enc_inners5_in_largeouter_strict = GeoWrangler.enclosed(inners5, large_outer, true); 
+        bool enc_inners5_in_largeouter_strict = GeoWrangler.enclosed(inners5, large_outer, true);
         bool olap_inners5_in_largeouter = GeoWrangler.anyPartialOverlap(inners5, large_outer);
         bool olap_largeouter_in_inners5 = GeoWrangler.anyPartialOverlap(large_outer, inners5);
 
@@ -1379,7 +1379,7 @@ public class GeoWranglerTests
         Assert.That(test1_extents.y, Is.EqualTo(60));
 
         PathD test2 = GeoWrangler.move(test1, 30m, 30);
-        
+
         PointD test2_extents = GeoWrangler.getExtents(test2);
         Assert.That(test2_extents.x, Is.EqualTo(30));
         Assert.That(test2_extents.y, Is.EqualTo(60));
@@ -1391,12 +1391,12 @@ public class GeoWranglerTests
         Assert.That(test1i_extents.Y, Is.EqualTo(60));
 
         Path64 test2i = GeoWrangler.move(test1i, 30, 30);
-        
+
         Point64 test2i_extents = GeoWrangler.getExtents(test2i);
         Assert.That(test2i_extents.X, Is.EqualTo(30));
         Assert.That(test2i_extents.Y, Is.EqualTo(60));
     }
-    
+
     [Test]
     public static void query_midpoint_test()
     {
@@ -1417,7 +1417,7 @@ public class GeoWranglerTests
         Assert.That(test1_midpoint.y, Is.EqualTo(0));
 
         PathD test2 = GeoWrangler.move(test1, 30m, 60);
-        
+
         PointD test2_midpoint = GeoWrangler.midPoint(test2);
         Assert.That(test2_midpoint.x, Is.EqualTo(30));
         Assert.That(test2_midpoint.y, Is.EqualTo(60));
@@ -1429,7 +1429,7 @@ public class GeoWranglerTests
         Assert.That(test1i_midpoint.y, Is.EqualTo(0));
 
         Path64 test2i = GeoWrangler.move(test1i, 30, 60);
-        
+
         PointD test2i_midpoint = GeoWrangler.midPoint(test2i);
         Assert.That(test2i_midpoint.x, Is.EqualTo(30));
         Assert.That(test2i_midpoint.y, Is.EqualTo(60));
@@ -1531,18 +1531,18 @@ public class GeoWranglerTests
         PathD test1 = GeoWrangler.Rotate(init_m, init, 90);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSubject(svgSrc, init);
-        SvgUtils.AddSolution(svgSrc, new () {test1}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test1 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_1.svg", FillRule.NonZero, 800, 800, 10);
         RectD test1_b = Clipper.GetBounds(test1);
         Assert.That(test1_b.bottom, Is.EqualTo(32.5));
         Assert.That(test1_b.left, Is.EqualTo(-17.5));
         Assert.That(test1_b.Width, Is.EqualTo(45));
         Assert.That(test1_b.Height, Is.EqualTo(40));
-        
+
         PathD test2 = GeoWrangler.Rotate(init[0], init, -90);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init);
-        SvgUtils.AddSolution(svgSrc, new () {test2}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test2 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD test2_b = Clipper.GetBounds(test2);
         Assert.That(Math.Abs(-10 - test2_b.bottom), Is.LessThanOrEqualTo(0.001));
@@ -1553,7 +1553,7 @@ public class GeoWranglerTests
         PathD test3 = GeoWrangler.Rotate(init[0], init, -45);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init);
-        SvgUtils.AddSolution(svgSrc, new () {test3}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test3 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_3.svg", FillRule.NonZero, 800, 800, 10);
         RectD test3_b = Clipper.GetBounds(test3);
         Assert.That(Math.Abs(21.819 - test3_b.bottom), Is.LessThanOrEqualTo(0.001));
@@ -1564,7 +1564,7 @@ public class GeoWranglerTests
         PathD test4 = GeoWrangler.Rotate(init[2], init, 45);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init);
-        SvgUtils.AddSolution(svgSrc, new () {test4}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test4 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_4.svg", FillRule.NonZero, 800, 800, 10);
         RectD test4_b = Clipper.GetBounds(test4);
         Assert.That(test4_b.bottom, Is.EqualTo(35));
@@ -1576,40 +1576,40 @@ public class GeoWranglerTests
         PathD test1_i = GeoWrangler.Rotate(init_m, init_i, 90);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init_i);
-        SvgUtils.AddSolution(svgSrc, new () {test1_i}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test1_i }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_1_i.svg", FillRule.NonZero, 800, 800, 10);
         RectD test1_i_b = Clipper.GetBounds(test1_i);
         Assert.That(test1_i_b.bottom, Is.EqualTo(32.5));
         Assert.That(test1_i_b.left, Is.EqualTo(-17.5));
         Assert.That(test1_i_b.Width, Is.EqualTo(45));
         Assert.That(test1_i_b.Height, Is.EqualTo(40));
-        
+
         PathD test2_i = GeoWrangler.Rotate(new PointD(init_i[0]), init_i, -90);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init_i);
-        SvgUtils.AddSolution(svgSrc, new () {test2_i}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test2_i }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_2.svg", FillRule.NonZero, 800, 800, 10);
         RectD test2_i_b = Clipper.GetBounds(test2_i);
         Assert.That(Math.Abs(-10 - test2_i_b.bottom), Is.LessThanOrEqualTo(0.001));
         Assert.That(test2_i_b.left, Is.EqualTo(-15));
         Assert.That(test2_i_b.Width, Is.EqualTo(45));
         Assert.That(test2_i_b.Height, Is.EqualTo(40));
-        
+
         PathD test3_i = GeoWrangler.Rotate(new PointD(init_i[0]), init_i, -45);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init_i);
-        SvgUtils.AddSolution(svgSrc, new () {test3_i}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test3_i }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_3.svg", FillRule.NonZero, 800, 800, 10);
         RectD test3_i_b = Clipper.GetBounds(test3_i);
         Assert.That(Math.Abs(21.819 - test3_i_b.bottom), Is.LessThanOrEqualTo(0.001));
         Assert.That(test3_i_b.left, Is.EqualTo(-15));
         Assert.That(Math.Abs(45.961 - test3_i_b.Width), Is.LessThanOrEqualTo(0.001));
         Assert.That(Math.Abs(60.104 - test3_i_b.Height), Is.LessThanOrEqualTo(0.001));
-        
+
         PathD test4_i = GeoWrangler.Rotate(init[2], init, 45);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, init);
-        SvgUtils.AddSolution(svgSrc, new () {test4_i}, true);
+        SvgUtils.AddSolution(svgSrc, new() { test4_i }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rotate_i_4.svg", FillRule.NonZero, 800, 800, 10);
         RectD test4_i_b = Clipper.GetBounds(test4);
         Assert.That(Math.Abs(35 - test4_i_b.bottom), Is.LessThanOrEqualTo(0.001));
@@ -1617,7 +1617,7 @@ public class GeoWranglerTests
         Assert.That(Math.Abs(60.104 - test4_i_b.Width), Is.LessThanOrEqualTo(0.001));
         Assert.That(Math.Abs(45.961 - test4_i_b.Height), Is.LessThanOrEqualTo(0.001));
     }
-    
+
     [Test]
     public static void skeleton_test()
     {
@@ -1636,10 +1636,10 @@ public class GeoWranglerTests
 
         SvgWriter svg = new();
         svg.FillRule = FillRule.EvenOdd;
-        
+
         SvgUtils.AddSubject(svg, original);
-        SvgUtils.AddOpenSolution(svg, new PathsD() {median}, true);
-        SvgUtils.SaveToFile(svg, root_loc + "median.svg", FillRule.NonZero, 5500,5500, 10);
+        SvgUtils.AddOpenSolution(svg, new PathsD() { median }, true);
+        SvgUtils.SaveToFile(svg, root_loc + "median.svg", FillRule.NonZero, 5500, 5500, 10);
 
         Assert.That(median.Count, Is.EqualTo(6));
         Assert.That(median[0].x, Is.EqualTo(77.5));
@@ -1659,16 +1659,16 @@ public class GeoWranglerTests
     {
         SvgWriter svg = new();
         svg.FillRule = FillRule.EvenOdd;
-        
+
         Path64 test = Clipper.MakePath(new[] { 0, 0, 4500, 0, 4500, 4500, 0, 4500 });
 
         Path64 testvector = Clipper.MakePath(new[] { 0, 0, 500, 0 });
 
         Paths64 res = Minkowski.Sum(test, testvector, true);
-        
+
         SvgUtils.AddSubject(svg, test);
-        SvgUtils.AddSolution(svg, Clipper.Union(res, new() {test}, FillRule.Positive), true);
-        SvgUtils.SaveToFile(svg, root_loc + "unidirectional1.svg", FillRule.NonZero, 5500,5500, 10);
+        SvgUtils.AddSolution(svg, Clipper.Union(res, new() { test }, FillRule.Positive), true);
+        SvgUtils.SaveToFile(svg, root_loc + "unidirectional1.svg", FillRule.NonZero, 5500, 5500, 10);
 
         Assert.That(Clipper.Area(res), Is.EqualTo(4500000));
 
@@ -1689,7 +1689,7 @@ public class GeoWranglerTests
 
         PathsD original_ = new();
         original_.Add(original);
-        
+
         PathD vector = new()
         {
             new(0.0, 0.0),
@@ -1701,7 +1701,7 @@ public class GeoWranglerTests
             new(0.0, 0.0),
             new PointD(0.0, -10.0)
         };
-        
+
         // Need both transforms to get the full result. Not sure if implementation-related or a bug in C2.
         // No big deal either way.
 
@@ -1710,26 +1710,26 @@ public class GeoWranglerTests
         PathsD result_i = Minkowski.Sum(original, vector2, true);
 
         result.AddRange(result_i);
-        
+
         SvgUtils.AddSubject(svg, original_);
         SvgUtils.AddSolution(svg, Clipper.Union(result, original_, FillRule.Positive, 2), true);
-        SvgUtils.SaveToFile(svg, root_loc + "unidirectional2.svg", FillRule.NonZero, 150,150, 10);
+        SvgUtils.SaveToFile(svg, root_loc + "unidirectional2.svg", FillRule.NonZero, 150, 150, 10);
 
         Assert.That(Clipper.Area(result), Is.EqualTo(3167));
 
-        PathsD subject = new () { Clipper.Ellipse(new PointD (50.0,50.0),20,20)};
+        PathsD subject = new() { Clipper.Ellipse(new PointD(50.0, 50.0), 20, 20) };
 
         PathsD result2 = Minkowski.Sum(subject[0], vector, true);
-        
+
         SvgWriter svg2 = new();
         svg2.FillRule = FillRule.EvenOdd;
         SvgUtils.AddSubject(svg2, subject);
         SvgUtils.AddSolution(svg2, Clipper.Union(result2, subject, FillRule.Positive, 2), true);
-        SvgUtils.SaveToFile(svg2, root_loc + "unidirectional3.svg", FillRule.NonZero, 150,150, 10);
+        SvgUtils.SaveToFile(svg2, root_loc + "unidirectional3.svg", FillRule.NonZero, 150, 150, 10);
 
         Assert.That(Math.Abs(Clipper.Area(result2) - 785.5610), Is.LessThanOrEqualTo(0.001));
     }
-    
+
     [Test]
     public static void fragmenter_test()
     {
@@ -1751,8 +1751,8 @@ public class GeoWranglerTests
         Assert.That(fragmented_10.Count, Is.EqualTo(41));
 
         // Inject a point into the path that is off-grid for the fragmentation. This has to be collinear to avoid changing the actual shape.
-        original.Insert(1, new(0,5.2));
-        
+        original.Insert(1, new(0, 5.2));
+
         // The fragmentation below should change the result on the first edge due to the injected point
         PathD fragmented_b_10 = f.fragmentPath(original, 1.0);
         PathD fragmented_b_05 = f.fragmentPath(original, 0.5);
@@ -1771,7 +1771,7 @@ public class GeoWranglerTests
     [Test]
     public static void strip_collinear_test()
     {
-        PathD source = new () {
+        PathD source = new() {
             new(0.02985, 0.18999),
             new(0.00864, 0.21120),
             new(0.01217, 0.21474),
@@ -1846,12 +1846,12 @@ public class GeoWranglerTests
             new(0.03692, 0.19706)
         };
 
-        PathD cleaned = GeoWrangler.stripCollinear(source, precision:6);
+        PathD cleaned = GeoWrangler.stripCollinear(source, precision: 6);
         Assert.That(cleaned.Count, Is.EqualTo(71));
     }
 
     [Test]
-    public static void translate_test() 
+    public static void translate_test()
     {
         PathD path = Clipper.MakePath(new double[]
         {
@@ -1870,9 +1870,9 @@ public class GeoWranglerTests
 
         pathi = GeoWrangler.move(pathi, 10, 20);
 
-        SvgUtils.AddSolution(svgSrc, new () {path}, true);
+        SvgUtils.AddSolution(svgSrc, new() { path }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "translate_path.svg", FillRule.NonZero, 800, 800, 10);
-        
+
         int min_x = GeoWrangler.MinX(path);
         int min_xi = GeoWrangler.MinX(pathi);
         int max_x = GeoWrangler.MaxX(path);
@@ -1889,7 +1889,7 @@ public class GeoWranglerTests
         Assert.That(max_yi, Is.EqualTo(1));
         Assert.That(min_y, Is.EqualTo(0));
         Assert.That(min_yi, Is.EqualTo(0));
-        
+
         PointD max = GeoWrangler.getMaximumPoint(path);
         Point64 maxi = GeoWrangler.getMaximumPoint(pathi);
         PointD min = GeoWrangler.getMinimumPoint(path);
@@ -1926,7 +1926,7 @@ public class GeoWranglerTests
             -30, -25,
         });
 
-        RayCast rc = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false );
+        RayCast rc = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false);
         RayCast rc_project = new RayCast(rect_source, rect_coll, Int32.MaxValue);
 
         PathsD rc_rays_clipped = rc.getClippedRays();
@@ -1952,7 +1952,7 @@ public class GeoWranglerTests
             Assert.That(rc_project_rays_clipped[i][1].y, Is.EqualTo(0));
         }
 
-        RayCast rc_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x);
+        RayCast rc_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.x);
         RayCast rc_project_nX = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x);
 
         PathsD rc_nX_rays_clipped = rc_nX.getClippedRays();
@@ -2015,7 +2015,7 @@ public class GeoWranglerTests
         Assert.That(rc_project_nX_rays_clipped[4][1].x, Is.EqualTo(45));
         Assert.That(rc_project_nX_rays_clipped[4][1].y, Is.EqualTo(-20));
 
-        RayCast rc_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y);
+        RayCast rc_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.y);
         RayCast rc_project_nY = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y);
 
         PathsD rc_nY_rays_clipped = rc_nY.getClippedRays();
@@ -2078,7 +2078,7 @@ public class GeoWranglerTests
         Assert.That(rc_project_nY_rays_clipped[4][1].x, Is.EqualTo(45));
         Assert.That(rc_project_nY_rays_clipped[4][1].y, Is.EqualTo(-20));
 
-        RayCast rc_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.vertical );
+        RayCast rc_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_project_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.vertical);
 
         PathsD rc_rays_vertical_clipped = rc_vertical.getClippedRays();
@@ -2140,8 +2140,8 @@ public class GeoWranglerTests
         Assert.That(rc_project_vertical_rays_clipped[3][1].y, Is.EqualTo(0));
         Assert.That(rc_project_vertical_rays_clipped[4][1].x, Is.EqualTo(0));
         Assert.That(rc_project_vertical_rays_clipped[4][1].y, Is.EqualTo(0));
-        
-        RayCast rc_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        RayCast rc_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_project_nX_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
 
         PathsD rc_nX_vertical_rays_clipped = rc_nX_vertical.getClippedRays();
@@ -2203,8 +2203,8 @@ public class GeoWranglerTests
         Assert.That(rc_project_nX_vertical_rays_clipped[3][1].y, Is.EqualTo(45));
         Assert.That(rc_project_nX_vertical_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_project_nX_vertical_rays_clipped[4][1].y, Is.EqualTo(-20));
-        
-        RayCast rc_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
+
+        RayCast rc_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_project_nY_vertical = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
 
         PathsD rc_nY_vertical_rays_clipped = rc_nY_vertical.getClippedRays();
@@ -2267,7 +2267,7 @@ public class GeoWranglerTests
         Assert.That(rc_project_nY_vertical_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_project_nY_vertical_rays_clipped[4][1].y, Is.EqualTo(-20));
 
-        RayCast rc_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.horizontal );
+        RayCast rc_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_project_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_rays_horizontal_clipped = rc_horizontal.getClippedRays();
@@ -2330,7 +2330,7 @@ public class GeoWranglerTests
         Assert.That(rc_project_horizontal_rays_clipped[4][1].x, Is.EqualTo(0));
         Assert.That(rc_project_horizontal_rays_clipped[4][1].y, Is.EqualTo(0));
 
-        RayCast rc_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_project_nX_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_nX_horizontal_rays_clipped = rc_nX_horizontal.getClippedRays();
@@ -2365,7 +2365,7 @@ public class GeoWranglerTests
         Assert.That(rc_nX_horizontal_rays_clipped[1][1].y, Is.EqualTo(-25));
         Assert.That(rc_nX_horizontal_rays_clipped[2][1].x, Is.EqualTo(-25));
         Assert.That(rc_nX_horizontal_rays_clipped[2][1].y, Is.EqualTo(-25));
-        Assert.That(Math.Abs(-30 -  rc_nX_horizontal_rays_clipped[3][1].x), Is.LessThanOrEqualTo(0.001));
+        Assert.That(Math.Abs(-30 - rc_nX_horizontal_rays_clipped[3][1].x), Is.LessThanOrEqualTo(0.001));
         Assert.That(Math.Abs(30 - rc_nX_horizontal_rays_clipped[3][1].y), Is.LessThanOrEqualTo(0.001));
         Assert.That(rc_nX_horizontal_rays_clipped[4][1].x, Is.EqualTo(45));
         Assert.That(rc_nX_horizontal_rays_clipped[4][1].y, Is.EqualTo(45));
@@ -2393,7 +2393,7 @@ public class GeoWranglerTests
         Assert.That(rc_project_nX_horizontal_rays_clipped[4][1].x, Is.EqualTo(45));
         Assert.That(rc_project_nX_horizontal_rays_clipped[4][1].y, Is.EqualTo(-20));
 
-        RayCast rc_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_project_nY_horizontal = new RayCast(rect_source, rect_coll, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_nY_horizontal_rays_clipped = rc_nY_horizontal.getClippedRays();
@@ -2424,7 +2424,7 @@ public class GeoWranglerTests
 
         Assert.That(rc_nY_horizontal_rays_clipped[0][1].x, Is.EqualTo(-25));
         Assert.That(rc_nY_horizontal_rays_clipped[0][1].y, Is.EqualTo(-25));
-        Assert.That(Math.Abs(-30 -  rc_nY_horizontal_rays_clipped[1][1].x), Is.LessThanOrEqualTo(0.001));
+        Assert.That(Math.Abs(-30 - rc_nY_horizontal_rays_clipped[1][1].x), Is.LessThanOrEqualTo(0.001));
         Assert.That(Math.Abs(30 - rc_nY_horizontal_rays_clipped[1][1].y), Is.LessThanOrEqualTo(0.001));
         Assert.That(rc_nY_horizontal_rays_clipped[2][1].x, Is.EqualTo(45));
         Assert.That(rc_nY_horizontal_rays_clipped[2][1].y, Is.EqualTo(45));
@@ -2456,7 +2456,7 @@ public class GeoWranglerTests
         Assert.That(rc_project_nY_horizontal_rays_clipped[4][1].x, Is.EqualTo(45));
         Assert.That(rc_project_nY_horizontal_rays_clipped[4][1].y, Is.EqualTo(-20));
 
-        RayCast rc_reversed = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false );
+        RayCast rc_reversed = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false);
         RayCast rc_reversed_project = new RayCast(rect_coll, rect_source, Int32.MaxValue);
 
         PathsD rc_reversed_rays_clipped = rc_reversed.getClippedRays();
@@ -2508,7 +2508,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_rays_clipped[4][1].x, Is.EqualTo(2147483617));
         Assert.That(rc_reversed_project_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x);
+        RayCast rc_reversed_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.x);
         RayCast rc_reversed_project_nX = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x);
 
         PathsD rc_reversed_nX_rays_clipped = rc_reversed_nX.getClippedRays();
@@ -2571,7 +2571,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_nX_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_reversed_project_nX_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y);
+        RayCast rc_reversed_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.y);
         RayCast rc_reversed_project_nY = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y);
 
         PathsD rc_reversed_nY_rays_clipped = rc_reversed_nY.getClippedRays();
@@ -2587,8 +2587,8 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, rect_source);
         SvgUtils.AddOpenSolution(svgSrc, rc_reversed_project_nY_rays_clipped, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "raycaster_reversed_rays_project_nY.svg", FillRule.EvenOdd, 800, 800, 10);
-        
-        RayCast rc_reversed_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.vertical );
+
+        RayCast rc_reversed_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_reversed_project_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.vertical);
 
         PathsD rc_reversed_rays_vertical_clipped = rc_reversed_vertical.getClippedRays();
@@ -2651,7 +2651,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_vertical_rays_clipped[4][1].x, Is.EqualTo(2147483617));
         Assert.That(rc_reversed_project_vertical_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
+        RayCast rc_reversed_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_reversed_project_nX_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.vertical);
 
         PathsD rc_reversed_nX_vertical_rays_clipped = rc_reversed_nX_vertical.getClippedRays();
@@ -2714,7 +2714,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_nX_vertical_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_reversed_project_nX_vertical_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
+        RayCast rc_reversed_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
         RayCast rc_reversed_project_nY_vertical = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.vertical);
 
         PathsD rc_reversed_nY_vertical_rays_clipped = rc_reversed_nY_vertical.getClippedRays();
@@ -2777,7 +2777,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_nY_vertical_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_reversed_project_nY_vertical_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, dirOverride: RayCast.forceSingleDirection.horizontal );
+        RayCast rc_reversed_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_reversed_project_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_reversed_rays_horizontal_clipped = rc_reversed_horizontal.getClippedRays();
@@ -2840,7 +2840,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_horizontal_rays_clipped[4][1].x, Is.EqualTo(2147483617));
         Assert.That(rc_reversed_project_horizontal_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_reversed_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_reversed_project_nX_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.x, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_reversed_nX_horizontal_rays_clipped = rc_reversed_nX_horizontal.getClippedRays();
@@ -2903,7 +2903,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_nX_horizontal_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_reversed_project_nX_horizontal_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        RayCast rc_reversed_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners:false, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
+        RayCast rc_reversed_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, projectCorners: false, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
         RayCast rc_reversed_project_nY_horizontal = new RayCast(rect_coll, rect_source, Int32.MaxValue, invert: RayCast.inversionMode.y, dirOverride: RayCast.forceSingleDirection.horizontal);
 
         PathsD rc_reversed_nY_horizontal_rays_clipped = rc_reversed_nY_horizontal.getClippedRays();
@@ -2966,7 +2966,7 @@ public class GeoWranglerTests
         Assert.That(rc_reversed_project_nY_horizontal_rays_clipped[4][1].x, Is.EqualTo(-30));
         Assert.That(rc_reversed_project_nY_horizontal_rays_clipped[4][1].y, Is.EqualTo(-25));
 
-        PathsD input = new ();
+        PathsD input = new();
         input.Add(Clipper.MakePath(new double[] {
             0, -25,
             0, -24,
@@ -3127,7 +3127,7 @@ public class GeoWranglerTests
             bounds0.right, bounds0.bottom
         });
         bounds = Clipper.ScalePath(bounds, 2);
-        
+
         RayCast rc_kidney = new RayCast(input[0], bounds, 128);
 
         PathsD rc_kidney_rays = rc_kidney.getClippedRays();
@@ -3189,12 +3189,12 @@ public class GeoWranglerTests
         SvgUtils.AddOpenSolution(svgSrc, rc_kidney_nY_reversed_rays, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "rc_kidney_nY_reversed_rays.svg", FillRule.EvenOdd, 800, 800, 10);
     }
-    
+
     [Test]
     public static void proximity()
     {
-        PathsD input = new ();
-        input.Add(Clipper.MakePath(new [] {
+        PathsD input = new();
+        input.Add(Clipper.MakePath(new[] {
         -5, -15,
         -4.97, -13.950000000000001,
         -4.89, -12.91,
@@ -3409,7 +3409,7 @@ public class GeoWranglerTests
         }));
 
         GeometryResult res = Proximity.proximityBias(input, new() { false }, 5, 60, 64, 0, 1, 1.03m, 1, false, 1000);
-        
+
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSubject(svgSrc, input);
         SvgUtils.AddSolution(svgSrc, res.geometry, true);
@@ -3420,11 +3420,11 @@ public class GeoWranglerTests
         Assert.That(res.geometry[0].Count, Is.EqualTo(211));
         Assert.That(Math.Abs(area - 1539.759), Is.LessThanOrEqualTo(0.001));
     }
-    
+
     [Test]
     public static void proximity2()
     {
-        PathsD input = new ();
+        PathsD input = new();
         input.Add(Clipper.MakePath(new double[] {
             0, -25,
             0, -24,
@@ -3577,7 +3577,7 @@ public class GeoWranglerTests
         }));
 
         GeometryResult res = Proximity.proximityBias(input, new() { false, false }, 5, 30, 64, 0, 1, 1.03m, 1, false, 1000);
-        
+
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSubject(svgSrc, input);
         SvgUtils.AddSolution(svgSrc, res.geometry, true);
@@ -3599,14 +3599,14 @@ public class GeoWranglerTests
     public static void customBoolean()
     {
         PathsD layerAPaths = new();
-        layerAPaths.Add(Clipper.MakePath(new double []
+        layerAPaths.Add(Clipper.MakePath(new double[]
         {
             0,0,
             0,80,
             80,80,
             80,0
         }));
-        layerAPaths.Add(Clipper.MakePath(new double []
+        layerAPaths.Add(Clipper.MakePath(new double[]
         {
             90,0,
             90,80,
@@ -3631,13 +3631,13 @@ public class GeoWranglerTests
             70, 10
         }));
         double bArea = Clipper.Area(layerBPaths);
-        
+
         // Subtract layerBPaths from layerAPaths
         PathsD booleanPaths = GeoWrangler.customBoolean(
             firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
-            firstLayer: layerAPaths, 
-            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT, 
-            secondLayer: layerBPaths, 
+            firstLayer: layerAPaths,
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT,
+            secondLayer: layerBPaths,
             booleanFlag: (int)GeoWrangler.booleanOperation.AND,
             resolution: 1.0,
             extension: 1.03
@@ -3648,25 +3648,25 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, layerBPaths);
         SvgUtils.AddSolution(svgSrc, booleanPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not.svg", FillRule.NonZero, 800, 800, 10);
-        
+
         double notArea_expected = aArea - bArea;
         double notArea = Clipper.Area(booleanPaths);
         Assert.That(booleanPaths.Count, Is.EqualTo(2));
         Assert.That(Math.Abs(notArea_expected - notArea + (2 * (GeoWrangler.keyhole_sizing * 0.001))) - 2, Is.LessThanOrEqualTo(0.001));
     }
-    
+
     [Test]
     public static void customBoolean2()
     {
         PathsD layerAPaths = new();
-        layerAPaths.Add(Clipper.MakePath(new double []
+        layerAPaths.Add(Clipper.MakePath(new double[]
         {
             0,0,
             0,80,
             80,80,
             80,0
         }));
-        layerAPaths.Add(Clipper.MakePath(new double []
+        layerAPaths.Add(Clipper.MakePath(new double[]
         {
             -10,30,
             -10,50,
@@ -3689,13 +3689,13 @@ public class GeoWranglerTests
             70, 70,
             70, 10
         }));
-        
+
         // Subtract layerBPaths from layerAPaths
         PathsD booleanPaths = GeoWrangler.customBoolean(
             firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
-            firstLayer: layerAPaths, 
-            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT, 
-            secondLayer: layerBPaths, 
+            firstLayer: layerAPaths,
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT,
+            secondLayer: layerBPaths,
             booleanFlag: (int)GeoWrangler.booleanOperation.AND,
             resolution: 1.0,
             extension: 1.03
@@ -3706,25 +3706,25 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, layerBPaths);
         SvgUtils.AddSolution(svgSrc, booleanPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not2.svg", FillRule.NonZero, 800, 800, 10);
-        
+
         double notArea_expected = -5598;
         double notArea = Clipper.Area(booleanPaths);
         Assert.That(booleanPaths.Count, Is.EqualTo(1));
         Assert.That(Math.Abs(notArea_expected - notArea + (2 * GeoWrangler.keyhole_sizing * 0.001)), Is.LessThanOrEqualTo(0.001));
     }
-    
+
     [Test]
     public static void customBoolean3()
     {
         PathsD layerAPaths = new();
-        layerAPaths.Add(Clipper.MakePath(new double []
+        layerAPaths.Add(Clipper.MakePath(new double[]
         {
             0,0,
             0,80,
             80,80,
             80,0
         }));
-        layerAPaths.Add(Clipper.MakePath(new double []
+        layerAPaths.Add(Clipper.MakePath(new double[]
         {
             90,0,
             90,80,
@@ -3749,20 +3749,20 @@ public class GeoWranglerTests
             70, 10
         }));
         double bArea = Clipper.Area(layerBPaths);
-        
+
         // Subtract layerBPaths from layerAPaths
         PathsD tmpPaths = GeoWrangler.customBoolean(
             firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
-            firstLayer: layerAPaths, 
-            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT, 
-            secondLayer: layerBPaths, 
+            firstLayer: layerAPaths,
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.NOT,
+            secondLayer: layerBPaths,
             booleanFlag: (int)GeoWrangler.booleanOperation.AND,
             resolution: 1.0,
             extension: 1.03
         );
 
         PathsD cPaths = new();
-        cPaths.Add(Clipper.MakePath(new double []
+        cPaths.Add(Clipper.MakePath(new double[]
         {
             -10,30,
             -10,35,
@@ -3772,9 +3772,9 @@ public class GeoWranglerTests
 
         PathsD booleanPaths = GeoWrangler.customBoolean(
             firstLayerOperator: (int)GeoWrangler.LayerFlag.none,
-            firstLayer: tmpPaths, 
-            secondLayerOperator: (int)GeoWrangler.LayerFlag.none, 
-            secondLayer: cPaths, 
+            firstLayer: tmpPaths,
+            secondLayerOperator: (int)GeoWrangler.LayerFlag.none,
+            secondLayer: cPaths,
             booleanFlag: (int)GeoWrangler.booleanOperation.OR,
             resolution: 1.0,
             extension: 1.03
@@ -3785,7 +3785,7 @@ public class GeoWranglerTests
         SvgUtils.AddClip(svgSrc, layerBPaths);
         SvgUtils.AddSolution(svgSrc, booleanPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not3.svg", FillRule.NonZero, 800, 800, 10);
-        
+
         double notArea_expected = -6195.989;
         double notArea = Clipper.Area(booleanPaths);
         Assert.That(booleanPaths.Count, Is.EqualTo(1));

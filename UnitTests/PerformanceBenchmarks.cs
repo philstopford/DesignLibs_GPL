@@ -34,7 +34,7 @@ namespace UnitTests
         public void BenchmarkCornerProcessingPerformance()
         {
             var results = new List<PerformanceResult>();
-            
+
             // Test different geometric complexity levels
             var testCases = new[]
             {
@@ -71,9 +71,9 @@ namespace UnitTests
                     results.Add(newResult);
 
                     // Print comparison
-                    double speedupRatio = legacyResult.ElapsedMilliseconds == 0 ? 0 : 
+                    double speedupRatio = legacyResult.ElapsedMilliseconds == 0 ? 0 :
                         (double)newResult.ElapsedMilliseconds / legacyResult.ElapsedMilliseconds;
-                    
+
                     Console.WriteLine($"{testName,-20} {paramName,-12} {"Legacy",-8} {legacyResult.ElapsedMilliseconds,-8} {legacyResult.InputPointCount,-6} {legacyResult.OutputPointCount,-7} {"1.0x",-6}");
                     Console.WriteLine($"{"",-20} {"",-12} {"New",-8} {newResult.ElapsedMilliseconds,-8} {newResult.InputPointCount,-6} {newResult.OutputPointCount,-7} {$"{speedupRatio:F1}x",-6}");
                     Console.WriteLine();
@@ -84,26 +84,26 @@ namespace UnitTests
             GeneratePerformanceReport(results);
         }
 
-        private PerformanceResult BenchmarkLegacyApproach(string testName, string paramName, PathD inputShape, 
+        private PerformanceResult BenchmarkLegacyApproach(string testName, string paramName, PathD inputShape,
             double radius, double edgeRes, double angularRes)
         {
             var shapeSettings = new ShapeSettings();
             shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, (decimal)radius);
             shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, (decimal)radius);
-            
+
             // Use a simple rectangle shape to avoid complex geometry issues
             var shapeLib = new ShapeLibrary(new[] { 0, 1, 2, 3, 4, 5, 6 }, shapeSettings);
             shapeLib.setShape((int)ShapeLibrary.shapeNames_all.rect);
             shapeLib.computeCage();
 
             var stopwatch = Stopwatch.StartNew();
-            
+
             // Call the legacy method through reflection to access private method
-            var method = typeof(ShapeLibrary).GetMethod("legacy_processCorners_actual", 
+            var method = typeof(ShapeLibrary).GetMethod("legacy_processCorners_actual",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            
-            var result = (PathD)method.Invoke(shapeLib, new object[] 
-            { 
+
+            var result = (PathD)method.Invoke(shapeLib, new object[]
+            {
                 false, // previewMode
                 false, // cornerCheck  
                 (int)(90.0 / angularRes), // cornerSegments
@@ -111,7 +111,7 @@ namespace UnitTests
                 edgeRes, // resolution
                 false, false, 0.0, 0.0, 0.0, 0.0 // PA search params
             });
-            
+
             stopwatch.Stop();
 
             return new PerformanceResult
@@ -134,24 +134,24 @@ namespace UnitTests
             var shapeSettings = new ShapeSettings();
             shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, (decimal)radius);
             shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, (decimal)radius);
-            
+
             // Use a simple rectangle shape to avoid complex geometry issues  
             var shapeLib = new ShapeLibrary(new[] { 0, 1, 2, 3, 4, 5, 6 }, shapeSettings);
             shapeLib.setShape((int)ShapeLibrary.shapeNames_all.rect);
             shapeLib.computeCage();
 
             var stopwatch = Stopwatch.StartNew();
-            
+
             var result = shapeLib.processCorners(
                 previewMode: false,
-                cornerCheck: false, 
+                cornerCheck: false,
                 cornerSegments: (int)(90.0 / angularRes),
                 optimizeCorners: 1,
                 resolution: edgeRes,
                 shortEdgeLength: 2.0,
                 maxShortEdgeLength: 5.0
             );
-            
+
             stopwatch.Stop();
 
             return new PerformanceResult
@@ -172,27 +172,27 @@ namespace UnitTests
         {
             var report = new StringBuilder();
             report.AppendLine("\n=== Performance Analysis Summary ===");
-            
+
             // Group by test case and analyze
             var grouped = results.GroupBy(r => r.TestName);
-            
+
             foreach (var group in grouped)
             {
                 report.AppendLine($"\n--- {group.Key} ---");
-                
+
                 var legacyResults = group.Where(r => r.ApproachName == "Legacy").ToList();
                 var newResults = group.Where(r => r.ApproachName == "New").ToList();
-                
+
                 if (legacyResults.Any() && newResults.Any())
                 {
                     var avgLegacyTime = legacyResults.Average(r => r.ElapsedMilliseconds);
                     var avgNewTime = newResults.Average(r => r.ElapsedMilliseconds);
                     var avgSpeedup = avgLegacyTime == 0 ? 0 : avgNewTime / avgLegacyTime;
-                    
+
                     report.AppendLine($"  Legacy avg time: {avgLegacyTime:F1}ms");
                     report.AppendLine($"  New avg time: {avgNewTime:F1}ms");
                     report.AppendLine($"  Performance ratio: {avgSpeedup:F2}x");
-                    
+
                     if (avgSpeedup < 0.8)
                         report.AppendLine("  → New approach is FASTER");
                     else if (avgSpeedup > 1.2)
@@ -201,21 +201,21 @@ namespace UnitTests
                         report.AppendLine("  → Performance is COMPARABLE");
                 }
             }
-            
+
             // Overall recommendations
             report.AppendLine("\n=== Recommendations ===");
-            
+
             var allLegacy = results.Where(r => r.ApproachName == "Legacy").ToList();
             var allNew = results.Where(r => r.ApproachName == "New").ToList();
-            
+
             if (allLegacy.Any() && allNew.Any())
             {
                 var totalLegacyTime = allLegacy.Sum(r => r.ElapsedMilliseconds);
                 var totalNewTime = allNew.Sum(r => r.ElapsedMilliseconds);
-                
+
                 report.AppendLine($"Total legacy time: {totalLegacyTime}ms");
                 report.AppendLine($"Total new time: {totalNewTime}ms");
-                
+
                 if (totalNewTime < totalLegacyTime * 0.8)
                 {
                     report.AppendLine("✓ New approach shows significant performance gains");
@@ -267,7 +267,7 @@ namespace UnitTests
         {
             var star = new PathD();
             double angleStep = 2 * Math.PI / (points * 2);
-            
+
             for (int i = 0; i < points * 2; i++)
             {
                 double angle = i * angleStep;
@@ -285,7 +285,7 @@ namespace UnitTests
         {
             var polygon = new PathD();
             double angleStep = 2 * Math.PI / sides;
-            
+
             for (int i = 0; i < sides; i++)
             {
                 double angle = i * angleStep;

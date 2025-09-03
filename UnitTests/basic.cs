@@ -119,7 +119,7 @@ public static partial class TestGeometry
 
         for (int i = 0; i < S.Count; i++)
         {
-            S[i] = new (S[i].x, S[i].y - 200);
+            S[i] = new(S[i].x, S[i].y - 200);
         }
 
         return S;

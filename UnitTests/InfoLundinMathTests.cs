@@ -21,7 +21,7 @@ public class InfoLundinMathTests
     public void Parser_Constructor_ShouldInitializeDefaultState()
     {
         var parser = new ExpressionParser();
-        
+
         Assert.That(parser.RequireParentheses, Is.True);
         Assert.That(parser.ImplicitMultiplication, Is.True);
         Assert.That(parser.Culture, Is.EqualTo(CultureInfo.InvariantCulture));
@@ -64,7 +64,7 @@ public class InfoLundinMathTests
     {
         parser.Values.Add("x", 5.0);
         parser.Values.Add("y", 3.0);
-        
+
         Assert.That(parser.Parse("x + y"), Is.EqualTo(8.0).Within(1e-10));
         Assert.That(parser.Parse("x * y"), Is.EqualTo(15.0).Within(1e-10));
         Assert.That(parser.Parse("2 * x + y"), Is.EqualTo(13.0).Within(1e-10));
@@ -74,7 +74,7 @@ public class InfoLundinMathTests
     public void Parse_ComplexExpressions_ShouldEvaluateCorrectly()
     {
         parser.Values.Add("x", 2.0);
-        
+
         Assert.That(parser.Parse("2 * x^2 + 3 * x + 1"), Is.EqualTo(15.0).Within(1e-10));
         Assert.That(parser.Parse("sin(pi/2)"), Is.EqualTo(1.0).Within(1e-10));
         Assert.That(parser.Parse("(2 + 3) * (4 - 1)"), Is.EqualTo(15.0).Within(1e-10));
@@ -84,7 +84,7 @@ public class InfoLundinMathTests
     public void Parse_ImplicitMultiplication_ShouldWork()
     {
         parser.Values.Add("x", 3.0);
-        
+
         Assert.That(parser.Parse("2x"), Is.EqualTo(6.0).Within(1e-10));
         Assert.That(parser.Parse("3sin(0)"), Is.EqualTo(0.0).Within(1e-10));
         Assert.That(parser.Parse("2pi"), Is.EqualTo(2 * Math.PI).Within(1e-10));
@@ -95,7 +95,7 @@ public class InfoLundinMathTests
     {
         parser.ImplicitMultiplication = false;
         parser.Values.Add("x", 3.0);
-        
+
         Assert.That(parser.Parse("2*x"), Is.EqualTo(6.0).Within(1e-10));
         Assert.Throws<ParserException>(() => parser.Parse("2x"));
     }
@@ -104,7 +104,7 @@ public class InfoLundinMathTests
     public void Parse_WithParenthesesRequired_ShouldEnforceFunction()
     {
         parser.RequireParentheses = true;
-        
+
         Assert.That(parser.Parse("sin(0)"), Is.EqualTo(0.0).Within(1e-10));
         Assert.Throws<ParserException>(() => parser.Parse("sin0"));
     }
@@ -113,7 +113,7 @@ public class InfoLundinMathTests
     public void Parse_WithParenthesesNotRequired_ShouldAllowFunctionsWithoutParens()
     {
         parser.RequireParentheses = false;
-        
+
         Assert.That(parser.Parse("sin0"), Is.EqualTo(0.0).Within(1e-10));
         Assert.That(parser.Parse("sin(0)"), Is.EqualTo(0.0).Within(1e-10));
     }
@@ -140,7 +140,7 @@ public class InfoLundinMathTests
     public void Culture_SetInvalidCulture_ShouldThrowException()
     {
         Assert.Throws<ArgumentNullException>(() => parser.Culture = null);
-        
+
         // Test culture with division as decimal separator
         var persianCulture = new CultureInfo("fa-IR");
         if (persianCulture.NumberFormat.NumberDecimalSeparator == "/")
@@ -154,7 +154,7 @@ public class InfoLundinMathTests
     {
         var usCulture = new CultureInfo("en-US");
         parser.Culture = usCulture;
-        
+
         Assert.That(parser.Culture, Is.EqualTo(usCulture));
     }
 
@@ -164,7 +164,7 @@ public class InfoLundinMathTests
         // Parse the same expression multiple times - should cache and reuse
         var result1 = parser.Parse("2 + 3 * 4");
         var result2 = parser.Parse("2 + 3 * 4");
-        
+
         Assert.That(result1, Is.EqualTo(result2));
         Assert.That(parser.Expressions.ContainsKey("2 + 3 * 4"), Is.True);
     }
@@ -174,13 +174,13 @@ public class InfoLundinMathTests
     {
         parser.Values.Add("x", 5.0);
         var result = parser.Parse("2 + 3 * x");
-        
+
         // Just verify the expression was processed correctly
         Assert.That(result, Is.EqualTo(17.0).Within(1e-10));
-        
+
         // Check that the expression was cached
         Assert.That(parser.Expressions.ContainsKey("2 + 3 * x"), Is.True);
-        
+
         // Parse the same expression again - should be cached
         var result2 = parser.Parse("2 + 3 * x");
         Assert.That(result2, Is.EqualTo(17.0).Within(1e-10));
@@ -191,13 +191,13 @@ public class InfoLundinMathTests
     {
         parser.Values.Add("x", 5.0);
         var result = parser.Parse("2 * x + 1");
-        
+
         // Verify the expression was cached and can be retrieved
         Assert.That(parser.Expressions.ContainsKey("2 * x + 1"), Is.True);
         var expression = parser.Expressions["2 * x + 1"];
-        
+
         var evalResult = parser.EvalExpression(expression);
-        
+
         Assert.That(evalResult, Is.EqualTo(11.0).Within(1e-10));
     }
 
@@ -228,11 +228,11 @@ public class InfoLundinMathTests
     {
         parser.Values.Add("a", 10.0);
         parser.Values.Add("b", 20.0);
-        
+
         Assert.That(parser.Values.ContainsKey("a"), Is.True);
         Assert.That(parser.Values.ContainsKey("b"), Is.True);
         Assert.That(parser.Values.ContainsKey("c"), Is.False);
-        
+
         parser.Values.Remove("a");
         Assert.That(parser.Values.ContainsKey("a"), Is.False);
     }

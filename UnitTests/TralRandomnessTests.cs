@@ -15,7 +15,7 @@ public class TralRandomnessTests
     public void RandomGenerator_Constructor_ShouldCreateGenerator()
     {
         var generator = new RandomGenerator(false); // Don't randomize for predictable testing
-        
+
         Assert.That(generator, Is.Not.Null);
         Assert.That(generator.AlgorithmName, Is.Not.Null.And.Not.Empty);
     }
@@ -24,7 +24,7 @@ public class TralRandomnessTests
     public void RandomGenerator_ConstructorWithRandomize_ShouldCreateRandomizedGenerator()
     {
         var generator = new RandomGenerator(true);
-        
+
         Assert.That(generator, Is.Not.Null);
         Assert.That(generator.AlgorithmName, Is.Not.Null.And.Not.Empty);
     }
@@ -33,10 +33,10 @@ public class TralRandomnessTests
     public void RandomGenerator_Next64_ShouldGenerateValues()
     {
         var generator = new RandomGenerator(false);
-        
+
         ulong value1 = generator.Next64();
         ulong value2 = generator.Next64();
-        
+
         // Values should be different (extremely unlikely to be the same)
         Assert.That(value1, Is.Not.EqualTo(value2));
     }
@@ -45,10 +45,10 @@ public class TralRandomnessTests
     public void RandomGenerator_NextInt_ShouldGenerateValues()
     {
         var generator = new RandomGenerator(false);
-        
+
         int value1 = generator.NextInt(100);
         int value2 = generator.NextInt(100);
-        
+
         Assert.That(value1, Is.GreaterThanOrEqualTo(0));
         Assert.That(value2, Is.GreaterThanOrEqualTo(0));
         Assert.That(value1, Is.LessThan(100));
@@ -60,7 +60,7 @@ public class TralRandomnessTests
     {
         var generator = new RandomGenerator(false);
         int maxValue = 100;
-        
+
         for (int i = 0; i < 50; i++)
         {
             int value = generator.NextInt(maxValue);
@@ -74,7 +74,7 @@ public class TralRandomnessTests
         var generator = new RandomGenerator(false);
         int minValue = 10;
         int maxValue = 20;
-        
+
         for (int i = 0; i < 50; i++)
         {
             int value = generator.NextInt(minValue, maxValue);
@@ -86,7 +86,7 @@ public class TralRandomnessTests
     public void RandomGenerator_NextDouble_ShouldGenerateValuesInRange()
     {
         var generator = new RandomGenerator(false);
-        
+
         for (int i = 0; i < 50; i++)
         {
             double value = generator.NextDouble();
@@ -100,17 +100,17 @@ public class TralRandomnessTests
         var generator = new RandomGenerator(false);
         bool foundTrue = false;
         bool foundFalse = false;
-        
+
         // Generate many values to ensure we get both true and false
         for (int i = 0; i < 100; i++)
         {
             bool value = generator.NextFlip();
             if (value) foundTrue = true;
             else foundFalse = true;
-            
+
             if (foundTrue && foundFalse) break;
         }
-        
+
         Assert.That(foundTrue, Is.True);
         Assert.That(foundFalse, Is.True);
     }
@@ -119,7 +119,7 @@ public class TralRandomnessTests
     public void RandomGenerator_Global_ShouldProvideThreadLocalInstance()
     {
         var global = RandomGenerator.Global;
-        
+
         Assert.That(global, Is.Not.Null);
         Assert.That(global, Is.SameAs(RandomGenerator.Global)); // Should be same instance for same thread
     }
@@ -128,13 +128,13 @@ public class TralRandomnessTests
     public void RandomGenerator_Randomize_ShouldChangeState()
     {
         var generator = new RandomGenerator(false);
-        
+
         // Get initial state  
         ulong value1 = generator.Next64();
-        
+
         // Randomize
         generator.Randomize();
-        
+
         // Should produce different sequence after randomize
         ulong value2 = generator.Next64();
         Assert.That(value1, Is.Not.EqualTo(value2));
@@ -144,7 +144,7 @@ public class TralRandomnessTests
     public void Xoshiro256pp_Algorithm_ShouldHaveCorrectProperties()
     {
         var algorithm = new Xoshiro256pp();
-        
+
         Assert.That(algorithm.AlgorithmName, Is.EqualTo("Xoshiro256++"));
         Assert.That(algorithm.MaxNext, Is.EqualTo(ulong.MaxValue));
     }
@@ -153,7 +153,7 @@ public class TralRandomnessTests
     public void SplitMix64_Algorithm_ShouldHaveCorrectProperties()
     {
         var algorithm = new SplitMix64();
-        
+
         Assert.That(algorithm.AlgorithmName, Is.EqualTo("SplitMix64"));
         Assert.That(algorithm.MaxNext, Is.EqualTo(ulong.MaxValue));
     }
@@ -163,9 +163,9 @@ public class TralRandomnessTests
     {
         var generator = new RandomGenerator(false);
         byte[] bytes = new byte[10];
-        
+
         generator.NextBytes(bytes);
-        
+
         // Check that at least some bytes are non-zero (extremely unlikely to be all zeros)
         bool hasNonZero = false;
         foreach (byte b in bytes)
@@ -183,9 +183,9 @@ public class TralRandomnessTests
     public void RandomGenerator_NextString_ShouldGenerateStringOfCorrectLength()
     {
         var generator = new RandomGenerator(false);
-        
+
         string result = generator.NextString(10, "ABCDEF");
-        
+
         Assert.That(result.Length, Is.EqualTo(10));
         Assert.That(result, Does.Match("^[ABCDEF]*$"));
     }
@@ -196,14 +196,14 @@ public class TralRandomnessTests
         var generator = new RandomGenerator(false);
         int sampleCount = 10000;
         double sum = 0;
-        
+
         for (int i = 0; i < sampleCount; i++)
         {
             sum += generator.NextDouble();
         }
-        
+
         double average = sum / sampleCount;
-        
+
         // For uniform distribution [0,1), average should be around 0.5
         Assert.That(average, Is.GreaterThan(0.4).And.LessThan(0.6));
     }

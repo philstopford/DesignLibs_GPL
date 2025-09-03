@@ -3844,7 +3844,7 @@ public static partial class TestGeometry
     }
     public static PathD verycomplex()
     {
-        return Clipper.MakePath( new double[]
+        return Clipper.MakePath(new double[]
         {
             0.01000, -0.21300,
             0.01000, -0.20200,

@@ -39,14 +39,14 @@ namespace UnitTests
             {
                 Console.WriteLine($"\n--- {testName} ---");
                 Console.WriteLine($"  {expectation}");
-                
+
                 foreach (var (configName, config) in configs)
                 {
                     config.EnableProfiling = true;
-                    
+
                     var stopwatch = Stopwatch.StartNew();
                     var result = CornerProcessingStrategy.ProcessCornersHybrid(
-                        shapeLib, 
+                        shapeLib,
                         previewMode: false,
                         cornerCheck: false,
                         cornerSegments: 18, // 5 degree resolution
@@ -55,7 +55,7 @@ namespace UnitTests
                         config: config
                     );
                     stopwatch.Stop();
-                    
+
                     Console.WriteLine($"    {configName}: {stopwatch.ElapsedMilliseconds}ms, {result?.Count ?? 0} points");
                 }
             }
@@ -68,50 +68,50 @@ namespace UnitTests
         public void TestParallelProcessingPerformance()
         {
             Console.WriteLine("\n=== Parallel Processing Performance Test ===");
-            
+
             // Create a complex shape with many corners
             var complexShape = CreateStar(100, 50, 20); // 20-pointed star = 40 corners
-            
+
             var results = new List<(string approach, long timeMs, int points)>();
-            
+
             // Test sequential processing
             var stopwatch = Stopwatch.StartNew();
             var sequentialResult = contourGen.makeContour(
-                complexShape, 
-                concaveRadius: 5.0, 
-                convexRadius: 5.0, 
-                edgeResolution: 1.0, 
+                complexShape,
+                concaveRadius: 5.0,
+                convexRadius: 5.0,
+                edgeResolution: 1.0,
                 angularResolution: 2.0,
-                shortEdgeLength: 2.0, 
-                maxShortEdgeLength: 5.0, 
+                shortEdgeLength: 2.0,
+                maxShortEdgeLength: 5.0,
                 optimizeCorners: 1,
                 enableParallel: false
             );
             stopwatch.Stop();
             results.Add(("Sequential", stopwatch.ElapsedMilliseconds, sequentialResult?.Count ?? 0));
-            
+
             // Test parallel processing
             stopwatch.Restart();
             var parallelResult = contourGen.makeContour(
-                complexShape, 
-                concaveRadius: 5.0, 
-                convexRadius: 5.0, 
-                edgeResolution: 1.0, 
+                complexShape,
+                concaveRadius: 5.0,
+                convexRadius: 5.0,
+                edgeResolution: 1.0,
                 angularResolution: 2.0,
-                shortEdgeLength: 2.0, 
-                maxShortEdgeLength: 5.0, 
+                shortEdgeLength: 2.0,
+                maxShortEdgeLength: 5.0,
                 optimizeCorners: 1,
                 enableParallel: true
             );
             stopwatch.Stop();
             results.Add(("Parallel", stopwatch.ElapsedMilliseconds, parallelResult?.Count ?? 0));
-            
+
             // Report results
             Console.WriteLine($"{"Approach",-12} {"Time(ms)",-8} {"Points",-8} {"Speedup",-8}");
             Console.WriteLine(new string('-', 40));
-            
+
             var sequentialTime = results.First(r => r.approach == "Sequential").timeMs;
-            
+
             foreach (var (approach, timeMs, points) in results)
             {
                 double speedup = sequentialTime == 0 ? 1.0 : (double)sequentialTime / timeMs;
@@ -119,7 +119,7 @@ namespace UnitTests
             }
 
             // Validate that both approaches produce similar results
-            Assert.That(Math.Abs(sequentialResult.Count - parallelResult.Count), Is.LessThan(5), 
+            Assert.That(Math.Abs(sequentialResult.Count - parallelResult.Count), Is.LessThan(5),
                 "Sequential and parallel processing should produce similar point counts");
         }
 
@@ -130,7 +130,7 @@ namespace UnitTests
         public void TestComplexityAnalysis()
         {
             Console.WriteLine("\n=== Complexity Analysis Test ===");
-            
+
             var testCases = new[]
             {
                 ("Simple Square", CreateRectangleShapeLib(10, 10), "Legacy"),
@@ -144,16 +144,16 @@ namespace UnitTests
             foreach (var (name, shapeLib, expectedApproach) in testCases)
             {
                 var analysis = CornerProcessingStrategy.AnalyzeComplexity(shapeLib, 0.5, 5.0, config);
-                
+
                 Console.WriteLine($"{name}:");
                 Console.WriteLine($"  Corners: {analysis.CornerCount}");
                 Console.WriteLine($"  Recommended: {analysis.RecommendedApproach}");
                 Console.WriteLine($"  Reasoning: {analysis.Reasoning}");
                 Console.WriteLine($"  Expected: {expectedApproach}");
-                
+
                 if (expectedApproach != "New") // Don't enforce for the precision test
                 {
-                    Assert.That(analysis.RecommendedApproach, Does.StartWith(expectedApproach), 
+                    Assert.That(analysis.RecommendedApproach, Does.StartWith(expectedApproach),
                         $"Analysis should recommend {expectedApproach} approach for {name}");
                 }
             }
@@ -167,11 +167,11 @@ namespace UnitTests
             settings.setDecimal(ShapeSettings.properties_decimal.verLength, (decimal)height);
             settings.setDecimal(ShapeSettings.properties_decimal.iCR, 5.0M);
             settings.setDecimal(ShapeSettings.properties_decimal.oCR, 5.0M);
-            
+
             var shapeLib = new ShapeLibrary(new[] { 0, 1, 2, 3, 4, 5, 6 }, settings);
             shapeLib.setShape((int)ShapeLibrary.shapeNames_all.rect);
             shapeLib.computeCage();
-            
+
             return shapeLib;
         }
 
@@ -184,11 +184,11 @@ namespace UnitTests
             settings.setDecimal(ShapeSettings.properties_decimal.verLength, (decimal)cutHeight, 1);
             settings.setDecimal(ShapeSettings.properties_decimal.iCR, 5.0M);
             settings.setDecimal(ShapeSettings.properties_decimal.oCR, 5.0M);
-            
+
             var shapeLib = new ShapeLibrary(new[] { 0, 1, 2, 3, 4, 5, 6 }, settings);
             shapeLib.setShape((int)ShapeLibrary.shapeNames_all.Lshape);
             shapeLib.computeCage();
-            
+
             return shapeLib;
         }
 
@@ -197,9 +197,9 @@ namespace UnitTests
             var settings = new ShapeSettings();
             settings.setDecimal(ShapeSettings.properties_decimal.iCR, 5.0M);
             settings.setDecimal(ShapeSettings.properties_decimal.oCR, 5.0M);
-            
+
             var shapeLib = new ShapeLibrary(new[] { 0, 1, 2, 3, 4, 5, 6 }, settings);
-            
+
             // For complex shapes, we need to use the actual contourGen.makeContour directly
             // as the ShapeLibrary's complex shape handling has setup complexity
             return shapeLib; // Return a basic setup for analysis
@@ -221,7 +221,7 @@ namespace UnitTests
         {
             var star = new PathD();
             double angleStep = 2 * Math.PI / (points * 2);
-            
+
             for (int i = 0; i < points * 2; i++)
             {
                 double angle = i * angleStep;
@@ -239,7 +239,7 @@ namespace UnitTests
         {
             var polygon = new PathD();
             double angleStep = 2 * Math.PI / sides;
-            
+
             for (int i = 0; i < sides; i++)
             {
                 double angle = i * angleStep;

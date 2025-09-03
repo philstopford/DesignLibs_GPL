@@ -47,6 +47,7 @@
 //using System.IO;            //debugging with streamReader & StreamWriter
 //using System.Windows.Forms; //debugging to clipboard
 
+#nullable enable
 using System.Runtime.CompilerServices;
 
 namespace ClipperLib1;
@@ -129,7 +130,7 @@ public class PolyTree : PolyNode
 
 public class PolyNode
 {
-    internal PolyNode m_Parent;
+    internal PolyNode? m_Parent;
     internal Path m_polygon = new();
     internal int m_Index;
     internal JoinType m_jointype;
@@ -525,19 +526,19 @@ internal class TEdge
     internal int WindCnt;
     internal int WindCnt2; //winding count of the opposite polytype
     internal int OutIdx;
-    internal TEdge Next;
-    internal TEdge Prev;
-    internal TEdge NextInLML;
-    internal TEdge NextInAEL;
-    internal TEdge PrevInAEL;
-    internal TEdge NextInSEL;
-    internal TEdge PrevInSEL;
+    internal TEdge? Next;
+    internal TEdge? Prev;
+    internal TEdge? NextInLML;
+    internal TEdge? NextInAEL;
+    internal TEdge? PrevInAEL;
+    internal TEdge? NextInSEL;
+    internal TEdge? PrevInSEL;
 }
 
 public class IntersectNode
 {
-    internal TEdge Edge1;
-    internal TEdge Edge2;
+    internal TEdge? Edge1;
+    internal TEdge? Edge2;
     internal IntPoint Pt;
 }
 
@@ -558,22 +559,22 @@ public class MyIntersectNodeSort : IComparer<IntersectNode>
 internal class LocalMinima
 {
     internal long Y;
-    internal TEdge LeftBound;
-    internal TEdge RightBound;
-    internal LocalMinima Next;
+    internal TEdge? LeftBound;
+    internal TEdge? RightBound;
+    internal LocalMinima? Next;
 }
 
 internal class Scanbeam
 {
     internal long Y;
-    internal Scanbeam Next;
+    internal Scanbeam? Next;
 }
 
 internal class Maxima
 {
     internal long X;
-    internal Maxima Next;
-    internal Maxima Prev;
+    internal Maxima? Next;
+    internal Maxima? Prev;
 }
 
 //OutRec: contains a path in the clipping solution. Edges in the AEL will
@@ -583,24 +584,24 @@ internal class OutRec
     internal int Idx;
     internal bool IsHole;
     internal bool IsOpen;
-    internal OutRec FirstLeft; //see comments in clipper.pas
-    internal OutPt Pts;
-    internal OutPt BottomPt;
-    internal PolyNode PolyNode;
+    internal OutRec? FirstLeft; //see comments in clipper.pas
+    internal OutPt? Pts;
+    internal OutPt? BottomPt;
+    internal PolyNode? PolyNode;
 }
 
 internal class OutPt
 {
     internal int Idx;
     internal IntPoint Pt;
-    internal OutPt Next;
-    internal OutPt Prev;
+    internal OutPt? Next;
+    internal OutPt? Prev;
 }
 
 internal class Join
 {
-    internal OutPt OutPt1;
-    internal OutPt OutPt2;
+    internal OutPt? OutPt1;
+    internal OutPt? OutPt2;
     internal IntPoint OffPt;
 }
 
@@ -621,12 +622,12 @@ public class ClipperBase
     public const long loRange = 0x3FFFFFFF;
     public const long hiRange = 0x3FFFFFFFFFFFFFFFL;
 
-    internal LocalMinima m_MinimaList;
-    internal LocalMinima m_CurrentLM;
+    internal LocalMinima? m_MinimaList;
+    internal LocalMinima? m_CurrentLM;
     internal List<List<TEdge>> m_edges = new();
-    internal Scanbeam m_Scanbeam;
-    internal List<OutRec> m_PolyOuts;
-    internal TEdge m_ActiveEdges;
+    internal Scanbeam? m_Scanbeam;
+    internal List<OutRec> m_PolyOuts = new();
+    internal TEdge? m_ActiveEdges;
     internal bool m_UseFullRange;
     internal bool m_HasOpenPaths;
 
@@ -1851,8 +1852,8 @@ public class Clipper : ClipperBase
     public const int ioPreserveCollinear = 4;
 
     private ClipType m_ClipType;
-    private Maxima m_Maxima;
-    private TEdge m_SortedEdges;
+    private Maxima? m_Maxima;
+    private TEdge? m_SortedEdges;
     private List<IntersectNode> m_IntersectList;
     private IComparer<IntersectNode> m_IntersectNodeComparer;
     private bool m_ExecuteLocked;
@@ -6111,9 +6112,9 @@ public class Clipper : ClipperBase
 
 public class ClipperOffset
 {
-    private Paths m_destPolys;
-    private Path m_srcPoly;
-    private Path m_destPoly;
+    private Paths m_destPolys = new();
+    private Path m_srcPoly = new();
+    private Path m_destPoly = new();
     private List<DoublePoint> m_normals = new();
     private double m_delta, m_sinA, m_sin, m_cos;
     private double m_miterLim, m_StepsPerRad;

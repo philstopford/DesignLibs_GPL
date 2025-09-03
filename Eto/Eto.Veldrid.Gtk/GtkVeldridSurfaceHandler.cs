@@ -1,4 +1,5 @@
-﻿using Eto.Drawing;
+#nullable enable
+using Eto.Drawing;
 using Eto.GtkSharp.Forms;
 using Eto.Veldrid;
 using Eto.Veldrid.Gtk;

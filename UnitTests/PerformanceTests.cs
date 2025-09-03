@@ -83,6 +83,73 @@ public class PerformanceTests
         Assert.Pass("Utility performance benchmarks completed successfully");
     }
     
+    [Test]
+    public static void BenchmarkAdvancedMathPerformance()
+    {
+        Console.WriteLine("=== Advanced Math Performance Benchmarks ===");
+        
+        // Benchmark FastMath.FastPow
+        var fastPowTime = BenchmarkFastPow();
+        Console.WriteLine($"FastMath.FastPow: {fastPowTime:F2} ms ({BenchmarkIterations / fastPowTime * 1000:F0} ops/sec)");
+        
+        // Benchmark BoxMuller generation
+        var boxMullerTime = BenchmarkBoxMuller();
+        Console.WriteLine($"BoxMuller generation: {boxMullerTime:F2} ms ({BenchmarkIterations / boxMullerTime * 1000:F0} ops/sec)");
+        
+        Assert.Pass("Advanced math performance benchmarks completed successfully");
+    }
+    
+    private static double BenchmarkFastPow()
+    {
+        var sw = Stopwatch.StartNew();
+        var random = new Random(42);
+        
+        // Pre-generate test cases for FastMath.FastPow
+        var testCases = new (float baseVal, int exp)[BenchmarkIterations];
+        for (int i = 0; i < BenchmarkIterations; i++)
+        {
+            testCases[i] = ((float)(random.NextDouble() * 10), random.Next(-8, 16));
+        }
+        
+        sw.Restart();
+        for (int i = 0; i < BenchmarkIterations; i++)
+        {
+            var (baseVal, exp) = testCases[i];
+            var result = FastMath.FastPow(baseVal, exp);
+            // Use result to prevent optimization
+            if (result > 1000000.0f) Console.Write("");
+        }
+        
+        sw.Stop();
+        return sw.Elapsed.TotalMilliseconds;
+    }
+    
+    private static double BenchmarkBoxMuller()
+    {
+        var sw = Stopwatch.StartNew();
+        var random = new Random(42);
+        
+        // Pre-generate uniform random values
+        var u1Values = new double[BenchmarkIterations];
+        var u2Values = new double[BenchmarkIterations];
+        for (int i = 0; i < BenchmarkIterations; i++)
+        {
+            u1Values[i] = random.NextDouble();
+            u2Values[i] = random.NextDouble() * 0.99 + 0.01; // Avoid values too close to 0
+        }
+        
+        sw.Restart();
+        for (int i = 0; i < BenchmarkIterations; i++)
+        {
+            var result = BoxMullerOptimized.GenerateGaussianPair(u1Values[i], u2Values[i]);
+            // Use result to prevent optimization
+            if (result.Item1 > 1000.0) Console.Write("");
+        }
+        
+        sw.Stop();
+        return sw.Elapsed.TotalMilliseconds;
+    }
+    
     private static void WarmupRNG()
     {
         for (int i = 0; i < WarmupIterations; i++)

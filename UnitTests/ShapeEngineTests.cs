@@ -2060,6 +2060,147 @@ public class ShapeEngineTests
         }
     }
 
+    /// <summary>
+    /// Comprehensive analysis of ContourGen runtime cost vs quality for different
+    /// subdivision and recursion configuration options. Provides systematic insights
+    /// into performance characteristics of various parameter combinations.
+    /// </summary>
+    [Test]
+    public static void ContourGenConfigurationAnalysisTest()
+    {
+        Console.WriteLine("=== ContourGen Configuration Analysis ===");
+        Console.WriteLine("Testing runtime cost vs quality for different subdivision and recursion configurations");
+        
+        // Define test shapes of varying complexity
+        var testShapes = new List<(string name, PathD path)>
+        {
+            ("Simple Square", CreateSquare(10)),
+            ("Complex Star", CreateStar(20, 5, 15)), // 20 points, inner radius 5, outer radius 15
+            ("L-Shape", CreateLShape(20, 20, 8, 8)),
+            ("Fine Detail Shape", CreateFineDetailShape())
+        };
+
+        // Define parameter combinations to test
+        var parameterSets = new List<(string name, double concaveRadius, double convexRadius, 
+            double edgeResolution, double angularResolution, double shortEdgeLength, 
+            double maxShortEdgeLength, int optimizeCorners)>
+        {
+            // Low quality, fast
+            ("Fast_Low", 1.0, 1.0, 5.0, 10.0, 3.0, 6.0, 0),
+            ("Fast_High", 1.0, 1.0, 2.0, 5.0, 3.0, 6.0, 0),
+            
+            // Medium quality
+            ("Medium_Low", 2.0, 2.0, 2.0, 5.0, 5.0, 10.0, 0),
+            ("Medium_High", 2.0, 2.0, 1.0, 2.0, 5.0, 10.0, 0),
+            ("Medium_Optimized", 2.0, 2.0, 1.0, 2.0, 5.0, 10.0, 1),
+            
+            // High quality, slower
+            ("High_Standard", 3.0, 3.0, 0.5, 1.0, 8.0, 16.0, 0),
+            ("High_Fine", 3.0, 3.0, 0.2, 0.5, 8.0, 16.0, 0),
+            ("High_Optimized", 3.0, 3.0, 0.5, 1.0, 8.0, 16.0, 1),
+            
+            // Ultra-high quality, very slow
+            ("Ultra_Detail", 5.0, 5.0, 0.1, 0.25, 15.0, 30.0, 0),
+            ("Ultra_Optimized", 5.0, 5.0, 0.1, 0.25, 15.0, 30.0, 1)
+        };
+
+        var results = new List<ContourGenPerformanceResult>();
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "contour_gen_analysis");
+        Directory.CreateDirectory(svgOutputDir);
+
+        foreach (var (shapeName, shape) in testShapes)
+        {
+            Console.WriteLine($"\n--- Testing Shape: {shapeName} ---");
+            
+            foreach (var paramSet in parameterSets)
+            {
+                var (paramName, concaveRadius, convexRadius, edgeResolution, angularResolution, 
+                     shortEdgeLength, maxShortEdgeLength, optimizeCorners) = paramSet;
+                
+                Console.Write($"  {paramName}: ");
+                
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                
+                try
+                {
+                    var result = contourGen.makeContour(shape,
+                        concaveRadius: concaveRadius,
+                        convexRadius: convexRadius,
+                        edgeResolution: edgeResolution,
+                        angularResolution: angularResolution,
+                        shortEdgeLength: shortEdgeLength,
+                        maxShortEdgeLength: maxShortEdgeLength,
+                        optimizeCorners: optimizeCorners);
+                    
+                    stopwatch.Stop();
+                    
+                    // Calculate quality metrics
+                    var metrics = CalculateQualityMetrics(shape, result, edgeResolution);
+                    
+                    var perfResult = new ContourGenPerformanceResult
+                    {
+                        ShapeName = shapeName,
+                        ParameterSetName = paramName,
+                        RuntimeMs = stopwatch.ElapsedMilliseconds,
+                        InputPointCount = shape.Count,
+                        OutputPointCount = result?.Count ?? 0,
+                        QualityMetrics = metrics,
+                        Parameters = new ContourGenParameters
+                        {
+                            ConcaveRadius = concaveRadius,
+                            ConvexRadius = convexRadius,
+                            EdgeResolution = edgeResolution,
+                            AngularResolution = angularResolution,
+                            ShortEdgeLength = shortEdgeLength,
+                            MaxShortEdgeLength = maxShortEdgeLength,
+                            OptimizeCorners = optimizeCorners
+                        }
+                    };
+                    
+                    results.Add(perfResult);
+                    
+                    // Generate SVG for visual comparison
+                    string svgContent = CreateContourGenAnalysisSvg(shape, result, perfResult);
+                    string safeShapeName = shapeName.Replace(" ", "_");
+                    string svgPath = Path.Combine(svgOutputDir, $"{safeShapeName}_{paramName}.svg");
+                    File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+                    
+                    Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ms, {result?.Count ?? 0} pts, Quality: {metrics.OverallQuality:F2} (SVG: {svgPath})");
+                    
+                    Assert.That(result, Is.Not.Null, $"Result should not be null for {shapeName} with {paramName}");
+                    Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(30000), 
+                        $"Should complete within 30 seconds for {shapeName} with {paramName}");
+                }
+                catch (Exception ex)
+                {
+                    stopwatch.Stop();
+                    Console.WriteLine($"FAILED - {ex.Message}");
+                    
+                    // Still record the failure for analysis
+                    results.Add(new ContourGenPerformanceResult
+                    {
+                        ShapeName = shapeName,
+                        ParameterSetName = paramName,
+                        RuntimeMs = stopwatch.ElapsedMilliseconds,
+                        InputPointCount = shape.Count,
+                        OutputPointCount = 0,
+                        Failed = true,
+                        FailureMessage = ex.Message
+                    });
+                }
+            }
+        }
+
+        // Generate comprehensive analysis report
+        GeneratePerformanceAnalysisReport(results, svgOutputDir);
+        
+        Console.WriteLine($"\n=== Analysis Complete ===");
+        Console.WriteLine($"Results saved to: {svgOutputDir}");
+        Console.WriteLine($"Total test cases: {results.Count}");
+        Console.WriteLine($"Successful: {results.Count(r => !r.Failed)}");
+        Console.WriteLine($"Failed: {results.Count(r => r.Failed)}");
+    }
+
     #endregion
 
     #region Helper Methods for SVG Generation and Timeout Testing
@@ -2208,6 +2349,384 @@ public class ShapeEngineTests
     {
         var (success, _) = TestWithTimeoutAndResult(path, shortEdgeThreshold, timeoutMs);
         return success;
+    }
+
+    #endregion
+
+    #region ContourGen Performance Analysis Support
+
+    /// <summary>
+    /// Results of a ContourGen performance test run
+    /// </summary>
+    public class ContourGenPerformanceResult
+    {
+        public string ShapeName { get; set; }
+        public string ParameterSetName { get; set; }
+        public long RuntimeMs { get; set; }
+        public int InputPointCount { get; set; }
+        public int OutputPointCount { get; set; }
+        public QualityMetrics QualityMetrics { get; set; }
+        public ContourGenParameters Parameters { get; set; }
+        public bool Failed { get; set; }
+        public string FailureMessage { get; set; }
+    }
+
+    /// <summary>
+    /// Parameters used for ContourGen test
+    /// </summary>
+    public class ContourGenParameters
+    {
+        public double ConcaveRadius { get; set; }
+        public double ConvexRadius { get; set; }
+        public double EdgeResolution { get; set; }
+        public double AngularResolution { get; set; }
+        public double ShortEdgeLength { get; set; }
+        public double MaxShortEdgeLength { get; set; }
+        public int OptimizeCorners { get; set; }
+    }
+
+    /// <summary>
+    /// Quality metrics for contour generation
+    /// </summary>
+    public class QualityMetrics
+    {
+        public double AverageSegmentLength { get; set; }
+        public double MaxSegmentLength { get; set; }
+        public double MinSegmentLength { get; set; }
+        public double SegmentLengthVariance { get; set; }
+        public double AverageAngularChange { get; set; }
+        public double MaxAngularChange { get; set; }
+        public double Smoothness { get; set; }
+        public double PointDensityRatio { get; set; }
+        public double OverallQuality { get; set; }
+    }
+
+    /// <summary>
+    /// Create test shapes for analysis
+    /// </summary>
+    static PathD CreateSquare(double size)
+    {
+        return new PathD
+        {
+            new PointD(0, 0),
+            new PointD(size, 0),
+            new PointD(size, size),
+            new PointD(0, size),
+            new PointD(0, 0)
+        };
+    }
+
+    static PathD CreateStar(int points, double innerRadius, double outerRadius)
+    {
+        var star = new PathD();
+        for (int i = 0; i < points * 2; i++)
+        {
+            double angle = i * Math.PI / points;
+            double radius = (i % 2 == 0) ? outerRadius : innerRadius;
+            star.Add(new PointD(
+                Math.Cos(angle) * radius,
+                Math.Sin(angle) * radius));
+        }
+        star.Add(star[0]); // Close the path
+        return star;
+    }
+
+    static PathD CreateLShape(double width, double height, double thickness1, double thickness2)
+    {
+        return new PathD
+        {
+            new PointD(0, 0),
+            new PointD(width, 0),
+            new PointD(width, thickness1),
+            new PointD(thickness2, thickness1),
+            new PointD(thickness2, height),
+            new PointD(0, height),
+            new PointD(0, 0)
+        };
+    }
+
+    static PathD CreateFineDetailShape()
+    {
+        var shape = new PathD();
+        // Create a shape with many small details that will test subdivision algorithms
+        for (int i = 0; i <= 100; i++)
+        {
+            double t = i / 100.0;
+            double angle = t * 4 * Math.PI;
+            double radius = 10 + 3 * Math.Sin(angle * 5); // High frequency variation
+            double x = Math.Cos(angle) * radius;
+            double y = Math.Sin(angle) * radius;
+            shape.Add(new PointD(x, y));
+        }
+        shape.Add(shape[0]); // Close the path
+        return shape;
+    }
+
+    /// <summary>
+    /// Calculate quality metrics for a contour generation result
+    /// </summary>
+    static QualityMetrics CalculateQualityMetrics(PathD input, PathD output, double targetResolution)
+    {
+        if (output == null || output.Count < 2)
+        {
+            return new QualityMetrics { OverallQuality = 0.0 };
+        }
+
+        var segmentLengths = new List<double>();
+        var angularChanges = new List<double>();
+
+        // Calculate segment lengths
+        for (int i = 1; i < output.Count; i++)
+        {
+            double length = Helper.Length(Helper.Minus(output[i], output[i - 1]));
+            segmentLengths.Add(length);
+        }
+
+        // Calculate angular changes
+        for (int i = 1; i < output.Count - 1; i++)
+        {
+            var v1 = Helper.Normalized(Helper.Minus(output[i], output[i - 1]));
+            var v2 = Helper.Normalized(Helper.Minus(output[i + 1], output[i]));
+            double dot = Math.Max(-1.0, Math.Min(1.0, Helper.Dot(v1, v2)));
+            double angle = Math.Acos(dot) * 180.0 / Math.PI;
+            angularChanges.Add(angle);
+        }
+
+        double avgSegLen = segmentLengths.Average();
+        double maxSegLen = segmentLengths.Max();
+        double minSegLen = segmentLengths.Min();
+        double variance = segmentLengths.Select(x => (x - avgSegLen) * (x - avgSegLen)).Average();
+        
+        double avgAngular = angularChanges.Count > 0 ? angularChanges.Average() : 0;
+        double maxAngular = angularChanges.Count > 0 ? angularChanges.Max() : 0;
+        
+        // Smoothness metric (lower variance in angular changes = smoother)
+        double smoothness = angularChanges.Count > 0 ? 
+            1.0 / (1.0 + angularChanges.Select(x => (x - avgAngular) * (x - avgAngular)).Average()) : 1.0;
+        
+        // Point density ratio (output points / input points)
+        double densityRatio = (double)output.Count / input.Count;
+        
+        // Overall quality score (0-1, higher is better)
+        // Factors: adherence to target resolution, smoothness, reasonable point density
+        double resolutionScore = Math.Exp(-Math.Abs(avgSegLen - targetResolution) / targetResolution);
+        double densityScore = Math.Exp(-Math.Abs(densityRatio - 2.0) / 2.0); // Target ~2x points as good
+        double overallQuality = (resolutionScore + smoothness + densityScore) / 3.0;
+
+        return new QualityMetrics
+        {
+            AverageSegmentLength = avgSegLen,
+            MaxSegmentLength = maxSegLen,
+            MinSegmentLength = minSegLen,
+            SegmentLengthVariance = variance,
+            AverageAngularChange = avgAngular,
+            MaxAngularChange = maxAngular,
+            Smoothness = smoothness,
+            PointDensityRatio = densityRatio,
+            OverallQuality = overallQuality
+        };
+    }
+
+    /// <summary>
+    /// Create specialized SVG for ContourGen analysis with detailed metrics
+    /// </summary>
+    static string CreateContourGenAnalysisSvg(PathD input, PathD output, ContourGenPerformanceResult result)
+    {
+        if (input == null || input.Count == 0)
+            return "";
+
+        var allPoints = input.ToList();
+        if (output != null && output.Count > 0)
+            allPoints.AddRange(output);
+
+        double minX = allPoints.Min(p => p.x) - 10;
+        double maxX = allPoints.Max(p => p.x) + 10;
+        double minY = allPoints.Min(p => p.y) - 10;
+        double maxY = allPoints.Max(p => p.y) + 10;
+
+        double width = maxX - minX;
+        double height = maxY - minY;
+        
+        StringBuilder sb = new StringBuilder();
+        sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
+        
+        // Title
+        sb.AppendLine($"  <title>{result.ShapeName} - {result.ParameterSetName}</title>");
+        
+        // Grid
+        sb.AppendLine("  <defs>");
+        sb.AppendLine("    <pattern id=\"grid\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">");
+        sb.AppendLine("      <path d=\"M 10 0 L 0 0 0 10\" fill=\"none\" stroke=\"#e0e0e0\" stroke-width=\"0.5\"/>");
+        sb.AppendLine("    </pattern>");
+        sb.AppendLine("  </defs>");
+        sb.AppendLine($"  <rect width=\"100%\" height=\"100%\" fill=\"url(#grid)\" />");
+
+        // Input polygon (blue)
+        sb.Append("  <polyline fill=\"none\" stroke=\"blue\" stroke-width=\"2\" points=\"");
+        foreach (var p in input)
+        {
+            sb.Append($"{p.x},{-p.y} ");
+        }
+        sb.AppendLine("\"/>");
+
+        // Output contour (red)
+        if (output != null && output.Count > 0)
+        {
+            sb.Append("  <polyline fill=\"none\" stroke=\"red\" stroke-width=\"2\" points=\"");
+            foreach (var p in output)
+            {
+                sb.Append($"{p.x},{-p.y} ");
+            }
+            sb.AppendLine("\"/>");
+
+            // Mark output vertices with small circles
+            foreach (var p in output)
+            {
+                sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"1\" fill=\"red\" fill-opacity=\"0.6\"/>");
+            }
+        }
+
+        // Mark input vertices
+        foreach (var p in input)
+        {
+            sb.AppendLine($"  <circle cx=\"{p.x}\" cy=\"{-p.y}\" r=\"1.5\" fill=\"blue\" fill-opacity=\"0.8\"/>");
+        }
+
+        // Performance and quality information panel
+        double legendX = minX + 5;
+        double legendY = -maxY + 20;
+        
+        sb.AppendLine($"  <rect x=\"{legendX - 3}\" y=\"{legendY - 15}\" width=\"300\" height=\"200\" fill=\"white\" fill-opacity=\"0.9\" stroke=\"black\" stroke-width=\"1\"/>");
+        
+        sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{result.ShapeName} - {result.ParameterSetName}</text>");
+        sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 20}\" font-size=\"11\" fill=\"black\">Runtime: {result.RuntimeMs}ms</text>");
+        sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 35}\" font-size=\"11\" fill=\"black\">Points: {result.InputPointCount} → {result.OutputPointCount}</text>");
+        
+        if (result.QualityMetrics != null)
+        {
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 50}\" font-size=\"11\" fill=\"black\">Quality Score: {result.QualityMetrics.OverallQuality:F3}</text>");
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 65}\" font-size=\"10\" fill=\"darkblue\">Avg Segment: {result.QualityMetrics.AverageSegmentLength:F2}</text>");
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 80}\" font-size=\"10\" fill=\"darkblue\">Smoothness: {result.QualityMetrics.Smoothness:F3}</text>");
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 95}\" font-size=\"10\" fill=\"darkblue\">Density Ratio: {result.QualityMetrics.PointDensityRatio:F2}</text>");
+        }
+
+        if (result.Parameters != null)
+        {
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 115}\" font-size=\"10\" fill=\"darkgreen\">EdgeRes: {result.Parameters.EdgeResolution}, AngRes: {result.Parameters.AngularResolution}</text>");
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 130}\" font-size=\"10\" fill=\"darkgreen\">Radii: C{result.Parameters.ConcaveRadius}, X{result.Parameters.ConvexRadius}</text>");
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 145}\" font-size=\"10\" fill=\"darkgreen\">ShortEdge: {result.Parameters.ShortEdgeLength}-{result.Parameters.MaxShortEdgeLength}</text>");
+            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 160}\" font-size=\"10\" fill=\"darkgreen\">Optimize: {(result.Parameters.OptimizeCorners == 1 ? "Yes" : "No")}</text>");
+        }
+
+        sb.AppendLine("</svg>");
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Generate comprehensive performance analysis report
+    /// </summary>
+    static void GeneratePerformanceAnalysisReport(List<ContourGenPerformanceResult> results, string outputDir)
+    {
+        var reportPath = Path.Combine(outputDir, "performance_analysis_report.html");
+        
+        var html = new StringBuilder();
+        html.AppendLine("<!DOCTYPE html>");
+        html.AppendLine("<html>");
+        html.AppendLine("<head>");
+        html.AppendLine("  <title>ContourGen Performance Analysis Report</title>");
+        html.AppendLine("  <style>");
+        html.AppendLine("    body { font-family: Arial, sans-serif; margin: 20px; }");
+        html.AppendLine("    table { border-collapse: collapse; width: 100%; margin: 20px 0; }");
+        html.AppendLine("    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }");
+        html.AppendLine("    th { background-color: #f2f2f2; }");
+        html.AppendLine("    .fast { background-color: #e8f5e8; }");
+        html.AppendLine("    .medium { background-color: #fff3cd; }");
+        html.AppendLine("    .slow { background-color: #f8d7da; }");
+        html.AppendLine("    .failed { background-color: #ffcccc; }");
+        html.AppendLine("    .summary { background-color: #e9ecef; padding: 15px; margin: 20px 0; border-radius: 5px; }");
+        html.AppendLine("  </style>");
+        html.AppendLine("</head>");
+        html.AppendLine("<body>");
+        
+        html.AppendLine("<h1>ContourGen Performance Analysis Report</h1>");
+        html.AppendLine($"<p>Generated on: {DateTime.Now:yyyy-MM-dd HH:mm:ss}</p>");
+        
+        // Summary statistics
+        html.AppendLine("<div class='summary'>");
+        html.AppendLine("<h2>Summary</h2>");
+        html.AppendLine($"<p>Total test cases: {results.Count}</p>");
+        html.AppendLine($"<p>Successful: {results.Count(r => !r.Failed)}</p>");
+        html.AppendLine($"<p>Failed: {results.Count(r => r.Failed)}</p>");
+        
+        var successfulResults = results.Where(r => !r.Failed).ToList();
+        if (successfulResults.Any())
+        {
+            html.AppendLine($"<p>Average runtime: {successfulResults.Average(r => r.RuntimeMs):F1}ms</p>");
+            html.AppendLine($"<p>Fastest: {successfulResults.Min(r => r.RuntimeMs)}ms</p>");
+            html.AppendLine($"<p>Slowest: {successfulResults.Max(r => r.RuntimeMs)}ms</p>");
+            html.AppendLine($"<p>Average quality score: {successfulResults.Where(r => r.QualityMetrics != null).Average(r => r.QualityMetrics.OverallQuality):F3}</p>");
+        }
+        html.AppendLine("</div>");
+
+        // Detailed results table
+        html.AppendLine("<h2>Detailed Results</h2>");
+        html.AppendLine("<table>");
+        html.AppendLine("<tr>");
+        html.AppendLine("  <th>Shape</th><th>Parameter Set</th><th>Runtime (ms)</th>");
+        html.AppendLine("  <th>Input Points</th><th>Output Points</th><th>Quality Score</th>");
+        html.AppendLine("  <th>Avg Segment Length</th><th>Smoothness</th><th>Status</th>");
+        html.AppendLine("</tr>");
+
+        foreach (var result in results.OrderBy(r => r.ShapeName).ThenBy(r => r.RuntimeMs))
+        {
+            string rowClass = result.Failed ? "failed" : 
+                             result.RuntimeMs < 50 ? "fast" :
+                             result.RuntimeMs < 500 ? "medium" : "slow";
+            
+            html.AppendLine($"<tr class='{rowClass}'>");
+            html.AppendLine($"  <td>{result.ShapeName}</td>");
+            html.AppendLine($"  <td>{result.ParameterSetName}</td>");
+            html.AppendLine($"  <td>{result.RuntimeMs}</td>");
+            html.AppendLine($"  <td>{result.InputPointCount}</td>");
+            html.AppendLine($"  <td>{result.OutputPointCount}</td>");
+            html.AppendLine($"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.OverallQuality.ToString("F3") : "N/A")}</td>");
+            html.AppendLine($"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.AverageSegmentLength.ToString("F2") : "N/A")}</td>");
+            html.AppendLine($"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.Smoothness.ToString("F3") : "N/A")}</td>");
+            html.AppendLine($"  <td>{(result.Failed ? result.FailureMessage : "Success")}</td>");
+            html.AppendLine("</tr>");
+        }
+        
+        html.AppendLine("</table>");
+
+        // Parameter analysis
+        html.AppendLine("<h2>Parameter Analysis</h2>");
+        
+        foreach (var shapeGroup in results.Where(r => !r.Failed).GroupBy(r => r.ShapeName))
+        {
+            html.AppendLine($"<h3>{shapeGroup.Key}</h3>");
+            html.AppendLine("<p>Runtime vs Quality trade-offs:</p>");
+            html.AppendLine("<ul>");
+            
+            var sortedByRuntime = shapeGroup.OrderBy(r => r.RuntimeMs).ToList();
+            var sortedByQuality = shapeGroup.Where(r => r.QualityMetrics != null)
+                                            .OrderByDescending(r => r.QualityMetrics.OverallQuality).ToList();
+            
+            html.AppendLine($"<li>Fastest: {sortedByRuntime.First().ParameterSetName} ({sortedByRuntime.First().RuntimeMs}ms)</li>");
+            html.AppendLine($"<li>Slowest: {sortedByRuntime.Last().ParameterSetName} ({sortedByRuntime.Last().RuntimeMs}ms)</li>");
+            
+            if (sortedByQuality.Any())
+            {
+                html.AppendLine($"<li>Highest Quality: {sortedByQuality.First().ParameterSetName} (Score: {sortedByQuality.First().QualityMetrics.OverallQuality:F3})</li>");
+                html.AppendLine($"<li>Lowest Quality: {sortedByQuality.Last().ParameterSetName} (Score: {sortedByQuality.Last().QualityMetrics.OverallQuality:F3})</li>");
+            }
+            html.AppendLine("</ul>");
+        }
+
+        html.AppendLine("</body>");
+        html.AppendLine("</html>");
+        
+        File.WriteAllText(reportPath, html.ToString());
+        Console.WriteLine($"Comprehensive analysis report generated: {reportPath}");
     }
 
     #endregion

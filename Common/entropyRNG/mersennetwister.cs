@@ -1,4 +1,5 @@
-﻿using MersenneTwisterRNG;
+﻿#nullable enable
+using MersenneTwisterRNG;
 using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;

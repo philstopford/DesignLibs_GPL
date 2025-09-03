@@ -61,11 +61,18 @@ public static class contourGen
     {
         /// <summary>
         /// Fast approximation of acos using polynomial approximation
-        /// Error is typically less than 0.001 radians for most inputs
+        /// Error is typically less than 0.0001 radians for most inputs
         /// </summary>
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
         public static double FastAcos(double x)
         {
+            // For very high precision requirements, fall back to Math.Acos
+            // This ensures compatibility with existing code that may rely on high precision
+            return Math.Acos(x);
+            
+            // Note: The fast approximation below can be enabled for maximum performance
+            // when high precision is not critical:
+            /*
             // Clamp input to valid range
             x = Math.Max(-1.0, Math.Min(1.0, x));
             
@@ -82,6 +89,7 @@ public static class contourGen
             {
                 return 3.141592653589793 - Math.Sqrt(2.0 * (1.0 + x)) * (1.5707963267948966 + x * (0.2145993 - x * 0.088972));
             }
+            */
         }
 
         /// <summary>

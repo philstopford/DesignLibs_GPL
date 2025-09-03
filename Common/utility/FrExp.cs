@@ -23,16 +23,29 @@ public static class FrExp
         // Performance optimization: Reuse result object to reduce allocations
         FRexpResult result = _cachedResult ??= new FRexpResult();
         
-        long bits = BitConverter.DoubleToInt64Bits(value);
-
         // Performance optimization: Fast path for special values
-        if (double.IsNaN(value) || double.IsInfinity(value) || value == 0.0)
+        if (value == 0.0)
+        {
+            result.exponent = 0;
+            result.mantissa = 0.0;
+            return result;
+        }
+        
+        if (double.IsNaN(value))
+        {
+            result.exponent = 0;
+            result.mantissa = double.NaN;
+            return result;
+        }
+        
+        if (double.IsInfinity(value))
         {
             result.exponent = 0;
             result.mantissa = value;
             return result;
         }
 
+        long bits = BitConverter.DoubleToInt64Bits(value);
         bool neg = bits < 0;
         int exponent = (int)((bits >> 52) & 0x7ffL);
         long mantissa = bits & 0xfffffffffffffL;

@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Runtime.Intrinsics;
+using System.Runtime.Intrinsics.X86;
 
 namespace utility;
 
@@ -9,6 +11,11 @@ namespace utility;
 /// </summary>
 public static class ParallelProcessing
 {
+    // Performance optimization: Cache CPU capabilities
+    private static readonly bool IsAvx2Available = Avx2.IsSupported;
+    private static readonly bool IsAvxAvailable = Avx.IsSupported;
+    private static readonly bool IsSse2Available = Sse2.IsSupported;
+    
     /// <summary>
     /// High-performance parallel execution optimized for numerical operations with better work distribution
     /// </summary>
@@ -29,7 +36,10 @@ public static class ParallelProcessing
         int chunkSize = array.Length / processorCount;
         
         // Performance optimization: Use Parallel.For for better thread management
-        Parallel.For(0, processorCount, p =>
+        Parallel.For(0, processorCount, new ParallelOptions 
+        { 
+            MaxDegreeOfParallelism = processorCount 
+        }, p =>
         {
             int start = p * chunkSize;
             int end = p == processorCount - 1 ? array.Length : start + chunkSize;
@@ -53,19 +63,29 @@ public static class ParallelProcessing
             return;
         }
 
+        // Performance optimization: Adjust batch size based on available SIMD capabilities
+        int optimizedBatchSize = batchSize;
+        if (IsAvx2Available)
+            optimizedBatchSize = Math.Max(batchSize, 32); // AVX2 works best with 256-bit (32 byte) alignment
+        else if (IsAvxAvailable)
+            optimizedBatchSize = Math.Max(batchSize, 16); // AVX works best with 128-bit (16 byte) alignment
+
         int processorCount = Environment.ProcessorCount;
-        int alignedBatchCount = (array.Length + batchSize - 1) / batchSize;
-        int batchesPerProcessor = alignedBatchCount / processorCount;
+        int alignedBatchCount = (array.Length + optimizedBatchSize - 1) / optimizedBatchSize;
+        int batchesPerProcessor = Math.Max(1, alignedBatchCount / processorCount);
         
-        Parallel.For(0, processorCount, p =>
+        Parallel.For(0, processorCount, new ParallelOptions 
+        { 
+            MaxDegreeOfParallelism = processorCount 
+        }, p =>
         {
             int startBatch = p * batchesPerProcessor;
             int endBatch = p == processorCount - 1 ? alignedBatchCount : startBatch + batchesPerProcessor;
             
             for (int batch = startBatch; batch < endBatch; batch++)
             {
-                int start = batch * batchSize;
-                int end = Math.Min(start + batchSize, array.Length);
+                int start = batch * optimizedBatchSize;
+                int end = Math.Min(start + optimizedBatchSize, array.Length);
                 
                 // Process batch with better cache locality
                 for (int i = start; i < end; i++)
@@ -98,7 +118,11 @@ public static class ParallelProcessing
             return;
         }
 
-        var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+        // Performance optimization: Use optimal parallelism for the workload
+        var options = new ParallelOptions 
+        { 
+            MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount, Math.Max(1, length / 1000))
+        };
         Parallel.For(fromInclusive, toExclusive, options, body);
     }
 

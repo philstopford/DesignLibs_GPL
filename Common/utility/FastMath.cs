@@ -111,21 +111,39 @@ public static class FastMath
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static float FastPow(float baseValue, int exponent)
     {
-        if (exponent == 0) return 1.0f;
-        if (exponent == 1) return baseValue;
-        if (exponent == 2) return baseValue * baseValue;
-        if (exponent == 3) return baseValue * baseValue * baseValue;
+        // Performance optimization: Handle common cases first
+        switch (exponent)
+        {
+            case 0: return 1.0f;
+            case 1: return baseValue;
+            case 2: return baseValue * baseValue;
+            case 3: return baseValue * baseValue * baseValue;
+            case 4: 
+                var squared = baseValue * baseValue;
+                return squared * squared;
+            case 5:
+                var val2 = baseValue * baseValue;
+                return val2 * val2 * baseValue;
+            case 6:
+                var val3 = baseValue * baseValue * baseValue;
+                return val3 * val3;
+            case 8:
+                var val4 = baseValue * baseValue;
+                val4 *= val4;
+                return val4 * val4;
+        }
         
         // Use binary exponentiation for larger exponents
         float result = 1.0f;
         bool negative = exponent < 0;
-        exponent = Math.Abs(exponent);
+        exponent = negative ? -exponent : exponent; // Avoid Math.Abs for better performance
         
+        float currentBase = baseValue;
         while (exponent > 0)
         {
             if ((exponent & 1) == 1)
-                result *= baseValue;
-            baseValue *= baseValue;
+                result *= currentBase;
+            currentBase *= currentBase;
             exponent >>= 1;
         }
         

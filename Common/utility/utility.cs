@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading;
 
 namespace utility;
@@ -15,9 +18,14 @@ public static class Utils
     private static readonly ThreadLocal<SHA1> _threadLocalSHA1 = new(() => SHA1.Create());
     private static readonly ThreadLocal<SHA256> _threadLocalSHA256 = new(() => SHA256.Create());
     
+    // Performance optimization: Cache for serializers to avoid repeated creation
+    private static readonly ConcurrentDictionary<Type, DataContractSerializer> _serializerCache = new();
+    
     // Performance optimization: Lookup table for small integer powers
     private static readonly double[] PowersOfTwo = new double[32];
     private static readonly double[] PowersOfTen = new double[16];
+    private static readonly double[] PowersOfE = new double[16]; // e^x for small x
+    private static readonly double[] PowersOfHalf = new double[16]; // 0.5^x for small x
     
     static Utils()
     {
@@ -29,6 +37,14 @@ public static class Utils
         for (int i = 0; i < PowersOfTen.Length; i++)
         {
             PowersOfTen[i] = Math.Pow(10.0, i);
+        }
+        for (int i = 0; i < PowersOfE.Length; i++)
+        {
+            PowersOfE[i] = Math.Pow(Math.E, i);
+        }
+        for (int i = 0; i < PowersOfHalf.Length; i++)
+        {
+            PowersOfHalf[i] = Math.Pow(0.5, i);
         }
     }
     public static string friendlyNumber(int number)
@@ -61,22 +77,36 @@ public static class Utils
         return ret;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double myPow(double num, int exp)
     {
         // Performance optimization: Handle common cases with lookup tables
-        if (num == 2.0 && exp >= 0 && exp < PowersOfTwo.Length)
+        if (exp >= 0)
         {
-            return PowersOfTwo[exp];
-        }
-        
-        if (num == 10.0 && exp >= 0 && exp < PowersOfTen.Length)
-        {
-            return PowersOfTen[exp];
+            if (num == 2.0 && exp < PowersOfTwo.Length)
+            {
+                return PowersOfTwo[exp];
+            }
+            
+            if (num == 10.0 && exp < PowersOfTen.Length)
+            {
+                return PowersOfTen[exp];
+            }
+            
+            if (Math.Abs(num - Math.E) < 1e-15 && exp < PowersOfE.Length)
+            {
+                return PowersOfE[exp];
+            }
+            
+            if (num == 0.5 && exp < PowersOfHalf.Length)
+            {
+                return PowersOfHalf[exp];
+            }
         }
 
+        // Performance optimization: Handle more common cases first
         switch (exp)
         {
-            // Performance optimization: Handle more common cases
             case 0:
                 return 1.0;
             case 1:
@@ -88,37 +118,40 @@ public static class Utils
             case 4:
                 var numSquared = num * num;
                 return numSquared * numSquared;
+            case 5:
+                var num2 = num * num;
+                return num2 * num2 * num;
+            case 6:
+                var num3 = num * num * num;
+                return num3 * num3;
+            case 8:
+                var num4 = num * num;
+                num4 *= num4;
+                return num4 * num4;
         }
 
         double result = 1.0;
         bool invertResult = false;
 
-        switch (exp)
+        if (exp < 0)
         {
-            case < 0:
-                invertResult = true;
-                exp = Math.Abs(exp);
-                break;
+            invertResult = true;
+            exp = -exp; // Use subtraction instead of Math.Abs for better performance
         }
 
         // Performance optimization: Use binary exponentiation (exponentiation by squaring)
+        double baseValue = num;
         while (exp > 0)
         {
             if ((exp & 1) == 1)
             {
-                result *= num;
+                result *= baseValue;
             }
             exp >>= 1;
-            num *= num;
+            baseValue *= baseValue;
         }
 
-        result = invertResult switch
-        {
-            true => 1.0 / result,
-            _ => result
-        };
-
-        return result;
+        return invertResult ? 1.0 / result : result;
     }
 
     public static double toRadians(double deg)
@@ -149,12 +182,43 @@ public static class Utils
         return resultStream.ToArray();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static string GetHash(HashAlgorithm hashAlgorithm, object input)
     {
-        using MemoryStream memoryStream = new();
-        DataContractSerializer serializer = new(input.GetType());
-        serializer.WriteObject(memoryStream, input);
-        byte[] inputBytes = memoryStream.ToArray();
+        byte[] inputBytes;
+        
+        // Performance optimization: Fast paths for common types to avoid serialization
+        switch (input)
+        {
+            case string str:
+                inputBytes = Encoding.UTF8.GetBytes(str);
+                break;
+            case int intVal:
+                inputBytes = BitConverter.GetBytes(intVal);
+                break;
+            case long longVal:
+                inputBytes = BitConverter.GetBytes(longVal);
+                break;
+            case double doubleVal:
+                inputBytes = BitConverter.GetBytes(doubleVal);
+                break;
+            case float floatVal:
+                inputBytes = BitConverter.GetBytes(floatVal);
+                break;
+            case byte[] byteArray:
+                inputBytes = byteArray;
+                break;
+            default:
+                {
+                    // Fall back to serialization for complex types with cached serializer
+                    var serializer = _serializerCache.GetOrAdd(input.GetType(), type => new DataContractSerializer(type));
+                    using var memoryStream = new MemoryStream();
+                    serializer.WriteObject(memoryStream, input);
+                    inputBytes = memoryStream.ToArray();
+                    break;
+                }
+        }
+        
         byte[] hashBytes = hashAlgorithm.ComputeHash(inputBytes);
         return Convert.ToBase64String(hashBytes);
     }

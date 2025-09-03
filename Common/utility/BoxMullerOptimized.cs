@@ -35,8 +35,8 @@ public static class BoxMullerOptimized
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static (double, double) GenerateGaussianPair(double u1, double u2)
     {
-        // Performance optimization: Pre-calculate common sub-expressions
-        double logU2 = Math.Log(u2);
+        // Performance optimization: Pre-calculate common sub-expressions and use fast paths
+        double logU2 = u2 <= 0.0 ? double.NegativeInfinity : Math.Log(u2);
         double sqrtNeg2LogU2 = Math.Sqrt(-2.0 * logU2);
         double twoPiU1 = TWO_PI * u1;
         
@@ -45,6 +45,35 @@ public static class BoxMullerOptimized
         double sinVal = Math.Sin(twoPiU1);
         
         return (sqrtNeg2LogU2 * cosVal, sqrtNeg2LogU2 * sinVal);
+    }
+
+    /// <summary>
+    /// High-performance Gaussian pair generation with lookup table optimization for common ranges
+    /// </summary>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static (double, double) GenerateGaussianPairFast(double u1, double u2)
+    {
+        // Performance optimization: Use lookup tables for common ranges when possible
+        if (u1 >= 0.0 && u1 <= 1.0 && u2 >= 0.0 && u2 <= 1.0)
+        {
+            int index1 = (int)(u1 * (LOOKUP_SIZE - 1));
+            int index2 = (int)(u2 * (LOOKUP_SIZE - 1));
+            
+            if (index2 > 0) // Avoid log(0)
+            {
+                double logU2 = LogTable[index2];
+                double sqrtNeg2LogU2 = Math.Sqrt(-2.0 * logU2);
+                double twoPiU1 = TWO_PI * u1;
+                
+                double cosVal = Math.Cos(twoPiU1);
+                double sinVal = Math.Sin(twoPiU1);
+                
+                return (sqrtNeg2LogU2 * cosVal, sqrtNeg2LogU2 * sinVal);
+            }
+        }
+        
+        // Fall back to regular implementation for out-of-range values
+        return GenerateGaussianPair(u1, u2);
     }
 
     /// <summary>

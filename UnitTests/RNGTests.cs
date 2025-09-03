@@ -1,4 +1,5 @@
 using entropyRNG;
+using utility;
 
 namespace UnitTests;
 
@@ -11,27 +12,8 @@ public class RNGTests
     /// </summary>
     private static void OptimizedParallelFor<T>(T[] array, Func<int, T> generator)
     {
-        int processorCount = Environment.ProcessorCount;
-        int chunkSize = array.Length / processorCount;
-        
-        var tasks = new Task[processorCount];
-        
-        for (int p = 0; p < processorCount; p++)
-        {
-            int processorIndex = p;
-            tasks[p] = Task.Run(() =>
-            {
-                int start = processorIndex * chunkSize;
-                int end = processorIndex == processorCount - 1 ? array.Length : start + chunkSize;
-                
-                for (int i = start; i < end; i++)
-                {
-                    array[i] = generator(i);
-                }
-            });
-        }
-        
-        Task.WaitAll(tasks);
+        // Use the new optimized parallel processing utility
+        ParallelProcessing.OptimizedParallelFor(array, generator);
     }
     
     // [SetUp]

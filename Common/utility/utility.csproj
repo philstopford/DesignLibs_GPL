@@ -5,6 +5,7 @@
     <Configurations>Debug;Release</Configurations>
     <ReleaseVersion>0.24</ReleaseVersion>
     <LangVersion>12</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <PropertyGroup>

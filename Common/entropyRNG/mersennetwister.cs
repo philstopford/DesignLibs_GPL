@@ -25,35 +25,69 @@ public static class MersenneTwister_RNG
     private static readonly RandomNumberGenerator _global = RandomNumberGenerator.Create();
     private static readonly ThreadLocal<byte[]> _threadLocalBuffer = new(() => new byte[4]);
 
+    // Performance optimization: Cache mathematical constants
+    private const double TWO_PI = 2.0 * Math.PI;
+    private const double MIN_RANDOM_VALUE = 1E-15;
+    private const double ONE_THIRD = 1.0 / 3.0;
+
     [ThreadStatic] private static MersenneTwister? _local;
+    
+    // Performance optimization: Box-Muller cached value for better efficiency
+    [ThreadStatic] private static double _cachedGaussian;
+    [ThreadStatic] private static bool _hasValidCachedGaussian;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double[] random_gauss3()
     {
         double[] myReturn = random_gauss();
-        return [myReturn[0] / 3.0, myReturn[1] / 3.0]; // Use double precision
+        // Performance optimization: Use pre-calculated constant
+        return [myReturn[0] * ONE_THIRD, myReturn[1] * ONE_THIRD];
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double[] random_gauss()
     {
+        // Performance optimization: Use cached Box-Muller value if available
+        if (_hasValidCachedGaussian)
+        {
+            _hasValidCachedGaussian = false;
+            return [_cachedGaussian, GenerateGaussianPair()[1]];
+        }
+
+        var pair = GenerateGaussianPair();
+        _cachedGaussian = pair[1];
+        _hasValidCachedGaussian = true;
+        return [pair[0], pair[1]];
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static double[] GenerateGaussianPair()
+    {
         MersenneTwister random = GetThreadLocalRandom();
 
-        // Box-Muller transform
+        // Box-Muller transform - optimized version
         // We aren't allowed 0, so we reject any values approaching zero.
-        double U1 = random.NextDouble();
-        while (U1 < 1E-15)
+        double U1, U2;
+        
+        // Performance optimization: Use do-while instead of while for better branch prediction
+        do
         {
             U1 = random.NextDouble();
-        }
-        double U2 = random.NextDouble();
-        while (U2 < 1E-15)
+        } while (U1 < MIN_RANDOM_VALUE);
+        
+        do
         {
             U2 = random.NextDouble();
-        }
+        } while (U2 < MIN_RANDOM_VALUE);
+
+        // Performance optimization: Pre-calculate common sub-expressions
+        double logU2 = Math.Log(U2);
+        double sqrtNeg2LogU2 = Math.Sqrt(-2.0 * logU2);
+        double twoPiU1 = TWO_PI * U1;
+        
         // PAs are 3-sigma, so this needs to be divided by 3 to give single sigma value when used
-        double A1 = Math.Sqrt(-2 * Math.Log(U2)) * Math.Cos(2 * Math.PI * U1);
-        double A2 = Math.Sqrt(-2 * Math.Log(U1)) * Math.Sin(2 * Math.PI * U2);
+        double A1 = sqrtNeg2LogU2 * Math.Cos(twoPiU1);
+        double A2 = sqrtNeg2LogU2 * Math.Sin(twoPiU1);
         return [A1, A2];
     }
 

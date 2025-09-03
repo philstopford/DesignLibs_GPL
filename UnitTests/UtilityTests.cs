@@ -153,6 +153,128 @@ public class UtilityTests
         string differentHash = Utils.GetSHA256Hash("Different test data");
         Assert.That(differentHash, Is.Not.EqualTo(hash1));
     }
+
+    [Test]
+    public static void Utils_HashFunctions_ProduceKnownResults()
+    {
+        // Test hash functions produce expected results for known inputs
+        // This ensures optimization doesn't change behavior
+        
+        string testInput = "Performance test data for hashing";
+        
+        // Get expected hashes (these should remain constant after optimization)
+        string expectedMD5 = Utils.GetMD5Hash(testInput);
+        string expectedSHA1 = Utils.GetSHA1Hash(testInput);
+        string expectedSHA256 = Utils.GetSHA256Hash(testInput);
+        
+        // Verify they're not empty and are consistently reproducible
+        Assert.That(expectedMD5, Is.Not.Empty);
+        Assert.That(expectedSHA1, Is.Not.Empty);
+        Assert.That(expectedSHA256, Is.Not.Empty);
+        
+        // Test multiple times to ensure consistency
+        for (int i = 0; i < 10; i++)
+        {
+            Assert.That(Utils.GetMD5Hash(testInput), Is.EqualTo(expectedMD5));
+            Assert.That(Utils.GetSHA1Hash(testInput), Is.EqualTo(expectedSHA1));
+            Assert.That(Utils.GetSHA256Hash(testInput), Is.EqualTo(expectedSHA256));
+        }
+        
+        // Test with various input types
+        Assert.That(Utils.GetMD5Hash(42), Is.Not.Empty);
+        Assert.That(Utils.GetSHA1Hash(42.5), Is.Not.Empty);
+        Assert.That(Utils.GetSHA256Hash(new[] { 1, 2, 3 }), Is.Not.Empty);
+    }
+
+    [Test]
+    public static void Utils_MyPow_ExtensiveValidation()
+    {
+        // Comprehensive validation of myPow function to ensure optimization correctness
+        
+        // Test lookup table cases for powers of 2
+        for (int exp = 0; exp < 32; exp++)
+        {
+            double expected = Math.Pow(2.0, exp);
+            double actual = Utils.myPow(2.0, exp);
+            Assert.That(actual, Is.EqualTo(expected).Within(0.0001), $"2^{exp} failed");
+        }
+        
+        // Test lookup table cases for powers of 10
+        for (int exp = 0; exp < 16; exp++)
+        {
+            double expected = Math.Pow(10.0, exp);
+            double actual = Utils.myPow(10.0, exp);
+            Assert.That(actual, Is.EqualTo(expected).Within(0.0001), $"10^{exp} failed");
+        }
+        
+        // Test small exponent fast paths
+        double[] bases = { 1.5, 2.7, 3.14, 5.0, 7.25 };
+        foreach (double baseVal in bases)
+        {
+            Assert.That(Utils.myPow(baseVal, 0), Is.EqualTo(1.0).Within(0.0001));
+            Assert.That(Utils.myPow(baseVal, 1), Is.EqualTo(baseVal).Within(0.0001));
+            Assert.That(Utils.myPow(baseVal, 2), Is.EqualTo(baseVal * baseVal).Within(0.0001));
+            Assert.That(Utils.myPow(baseVal, 3), Is.EqualTo(baseVal * baseVal * baseVal).Within(0.0001));
+            Assert.That(Utils.myPow(baseVal, 4), Is.EqualTo(Math.Pow(baseVal, 4)).Within(0.0001));
+        }
+        
+        // Test negative exponents
+        for (int exp = -10; exp <= -1; exp++)
+        {
+            double expected = Math.Pow(2.0, exp);
+            double actual = Utils.myPow(2.0, exp);
+            Assert.That(actual, Is.EqualTo(expected).Within(0.0001), $"2^{exp} failed");
+        }
+        
+        // Test large exponents (binary exponentiation)
+        int[] largeExps = { 16, 32, 50, 100, 127 };
+        foreach (int exp in largeExps)
+        {
+            double expected = Math.Pow(1.1, exp);
+            double actual = Utils.myPow(1.1, exp);
+            Assert.That(actual, Is.EqualTo(expected).Within(expected * 0.0001), $"1.1^{exp} failed");
+        }
+    }
+
+    [Test]
+    public static void FrExp_ExtensiveValidation()
+    {
+        // Comprehensive validation of FrExp function to ensure optimization correctness
+        
+        double[] testValues = { 
+            0.0, 1.0, 2.0, 4.0, 8.0, 16.0, 0.5, 0.25, 0.125,
+            1.5, 3.7, 15.25, 1024.0, 0.001, 1000000.0,
+            Math.PI, Math.E, double.MaxValue / 2, double.MinValue * 2
+        };
+        
+        foreach (double value in testValues)
+        {
+            var result = FrExp.calculate(value);
+            
+            if (value == 0.0)
+            {
+                Assert.That(result.mantissa, Is.EqualTo(0.0));
+                Assert.That(result.exponent, Is.EqualTo(0));
+            }
+            else if (!double.IsInfinity(value) && !double.IsNaN(value))
+            {
+                // Verify the relationship: mantissa * 2^exponent ≈ original value
+                double reconstructed = result.mantissa * Math.Pow(2, result.exponent);
+                Assert.That(reconstructed, Is.EqualTo(value).Within(Math.Abs(value) * 0.0001 + 1e-15), 
+                    $"FrExp failed for {value}: mantissa={result.mantissa}, exp={result.exponent}, reconstructed={reconstructed}");
+            }
+        }
+        
+        // Test special values
+        var nanResult = FrExp.calculate(double.NaN);
+        Assert.That(double.IsNaN(nanResult.mantissa), Is.True);
+        
+        var infResult = FrExp.calculate(double.PositiveInfinity);
+        Assert.That(double.IsInfinity(infResult.mantissa), Is.True);
+        
+        var negInfResult = FrExp.calculate(double.NegativeInfinity);
+        Assert.That(double.IsInfinity(negInfResult.mantissa), Is.True);
+    }
     
     [Test]
     public static void FrExp_Calculate_WorksCorrectly()

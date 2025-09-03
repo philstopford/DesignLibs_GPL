@@ -1,5 +1,7 @@
 using Clipper2Lib;
 using System.Linq;
+using System.Threading.Tasks;
+using utility;
 
 namespace shapeEngine;
 
@@ -104,6 +106,14 @@ public static class contourGen
 
     public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners)
     {
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true);
+    }
+
+    /// <summary>
+    /// Generate contour with optional parallel processing for corner computation
+    /// </summary>
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel)
+    {
         SmoothStepMode smoothMode = SmoothStepMode.Quintic;
 
         int[] corner_types = CategorizeCorners(original_path, shortEdgeLength);
@@ -112,31 +122,76 @@ public static class contourGen
         List<PointD> cornerMidpoints = new List<PointD>();
         List<PointD> cornerVertices = new List<PointD>();
 
-        for (int i = 0; i < original_path.Count - 1; i++)
+        // Pre-allocate collections for thread safety
+        int cornerCount = original_path.Count - 1;
+        processed = new PathsD(new PathD[cornerCount]);
+        cornerMidpoints = new List<PointD>(new PointD[cornerCount]);
+        cornerVertices = new List<PointD>(new PointD[cornerCount]);
+
+        // Process corners - parallel processing for performance on complex shapes
+        if (enableParallel && cornerCount > 4) // Use parallel for more than 4 corners
         {
-            cornerVertices.Add(original_path[i]);
+            var parallelOptions = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = Math.Min(Environment.ProcessorCount, cornerCount)
+            };
 
-            PointD prevMid = (i == 0)
-                ? Helper.Mid(original_path[i], original_path[^2])
-                : Helper.Mid(original_path[i], original_path[i - 1]);
+            ParallelProcessing.OptimizedParallelFor(0, cornerCount, parallelOptions, i =>
+            {
+                cornerVertices[i] = original_path[i];
 
-            var startLine = new PathD { original_path[i], prevMid };
+                PointD prevMid = (i == 0)
+                    ? Helper.Mid(original_path[i], original_path[^2])
+                    : Helper.Mid(original_path[i], original_path[i - 1]);
 
-            PointD nextMid = (i == original_path.Count - 2)
-                ? Helper.Mid(original_path[i], original_path[0])
-                : Helper.Mid(original_path[i], original_path[i + 1]);
+                var startLine = new PathD { original_path[i], prevMid };
 
-            var endLine = new PathD { original_path[i], nextMid };
+                PointD nextMid = (i == cornerCount - 1)
+                    ? Helper.Mid(original_path[i], original_path[0])
+                    : Helper.Mid(original_path[i], original_path[i + 1]);
 
-            cornerMidpoints.Add(nextMid);
+                var endLine = new PathD { original_path[i], nextMid };
 
-            double radius = convexRadius;
-            if (corner_types[i] == (int)CornerType.Concave)
-                radius = concaveRadius;
+                cornerMidpoints[i] = nextMid;
 
-            PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
-                SamplingMode.ByMaxAngle);
-            processed.Add(current_corner);
+                double radius = convexRadius;
+                if (corner_types[i] == (int)CornerType.Concave)
+                    radius = concaveRadius;
+
+                PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
+                    SamplingMode.ByMaxAngle);
+                processed[i] = current_corner;
+            });
+        }
+        else
+        {
+            // Sequential processing for simple cases or when parallel is disabled
+            for (int i = 0; i < cornerCount; i++)
+            {
+                cornerVertices[i] = original_path[i];
+
+                PointD prevMid = (i == 0)
+                    ? Helper.Mid(original_path[i], original_path[^2])
+                    : Helper.Mid(original_path[i], original_path[i - 1]);
+
+                var startLine = new PathD { original_path[i], prevMid };
+
+                PointD nextMid = (i == cornerCount - 1)
+                    ? Helper.Mid(original_path[i], original_path[0])
+                    : Helper.Mid(original_path[i], original_path[i + 1]);
+
+                var endLine = new PathD { original_path[i], nextMid };
+
+                cornerMidpoints[i] = nextMid;
+
+                double radius = convexRadius;
+                if (corner_types[i] == (int)CornerType.Concave)
+                    radius = concaveRadius;
+
+                PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
+                    SamplingMode.ByMaxAngle);
+                processed[i] = current_corner;
+            }
         }
         
         EasingStrategy easingMode = EasingStrategy.QuinticC2; // try the new C2 option

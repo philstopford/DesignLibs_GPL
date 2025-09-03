@@ -243,6 +243,12 @@ public class ShapeLibrary
 
     private ShapeSettings layerSettings = new();
 
+    /// <summary>
+    /// Gets the current shape settings for this ShapeLibrary instance.
+    /// Used by strategy classes to analyze shape parameters.
+    /// </summary>
+    public ShapeSettings LayerSettings => layerSettings;
+
     public ShapeLibrary(int[] shapes, ShapeSettings shapeSettings)
     {
         Vertex = new MyVertex[1];

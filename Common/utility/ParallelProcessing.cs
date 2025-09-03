@@ -75,4 +75,67 @@ public static class ParallelProcessing
             }
         });
     }
+    
+        /// <summary>
+    /// Optimized parallel execution for operations without return values.
+    /// Uses smart work distribution to minimize thread overhead.
+    /// </summary>
+    /// <param name="fromInclusive">The start index, inclusive</param>
+    /// <param name="toExclusive">The end index, exclusive</param>
+    /// <param name="body">The delegate that is invoked for each iteration</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void OptimizedParallelFor(int fromInclusive, int toExclusive, Action<int> body)
+    {
+        int length = toExclusive - fromInclusive;
+
+        if (length <= 1000)
+        {
+            // For small ranges, sequential processing is often faster
+            for (int i = fromInclusive; i < toExclusive; i++)
+            {
+                body(i);
+            }
+            return;
+        }
+
+        var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+        Parallel.For(fromInclusive, toExclusive, options, body);
+    }
+
+    /// <summary>
+    /// Optimized parallel execution with ParallelOptions for maximum control.
+    /// Automatically optimizes degree of parallelism based on workload size.
+    /// </summary>
+    /// <param name="fromInclusive">The start index, inclusive</param>
+    /// <param name="toExclusive">The end index, exclusive</param>
+    /// <param name="body">The delegate that is invoked for each iteration</param>
+    /// <param name="options">Additional parallel options (will be optimized internally)</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void OptimizedParallelFor(int fromInclusive, int toExclusive, ParallelOptions options, Action<int> body)
+    {
+        int length = toExclusive - fromInclusive;
+
+        if (length <= 1000)
+        {
+            // For small ranges, sequential processing is often faster
+            for (int i = fromInclusive; i < toExclusive; i++)
+            {
+                body(i);
+            }
+            return;
+        }
+
+        // Optimize the degree of parallelism based on workload
+        var optimizedOptions = new ParallelOptions
+        {
+            MaxDegreeOfParallelism = Math.Min(
+                options.MaxDegreeOfParallelism > 0 ? options.MaxDegreeOfParallelism : Environment.ProcessorCount,
+                Math.Max(1, length / 100)
+            ),
+            CancellationToken = options.CancellationToken,
+            TaskScheduler = options.TaskScheduler
+        };
+
+        Parallel.For(fromInclusive, toExclusive, optimizedOptions, body);
+    }
 }

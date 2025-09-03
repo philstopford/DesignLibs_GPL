@@ -780,7 +780,7 @@ public static class contourGen
     static PathD SampleByMaxSegmentLength(PointD P0, PointD P1, PointD P2, double maxSegLen)
     {
         // Use a much finer resolution for initial sampling to better represent the curve
-        double fineResolution = maxSegLen / 10.0;
+        double fineResolution = maxSegLen / 2.0;
 
         // Generate high-resolution curve points
         PathD finePts = new PathD();
@@ -816,7 +816,7 @@ public static class contourGen
 
     static void SubdivideByAngle(PointD p0, PointD p1, PointD p2, double maxAngle, PathD outPts)
     {
-        const int maxDepth = 50; // Prevent stack overflow
+        const int maxDepth = 1; // Prevent stack overflow
         SubdivideByAngleRecursive(p0, p1, p2, maxAngle, outPts, 0, maxDepth);
     }
 
@@ -831,7 +831,7 @@ public static class contourGen
 
         // Additional fallback: if segment is very small, don't subdivide further
         double segmentLength = Helper.Length(Helper.Minus(p2, p0));
-        if (segmentLength < 1e-10)
+        if (segmentLength < 1e-1)
         {
             outPts.Add(p2);
             return;

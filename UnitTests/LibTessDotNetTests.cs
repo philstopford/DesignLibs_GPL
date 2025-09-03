@@ -20,7 +20,7 @@ public class LibTessDotNetTests
     public void ContourVertex_Constructor_ShouldCreateValidVertex()
     {
         var vertex = new ContourVertex(new Vec3(1.0, 2.0, 0.0));
-        
+
         Assert.That(vertex.Position.X, Is.EqualTo(1.0));
         Assert.That(vertex.Position.Y, Is.EqualTo(2.0));
         Assert.That(vertex.Position.Z, Is.EqualTo(0.0));
@@ -32,7 +32,7 @@ public class LibTessDotNetTests
     {
         var data = "test_data";
         var vertex = new ContourVertex(new Vec3(1.0, 2.0, 0.0), data);
-        
+
         Assert.That(vertex.Data, Is.EqualTo(data));
     }
 
@@ -160,7 +160,7 @@ public class LibTessDotNetTests
     public void Tessellate_ComplexPolygon_ShouldProduceValidResult()
     {
         var tess = new Tess();
-        
+
         // Create a polygon with a hole
         var outerVertices = new ContourVertex[]
         {
@@ -169,7 +169,7 @@ public class LibTessDotNetTests
             new ContourVertex(new Vec3(2.0, 2.0, 0.0)),
             new ContourVertex(new Vec3(0.0, 2.0, 0.0))
         };
-        
+
         var holeVertices = new ContourVertex[]
         {
             new ContourVertex(new Vec3(0.5, 0.5, 0.0)),
@@ -192,12 +192,12 @@ public class LibTessDotNetTests
     {
         var tess = new Tess();
         var vertices = new List<ContourVertex>();
-        
+
         // Create a 5-pointed star
         var numPoints = 5;
         var outerRadius = 1.0;
         var innerRadius = 0.4;
-        
+
         for (int i = 0; i < numPoints * 2; i++)
         {
             var angle = i * Math.PI / numPoints;
@@ -238,7 +238,7 @@ public class LibTessDotNetTests
     {
         var pool = new DefaultPool();
         var tess = new Tess(pool);
-        
+
         var vertices = new ContourVertex[]
         {
             new ContourVertex(new Vec3(0.0, 0.0, 0.0)),
@@ -276,7 +276,7 @@ public class LibTessDotNetTests
     public void Tessellate_MultipleContours_ShouldHandleCorrectly()
     {
         var tess = new Tess();
-        
+
         // Add first contour
         var vertices1 = new ContourVertex[]
         {
@@ -285,7 +285,7 @@ public class LibTessDotNetTests
             new ContourVertex(new Vec3(1.0, 1.0, 0.0)),
             new ContourVertex(new Vec3(0.0, 1.0, 0.0))
         };
-        
+
         // Add second contour (separate square)
         var vertices2 = new ContourVertex[]
         {
@@ -317,21 +317,21 @@ public class LibTessDotNetTests
         };
 
         // Test different orientations
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             tess.AddContour(vertices, ContourOrientation.Original);
             tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);
         });
 
         var tess2 = new Tess();
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             tess2.AddContour(vertices, ContourOrientation.Clockwise);
             tess2.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);
         });
 
         var tess3 = new Tess();
-        Assert.DoesNotThrow(() => 
+        Assert.DoesNotThrow(() =>
         {
             tess3.AddContour(vertices, ContourOrientation.CounterClockwise);
             tess3.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);

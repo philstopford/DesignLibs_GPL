@@ -57,7 +57,7 @@ public class ClipperTests
         clipper2_offsetTest();
         clipper2_leftChordTest();
         clipper2_rightChordTest();
-        
+
         // Offset tests
         OpenPathOffsetTest1();
         OpenPathOffsetTest2();
@@ -67,7 +67,7 @@ public class ClipperTests
         clipper1_clipper2_compare_X();
         clipper1_clipper2_compare_subtraction();
     }
-    
+
     const double clipper1_keyhole_sizing = 500;
 
     [Test]
@@ -86,7 +86,7 @@ public class ClipperTests
             new(-10, -10),
         };
 
-        ClipperLib1.Clipper c = new() {PreserveCollinear = true};
+        ClipperLib1.Clipper c = new() { PreserveCollinear = true };
         c.AddPath(collinear, ClipperLib1.PolyType.ptSubject, true);
         c.AddPath(collinear, ClipperLib1.PolyType.ptClip, true);
         Paths output = new();
@@ -113,7 +113,7 @@ public class ClipperTests
             new(-10, -10),
         };
 
-        ClipperLib1.ClipperOffset co = new() {PreserveCollinear = true};
+        ClipperLib1.ClipperOffset co = new() { PreserveCollinear = true };
         co.AddPath(collinear, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
         Paths temp = new();
         co.Execute(ref temp, 1.0);
@@ -123,7 +123,7 @@ public class ClipperTests
         Assert.That(temp.Count, Is.EqualTo(1));
         Assert.That(temp[0].Count, Is.EqualTo(8));
     }
-    
+
     [Test]
     public static void clipper1_unionTest()
     {
@@ -135,7 +135,7 @@ public class ClipperTests
             new(200000, -300000),
             new(100000, -300000),
         };
-        
+
         Path simpleSecondPath = new()
         {
             new (0,-200000),
@@ -144,12 +144,12 @@ public class ClipperTests
             new (300000,-200000),
             new (0,-200000),
         };
-        
+
         ClipperLib1.Clipper cs = new();
-        
+
         cs.AddPath(simpleFirstPath, ClipperLib1.PolyType.ptSubject, true);
         cs.AddPath(simpleSecondPath, ClipperLib1.PolyType.ptClip, true);
-        
+
         Paths simpleOutputPoints = new();
         cs.Execute(ClipperLib1.ClipType.ctUnion, simpleOutputPoints);
 
@@ -332,7 +332,7 @@ public class ClipperTests
         c.AddPath(secondPath, ClipperLib1.PolyType.ptClip, true);
 
         Paths outputPoints = new();
-        c.Execute(ClipperLib1.ClipType.ctUnion,  outputPoints);
+        c.Execute(ClipperLib1.ClipType.ctUnion, outputPoints);
         double area = outputPoints.Sum(t => ClipperLib1.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(50000000000));
         Assert.That(outputPoints.Count, Is.EqualTo(1));
@@ -349,7 +349,7 @@ public class ClipperTests
         new (250000,-250000),
         new (-250000,-250000),
         };
-        
+
         Path secondPath = new() {
         new (-150000,-150000),
         new (-150000,150000),
@@ -363,15 +363,15 @@ public class ClipperTests
         new (-2147483647,-2147483647),
         new (-150000,-150000),
         };
-        
-        
+
+
         ClipperLib1.Clipper c = new();
-        
+
         c.AddPath(firstPath, ClipperLib1.PolyType.ptSubject, true);
-        c.AddPath(secondPath,ClipperLib1.PolyType.ptClip, true);
-        
+        c.AddPath(secondPath, ClipperLib1.PolyType.ptClip, true);
+
         Paths outputPoints = new();
-        
+
         c.Execute(ClipperLib1.ClipType.ctIntersection, outputPoints);
 
         double area = outputPoints.Sum(t => ClipperLib1.Clipper.Area(t));
@@ -399,7 +399,7 @@ public class ClipperTests
         Assert.That(p.Count, Is.EqualTo(1));
         Assert.That(p[0].Count, Is.EqualTo(4));
     }
-    
+
     private static void clipper1_zFillTest(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
     {
         pt.Z = -1;
@@ -415,7 +415,7 @@ public class ClipperTests
             new(1000, 1000),
             new(1000, -1000)
         };
-        
+
         Path cutter = new()
         {
             new(-100, -1100),
@@ -438,7 +438,7 @@ public class ClipperTests
         Assert.That(solution.Count, Is.EqualTo(1));
         Assert.That(solution[0].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper1_coincident_openPathTest()
     {
@@ -483,7 +483,7 @@ public class ClipperTests
             PreserveCollinear = true,
             StrictlySimple = false
         };
-        
+
         c2.AddPath(lPoly, ClipperLib1.PolyType.ptClip, true);
         c2.AddPath(t2, ClipperLib1.PolyType.ptSubject, false);
 
@@ -506,7 +506,7 @@ public class ClipperTests
             PreserveCollinear = true,
             StrictlySimple = false
         };
-        
+
         c2b.AddPath(lPoly, ClipperLib1.PolyType.ptClip, true);
         c2b.AddPath(t2b, ClipperLib1.PolyType.ptSubject, false);
 
@@ -568,7 +568,7 @@ public class ClipperTests
                 new(800000, 1100000)
             }
         };
-        
+
         // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
         ClipperLib1.ClipperOffset co = new();
         co.AddPaths(t, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etOpenSquare);
@@ -596,7 +596,7 @@ public class ClipperTests
         Assert.That(f[0].Count, Is.EqualTo(6));
         Assert.That(f[1].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper1_openPath_clipTest1()
     {
@@ -616,7 +616,7 @@ public class ClipperTests
         new IntPoint(0,0)
         };
 
-        Path t = new () {
+        Path t = new() {
         new IntPoint(0,200000),
         new IntPoint(0,-9800000)
         };
@@ -660,10 +660,10 @@ public class ClipperTests
             outer,
             inner1
         };
-        
+
         ClipperLib1.ClipperOffset co = new();
         co.AddPaths(kHSource, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
-        Paths out_ = new ();
+        Paths out_ = new();
         co.Execute(ref out_, clipper1_keyhole_sizing);
 
         double area = out_.Sum(t => ClipperLib1.Clipper.Area(t));
@@ -711,7 +711,7 @@ public class ClipperTests
     [Test]
     public static void clipper1_offsetTest()
     {
-        Path lPoly = new ()
+        Path lPoly = new()
         {
             new IntPoint(0, 0),
             new IntPoint(0, 500000),
@@ -752,7 +752,7 @@ public class ClipperTests
         Assert.That(solution[0].Count, Is.EqualTo(6));
         Assert.That(solution[1].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper1_leftChordTest()
     {
@@ -1051,7 +1051,7 @@ public class ClipperTests
                 Z = 2
             };
         }
-        
+
         ClipperLib1.Clipper c = new();
         c.ZFillFunction = clipper1_zFillTest;
         c.AddPath(testPath, ClipperLib1.PolyType.ptSubject, false);
@@ -1065,11 +1065,11 @@ public class ClipperTests
         Assert.That(open[0].Count, Is.EqualTo(2));
         Assert.That(open[1].Count, Is.EqualTo(2));
     }
-    
+
     [Test]
     public static void clipper1_rightChordTest()
     {
-        Path testPath = new ()
+        Path testPath = new()
         {
             new(-400000, -700000),
             new(-398907, -710396),
@@ -1121,7 +1121,7 @@ public class ClipperTests
             new(-200000, 0)
         };
 
-        Path a = new ()
+        Path a = new()
         {
             new(-460000, -390000),
             new(-459955, -395235),
@@ -1392,8 +1392,8 @@ public class ClipperTests
         Assert.That(open.Count, Is.EqualTo(1));
         Assert.That(open[0].Count, Is.EqualTo(17));
     }
-    
-    private static readonly Paths64 lineClip_collisionGeometry = new () {
+
+    private static readonly Paths64 lineClip_collisionGeometry = new() {
         new () {
             new (0,-250000),
             new (0,-230000),
@@ -1809,8 +1809,8 @@ public class ClipperTests
                 new (200000,-250000),
                 new (-91700,-320076)
             }
-        };        
-        
+        };
+
         // Create our Clipper1 collision geometry from the Clipper2 definition
         Paths collsionGeometry1 = new();
         foreach (List<Clipper2Lib.Point64> t in lineClip_collisionGeometry)
@@ -1850,16 +1850,16 @@ public class ClipperTests
                         ((Math.Abs(clipped1[0][0].X - clipped2[0][1].X) <= 1) && (Math.Abs(clipped1[0][0].Y - clipped2[0][1].Y) <= 1)), Is.True);
         }
     }
-    
+
     [Test]
     public static void clipper2_openpath_parallelLines()
     {
-        Path64 a1 = Clipper2Lib.Clipper.MakePath(new [] {10, 0, 20, 0});
-        Path64 a2 = Clipper2Lib.Clipper.MakePath(new [] {30, 0, 40, 0});
-        Path64 a3 = Clipper2Lib.Clipper.MakePath(new [] {50, 0, 60, 0});
-        Path64 b1 = Clipper2Lib.Clipper.MakePath(new [] {20, 30, 30, 30});
-        Path64 b2 = Clipper2Lib.Clipper.MakePath(new [] {40, 30, 50, 30});
-        Path64 b3 = Clipper2Lib.Clipper.MakePath(new [] {60, 30, 70, 30});
+        Path64 a1 = Clipper2Lib.Clipper.MakePath(new[] { 10, 0, 20, 0 });
+        Path64 a2 = Clipper2Lib.Clipper.MakePath(new[] { 30, 0, 40, 0 });
+        Path64 a3 = Clipper2Lib.Clipper.MakePath(new[] { 50, 0, 60, 0 });
+        Path64 b1 = Clipper2Lib.Clipper.MakePath(new[] { 20, 30, 30, 30 });
+        Path64 b2 = Clipper2Lib.Clipper.MakePath(new[] { 40, 30, 50, 30 });
+        Path64 b3 = Clipper2Lib.Clipper.MakePath(new[] { 60, 30, 70, 30 });
 
         Clipper2Lib.Clipper64 c = new();
         c.AddOpenSubject(a1);
@@ -1871,13 +1871,13 @@ public class ClipperTests
 
         Path64 bounds = Clipper2Lib.Clipper.MakePath(new[] { -100, -100, 100, 100 });
         c.AddClip(bounds);
-        
+
         Paths64 o = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, new Paths64(), o);
 
         Assert.That(o.Count, Is.EqualTo(0));
     }
-    
+
     [Test]
     public static void clipper2_openpath_complextest()
     {
@@ -2096,7 +2096,7 @@ public class ClipperTests
         Assert.That(out_[0].Count, Is.EqualTo(2));
         Assert.That(out_[1].Count, Is.EqualTo(2));
     }
-    
+
     [Test]
     public static void clipper2_openpath_test()
     {
@@ -2106,7 +2106,7 @@ public class ClipperTests
             -50000, -150000,
             650000, -150000
         });
-        
+
         Path64 b = Clipper2Lib.Clipper.MakePath(new[]
         {
             300000,-800000,
@@ -2114,8 +2114,8 @@ public class ClipperTests
             500000,0,
             500000,-800000
         });
-        
-        Clipper2Lib.Clipper64 c = new() {PreserveCollinear = true};
+
+        Clipper2Lib.Clipper64 c = new() { PreserveCollinear = true };
         c.AddOpenSubject(testPath);
         c.AddClip(b);
         Paths64 unused = new();
@@ -2128,13 +2128,13 @@ public class ClipperTests
             650000,-550000,
             -50000,-550000
         });
-        
+
         c.Clear();
         c.AddOpenSubject(testPath2);
         c.AddClip(b);
         Paths64 bottomChords = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, unused, bottomChords);
-        
+
         Path64 testPath3 = Clipper2Lib.Clipper.MakePath(new[]
         {
             300000,-800000,
@@ -2191,8 +2191,8 @@ public class ClipperTests
         };
 
         Path64 sourcePath = Clipper2Lib.Clipper.MakePath(pointData);
-        
-        Clipper2Lib.ClipperOffset co = new(miterLimit:2, arcTolerance:0.25);
+
+        Clipper2Lib.ClipperOffset co = new(miterLimit: 2, arcTolerance: 0.25);
         co.AddPath(sourcePath, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
         Paths64 resizedPolyData = new();
         co.Execute(25, resizedPolyData);
@@ -2333,18 +2333,18 @@ public class ClipperTests
         };
 
         Path64 sourcePath = Clipper2Lib.Clipper.MakePath(pointData);
-        
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPath(sourcePath, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 resizedPolyData = new();
         co.Execute(Convert.ToDouble(6 * 10000), resizedPolyData);
-        
+
         double area = resizedPolyData.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(176400000000));
         Assert.That(resizedPolyData.Count, Is.EqualTo(1));
         Assert.That(resizedPolyData[0].Count, Is.EqualTo(120));
     }
-    
+
     [Test]
     public static void ClosedPathOffsetTest()
     {
@@ -2373,13 +2373,13 @@ public class ClipperTests
         co1.AddPath(test1, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
         Paths c1up = new();
         co1.Execute(ref c1up, 2.0);
-        
+
         double area = c1up.Sum(t => ClipperLib1.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(512));
         Assert.That(c1up.Count, Is.EqualTo(2));
         Assert.That(c1up[0].Count, Is.EqualTo(4));
         Assert.That(c1up[1].Count, Is.EqualTo(4));
-        
+
         co1.Clear();
         co1.AddPaths(c1up, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
         Paths c1down = new();
@@ -2390,30 +2390,30 @@ public class ClipperTests
         Assert.That(c1down.Count, Is.EqualTo(2));
         Assert.That(c1down[0].Count, Is.EqualTo(4));
         Assert.That(c1down[1].Count, Is.EqualTo(4));
-        
-        Clipper2Lib.ClipperOffset co2 = new() {PreserveCollinear = true, ReverseSolution = true};
+
+        Clipper2Lib.ClipperOffset co2 = new() { PreserveCollinear = true, ReverseSolution = true };
         co2.AddPath(closedPath_forOffsetTest, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 c2up = new();
         co2.Execute(2.0, c2up);
-        
+
         double area2 = c2up.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area2, Is.EqualTo(512));
         Assert.That(c2up.Count, Is.EqualTo(2));
         Assert.That(c2up[0].Count, Is.EqualTo(5));
         Assert.That(c2up[1].Count, Is.EqualTo(5));
-        
+
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 c2down = new();
         co2.Execute(-2.0, c2down);
-        
+
         double area3 = c2down.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area3, Is.EqualTo(-256));
         Assert.That(c2down.Count, Is.EqualTo(2));
         Assert.That(c2down[0].Count, Is.EqualTo(5));
         Assert.That(c2down[1].Count, Is.EqualTo(5));
     }
-    
+
     const double clipper2_keyhole_sizing = 500;
 
     [Test]
@@ -2423,7 +2423,7 @@ public class ClipperTests
         //Array.Reverse(subj0);
         double[] subj1 = new double[] { 0, 2, 9, 2, 9, 10, 0, 10 };
         //Array.Reverse(subj1);
-        PathsD subj = new () { Clipper2Lib.Clipper.MakePath(subj0),
+        PathsD subj = new() { Clipper2Lib.Clipper.MakePath(subj0),
             Clipper2Lib.Clipper.MakePath(subj1)};
 
         double[] clip0 = new double[] { 0, 3, 9, 3, 9, 4, 0, 4 };
@@ -2434,7 +2434,7 @@ public class ClipperTests
         //Array.Reverse(clip2);
         double[] clip3 = new double[] { 6, 3, 7, 3, 7, 9, 6, 9 };
         //Array.Reverse(clip3);
-        
+
         PathsD clip = new() { Clipper2Lib.Clipper.MakePath(clip0),
             Clipper2Lib.Clipper.MakePath(clip1),
             Clipper2Lib.Clipper.MakePath(clip2),
@@ -2445,7 +2445,7 @@ public class ClipperTests
 
         PathsD sol = Clipper2Lib.Clipper.Difference(subj, clip, Clipper2Lib.FillRule.NonZero);
 
-        SvgWriter svgSrc,svgDst;
+        SvgWriter svgSrc, svgDst;
         svgSrc = new();
         svgDst = new();
         SvgUtils.AddSolution(svgSrc, subj, true);
@@ -2454,7 +2454,7 @@ public class ClipperTests
 
         SvgUtils.AddSolution(svgDst, sol, true);
         SvgUtils.SaveToFile(svgDst, "svgDst.svg", Clipper2Lib.FillRule.NonZero, 800, 600, 10);
-        
+
         double area = sol.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(82));
         Assert.That(sol.Count, Is.EqualTo(5));
@@ -2464,7 +2464,7 @@ public class ClipperTests
         Assert.That(sol[3].Count, Is.EqualTo(4));
         Assert.That(sol[4].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper2_chordTest()
     {
@@ -2474,7 +2474,7 @@ public class ClipperTests
             -50000, -150000,
             650000, -150000
         });
-        
+
         Path64 b = Clipper2Lib.Clipper.MakePath(new[]
         {
             300000,-800000,
@@ -2482,8 +2482,8 @@ public class ClipperTests
             500000,0,
             500000,-800000
         });
-        
-        Clipper2Lib.Clipper64 c = new() {PreserveCollinear = true};
+
+        Clipper2Lib.Clipper64 c = new() { PreserveCollinear = true };
         c.AddOpenSubject(testPath);
         c.AddClip(b);
         Paths64 unused = new();
@@ -2496,13 +2496,13 @@ public class ClipperTests
             650000,-550000,
             -50000,-550000
         });
-        
+
         c.Clear();
         c.AddOpenSubject(testPath2);
         c.AddClip(b);
         Paths64 bottomChords = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, unused, bottomChords);
-        
+
         Path64 testPath3 = Clipper2Lib.Clipper.MakePath(new[]
         {
             300000,-800000,
@@ -2546,7 +2546,7 @@ public class ClipperTests
         Assert.That(topChords.Count, Is.EqualTo(1));
         Assert.That(topChords[0].Count, Is.EqualTo(2));
     }
-    
+
     [Test]
     public static void clipper2_collinearTest()
     {
@@ -2563,7 +2563,7 @@ public class ClipperTests
             new(-10, -10),
         };
 
-        Clipper2Lib.Clipper64 c = new() {PreserveCollinear = true};
+        Clipper2Lib.Clipper64 c = new() { PreserveCollinear = true };
         c.AddSubject(collinear);
         c.AddClip(collinear);
         Paths64 output = new();
@@ -2578,7 +2578,7 @@ public class ClipperTests
     [Test]
     public static void clipper2_collinearOffsetTest()
     {
-        Path64 collinear = Clipper2Lib.Clipper.MakePath(new []
+        Path64 collinear = Clipper2Lib.Clipper.MakePath(new[]
         {
             -10, -10,
             -10, 0,
@@ -2591,11 +2591,11 @@ public class ClipperTests
             -10, -10,
         });
 
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPath(collinear, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 temp = new();
         co.Execute(1.0, temp);
-        
+
         double area = temp.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(484));
         Assert.That(temp.Count, Is.EqualTo(1));
@@ -2613,7 +2613,7 @@ public class ClipperTests
             new(200000, -300000),
             new(100000, -300000),
         };
-        
+
         Path64 simpleSecondPath = new()
         {
             new (0,-200000),
@@ -2622,15 +2622,15 @@ public class ClipperTests
             new (300000,-200000),
             new (0,-200000),
         };
-        
+
         Clipper2Lib.Clipper64 cs = new();
-        
+
         cs.AddSubject(simpleFirstPath);
         cs.AddClip(simpleSecondPath);
-        
+
         Paths64 simpleOutputPoints = new();
         cs.Execute(Clipper2Lib.ClipType.Union, Clipper2Lib.FillRule.EvenOdd, simpleOutputPoints);
-        
+
         double area = simpleOutputPoints.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(50000000000));
         Assert.That(simpleOutputPoints.Count, Is.EqualTo(1));
@@ -2810,7 +2810,7 @@ public class ClipperTests
         c.AddClip(secondPath);
 
         Paths64 outputPoints = new();
-        c.Execute(Clipper2Lib.ClipType.Union, Clipper2Lib.FillRule.EvenOdd, outputPoints);        
+        c.Execute(Clipper2Lib.ClipType.Union, Clipper2Lib.FillRule.EvenOdd, outputPoints);
         double area1 = outputPoints.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area1, Is.EqualTo(50000000000));
         Assert.That(outputPoints.Count, Is.EqualTo(1));
@@ -2827,7 +2827,7 @@ public class ClipperTests
             new (250000,-250000),
             new (-250000,-250000),
         };
-        
+
         Path64 secondPath = new() {
         new (-150000,-150000),
         new (-150000,150000),
@@ -2835,16 +2835,16 @@ public class ClipperTests
         new (150000,-150000),
         new (-150000,-150000),
         };
-        
+
         Clipper2Lib.Clipper64 c = new();
-        
+
         c.AddSubject(firstPath);
         c.AddClip(secondPath);
-        
+
         Paths64 outputPoints = new();
-        
+
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, outputPoints);
-        
+
         double area = outputPoints.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(160000000000));
         Assert.That(outputPoints.Count, Is.EqualTo(2));
@@ -2861,11 +2861,11 @@ public class ClipperTests
             new(-100000, 200500)
         };
 
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPath(edge, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
         Paths64 p = new();
         co.Execute(250, p);
-        
+
         double area = p.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(-50750000));
         Assert.That(p.Count, Is.EqualTo(1));
@@ -2876,7 +2876,7 @@ public class ClipperTests
     {
         pt = new(pt.X, pt.Y, -1);
     }
-    
+
     [Test]
     public static void clipper2_zFillCallbackTest()
     {
@@ -2887,7 +2887,7 @@ public class ClipperTests
             new(1000, 1000),
             new(1000, -1000),
         };
-        
+
         Path64 cutter = new()
         {
             new(-100, -1100),
@@ -2905,13 +2905,13 @@ public class ClipperTests
 
         Paths64 solution = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, solution);
-        
+
         double area = solution.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(20000));
         Assert.That(solution.Count, Is.EqualTo(1));
         Assert.That(solution[0].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper2_coincident_openPathTest()
     {
@@ -2937,11 +2937,11 @@ public class ClipperTests
         Paths64 open = new();
         Paths64 solution = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, solution, open);
-        
+
         double area = solution.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(0));
         Assert.That(solution.Count, Is.EqualTo(0));
-        
+
         Path64 t2 = new()
         {
             new (-1000, -1100),
@@ -2990,19 +2990,19 @@ public class ClipperTests
         }
         Clipper2Lib.Clipper64 c3 = new();
         c3.ZCallback = clipper2_zFillTest;
-        
+
         c3.AddClip(lPoly);
         c3.AddOpenSubject(t3);
 
         Paths64 open3 = new();
         Paths64 solution3 = new();
-        c3.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, solution3, open3 );
-        
+        c3.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, solution3, open3);
+
         double area3 = solution3.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area3, Is.EqualTo(0));
         Assert.That(solution3.Count, Is.EqualTo(0));
     }
-    
+
     [Test]
     public static void clipper2_keyHole_test2()
     {
@@ -3025,9 +3025,9 @@ public class ClipperTests
                 new(800000, 1100000)
             }
         };
-        
+
         // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPaths(t, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
 
         Paths64 cutters = new();
@@ -3037,7 +3037,7 @@ public class ClipperTests
         Assert.That(area, Is.EqualTo(-600004));
         Assert.That(cutters.Count, Is.EqualTo(1));
         Assert.That(cutters[0].Count, Is.EqualTo(4));
-        
+
         Clipper2Lib.Clipper64 c = new();
 
         c.AddSubject(lPoly);
@@ -3052,11 +3052,11 @@ public class ClipperTests
         Assert.That(f[0].Count, Is.EqualTo(4));
         Assert.That(f[1].Count, Is.EqualTo(6));
     }
-    
+
     [Test]
     public static void clipper2_openPath_clipTest1()
     {
-        Path64 lPoly = new () {
+        Path64 lPoly = new() {
         new(0,0),
         new(0,200000),
         new(200000,200000),
@@ -3072,7 +3072,7 @@ public class ClipperTests
         new(0,0)
         };
 
-        Path64 t = new () {
+        Path64 t = new() {
         new Point64(0,200000),
         new Point64(0,-9800000)
         };
@@ -3090,7 +3090,7 @@ public class ClipperTests
         Assert.That(p.Count, Is.EqualTo(1));
         Assert.That(p[0].Count, Is.EqualTo(2));
     }
-    
+
     [Test]
     public static void clipper2_openPath_clipTest2()
     {
@@ -3121,17 +3121,17 @@ public class ClipperTests
             }
         };
 
-        Clipper2Lib.Clipper64 c = new ();
+        Clipper2Lib.Clipper64 c = new();
         c.AddOpenSubject(rays);
         c.AddClip(collisionPaths);
-        PolyTree64 pt = new ();
+        PolyTree64 pt = new();
         Paths64 solution = new();
         c.Execute(Clipper2Lib.ClipType.Intersection, Clipper2Lib.FillRule.EvenOdd, pt, solution);
 
         Assert.That(solution.Count, Is.EqualTo(1));
         Assert.That(solution[0].Count, Is.EqualTo(2));
     }
-    
+
     [Test]
     public static void clipper2_keyHole_test1()
     {
@@ -3159,24 +3159,24 @@ public class ClipperTests
             outer,
             inner1
         };
-        
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPaths(kHSource, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
         Paths64 out_ = new();
-        co.Execute(2*clipper2_keyhole_sizing, out_);
-        
+        co.Execute(2 * clipper2_keyhole_sizing, out_);
+
         double area = out_.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(-122400000000));
         Assert.That(out_.Count, Is.EqualTo(2));
         Assert.That(out_[0].Count, Is.EqualTo(4));
         Assert.That(out_[1].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper2_offsetTest()
     {
-        Path64 lPoly = new ()
+        Path64 lPoly = new()
         {
             new Point64(0, 0),
             new Point64(0, 500000),
@@ -3198,34 +3198,34 @@ public class ClipperTests
             newEdge
         };
 
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPaths(newEdges, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Square);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
         Paths64 cutters = new();
-        co.Execute( 1.0, cutters);
-        
+        co.Execute(1.0, cutters);
+
         double area = cutters.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(-400004));
         Assert.That(cutters.Count, Is.EqualTo(1));
         Assert.That(cutters[0].Count, Is.EqualTo(4));
-        
+
         Paths64 solution = new();
-        Clipper2Lib.Clipper64 c = new ();
+        Clipper2Lib.Clipper64 c = new();
         c.AddSubject(lPoly);
         c.AddClip(cutters);
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution);
-        
+
         double area1 = solution.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area1, Is.EqualTo(149999599999));
         Assert.That(solution.Count, Is.EqualTo(2));
         Assert.That(solution[0].Count, Is.EqualTo(6));
         Assert.That(solution[1].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper2_leftChordTest()
     {
-        Path64 testPath = new () {
+        Path64 testPath = new() {
          new(-200000,0),
          new(-300000,0),
          new(-310453,-548),
@@ -3262,7 +3262,7 @@ public class ClipperTests
          new(-300000,-800000),
          };
 
-        Path64 a = new () {
+        Path64 a = new() {
           new(-460000,-390000),
           new(-459955,-395235),
           new(-459594,-405679),
@@ -3528,7 +3528,7 @@ public class ClipperTests
     [Test]
     public static void clipper2_rightChordTest()
     {
-        Path64 testPath = new ()
+        Path64 testPath = new()
         {
             new(-400000, -700000),
             new(-398907, -710396),
@@ -3580,7 +3580,7 @@ public class ClipperTests
             new(-200000, 0)
         };
 
-        Path64 a = new ()
+        Path64 a = new()
         {
             new(-460000, -390000),
             new(-459955, -395235),
@@ -3842,7 +3842,7 @@ public class ClipperTests
         Assert.That(open.Count, Is.EqualTo(1));
         Assert.That(open[0].Count, Is.EqualTo(17));
     }
-    
+
     [Test]
     public static void clipper1_clipper2_compare_S()
     {
@@ -3877,7 +3877,7 @@ public class ClipperTests
         List<ClipperLib1.IntPoint> BP1 = new();
         for (int pt = 0; pt < BP.Count; pt++)
         {
-            BP1.Add(new (BP[pt].X, BP[pt].Y));
+            BP1.Add(new(BP[pt].X, BP[pt].Y));
         }
 
         /*
@@ -3885,54 +3885,54 @@ public class ClipperTests
         co.AddPath(BP, ClipperLib2.JoinType.Miter, ClipperLib2.EndType.Polygon);
         BP = ClipperLib2.ClipperFunc.Paths(co.Execute(0.999))[0];
         */
-        
+
         Paths iPoly1 = new();
         for (int p = 0; p < iPoly.Count; p++)
         {
             List<ClipperLib1.IntPoint> t = new();
             for (int pt = 0; pt < iPoly[p].Count; pt++)
             {
-                t.Add(new (iPoly[p][pt].X, iPoly[p][pt].Y));
+                t.Add(new(iPoly[p][pt].X, iPoly[p][pt].Y));
             }
             iPoly1.Add(t);
         }
 
-        Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
+        Clipper2Lib.ClipperOffset co = new() { PreserveCollinear = true, ReverseSolution = true };
         co.AddPaths(iPoly, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         co.Execute(1.0001, iPoly);
-        
+
         double area = iPoly.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(538134004));
         Assert.That(iPoly.Count, Is.EqualTo(1));
         Assert.That(iPoly[0].Count, Is.EqualTo(12));
 
-        ClipperLib1.Clipper c1 = new() {PreserveCollinear = false};
+        ClipperLib1.Clipper c1 = new() { PreserveCollinear = false };
         c1.AddPath(BP1, ClipperLib1.PolyType.ptSubject, true);
         c1.AddPaths(iPoly1, ClipperLib1.PolyType.ptClip, true);
 
         Paths o1 = new();
         c1.Execute(ClipperLib1.ClipType.ctDifference, o1);
-        
-        Clipper2Lib.Clipper64 c2 = new() {PreserveCollinear = false};
+
+        Clipper2Lib.Clipper64 c2 = new() { PreserveCollinear = false };
         c2.AddSubject(BP);
         c2.AddClip(iPoly);
 
         Paths64 o2 = new();
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, o2);
-        
+
         double areac1 = o1.Sum(t => ClipperLib1.Clipper.Area(t));
         Assert.That(areac1, Is.EqualTo(112000000));
         Assert.That(o1.Count, Is.EqualTo(2));
         Assert.That(o1[0].Count, Is.EqualTo(4));
         Assert.That(o1[1].Count, Is.EqualTo(4));
-        
+
         double areac2 = o2.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(areac2, Is.EqualTo(111954004));
         Assert.That(o2.Count, Is.EqualTo(2));
         Assert.That(o2[0].Count, Is.EqualTo(4));
         Assert.That(o2[1].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper1_clipper2_compare_X()
     {
@@ -3965,11 +3965,11 @@ public class ClipperTests
         };
 
         Clipper2Lib.Clipper64 c2 = new();
-        c2.AddSubject( bounds );
-        c2.AddClip( xShape);
+        c2.AddSubject(bounds);
+        c2.AddClip(xShape);
         Clipper2Lib.Paths64 c2out = new();
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, c2out);
-        
+
         double area = c2out.Sum(t => Clipper2Lib.Clipper.Area(t));
         Assert.That(area, Is.EqualTo(814000000));
         Assert.That(c2out.Count, Is.EqualTo(4));
@@ -3984,7 +3984,7 @@ public class ClipperTests
             List<ClipperLib1.IntPoint> t = new();
             for (int pt = 0; pt < xShape[p].Count; pt++)
             {
-                t.Add(new (xShape[p][pt].X, xShape[p][pt].Y));
+                t.Add(new(xShape[p][pt].X, xShape[p][pt].Y));
             }
             xShape1.Add(t);
         }
@@ -3992,10 +3992,10 @@ public class ClipperTests
         List<ClipperLib1.IntPoint> bounds1 = new();
         for (int pt = 0; pt < bounds.Count; pt++)
         {
-            bounds1.Add(new (bounds[pt].X, bounds[pt].Y));
+            bounds1.Add(new(bounds[pt].X, bounds[pt].Y));
         }
 
-        ClipperLib1.Clipper c1 = new() {PreserveCollinear = false};
+        ClipperLib1.Clipper c1 = new() { PreserveCollinear = false };
         c1.AddPath(bounds1, ClipperLib1.PolyType.ptSubject, true);
         c1.AddPaths(xShape1, ClipperLib1.PolyType.ptClip, true);
 
@@ -4010,7 +4010,7 @@ public class ClipperTests
         Assert.That(o1[2].Count, Is.EqualTo(4));
         Assert.That(o1[3].Count, Is.EqualTo(4));
     }
-    
+
     [Test]
     public static void clipper1_clipper2_compare_subtraction()
     {

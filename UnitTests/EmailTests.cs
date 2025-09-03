@@ -43,9 +43,9 @@ public class EmailTests
     public void Send_WithInvalidHost_ShouldThrowException()
     {
         // Test that invalid host causes exception
-        var exception = Assert.Throws<Exception>(() => 
+        var exception = Assert.Throws<Exception>(() =>
             Email.Send("invalid.nonexistent.host", "587", true, "Test", "Content", "test@example.com", "password"));
-        
+
         Assert.That(exception.Message, Is.EqualTo("Email problem"));
     }
 
@@ -53,9 +53,9 @@ public class EmailTests
     public void Send_WithInvalidPort_ShouldThrowException()
     {
         // Test that invalid port format causes exception
-        var exception = Assert.Throws<Exception>(() => 
+        var exception = Assert.Throws<Exception>(() =>
             Email.Send("smtp.example.com", "invalid_port", true, "Test", "Content", "test@example.com", "password"));
-        
+
         Assert.That(exception.Message, Is.EqualTo("Email problem"));
     }
 
@@ -70,9 +70,9 @@ public class EmailTests
     public void Send_WithValidParametersButUnreachableServer_ShouldThrowException()
     {
         // Test with syntactically valid but unreachable server
-        var exception = Assert.Throws<Exception>(() => 
+        var exception = Assert.Throws<Exception>(() =>
             Email.Send("127.0.0.1", "9999", false, "Test Subject", "Test Content", "test@example.com", "testpass"));
-        
+
         Assert.That(exception.Message, Is.EqualTo("Email problem"));
     }
 }

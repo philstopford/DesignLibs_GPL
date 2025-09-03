@@ -29,11 +29,11 @@ public class DecompositionTests
         Console.WriteLine("Part Four (takes less time than part three)");
         partFour_1();
         partFour_2();
-        
+
         Console.WriteLine("Part Five");
         partFive();
     }
-    
+
     [Test]
     public static void partOne()
     {
@@ -42,7 +42,7 @@ public class DecompositionTests
         PathD rL = TestGeometry.getRL();
 
         // Reversed orientation.
-        PathD L_ccw = new (L);
+        PathD L_ccw = new(L);
         L_ccw.Reverse();
 
         // U
@@ -69,7 +69,7 @@ public class DecompositionTests
 
         // Complex 3
         PathD C3 = TestGeometry.getComplex3();
-        
+
         bool orth = GeoWrangler.orthogonal(C2, angularTolerance: 0);
         bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 
@@ -110,7 +110,7 @@ public class DecompositionTests
         Assert.That(l[1][3].y, Is.EqualTo(20));
         Assert.That(l[1][4].x, Is.EqualTo(10));
         Assert.That(l[1][4].y, Is.EqualTo(0));
-        
+
         PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
         writeToLayout("lccw", L_ccw, lccw);
         Assert.That(Clipper.Area(lccw), Is.EqualTo(Clipper.Area(L_ccw)));
@@ -135,7 +135,7 @@ public class DecompositionTests
         Assert.That(lccw[1][3].y, Is.EqualTo(20));
         Assert.That(lccw[1][4].x, Is.EqualTo(10));
         Assert.That(lccw[1][4].y, Is.EqualTo(0));
-        
+
         PathsD rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
         writeToLayout("rl", rL, rl);
         // Sign change expected.
@@ -197,7 +197,7 @@ public class DecompositionTests
         Assert.That(u[2][3].y, Is.EqualTo(20));
         Assert.That(u[2][4].x, Is.EqualTo(10));
         Assert.That(u[2][4].y, Is.EqualTo(0));
-        
+
         PathsD t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
         writeToLayout("t", T, t);
         // Sign change expected.
@@ -233,7 +233,7 @@ public class DecompositionTests
         Assert.That(t[2][3].y, Is.EqualTo(80));
         Assert.That(t[2][4].x, Is.EqualTo(0));
         Assert.That(t[2][4].y, Is.EqualTo(50));
-        
+
         PathsD x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
         writeToLayout("x", X, x);
         // Sign change expected.
@@ -269,7 +269,7 @@ public class DecompositionTests
         Assert.That(x[2][3].y, Is.EqualTo(80));
         Assert.That(x[2][4].x, Is.EqualTo(80));
         Assert.That(x[2][4].y, Is.EqualTo(50));
-        
+
         PathsD s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
         writeToLayout("s", S, s);
         // Sign change expected.
@@ -325,7 +325,7 @@ public class DecompositionTests
         Assert.That(s[4][3].y, Is.EqualTo(110));
         Assert.That(s[4][4].x, Is.EqualTo(20));
         Assert.That(s[4][4].y, Is.EqualTo(0));
-        
+
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
         writeToLayout("ns", nS, ns);
         // Sign change expected.
@@ -381,7 +381,7 @@ public class DecompositionTests
         Assert.That(ns[4][3].y, Is.EqualTo(-90));
         Assert.That(ns[4][4].x, Is.EqualTo(20));
         Assert.That(ns[4][4].y, Is.EqualTo(-200));
-        
+
         PathsD c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
         writeToLayout("c1", C1, c1);
         // Sign change expected.
@@ -397,7 +397,7 @@ public class DecompositionTests
         Assert.That(c2.Count, Is.EqualTo(81));
         // Use area because result is complex and hash not reliable due to floats.
         Assert.That(Clipper.Area(c2), Is.EqualTo(24600));
-        
+
         PathsD c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
         writeToLayout("c3", C3, c3);
         // Sign change expected.
@@ -405,7 +405,7 @@ public class DecompositionTests
         Assert.That(c3.Count, Is.EqualTo(13));
         // Use area because result is complex and hash not reliable due to floats.
         Assert.That(Clipper.Area(c3), Is.EqualTo(5424));
-        
+
         PathsD c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
         writeToLayout("c10r15", C10R15, c10r15);
         // Sign change expected.
@@ -464,7 +464,7 @@ public class DecompositionTests
     public static void partTwo()
     {
         PathsD incoming = new();
-        PathD lPieces = new ()
+        PathD lPieces = new()
         {
             new(0.00000, 0.00000),
             new(0.00000, 0.05000),
@@ -474,7 +474,7 @@ public class DecompositionTests
         };
 
 
-        PathD lPiece2 = new ()
+        PathD lPiece2 = new()
         {
             new(0.01000, 0.00000),
             new(0.01000, 0.02000),
@@ -487,13 +487,13 @@ public class DecompositionTests
         lPiece2.Reverse();
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
-        
+
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(incoming);
         PathsD ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
     }
-    
+
     [Test]
     public static void partThree_moderatelycomplex()
     {
@@ -527,7 +527,7 @@ public class DecompositionTests
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
-        
+
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -537,7 +537,7 @@ public class DecompositionTests
         Assert.That(ns.Count, Is.EqualTo(81));
         // Sign change expected.
         Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
@@ -588,7 +588,7 @@ public class DecompositionTests
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
-        
+
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -598,7 +598,7 @@ public class DecompositionTests
         Assert.That(ns.Count, Is.EqualTo(161));
         // Sign change expected.
         Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
@@ -648,7 +648,7 @@ public class DecompositionTests
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
-        
+
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -658,7 +658,7 @@ public class DecompositionTests
         Assert.That(ns.Count, Is.EqualTo(241));
         // Sign change expected.
         Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
@@ -703,10 +703,10 @@ public class DecompositionTests
         writeToLayout("canarycomplex", canary, test);
         Assert.That(test.Count, Is.EqualTo(381));
         Assert.That(-Clipper.Area(test), Is.EqualTo(Clipper.Area(canary)));
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
-        test = GeoWrangler.rectangular_decomposition(ref abort, canary, maxRayLength: rayLength, vertical:false);
+        test = GeoWrangler.rectangular_decomposition(ref abort, canary, maxRayLength: rayLength, vertical: false);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -749,29 +749,29 @@ public class DecompositionTests
             0.09, 0.44,
             0.06, 0.44
             */
-            0.07,	0.45,
-            0.07,	0.46,
-            0.06,	0.46,
-            0.06,	0.47,
-            0.079,	0.47,
-            0.079,	0.459,
-            0.08,	0.459,
-            0.08,	0.45,
+            0.07,   0.45,
+            0.07,   0.46,
+            0.06,   0.46,
+            0.06,   0.47,
+            0.079,  0.47,
+            0.079,  0.459,
+            0.08,   0.459,
+            0.08,   0.45,
         });
 
         canary = Clipper.ScalePath(canary, 1000);
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
-        PathsD test = GeoWrangler.rectangular_decomposition(ref abort, canary, maxRayLength: rayLength, vertical:false);
+        PathsD test = GeoWrangler.rectangular_decomposition(ref abort, canary, maxRayLength: rayLength, vertical: false);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-        
+
         Console.WriteLine("  Writing....");
         writeToLayout("canarycomplex2_horizontal", canary, test);
         Console.WriteLine("  Done.");
     }
-    
+
     [Test]
     public static void partThree_gainingacomplex()
     {
@@ -805,7 +805,7 @@ public class DecompositionTests
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
-        
+
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -815,7 +815,7 @@ public class DecompositionTests
         Assert.That(ns.Count, Is.EqualTo(401));
         // Sign change expected.
         Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
@@ -865,7 +865,7 @@ public class DecompositionTests
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
-        
+
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -874,7 +874,7 @@ public class DecompositionTests
 
         Assert.That(ns.Count, Is.EqualTo(721));
         Assert.That(-Clipper.Area(ns), Is.EqualTo(Clipper.Area(done)));
-        
+
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
@@ -930,8 +930,8 @@ public class DecompositionTests
         Console.WriteLine("  Keyhole....");
         // Give the keyholder a whirl:
         sw.Restart();
-        PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true, customSizing: GeoWrangler.decomp_keyhole_sizing)[0];
-        writeToLayout(baseString + "_kh", points, new PathsD{toDecomp});
+        PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval: false, biDirectionalEval: true, customSizing: GeoWrangler.decomp_keyhole_sizing)[0];
+        writeToLayout(baseString + "_kh", points, new PathsD { toDecomp });
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -1085,27 +1085,27 @@ public class DecompositionTests
                 new (-16, 76),
             },
         };
-        
+
         PathsD out_decomp = new();
         for (int i = 0; i < polydata.Count; i++)
         {
-         PathD points = new (polydata[i]);
-         points = GeoWrangler.removeDuplicates(points);
-         points = GeoWrangler.stripCollinear(points);
-         points = GeoWrangler.clockwiseAndReorderXY(points);
-         
-         PathD toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(points), reverseEval:false, biDirectionalEval:false)[0];
-         PathD  bounds = GeoWrangler.getBounds(toDecomp);
-         PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+            PathD points = new(polydata[i]);
+            points = GeoWrangler.removeDuplicates(points);
+            points = GeoWrangler.stripCollinear(points);
+            points = GeoWrangler.clockwiseAndReorderXY(points);
 
-         PathsD decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
-          maxRayLength: (long) Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)), vertical: vertical);
-         
-         out_decomp.AddRange(decompOut);
+            PathD toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(points), reverseEval: false, biDirectionalEval: false)[0];
+            PathD bounds = GeoWrangler.getBounds(toDecomp);
+            PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+
+            PathsD decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
+             maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)), vertical: vertical);
+
+            out_decomp.AddRange(decompOut);
         }
 
-        Assert.That(19, Is.EqualTo(out_decomp.Count));
-        Assert.That(13843.0, Is.EqualTo(Clipper.Area(out_decomp)));
+        Assert.That(out_decomp.Count, Is.EqualTo(19));
+        Assert.That(Clipper.Area(out_decomp), Is.EqualTo(13843.0));
     }
 
     private static void writeToLayout(string filename, PathD orig, PathsD decomped)

@@ -12,7 +12,7 @@ namespace UnitTests;
 /// </summary>
 public class GeoCoreTests
 {
-    static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";  
+    static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
     static string outDir = "/d/development/geocore_out/";
 
     #region GeoCore Basic Unit Tests
@@ -117,7 +117,7 @@ public class GeoCoreTests
         Assert.That(polygon.pointarray.Count, Is.EqualTo(4));
         Assert.That(polygon.layer_nr, Is.EqualTo(expectedLayer));
         Assert.That(polygon.datatype_nr, Is.EqualTo(expectedDatatype));
-        
+
         // Verify points are copied correctly
         Assert.That(polygon.pointarray[0].X, Is.EqualTo(0));
         Assert.That(polygon.pointarray[0].Y, Is.EqualTo(0));
@@ -156,7 +156,7 @@ public class GeoCoreTests
 
         // Assert: Should be deep copy (different references)
         Assert.That(ReferenceEquals(copiedPolygon.pointarray, originalPolygon.pointarray), Is.False);
-        
+
         // Verify point data is copied correctly
         for (int i = 0; i < originalPolygon.pointarray.Count; i++)
         {
@@ -239,7 +239,7 @@ public class GeoCoreTests
         // Assert: Cell should be initialized with current date/time
         Assert.That(cell.elementList, Is.Not.Null);
         Assert.That(cell.saved, Is.False);
-        
+
         // Verify date/time fields are reasonable (within test execution timeframe)
         Assert.That(cell.modyear, Is.GreaterThanOrEqualTo(beforeConstruction.Year));
         Assert.That(cell.modyear, Is.LessThanOrEqualTo(afterConstruction.Year));
@@ -298,13 +298,13 @@ public class GeoCoreTests
         // If we use the drawing convert to polygons method with a cell name, this is not needed - we should
         // get the scaled version automatically.
         double grid_scaling = drawing_gds.databaseunits / GCDrawingfield.default_databaseunits;
-        
+
         // T cell
         GCCell cell_gds = drawing_gds.findCell("T");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
         List<GCPolygon> polys_gds = cell_gds.convertToPolygons(grid_scaling);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
-        
+
         // A cell
         GCCell cell_gds2 = drawing_gds.findCell("A");
         Assert.That(cell_gds2.elementList.Count, Is.EqualTo(1));
@@ -312,7 +312,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds2.elementList[i].isCellrefArray(), Is.True);
         }
-        
+
         // Going directly to the cell, we get unscaled geometry.
         List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(1.0);
         // 1 cell reference that are 3x2 arrays of different configurations
@@ -399,12 +399,12 @@ public class GeoCoreTests
             Assert.That(polys_gds2_scaled[poly_index].pointarray[9].Y, Is.EqualTo(polys_gds2[poly_index].pointarray[9].Y));
             Assert.That(polys_gds2_scaled[poly_index].pointarray[10].X, Is.EqualTo(polys_gds2[poly_index].pointarray[10].X));
             Assert.That(polys_gds2_scaled[poly_index].pointarray[10].Y, Is.EqualTo(polys_gds2[poly_index].pointarray[10].Y));
-        }   
-        
+        }
+
         // Compare with our drawing conversion... Our list of cells is just 'A' in this case.
         List<GCPolygon> polys_fromdrawing = drawing_gds.convertToPolygons(cells: ["A"])[0];
         Assert.That(polys_fromdrawing.Count, Is.EqualTo(poly_count));
-        
+
         // Review our geometry.
         for (int i = 0; i < poly_count; i++)
         {
@@ -427,13 +427,13 @@ public class GeoCoreTests
         Assert.That(gcGDS.isValid(), Is.True);
 
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        
+
         // T cell
         GCCell cell_gds = drawing_gds.findCell("T");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
-        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells:["T"])[0];
+        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells: ["T"])[0];
         Assert.That(polys_gds.Count, Is.EqualTo(1));
-        
+
         // A cell
         GCCell cell_gds2 = drawing_gds.findCell("A");
         Assert.That(cell_gds2.elementList.Count, Is.EqualTo(64));
@@ -441,7 +441,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds2.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_gds2 = drawing_gds.convertToPolygons(cells:["A"])[0];
+        List<GCPolygon> polys_gds2 = drawing_gds.convertToPolygons(cells: ["A"])[0];
         // 64 cell references that are 3x2 arrays of different configurations
         int poly_count = 64 * 6;
         Assert.That(polys_gds2.Count, Is.EqualTo(poly_count));
@@ -457,11 +457,11 @@ public class GeoCoreTests
         Assert.That(gcGDS.isValid(), Is.True);
 
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        
+
         // TOPTOP cell
         GCCell cell_gds = drawing_gds.findCell("TOPTOP");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(180008));
-        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells:["TOPTOP"])[0];
+        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells: ["TOPTOP"])[0];
         Assert.That(polys_gds.Count, Is.EqualTo(180008));
     }
 
@@ -485,7 +485,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[1].isBox(), Is.True);
         Assert.That(cell_gds.elementList[1].layer_nr, Is.EqualTo(8));
         Assert.That(cell_gds.elementList[1].datatype_nr, Is.EqualTo(0));
-        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells:["TRANS"])[0];
+        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells: ["TRANS"])[0];
 
         int trans_poly_count = 2;
         Assert.That(polys_gds.Count, Is.EqualTo(trans_poly_count));
@@ -512,17 +512,17 @@ public class GeoCoreTests
         Assert.That(polys_gds[1].pointarray[3].Y, Is.EqualTo(200));
         Assert.That(polys_gds[1].pointarray[4].X, Is.EqualTo(200));
         Assert.That(polys_gds[1].pointarray[4].Y, Is.EqualTo(600));
-        
+
         // TOP cell
         GCCell cell_gds2 = drawing_gds.findCell("TOP");
         Assert.That(cell_gds2.elementList.Count, Is.EqualTo(109));
-        List<GCPolygon> polys_gds2 = drawing_gds.convertToPolygons(cells:["TOP"])[0];
+        List<GCPolygon> polys_gds2 = drawing_gds.convertToPolygons(cells: ["TOP"])[0];
         Assert.That(polys_gds2.Count, Is.EqualTo(119));
-        
+
         // TOPTOP cell
         GCCell cell_gds3 = drawing_gds.findCell("TOPTOP");
         Assert.That(cell_gds3.elementList.Count, Is.EqualTo(100));
-        List<GCPolygon> polys_gds3 = drawing_gds.convertToPolygons(cells:["TOPTOP"])[0];
+        List<GCPolygon> polys_gds3 = drawing_gds.convertToPolygons(cells: ["TOPTOP"])[0];
         Assert.That(polys_gds3.Count, Is.EqualTo(336));
     }
 
@@ -534,14 +534,14 @@ public class GeoCoreTests
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        
+
         // A cell
         GCCell cell_gds = drawing_gds.findCell("A");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells:["A"])[0];
+        List<GCPolygon> polys_gds = drawing_gds.convertToPolygons(cells: ["A"])[0];
         int a_poly_count = 1;
         Assert.That(polys_gds.Count, Is.EqualTo(a_poly_count));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(4));
@@ -553,14 +553,14 @@ public class GeoCoreTests
         Assert.That(polys_gds[0].pointarray[2].Y, Is.EqualTo(0));
         Assert.That(polys_gds[0].pointarray[3].X, Is.EqualTo(0));
         Assert.That(polys_gds[0].pointarray[3].Y, Is.EqualTo(0));
-        
+
         // B cell
         GCCell cell_gds2 = drawing_gds.findCell("B");
         Assert.That(cell_gds2.elementList.Count, Is.EqualTo(3));
         Assert.That(cell_gds2.elementList[0].isCellref(), Is.True);
         Assert.That(cell_gds2.elementList[1].isCellrefArray(), Is.True);
         Assert.That(cell_gds2.elementList[2].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(drawing_gds.getDrawingScale());
         // 3 instances of A cell and 1 polygon
         int b_poly_count = (3 * a_poly_count) + 1;
         Assert.That(polys_gds2.Count, Is.EqualTo(b_poly_count));
@@ -573,7 +573,7 @@ public class GeoCoreTests
         Assert.That(polys_gds2[0].pointarray[2].Y, Is.EqualTo(0));
         Assert.That(polys_gds2[0].pointarray[3].X, Is.EqualTo(0));
         Assert.That(polys_gds2[0].pointarray[3].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds2[1].pointarray[0].X, Is.EqualTo(4000));
         Assert.That(polys_gds2[1].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds2[1].pointarray[1].X, Is.EqualTo(2000));
@@ -582,23 +582,23 @@ public class GeoCoreTests
         Assert.That(polys_gds2[1].pointarray[2].Y, Is.EqualTo(1000));
         Assert.That(polys_gds2[1].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds2[1].pointarray[3].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds2[2].pointarray[0].X, Is.EqualTo(4000));
-        Assert.That(polys_gds2[2].pointarray[0].Y, Is.EqualTo(1000));   
+        Assert.That(polys_gds2[2].pointarray[0].Y, Is.EqualTo(1000));
         Assert.That(polys_gds2[2].pointarray[1].X, Is.EqualTo(2000));
         Assert.That(polys_gds2[2].pointarray[1].Y, Is.EqualTo(2000));
         Assert.That(polys_gds2[2].pointarray[2].X, Is.EqualTo(4000));
         Assert.That(polys_gds2[2].pointarray[2].Y, Is.EqualTo(2000));
         Assert.That(polys_gds2[2].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds2[2].pointarray[3].Y, Is.EqualTo(1000));
-        
+
         // C cell
         GCCell cell_gds3 = drawing_gds.findCell("C");
         Assert.That(cell_gds3.elementList.Count, Is.EqualTo(3));
         Assert.That(cell_gds3.elementList[0].isCellrefArray(), Is.True);
         Assert.That(cell_gds3.elementList[1].isCellref(), Is.True);
         Assert.That(cell_gds3.elementList[2].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds3 = cell_gds3.convertToPolygons(drawing_gds.getDrawingScale()); 
+        List<GCPolygon> polys_gds3 = cell_gds3.convertToPolygons(drawing_gds.getDrawingScale());
         // 3 instances of B cell and 1 polygon
         int c_poly_count = (3 * 4) + 1;
         Assert.That(polys_gds3.Count, Is.EqualTo(c_poly_count));
@@ -611,7 +611,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[0].pointarray[2].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[0].pointarray[3].X, Is.EqualTo(0));
         Assert.That(polys_gds3[0].pointarray[3].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds3[1].pointarray[0].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[1].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[1].pointarray[1].X, Is.EqualTo(2000));
@@ -620,16 +620,16 @@ public class GeoCoreTests
         Assert.That(polys_gds3[1].pointarray[2].Y, Is.EqualTo(1000));
         Assert.That(polys_gds3[1].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[1].pointarray[3].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds3[2].pointarray[0].X, Is.EqualTo(4000));
-        Assert.That(polys_gds3[2].pointarray[0].Y, Is.EqualTo(1000));   
+        Assert.That(polys_gds3[2].pointarray[0].Y, Is.EqualTo(1000));
         Assert.That(polys_gds3[2].pointarray[1].X, Is.EqualTo(2000));
         Assert.That(polys_gds3[2].pointarray[1].Y, Is.EqualTo(2000));
         Assert.That(polys_gds3[2].pointarray[2].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[2].pointarray[2].Y, Is.EqualTo(2000));
         Assert.That(polys_gds3[2].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[2].pointarray[3].Y, Is.EqualTo(1000));
-        
+
         Assert.That(polys_gds3[3].pointarray[0].X, Is.EqualTo(1000));
         Assert.That(polys_gds3[3].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[3].pointarray[1].X, Is.EqualTo(1000));
@@ -651,7 +651,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[4].pointarray[2].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[4].pointarray[3].X, Is.EqualTo(xoffset + 0));
         Assert.That(polys_gds3[4].pointarray[3].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds3[5].pointarray[0].X, Is.EqualTo(xoffset + 4000));
         Assert.That(polys_gds3[5].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[5].pointarray[1].X, Is.EqualTo(xoffset + 2000));
@@ -660,16 +660,16 @@ public class GeoCoreTests
         Assert.That(polys_gds3[5].pointarray[2].Y, Is.EqualTo(1000));
         Assert.That(polys_gds3[5].pointarray[3].X, Is.EqualTo(xoffset + 4000));
         Assert.That(polys_gds3[5].pointarray[3].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds3[6].pointarray[0].X, Is.EqualTo(xoffset + 4000));
-        Assert.That(polys_gds3[6].pointarray[0].Y, Is.EqualTo(1000));   
+        Assert.That(polys_gds3[6].pointarray[0].Y, Is.EqualTo(1000));
         Assert.That(polys_gds3[6].pointarray[1].X, Is.EqualTo(xoffset + 2000));
         Assert.That(polys_gds3[6].pointarray[1].Y, Is.EqualTo(2000));
         Assert.That(polys_gds3[6].pointarray[2].X, Is.EqualTo(xoffset + 4000));
         Assert.That(polys_gds3[6].pointarray[2].Y, Is.EqualTo(2000));
         Assert.That(polys_gds3[6].pointarray[3].X, Is.EqualTo(xoffset + 4000));
         Assert.That(polys_gds3[6].pointarray[3].Y, Is.EqualTo(1000));
-        
+
         Assert.That(polys_gds3[7].pointarray[0].X, Is.EqualTo(xoffset + 1000));
         Assert.That(polys_gds3[7].pointarray[0].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[7].pointarray[1].X, Is.EqualTo(xoffset + 1000));
@@ -680,7 +680,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[7].pointarray[3].Y, Is.EqualTo(0));
         Assert.That(polys_gds3[7].pointarray[4].X, Is.EqualTo(xoffset + 1000));
         Assert.That(polys_gds3[7].pointarray[4].Y, Is.EqualTo(0));
-        
+
         Assert.That(polys_gds3[8].pointarray[0].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[8].pointarray[0].Y, Is.EqualTo(4000));
         Assert.That(polys_gds3[8].pointarray[1].X, Is.EqualTo(0));
@@ -689,7 +689,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[8].pointarray[2].Y, Is.EqualTo(6000));
         Assert.That(polys_gds3[8].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[8].pointarray[3].Y, Is.EqualTo(4000));
-        
+
         Assert.That(polys_gds3[9].pointarray[0].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[9].pointarray[0].Y, Is.EqualTo(12000));
         Assert.That(polys_gds3[9].pointarray[1].X, Is.EqualTo(2000));
@@ -698,7 +698,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[9].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds3[9].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[9].pointarray[3].Y, Is.EqualTo(12000));
-        
+
         Assert.That(polys_gds3[10].pointarray[0].X, Is.EqualTo(2000));
         Assert.That(polys_gds3[10].pointarray[0].Y, Is.EqualTo(12000));
         Assert.That(polys_gds3[10].pointarray[1].X, Is.EqualTo(0));
@@ -707,7 +707,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[10].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds3[10].pointarray[3].X, Is.EqualTo(2000));
         Assert.That(polys_gds3[10].pointarray[3].Y, Is.EqualTo(12000));
-        
+
         Assert.That(polys_gds3[11].pointarray[0].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[11].pointarray[0].Y, Is.EqualTo(6000));
         Assert.That(polys_gds3[11].pointarray[1].X, Is.EqualTo(0));
@@ -718,7 +718,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[11].pointarray[3].Y, Is.EqualTo(7000));
         Assert.That(polys_gds3[11].pointarray[4].X, Is.EqualTo(4000));
         Assert.That(polys_gds3[11].pointarray[4].Y, Is.EqualTo(6000));
-        
+
         Assert.That(polys_gds3[12].pointarray[0].X, Is.EqualTo(5000));
         Assert.That(polys_gds3[12].pointarray[0].Y, Is.EqualTo(4000));
         Assert.That(polys_gds3[12].pointarray[1].X, Is.EqualTo(5000));
@@ -727,7 +727,7 @@ public class GeoCoreTests
         Assert.That(polys_gds3[12].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds3[12].pointarray[3].X, Is.EqualTo(5000));
         Assert.That(polys_gds3[12].pointarray[3].Y, Is.EqualTo(4000));
-        
+
         // TOP cell
         GCCell cell_gds4 = drawing_gds.findCell("TOP");
         Assert.That(cell_gds4.elementList.Count, Is.EqualTo(6));
@@ -737,7 +737,7 @@ public class GeoCoreTests
         Assert.That(cell_gds4.elementList[3].isPolygon(), Is.True);
         Assert.That(cell_gds4.elementList[4].isPolygon(), Is.True);
         Assert.That(cell_gds4.elementList[5].isPolygon(), Is.True);
-        List <GCPolygon> polys_gds4 = cell_gds4.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds4 = cell_gds4.convertToPolygons(drawing_gds.getDrawingScale());
         // 3 instances of the C cell and 4 polygons.
         int top_poly_count = (3 * c_poly_count) + 4;
         Assert.That(polys_gds4.Count, Is.EqualTo(top_poly_count));
@@ -1004,7 +1004,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(4000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(2000));
@@ -1028,7 +1028,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(7000));
         Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(4000));
         Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(6000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(5000));
@@ -1039,7 +1039,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(5000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(10000));
@@ -1050,7 +1050,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(0));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
@@ -1061,7 +1061,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(1000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
@@ -1072,7 +1072,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(1000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(11000));
@@ -1085,7 +1085,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
         Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(11000));
         Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(0));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
@@ -1096,7 +1096,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(0));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(19000));
@@ -1107,7 +1107,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(1000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(19000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(19000));
@@ -1118,7 +1118,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(2000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(19000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(1000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(16000));
@@ -1131,7 +1131,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(0));
         Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(16000));
         Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(0));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
@@ -1142,7 +1142,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(6000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
@@ -1153,7 +1153,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(14000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(12000));
@@ -1164,7 +1164,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(12000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(12000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(14000));
@@ -1177,7 +1177,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(7000));
         Assert.That(polys_gds4[index].pointarray[4].X, Is.EqualTo(14000));
         Assert.That(polys_gds4[index].pointarray[4].Y, Is.EqualTo(6000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
@@ -1188,7 +1188,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(12000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(4000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
@@ -1199,7 +1199,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(19000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(10000));
@@ -1210,7 +1210,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(15000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(15000));
@@ -1221,7 +1221,7 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(15000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(15000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(15000));
-        
+
         index++;
         Assert.That(polys_gds4[index].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds4[index].pointarray[0].X, Is.EqualTo(10000));
@@ -1232,8 +1232,8 @@ public class GeoCoreTests
         Assert.That(polys_gds4[index].pointarray[2].Y, Is.EqualTo(27000));
         Assert.That(polys_gds4[index].pointarray[3].X, Is.EqualTo(10000));
         Assert.That(polys_gds4[index].pointarray[3].Y, Is.EqualTo(19000));
-                            }
-        
+    }
+
     [Test]
     public static void f_rep_test()
     {
@@ -1242,7 +1242,7 @@ public class GeoCoreTests
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(4));
@@ -1250,7 +1250,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isPolygon(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -1362,7 +1362,7 @@ public class GeoCoreTests
         Assert.That(gcOAS.isValid(), Is.True);
         */
     }
-    
+
     [Test]
     public static void f_rep2_test()
     {
@@ -1377,7 +1377,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(2));
         List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
-        
+
         int polyIndex = 0;
         Assert.That(cell_gds.elementList[polyIndex].isPolygon(), Is.True);
         Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
@@ -1429,13 +1429,13 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[9].Y, Is.EqualTo(3000));
         Assert.That(polys_gds[polyIndex].pointarray[10].X, Is.EqualTo(3000));
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(3000));
-        
+
         string oasFile = baseDir + "gdstk_reference/f_rep2.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
@@ -1468,7 +1468,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0));
 
         polyIndex++;
-        
+
         Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(3000));
         Assert.That(polys_oas[polyIndex].pointarray[0].Y, Is.EqualTo(3000));
         Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(3000));
@@ -1492,7 +1492,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(3000));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(3000));
     }
-    
+
     [Test]
     public static void f_rep3_test()
     {
@@ -1505,7 +1505,7 @@ public class GeoCoreTests
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
-        
+
         int polyIndex = 0;
         int x_pitch = 5000;
         int y_pitch = 5000;
@@ -1547,7 +1547,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
@@ -1586,7 +1586,7 @@ public class GeoCoreTests
             }
         }
     }
-    
+
     [Test]
     public static void f_rep4_test()
     {
@@ -1599,7 +1599,7 @@ public class GeoCoreTests
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
-        
+
         int polyIndex = 0;
         Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(0));
@@ -1711,11 +1711,11 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
-        
+
         polyIndex = 0;
         Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_oas[polyIndex].pointarray[0].X, Is.EqualTo(0));
@@ -1822,7 +1822,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void f_rep5_test()
     {
@@ -1835,7 +1835,7 @@ public class GeoCoreTests
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
-        
+
         int polyIndex = 0;
         Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[polyIndex].pointarray[0].X, Is.EqualTo(0));
@@ -1893,7 +1893,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
@@ -1952,7 +1952,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void f_rep6_test()
     {
@@ -1961,7 +1961,7 @@ public class GeoCoreTests
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(4));
@@ -1969,7 +1969,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isPolygon(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2106,7 +2106,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2172,7 +2172,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcGDS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -2180,7 +2180,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -2243,7 +2243,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void rect_rep2_test()
     {
@@ -2260,7 +2260,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -2296,7 +2296,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcGDS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(2));
@@ -2304,7 +2304,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -2337,7 +2337,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void rect_rep3_test()
     {
@@ -2354,7 +2354,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(6));
 
         int polyIndex = 0;
@@ -2380,13 +2380,13 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
-        
+
         string oasFile = baseDir + "gdstk_reference/rectangle_rep3.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcGDS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(6));
@@ -2394,7 +2394,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(6));
 
         polyIndex = 0;
@@ -2419,7 +2419,7 @@ public class GeoCoreTests
             }
         }
     }
-    
+
     [Test]
     public static void rect_rep4_test()
     {
@@ -2436,7 +2436,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2504,7 +2504,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -2512,7 +2512,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -2575,7 +2575,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void rect_rep5_test()
     {
@@ -2592,7 +2592,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -2630,7 +2630,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(2));
@@ -2638,7 +2638,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -2671,7 +2671,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void ref_f_rep_test()
     {
@@ -2688,7 +2688,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2812,7 +2812,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -2923,7 +2923,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void ref_f_rep2_test()
     {
@@ -2940,7 +2940,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -3004,7 +3004,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
@@ -3012,7 +3012,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -3068,7 +3068,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[9].Y, Is.EqualTo(0 + y_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
-        
+
         // This one gets handled as an 'explicit' repetition. The file was simply passed through KLayout and ended up
         // with this different representation.
         oasFile = baseDir + "gdstk_reference/ref_f_rep2_klayout.oas";
@@ -3076,7 +3076,7 @@ public class GeoCoreTests
         gH_OAS_kl.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS_kl = gH_OAS_kl.getGeo();
         Assert.That(gcOAS_kl.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas_kl = gcOAS_kl.getDrawing();
         GCCell cell_oas_kl = drawing_oas_kl.findCell("Ref");
         Assert.That(cell_oas_kl.elementList.Count, Is.EqualTo(2));
@@ -3084,7 +3084,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas_kl.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas_kl = cell_oas_kl.convertToPolygons(drawing_oas_kl.getDrawingScale());
+        List<GCPolygon> polys_oas_kl = cell_oas_kl.convertToPolygons(drawing_oas_kl.getDrawingScale());
         Assert.That(polys_oas_kl.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -3141,7 +3141,7 @@ public class GeoCoreTests
         Assert.That(polys_oas_kl[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas_kl[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void ref_f_rep3_test()
     {
@@ -3158,7 +3158,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(6));
 
         int polyIndex = 0;
@@ -3202,7 +3202,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
@@ -3210,7 +3210,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(6));
 
         polyIndex = 0;
@@ -3247,7 +3247,7 @@ public class GeoCoreTests
             }
         }
     }
-    
+
     [Test]
     public static void ref_f_rep4_test()
     {
@@ -3264,7 +3264,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -3380,7 +3380,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -3388,7 +3388,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -3499,7 +3499,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void ref_f_rep5_test()
     {
@@ -3516,7 +3516,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -3572,14 +3572,14 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[9].Y, Is.EqualTo(0 + y_offset));
         Assert.That(polys_gds[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_gds[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
-        
+
         // The OASIS reader captures the cellref array as a more efficient representation.
         string oasFile = baseDir + "gdstk_reference/ref_f_rep5.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
@@ -3587,7 +3587,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -3644,7 +3644,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void ref_f_rep6_test()
     {
@@ -3661,7 +3661,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -3785,7 +3785,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -3896,7 +3896,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[10].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[10].Y, Is.EqualTo(0 + y_offset));
     }
-    
+
     [Test]
     public static void ref_rect_rep_test()
     {
@@ -3913,7 +3913,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -3981,7 +3981,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -3989,7 +3989,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -4052,7 +4052,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void ref_rect_rep2_test()
     {
@@ -4069,7 +4069,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -4101,13 +4101,13 @@ public class GeoCoreTests
         Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(0 + y_offset));
         Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_gds[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
-        
+
         string oasFile = baseDir + "gdstk_reference/ref_rectangle_rep2.oas";
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
@@ -4115,7 +4115,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -4148,7 +4148,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void ref_rect_rep3_test()
     {
@@ -4165,7 +4165,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(6));
 
         int polyIndex = 0;
@@ -4197,7 +4197,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcGDS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
@@ -4205,7 +4205,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(6));
 
         polyIndex = 0;
@@ -4230,7 +4230,7 @@ public class GeoCoreTests
             }
         }
     }
-    
+
     [Test]
     public static void ref_rect_rep4_test()
     {
@@ -4247,7 +4247,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -4315,7 +4315,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -4323,7 +4323,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -4386,7 +4386,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void ref_rect_rep5_test()
     {
@@ -4403,7 +4403,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -4441,7 +4441,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(1));
@@ -4449,7 +4449,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -4482,7 +4482,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + x_offset));
         Assert.That(polys_oas[polyIndex].pointarray[4].Y, Is.EqualTo(1000 + y_offset));
     }
-    
+
     [Test]
     public static void ref_rect_rep6_test()
     {
@@ -4499,7 +4499,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -4567,7 +4567,7 @@ public class GeoCoreTests
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
-        
+
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Ref");
         Assert.That(cell_oas.elementList.Count, Is.EqualTo(4));
@@ -4575,7 +4575,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List <GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -4671,7 +4671,7 @@ public class GeoCoreTests
         {
             Assert.That(e.Message, Is.EqualTo("Provided GeoCore instance is not marked as valid"));
         }
-        
+
         GCDrawingfield drawing_ = new("test")
         {
             accyear = 2018,
@@ -4690,7 +4690,7 @@ public class GeoCoreTests
             userunits = 0.001,
             libname = "noname"
         };
-        
+
         g.setDrawing(drawing_);
         // These should fail because the GeoCore set-up is invalid.
         try
@@ -4712,7 +4712,7 @@ public class GeoCoreTests
             Assert.That(e.Message, Is.EqualTo("Provided GeoCore instance is not marked as valid"));
         }
     }
-    
+
     [Test]
     public static void box_test()
     {
@@ -4849,12 +4849,12 @@ public class GeoCoreTests
 
             double x = Math.Cos(rad) * radius;
             double y = Math.Sin(rad) * radius;
-            
+
             circleD.Add(new(x, y));
         }
 
         int scale = 100; // for 0.01 nm resolution.
-        
+
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
         g.reset();
@@ -4893,21 +4893,21 @@ public class GeoCoreTests
         gcell.modsec = 10;
 
         gcell.cellName = "test";
-        
-        gcell.addPolygon(Clipper.ScalePath64(circleD, scale*scale), 1, 0);
+
+        gcell.addPolygon(Clipper.ScalePath64(circleD, scale * scale), 1, 0);
         Assert.That(gcell.elementList[0].isPolygon(), Is.True);
         Assert.That(((GCPolygon)gcell.elementList[0]).isCircle().circle, Is.True);
         // For comparison
-        gcell.addCircle(1, 1, new(0,0), 500);
+        gcell.addCircle(1, 1, new(0, 0), 500);
         Assert.That(gcell.elementList[1].isPolygon(), Is.True);
         Assert.That(((GCPolygon)gcell.elementList[1]).isCircle().circle, Is.True);
-        
+
         // Do we have the cell in the drawing?
         Assert.That(drawing_.findCell("test"), Is.EqualTo(gcell));
-       
+
         g.setDrawing(drawing_);
         g.setValid(true);
-        
+
         if (File.Exists(outDir + "poly10_circle11.gds"))
         {
             File.Delete(outDir + "poly10_circle11.gds");
@@ -4929,7 +4929,7 @@ public class GeoCoreTests
     public static void test_box()
     {
         int scale = 100; // for 0.01 nm resolution.
-        
+
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
         g.reset();
@@ -4993,7 +4993,7 @@ public class GeoCoreTests
             70, 459,
             70, 450
         });
-        
+
         gcell.addPolygon(Clipper.ScalePath64(poly1, 1), 1, 0);
         gcell.addPolygon(Clipper.ScalePath64(poly2, 1), 1, 0);
         gcell.addPolygon(Clipper.ScalePath64(poly3, 1), 1, 0);
@@ -5004,10 +5004,10 @@ public class GeoCoreTests
 
         // Do we have the cell in the drawing?
         Assert.That(drawing_.findCell("test"), Is.EqualTo(gcell));
-       
+
         g.setDrawing(drawing_);
         g.setValid(true);
-        
+
         if (File.Exists(outDir + "box.gds"))
         {
             File.Delete(outDir + "box.gds");
@@ -5051,13 +5051,13 @@ public class GeoCoreTests
         Assert.That(t1[0].layer_nr, Is.EqualTo(1));
         Assert.That(t1[0].datatype_nr, Is.EqualTo(0));
         Assert.That(t1[0].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t1[0].pointarray[0], Is.EqualTo(new Point64(0,0,0)));
-        Assert.That(t1[0].pointarray[1], Is.EqualTo(new Point64(0,100,0)));
-        Assert.That(t1[0].pointarray[2], Is.EqualTo(new Point64(40,100,0)));
-        Assert.That(t1[0].pointarray[3], Is.EqualTo(new Point64(40,40,0)));
-        Assert.That(t1[0].pointarray[4], Is.EqualTo(new Point64(100,40,0)));
-        Assert.That(t1[0].pointarray[5], Is.EqualTo(new Point64(100,0,0)));
-        Assert.That(t1[0].pointarray[6], Is.EqualTo(new Point64(0,0,0)));
+        Assert.That(t1[0].pointarray[0], Is.EqualTo(new Point64(0, 0, 0)));
+        Assert.That(t1[0].pointarray[1], Is.EqualTo(new Point64(0, 100, 0)));
+        Assert.That(t1[0].pointarray[2], Is.EqualTo(new Point64(40, 100, 0)));
+        Assert.That(t1[0].pointarray[3], Is.EqualTo(new Point64(40, 40, 0)));
+        Assert.That(t1[0].pointarray[4], Is.EqualTo(new Point64(100, 40, 0)));
+        Assert.That(t1[0].pointarray[5], Is.EqualTo(new Point64(100, 0, 0)));
+        Assert.That(t1[0].pointarray[6], Is.EqualTo(new Point64(0, 0, 0)));
 
         // Array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("a");
@@ -5069,41 +5069,41 @@ public class GeoCoreTests
         Assert.That(t2[0].layer_nr, Is.EqualTo(1));
         Assert.That(t2[0].datatype_nr, Is.EqualTo(0));
         Assert.That(t2[0].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[0].pointarray[0], Is.EqualTo(new Point64(0,0,0)));
-        Assert.That(t2[0].pointarray[1], Is.EqualTo(new Point64(0,100,0)));
-        Assert.That(t2[0].pointarray[2], Is.EqualTo(new Point64(40,100,0)));
-        Assert.That(t2[0].pointarray[3], Is.EqualTo(new Point64(40,40,0)));
-        Assert.That(t2[0].pointarray[4], Is.EqualTo(new Point64(100,40,0)));
-        Assert.That(t2[0].pointarray[5], Is.EqualTo(new Point64(100,0,0)));
-        Assert.That(t2[0].pointarray[6], Is.EqualTo(new Point64(0,0,0)));
+        Assert.That(t2[0].pointarray[0], Is.EqualTo(new Point64(0, 0, 0)));
+        Assert.That(t2[0].pointarray[1], Is.EqualTo(new Point64(0, 100, 0)));
+        Assert.That(t2[0].pointarray[2], Is.EqualTo(new Point64(40, 100, 0)));
+        Assert.That(t2[0].pointarray[3], Is.EqualTo(new Point64(40, 40, 0)));
+        Assert.That(t2[0].pointarray[4], Is.EqualTo(new Point64(100, 40, 0)));
+        Assert.That(t2[0].pointarray[5], Is.EqualTo(new Point64(100, 0, 0)));
+        Assert.That(t2[0].pointarray[6], Is.EqualTo(new Point64(0, 0, 0)));
         Assert.That(t2[1].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[1].pointarray[0], Is.EqualTo(new Point64(110,0,0)));
-        Assert.That(t2[1].pointarray[1], Is.EqualTo(new Point64(110,100,0)));
-        Assert.That(t2[1].pointarray[2], Is.EqualTo(new Point64(150,100,0)));
-        Assert.That(t2[1].pointarray[3], Is.EqualTo(new Point64(150,40,0)));
-        Assert.That(t2[1].pointarray[4], Is.EqualTo(new Point64(210,40,0)));
-        Assert.That(t2[1].pointarray[5], Is.EqualTo(new Point64(210,0,0)));
-        Assert.That(t2[1].pointarray[6], Is.EqualTo(new Point64(110,0,0)));
+        Assert.That(t2[1].pointarray[0], Is.EqualTo(new Point64(110, 0, 0)));
+        Assert.That(t2[1].pointarray[1], Is.EqualTo(new Point64(110, 100, 0)));
+        Assert.That(t2[1].pointarray[2], Is.EqualTo(new Point64(150, 100, 0)));
+        Assert.That(t2[1].pointarray[3], Is.EqualTo(new Point64(150, 40, 0)));
+        Assert.That(t2[1].pointarray[4], Is.EqualTo(new Point64(210, 40, 0)));
+        Assert.That(t2[1].pointarray[5], Is.EqualTo(new Point64(210, 0, 0)));
+        Assert.That(t2[1].pointarray[6], Is.EqualTo(new Point64(110, 0, 0)));
         Assert.That(t2[2].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[2].pointarray[0], Is.EqualTo(new Point64(0,110,0)));
-        Assert.That(t2[2].pointarray[1], Is.EqualTo(new Point64(0,210,0)));
-        Assert.That(t2[2].pointarray[2], Is.EqualTo(new Point64(40,210,0)));
-        Assert.That(t2[2].pointarray[3], Is.EqualTo(new Point64(40,150,0)));
-        Assert.That(t2[2].pointarray[4], Is.EqualTo(new Point64(100,150,0)));
-        Assert.That(t2[2].pointarray[5], Is.EqualTo(new Point64(100,110,0)));
-        Assert.That(t2[2].pointarray[6], Is.EqualTo(new Point64(0,110,0)));
+        Assert.That(t2[2].pointarray[0], Is.EqualTo(new Point64(0, 110, 0)));
+        Assert.That(t2[2].pointarray[1], Is.EqualTo(new Point64(0, 210, 0)));
+        Assert.That(t2[2].pointarray[2], Is.EqualTo(new Point64(40, 210, 0)));
+        Assert.That(t2[2].pointarray[3], Is.EqualTo(new Point64(40, 150, 0)));
+        Assert.That(t2[2].pointarray[4], Is.EqualTo(new Point64(100, 150, 0)));
+        Assert.That(t2[2].pointarray[5], Is.EqualTo(new Point64(100, 110, 0)));
+        Assert.That(t2[2].pointarray[6], Is.EqualTo(new Point64(0, 110, 0)));
         Assert.That(t2[3].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[3].pointarray[0], Is.EqualTo(new Point64(110,110,0)));
-        Assert.That(t2[3].pointarray[1], Is.EqualTo(new Point64(110,210,0)));
-        Assert.That(t2[3].pointarray[2], Is.EqualTo(new Point64(150,210,0)));
-        Assert.That(t2[3].pointarray[3], Is.EqualTo(new Point64(150,150,0)));
-        Assert.That(t2[3].pointarray[4], Is.EqualTo(new Point64(210,150,0)));
-        Assert.That(t2[3].pointarray[5], Is.EqualTo(new Point64(210,110,0)));
-        Assert.That(t2[3].pointarray[6], Is.EqualTo(new Point64(110,110,0)));
-        
+        Assert.That(t2[3].pointarray[0], Is.EqualTo(new Point64(110, 110, 0)));
+        Assert.That(t2[3].pointarray[1], Is.EqualTo(new Point64(110, 210, 0)));
+        Assert.That(t2[3].pointarray[2], Is.EqualTo(new Point64(150, 210, 0)));
+        Assert.That(t2[3].pointarray[3], Is.EqualTo(new Point64(150, 150, 0)));
+        Assert.That(t2[3].pointarray[4], Is.EqualTo(new Point64(210, 150, 0)));
+        Assert.That(t2[3].pointarray[5], Is.EqualTo(new Point64(210, 110, 0)));
+        Assert.That(t2[3].pointarray[6], Is.EqualTo(new Point64(110, 110, 0)));
+
         // Nested array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("b");
-        Assert.That(2, Is.EqualTo(gcGDS.activeStructure));
+        Assert.That(gcGDS.activeStructure, Is.EqualTo(2));
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
         List<GCPolygon> t3 = gcGDS.getDrawing().cellList[gcGDS.activeStructure].convertToPolygons(gcGDS.getDrawing().getDrawingScale());
@@ -5115,7 +5115,7 @@ public class GeoCoreTests
         int polIndex = 0;
         int rowPitch = 110;
         int colPitch = 110;
-        
+
         // This nested evaluation has a sequence order of the initial 4 cells in a 2 x 2 placement.
         // This grid is then replicated in its own 2 x 2 placement
         for (int outer_row = 0; outer_row < 2; outer_row++)
@@ -5180,7 +5180,7 @@ public class GeoCoreTests
         gcGDS.getDrawing().resize(1.0 / gcGDS.getDrawing().getDrawingScale());
         List<List<GCPolygon>> gds = gcGDS.getDrawing().convertToPolygons();
         string gds_hash = Utils.GetSHA1Hash(gds);
-        
+
         Assert.That(gds_hash, Is.EqualTo(initial_hash));
 
         string outFile2 = outDir + "/c3_consistency_from_oas.oas";
@@ -5191,7 +5191,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(gcOAS, outFile2);
         ow.save();
         Assert.That(File.Exists(outFile2), Is.True);
-        
+
         GeoCoreHandler gH_OAS2 = new();
         gH_OAS2.updateGeoCoreHandler(outFile2, GeoCore.fileType.oasis);
         GeoCore gcOAS2 = gH_OAS2.getGeo();
@@ -5205,7 +5205,7 @@ public class GeoCoreTests
     [Test]
     public static void consistency_from_gds()
     {
-        GeoCoreHandler gH_GDS = new();      
+        GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
@@ -5230,7 +5230,7 @@ public class GeoCoreTests
         gcGDS2.getDrawing().resize(1.0 / gcGDS2.getDrawing().getDrawingScale());
         List<List<GCPolygon>> gds = gcGDS2.getDrawing().convertToPolygons();
         string gds_hash = Utils.GetSHA1Hash(gds);
-        
+
         Assert.That(gds_hash, Is.EqualTo(initial_hash));
 
         string outFile2 = outDir + "/c3_consistency_from_gds.oas";
@@ -5241,7 +5241,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(gcGDS, outFile2);
         ow.save();
         Assert.That(File.Exists(outFile2), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(outFile2, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -5278,13 +5278,13 @@ public class GeoCoreTests
         Assert.That(t1[0].layer_nr, Is.EqualTo(1));
         Assert.That(t1[0].datatype_nr, Is.EqualTo(0));
         Assert.That(t1[0].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t1[0].pointarray[0], Is.EqualTo(new Point64(0,0,0)));
-        Assert.That(t1[0].pointarray[1], Is.EqualTo(new Point64(0,100,0)));
-        Assert.That(t1[0].pointarray[2], Is.EqualTo(new Point64(40,100,0)));
-        Assert.That(t1[0].pointarray[3], Is.EqualTo(new Point64(40,40,0)));
-        Assert.That(t1[0].pointarray[4], Is.EqualTo(new Point64(100,40,0)));
-        Assert.That(t1[0].pointarray[5], Is.EqualTo(new Point64(100,0,0)));
-        Assert.That(t1[0].pointarray[6], Is.EqualTo(new Point64(0,0,0)));
+        Assert.That(t1[0].pointarray[0], Is.EqualTo(new Point64(0, 0, 0)));
+        Assert.That(t1[0].pointarray[1], Is.EqualTo(new Point64(0, 100, 0)));
+        Assert.That(t1[0].pointarray[2], Is.EqualTo(new Point64(40, 100, 0)));
+        Assert.That(t1[0].pointarray[3], Is.EqualTo(new Point64(40, 40, 0)));
+        Assert.That(t1[0].pointarray[4], Is.EqualTo(new Point64(100, 40, 0)));
+        Assert.That(t1[0].pointarray[5], Is.EqualTo(new Point64(100, 0, 0)));
+        Assert.That(t1[0].pointarray[6], Is.EqualTo(new Point64(0, 0, 0)));
 
         // Array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("a");
@@ -5297,59 +5297,59 @@ public class GeoCoreTests
         Assert.That(t2[0].layer_nr, Is.EqualTo(1));
         Assert.That(t2[0].datatype_nr, Is.EqualTo(0));
         Assert.That(t2[0].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[0].pointarray[0], Is.EqualTo(new Point64(0,0,0)));
-        Assert.That(t2[0].pointarray[1], Is.EqualTo(new Point64(0,100,0)));
-        Assert.That(t2[0].pointarray[2], Is.EqualTo(new Point64(40,100,0)));
-        Assert.That(t2[0].pointarray[3], Is.EqualTo(new Point64(40,40,0)));
-        Assert.That(t2[0].pointarray[4], Is.EqualTo(new Point64(100,40,0)));
-        Assert.That(t2[0].pointarray[5], Is.EqualTo(new Point64(100,0,0)));
-        Assert.That(t2[0].pointarray[6], Is.EqualTo(new Point64(0,0,0)));
+        Assert.That(t2[0].pointarray[0], Is.EqualTo(new Point64(0, 0, 0)));
+        Assert.That(t2[0].pointarray[1], Is.EqualTo(new Point64(0, 100, 0)));
+        Assert.That(t2[0].pointarray[2], Is.EqualTo(new Point64(40, 100, 0)));
+        Assert.That(t2[0].pointarray[3], Is.EqualTo(new Point64(40, 40, 0)));
+        Assert.That(t2[0].pointarray[4], Is.EqualTo(new Point64(100, 40, 0)));
+        Assert.That(t2[0].pointarray[5], Is.EqualTo(new Point64(100, 0, 0)));
+        Assert.That(t2[0].pointarray[6], Is.EqualTo(new Point64(0, 0, 0)));
         Assert.That(t2[1].layer_nr, Is.EqualTo(1));
         Assert.That(t2[1].datatype_nr, Is.EqualTo(0));
         Assert.That(t2[1].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[1].pointarray[0], Is.EqualTo(new Point64(110,0,0)));
-        Assert.That(t2[1].pointarray[1], Is.EqualTo(new Point64(110,100,0)));
-        Assert.That(t2[1].pointarray[2], Is.EqualTo(new Point64(150,100,0)));
-        Assert.That(t2[1].pointarray[3], Is.EqualTo(new Point64(150,40,0)));
-        Assert.That(t2[1].pointarray[4], Is.EqualTo(new Point64(210,40,0)));
-        Assert.That(t2[1].pointarray[5], Is.EqualTo(new Point64(210,0,0)));
-        Assert.That(t2[1].pointarray[6], Is.EqualTo(new Point64(110,0,0)));
+        Assert.That(t2[1].pointarray[0], Is.EqualTo(new Point64(110, 0, 0)));
+        Assert.That(t2[1].pointarray[1], Is.EqualTo(new Point64(110, 100, 0)));
+        Assert.That(t2[1].pointarray[2], Is.EqualTo(new Point64(150, 100, 0)));
+        Assert.That(t2[1].pointarray[3], Is.EqualTo(new Point64(150, 40, 0)));
+        Assert.That(t2[1].pointarray[4], Is.EqualTo(new Point64(210, 40, 0)));
+        Assert.That(t2[1].pointarray[5], Is.EqualTo(new Point64(210, 0, 0)));
+        Assert.That(t2[1].pointarray[6], Is.EqualTo(new Point64(110, 0, 0)));
         Assert.That(t2[2].layer_nr, Is.EqualTo(1));
         Assert.That(t2[2].datatype_nr, Is.EqualTo(0));
         Assert.That(t2[2].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[2].pointarray[0], Is.EqualTo(new Point64(0,110,0)));
-        Assert.That(t2[2].pointarray[1], Is.EqualTo(new Point64(0,210,0)));
-        Assert.That(t2[2].pointarray[2], Is.EqualTo(new Point64(40,210,0)));
-        Assert.That(t2[2].pointarray[3], Is.EqualTo(new Point64(40,150,0)));
-        Assert.That(t2[2].pointarray[4], Is.EqualTo(new Point64(100,150,0)));
-        Assert.That(t2[2].pointarray[5], Is.EqualTo(new Point64(100,110,0)));
-        Assert.That(t2[2].pointarray[6], Is.EqualTo(new Point64(0,110,0)));
+        Assert.That(t2[2].pointarray[0], Is.EqualTo(new Point64(0, 110, 0)));
+        Assert.That(t2[2].pointarray[1], Is.EqualTo(new Point64(0, 210, 0)));
+        Assert.That(t2[2].pointarray[2], Is.EqualTo(new Point64(40, 210, 0)));
+        Assert.That(t2[2].pointarray[3], Is.EqualTo(new Point64(40, 150, 0)));
+        Assert.That(t2[2].pointarray[4], Is.EqualTo(new Point64(100, 150, 0)));
+        Assert.That(t2[2].pointarray[5], Is.EqualTo(new Point64(100, 110, 0)));
+        Assert.That(t2[2].pointarray[6], Is.EqualTo(new Point64(0, 110, 0)));
         Assert.That(t2[3].layer_nr, Is.EqualTo(1));
         Assert.That(t2[3].datatype_nr, Is.EqualTo(0));
         Assert.That(t2[3].pointarray.Count, Is.EqualTo(7));
-        Assert.That(t2[3].pointarray[0], Is.EqualTo(new Point64(110,110,0)));
-        Assert.That(t2[3].pointarray[1], Is.EqualTo(new Point64(110,210,0)));
-        Assert.That(t2[3].pointarray[2], Is.EqualTo(new Point64(150,210,0)));
-        Assert.That(t2[3].pointarray[3], Is.EqualTo(new Point64(150,150,0)));
-        Assert.That(t2[3].pointarray[4], Is.EqualTo(new Point64(210,150,0)));
-        Assert.That(t2[3].pointarray[5], Is.EqualTo(new Point64(210,110,0)));
-        Assert.That(t2[3].pointarray[6], Is.EqualTo(new Point64(110,110,0)));
+        Assert.That(t2[3].pointarray[0], Is.EqualTo(new Point64(110, 110, 0)));
+        Assert.That(t2[3].pointarray[1], Is.EqualTo(new Point64(110, 210, 0)));
+        Assert.That(t2[3].pointarray[2], Is.EqualTo(new Point64(150, 210, 0)));
+        Assert.That(t2[3].pointarray[3], Is.EqualTo(new Point64(150, 150, 0)));
+        Assert.That(t2[3].pointarray[4], Is.EqualTo(new Point64(210, 150, 0)));
+        Assert.That(t2[3].pointarray[5], Is.EqualTo(new Point64(210, 110, 0)));
+        Assert.That(t2[3].pointarray[6], Is.EqualTo(new Point64(110, 110, 0)));
         Assert.That(t2[4].layer_nr, Is.EqualTo(1));
         Assert.That(t2[4].datatype_nr, Is.EqualTo(0));
         Assert.That(t2[4].pointarray.Count, Is.EqualTo(5));
-        Assert.That(t2[4].pointarray[0], Is.EqualTo(new Point64(60,173,0)));
-        Assert.That(t2[4].pointarray[1], Is.EqualTo(new Point64(60,201,0)));
-        Assert.That(t2[4].pointarray[2], Is.EqualTo(new Point64(83,201,0)));
-        Assert.That(t2[4].pointarray[3], Is.EqualTo(new Point64(83,173,0)));
-        Assert.That(t2[4].pointarray[4], Is.EqualTo(new Point64(60,173,0)));
+        Assert.That(t2[4].pointarray[0], Is.EqualTo(new Point64(60, 173, 0)));
+        Assert.That(t2[4].pointarray[1], Is.EqualTo(new Point64(60, 201, 0)));
+        Assert.That(t2[4].pointarray[2], Is.EqualTo(new Point64(83, 201, 0)));
+        Assert.That(t2[4].pointarray[3], Is.EqualTo(new Point64(83, 173, 0)));
+        Assert.That(t2[4].pointarray[4], Is.EqualTo(new Point64(60, 173, 0)));
         Assert.That(t2[5].layer_nr, Is.EqualTo(2).Within(2));
         Assert.That(t2[5].datatype_nr, Is.EqualTo(0).Within(0));
         Assert.That(t2[5].pointarray.Count, Is.EqualTo(5).Within(5));
-        Assert.That(t2[5].pointarray[0], Is.EqualTo(new Point64(52,67,0)));
-        Assert.That(t2[5].pointarray[1], Is.EqualTo(new Point64(52,93,0)));
-        Assert.That(t2[5].pointarray[2], Is.EqualTo(new Point64(103,93,0)));
-        Assert.That(t2[5].pointarray[3], Is.EqualTo(new Point64(103,67,0)));
-        Assert.That(t2[5].pointarray[4], Is.EqualTo(new Point64(52,67,0)));
+        Assert.That(t2[5].pointarray[0], Is.EqualTo(new Point64(52, 67, 0)));
+        Assert.That(t2[5].pointarray[1], Is.EqualTo(new Point64(52, 93, 0)));
+        Assert.That(t2[5].pointarray[2], Is.EqualTo(new Point64(103, 93, 0)));
+        Assert.That(t2[5].pointarray[3], Is.EqualTo(new Point64(103, 67, 0)));
+        Assert.That(t2[5].pointarray[4], Is.EqualTo(new Point64(52, 67, 0)));
 
         // Nested array
         gcGDS.activeStructure = gcGDS.getStructureList().IndexOf("b");
@@ -5390,7 +5390,7 @@ public class GeoCoreTests
 
         PathsD geo = gcGDS.points(flatten: true);
         Assert.That(geo.Count, Is.EqualTo(4));
-        
+
         // We have floats, so this gets a little more awkward.
         Assert.That(Math.Abs(geo[0][0].x - 0), Is.LessThanOrEqualTo(1E-13));
         Assert.That(Math.Abs(geo[0][0].y - 0), Is.LessThanOrEqualTo(1E-13));
@@ -5476,7 +5476,7 @@ public class GeoCoreTests
         // Use previously computed hash to check that our long list is aligned with expectations.
         Assert.That(Utils.GetSHA256Hash(geo2), Is.EqualTo("vZoyBBGchu/u+LChif6g6kzH6nGSVj6XHD/GdPwfT7g="));
     }
-    
+
     [Test]
     public static void defineAndWrite_Polygon()
     {
@@ -5518,48 +5518,48 @@ public class GeoCoreTests
 
         // L
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
         // triangle
         poly = Helper.initedPath64(3);
-        poly[0] = new (0, 0);
-        poly[1] = new (10, 20);
-        poly[2] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(10, 20);
+        poly[2] = new(20, 0);
 
         gcell.addPolygon(poly, 2, 0);
 
         // pentagram
         poly = Helper.initedPath64(5);
-        poly[0] = new (5, 0);
-        poly[1] = new (0, 10);
-        poly[2] = new (10, 20);
-        poly[3] = new (20, 10);
-        poly[4] = new (15, 0);
+        poly[0] = new(5, 0);
+        poly[1] = new(0, 10);
+        poly[2] = new(10, 20);
+        poly[3] = new(20, 10);
+        poly[4] = new(15, 0);
 
         gcell.addPolygon(poly, 3, 0);
 
         // trapezoid
         poly = Helper.initedPath64(4);
-        poly[0] = new (0, 0);
-        poly[1] = new (5, 20);
-        poly[2] = new (15, 20);
-        poly[3] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(5, 20);
+        poly[2] = new(15, 20);
+        poly[3] = new(20, 0);
 
         gcell.addPolygon(poly, 4, 0);
 
         // parallelogram
         poly = Helper.initedPath64(4);
-        poly[0] = new (0, 0);
-        poly[1] = new (10, 20);
-        poly[2] = new (20, 20);
-        poly[3] = new (10, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(10, 20);
+        poly[2] = new(20, 20);
+        poly[3] = new(10, 0);
 
         gcell.addPolygon(poly, 5, 0);
 
@@ -5575,7 +5575,7 @@ public class GeoCoreTests
         gw.save();
 
         Assert.That(File.Exists(gdsFile), Is.True);
-        
+
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
@@ -5584,7 +5584,7 @@ public class GeoCoreTests
         GCCell cell_gds = drawing_gds.findCell("test");
 
         // L
-        Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);          
+        Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[0].layer_nr, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[0].datatype_nr, Is.EqualTo(0));
         List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
@@ -5683,7 +5683,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -5824,11 +5824,11 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 path = Helper.initedPath64(5);
-        path[0] = new (0, 0);
-        path[1] = new (0, 10);
-        path[2] = new (20, 10);
-        path[3] = new (20, 40);
-        path[4] = new (0, 40);
+        path[0] = new(0, 0);
+        path[1] = new(0, 10);
+        path[2] = new(20, 10);
+        path[3] = new(20, 40);
+        path[4] = new(0, 40);
 
         gcell.addPath(path, 1, 0);
         // This 5 width becomes an issue with coarse layout grids because it resolves to 3 each side (rather than 2.5), which is observed below.
@@ -5904,7 +5904,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -5997,8 +5997,8 @@ public class GeoCoreTests
 
         gcell.cellName = "test";
 
-        gcell.addCircle(1, 0, new (10, 10), 5.0);
-        
+        gcell.addCircle(1, 0, new(10, 10), 5.0);
+
         g.setDrawing(drawing_);
         g.setValid(true);
 
@@ -6034,7 +6034,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -6090,12 +6090,12 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -6103,7 +6103,7 @@ public class GeoCoreTests
         gcell.cellName = "test_cellref1";
         gcell.addCellref();
 
-        gcell.elementList[^1].setPos(new (10, 0));
+        gcell.elementList[^1].setPos(new(10, 0));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test"));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
@@ -6112,7 +6112,7 @@ public class GeoCoreTests
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellref1_mx";
         gcell.addCellref();
-        gcell.elementList[^1].setPos(new (10, 0));
+        gcell.elementList[^1].setPos(new(10, 0));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test"));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
@@ -6136,19 +6136,19 @@ public class GeoCoreTests
         gcell.cellName = "test2";
 
         poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 30);
-        poly[2] = new (10, 30);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 30);
+        poly[2] = new(10, 30);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellref2";
         gcell.addCellref();
-        gcell.elementList[^1].setPos(new (20, 20));
+        gcell.elementList[^1].setPos(new(20, 20));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test2"));
         gcell.elementList[^1].setName("test2");
         gcell.elementList[^1].rotate(90);
@@ -6157,7 +6157,7 @@ public class GeoCoreTests
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellref2_mx";
         gcell.addCellref();
-        gcell.elementList[^1].setPos(new (20, 20));
+        gcell.elementList[^1].setPos(new(20, 20));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test2"));
         gcell.elementList[^1].setName("test2");
         gcell.elementList[^1].rotate(90);
@@ -6293,7 +6293,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -6348,7 +6348,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[0].pointarray[5].Y, Is.EqualTo(pos.Y + 0));
         Assert.That(polys_oas[0].pointarray[6].X, Is.EqualTo(pos.X + 0));
         Assert.That(polys_oas[0].pointarray[6].Y, Is.EqualTo(pos.Y + 0));
-        
+
         cell_oas = drawing_gds.findCell("test_cellref2");
         Assert.That(cell_oas.elementList[^1].isCellref(), Is.True);
         pos = cell_oas.elementList[^1].getPos();
@@ -6374,7 +6374,7 @@ public class GeoCoreTests
         Assert.That(polys_oas[0].pointarray[5].Y, Is.EqualTo(pos.Y + 40));
         Assert.That(polys_oas[0].pointarray[6].X, Is.EqualTo(pos.X));
         Assert.That(polys_oas[0].pointarray[6].Y, Is.EqualTo(pos.Y));
-        
+
         cell_oas = drawing_gds.findCell("test_cellref2_mx");
         Assert.That(cell_oas.elementList[^1].isCellref(), Is.True);
         pos = cell_oas.elementList[^1].getPos();
@@ -6442,12 +6442,12 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -6455,15 +6455,15 @@ public class GeoCoreTests
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray1";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (0, 0));
+        gcell.elementList[^1].setPos(new(0, 0));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
@@ -6541,7 +6541,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -6567,7 +6567,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(16));
-        
+
         polyIndex = 0;
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
@@ -6633,12 +6633,12 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -6646,19 +6646,19 @@ public class GeoCoreTests
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray2";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
-        
+
         g.setDrawing(drawing_);
         g.setValid(true);
 
@@ -6733,7 +6733,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -6759,7 +6759,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(16));
-        
+
         polyIndex = 0;
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
@@ -6825,12 +6825,12 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -6838,15 +6838,15 @@ public class GeoCoreTests
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray3";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(1);
@@ -6903,7 +6903,7 @@ public class GeoCoreTests
                 Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(-10 + (colIndex * row_pitch.X)));
                 Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(-10 + (colIndex * row_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(0 + (colIndex * row_pitch.X)));
                 Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(0 + (colIndex * row_pitch.X)));
@@ -6915,7 +6915,7 @@ public class GeoCoreTests
                 polyIndex++;
             }
         }
-        
+
         string oasFile = outDir + "simple_cellrefarray3.oas";
         if (File.Exists(oasFile))
         {
@@ -6924,7 +6924,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -6962,7 +6962,7 @@ public class GeoCoreTests
                 Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(-10 + (colIndex * col_pitch.X)));
                 Assert.That(polys_oas[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[2].X, Is.EqualTo(-10 + (colIndex * col_pitch.X)));
-                Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * row_pitch.Y)));
+                Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(30 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[3].X, Is.EqualTo(0 + (colIndex * col_pitch.X)));
                 Assert.That(polys_oas[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(0 + (colIndex * col_pitch.X)));
@@ -7016,12 +7016,12 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -7029,19 +7029,19 @@ public class GeoCoreTests
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray4";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(2);
-        
+
         g.setDrawing(drawing_);
         g.setValid(true);
 
@@ -7112,13 +7112,13 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
-        
+
         GCCell cell_oas = drawing_oas.findCell("test_cellrefarray4");
         Assert.That(cell_oas.elementList[^1].isCellrefArray(), Is.True);
         pos = cell_oas.elementList[^1].getPos();
@@ -7205,12 +7205,12 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -7218,15 +7218,15 @@ public class GeoCoreTests
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray5";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(2);
@@ -7301,7 +7301,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -7393,27 +7393,27 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
-        
+
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray1_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (0, 0));
+        gcell.elementList[^1].setPos(new(0, 0));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
@@ -7480,7 +7480,7 @@ public class GeoCoreTests
                 Assert.That(polys_gds[polyIndex].pointarray[5].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
                 Assert.That(polys_gds[polyIndex].pointarray[6].X, Is.EqualTo(pos.X + (scale * (0 + (colIndex * row_pitch.X)))));
                 Assert.That(polys_gds[polyIndex].pointarray[6].Y, Is.EqualTo(pos.Y + (scale * (-0 + (rowIndex * col_pitch.Y)))));
-                    polyIndex++;
+                polyIndex++;
             }
         }
 
@@ -7492,7 +7492,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -7519,7 +7519,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(16));
-        
+
         polyIndex = 0;
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
@@ -7585,27 +7585,27 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
-        
+
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray2_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
@@ -7626,7 +7626,7 @@ public class GeoCoreTests
         Point64 pos, row_pitch, col_pitch, count;
         double scale;
         int polyIndex = 0;
-        
+
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(gdsFile, GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
@@ -7684,7 +7684,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -7710,7 +7710,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(16));
-        
+
         polyIndex = 0;
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
@@ -7776,27 +7776,27 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
-        
+
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray3_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(1);
@@ -7854,7 +7854,7 @@ public class GeoCoreTests
                 Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
                 Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(30 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(20 + (colIndex * row_pitch.X)));
                 Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(20 + (colIndex * row_pitch.X)));
@@ -7875,7 +7875,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -7913,7 +7913,7 @@ public class GeoCoreTests
                 Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
                 Assert.That(polys_oas[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[2].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
-                Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(30 +  (rowIndex * row_pitch.Y)));
+                Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(30 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[3].X, Is.EqualTo(20 + (colIndex * col_pitch.X)));
                 Assert.That(polys_oas[polyIndex].pointarray[3].Y, Is.EqualTo(30 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(20 + (colIndex * col_pitch.X)));
@@ -7967,27 +7967,27 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
-        
+
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray4_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(2);
@@ -8066,7 +8066,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -8092,7 +8092,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(16));
-        
+
         polyIndex = 0;
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
@@ -8158,27 +8158,27 @@ public class GeoCoreTests
         gcell.cellName = "test";
 
         Path64 poly = Helper.initedPath64(6);
-        poly[0] = new (0, 0);
-        poly[1] = new (0, 20);
-        poly[2] = new (10, 20);
-        poly[3] = new (10, 10);
-        poly[4] = new (20, 10);
-        poly[5] = new (20, 0);
+        poly[0] = new(0, 0);
+        poly[1] = new(0, 20);
+        poly[2] = new(10, 20);
+        poly[3] = new(10, 10);
+        poly[4] = new(20, 10);
+        poly[5] = new(20, 0);
 
         gcell.addPolygon(poly, 1, 0);
-        
+
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
         Path64 array = Helper.initedPath64(3);
-        array[0] = new (0, 0);
-        array[1] = new (0, 80);
-        array[2] = new (100, 0);
+        array[0] = new(0, 0);
+        array[1] = new(0, 80);
+        array[2] = new(100, 0);
 
         gcell = drawing_.addCell();
         gcell.cellName = "test_cellrefarray5_mx";
-        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new (10, 20));
+        gcell.elementList[^1].setPos(new(10, 20));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(90);
         gcell.elementList[^1].scale(2);
@@ -8236,7 +8236,7 @@ public class GeoCoreTests
                 Assert.That(polys_gds[polyIndex].pointarray[1].X, Is.EqualTo(50 + (colIndex * row_pitch.X)));
                 Assert.That(polys_gds[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[2].X, Is.EqualTo(50 + (colIndex * row_pitch.X)));
-                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(40 +  (rowIndex * col_pitch.Y)));
+                Assert.That(polys_gds[polyIndex].pointarray[2].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[3].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
                 Assert.That(polys_gds[polyIndex].pointarray[3].Y, Is.EqualTo(40 + (rowIndex * col_pitch.Y)));
                 Assert.That(polys_gds[polyIndex].pointarray[4].X, Is.EqualTo(30 + (colIndex * row_pitch.X)));
@@ -8257,7 +8257,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -8283,7 +8283,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
         List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(16));
-        
+
         polyIndex = 0;
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
         {
@@ -8295,7 +8295,7 @@ public class GeoCoreTests
                 Assert.That(polys_oas[polyIndex].pointarray[1].X, Is.EqualTo(50 + (colIndex * col_pitch.X)));
                 Assert.That(polys_oas[polyIndex].pointarray[1].Y, Is.EqualTo(20 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[2].X, Is.EqualTo(50 + (colIndex * col_pitch.X)));
-                Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(40 +  (rowIndex * row_pitch.Y)));
+                Assert.That(polys_oas[polyIndex].pointarray[2].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[3].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
                 Assert.That(polys_oas[polyIndex].pointarray[3].Y, Is.EqualTo(40 + (rowIndex * row_pitch.Y)));
                 Assert.That(polys_oas[polyIndex].pointarray[4].X, Is.EqualTo(30 + (colIndex * col_pitch.X)));
@@ -8322,7 +8322,7 @@ public class GeoCoreTests
         GCDrawingfield drawing_oas_ref = gcOAS_ref.getDrawing();
         List<GCPolygon> polys_oas_ref = drawing_oas_ref.convertToPolygons(cells: ["test_cellrefarray1"])[0];
         Assert.That(polys_oas_ref.Count, Is.EqualTo(16));
-        
+
         // Check our repetition has been handled correctly.
         int xPitch = 25;
         int yPitch = 20;
@@ -8332,23 +8332,23 @@ public class GeoCoreTests
         {
             for (int col = 0; col < 4; col++)
             {
-                Assert.That(polys_oas_ref[index].pointarray[0].X, Is.EqualTo( 0 + (col * xPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[0].Y, Is.EqualTo( 0 + (row * yPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[1].X, Is.EqualTo( 0 + (col * xPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[1].Y, Is.EqualTo( 20 + (row * yPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[2].X, Is.EqualTo( 10 + (col * xPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[2].Y, Is.EqualTo( 20 + (row * yPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[3].X, Is.EqualTo( 10 + (col * xPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[3].Y, Is.EqualTo( 10 + (row * yPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[4].X, Is.EqualTo( 20 + (col * xPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[4].Y, Is.EqualTo( 10 + (row * yPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[5].X, Is.EqualTo( 20 + (col * xPitch)));
-                Assert.That(polys_oas_ref[index].pointarray[5].Y, Is.EqualTo( 0 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[0].X, Is.EqualTo(0 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[0].Y, Is.EqualTo(0 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[1].X, Is.EqualTo(0 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[1].Y, Is.EqualTo(20 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[2].X, Is.EqualTo(10 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[2].Y, Is.EqualTo(20 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[3].X, Is.EqualTo(10 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[3].Y, Is.EqualTo(10 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[4].X, Is.EqualTo(20 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[4].Y, Is.EqualTo(10 + (row * yPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[5].X, Is.EqualTo(20 + (col * xPitch)));
+                Assert.That(polys_oas_ref[index].pointarray[5].Y, Is.EqualTo(0 + (row * yPitch)));
                 index++;
             }
         }
     }
-    
+
     [Test]
     public static void test_cellref_irregular_parser()
     {
@@ -8363,12 +8363,12 @@ public class GeoCoreTests
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.That(gcOAS.isValid(), Is.True);
 
-        List<GCPolygon> gds_polys = gcGDS.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
-        List<GCPolygon> oas_polys = gcOAS.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> gds_polys = gcGDS.getDrawing().convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> oas_polys = gcOAS.getDrawing().convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
 
         string gds_hash = Utils.GetMD5Hash(gds_polys);
         string oas_hash = Utils.GetMD5Hash(oas_polys);
-        
+
         Assert.That(gds_hash, Is.EqualTo(oas_hash));
 
         // Review geometry - if hashes match, we only need to check one of the inputs.
@@ -8426,7 +8426,7 @@ public class GeoCoreTests
         gds.gdsWriter gw = new(gcGDS, gdsFile);
         gw.save();
         Assert.That(File.Exists(gdsFile), Is.True);
-        
+
         string oasFile = outfile + ".oas";
         if (File.Exists(oasFile))
         {
@@ -8446,12 +8446,12 @@ public class GeoCoreTests
         GeoCore gcOAS_reload = gH_OAS_reload.getGeo();
         Assert.That(gcOAS_reload.isValid(), Is.True);
 
-        List<GCPolygon> gds_polys_reload = gcGDS_reload.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
-        List<GCPolygon> oas_polys_reload = gcOAS_reload.getDrawing().convertToPolygons(cells:["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> gds_polys_reload = gcGDS_reload.getDrawing().convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
+        List<GCPolygon> oas_polys_reload = gcOAS_reload.getDrawing().convertToPolygons(cells: ["test_cellrefarray_irregular"])[0];
 
         string gds_reload_hash = Utils.GetMD5Hash(gds_polys_reload);
         string oas_reload_hash = Utils.GetMD5Hash(oas_polys_reload);
-        
+
         Assert.That(gds_reload_hash, Is.EqualTo(oas_reload_hash));
         Assert.That(gds_reload_hash, Is.EqualTo(gds_hash));
         Assert.That(oas_reload_hash, Is.EqualTo(oas_hash));
@@ -8459,16 +8459,16 @@ public class GeoCoreTests
         // No need to review geometry - if hashes match, all is good.
     }
 
-    [Test]    
+    [Test]
     public static void test_cellref_irregular_offset_parser()
     {
         string inputfile = baseDir + "cellref_array_irregular_offset";
- 
+
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(inputfile + ".gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
- 
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(inputfile + ".oas", GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -8563,12 +8563,12 @@ public class GeoCoreTests
             Assert.That(oas_polys[poly].pointarray[6].X, Is.EqualTo(0 + x_offset_oas));
             Assert.That(oas_polys[poly].pointarray[6].Y, Is.EqualTo(0 + y_offset_oas));
         }
-        
+
         // Precomputed hashes. Geometry is differently ordered, so hashes differ
         Assert.That(gds_hash, Is.EqualTo("5UJvmu7iw5bkcDvYxrImTQ=="));
         Assert.That(oas_hash, Is.EqualTo("15trvprfnCQH7L8uWiGx7A=="));
     }
-    
+
     // Need tests for the interaction of array position and so on as well, e.g. the initial array 0 entry, pos, and so on.
 
     [Test]
@@ -8610,7 +8610,7 @@ public class GeoCoreTests
 
         gcell.cellName = "test";
 
-        gcell.addText(1, 0, new (10, 10), "Text");
+        gcell.addText(1, 0, new(10, 10), "Text");
 
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -8641,7 +8641,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -8709,31 +8709,31 @@ public class GeoCoreTests
                     {0, 0, 0, 0}, // x=0*w+0*h, y=0*w+0*h ...
                     {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}
                 },
-                1 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
-                2 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                3 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                4 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
-                5 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
-                6 => new [,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
-                7 => new [,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
-                8 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
-                9 => new [,] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                10 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
-                11 => new [,] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                12 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 1, 0}},
-                13 => new [,] {{0, 0, 1, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                14 => new [,] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
-                15 => new [,] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
-                16 => new [,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
-                17 => new [,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
-                18 => new [,] {{0, 0, 0, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
-                19 => new [,] {{0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 1, 0}},
-                20 => new [,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {0, 2, 0, 0}, {0, 0, 0, 0}},
-                21 => new [,] {{0, 0, 0, 1}, {0, 2, 0, 1}, {0, 1, 0, 0}, {0, 0, 0, 1}},
-                22 => new [,] {{0, 0, 0, 0}, {0, 0, 2, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
-                23 => new [,] {{1, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 2, 0}, {1, 0, 0, 0}},
-                24 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                25 => new [,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}},
+                1 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, 0, 1 }, { 1, -1, 0, 0 } },
+                2 => new[,] { { 0, 0, 0, 0 }, { 0, 1, 0, 1 }, { 1, 0, 0, 1 }, { 1, 0, 0, 0 } },
+                3 => new[,] { { 0, 1, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, 0, 1 }, { 1, 0, 0, 0 } },
+                4 => new[,] { { 0, 0, 0, 0 }, { 0, 1, 0, 1 }, { 1, -1, 0, 1 }, { 1, 0, 0, 0 } },
+                5 => new[,] { { 0, 1, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, 0, 1 }, { 1, -1, 0, 0 } },
+                6 => new[,] { { 0, 0, 0, 0 }, { 0, 1, 0, 1 }, { 1, 0, 0, 1 }, { 1, -1, 0, 0 } },
+                7 => new[,] { { 0, 1, 0, 0 }, { 0, 0, 0, 1 }, { 1, -1, 0, 1 }, { 1, 0, 0, 0 } },
+                8 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, -1, 1 }, { 1, 0, 0, 0 } },
+                9 => new[,] { { 0, 0, 0, 0 }, { 0, 0, -1, 1 }, { 1, 0, 0, 1 }, { 1, 0, 0, 0 } },
+                10 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, 0, 1 }, { 1, 0, 1, 0 } },
+                11 => new[,] { { 0, 0, 1, 0 }, { 0, 0, 0, 1 }, { 1, 0, 0, 1 }, { 1, 0, 0, 0 } },
+                12 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, -1, 1 }, { 1, 0, 1, 0 } },
+                13 => new[,] { { 0, 0, 1, 0 }, { 0, 0, -1, 1 }, { 1, 0, 0, 1 }, { 1, 0, 0, 0 } },
+                14 => new[,] { { 0, 0, 0, 0 }, { 0, 0, -1, 1 }, { 1, 0, 0, 1 }, { 1, 0, 1, 0 } },
+                15 => new[,] { { 0, 0, 1, 0 }, { 0, 0, 0, 1 }, { 1, 0, -1, 1 }, { 1, 0, 0, 0 } },
+                16 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 1, 0 }, { 1, 0, 0, 0 }, { 0, 0, 0, 0 } },
+                17 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 1, 0 }, { 1, 0, 1, 0 }, { 0, 0, 0, 0 } },
+                18 => new[,] { { 0, 0, 0, 0 }, { 1, 0, 1, 0 }, { 1, 0, 0, 0 }, { 0, 0, 0, 0 } },
+                19 => new[,] { { 0, 0, 1, 0 }, { 1, 0, 1, 0 }, { 1, 0, 0, 0 }, { 0, 0, 1, 0 } },
+                20 => new[,] { { 0, 0, 0, 0 }, { 0, 1, 0, 1 }, { 0, 2, 0, 0 }, { 0, 0, 0, 0 } },
+                21 => new[,] { { 0, 0, 0, 1 }, { 0, 2, 0, 1 }, { 0, 1, 0, 0 }, { 0, 0, 0, 1 } },
+                22 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 2, 0 }, { 1, 0, 1, 0 }, { 0, 0, 0, 0 } },
+                23 => new[,] { { 1, 0, 0, 0 }, { 0, 0, 1, 0 }, { 1, 0, 2, 0 }, { 1, 0, 0, 0 } },
+                24 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 0, 1 }, { 1, 0, 0, 1 }, { 1, 0, 0, 0 } },
+                25 => new[,] { { 0, 0, 0, 0 }, { 0, 0, 1, 0 }, { 1, 0, 1, 0 }, { 1, 0, 0, 0 } },
                 _ => new int[4, 4]
             };
 
@@ -8761,7 +8761,7 @@ public class GeoCoreTests
                     y += coords[pt, 3] * h;
                 }
 
-                pa[pt] = new (x, y);
+                pa[pt] = new(x, y);
 
                 if (x > w)
                 {
@@ -8773,7 +8773,7 @@ public class GeoCoreTests
                 }
             }
 
-            pa[^1] = new (pa[0]);
+            pa[^1] = new(pa[0]);
 
             gcell.addPolygon(pa, i + 1, 0);
         }
@@ -8811,7 +8811,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -8819,7 +8819,7 @@ public class GeoCoreTests
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("test");
 
-        Assert.That( cell_oas.elementList[^1].isPolygon(), Is.True);
+        Assert.That(cell_oas.elementList[^1].isPolygon(), Is.True);
         List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(5));
@@ -8880,21 +8880,21 @@ public class GeoCoreTests
             // (m & 0x80)
             case true:
                 //  vertically
-                pa[0] = new (x, y + Math.Max(trapezoid_delta_a, 0));
-                pa[1] = new (x, y + h + Math.Min(trapezoid_delta_b, 0));
-                pa[2] = new (x + w, y + h - Math.Max(trapezoid_delta_b, 0));
-                pa[3] = new (x + w, y - Math.Min(trapezoid_delta_a, 0));
+                pa[0] = new(x, y + Math.Max(trapezoid_delta_a, 0));
+                pa[1] = new(x, y + h + Math.Min(trapezoid_delta_b, 0));
+                pa[2] = new(x + w, y + h - Math.Max(trapezoid_delta_b, 0));
+                pa[3] = new(x + w, y - Math.Min(trapezoid_delta_a, 0));
                 break;
             default:
                 //  horizontally
-                pa[0] = new (x + Math.Max(trapezoid_delta_a, 0), y + h);
-                pa[1] = new (x + w + Math.Min(trapezoid_delta_b, 0), y + h);
-                pa[2] = new (x + w - Math.Max(trapezoid_delta_b, 0), y);
-                pa[3] = new (x - Math.Min(trapezoid_delta_a, 0), y);
+                pa[0] = new(x + Math.Max(trapezoid_delta_a, 0), y + h);
+                pa[1] = new(x + w + Math.Min(trapezoid_delta_b, 0), y + h);
+                pa[2] = new(x + w - Math.Max(trapezoid_delta_b, 0), y);
+                pa[3] = new(x - Math.Min(trapezoid_delta_a, 0), y);
                 break;
         }
 
-        pa[4] = new (pa[0]);
+        pa[4] = new(pa[0]);
 
         gcell.addPolygon(pa, 1, 0);
 
@@ -8905,21 +8905,21 @@ public class GeoCoreTests
             // (m & 0x80)
             case true:
                 //  vertically
-                pa[0] = new (x, y + Math.Max(trapezoid_delta_a, 0));
-                pa[1] = new (x, y + h + Math.Min(trapezoid_delta_b, 0));
-                pa[2] = new (x + w, y + h - Math.Max(trapezoid_delta_b, 0));
-                pa[3] = new (x + w, y - Math.Min(trapezoid_delta_a, 0));
+                pa[0] = new(x, y + Math.Max(trapezoid_delta_a, 0));
+                pa[1] = new(x, y + h + Math.Min(trapezoid_delta_b, 0));
+                pa[2] = new(x + w, y + h - Math.Max(trapezoid_delta_b, 0));
+                pa[3] = new(x + w, y - Math.Min(trapezoid_delta_a, 0));
                 break;
             default:
                 //  horizontally
-                pa[0] = new (x + Math.Max(trapezoid_delta_a, 0), y + h);
-                pa[1] = new (x + w + Math.Min(trapezoid_delta_b, 0), y + h);
-                pa[2] = new (x + w - Math.Max(trapezoid_delta_b, 0), y);
-                pa[3] = new (x - Math.Min(trapezoid_delta_a, 0), y);
+                pa[0] = new(x + Math.Max(trapezoid_delta_a, 0), y + h);
+                pa[1] = new(x + w + Math.Min(trapezoid_delta_b, 0), y + h);
+                pa[2] = new(x + w - Math.Max(trapezoid_delta_b, 0), y);
+                pa[3] = new(x - Math.Min(trapezoid_delta_a, 0), y);
                 break;
         }
 
-        pa[4] = new (pa[0]);
+        pa[4] = new(pa[0]);
 
         gcell.addPolygon(pa, 2, 0);
 
@@ -8955,7 +8955,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -9017,18 +9017,18 @@ public class GeoCoreTests
             gcell.cellName = "test" + i;
 
             Path64 poly = Helper.initedPath64(6);
-            poly[0] = new (0, 0);
-            poly[1] = new (0, 20);
-            poly[2] = new (10, 20);
-            poly[3] = new (10, 10);
-            poly[4] = new (20, 10);
-            poly[5] = new (20, 0);
+            poly[0] = new(0, 0);
+            poly[1] = new(0, 20);
+            poly[2] = new(10, 20);
+            poly[3] = new(10, 10);
+            poly[4] = new(20, 10);
+            poly[5] = new(20, 0);
 
             gcell.addPolygon(poly, 1, 0);
 
             master_gcell.addCellref();
             GCElement cellref = master_gcell.elementList[^1];
-            cellref.setPos(new (40 * (i % edge), 40 * Math.Floor((double)i / edge)));
+            cellref.setPos(new(40 * (i % edge), 40 * Math.Floor((double)i / edge)));
             cellref.setCellRef(drawing_.findCell("test" + i));
             cellref.setName("test" + i);
             cellref.rotate(0);
@@ -9075,7 +9075,7 @@ public class GeoCoreTests
         oasis.oasWriter ow = new(g, oasFile);
         ow.save();
         Assert.That(File.Exists(oasFile), Is.True);
-        
+
         GeoCoreHandler gH_OAS = new();
         gH_OAS.updateGeoCoreHandler(oasFile, GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
@@ -9118,7 +9118,7 @@ public class GeoCoreTests
             userunits = GCDrawingfield.default_userunits / scale,
             libname = "noname"
         };
-        Assert.That(2018, Is.EqualTo(drawing_.accyear));
+        Assert.That(drawing_.accyear, Is.EqualTo(2018));
 
         GCCell gcell = drawing_.addCell();
         // Force the below for comparison sake
@@ -9164,7 +9164,7 @@ public class GeoCoreTests
 
         int move_x = 10;
         int move_y = 20;
-        content.move(new (move_x, move_y));
+        content.move(new(move_x, move_y));
         Assert.That(content.getPos().X, Is.EqualTo(move_x));
         Assert.That(content.getPos().Y, Is.EqualTo(move_y));
         minx = Int64.MaxValue;
@@ -9331,7 +9331,7 @@ public class GeoCoreTests
             ow.save();
             Assert.That(File.Exists(oasFile), Is.True);
         }
-        
+
         foreach (int datatype in values)
         {
             int layer = 1;

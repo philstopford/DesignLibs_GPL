@@ -60,7 +60,7 @@ public class ShapeEngineTests
     {
         // Arrange
         ShapeSettings shapeSettings = new ShapeSettings();
-        
+
         // Act
         ShapeLibrary shapeLib = new ShapeLibrary(shapeTable, shapeSettings);
 
@@ -265,7 +265,7 @@ public class ShapeEngineTests
         Assert.That(shapes2.IndexOf(availableShapes_all[9]), Is.EqualTo(7));
         Assert.That(shapes2.IndexOf(availableShapes_all[10]), Is.EqualTo(8));
         Assert.That(shapes2.IndexOf(availableShapes_all[11]), Is.EqualTo(9));
-        
+
         // Do we get the correct shape from the engine?
         ShapeSettings shapeSettings1 = new ShapeSettings();
         shapeSettings1.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.bounding);
@@ -278,7 +278,7 @@ public class ShapeEngineTests
         SvgUtils.AddSolution(svgSrc, new() { out_1 }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "bounding_lookup_test.svg", FillRule.NonZero, 800, 800, 10);
     }
-    
+
     [Test]
     public static void rectangleTest()
     {
@@ -305,7 +305,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(10));
         Assert.That(bounds.Height, Is.EqualTo(20));
     }
-    
+
     [Test]
     public static void rectangleRoundingTest()
     {
@@ -334,7 +334,7 @@ public class ShapeEngineTests
         double area = Clipper.Area(out_);
         Assert.That(Math.Abs(-(Math.PI * 10 * 10) - area), Is.LessThanOrEqualTo(0.15));
     }
-    
+
     [Test]
     public static void biasTest()
     {
@@ -359,7 +359,7 @@ public class ShapeEngineTests
         Assert.That(clean.Count, Is.EqualTo(105));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.That(area, Is.EqualTo(-22*30));
+        Assert.That(area, Is.EqualTo(-22 * 30));
         RectD bounds = Clipper.GetBounds(clean);
         Assert.That(bounds.Width, Is.EqualTo(22));
         Assert.That(bounds.Height, Is.EqualTo(30));
@@ -457,7 +457,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(20));
     }
-    
+
     [Test]
     public static void lInnerRoundingVarTest()
     {
@@ -483,7 +483,7 @@ public class ShapeEngineTests
         RectD bounds_ref = Clipper.GetBounds(out_ref);
         Assert.That(bounds_ref.Width, Is.EqualTo(15));
         Assert.That(bounds_ref.Height, Is.EqualTo(20));
-        
+
         // This should result in the same shape because we use the variation to deliver the outer rounding (1.0 * 5)
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -496,7 +496,7 @@ public class ShapeEngineTests
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
-        PathD out_ = shape.processCorners(false, false, 90, 1, 1, iCV:5, iCVariation_scalar:1.0);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1, iCV: 5, iCVariation_scalar: 1.0);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         SvgWriter svgSrc = new SvgWriter();
@@ -512,7 +512,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(20));
     }
-    
+
     [Test]
     public static void lOuterRoundingTest()
     {
@@ -568,7 +568,7 @@ public class ShapeEngineTests
         RectD bounds_ref = Clipper.GetBounds(out_ref);
         Assert.That(bounds_ref.Width, Is.EqualTo(15));
         Assert.That(bounds_ref.Height, Is.EqualTo(20));
-        
+
         // This should result in the same shape because we use the variation to deliver the outer rounding (1.0 * 5)
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
@@ -581,7 +581,7 @@ public class ShapeEngineTests
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
-        PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV:5, oCVariation_scalar:1.0);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV: 5, oCVariation_scalar: 1.0);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         SvgWriter svgSrc = new SvgWriter();
@@ -655,7 +655,7 @@ public class ShapeEngineTests
         RectD bounds_ref = Clipper.GetBounds(out_ref);
         Assert.That(bounds_ref.Width, Is.EqualTo(15));
         Assert.That(bounds_ref.Height, Is.EqualTo(20));
-        
+
         ShapeSettings shapeSettings = new ShapeSettings();
         shapeSettings.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
@@ -668,7 +668,7 @@ public class ShapeEngineTests
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
-        PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV:5, oCVariation_scalar:1.0, iCV:10, iCVariation_scalar:1.0);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV: 5, oCVariation_scalar: 1.0, iCV: 10, iCVariation_scalar: 1.0);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddClip(svgSrc, out_ref);
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -716,7 +716,7 @@ public class ShapeEngineTests
         RectD bounds = Clipper.GetBounds(out_0);
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(20));
-        
+
         ShapeSettings shapeSettings_05 = new ShapeSettings();
         shapeSettings_05.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
         shapeSettings_05.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
@@ -745,7 +745,7 @@ public class ShapeEngineTests
         RectD bounds_05 = Clipper.GetBounds(out_05);
         Assert.That(bounds_05.Width, Is.EqualTo(15));
         Assert.That(bounds_05.Height, Is.EqualTo(20));
-        
+
         ShapeSettings shapeSettings_10 = new ShapeSettings();
         shapeSettings_10.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
         shapeSettings_10.setDecimal(ShapeSettings.properties_decimal.horLength, 10.0m, 0);
@@ -805,7 +805,7 @@ public class ShapeEngineTests
         Assert.That(clean.Count, Is.EqualTo(309));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((20 * 20) + (10 * 15))) - area), Is.LessThanOrEqualTo(0.0001));
         RectD bounds = Clipper.GetBounds(clean);
         Assert.That(bounds.Width, Is.EqualTo(60));
         Assert.That(bounds.Height, Is.EqualTo(60));
@@ -859,7 +859,7 @@ public class ShapeEngineTests
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, 20m, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 12m, 1);
-        
+
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -874,12 +874,12 @@ public class ShapeEngineTests
         Assert.That(clean.Count, Is.EqualTo(241));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.That(area, Is.EqualTo(-((20*60) + (40*10))));
+        Assert.That(area, Is.EqualTo(-((20 * 60) + (40 * 10))));
         RectD bounds = Clipper.GetBounds(clean);
         Assert.That(bounds.Width, Is.EqualTo(60));
         Assert.That(bounds.Height, Is.EqualTo(60));
     }
-    
+
     [Test]
     public static void tRoundingTest()
     {
@@ -893,7 +893,7 @@ public class ShapeEngineTests
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 12m, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 7);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 12);
-        
+
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -943,12 +943,12 @@ public class ShapeEngineTests
         Assert.That(clean.Count, Is.EqualTo(259));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.That(area, Is.EqualTo(-((60*40) - (30*30))));
+        Assert.That(area, Is.EqualTo(-((60 * 40) - (30 * 30))));
         RectD bounds = Clipper.GetBounds(out_);
         Assert.That(bounds.Width, Is.EqualTo(60));
         Assert.That(bounds.Height, Is.EqualTo(40));
     }
-    
+
     [Test]
     public static void uRoundingTest()
     {
@@ -985,7 +985,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(60));
         Assert.That(bounds.Height, Is.EqualTo(40));
     }
-    
+
     [Test]
     public static void xTest()
     {
@@ -997,7 +997,7 @@ public class ShapeEngineTests
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verLength, 10.0m, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, -5m, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 12m, 1);
-        
+
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -1017,7 +1017,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(40));
         Assert.That(bounds.Height, Is.EqualTo(60));
     }
-    
+
     [Test]
     public static void xRoundingTest()
     {
@@ -1031,7 +1031,7 @@ public class ShapeEngineTests
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 12m, 1);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.iCR, 7);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.oCR, 12);
-        
+
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -1051,7 +1051,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(40));
         Assert.That(bounds.Height, Is.EqualTo(60));
     }
-    
+
     [Test]
     public static void sBiasTest()
     {
@@ -1068,7 +1068,7 @@ public class ShapeEngineTests
         shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
         shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
         // shapeSettings_ref.setDecimal(ShapeSettings.properties_decimal.sBias, 1);
-        
+
         ShapeLibrary shape_ref = new ShapeLibrary(shapeTable, shapeSettings_ref);
         shape_ref.setShape(shapeSettings_ref.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -1088,7 +1088,7 @@ public class ShapeEngineTests
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.sBias, 2m);
-        
+
         ShapeLibrary shape = new ShapeLibrary(shapeTable, shapeSettings);
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -1148,7 +1148,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(66));
         Assert.That(bounds.Height, Is.EqualTo(72));
     }
-    
+
     [Test]
     public static void lTipVarTest()
     {
@@ -1181,7 +1181,7 @@ public class ShapeEngineTests
         RectD bounds_ref = Clipper.GetBounds(out_ref);
         Assert.That(bounds_ref.Width, Is.EqualTo(66));
         Assert.That(bounds_ref.Height, Is.EqualTo(72));
-        
+
         ShapeSettings shapeSettings_htv = new ShapeSettings();
         shapeSettings_htv.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
         shapeSettings_htv.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 0);
@@ -1194,7 +1194,7 @@ public class ShapeEngineTests
         shapeSettings_htv.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
         ShapeLibrary shape_htv = new ShapeLibrary(shapeTable, shapeSettings_htv);
         shape_htv.setShape(shapeSettings_htv.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_htv.computeCage(0,6, 0);
+        shape_htv.computeCage(0, 6, 0);
         // Check the shape settings are in the shape.
         Assert.That(shape_htv.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_htv = shape_htv.processCorners(false, false, 90, 1, 1);
@@ -1215,7 +1215,7 @@ public class ShapeEngineTests
         RectD bounds_htv = Clipper.GetBounds(out_htv);
         Assert.That(bounds_htv.Width, Is.EqualTo(66));
         Assert.That(bounds_htv.Height, Is.EqualTo(72));
-        
+
         ShapeSettings shapeSettings_vtv = new ShapeSettings();
         shapeSettings_vtv.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Lshape);
         shapeSettings_vtv.setDecimal(ShapeSettings.properties_decimal.horLength, 20.0m, 0);
@@ -1228,7 +1228,7 @@ public class ShapeEngineTests
         shapeSettings_vtv.setInt(ShapeSettings.properties_i.subShape2TipLocIndex, (int)ShapeSettings.tipLocations.R);
         ShapeLibrary shape_vtv = new ShapeLibrary(shapeTable, shapeSettings_vtv);
         shape_vtv.setShape(shapeSettings_vtv.getInt(ShapeSettings.properties_i.shapeIndex));
-        shape_vtv.computeCage(12,0, 0);
+        shape_vtv.computeCage(12, 0, 0);
         // Check the shape settings are in the shape.
         Assert.That(shape_vtv.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
         PathD out_vtv = shape_vtv.processCorners(false, false, 90, 1, 1);
@@ -1284,12 +1284,12 @@ public class ShapeEngineTests
         // Check expected area
         double area = Clipper.Area(out_);
         // Tip configuration reduces width and height
-        Assert.That(area, Is.EqualTo(-((60*40) - (25*20))));
+        Assert.That(area, Is.EqualTo(-((60 * 40) - (25 * 20))));
         RectD bounds = Clipper.GetBounds(out_);
         Assert.That(bounds.Width, Is.EqualTo(60));
         Assert.That(bounds.Height, Is.EqualTo(40));
     }
-    
+
     [Test]
     public static void sTipTest()
     {
@@ -1325,11 +1325,11 @@ public class ShapeEngineTests
         double area_1 = Clipper.Area(out_1);
         // In this test, the BL tip setting moves the lower edge upwards, reducing the notch vertically.
         // The left tip setting has no effect on the horizontal dimension.
-        Assert.That(Math.Abs(-(3600-((20*18)+(10*15))) - area_1), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((20 * 18) + (10 * 15))) - area_1), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_1 = Clipper.GetBounds(clean_1);
         Assert.That(bounds_1.Width, Is.EqualTo(60));
         Assert.That(bounds_1.Height, Is.EqualTo(60));
-        
+
         ShapeSettings shapeSettings_2 = new ShapeSettings();
         shapeSettings_2.setInt(ShapeSettings.properties_i.shapeIndex, (int)ShapeLibrary.shapeNames_all.Sshape);
         shapeSettings_2.setDecimal(ShapeSettings.properties_decimal.horLength, 60.0m, 0);
@@ -1362,7 +1362,7 @@ public class ShapeEngineTests
         double area_2 = Clipper.Area(out_2);
         // In this case, the BR tip setting moves the lower edge upwards, reducing the notch vertically.
         // The right tip setting reduces the notch width.
-        Assert.That(Math.Abs(-(3600-((15*18)+(10*15))) - area_2), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((15 * 18) + (10 * 15))) - area_2), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_2 = Clipper.GetBounds(clean_2);
         Assert.That(bounds_2.Width, Is.EqualTo(60));
         Assert.That(bounds_2.Height, Is.EqualTo(60));
@@ -1386,7 +1386,7 @@ public class ShapeEngineTests
         Assert.That(offset.y, Is.EqualTo(-20));
     }
 
-    
+
     // The inversion of the Y offset value is due to the inverted Y coordinate system in Clipper.
     [Test]
     public static void subShapePositioningTest()
@@ -1403,13 +1403,13 @@ public class ShapeEngineTests
         // 45 based on pushing the second subshape against the wall of the outer.
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.horOffset, 45.0m, 2);
         shapeSettings.setDecimal(ShapeSettings.properties_decimal.verOffset, 9.0m, 2);
-        
+
         shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 0);
 
         PointD offset_0 = shapeOffsets.doOffsets(0, shapeSettings);
         Assert.That(offset_0.x, Is.EqualTo(0));
         Assert.That(offset_0.y, Is.EqualTo(0));
-        
+
         ShapeLibrary shape_0 = new ShapeLibrary(shapeTable, shapeSettings);
         shape_0.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
@@ -1425,11 +1425,11 @@ public class ShapeEngineTests
         Assert.That(clean_0.Count, Is.EqualTo(309));
         // Check expected area
         double area_0 = Clipper.Area(out_0);
-        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_0), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((20 * 20) + (10 * 15))) - area_0), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_0 = Clipper.GetBounds(clean_0);
         Assert.That(bounds_0.left, Is.EqualTo(0));
         Assert.That(bounds_0.top, Is.EqualTo(0));
-        
+
         // Change our reference to subshape 1
         shapeSettings.setInt(ShapeSettings.properties_i.subShapeRefIndex, 1);
         PointD offset_1 = shapeOffsets.doOffsets(0, shapeSettings);
@@ -1451,7 +1451,7 @@ public class ShapeEngineTests
         Assert.That(clean_1.Count, Is.EqualTo(309));
         // Check expected area
         double area_1 = Clipper.Area(out_1);
-        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_1), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((20 * 20) + (10 * 15))) - area_1), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_1 = Clipper.GetBounds(clean_1);
         Assert.That(bounds_1.left, Is.EqualTo(0));
         Assert.That(bounds_1.top, Is.EqualTo(-7));
@@ -1477,11 +1477,11 @@ public class ShapeEngineTests
         Assert.That(clean_2.Count, Is.EqualTo(309));
         // Check expected area
         double area_2 = Clipper.Area(out_2);
-        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_2), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((20 * 20) + (10 * 15))) - area_2), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_2 = Clipper.GetBounds(clean_2);
         Assert.That(bounds_2.left, Is.EqualTo(-45));
         Assert.That(bounds_2.top, Is.EqualTo(-41));
-        
+
         // Change our reference to subshape 2
         shapeSettings.setInt(ShapeSettings.properties_i.posInSubShapeIndex, (int)ShapeSettings.subShapeLocations.TR);
         PointD offset_3 = shapeOffsets.doOffsets(0, shapeSettings);
@@ -1503,7 +1503,7 @@ public class ShapeEngineTests
         Assert.That(clean_3.Count, Is.EqualTo(309));
         // Check expected area
         double area_3 = Clipper.Area(out_3);
-        Assert.That(Math.Abs(-(3600-((20*20)+(10*15))) - area_3), Is.LessThanOrEqualTo(0.0001));
+        Assert.That(Math.Abs(-(3600 - ((20 * 20) + (10 * 15))) - area_3), Is.LessThanOrEqualTo(0.0001));
         RectD bounds_3 = Clipper.GetBounds(clean_3);
         Assert.That(bounds_3.left, Is.EqualTo(-60));
         Assert.That(bounds_3.top, Is.EqualTo(-51));
@@ -1540,7 +1540,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(10));
         Assert.That(bounds.Height, Is.EqualTo(20));
     }
-    
+
     [Test]
     public static void customOrthoOuterRoundingTest()
     {
@@ -1572,7 +1572,7 @@ public class ShapeEngineTests
         Assert.That(bounds.Width, Is.EqualTo(20));
         Assert.That(bounds.Height, Is.EqualTo(20));
     }
-    
+
     [Test]
     public static void customOrthoInnerRoundingTest()
     {
@@ -1637,7 +1637,7 @@ public class ShapeEngineTests
         Assert.That(clean.Count, Is.EqualTo(83));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.That(Math.Abs(-((10+5) * (20+7)) - area), Is.LessThanOrEqualTo(0.001));
+        Assert.That(Math.Abs(-((10 + 5) * (20 + 7)) - area), Is.LessThanOrEqualTo(0.001));
         RectD bounds = Clipper.GetBounds(clean);
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(27));
@@ -1648,7 +1648,7 @@ public class ShapeEngineTests
     {
         // Test the fix for the infinite loop when all edges are considered short
         // This test verifies that a square with all short edges correctly becomes a diamond
-        
+
         // Create a square where all edges will be considered short
         var square = new PathD
         {
@@ -1660,10 +1660,10 @@ public class ShapeEngineTests
         };
 
         double short_edge_threshold = 15.0; // All edges (10 units) are below this threshold
-        
+
         // This is a test of the core contourGen functionality
         // We need to create a scenario that would trigger the AssembleWithEasing function
-        
+
         // For this test, we'll test the direct midpoint connection logic
         var cornerMidpoints = new List<PointD>
         {
@@ -1675,35 +1675,35 @@ public class ShapeEngineTests
 
         // Test the helper function directly using reflection to access the private method
         var type = typeof(contourGen);
-        var method = type.GetMethod("ConnectCornerMidpoints", 
+        var method = type.GetMethod("ConnectCornerMidpoints",
             System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
-        
+
         Assert.That(method, Is.Not.Null, "ConnectCornerMidpoints method should exist");
-        
+
         var result = method.Invoke(null, new object[] { cornerMidpoints }) as PathD;
-        
+
         Assert.That(result, Is.Not.Null, "Result should not be null");
         Assert.That(result.Count, Is.EqualTo(4), "Result should have 4 points (diamond)");
-        
+
         // Verify the diamond vertices are correct (midpoints of square edges)
         Assert.That(result[0].x, Is.EqualTo(5).Within(1e-9), "First point x should be 5");
         Assert.That(result[0].y, Is.EqualTo(0).Within(1e-9), "First point y should be 0");
-        
+
         Assert.That(result[1].x, Is.EqualTo(10).Within(1e-9), "Second point x should be 10");
         Assert.That(result[1].y, Is.EqualTo(5).Within(1e-9), "Second point y should be 5");
-        
+
         Assert.That(result[2].x, Is.EqualTo(5).Within(1e-9), "Third point x should be 5");
         Assert.That(result[2].y, Is.EqualTo(10).Within(1e-9), "Third point y should be 10");
-        
+
         Assert.That(result[3].x, Is.EqualTo(0).Within(1e-9), "Fourth point x should be 0");
         Assert.That(result[3].y, Is.EqualTo(5).Within(1e-9), "Fourth point y should be 5");
-        
+
         // Verify the diamond has the expected area (half the area of the original square)
         double originalSquareArea = 100; // 10 * 10
         double diamondArea = Math.Abs(Clipper.Area(result));
         double expectedDiamondArea = originalSquareArea / 2; // 50
-        
-        Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001), 
+
+        Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001),
             "Diamond area should be half the original square area");
     }
 
@@ -1875,15 +1875,15 @@ public class ShapeEngineTests
         foreach (var (name, path, threshold) in testConfigurations)
         {
             Console.WriteLine($"Testing: {name}");
-            
+
             var (success, result) = TestWithTimeoutAndResult(path, threshold, 10000); // 10 second timeout
-            
+
             // Generate SVG regardless of success/failure for review
             string safeName = name.Replace(" ", "_").Replace(":", "_").Replace(",", "_");
             string svgContent = CreateTestSvg(path, result, name, threshold);
             string svgPath = Path.Combine(svgOutputDir, $"{safeName}.svg");
             File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
-            
+
             if (success)
             {
                 successfulTests.Add(name);
@@ -1903,7 +1903,7 @@ public class ShapeEngineTests
         {
             Console.WriteLine($"  ✓ {test}");
         }
-        
+
         if (failedTests.Count > 0)
         {
             Console.WriteLine($"Failed tests: {failedTests.Count}");
@@ -1914,7 +1914,7 @@ public class ShapeEngineTests
         }
 
         // The test passes if all configurations complete without timeout
-        Assert.That(failedTests.Count, Is.EqualTo(0), 
+        Assert.That(failedTests.Count, Is.EqualTo(0),
             $"Some test configurations failed or timed out, indicating potential infinite loops: {string.Join(", ", failedTests)}");
     }
 
@@ -1984,14 +1984,14 @@ public class ShapeEngineTests
 
         Assert.That(result, Is.Not.Null, "T-shape contour generation should return a valid result");
         Assert.That(result.Count, Is.GreaterThan(0), "T-shape result should have points");
-        
+
         // Generate SVG for review
         var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
         Directory.CreateDirectory(svgOutputDir);
         string svgContent = CreateTestSvg(tShapeTopLong, result, "T-shape: Top Edge Long, Rest Short", 12.0);
         string svgPath = Path.Combine(svgOutputDir, "T_shape_specific_test.svg");
         File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
-        
+
         Console.WriteLine($"T-shape test completed successfully with {result.Count} points");
         Console.WriteLine($"T-shape SVG saved to: {svgPath}");
     }
@@ -2010,7 +2010,7 @@ public class ShapeEngineTests
         {
             new PointD(0, 0),
             new PointD(10, 0),
-            new PointD(10, 10), 
+            new PointD(10, 10),
             new PointD(0, 10),
             new PointD(0, 0)
         };
@@ -2032,18 +2032,18 @@ public class ShapeEngineTests
         foreach (var (name, path, threshold, maxTime) in testCases)
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-            
+
             var result = contourGen.makeContour(path,
                 concaveRadius: 2.0,
-                convexRadius: 2.0, 
+                convexRadius: 2.0,
                 edgeResolution: 1.0,
                 angularResolution: 1.0,
                 shortEdgeLength: threshold,
                 maxShortEdgeLength: threshold * 2,
                 optimizeCorners: 0);
-                
+
             stopwatch.Stop();
-            
+
             // Generate SVG for performance test results
             var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
             Directory.CreateDirectory(svgOutputDir);
@@ -2051,11 +2051,11 @@ public class ShapeEngineTests
             string svgContent = CreateTestSvg(path, result, $"Performance Test: {name}", threshold);
             string svgPath = Path.Combine(svgOutputDir, $"perf_{safeName}.svg");
             File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
-            
+
             Console.WriteLine($"{name}: {stopwatch.ElapsedMilliseconds}ms (SVG: {svgPath})");
-            
+
             Assert.That(result, Is.Not.Null, $"{name} should return a valid result");
-            Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(maxTime), 
+            Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(maxTime),
                 $"{name} should complete within {maxTime}ms but took {stopwatch.ElapsedMilliseconds}ms");
         }
     }
@@ -2070,7 +2070,7 @@ public class ShapeEngineTests
     {
         Console.WriteLine("=== ContourGen Configuration Analysis ===");
         Console.WriteLine("Testing runtime cost vs quality for different subdivision and recursion configurations");
-        
+
         // Define test shapes of varying complexity
         var testShapes = new List<(string name, PathD path)>
         {
@@ -2081,8 +2081,8 @@ public class ShapeEngineTests
         };
 
         // Define parameter combinations to test
-        var parameterSets = new List<(string name, double concaveRadius, double convexRadius, 
-            double edgeResolution, double angularResolution, double shortEdgeLength, 
+        var parameterSets = new List<(string name, double concaveRadius, double convexRadius,
+            double edgeResolution, double angularResolution, double shortEdgeLength,
             double maxShortEdgeLength, int optimizeCorners)>
         {
             // Low quality, fast
@@ -2111,16 +2111,16 @@ public class ShapeEngineTests
         foreach (var (shapeName, shape) in testShapes)
         {
             Console.WriteLine($"\n--- Testing Shape: {shapeName} ---");
-            
+
             foreach (var paramSet in parameterSets)
             {
-                var (paramName, concaveRadius, convexRadius, edgeResolution, angularResolution, 
+                var (paramName, concaveRadius, convexRadius, edgeResolution, angularResolution,
                      shortEdgeLength, maxShortEdgeLength, optimizeCorners) = paramSet;
-                
+
                 Console.Write($"  {paramName}: ");
-                
+
                 var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-                
+
                 try
                 {
                     var result = contourGen.makeContour(shape,
@@ -2131,12 +2131,12 @@ public class ShapeEngineTests
                         shortEdgeLength: shortEdgeLength,
                         maxShortEdgeLength: maxShortEdgeLength,
                         optimizeCorners: optimizeCorners);
-                    
+
                     stopwatch.Stop();
-                    
+
                     // Calculate quality metrics
                     var metrics = CalculateQualityMetrics(shape, result, edgeResolution);
-                    
+
                     var perfResult = new ContourGenPerformanceResult
                     {
                         ShapeName = shapeName,
@@ -2156,26 +2156,26 @@ public class ShapeEngineTests
                             OptimizeCorners = optimizeCorners
                         }
                     };
-                    
+
                     results.Add(perfResult);
-                    
+
                     // Generate SVG for visual comparison
                     string svgContent = CreateContourGenAnalysisSvg(shape, result, perfResult);
                     string safeShapeName = shapeName.Replace(" ", "_");
                     string svgPath = Path.Combine(svgOutputDir, $"{safeShapeName}_{paramName}.svg");
                     File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
-                    
+
                     Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ms, {result?.Count ?? 0} pts, Quality: {metrics.OverallQuality:F2} (SVG: {svgPath})");
-                    
+
                     Assert.That(result, Is.Not.Null, $"Result should not be null for {shapeName} with {paramName}");
-                    Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(30000), 
+                    Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(30000),
                         $"Should complete within 30 seconds for {shapeName} with {paramName}");
                 }
                 catch (Exception ex)
                 {
                     stopwatch.Stop();
                     Console.WriteLine($"FAILED - {ex.Message}");
-                    
+
                     // Still record the failure for analysis
                     results.Add(new ContourGenPerformanceResult
                     {
@@ -2193,7 +2193,7 @@ public class ShapeEngineTests
 
         // Generate comprehensive analysis report
         GeneratePerformanceAnalysisReport(results, svgOutputDir);
-        
+
         Console.WriteLine($"\n=== Analysis Complete ===");
         Console.WriteLine($"Results saved to: {svgOutputDir}");
         Console.WriteLine($"Total test cases: {results.Count}");
@@ -2224,13 +2224,13 @@ public class ShapeEngineTests
 
         double width = maxX - minX;
         double height = maxY - minY;
-        
+
         StringBuilder sb = new StringBuilder();
         sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
-        
+
         // Title
         sb.AppendLine($"  <title>{title}</title>");
-        
+
         // Grid
         sb.AppendLine("  <defs>");
         sb.AppendLine("    <pattern id=\"grid\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">");
@@ -2255,9 +2255,9 @@ public class ShapeEngineTests
             double edgeLength = Math.Sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
             string color = edgeLength <= shortEdgeThreshold ? "#ff6b6b" : "#4ecdc4";
             double strokeWidth = edgeLength <= shortEdgeThreshold ? 3 : 2;
-            
+
             sb.AppendLine($"  <line x1=\"{p1.x}\" y1=\"{-p1.y}\" x2=\"{p2.x}\" y2=\"{-p2.y}\" stroke=\"{color}\" stroke-width=\"{strokeWidth}\" stroke-opacity=\"0.7\"/>");
-            
+
             // Label edge length
             double midX = (p1.x + p2.x) / 2;
             double midY = -(p1.y + p2.y) / 2;
@@ -2312,18 +2312,18 @@ public class ShapeEngineTests
     {
         var cancellationTokenSource = new CancellationTokenSource(timeoutMs);
         PathD result = null;
-        
+
         var task = Task.Run(() =>
         {
             try
             {
-                result = contourGen.makeContour(path, 
-                    concaveRadius: 5.0, 
-                    convexRadius: 5.0, 
-                    edgeResolution: 1.0, 
-                    angularResolution: 1.0, 
-                    shortEdgeLength: shortEdgeThreshold, 
-                    maxShortEdgeLength: shortEdgeThreshold * 2, 
+                result = contourGen.makeContour(path,
+                    concaveRadius: 5.0,
+                    convexRadius: 5.0,
+                    edgeResolution: 1.0,
+                    angularResolution: 1.0,
+                    shortEdgeLength: shortEdgeThreshold,
+                    maxShortEdgeLength: shortEdgeThreshold * 2,
                     optimizeCorners: 0);
                 return result != null;
             }
@@ -2496,17 +2496,17 @@ public class ShapeEngineTests
         double maxSegLen = segmentLengths.Max();
         double minSegLen = segmentLengths.Min();
         double variance = segmentLengths.Select(x => (x - avgSegLen) * (x - avgSegLen)).Average();
-        
+
         double avgAngular = angularChanges.Count > 0 ? angularChanges.Average() : 0;
         double maxAngular = angularChanges.Count > 0 ? angularChanges.Max() : 0;
-        
+
         // Smoothness metric (lower variance in angular changes = smoother)
-        double smoothness = angularChanges.Count > 0 ? 
+        double smoothness = angularChanges.Count > 0 ?
             1.0 / (1.0 + angularChanges.Select(x => (x - avgAngular) * (x - avgAngular)).Average()) : 1.0;
-        
+
         // Point density ratio (output points / input points)
         double densityRatio = (double)output.Count / input.Count;
-        
+
         // Overall quality score (0-1, higher is better)
         // Factors: adherence to target resolution, smoothness, reasonable point density
         double resolutionScore = Math.Exp(-Math.Abs(avgSegLen - targetResolution) / targetResolution);
@@ -2546,13 +2546,13 @@ public class ShapeEngineTests
 
         double width = maxX - minX;
         double height = maxY - minY;
-        
+
         StringBuilder sb = new StringBuilder();
         sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
-        
+
         // Title
         sb.AppendLine($"  <title>{result.ShapeName} - {result.ParameterSetName}</title>");
-        
+
         // Grid
         sb.AppendLine("  <defs>");
         sb.AppendLine("    <pattern id=\"grid\" width=\"10\" height=\"10\" patternUnits=\"userSpaceOnUse\">");
@@ -2595,13 +2595,13 @@ public class ShapeEngineTests
         // Performance and quality information panel
         double legendX = minX + 5;
         double legendY = -maxY + 20;
-        
+
         sb.AppendLine($"  <rect x=\"{legendX - 3}\" y=\"{legendY - 15}\" width=\"300\" height=\"200\" fill=\"white\" fill-opacity=\"0.9\" stroke=\"black\" stroke-width=\"1\"/>");
-        
+
         sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{result.ShapeName} - {result.ParameterSetName}</text>");
         sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 20}\" font-size=\"11\" fill=\"black\">Runtime: {result.RuntimeMs}ms</text>");
         sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 35}\" font-size=\"11\" fill=\"black\">Points: {result.InputPointCount} → {result.OutputPointCount}</text>");
-        
+
         if (result.QualityMetrics != null)
         {
             sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 50}\" font-size=\"11\" fill=\"black\">Quality Score: {result.QualityMetrics.OverallQuality:F3}</text>");
@@ -2628,7 +2628,7 @@ public class ShapeEngineTests
     static void GeneratePerformanceAnalysisReport(List<ContourGenPerformanceResult> results, string outputDir)
     {
         var reportPath = Path.Combine(outputDir, "performance_analysis_report.html");
-        
+
         var html = new StringBuilder();
         html.AppendLine("<!DOCTYPE html>");
         html.AppendLine("<html>");
@@ -2647,17 +2647,17 @@ public class ShapeEngineTests
         html.AppendLine("  </style>");
         html.AppendLine("</head>");
         html.AppendLine("<body>");
-        
+
         html.AppendLine("<h1>ContourGen Performance Analysis Report</h1>");
         html.AppendLine($"<p>Generated on: {DateTime.Now:yyyy-MM-dd HH:mm:ss}</p>");
-        
+
         // Summary statistics
         html.AppendLine("<div class='summary'>");
         html.AppendLine("<h2>Summary</h2>");
         html.AppendLine($"<p>Total test cases: {results.Count}</p>");
         html.AppendLine($"<p>Successful: {results.Count(r => !r.Failed)}</p>");
         html.AppendLine($"<p>Failed: {results.Count(r => r.Failed)}</p>");
-        
+
         var successfulResults = results.Where(r => !r.Failed).ToList();
         if (successfulResults.Any())
         {
@@ -2679,10 +2679,10 @@ public class ShapeEngineTests
 
         foreach (var result in results.OrderBy(r => r.ShapeName).ThenBy(r => r.RuntimeMs))
         {
-            string rowClass = result.Failed ? "failed" : 
+            string rowClass = result.Failed ? "failed" :
                              result.RuntimeMs < 50 ? "fast" :
                              result.RuntimeMs < 500 ? "medium" : "slow";
-            
+
             html.AppendLine($"<tr class='{rowClass}'>");
             html.AppendLine($"  <td>{result.ShapeName}</td>");
             html.AppendLine($"  <td>{result.ParameterSetName}</td>");
@@ -2695,25 +2695,25 @@ public class ShapeEngineTests
             html.AppendLine($"  <td>{(result.Failed ? result.FailureMessage : "Success")}</td>");
             html.AppendLine("</tr>");
         }
-        
+
         html.AppendLine("</table>");
 
         // Parameter analysis
         html.AppendLine("<h2>Parameter Analysis</h2>");
-        
+
         foreach (var shapeGroup in results.Where(r => !r.Failed).GroupBy(r => r.ShapeName))
         {
             html.AppendLine($"<h3>{shapeGroup.Key}</h3>");
             html.AppendLine("<p>Runtime vs Quality trade-offs:</p>");
             html.AppendLine("<ul>");
-            
+
             var sortedByRuntime = shapeGroup.OrderBy(r => r.RuntimeMs).ToList();
             var sortedByQuality = shapeGroup.Where(r => r.QualityMetrics != null)
                                             .OrderByDescending(r => r.QualityMetrics.OverallQuality).ToList();
-            
+
             html.AppendLine($"<li>Fastest: {sortedByRuntime.First().ParameterSetName} ({sortedByRuntime.First().RuntimeMs}ms)</li>");
             html.AppendLine($"<li>Slowest: {sortedByRuntime.Last().ParameterSetName} ({sortedByRuntime.Last().RuntimeMs}ms)</li>");
-            
+
             if (sortedByQuality.Any())
             {
                 html.AppendLine($"<li>Highest Quality: {sortedByQuality.First().ParameterSetName} (Score: {sortedByQuality.First().QualityMetrics.OverallQuality:F3})</li>");
@@ -2724,7 +2724,7 @@ public class ShapeEngineTests
 
         html.AppendLine("</body>");
         html.AppendLine("</html>");
-        
+
         File.WriteAllText(reportPath, html.ToString());
         Console.WriteLine($"Comprehensive analysis report generated: {reportPath}");
     }

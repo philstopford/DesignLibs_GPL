@@ -350,7 +350,7 @@ public class GeoAnalysisTests
         SvgUtils.AddSolution(svgSrc, dH.resultPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance1.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH.distanceString, Is.EqualTo("14.142135623730951"));
-        
+
         DistanceHandler dH2 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacingOld, false);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, aPaths);
@@ -358,7 +358,7 @@ public class GeoAnalysisTests
         SvgUtils.AddSolution(svgSrc, dH2.resultPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance2.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH2.distanceString, Is.EqualTo("14.142135623730951"));
-        
+
         DistanceHandler dH3 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosure, false);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, aPaths);
@@ -375,7 +375,7 @@ public class GeoAnalysisTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance4.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH4.distanceString, Is.EqualTo("-14.142135623730951"));
     }
-    
+
     [Test]
     public static void testDistanceHandler_multi()
     {
@@ -409,7 +409,7 @@ public class GeoAnalysisTests
 
         bool overlap = GeoWrangler.anyPartialOverlap(aPaths, bPaths);
         bool overlap2 = GeoWrangler.anyPartialOverlap(bPaths, aPaths);
-        
+
         DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSubject(svgSrc, aPaths);
@@ -417,7 +417,7 @@ public class GeoAnalysisTests
         SvgUtils.AddSolution(svgSrc, dH.resultPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance1_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH.distanceString, Is.EqualTo("-5.830951894845301"));
-        
+
         DistanceHandler dH2 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacingOld, false);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, aPaths);
@@ -425,7 +425,7 @@ public class GeoAnalysisTests
         SvgUtils.AddSolution(svgSrc, dH2.resultPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance2_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH2.distanceString, Is.EqualTo("-5.830951894845301"));
-        
+
         DistanceHandler dH3 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosure, false);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, aPaths);
@@ -433,7 +433,7 @@ public class GeoAnalysisTests
         SvgUtils.AddSolution(svgSrc, dH3.resultPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance3_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH3.distanceString, Is.EqualTo("5.830951894845301"));
-        
+
         DistanceHandler dH4 = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosureOld, false);
         svgSrc.ClearAll();
         SvgUtils.AddSubject(svgSrc, aPaths);
@@ -442,7 +442,7 @@ public class GeoAnalysisTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "distance4_multi.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(dH4.distanceString, Is.EqualTo("5.830951894845301"));
     }
-    
+
     [Test]
     public static void testChordHandler()
     {
@@ -472,14 +472,14 @@ public class GeoAnalysisTests
         Assert.That(cH.aChordLengths[1], Is.EqualTo(60));
         Assert.That(cH.bChordLengths[0], Is.EqualTo(0));
         Assert.That(cH.bChordLengths[1], Is.EqualTo(0));
-        
+
         // This only gets the bChordLengths
         ChordHandler cH2 = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.b);
         Assert.That(cH2.aChordLengths[0], Is.EqualTo(0));
         Assert.That(cH2.aChordLengths[1], Is.EqualTo(0));
         Assert.That(cH2.bChordLengths[0], Is.EqualTo(40));
         Assert.That(cH2.bChordLengths[1], Is.EqualTo(40));
-        
+
         // This gets the full set
         ChordHandler cH3 = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.b + 1);
         Assert.That(cH3.aChordLengths[0], Is.EqualTo(60));
@@ -508,8 +508,8 @@ public class GeoAnalysisTests
             110, 75,
             110, 25
         });
-        bPath = geoWrangler.GeoWrangler.Rotate(new(100,50), bPath, 45.0);
-        
+        bPath = geoWrangler.GeoWrangler.Rotate(new(100, 50), bPath, 45.0);
+
         PathsD bPaths = new()
         {
             bPath
@@ -553,7 +553,7 @@ public class GeoAnalysisTests
     {
         PathsD aPaths = new();
         PathsD bPaths = new();
-        
+
         AreaHandler aH = new AreaHandler(aPaths, bPaths, true, false);
         Assert.That(aH.area, Is.EqualTo(0));
     }
@@ -581,7 +581,7 @@ public class GeoAnalysisTests
                 30, 10
             })
         };
-        
+
         DistanceHandler dH = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
         // Overlapping shapes should give zero or negative distance  
         Assert.That(double.Parse(dH.distanceString), Is.LessThanOrEqualTo(0));
@@ -611,17 +611,17 @@ public class GeoAnalysisTests
                 100, 0
             })
         };
-        
+
         // Test calculation for element a
         ChordHandler cH_a = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.a);
         ChordHandler cH_b = new ChordHandler(aPaths, bPaths, 0.01, (int)ChordHandler.chordCalcElements.b);
-        
+
         // Verify that chord handlers are created successfully
         Assert.That(cH_a, Is.Not.Null);
         Assert.That(cH_b, Is.Not.Null);
         Assert.That(cH_a.aChordLengths, Is.Not.Null);
         Assert.That(cH_b.bChordLengths, Is.Not.Null);
-        
+
         // Check that chord length arrays have expected size
         Assert.That(cH_a.aChordLengths.Length, Is.EqualTo(2));
         Assert.That(cH_b.bChordLengths.Length, Is.EqualTo(2));
@@ -650,13 +650,13 @@ public class GeoAnalysisTests
                 25, 0
             })
         };
-        
+
         // Test all distance calculation modes
         DistanceHandler dH_spacing = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacing, false);
         DistanceHandler dH_spacingOld = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.spacingOld, false);
         DistanceHandler dH_enclosure = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosure, false);
         DistanceHandler dH_enclosureOld = new DistanceHandler(false, aPaths, bPaths, (int)DistanceHandler.spacingCalcModes.enclosureOld, false);
-        
+
         // All should give same result for non-overlapping shapes
         Assert.That(dH_spacing.distanceString, Is.EqualTo(dH_spacingOld.distanceString));
         Assert.That(dH_enclosure.distanceString, Is.EqualTo(dH_enclosureOld.distanceString));

@@ -19,11 +19,11 @@ namespace UnitTests
         {
             public double X, Y;
             public Point(double x, double y) { X = x; Y = y; }
-            
+
             public static Point operator +(Point a, Point b) => new Point(a.X + b.X, a.Y + b.Y);
             public static Point operator -(Point a, Point b) => new Point(a.X - b.X, a.Y - b.Y);
             public static Point operator *(Point a, double s) => new Point(a.X * s, a.Y * s);
-            
+
             public double Length() => Math.Sqrt(X * X + Y * Y);
             public Point Normalized()
             {
@@ -74,7 +74,7 @@ namespace UnitTests
             /// <summary>
             /// Classifies vertices with special handling for short orthogonal edges.
             /// </summary>
-            public static string[] ClassifyVerticesWithShortEdges(List<Point> vertices, 
+            public static string[] ClassifyVerticesWithShortEdges(List<Point> vertices,
                 double shortEdgeLength, double orthoEpsilon)
             {
                 if (vertices == null || vertices.Count < 3)
@@ -136,7 +136,7 @@ namespace UnitTests
                     var p2 = vertices[(i + 1) % vertices.Count];
                     area2 += p1.X * p2.Y - p2.X * p1.Y;
                 }
-                
+
                 // Positive area indicates counter-clockwise orientation
                 return area2 > 0;
             }
@@ -161,7 +161,7 @@ namespace UnitTests
                 double dx = end.X - start.X;
                 double dy = end.Y - start.Y;
                 double det = startDir.X * endDir.Y - startDir.Y * endDir.X;
-                
+
                 if (Math.Abs(det) < 1e-6)
                     throw new Exception("Tangent lines are parallel; no unique control point.");
 
@@ -172,7 +172,7 @@ namespace UnitTests
             /// <summary>
             /// Samples a quadratic Bézier curve using the specified sampling strategy.
             /// </summary>
-            public static List<Point> SampleCurve(Point start, Point control, Point end, 
+            public static List<Point> SampleCurve(Point start, Point control, Point end,
                 SamplingMode mode, double scale)
             {
                 return mode switch
@@ -212,29 +212,29 @@ namespace UnitTests
                     outPts.Add(p2);
                     return;
                 }
-                
+
                 Point p01 = Mid(p0, p1), p12 = Mid(p1, p2), p012 = Mid(p01, p12);
-                SubdivideByLength(p0,  p01,  p012, maxSegLen, outPts);
-                SubdivideByLength(p012, p12,  p2,   maxSegLen, outPts);
+                SubdivideByLength(p0, p01, p012, maxSegLen, outPts);
+                SubdivideByLength(p012, p12, p2, maxSegLen, outPts);
             }
 
             private static void SubdivideByAngle(Point p0, Point p1, Point p2, double maxAngle, List<Point> outPts)
             {
                 var tan0 = (p1 - p0).Normalized();
                 var tan1 = (p2 - p1).Normalized();
-                
+
                 double dot = Math.Max(-1.0, Math.Min(1.0, tan0.X * tan1.X + tan0.Y * tan1.Y));
                 double angle = Math.Acos(dot);
-                
+
                 if (angle <= maxAngle)
                 {
                     outPts.Add(p2);
                     return;
                 }
-                
+
                 Point p01 = Mid(p0, p1), p12 = Mid(p1, p2), p012 = Mid(p01, p12);
-                SubdivideByAngle(p0,  p01,  p012, maxAngle, outPts);
-                SubdivideByAngle(p012, p12,  p2,   maxAngle, outPts);
+                SubdivideByAngle(p0, p01, p012, maxAngle, outPts);
+                SubdivideByAngle(p012, p12, p2, maxAngle, outPts);
             }
 
             private static Point Mid(Point a, Point b) => new Point((a.X + b.X) / 2, (a.Y + b.Y) / 2);
@@ -267,7 +267,7 @@ namespace UnitTests
 
             // Assert: All vertices should be convex for a simple square
             Assert.That(result.Length, Is.EqualTo(4));
-            Assert.That(result.All(r => r == "Convex"), Is.True, 
+            Assert.That(result.All(r => r == "Convex"), Is.True,
                 "All vertices of a square should be classified as convex");
         }
 
@@ -346,11 +346,11 @@ namespace UnitTests
             Assert.That(result.Length, Is.EqualTo(3));
 
             // Test with null input
-            Assert.Throws<ArgumentException>(() => 
+            Assert.Throws<ArgumentException>(() =>
                 PrototypeTestHelpers.CornerClassification.ClassifyVertices(null));
 
             // Test with insufficient vertices
-            Assert.Throws<ArgumentException>(() => 
+            Assert.Throws<ArgumentException>(() =>
                 PrototypeTestHelpers.CornerClassification.ClassifyVertices(new List<PrototypeTestHelpers.Point>
                 {
                     new(0, 0),
@@ -502,7 +502,7 @@ namespace UnitTests
             Assert.That(samples[^1].Y, Is.EqualTo(end.Y).Within(1e-10));
 
             // Verify the curve is properly sampled (more points in high curvature areas)
-            Assert.That(samples.Count, Is.GreaterThan(4), 
+            Assert.That(samples.Count, Is.GreaterThan(4),
                 "Curved path should require multiple subdivision steps");
         }
 
@@ -538,7 +538,7 @@ namespace UnitTests
             var end = new PrototypeTestHelpers.Point(2, 0);
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                PrototypeTestHelpers.BezierSampling.SampleCurve(start, control, end, 
+                PrototypeTestHelpers.BezierSampling.SampleCurve(start, control, end,
                     (PrototypeTestHelpers.BezierSampling.SamplingMode)999, 1.0));
         }
 
@@ -559,15 +559,15 @@ namespace UnitTests
 
             // Simulate the algorithm with test data
             var origin = testVertices[0];
-            
+
             // Act: Test error computation at different angles
             double error0 = ComputeRectilinearErrorSimulated(0, origin, testVertices);
             double error45 = ComputeRectilinearErrorSimulated(Math.PI / 4, origin, testVertices);
-            
+
             // Assert: 0-degree rotation should be better for axis-aligned path
-            Assert.That(error0, Is.LessThan(error45), 
+            Assert.That(error0, Is.LessThan(error45),
                 "0-degree rotation should provide better rectilinear approximation for axis-aligned path");
-            Assert.That(error0, Is.EqualTo(0).Within(1e-10), 
+            Assert.That(error0, Is.EqualTo(0).Within(1e-10),
                 "Axis-aligned path should have zero error at 0-degree rotation");
         }
 
@@ -589,7 +589,7 @@ namespace UnitTests
             Assert.That(result.Count, Is.EqualTo(testVertices.Count));
             Assert.That(result[0].X, Is.EqualTo(testVertices[0].X).Within(1e-10));
             Assert.That(result[0].Y, Is.EqualTo(testVertices[0].Y).Within(1e-10));
-            
+
             // For L-shaped path, the final point should be reachable via rectilinear path
             Assert.That(result[^1].X, Is.EqualTo(testVertices[^1].X).Within(1e-10).Or.EqualTo(result[^2].X).Within(1e-10));
             Assert.That(result[^1].Y, Is.EqualTo(testVertices[^1].Y).Within(1e-10).Or.EqualTo(result[^2].Y).Within(1e-10));
@@ -615,14 +615,14 @@ namespace UnitTests
             {
                 if (!double.IsNaN(angles[i]))
                 {
-                    Assert.That(Math.Abs(angles[i] - 90.0), Is.LessThan(1e-6), 
+                    Assert.That(Math.Abs(angles[i] - 90.0), Is.LessThan(1e-6),
                         $"Rectilinear path should have 90-degree angles, got {angles[i]} at vertex {i}");
                 }
             }
         }
 
         // Simplified simulation methods for testing rectilinear algorithms
-        private double ComputeRectilinearErrorSimulated(double theta, PrototypeTestHelpers.Point origin, 
+        private double ComputeRectilinearErrorSimulated(double theta, PrototypeTestHelpers.Point origin,
             List<PrototypeTestHelpers.Point> vertices)
         {
             double c = Math.Cos(theta), s = Math.Sin(theta);
@@ -633,13 +633,13 @@ namespace UnitTests
             {
                 var p1 = vertices[i - 1] - origin;
                 var p2 = vertices[i] - origin;
-                
+
                 // Rotate to test frame
                 var r1 = new PrototypeTestHelpers.Point(c * p1.X - s * p1.Y, s * p1.X + c * p1.Y);
                 var r2 = new PrototypeTestHelpers.Point(c * p2.X - s * p2.Y, s * p2.X + c * p2.Y);
-                
+
                 var delta = r2 - r1;
-                
+
                 // For rectilinear approximation, prefer segments aligned with axes
                 double errorX = Math.Abs(delta.Y);  // Error if treated as horizontal
                 double errorY = Math.Abs(delta.X);  // Error if treated as vertical
@@ -649,7 +649,7 @@ namespace UnitTests
             return totalError;
         }
 
-        private List<PrototypeTestHelpers.Point> GenerateRectilinearPathSimulated(double theta, 
+        private List<PrototypeTestHelpers.Point> GenerateRectilinearPathSimulated(double theta,
             PrototypeTestHelpers.Point origin, List<PrototypeTestHelpers.Point> vertices)
         {
             var result = new List<PrototypeTestHelpers.Point> { vertices[0] };
@@ -659,7 +659,7 @@ namespace UnitTests
             {
                 var prev = result[i - 1];
                 var target = vertices[i];
-                
+
                 // Create L-shaped path: first horizontal, then vertical (or vice versa)
                 if (i % 2 == 1)
                 {
@@ -691,7 +691,7 @@ namespace UnitTests
 
                 var v1 = (pts[i - 1] - pts[i]).Normalized();
                 var v2 = (pts[i + 1] - pts[i]).Normalized();
-                
+
                 double dot = Math.Clamp(v1.X * v2.X + v1.Y * v2.Y, -1.0, 1.0);
                 angles[i] = Math.Acos(dot) * (180.0 / Math.PI);
             }
@@ -738,7 +738,7 @@ namespace UnitTests
         {
             var p = new PrototypeTestHelpers.Point(3, 4);
             var normalized = p.Normalized();
-            
+
             Assert.That(normalized.Length(), Is.EqualTo(1.0).Within(1e-10));
             Assert.That(normalized.X, Is.EqualTo(0.6).Within(1e-10));
             Assert.That(normalized.Y, Is.EqualTo(0.8).Within(1e-10));

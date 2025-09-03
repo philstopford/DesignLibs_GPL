@@ -1808,8 +1808,8 @@ namespace PartitionTestGeometrySource
                 0.18796, -0.29769,
                 0.19055, -0.30735
             });
-            
-            return Clipper.ScalePath(tmp_c10r15,10000);
+
+            return Clipper.ScalePath(tmp_c10r15, 10000);
         }
 
 

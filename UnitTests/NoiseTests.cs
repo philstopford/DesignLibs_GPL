@@ -40,7 +40,7 @@ public class NoiseTests
         Assert.That(value_x1_y0_z1, Is.EqualTo(0.62775180790283258));
         Assert.That(value_x1_y1_z1, Is.EqualTo(0.025889967637540496));
     }
-    
+
     [Test]
     public static void SimplexNoiseTest()
     {
@@ -55,7 +55,7 @@ public class NoiseTests
         Assert.That(value_x1_y0, Is.EqualTo(0.29083935882358936));
         Assert.That(value_x1_y1, Is.EqualTo(0.19624229464828005));
     }
-    
+
     [Test]
     public static void PerlinNoiseTest()
     {
@@ -74,7 +74,7 @@ public class NoiseTests
         Assert.That(value_x1_y1_z0, Is.EqualTo(0.04097485526117766));
         Assert.That(value_x1_y0_z1, Is.EqualTo(-0.0010061032904174726));
         Assert.That(value_x1_y1_z1, Is.EqualTo(-0.022851565377773237));
-        
+
         double value_x0_y0_z0_1 = noise.Noise(0, 0, 0);
         double value_x0_y1_z0_1 = noise.Noise(0, 1.1, 0);
         double value_x0_y0_z1_1 = noise.Noise(0, 0, 1.1);

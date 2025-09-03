@@ -57,7 +57,7 @@ public class KeyholerTests
      */
 
     private static string root_loc = "/d/development/DesignLibs_GPL/keyhole_out/";
-    
+
     // [SetUp]
     public static void KeyholerSetup()
     {
@@ -114,10 +114,10 @@ public class KeyholerTests
         // There is a small delta due to the keyhole, but it should be negligible.
         Assert.That(Math.Abs(Clipper.Area(kH)), Is.EqualTo(expectedArea).Within(10.01));
         // Let's make sure our keyhole didn't move too much as well, that could be annoying.
-        Assert.That(-100.05, Is.EqualTo(kH[0][2].x).Within(0.001));
-        Assert.That(-100.05, Is.EqualTo(kH[0][3].x).Within(0.001));
-        Assert.That(-99.95, Is.EqualTo(kH[0][8].x).Within(0.001));
-        Assert.That(-99.95, Is.EqualTo(kH[0][9].x).Within(0.001));
+        Assert.That(kH[0][2].x, Is.EqualTo(-100.05).Within(0.001));
+        Assert.That(kH[0][3].x, Is.EqualTo(-100.05).Within(0.001));
+        Assert.That(kH[0][8].x, Is.EqualTo(-99.95).Within(0.001));
+        Assert.That(kH[0][9].x, Is.EqualTo(-99.95).Within(0.001));
 
         // Generate sliver geometry.
         PathsD sL = new();
@@ -126,7 +126,7 @@ public class KeyholerTests
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
         Assert.That(sL.Count, Is.EqualTo(1));
-        Assert.That(40010.0025, Is.EqualTo(Clipper.Area(sL)).Within(0.0001));
+        Assert.That(Clipper.Area(sL), Is.EqualTo(40010.0025).Within(0.0001));
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, kH);
         SvgUtils.AddSolution(svgSrc, sL, true);
@@ -260,7 +260,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_sl.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(sL.Count, Is.EqualTo(2));
         Assert.That(Clipper.Area(sL), Is.EqualTo(40020.005).Within(0.001));
-        
+
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
         svgSrc.ClearAll();
@@ -268,7 +268,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_gr.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(gR.Count, Is.EqualTo(3));
         Assert.That(Clipper.Area(gR), Is.EqualTo(-200000));
-        
+
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
         svgSrc.ClearAll();
@@ -324,7 +324,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(kH.Count, Is.EqualTo(1));
         Assert.That(Clipper.Area(kH), Is.EqualTo(-129994.9975d).Within(0.001));
-        
+
         PathsD kHSource2 = new();
         kHSource2.AddRange(kH);
         kHSource2.Add(inner2);
@@ -336,7 +336,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh2.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(kH2.Count, Is.EqualTo(1));
         Assert.That(Clipper.Area(kH2), Is.EqualTo(-139989.995).Within(0.001));
-        
+
         // Generate sliver geometry.
         ClipperD c = new(Constants.roundingDecimalPrecision);
         PathsD sL = new();
@@ -359,7 +359,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sl2.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(sL2.Count, Is.EqualTo(2));
         Assert.That(Clipper.Area(sL2), Is.EqualTo(20010.005).Within(0.001));
-        
+
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
         svgSrc.ClearAll();
@@ -374,7 +374,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_gr2.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(gR2.Count, Is.EqualTo(3));
         Assert.That(Clipper.Area(gR2), Is.EqualTo(-140000).Within(0.001));
-        
+
         PathsD kHSource3 = new();
         kHSource3.AddRange(gR);
 
@@ -403,7 +403,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sr.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(sR.Count, Is.EqualTo(1));
         Assert.That(Clipper.Area(sR), Is.EqualTo(30000).Within(0.001));
-        
+
         PathsD sR2 = GeoWrangler.gapRemoval(sL2, -100);
         svgSrc.ClearAll();
         SvgUtils.AddSolution(svgSrc, sR2, true);
@@ -628,10 +628,10 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2c.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(intRes2c_kH.Count, Is.EqualTo(1));
         Assert.That(Clipper.Area(intRes2c_kH), Is.EqualTo(29000).Within(0.001));
-        
+
         PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        Assert.That(2, Is.EqualTo(intRes2P.Count));
+        Assert.That(intRes2P.Count, Is.EqualTo(2));
 
         PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, false, true);
         svgSrc.ClearAll();
@@ -653,7 +653,7 @@ public class KeyholerTests
         // seems good - get keyhole
         PathsD intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
-        
+
         PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, false, true);
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, intRes2NZ);
@@ -969,7 +969,7 @@ public class KeyholerTests
         Assert.That(kH.Count, Is.EqualTo(1));
         Assert.That(Clipper.Area(kH), Is.EqualTo(-180009.9975).Within(0.001));
         Assert.That(Clipper.Area(kHSource), Is.EqualTo(180020));
-        
+
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
         svgSrc.ClearAll();
@@ -1055,7 +1055,7 @@ public class KeyholerTests
         SvgUtils.SaveToFile(svgSrc, root_loc + "simpleislandtest_gr.svg", FillRule.NonZero, 800, 800, 10);
         Assert.That(gR.Count, Is.EqualTo(4));
         Assert.That(Math.Abs(Clipper.Area(gR)), Is.EqualTo(Math.Abs(Clipper.Area(kHSource))));
-        
+
         // Generate sliver geometry.
         PathsD sL = new();
         ClipperD c = new(Constants.roundingDecimalPrecision);
@@ -1197,7 +1197,7 @@ public class KeyholerTests
         kHSource.Clear();
         kHSource.Add(outer1);
         kHSource.Add(inner1);
-        
+
         kHSource.Add(outer2);
         kHSource.Add(inner2);
 
@@ -1209,11 +1209,11 @@ public class KeyholerTests
         Assert.That(kH12.Count, Is.EqualTo(2));
         Assert.That(Clipper.Area(kH12), Is.EqualTo(area_kh + area_kh2));
         Assert.That(Clipper.Area(kHSource), Is.EqualTo(300020));
-        
+
         kHSource.Clear();
         kHSource.Add(outer2);
         kHSource.Add(inner2);
-        
+
         kHSource.Add(outer3);
         kHSource.Add(inner3_1);
 
@@ -1230,7 +1230,7 @@ public class KeyholerTests
         kHSource.Clear();
         kHSource.Add(outer2);
         kHSource.Add(inner2);
-        
+
         kHSource.Add(outer3);
         kHSource.Add(inner3_2);
 
@@ -1246,7 +1246,7 @@ public class KeyholerTests
         kHSource.Clear();
         kHSource.Add(outer1);
         kHSource.Add(inner1);
-        
+
         kHSource.Add(outer3);
         kHSource.Add(inner3_1);
         kHSource.Add(inner3_2);
@@ -1263,7 +1263,7 @@ public class KeyholerTests
         kHSource.Clear();
         kHSource.Add(outer1);
         kHSource.Add(inner1);
-        
+
         kHSource.Add(outer2);
         kHSource.Add(inner2);
 
@@ -1276,26 +1276,26 @@ public class KeyholerTests
         SvgUtils.AddClip(svgSrc, kHSource);
         SvgUtils.AddSolution(svgSrc, kH123, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_kh_123.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.That(3, Is.EqualTo(kH123.Count));
+        Assert.That(kH123.Count, Is.EqualTo(3));
         Assert.That(Math.Abs(area_kh) + Math.Abs(area_kh2) + Math.Abs(area_kh3), Is.EqualTo(Math.Abs(Clipper.Area(kH123))));
         Assert.That(Clipper.Area(kHSource), Is.EqualTo(500020));
-        
+
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH123, 100);
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, kH123);
         SvgUtils.AddSolution(svgSrc, gR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_gr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.That(7, Is.EqualTo(gR.Count));
+        Assert.That(gR.Count, Is.EqualTo(7));
         Assert.That(-Clipper.Area(gR), Is.EqualTo(Clipper.Area(kHSource)));
-        
+
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(kH123, -100);
         svgSrc.ClearAll();
         SvgUtils.AddClip(svgSrc, kH123);
         SvgUtils.AddSolution(svgSrc, sR, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_sr.svg", FillRule.NonZero, 800, 800, 10);
-        Assert.That(3, Is.EqualTo(sR.Count));
+        Assert.That(sR.Count, Is.EqualTo(3));
         Assert.That(Clipper.Area(sR), Is.EqualTo(-499959.989).Within(0.001));
     }
 

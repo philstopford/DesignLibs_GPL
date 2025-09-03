@@ -14,7 +14,7 @@ public class MersenneTwisterTests
     {
         var mt = new MersenneTwister();
         Assert.That(mt, Is.Not.Null);
-        
+
         // Should be able to generate numbers
         var value = mt.Next();
         Assert.That(value, Is.GreaterThanOrEqualTo(0));
@@ -25,7 +25,7 @@ public class MersenneTwisterTests
     {
         var mt1 = new MersenneTwister(12345);
         var mt2 = new MersenneTwister(12345);
-        
+
         // Same seed should produce same sequence
         for (int i = 0; i < 100; i++)
         {
@@ -38,17 +38,17 @@ public class MersenneTwisterTests
     {
         var mt1 = new MersenneTwister(12345);
         var mt2 = new MersenneTwister(54321);
-        
+
         // Different seeds should produce different sequences
         var sequence1 = new List<int>();
         var sequence2 = new List<int>();
-        
+
         for (int i = 0; i < 100; i++)
         {
             sequence1.Add(mt1.Next());
             sequence2.Add(mt2.Next());
         }
-        
+
         Assert.That(sequence1, Is.Not.EqualTo(sequence2));
     }
 
@@ -57,9 +57,9 @@ public class MersenneTwisterTests
     {
         var initKey = new int[] { 0x123, 0x234, 0x345, 0x456 };
         var mt = new MersenneTwister(initKey);
-        
+
         Assert.That(mt, Is.Not.Null);
-        
+
         // Should generate valid numbers
         var value = mt.Next();
         Assert.That(value, Is.GreaterThanOrEqualTo(0));
@@ -69,7 +69,7 @@ public class MersenneTwisterTests
     public void Next_ShouldGenerateValidIntegers()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.Next();
@@ -83,7 +83,7 @@ public class MersenneTwisterTests
     {
         var mt = new MersenneTwister(12345);
         var maxValue = 100;
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.Next(maxValue);
@@ -115,7 +115,7 @@ public class MersenneTwisterTests
         var mt = new MersenneTwister(12345);
         var minValue = 10;
         var maxValue = 20;
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.Next(minValue, maxValue);
@@ -128,7 +128,7 @@ public class MersenneTwisterTests
     public void Next_WithInvalidMinMaxValues_ShouldSwapValues()
     {
         var mt = new MersenneTwister(12345);
-        
+
         // This implementation swaps values instead of throwing, so test that behavior
         var result = mt.Next(20, 10);
         Assert.That(result, Is.GreaterThanOrEqualTo(10));
@@ -139,7 +139,7 @@ public class MersenneTwisterTests
     public void NextFloat_ShouldGenerateValidFloats()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.NextFloat();
@@ -152,7 +152,7 @@ public class MersenneTwisterTests
     public void NextFloat_WithIncludeOne_ShouldIncludeOne()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.NextFloat(true);
@@ -165,7 +165,7 @@ public class MersenneTwisterTests
     public void NextFloatPositive_ShouldGeneratePositiveFloats()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.NextFloatPositive();
@@ -178,7 +178,7 @@ public class MersenneTwisterTests
     public void NextDouble_ShouldGenerateValidDoubles()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.NextDouble();
@@ -191,7 +191,7 @@ public class MersenneTwisterTests
     public void NextDouble_WithIncludeOne_ShouldIncludeOne()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.NextDouble(true);
@@ -204,7 +204,7 @@ public class MersenneTwisterTests
     public void NextDoublePositive_ShouldGeneratePositiveDoubles()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.NextDoublePositive();
@@ -217,7 +217,7 @@ public class MersenneTwisterTests
     public void Next53BitRes_ShouldGenerateHighResolutionDoubles()
     {
         var mt = new MersenneTwister(12345);
-        
+
         for (int i = 0; i < 1000; i++)
         {
             var value = mt.Next53BitRes();
@@ -230,24 +230,24 @@ public class MersenneTwisterTests
     public void Initialize_WithSeed_ShouldResetState()
     {
         var mt = new MersenneTwister(12345);
-        
+
         // Get some values
         var values1 = new List<int>();
         for (int i = 0; i < 10; i++)
         {
             values1.Add(mt.Next());
         }
-        
+
         // Re-initialize with same seed
         mt.Initialize(12345);
-        
+
         // Should get same sequence
         var values2 = new List<int>();
         for (int i = 0; i < 10; i++)
         {
             values2.Add(mt.Next());
         }
-        
+
         Assert.That(values1, Is.EqualTo(values2));
     }
 
@@ -256,24 +256,24 @@ public class MersenneTwisterTests
     {
         var initKey = new int[] { 0x123, 0x234, 0x345, 0x456 };
         var mt = new MersenneTwister(initKey);
-        
+
         // Get some values
         var values1 = new List<int>();
         for (int i = 0; i < 10; i++)
         {
             values1.Add(mt.Next());
         }
-        
+
         // Re-initialize with same array
         mt.Initialize(initKey);
-        
+
         // Should get same sequence
         var values2 = new List<int>();
         for (int i = 0; i < 10; i++)
         {
             values2.Add(mt.Next());
         }
-        
+
         Assert.That(values1, Is.EqualTo(values2));
     }
 
@@ -281,24 +281,24 @@ public class MersenneTwisterTests
     public void Initialize_WithoutParameters_ShouldUseTimeBased()
     {
         var mt = new MersenneTwister(12345);
-        
+
         // Generate some values
         var values1 = new List<int>();
         for (int i = 0; i < 10; i++)
         {
             values1.Add(mt.Next());
         }
-        
+
         // Re-initialize without parameters (time-based)
         mt.Initialize();
-        
+
         // Should generate different sequence
         var values2 = new List<int>();
         for (int i = 0; i < 10; i++)
         {
             values2.Add(mt.Next());
         }
-        
+
         // Very unlikely to be the same with time-based seed
         Assert.That(values1, Is.Not.EqualTo(values2));
     }
@@ -309,7 +309,7 @@ public class MersenneTwisterTests
         var mt = new MersenneTwister(12345);
         var buckets = new int[10];
         var samples = 100000;
-        
+
         for (int i = 0; i < samples; i++)
         {
             var value = mt.NextDouble();
@@ -317,11 +317,11 @@ public class MersenneTwisterTests
             if (bucket == 10) bucket = 9; // Handle edge case
             buckets[bucket]++;
         }
-        
+
         // Each bucket should have roughly samples/10 values (within 5% tolerance)
         var expected = samples / 10;
         var tolerance = expected * 0.05;
-        
+
         for (int i = 0; i < 10; i++)
         {
             Assert.That(buckets[i], Is.GreaterThan(expected - tolerance));
@@ -334,25 +334,25 @@ public class MersenneTwisterTests
     {
         var mt = new MersenneTwister(12345);
         var values = new List<double>();
-        
+
         // Generate sample
         for (int i = 0; i < 1000; i++)
         {
             values.Add(mt.NextDouble());
         }
-        
+
         // Test 1: No value should appear twice (very unlikely with good RNG)
         var duplicates = values.GroupBy(x => x).Where(g => g.Count() > 1).Count();
         Assert.That(duplicates, Is.EqualTo(0));
-        
+
         // Test 2: Mean should be approximately 0.5
         var mean = values.Average();
         Assert.That(mean, Is.EqualTo(0.5).Within(0.05));
-        
+
         // Test 3: Standard deviation should be approximately sqrt(1/12) ≈ 0.289
         var variance = values.Select(x => Math.Pow(x - mean, 2)).Average();
         var stdDev = Math.Sqrt(variance);
-        Assert.That(stdDev, Is.EqualTo(Math.Sqrt(1.0/12.0)).Within(0.05));
+        Assert.That(stdDev, Is.EqualTo(Math.Sqrt(1.0 / 12.0)).Within(0.05));
     }
 
     [Test]
@@ -360,7 +360,7 @@ public class MersenneTwisterTests
     {
         // Use a known seed to test against expected values
         var mt = new MersenneTwister(5489);
-        
+
         // These are the first few values from the reference implementation
         // Values may vary depending on implementation details, so we test general properties
         var values = new List<uint>();
@@ -368,7 +368,7 @@ public class MersenneTwisterTests
         {
             values.Add((uint)mt.Next());
         }
-        
+
         // Ensure values are different and within expected range
         Assert.That(values.Distinct().Count(), Is.EqualTo(5));
         Assert.That(values.All(v => v >= 0), Is.True);

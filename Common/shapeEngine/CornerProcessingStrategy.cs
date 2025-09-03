@@ -141,7 +141,7 @@ namespace shapeEngine
         /// <summary>
         /// Process corners using hybrid strategy selection based on complexity analysis
         /// </summary>
-        public static PathD ProcessCornersHybrid(ShapeLibrary shapeLib, bool previewMode, bool cornerCheck, 
+        public static PathD? ProcessCornersHybrid(ShapeLibrary shapeLib, bool previewMode, bool cornerCheck, 
             int cornerSegments, int optimizeCorners, double resolution, 
             bool iCPA = false, bool oCPA = false, double iCV = 0, double iCVariation_scalar = 0, 
             double oCV = 0, double oCVariation_scalar = 0, double shortEdgeLength = 0, 
@@ -158,7 +158,7 @@ namespace shapeEngine
             
             var complexity = AnalyzeComplexity(shapeLib, resolution, avgRadius, config);
             
-            PathD result;
+            PathD? result;
             
             switch (complexity.RecommendedApproach)
             {
@@ -195,7 +195,7 @@ namespace shapeEngine
         /// <summary>
         /// Process corners using legacy approach via reflection
         /// </summary>
-        private static PathD ProcessCornersLegacy(ShapeLibrary shapeLib, bool previewMode, bool cornerCheck,
+        private static PathD? ProcessCornersLegacy(ShapeLibrary shapeLib, bool previewMode, bool cornerCheck,
             int cornerSegments, int optimizeCorners, double resolution, bool iCPA, bool oCPA, 
             double iCV, double iCVariation_scalar, double oCV, double oCVariation_scalar)
         {
@@ -213,13 +213,13 @@ namespace shapeEngine
                 iCPA, oCPA, iCV, iCVariation_scalar, oCV, oCVariation_scalar
             });
             
-            return (PathD)result;
+            return result as PathD;
         }
 
         /// <summary>
         /// Process corners using new approach with parallel processing optimizations
         /// </summary>
-        private static PathD ProcessCornersNewWithParallel(ShapeLibrary shapeLib, bool previewMode, bool cornerCheck,
+        private static PathD? ProcessCornersNewWithParallel(ShapeLibrary shapeLib, bool previewMode, bool cornerCheck,
             int cornerSegments, int optimizeCorners, double resolution, bool iCPA, bool oCPA,
             double iCV, double iCVariation_scalar, double oCV, double oCVariation_scalar,
             double shortEdgeLength, double maxShortEdgeLength, ProcessingConfig config)

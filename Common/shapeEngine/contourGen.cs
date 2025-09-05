@@ -118,6 +118,13 @@ public static class contourGen
 
         int[] corner_types = CategorizeCorners(original_path, shortEdgeLength);
         
+        // Check if the convex radius is large enough to warrant circular convergence
+        var circularResult = TryGenerateCircularContour(original_path, convexRadius, edgeResolution, angularResolution);
+        if (circularResult != null)
+        {
+            return circularResult;
+        }
+        
         PathsD processed = new PathsD();
         List<PointD> cornerMidpoints = new List<PointD>();
         List<PointD> cornerVertices = new List<PointD>();
@@ -1169,5 +1176,143 @@ public static class contourGen
         sweep = rawSweep;
         if (Math.Abs(sweep) > Math.PI * 1.5) return false;
         return true;
+    }
+
+    /// <summary>
+    /// Attempts to generate a circular contour when the convex radius is large enough 
+    /// that all corners would merge into a circular result.
+    /// </summary>
+    /// <param name="original_path">The original polygon path</param>
+    /// <param name="convexRadius">The convex corner radius</param>
+    /// <param name="edgeResolution">Edge resolution for circle sampling</param>
+    /// <param name="angularResolution">Angular resolution for circle sampling</param>
+    /// <returns>Circular path if conditions are met, null otherwise</returns>
+    static PathD TryGenerateCircularContour(PathD original_path, double convexRadius, double edgeResolution, double angularResolution)
+    {
+        if (original_path.Count < 4) // Need at least 3 vertices plus closing vertex
+            return null;
+
+        int cornerCount = original_path.Count - 1; // Exclude closing vertex
+        
+        // Only apply to simple convex polygons (4-8 corners max to be conservative)
+        if (cornerCount < 3 || cornerCount > 8)
+            return null;
+
+        // Check if the polygon is convex - circular convergence only makes sense for convex polygons
+        if (!IsConvexPolygon(original_path))
+            return null;
+
+        // Calculate edge half-lengths to determine if radius would cause convergence
+        var edgeHalfLengths = new List<double>();
+
+        for (int i = 0; i < cornerCount; i++)
+        {
+            var currentVertex = original_path[i];
+            var nextVertex = original_path[(i + 1) % cornerCount];
+            double edgeLength = Helper.Length(Helper.Minus(nextVertex, currentVertex));
+            edgeHalfLengths.Add(edgeLength / 2.0);
+        }
+
+        // Check if the convex radius exceeds ALL edge half-lengths by a significant margin
+        // This indicates that corner fillets would overlap/merge, suggesting circular convergence
+        double minEdgeHalfLength = edgeHalfLengths.Min();
+        if (convexRadius < minEdgeHalfLength * 1.1) // 10% margin to be conservative
+            return null; // Normal corner processing is appropriate
+
+        // Calculate polygon center (centroid)
+        double centerX = 0, centerY = 0;
+        for (int i = 0; i < cornerCount; i++)
+        {
+            centerX += original_path[i].x;
+            centerY += original_path[i].y;
+        }
+        centerX /= cornerCount;
+        centerY /= cornerCount;
+        var center = new PointD(centerX, centerY);
+
+        // Calculate the circumradius (distance to farthest corner)
+        double maxDistanceFromCenter = 0;
+        for (int i = 0; i < cornerCount; i++)
+        {
+            double distance = Helper.Length(Helper.Minus(original_path[i], center));
+            maxDistanceFromCenter = Math.Max(maxDistanceFromCenter, distance);
+        }
+
+        // Use the convex radius as the circle radius, but ensure it's at least the circumradius
+        double circleRadius = Math.Max(convexRadius, maxDistanceFromCenter);
+
+        // Generate circular path
+        return GenerateCircularPath(center, circleRadius, angularResolution);
+    }
+
+    /// <summary>
+    /// Checks if a polygon is convex by examining the cross product of consecutive edge vectors.
+    /// </summary>
+    /// <param name="polygon">The polygon path to check</param>
+    /// <returns>True if the polygon is convex, false otherwise</returns>
+    static bool IsConvexPolygon(PathD polygon)
+    {
+        if (polygon.Count < 4) // Need at least 3 vertices plus closing vertex
+            return false;
+
+        int cornerCount = polygon.Count - 1; // Exclude closing vertex
+        bool? isClockwise = null;
+
+        for (int i = 0; i < cornerCount; i++)
+        {
+            var p1 = polygon[i];
+            var p2 = polygon[(i + 1) % cornerCount];
+            var p3 = polygon[(i + 2) % cornerCount];
+
+            // Calculate cross product of vectors p1->p2 and p2->p3
+            var v1 = Helper.Minus(p2, p1);
+            var v2 = Helper.Minus(p3, p2);
+            double crossProduct = v1.x * v2.y - v1.y * v2.x;
+
+            if (Math.Abs(crossProduct) > 1e-10) // Avoid floating point precision issues
+            {
+                bool currentIsClockwise = crossProduct < 0;
+                
+                if (isClockwise.HasValue && isClockwise.Value != currentIsClockwise)
+                    return false; // Found both clockwise and counter-clockwise turns -> not convex
+                
+                isClockwise = currentIsClockwise;
+            }
+        }
+
+        return true; // All turns are in the same direction -> convex
+    }
+
+    /// <summary>
+    /// Generates a circular path with the specified center, radius and angular resolution.
+    /// </summary>
+    /// <param name="center">Center point of the circle</param>
+    /// <param name="radius">Radius of the circle</param>
+    /// <param name="angularResolution">Angular resolution in radians</param>
+    /// <returns>PathD representing the circle</returns>
+    static PathD GenerateCircularPath(PointD center, double radius, double angularResolution)
+    {
+        // Calculate number of segments needed for the given angular resolution
+        int segmentCount = Math.Max(8, (int)Math.Ceiling(2 * Math.PI / angularResolution));
+        
+        var circle = new PathD(segmentCount + 1); // +1 for closing the path
+        
+        for (int i = 0; i < segmentCount; i++)
+        {
+            double angle = 2 * Math.PI * i / segmentCount;
+            var point = new PointD(
+                center.x + radius * Math.Cos(angle),
+                center.y + radius * Math.Sin(angle)
+            );
+            circle.Add(point);
+        }
+        
+        // Close the path by adding the first point again
+        if (segmentCount > 0)
+        {
+            circle.Add(circle[0]);
+        }
+        
+        return circle;
     }
 }

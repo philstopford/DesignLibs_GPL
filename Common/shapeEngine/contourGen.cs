@@ -118,13 +118,6 @@ public static class contourGen
 
         int[] corner_types = CategorizeCorners(original_path, shortEdgeLength);
         
-        // Check if the convex radius is large enough to warrant circular convergence
-        var circularResult = TryGenerateCircularContour(original_path, convexRadius, edgeResolution, angularResolution);
-        if (circularResult != null)
-        {
-            return circularResult;
-        }
-        
         PathsD processed = new PathsD();
         List<PointD> cornerMidpoints = new List<PointD>();
         List<PointD> cornerVertices = new List<PointD>();
@@ -165,9 +158,19 @@ public static class contourGen
                 if (corner_types[i] == (int)CornerType.Concave)
                     radius = concaveRadius;
 
-                PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
-                    SamplingMode.ByMaxAngle);
-                processed[i] = current_corner;
+                // Check if this corner should use circular arc generation
+                if (ShouldUseCircularArc(original_path[i], prevMid, nextMid, radius))
+                {
+                    // Use circular arc for this corner
+                    processed[i] = GenerateCornerCircularArc(original_path[i], prevMid, nextMid, radius, angularResolution);
+                }
+                else
+                {
+                    // Use normal bezier processing for this corner
+                    PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
+                        SamplingMode.ByMaxAngle);
+                    processed[i] = current_corner;
+                }
             });
         }
         else
@@ -195,9 +198,19 @@ public static class contourGen
                 if (corner_types[i] == (int)CornerType.Concave)
                     radius = concaveRadius;
 
-                PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
-                    SamplingMode.ByMaxAngle);
-                processed[i] = current_corner;
+                // Check if this corner should use circular arc generation  
+                if (ShouldUseCircularArc(original_path[i], prevMid, nextMid, radius))
+                {
+                    // Use circular arc for this corner
+                    processed[i] = GenerateCornerCircularArc(original_path[i], prevMid, nextMid, radius, angularResolution);
+                }
+                else
+                {
+                    // Use normal bezier processing for this corner
+                    PathD current_corner = ProcessCorner(startLine, endLine, radius, angularResolution, edgeResolution,
+                        SamplingMode.ByMaxAngle);
+                    processed[i] = current_corner;
+                }
             }
         }
         
@@ -1314,5 +1327,77 @@ public static class contourGen
         }
         
         return circle;
+    }
+
+    /// <summary>
+    /// Determines if a corner should use circular arc generation based on radius vs corner-to-midpoint distances.
+    /// Per @philstopford's clarification: converge when radius >= distance from corner to edge midpoint.
+    /// </summary>
+    static bool ShouldUseCircularArc(PointD corner, PointD prevMid, PointD nextMid, double radius)
+    {
+        // Calculate distances from corner to each edge midpoint
+        double distToPrevMid = Helper.Length(Helper.Minus(prevMid, corner));
+        double distToNextMid = Helper.Length(Helper.Minus(nextMid, corner));
+        
+        // Take the minimum distance - this is the limiting factor for this corner
+        double minDistanceToEdgeMidpoint = Math.Min(distToPrevMid, distToNextMid);
+        
+        // If radius is >= the minimum distance to edge midpoint, use circular arc
+        return radius >= minDistanceToEdgeMidpoint;
+    }
+    
+    /// <summary>
+    /// Generates a circular arc for a specific corner when circular convergence conditions are met.
+    /// </summary>
+    static PathD GenerateCornerCircularArc(PointD corner, PointD prevMid, PointD nextMid, double radius, double angularResolution)
+    {
+        // Calculate vectors from corner to midpoints
+        var vecToPrevMid = Helper.Normalized(Helper.Minus(prevMid, corner));
+        var vecToNextMid = Helper.Normalized(Helper.Minus(nextMid, corner));
+        
+        // Calculate the angle between the two vectors
+        double dotProduct = vecToPrevMid.x * vecToNextMid.x + vecToPrevMid.y * vecToNextMid.y;
+        dotProduct = Math.Max(-1.0, Math.Min(1.0, dotProduct)); // Clamp to valid range
+        double angle = Math.Acos(dotProduct);
+        
+        // If angle is too small, fall back to a simple line
+        if (angle < 0.01) // Less than ~0.6 degrees
+        {
+            return new PathD { prevMid, nextMid };
+        }
+        
+        // Calculate arc center - it's on the angle bisector at distance radius from corner
+        var bisector = Helper.Normalized(Helper.Add(vecToPrevMid, vecToNextMid));
+        var arcCenter = Helper.Add(corner, Helper.Mult(bisector, radius));
+        
+        // Calculate start and end angles for the arc
+        var startVec = Helper.Minus(prevMid, arcCenter);
+        var endVec = Helper.Minus(nextMid, arcCenter);
+        
+        double startAngle = Math.Atan2(startVec.y, startVec.x);
+        double endAngle = Math.Atan2(endVec.y, endVec.x);
+        
+        // Ensure we sweep the shorter arc
+        double angleDiff = endAngle - startAngle;
+        if (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+        if (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+        
+        // Calculate number of segments for the arc
+        int segments = Math.Max(3, (int)Math.Ceiling(Math.Abs(angleDiff) / angularResolution));
+        
+        PathD arc = new PathD();
+        
+        for (int i = 0; i <= segments; i++)
+        {
+            double t = (double)i / segments;
+            double currentAngle = startAngle + t * angleDiff;
+            
+            double x = arcCenter.x + radius * Math.Cos(currentAngle);
+            double y = arcCenter.y + radius * Math.Sin(currentAngle);
+            
+            arc.Add(new PointD(x, y));
+        }
+        
+        return arc;
     }
 }

@@ -1343,7 +1343,12 @@ public static class contourGen
         double minDistanceToEdgeMidpoint = Math.Min(distToPrevMid, distToNextMid);
         
         // If radius is >= the minimum distance to edge midpoint, use circular arc
-        return radius >= minDistanceToEdgeMidpoint;
+        bool shouldUseArc = radius >= minDistanceToEdgeMidpoint;
+        
+        // Debug logging (will be visible in test output)
+        //Console.WriteLine($"Corner ({corner.x:F1},{corner.y:F1}): radius={radius:F1}, minDist={minDistanceToEdgeMidpoint:F1}, useArc={shouldUseArc}");
+        
+        return shouldUseArc;
     }
     
     /// <summary>
@@ -1352,27 +1357,36 @@ public static class contourGen
     static PathD GenerateCornerCircularArc(PointD corner, PointD prevMid, PointD nextMid, double radius, double angularResolution)
     {
         // Calculate vectors from corner to midpoints
-        var vecToPrevMid = Helper.Normalized(Helper.Minus(prevMid, corner));
-        var vecToNextMid = Helper.Normalized(Helper.Minus(nextMid, corner));
+        PointD startDir = Helper.Normalized(Helper.Minus(prevMid, corner));
+        PointD endDir = Helper.Normalized(Helper.Minus(nextMid, corner));
         
-        // Calculate the angle between the two vectors
-        double dotProduct = vecToPrevMid.x * vecToNextMid.x + vecToPrevMid.y * vecToNextMid.y;
+        // Calculate curve start and end points at radius distance from corner (similar to ProcessCorner)
+        PointD curveStartPoint = Helper.Add(corner, Helper.Mult(startDir, radius));
+        PointD curveEndPoint = Helper.Add(corner, Helper.Mult(endDir, radius));
+        
+        // Calculate the angle between the two directions
+        double dotProduct = Helper.Dot(startDir, endDir);
         dotProduct = Math.Max(-1.0, Math.Min(1.0, dotProduct)); // Clamp to valid range
         double angle = Math.Acos(dotProduct);
         
-        // If angle is too small, fall back to a simple line
+        // If angle is too small, return a simple line between curve points
         if (angle < 0.01) // Less than ~0.6 degrees
         {
-            return new PathD { prevMid, nextMid };
+            return new PathD { curveStartPoint, curveEndPoint };
         }
         
-        // Calculate arc center - it's on the angle bisector at distance radius from corner
-        var bisector = Helper.Normalized(Helper.Add(vecToPrevMid, vecToNextMid));
-        var arcCenter = Helper.Add(corner, Helper.Mult(bisector, radius));
+        // Calculate arc center - it's on the angle bisector at distance from corner
+        // For circular arc, we need to find the center that creates a circle through both curve points
+        var bisectorDir = Helper.Normalized(Helper.Add(startDir, endDir));
         
-        // Calculate start and end angles for the arc
-        var startVec = Helper.Minus(prevMid, arcCenter);
-        var endVec = Helper.Minus(nextMid, arcCenter);
+        // Distance from corner to arc center for a circular arc
+        double halfAngle = angle / 2.0;
+        double distToCenter = radius / Math.Sin(halfAngle);
+        var arcCenter = Helper.Add(corner, Helper.Mult(bisectorDir, distToCenter));
+        
+        // Calculate start and end angles relative to arc center
+        var startVec = Helper.Minus(curveStartPoint, arcCenter);
+        var endVec = Helper.Minus(curveEndPoint, arcCenter);
         
         double startAngle = Math.Atan2(startVec.y, startVec.x);
         double endAngle = Math.Atan2(endVec.y, endVec.x);
@@ -1385,6 +1399,9 @@ public static class contourGen
         // Calculate number of segments for the arc
         int segments = Math.Max(3, (int)Math.Ceiling(Math.Abs(angleDiff) / angularResolution));
         
+        // Calculate the actual radius from the arc center to the curve points
+        double actualRadius = Helper.Length(startVec);
+        
         PathD arc = new PathD();
         
         for (int i = 0; i <= segments; i++)
@@ -1392,8 +1409,8 @@ public static class contourGen
             double t = (double)i / segments;
             double currentAngle = startAngle + t * angleDiff;
             
-            double x = arcCenter.x + radius * Math.Cos(currentAngle);
-            double y = arcCenter.y + radius * Math.Sin(currentAngle);
+            double x = arcCenter.x + actualRadius * Math.Cos(currentAngle);
+            double y = arcCenter.y + actualRadius * Math.Sin(currentAngle);
             
             arc.Add(new PointD(x, y));
         }

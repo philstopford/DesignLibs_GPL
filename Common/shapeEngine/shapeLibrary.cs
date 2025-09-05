@@ -2350,6 +2350,7 @@ public class ShapeLibrary
         {
             computeCage();
         }
+        bool useLegacyRounding = layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1;
         
         // Complex case where we need to piecewise evaluate.
         switch (shapeIndex)
@@ -2362,11 +2363,16 @@ public class ShapeLibrary
             case (int)shapeNames_all.Xshape:
             case (int)shapeNames_all.Ushape:
             case (int)shapeNames_all.Sshape:
+                if (useLegacyRounding)
+                {
+                    return legacy_processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                        iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                    
+                }
                 return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
                     iCV, iCVariation_scalar, oCV, oCVariation_scalar, shortEdgeLength, maxShortEdgeLength);
             case (int)shapeNames_all.GEOCORE:
             case (int)shapeNames_all.complex:
-                bool useLegacyRounding = layerSettings.getInt(ShapeSettings.properties_i.legacyRounding) == 1;
 
                 // Improved contouring uses sliver-gap removal to find fully enclosed holes.
                 // If there are none, we can use the classical rounding, which is cheaper.

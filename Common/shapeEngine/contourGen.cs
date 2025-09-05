@@ -1353,16 +1353,26 @@ public static class contourGen
     
     /// <summary>
     /// Generates a circular arc for a specific corner when circular convergence conditions are met.
+    /// Instead of creating a large arc, this constrains the radius to produce reasonable corner rounding.
     /// </summary>
     static PathD GenerateCornerCircularArc(PointD corner, PointD prevMid, PointD nextMid, double radius, double angularResolution)
     {
-        // Calculate vectors from corner to midpoints
+        // Calculate distances from corner to midpoints
+        double distToPrevMid = Helper.Length(Helper.Minus(prevMid, corner));
+        double distToNextMid = Helper.Length(Helper.Minus(nextMid, corner));
+        double minDistanceToMidpoint = Math.Min(distToPrevMid, distToNextMid);
+        
+        // When radius >= distance to midpoint, constrain the effective radius to avoid overlapping edges
+        // Use 80% of the minimum distance to edge midpoint to create reasonable corner rounding
+        double effectiveRadius = Math.Min(radius, minDistanceToMidpoint * 0.8);
+        
+        // Calculate vectors from corner to midpoints  
         PointD startDir = Helper.Normalized(Helper.Minus(prevMid, corner));
         PointD endDir = Helper.Normalized(Helper.Minus(nextMid, corner));
         
-        // Calculate curve start and end points at radius distance from corner (similar to ProcessCorner)
-        PointD curveStartPoint = Helper.Add(corner, Helper.Mult(startDir, radius));
-        PointD curveEndPoint = Helper.Add(corner, Helper.Mult(endDir, radius));
+        // Calculate curve start and end points using the effective radius
+        PointD curveStartPoint = Helper.Add(corner, Helper.Mult(startDir, effectiveRadius));
+        PointD curveEndPoint = Helper.Add(corner, Helper.Mult(endDir, effectiveRadius));
         
         // Calculate the angle between the two directions
         double dotProduct = Helper.Dot(startDir, endDir);
@@ -1375,13 +1385,12 @@ public static class contourGen
             return new PathD { curveStartPoint, curveEndPoint };
         }
         
-        // Calculate arc center - it's on the angle bisector at distance from corner
-        // For circular arc, we need to find the center that creates a circle through both curve points
+        // Calculate arc center using the effective radius
         var bisectorDir = Helper.Normalized(Helper.Add(startDir, endDir));
         
         // Distance from corner to arc center for a circular arc
         double halfAngle = angle / 2.0;
-        double distToCenter = radius / Math.Sin(halfAngle);
+        double distToCenter = effectiveRadius / Math.Sin(halfAngle);
         var arcCenter = Helper.Add(corner, Helper.Mult(bisectorDir, distToCenter));
         
         // Calculate start and end angles relative to arc center

@@ -106,7 +106,7 @@ public static class contourGen
     }
 
     /// <summary>
-    /// Calculate tension-adjusted edge midpoint with more aggressive tension effects
+    /// Calculate tension-adjusted edge midpoint using ShapeLibrary-compatible algorithm
     /// </summary>
     /// <param name="corner">Current corner point</param>
     /// <param name="prevCorner">Previous corner point</param>  
@@ -133,23 +133,32 @@ public static class contourGen
         // Apply tension calculation if edge lengths are valid
         if (previousEdgeLength > 0 && nextEdgeLength > 0 && currentEdgeLength > 0)
         {
-            // Calculate ratio of adjacent edge lengths
-            double ratio = nextEdgeLength / previousEdgeLength;
-            
-            // Apply tension with more aggressive effect
-            // Use a modified approach that creates more pronounced effects
-            double tensionFactor = 1.0 / (1.0 + Math.Exp(-edgeTension * (ratio - 1.0)));
-            
-            // Map tension factor to offset position along the edge
-            // tensionFactor ranges from ~0 to ~1
-            // When nextEdge >> previousEdge: tensionFactor → 1, so offset → currentEdgeLength (toward next corner)
-            // When nextEdge << previousEdge: tensionFactor → 0, so offset → 0 (toward current corner)
-            offset = currentEdgeLength * tensionFactor;
-            
-            // Clamp offset to reasonable bounds to avoid degenerate cases
-            double minOffset = currentEdgeLength * 0.1;
-            double maxOffset = currentEdgeLength * 0.9;
-            offset = Math.Max(minOffset, Math.Min(maxOffset, offset));
+            // Calculate ratio of adjacent edge lengths exactly like ShapeLibrary
+            double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
+            bool reverseSlide = true;
+
+            // Normalize ratio to be >= 1, as done in ShapeLibrary
+            if (ratio < 1)
+            {
+                reverseSlide = false;
+                if (ratio < 1E-2)
+                {
+                    ratio = 1E-2; // clamp to avoid division issues
+                }
+                ratio = 1 / ratio; // normalize into expected range
+            }
+
+            // Apply ShapeLibrary sigmoid function exactly:
+            // center is 1.0, formula is: currentEdgeLength * (1 / (1 + exp(-tension * (center - ratio))))
+            const double center = 1.0;
+            offset = currentEdgeLength * (1.0 / (1.0 + Math.Exp(-edgeTension * (center - ratio))));
+
+            // Apply direction logic based on reverseSlide flag
+            if (!reverseSlide)
+            {
+                // When original ratio was < 1, we need to reverse the effect
+                offset = currentEdgeLength - offset;
+            }
         }
 
         // Calculate the adjusted midpoint

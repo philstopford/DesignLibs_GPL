@@ -42,8 +42,31 @@ DesignLibs_GPL comprises a multitude of libraries primarily built for use by the
 
 ### Additional Libraries
 - **[Email](Email-API.md)** - Email functionality and utilities
-- **[LHC](LHC-API.md)** - Specialized computational library
+- **[LHC](LHC-API.md)** - Specialized computational library  
 - **[Tral.Randomness](Tral.Randomness-API.md)** - Additional randomness and statistical utilities
+
+## Completed API Documentation
+
+This comprehensive wiki provides detailed API documentation for the core DesignLibs_GPL libraries:
+
+### ✅ Fully Documented Libraries
+- **[geoLib](geoLib-API.md)** - Basic geometric primitives with cross-platform compatibility
+- **[geoCore](geoCore-API.md)** - GDSII and Oasis file format parsing and writing  
+- **[geoWrangler](geoWrangler-API.md)** - Advanced geometry transformations and operations
+- **[shapeEngine](shapeEngine-API.md)** - Parametric shape generation (rectangles, L-shapes, T-shapes, etc.)
+- **[utility](utility-API.md)** - Mathematical utilities, hashing, compression, and performance optimization
+- **[clipper](clipper-API.md)** - Advanced polygon clipping operations (Clipper2 C# port)
+- **[MersenneTwister](MersenneTwister-API.md)** - High-quality pseudorandom number generation
+- **[Noise](Noise-API.md)** - Perlin, Simplex, and OpenSimplex noise functions
+- **[Eto.VeldridSurface](Eto.VeldridSurface-API.md)** - Cross-platform 2D graphics viewport
+
+Each documentation includes:
+- 📋 Complete API reference with all classes, methods, and properties
+- 💡 Comprehensive usage examples and code samples  
+- 🔗 Integration examples with other DesignLibs libraries
+- ⚡ Performance optimization guidelines
+- 🛡️ Error handling and best practices
+- 📚 Cross-references to related libraries
 
 ## Getting Started
 

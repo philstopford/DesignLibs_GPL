@@ -172,17 +172,17 @@ public static class contourGen
         return Helper.Add(corner, Helper.Mul(normalizedDir, finalOffset));
     }
 
-    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners)
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, double edgeTension)
     {
-        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension: 1.0);
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension);
     }
 
     /// <summary>
     /// Generate contour with optional parallel processing for corner computation
     /// </summary>
-    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel)
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, double edgeTension, bool enableParallel)
     {
-        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel, edgeTension: 1.0);
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel, edgeTension);
     }
 
     /// <summary>

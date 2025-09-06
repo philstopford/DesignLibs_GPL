@@ -1705,6 +1705,16 @@ public class ShapeEngineTests
 
         Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001),
             "Diamond area should be half the original square area");
+
+        // Generate SVG for review
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        string svgContent = CreateTestSvg(square, result, "AllShortEdges: Square to Diamond", short_edge_threshold);
+        string svgPath = Path.Combine(svgOutputDir, "AllShortEdges_test.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+
+        Console.WriteLine($"AllShortEdges test completed successfully with {result.Count} points");
+        Console.WriteLine($"AllShortEdges SVG saved to: {svgPath}");
     }
 
     /// <summary>
@@ -1994,6 +2004,83 @@ public class ShapeEngineTests
 
         Console.WriteLine($"T-shape test completed successfully with {result.Count} points");
         Console.WriteLine($"T-shape SVG saved to: {svgPath}");
+    }
+
+    /// <summary>
+    /// Test edge tension control functionality in ContourGen
+    /// </summary>
+    [Test]
+    public static void ContourGenEdgeTensionTest()
+    {
+        Console.WriteLine("=== ContourGen Edge Tension Test ===");
+
+        // Create a polygon with varying edge lengths to test tension effects
+        PathD testPolygon = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(100, 0),     // Long edge: 100
+            new PointD(110, 10),    // Short edge: ~14
+            new PointD(100, 20),    // Short edge: ~14  
+            new PointD(0, 20),      // Long edge: 100
+            new PointD(0, 0)        // Medium edge: 20
+        };
+
+        double radius = 5.0;
+        double edgeRes = 2.0;
+        double angularRes = 0.2;
+        double shortEdgeThresh = 5.0;
+        double maxShortEdge = 20.0;
+        int optimize = 0;
+
+        // Test different tension values
+        var tensionResults = new List<(double tension, int pointCount)>();
+
+        double[] testTensions = { 0.1, 1.0, 2.0, 10.0 };
+
+        // Generate SVG directory for this test
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        Console.WriteLine($"Edge tension SVG outputs will be saved to: {svgOutputDir}");
+
+        foreach (double tension in testTensions)
+        {
+            PathD result = contourGen.makeContour(
+                testPolygon,
+                radius, radius,
+                edgeRes, angularRes,
+                shortEdgeThresh, maxShortEdge,
+                optimize,
+                enableParallel: false,
+                edgeTension: tension
+            );
+
+            tensionResults.Add((tension, result.Count));
+            Console.WriteLine($"Tension {tension}: {result.Count} points");
+
+            // Generate SVG for each tension value
+            string svgContent = CreateTestSvg(testPolygon, result, $"Edge Tension Test: Tension = {tension}", shortEdgeThresh);
+            string svgPath = Path.Combine(svgOutputDir, $"EdgeTension_{tension:F1}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"  SVG saved to: {svgPath}");
+        }
+
+        // Validate that tension parameter affects the output
+        // (Different tension values should produce different point counts)
+        var pointCounts = tensionResults.Select(r => r.pointCount).ToHashSet();
+        
+        // We expect at least some variation in point counts with different tensions
+        // For shapes with varying edge lengths, different tensions should produce different results
+        Assert.That(pointCounts.Count, Is.GreaterThan(1), 
+            "Edge tension should affect the contour generation output");
+
+        // Verify all results are valid (non-empty paths)
+        foreach (var (tension, pointCount) in tensionResults)
+        {
+            Assert.That(pointCount, Is.GreaterThan(10), 
+                $"Tension {tension} should produce a valid contour with reasonable point count");
+        }
+
+        Console.WriteLine("Edge tension control test completed successfully");
     }
 
     /// <summary>

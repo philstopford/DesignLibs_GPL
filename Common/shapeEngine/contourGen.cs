@@ -2,6 +2,7 @@ using Clipper2Lib;
 using System.Linq;
 using System.Threading.Tasks;
 using utility;
+using geoWrangler;
 
 namespace shapeEngine;
 
@@ -104,15 +105,101 @@ public static class contourGen
         }
     }
 
+    /// <summary>
+    /// Calculate tension-adjusted edge midpoint similar to ShapeLibrary's edgeMidpoints approach
+    /// </summary>
+    /// <param name="corner">Current corner point</param>
+    /// <param name="prevCorner">Previous corner point</param>  
+    /// <param name="nextCorner">Next corner point</param>
+    /// <param name="afterNextCorner">Corner after next (for edge length calculation)</param>
+    /// <param name="edgeTension">Edge tension value</param>
+    /// <returns>Tension-adjusted midpoint between corner and nextCorner</returns>
+    static PointD CalculateTensionAdjustedMidpoint(PointD corner, PointD prevCorner, PointD nextCorner, PointD afterNextCorner, double edgeTension)
+    {
+        // If tension is very close to default (1.0), use simple midpoint for performance
+        if (Math.Abs(edgeTension - 1.0) < 1e-9)
+        {
+            return Helper.Mid(corner, nextCorner);
+        }
+
+        // Calculate edge lengths exactly like ShapeLibrary
+        // previousEdgeLength: from current corner to previous corner  
+        double previousEdgeLength = GeoWrangler.distanceBetweenPoints(corner, prevCorner);
+        // currentEdgeLength: from current corner to next corner
+        double currentEdgeLength = GeoWrangler.distanceBetweenPoints(corner, nextCorner);
+        // nextEdgeLength: from next corner to corner after that
+        double nextEdgeLength = GeoWrangler.distanceBetweenPoints(nextCorner, afterNextCorner);
+
+        // Default to simple midpoint
+        double offset = currentEdgeLength * 0.5;
+        bool reverseSlide = true;
+
+        // Apply tension calculation if previous and next edge lengths are valid
+        if (previousEdgeLength > 0 && nextEdgeLength > 0 && currentEdgeLength > 0)
+        {
+            // Calculate ratio exactly like ShapeLibrary
+            double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
+
+            if (ratio < 1)
+            {
+                reverseSlide = false;
+                if (ratio < 1E-2)
+                {
+                    ratio = 1E-2; // clamp
+                }
+                ratio = 1 / ratio; // normalize into expected range
+            }
+
+            // Apply sigmoid function with tension control (from ShapeLibrary)
+            const double center = 1.0;
+            double sigmoidResult = 1 / (1 + Math.Exp(-edgeTension * (center - ratio)));
+            offset = currentEdgeLength * sigmoidResult;
+        }
+
+        // Calculate the direction vector from corner to nextCorner
+        PointD direction = Helper.Minus(nextCorner, corner);
+        double dirLength = Helper.Length(direction);
+        
+        if (dirLength < 1e-12)
+        {
+            return Helper.Mid(corner, nextCorner); // fallback for degenerate case
+        }
+
+        // Normalize direction and apply offset
+        PointD normalizedDir = Helper.Mul(direction, 1.0 / dirLength);
+        double finalOffset = reverseSlide ? (currentEdgeLength - offset) : offset;
+        
+        return Helper.Add(corner, Helper.Mul(normalizedDir, finalOffset));
+    }
+
     public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners)
     {
-        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true);
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension: 1.0);
     }
 
     /// <summary>
     /// Generate contour with optional parallel processing for corner computation
     /// </summary>
     public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel)
+    {
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel, edgeTension: 1.0);
+    }
+
+    /// <summary>
+    /// Generate contour with optional parallel processing and edge tension control
+    /// </summary>
+    /// <param name="original_path">Original polygon path</param>
+    /// <param name="concaveRadius">Radius for concave corners</param>
+    /// <param name="convexRadius">Radius for convex corners</param>
+    /// <param name="edgeResolution">Edge resolution for sampling</param>
+    /// <param name="angularResolution">Angular resolution for sampling</param>
+    /// <param name="shortEdgeLength">Threshold for short edges</param>
+    /// <param name="maxShortEdgeLength">Maximum short edge length</param>
+    /// <param name="optimizeCorners">Corner optimization level</param>
+    /// <param name="enableParallel">Enable parallel processing</param>
+    /// <param name="edgeTension">Edge tension control (similar to ShapeLibrary eTension)</param>
+    /// <returns>Processed contour path</returns>
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel, double edgeTension)
     {
         SmoothStepMode smoothMode = SmoothStepMode.Quintic;
 
@@ -140,16 +227,24 @@ public static class contourGen
             {
                 cornerVertices[i] = original_path[i];
 
-                PointD prevMid = (i == 0)
-                    ? Helper.Mid(original_path[i], original_path[^2])
-                    : Helper.Mid(original_path[i], original_path[i - 1]);
+                // Calculate corner indices for tension calculation
+                int prevIdx = (i == 0) ? cornerCount - 1 : i - 1;
+                int nextIdx = (i == cornerCount - 1) ? 0 : i + 1;
+                int afterNextIdx = (nextIdx == cornerCount - 1) ? 0 : nextIdx + 1;
+
+                PointD prevCorner = original_path[prevIdx];
+                PointD currentCorner = original_path[i];
+                PointD nextCorner = original_path[nextIdx];
+                PointD afterNextCorner = original_path[afterNextIdx];
+
+                // Calculate tension-adjusted midpoints
+                PointD prevMid = CalculateTensionAdjustedMidpoint(currentCorner, 
+                    (i == 0) ? original_path[^2] : original_path[prevIdx], 
+                    prevCorner, currentCorner, edgeTension);
+
+                PointD nextMid = CalculateTensionAdjustedMidpoint(currentCorner, prevCorner, nextCorner, afterNextCorner, edgeTension);
 
                 var startLine = new PathD { original_path[i], prevMid };
-
-                PointD nextMid = (i == cornerCount - 1)
-                    ? Helper.Mid(original_path[i], original_path[0])
-                    : Helper.Mid(original_path[i], original_path[i + 1]);
-
                 var endLine = new PathD { original_path[i], nextMid };
 
                 cornerMidpoints[i] = nextMid;
@@ -170,16 +265,24 @@ public static class contourGen
             {
                 cornerVertices[i] = original_path[i];
 
-                PointD prevMid = (i == 0)
-                    ? Helper.Mid(original_path[i], original_path[^2])
-                    : Helper.Mid(original_path[i], original_path[i - 1]);
+                // Calculate corner indices for tension calculation
+                int prevIdx = (i == 0) ? cornerCount - 1 : i - 1;
+                int nextIdx = (i == cornerCount - 1) ? 0 : i + 1;
+                int afterNextIdx = (nextIdx == cornerCount - 1) ? 0 : nextIdx + 1;
+
+                PointD prevCorner = original_path[prevIdx];
+                PointD currentCorner = original_path[i];
+                PointD nextCorner = original_path[nextIdx];
+                PointD afterNextCorner = original_path[afterNextIdx];
+
+                // Calculate tension-adjusted midpoints
+                PointD prevMid = CalculateTensionAdjustedMidpoint(currentCorner, 
+                    (i == 0) ? original_path[^2] : original_path[prevIdx], 
+                    prevCorner, currentCorner, edgeTension);
+
+                PointD nextMid = CalculateTensionAdjustedMidpoint(currentCorner, prevCorner, nextCorner, afterNextCorner, edgeTension);
 
                 var startLine = new PathD { original_path[i], prevMid };
-
-                PointD nextMid = (i == cornerCount - 1)
-                    ? Helper.Mid(original_path[i], original_path[0])
-                    : Helper.Mid(original_path[i], original_path[i + 1]);
-
                 var endLine = new PathD { original_path[i], nextMid };
 
                 cornerMidpoints[i] = nextMid;

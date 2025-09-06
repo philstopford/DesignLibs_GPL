@@ -2579,7 +2579,7 @@ public class ShapeLibrary
         
         double eTension = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.eTension));
 
-        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, shortEdgeLength, maxShortEdgeLength, optimizeCorners, eTension);
+        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension: eTension);
 
         PathD clockwise_path = GeoWrangler.clockwiseAndReorderXY(GeoWrangler.close(contoured_path));
         

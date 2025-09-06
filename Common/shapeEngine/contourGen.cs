@@ -154,6 +154,11 @@ public static class contourGen
             const double center = 1.0;
             double sigmoidResult = 1 / (1 + Math.Exp(-edgeTension * (center - ratio)));
             offset = currentEdgeLength * sigmoidResult;
+            
+            // Debug output for understanding what's happening (uncomment to enable)
+            //Console.WriteLine($"DEBUG: corner=({corner.x:F1},{corner.y:F1}), prev={previousEdgeLength:F2}, curr={currentEdgeLength:F2}, next={nextEdgeLength:F2}");
+            //Console.WriteLine($"       ratio={Math.Abs(nextEdgeLength / previousEdgeLength):F3}, normalizedRatio={ratio:F3}, reverseSlide={reverseSlide}");
+            //Console.WriteLine($"       sigmoidResult={sigmoidResult:F3}, offset={offset:F2}");
         }
 
         // Calculate the direction vector from corner to nextCorner
@@ -172,17 +177,18 @@ public static class contourGen
         return Helper.Add(corner, Helper.Mul(normalizedDir, finalOffset));
     }
 
-    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, double edgeTension)
+    // Backward compatibility - maintain original signature
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners)
     {
-        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension);
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension: 1.0);
     }
 
     /// <summary>
-    /// Generate contour with optional parallel processing for corner computation
+    /// Generate contour with optional parallel processing for corner computation (backward compatibility)
     /// </summary>
-    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, double edgeTension, bool enableParallel)
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel)
     {
-        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel, edgeTension);
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel, edgeTension: 1.0);
     }
 
     /// <summary>

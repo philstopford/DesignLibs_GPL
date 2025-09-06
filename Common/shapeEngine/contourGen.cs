@@ -106,7 +106,7 @@ public static class contourGen
     }
 
     /// <summary>
-    /// Calculate tension-adjusted edge midpoint similar to ShapeLibrary's edgeMidpoints approach
+    /// Calculate tension-adjusted edge midpoint with more aggressive tension effects
     /// </summary>
     /// <param name="corner">Current corner point</param>
     /// <param name="prevCorner">Previous corner point</param>  
@@ -123,58 +123,46 @@ public static class contourGen
         }
 
         // Calculate edge lengths exactly like ShapeLibrary
-        // previousEdgeLength: from current corner to previous corner  
         double previousEdgeLength = GeoWrangler.distanceBetweenPoints(corner, prevCorner);
-        // currentEdgeLength: from current corner to next corner
         double currentEdgeLength = GeoWrangler.distanceBetweenPoints(corner, nextCorner);
-        // nextEdgeLength: from next corner to corner after that
         double nextEdgeLength = GeoWrangler.distanceBetweenPoints(nextCorner, afterNextCorner);
 
         // Default to simple midpoint
         double offset = currentEdgeLength * 0.5;
-        bool reverseSlide = true;
 
-        // Apply tension calculation if previous and next edge lengths are valid
+        // Apply tension calculation if edge lengths are valid
         if (previousEdgeLength > 0 && nextEdgeLength > 0 && currentEdgeLength > 0)
         {
-            // Calculate ratio exactly like ShapeLibrary
-            double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
-
-            if (ratio < 1)
-            {
-                reverseSlide = false;
-                if (ratio < 1E-2)
-                {
-                    ratio = 1E-2; // clamp
-                }
-                ratio = 1 / ratio; // normalize into expected range
-            }
-
-            // Apply sigmoid function with tension control (from ShapeLibrary)
-            const double center = 1.0;
-            double sigmoidResult = 1 / (1 + Math.Exp(-edgeTension * (center - ratio)));
-            offset = currentEdgeLength * sigmoidResult;
+            // Calculate ratio of adjacent edge lengths
+            double ratio = nextEdgeLength / previousEdgeLength;
             
-            // Debug output for understanding what's happening (uncomment to enable)
-            //Console.WriteLine($"DEBUG: corner=({corner.x:F1},{corner.y:F1}), prev={previousEdgeLength:F2}, curr={currentEdgeLength:F2}, next={nextEdgeLength:F2}");
-            //Console.WriteLine($"       ratio={Math.Abs(nextEdgeLength / previousEdgeLength):F3}, normalizedRatio={ratio:F3}, reverseSlide={reverseSlide}");
-            //Console.WriteLine($"       sigmoidResult={sigmoidResult:F3}, offset={offset:F2}");
+            // Apply tension with more aggressive effect
+            // Use a modified approach that creates more pronounced effects
+            double tensionFactor = 1.0 / (1.0 + Math.Exp(-edgeTension * (ratio - 1.0)));
+            
+            // Map tension factor to offset position along the edge
+            // tensionFactor ranges from ~0 to ~1
+            // When nextEdge >> previousEdge: tensionFactor → 1, so offset → currentEdgeLength (toward next corner)
+            // When nextEdge << previousEdge: tensionFactor → 0, so offset → 0 (toward current corner)
+            offset = currentEdgeLength * tensionFactor;
+            
+            // Clamp offset to reasonable bounds to avoid degenerate cases
+            double minOffset = currentEdgeLength * 0.1;
+            double maxOffset = currentEdgeLength * 0.9;
+            offset = Math.Max(minOffset, Math.Min(maxOffset, offset));
         }
 
-        // Calculate the direction vector from corner to nextCorner
+        // Calculate the adjusted midpoint
         PointD direction = Helper.Minus(nextCorner, corner);
         double dirLength = Helper.Length(direction);
         
         if (dirLength < 1e-12)
         {
-            return Helper.Mid(corner, nextCorner); // fallback for degenerate case
+            return Helper.Mid(corner, nextCorner);
         }
 
-        // Normalize direction and apply offset
         PointD normalizedDir = Helper.Mul(direction, 1.0 / dirLength);
-        double finalOffset = reverseSlide ? (currentEdgeLength - offset) : offset;
-        
-        return Helper.Add(corner, Helper.Mul(normalizedDir, finalOffset));
+        return Helper.Add(corner, Helper.Mul(normalizedDir, offset));
     }
 
     // Backward compatibility - maintain original signature

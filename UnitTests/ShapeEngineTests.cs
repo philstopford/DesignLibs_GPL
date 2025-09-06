@@ -1705,6 +1705,16 @@ public class ShapeEngineTests
 
         Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001),
             "Diamond area should be half the original square area");
+
+        // Generate SVG for review
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        string svgContent = CreateTestSvg(square, result, "AllShortEdges: Square to Diamond", short_edge_threshold);
+        string svgPath = Path.Combine(svgOutputDir, "AllShortEdges_test.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+
+        Console.WriteLine($"AllShortEdges test completed successfully with {result.Count} points");
+        Console.WriteLine($"AllShortEdges SVG saved to: {svgPath}");
     }
 
     /// <summary>
@@ -2026,6 +2036,12 @@ public class ShapeEngineTests
         var tensionResults = new List<(double tension, int pointCount)>();
 
         double[] testTensions = { 0.1, 1.0, 2.0, 10.0 };
+
+        // Generate SVG directory for this test
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        Console.WriteLine($"Edge tension SVG outputs will be saved to: {svgOutputDir}");
+
         foreach (double tension in testTensions)
         {
             PathD result = contourGen.makeContour(
@@ -2040,6 +2056,12 @@ public class ShapeEngineTests
 
             tensionResults.Add((tension, result.Count));
             Console.WriteLine($"Tension {tension}: {result.Count} points");
+
+            // Generate SVG for each tension value
+            string svgContent = CreateTestSvg(testPolygon, result, $"Edge Tension Test: Tension = {tension}", shortEdgeThresh);
+            string svgPath = Path.Combine(svgOutputDir, $"EdgeTension_{tension:F1}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"  SVG saved to: {svgPath}");
         }
 
         // Validate that tension parameter affects the output

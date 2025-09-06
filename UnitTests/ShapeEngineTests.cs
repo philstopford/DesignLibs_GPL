@@ -2084,6 +2084,120 @@ public class ShapeEngineTests
     }
 
     /// <summary>
+    /// Test for L-shape loops issue with edge tension 0.9
+    /// </summary>
+    [Test]
+    public static void LShapeLoopTest()
+    {
+        Console.WriteLine("=== L-Shape Loop Test ===");
+
+        // L-shape as described in the issue comment
+        PathD lShape = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(0, 70),
+            new PointD(30, 70),
+            new PointD(30, 20),
+            new PointD(60, 20),
+            new PointD(60, 0),
+            new PointD(0, 0)  // Close the path properly
+        };
+
+        // First try with tension 1.0 (should work)
+        Console.WriteLine("Testing with tension 1.0 (baseline):");
+        try
+        {
+            PathD resultBaseline = contourGen.makeContour(
+                lShape,
+                concaveRadius: 20,
+                convexRadius: 30,
+                edgeResolution: 2.0,
+                angularResolution: 0.5,
+                shortEdgeLength: 10.0,
+                maxShortEdgeLength: 20.0,
+                optimizeCorners: 0,
+                enableParallel: false,
+                edgeTension: 1.0
+            );
+
+            Console.WriteLine($"Baseline (tension 1.0): {resultBaseline.Count} points - SUCCESS");
+
+            // Generate SVG for baseline
+            var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+            Directory.CreateDirectory(svgOutputDir);
+            string svgContent = CreateTestSvg(lShape, resultBaseline, "L-Shape with Tension 1.0 (Baseline)", 10.0);
+            string svgPath = Path.Combine(svgOutputDir, "LShape_tension_1.0_baseline.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"Baseline SVG saved to: {svgPath}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Even baseline (tension 1.0) failed: {ex.Message}");
+            Assert.Fail($"Baseline tension 1.0 should work: {ex.Message}");
+        }
+
+        // Now try with problematic tension 0.9 but with timeout
+        Console.WriteLine("Testing with tension 0.9 (problematic):");
+        
+        var cancellationTokenSource = new CancellationTokenSource(5000); // 5 second timeout
+        PathD result = null;
+        bool completed = false;
+        Exception caughtException = null;
+
+        var task = Task.Run(() =>
+        {
+            try
+            {
+                result = contourGen.makeContour(
+                    lShape,
+                    concaveRadius: 20,
+                    convexRadius: 30,
+                    edgeResolution: 2.0,
+                    angularResolution: 0.5,
+                    shortEdgeLength: 10.0,
+                    maxShortEdgeLength: 20.0,
+                    optimizeCorners: 0,
+                    enableParallel: false,
+                    edgeTension: 0.9
+                );
+                completed = true;
+            }
+            catch (Exception ex)
+            {
+                caughtException = ex;
+            }
+        }, cancellationTokenSource.Token);
+
+        bool finishedInTime = task.Wait(5000);
+
+        if (!finishedInTime)
+        {
+            Console.WriteLine("L-shape with tension 0.9 timed out - infinite loop detected!");
+            // Don't fail the test, just document the issue
+            Console.WriteLine("This confirms the infinite loop issue described in the comment");
+        }
+        else if (caughtException != null)
+        {
+            Console.WriteLine($"L-shape with tension 0.9 threw exception: {caughtException.Message}");
+            Assert.Fail($"Tension 0.9 test failed with exception: {caughtException.Message}");
+        }
+        else if (completed && result != null)
+        {
+            Console.WriteLine($"L-shape with tension 0.9 completed with {result.Count} points");
+            
+            // Generate SVG for visual inspection
+            var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+            Directory.CreateDirectory(svgOutputDir);
+            string svgContent = CreateTestSvg(lShape, result, "L-Shape with Tension 0.9", 10.0);
+            string svgPath = Path.Combine(svgOutputDir, "LShape_tension_0.9_debug.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"L-shape SVG saved to: {svgPath}");
+        }
+
+        Console.WriteLine("L-shape loop test completed");
+    }
+
+    /// <summary>
     /// Performance test to ensure contour generation completes in reasonable time
     /// for various polygon complexities with mixed short/long edges.
     /// </summary>

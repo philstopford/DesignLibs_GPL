@@ -122,7 +122,7 @@ public static class contourGen
             return Helper.Mid(corner, nextCorner);
         }
 
-        // Calculate edge lengths exactly like ShapeLibrary
+        // Calculate edge lengths
         double previousEdgeLength = GeoWrangler.distanceBetweenPoints(corner, prevCorner);
         double currentEdgeLength = GeoWrangler.distanceBetweenPoints(corner, nextCorner);
         double nextEdgeLength = GeoWrangler.distanceBetweenPoints(nextCorner, afterNextCorner);
@@ -130,35 +130,43 @@ public static class contourGen
         // Default to simple midpoint
         double offset = currentEdgeLength * 0.5;
 
-        // Apply tension calculation if edge lengths are valid
+        // Apply a simplified but more pronounced tension calculation
         if (previousEdgeLength > 0 && nextEdgeLength > 0 && currentEdgeLength > 0)
         {
-            // Calculate ratio of adjacent edge lengths exactly like ShapeLibrary
-            double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
-            bool reverseSlide = false;
-
-            // Normalize ratio to be >= 1, as done in ShapeLibrary
-            if (ratio < 1)
+            // Calculate the ratio of adjacent edges
+            // If nextEdge is longer, we want to shift toward nextCorner
+            // If prevEdge is longer, we want to shift toward corner
+            double edgeLengthRatio = nextEdgeLength / previousEdgeLength;
+            
+            // Use a more pronounced tension effect
+            // When ratio = 1 (equal edges), no shift should occur
+            // When ratio > 1 (next edge longer), shift significantly toward next
+            // When ratio < 1 (prev edge longer), shift significantly toward prev
+            
+            // Apply tension using a power function for more pronounced effects
+            double tensionFactor = Math.Pow(edgeLengthRatio, edgeTension * 0.5);
+            
+            // Map the tension factor to an offset ratio between 0.1 and 0.9
+            // This ensures pronounced but safe shifts
+            double minRatio = 0.15;  // Minimum offset ratio
+            double maxRatio = 0.85;  // Maximum offset ratio
+            
+            // Normalize tensionFactor around 1.0
+            if (tensionFactor > 1.0) 
             {
-                reverseSlide = true;
-                if (ratio < 1E-2)
-                {
-                    ratio = 1E-2; // clamp to avoid division issues
-                }
-                ratio = 1 / ratio; // normalize into expected range
+                // Next edge is longer - shift toward next corner
+                double normalizedFactor = Math.Min(tensionFactor, 4.0) / 4.0; // Cap at 4x for stability
+                offset = currentEdgeLength * (0.5 + normalizedFactor * 0.35); // 0.5 to 0.85
             }
-
-            // Apply ShapeLibrary sigmoid function exactly:
-            // center is 1.0, formula is: currentEdgeLength * (1 / (1 + exp(-tension * (center - ratio))))
-            const double center = 1.0;
-            offset = currentEdgeLength * (1.0 / (1.0 + Math.Exp(-edgeTension * (center - ratio))));
-
-            // Apply direction logic based on reverseSlide flag
-            if (!reverseSlide)
+            else if (tensionFactor < 1.0)
             {
-                // When original ratio was < 1, we need to reverse the effect
-                offset = currentEdgeLength - offset;
+                // Previous edge is longer - shift toward current corner  
+                double normalizedFactor = Math.Max(tensionFactor, 0.25) * 4.0; // Invert and scale
+                offset = currentEdgeLength * (0.5 - (1.0 - normalizedFactor) * 0.35); // 0.5 to 0.15
             }
+            
+            // Safety clamp to prevent extreme values
+            offset = Math.Max(currentEdgeLength * 0.1, Math.Min(currentEdgeLength * 0.9, offset));
         }
 
         // Calculate the adjusted midpoint

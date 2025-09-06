@@ -106,7 +106,7 @@ public static class contourGen
     }
 
     /// <summary>
-    /// Calculate tension-adjusted edge midpoint using ShapeLibrary-compatible algorithm
+    /// Calculate tension-adjusted edge midpoint with conservative bounds to prevent bowties
     /// </summary>
     /// <param name="corner">Current corner point</param>
     /// <param name="prevCorner">Previous corner point</param>  
@@ -127,46 +127,51 @@ public static class contourGen
         double currentEdgeLength = GeoWrangler.distanceBetweenPoints(corner, nextCorner);
         double nextEdgeLength = GeoWrangler.distanceBetweenPoints(nextCorner, afterNextCorner);
 
-        // Default to simple midpoint
+        // Default to simple midpoint for safety
         double offset = currentEdgeLength * 0.5;
 
-        // Apply a simplified but more pronounced tension calculation
-        if (previousEdgeLength > 0 && nextEdgeLength > 0 && currentEdgeLength > 0)
+        // Only apply tension if all edge lengths are reasonable and different enough to matter
+        if (previousEdgeLength > 1e-9 && nextEdgeLength > 1e-9 && currentEdgeLength > 1e-9)
         {
             // Calculate the ratio of adjacent edges
-            // If nextEdge is longer, we want to shift toward nextCorner
-            // If prevEdge is longer, we want to shift toward corner
             double edgeLengthRatio = nextEdgeLength / previousEdgeLength;
             
-            // Use a more pronounced tension effect
-            // When ratio = 1 (equal edges), no shift should occur
-            // When ratio > 1 (next edge longer), shift significantly toward next
-            // When ratio < 1 (prev edge longer), shift significantly toward prev
+            // Use very conservative bounds to prevent bowties
+            // The maximum shift is limited to prevent self-intersections
+            double maxShiftRatio = 0.15; // Maximum 15% shift from center
             
-            // Apply tension using a power function for more pronounced effects
-            double tensionFactor = Math.Pow(edgeLengthRatio, edgeTension * 0.5);
+            // Apply a much more conservative tension effect
+            // Use a linear relationship instead of power function for stability
+            double tensionEffect = (edgeTension - 1.0) * 0.1; // Scale down the effect significantly
             
-            // Map the tension factor to an offset ratio between 0.1 and 0.9
-            // This ensures pronounced but safe shifts
-            double minRatio = 0.15;  // Minimum offset ratio
-            double maxRatio = 0.85;  // Maximum offset ratio
-            
-            // Normalize tensionFactor around 1.0
-            if (tensionFactor > 1.0) 
+            // Calculate the desired shift based on edge length ratio
+            double desiredShift = 0.0;
+            if (edgeLengthRatio > 1.0)
             {
-                // Next edge is longer - shift toward next corner
-                double normalizedFactor = Math.Min(tensionFactor, 4.0) / 4.0; // Cap at 4x for stability
-                offset = currentEdgeLength * (0.5 + normalizedFactor * 0.35); // 0.5 to 0.85
+                // Next edge is longer - shift slightly toward next corner
+                desiredShift = Math.Min((edgeLengthRatio - 1.0) * tensionEffect, maxShiftRatio);
             }
-            else if (tensionFactor < 1.0)
+            else if (edgeLengthRatio < 1.0)
             {
-                // Previous edge is longer - shift toward current corner  
-                double normalizedFactor = Math.Max(tensionFactor, 0.25) * 4.0; // Invert and scale
-                offset = currentEdgeLength * (0.5 - (1.0 - normalizedFactor) * 0.35); // 0.5 to 0.15
+                // Previous edge is longer - shift slightly toward current corner
+                desiredShift = -Math.Min((1.0 - edgeLengthRatio) * tensionEffect, maxShiftRatio);
             }
             
-            // Safety clamp to prevent extreme values
-            offset = Math.Max(currentEdgeLength * 0.1, Math.Min(currentEdgeLength * 0.9, offset));
+            // Apply the shift with very conservative bounds
+            double shiftedRatio = 0.5 + desiredShift;
+            shiftedRatio = Math.Max(0.35, Math.Min(0.65, shiftedRatio)); // Limit to 35%-65% range
+            
+            offset = currentEdgeLength * shiftedRatio;
+            
+            // Additional safety check: if the shift would be too extreme relative to adjacent edges,
+            // fall back to simple midpoint
+            double minSafeOffset = Math.Min(previousEdgeLength, nextEdgeLength) * 0.1;
+            double maxSafeOffset = currentEdgeLength * 0.9;
+            
+            if (offset < minSafeOffset || offset > maxSafeOffset)
+            {
+                offset = currentEdgeLength * 0.5; // Fall back to simple midpoint
+            }
         }
 
         // Calculate the adjusted midpoint

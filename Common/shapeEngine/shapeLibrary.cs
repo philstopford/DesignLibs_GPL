@@ -2193,6 +2193,11 @@ public class ShapeLibrary
     
     private void edgeMidpoints()
     {
+        if (shapeIndex == (int)shapeNames_all.complex)
+        {
+            return;
+        }
+
         int edgeSlide = layerSettings.getInt(ShapeSettings.properties_i.edgeSlide);
         double eTension = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.eTension));
         // Set the midpoints of the edges to the average between the two corners

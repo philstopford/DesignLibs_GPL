@@ -135,12 +135,12 @@ public static class contourGen
         {
             // Calculate ratio of adjacent edge lengths exactly like ShapeLibrary
             double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
-            bool reverseSlide = true;
+            bool reverseSlide = false;
 
             // Normalize ratio to be >= 1, as done in ShapeLibrary
             if (ratio < 1)
             {
-                reverseSlide = false;
+                reverseSlide = true;
                 if (ratio < 1E-2)
                 {
                     ratio = 1E-2; // clamp to avoid division issues

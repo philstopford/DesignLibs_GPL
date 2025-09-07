@@ -2,6 +2,7 @@ using Clipper2Lib;
 using System.Linq;
 using System.Threading.Tasks;
 using utility;
+using geoWrangler;
 
 namespace shapeEngine;
 
@@ -104,15 +105,262 @@ public static class contourGen
         }
     }
 
-    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners)
+    /// <summary>
+    /// Validates if a midpoint position would create well-behaved bezier geometry
+    /// </summary>
+    /// <param name="corner">Current corner point</param>
+    /// <param name="prevCorner">Previous corner point</param>
+    /// <param name="nextCorner">Next corner point</param>
+    /// <param name="midpoint">Candidate midpoint to validate</param>
+    /// <param name="currentEdgeLength">Length of current edge</param>
+    /// <param name="previousEdgeLength">Length of previous edge</param>
+    /// <param name="nextEdgeLength">Length of next edge</param>
+    /// <returns>True if the midpoint would create good bezier geometry</returns>
+    static bool ValidateMidpointGeometry(PointD corner, PointD prevCorner, PointD nextCorner, PointD midpoint, 
+                                       double currentEdgeLength, double previousEdgeLength, double nextEdgeLength)
     {
-        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true);
+        // Check 1: Midpoint shouldn't be too close to either endpoint
+        double distToStart = Helper.Length(Helper.Minus(midpoint, corner));
+        double distToEnd = Helper.Length(Helper.Minus(midpoint, nextCorner));
+        double minDistance = currentEdgeLength * 0.03; // At least 3% of edge length
+        
+        if (distToStart < minDistance || distToEnd < minDistance)
+        {
+            return false;
+        }
+        
+        // Check 2: The midpoint should create reasonable angles with adjacent edges
+        PointD dirToPrev = Helper.Normalized(Helper.Minus(prevCorner, corner));
+        PointD dirToNext = Helper.Normalized(Helper.Minus(nextCorner, corner));
+        PointD dirToMidpoint = Helper.Normalized(Helper.Minus(midpoint, corner));
+        
+        // Calculate the angle between the direction to previous corner and to midpoint
+        double dotPrev = Helper.Dot(dirToPrev, dirToMidpoint);
+        double dotNext = Helper.Dot(dirToNext, dirToMidpoint);
+        
+        // The midpoint direction should be somewhat between the adjacent edge directions
+        // If it's pointing in a completely opposite direction, it's likely problematic
+        if (dotPrev < -0.8 || dotNext < -0.8) // Very obtuse angles indicate problems
+        {
+            return false;
+        }
+        
+        // Check 3: Validate relative positioning based on edge lengths
+        // If edges are very unbalanced, extreme midpoint positions might be okay
+        // But if edges are similar, we should be more conservative
+        double edgeRatio = Math.Max(previousEdgeLength, nextEdgeLength) / Math.Min(previousEdgeLength, nextEdgeLength);
+        double distanceRatio = distToStart / currentEdgeLength;
+        
+        // For similar edge lengths, be more conservative about midpoint positioning
+        if (edgeRatio < 2.0) // Edges are reasonably similar
+        {
+            if (distanceRatio < 0.2 || distanceRatio > 0.8) // Too close to either end
+            {
+                return false;
+            }
+        }
+        else // Edges are very different, allow more extreme positioning
+        {
+            if (distanceRatio < 0.1 || distanceRatio > 0.9) // Very extreme positioning
+            {
+                return false;
+            }
+        }
+        
+        // Check 4: Simulate bezier control point positioning
+        // This is a simplified version of what ProcessCorner does
+        PointD edgeDirection = Helper.Normalized(Helper.Minus(nextCorner, corner));
+        PointD prevMidEstimate = Helper.Add(corner, Helper.Mul(Helper.Normalized(Helper.Minus(prevCorner, corner)), previousEdgeLength * 0.5));
+        
+        // Create hypothetical start and end lines
+        PointD startDir = Helper.Normalized(Helper.Minus(prevMidEstimate, corner));
+        PointD endDir = Helper.Normalized(Helper.Minus(midpoint, corner));
+        
+        // Check if these directions would create reasonable bezier control points
+        double det = startDir.x * endDir.y - startDir.y * endDir.x;
+        
+        // If the determinant is too small, the lines are nearly parallel which can cause issues
+        if (Math.Abs(det) < 0.01) // Very small angle between directions
+        {
+            return false;
+        }
+        
+        return true;
     }
 
     /// <summary>
-    /// Generate contour with optional parallel processing for corner computation
+    /// Validates if a quadratic bezier curve would be well-behaved (no self-intersections)
+    /// </summary>
+    /// <param name="p0">Start point</param>
+    /// <param name="p1">Control point</param>  
+    /// <param name="p2">End point</param>
+    /// <returns>True if the curve is well-behaved</returns>
+    static bool ValidateBezierGeometry(PointD p0, PointD p1, PointD p2)
+    {
+        // Calculate vectors
+        PointD chord = Helper.Minus(p2, p0);
+        PointD toControl = Helper.Minus(p1, p0);
+        
+        double chordLength = Helper.Length(chord);
+        if (chordLength < 1e-9) return true; // Degenerate case - always valid
+        
+        // Check if control point creates reasonable curvature
+        PointD chordNorm = Helper.Normalized(chord);
+        PointD perpendicular = new PointD(-chordNorm.y, chordNorm.x);
+        
+        // Project control point displacement onto perpendicular
+        double perpDisplacement = Helper.Dot(toControl, perpendicular);
+        double parallelDisplacement = Helper.Dot(toControl, chordNorm);
+        
+        // Validate geometric constraints for well-behaved bezier
+        // 1. Control point should not be too far from the chord
+        double maxPerpDisplacement = chordLength * 0.5; // Limit to 50% of chord length
+        if (Math.Abs(perpDisplacement) > maxPerpDisplacement)
+            return false;
+            
+        // 2. Control point should be positioned reasonably along the chord direction
+        // Allow some backward displacement but not too much
+        double minParallel = -chordLength * 0.1; // Allow 10% backward
+        double maxParallel = chordLength * 1.1;  // Allow 10% forward overshoot
+        if (parallelDisplacement < minParallel || parallelDisplacement > maxParallel)
+            return false;
+            
+        // 3. Check for potential self-intersection by examining curvature
+        // For a quadratic bezier, excessive curvature can indicate problems
+        double curvatureIndicator = Math.Abs(perpDisplacement) / chordLength;
+        if (curvatureIndicator > 0.4) // Conservative threshold
+            return false;
+            
+        return true;
+    }
+
+    /// <summary>
+    /// Calculate tension-adjusted edge midpoint with adaptive tension and bezier validation
+    /// </summary>
+    /// <param name="corner">Current corner point</param>
+    /// <param name="prevCorner">Previous corner point</param>  
+    /// <param name="nextCorner">Next corner point</param>
+    /// <param name="afterNextCorner">Corner after next (for edge length calculation)</param>
+    /// <param name="edgeTension">Edge tension value</param>
+    /// <returns>Tension-adjusted midpoint between corner and nextCorner</returns>
+    static PointD CalculateTensionAdjustedMidpoint(PointD corner, PointD prevCorner, PointD nextCorner, PointD afterNextCorner, double edgeTension)
+    {
+        // If tension is very close to default (1.0), use simple midpoint for performance
+        if (Math.Abs(edgeTension - 1.0) < 1e-9)
+        {
+            return Helper.Mid(corner, nextCorner);
+        }
+
+        // Calculate edge lengths
+        double previousEdgeLength = GeoWrangler.distanceBetweenPoints(corner, prevCorner);
+        double currentEdgeLength = GeoWrangler.distanceBetweenPoints(corner, nextCorner);
+        double nextEdgeLength = GeoWrangler.distanceBetweenPoints(nextCorner, afterNextCorner);
+
+        // Fallback to simple midpoint for degenerate cases
+        if (currentEdgeLength < 1e-9)
+        {
+            return Helper.Mid(corner, nextCorner);
+        }
+
+        // Only apply tension if all edge lengths are reasonable
+        if (previousEdgeLength < 1e-9 || nextEdgeLength < 1e-9)
+        {
+            return Helper.Mid(corner, nextCorner);
+        }
+
+        // Calculate the ratio of adjacent edges to determine tension direction
+        double edgeLengthRatio = nextEdgeLength / previousEdgeLength;
+        
+        // Calculate tension effect with improved algorithm
+        double tensionStrength = Math.Abs(edgeTension - 1.0);
+        
+        // Use a more sophisticated approach that considers edge length differences
+        double desiredShift = 0.0;
+        
+        if (Math.Abs(edgeLengthRatio - 1.0) > 0.1) // Only apply tension if edges are significantly different
+        {
+            if (edgeLengthRatio > 1.1)
+            {
+                // Next edge is longer - shift toward next corner
+                // Use logarithmic scaling to prevent extreme shifts with very long edges
+                double logRatio = Math.Log(Math.Min(edgeLengthRatio, 10.0)); // Cap the ratio effect
+                desiredShift = logRatio * tensionStrength * 0.25;
+            }
+            else if (edgeLengthRatio < 0.9)
+            {
+                // Previous edge is longer - shift toward current corner  
+                double logRatio = Math.Log(Math.Min(1.0 / edgeLengthRatio, 10.0)); // Cap the ratio effect
+                desiredShift = -logRatio * tensionStrength * 0.25;
+            }
+            
+            // Apply reasonable bounds to prevent extreme shifts
+            double maxShift = Math.Min(0.35, tensionStrength * 0.4); // Allow more aggressive shifts than before
+            desiredShift = Math.Max(-maxShift, Math.Min(maxShift, desiredShift));
+        }
+        
+        // Calculate the shifted ratio
+        double shiftedRatio = 0.5 + desiredShift;
+        
+        // Apply safety bounds but allow more range than before
+        shiftedRatio = Math.Max(0.15, Math.Min(0.85, shiftedRatio)); // 15%-85% range instead of 35%-65%
+        
+        double offset = currentEdgeLength * shiftedRatio;
+        
+        // Calculate the candidate midpoint
+        PointD direction = Helper.Minus(nextCorner, corner);
+        PointD normalizedDir = Helper.Normalized(direction);
+        PointD candidateMidpoint = Helper.Add(corner, Helper.Mul(normalizedDir, offset));
+        
+        // Enhanced validation: check if this midpoint creates reasonable bezier geometry
+        bool geometryValid = ValidateMidpointGeometry(corner, prevCorner, nextCorner, candidateMidpoint, currentEdgeLength, previousEdgeLength, nextEdgeLength);
+        
+        if (geometryValid)
+        {
+            return candidateMidpoint;
+        }
+        else
+        {
+            // If validation failed, try with reduced tension
+            double reducedTension = 1.0 + (edgeTension - 1.0) * 0.5; // Reduce tension by half
+            if (Math.Abs(reducedTension - edgeTension) > 0.01) // Worth trying reduced tension
+            {
+                return CalculateTensionAdjustedMidpoint(corner, prevCorner, nextCorner, afterNextCorner, reducedTension);
+            }
+        }
+        
+        // If all adaptive attempts failed, fall back to simple midpoint
+        return Helper.Mid(corner, nextCorner);
+    }
+
+    // Backward compatibility - maintain original signature
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners)
+    {
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension: 1.0);
+    }
+
+    /// <summary>
+    /// Generate contour with optional parallel processing for corner computation (backward compatibility)
     /// </summary>
     public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel)
+    {
+        return makeContour(original_path, concaveRadius, convexRadius, edgeResolution, angularResolution, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel, edgeTension: 1.0);
+    }
+
+    /// <summary>
+    /// Generate contour with optional parallel processing and edge tension control
+    /// </summary>
+    /// <param name="original_path">Original polygon path</param>
+    /// <param name="concaveRadius">Radius for concave corners</param>
+    /// <param name="convexRadius">Radius for convex corners</param>
+    /// <param name="edgeResolution">Edge resolution for sampling</param>
+    /// <param name="angularResolution">Angular resolution for sampling</param>
+    /// <param name="shortEdgeLength">Threshold for short edges</param>
+    /// <param name="maxShortEdgeLength">Maximum short edge length</param>
+    /// <param name="optimizeCorners">Corner optimization level</param>
+    /// <param name="enableParallel">Enable parallel processing</param>
+    /// <param name="edgeTension">Edge tension control (similar to ShapeLibrary eTension)</param>
+    /// <returns>Processed contour path</returns>
+    public static PathD makeContour(PathD original_path, double concaveRadius, double convexRadius, double edgeResolution, double angularResolution, double shortEdgeLength, double maxShortEdgeLength, int optimizeCorners, bool enableParallel, double edgeTension)
     {
         SmoothStepMode smoothMode = SmoothStepMode.Quintic;
 
@@ -140,16 +388,24 @@ public static class contourGen
             {
                 cornerVertices[i] = original_path[i];
 
-                PointD prevMid = (i == 0)
-                    ? Helper.Mid(original_path[i], original_path[^2])
-                    : Helper.Mid(original_path[i], original_path[i - 1]);
+                // Calculate corner indices for tension calculation
+                int prevIdx = (i == 0) ? cornerCount - 1 : i - 1;
+                int nextIdx = (i == cornerCount - 1) ? 0 : i + 1;
+                int afterNextIdx = (nextIdx == cornerCount - 1) ? 0 : nextIdx + 1;
+
+                PointD prevCorner = original_path[prevIdx];
+                PointD currentCorner = original_path[i];
+                PointD nextCorner = original_path[nextIdx];
+                PointD afterNextCorner = original_path[afterNextIdx];
+
+                // Calculate tension-adjusted midpoints
+                PointD prevMid = CalculateTensionAdjustedMidpoint(currentCorner, 
+                    (i == 0) ? original_path[^2] : original_path[prevIdx], 
+                    prevCorner, currentCorner, edgeTension);
+
+                PointD nextMid = CalculateTensionAdjustedMidpoint(currentCorner, prevCorner, nextCorner, afterNextCorner, edgeTension);
 
                 var startLine = new PathD { original_path[i], prevMid };
-
-                PointD nextMid = (i == cornerCount - 1)
-                    ? Helper.Mid(original_path[i], original_path[0])
-                    : Helper.Mid(original_path[i], original_path[i + 1]);
-
                 var endLine = new PathD { original_path[i], nextMid };
 
                 cornerMidpoints[i] = nextMid;
@@ -170,16 +426,24 @@ public static class contourGen
             {
                 cornerVertices[i] = original_path[i];
 
-                PointD prevMid = (i == 0)
-                    ? Helper.Mid(original_path[i], original_path[^2])
-                    : Helper.Mid(original_path[i], original_path[i - 1]);
+                // Calculate corner indices for tension calculation
+                int prevIdx = (i == 0) ? cornerCount - 1 : i - 1;
+                int nextIdx = (i == cornerCount - 1) ? 0 : i + 1;
+                int afterNextIdx = (nextIdx == cornerCount - 1) ? 0 : nextIdx + 1;
+
+                PointD prevCorner = original_path[prevIdx];
+                PointD currentCorner = original_path[i];
+                PointD nextCorner = original_path[nextIdx];
+                PointD afterNextCorner = original_path[afterNextIdx];
+
+                // Calculate tension-adjusted midpoints
+                PointD prevMid = CalculateTensionAdjustedMidpoint(currentCorner, 
+                    (i == 0) ? original_path[^2] : original_path[prevIdx], 
+                    prevCorner, currentCorner, edgeTension);
+
+                PointD nextMid = CalculateTensionAdjustedMidpoint(currentCorner, prevCorner, nextCorner, afterNextCorner, edgeTension);
 
                 var startLine = new PathD { original_path[i], prevMid };
-
-                PointD nextMid = (i == cornerCount - 1)
-                    ? Helper.Mid(original_path[i], original_path[0])
-                    : Helper.Mid(original_path[i], original_path[i + 1]);
-
                 var endLine = new PathD { original_path[i], nextMid };
 
                 cornerMidpoints[i] = nextMid;

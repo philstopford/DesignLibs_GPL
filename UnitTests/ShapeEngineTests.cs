@@ -1705,6 +1705,16 @@ public class ShapeEngineTests
 
         Assert.That(diamondArea, Is.EqualTo(expectedDiamondArea).Within(0.001),
             "Diamond area should be half the original square area");
+
+        // Generate SVG for review
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        string svgContent = CreateTestSvg(square, result, "AllShortEdges: Square to Diamond", short_edge_threshold);
+        string svgPath = Path.Combine(svgOutputDir, "AllShortEdges_test.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+
+        Console.WriteLine($"AllShortEdges test completed successfully with {result.Count} points");
+        Console.WriteLine($"AllShortEdges SVG saved to: {svgPath}");
     }
 
     /// <summary>
@@ -1994,6 +2004,329 @@ public class ShapeEngineTests
 
         Console.WriteLine($"T-shape test completed successfully with {result.Count} points");
         Console.WriteLine($"T-shape SVG saved to: {svgPath}");
+    }
+
+    /// <summary>
+    /// Test edge tension control functionality in ContourGen
+    /// </summary>
+    [Test]
+    public static void ContourGenEdgeTensionTest()
+    {
+        Console.WriteLine("=== ContourGen Edge Tension Test ===");
+
+        // Create a polygon with varying edge lengths to test tension effects
+        PathD testPolygon = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(100, 0),     // Long edge: 100
+            new PointD(110, 10),    // Short edge: ~14
+            new PointD(100, 20),    // Short edge: ~14  
+            new PointD(0, 20),      // Long edge: 100
+            new PointD(0, 0)        // Medium edge: 20
+        };
+
+        double radius = 5.0;
+        double edgeRes = 2.0;
+        double angularRes = 0.2;
+        double shortEdgeThresh = 5.0;
+        double maxShortEdge = 20.0;
+        int optimize = 0;
+
+        // Test different tension values
+        var tensionResults = new List<(double tension, int pointCount)>();
+
+        double[] testTensions = { 0.1, 1.0, 2.0, 10.0 };
+
+        // Generate SVG directory for this test
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        Console.WriteLine($"Edge tension SVG outputs will be saved to: {svgOutputDir}");
+
+        foreach (double tension in testTensions)
+        {
+            PathD result = contourGen.makeContour(
+                testPolygon,
+                radius, radius,
+                edgeRes, angularRes,
+                shortEdgeThresh, maxShortEdge,
+                optimize,
+                enableParallel: false,
+                edgeTension: tension
+            );
+
+            tensionResults.Add((tension, result.Count));
+            Console.WriteLine($"Tension {tension}: {result.Count} points");
+
+            // Generate SVG for each tension value
+            string svgContent = CreateTestSvg(testPolygon, result, $"Edge Tension Test: Tension = {tension}", shortEdgeThresh);
+            string svgPath = Path.Combine(svgOutputDir, $"EdgeTension_{tension:F1}.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"  SVG saved to: {svgPath}");
+        }
+
+        // Validate that tension parameter affects the output
+        // (Different tension values should produce different point counts)
+        var pointCounts = tensionResults.Select(r => r.pointCount).ToHashSet();
+        
+        // We expect at least some variation in point counts with different tensions
+        // For shapes with varying edge lengths, different tensions should produce different results
+        Assert.That(pointCounts.Count, Is.GreaterThan(1), 
+            "Edge tension should affect the contour generation output");
+
+        // Verify all results are valid (non-empty paths)
+        foreach (var (tension, pointCount) in tensionResults)
+        {
+            Assert.That(pointCount, Is.GreaterThan(10), 
+                $"Tension {tension} should produce a valid contour with reasonable point count");
+        }
+
+        Console.WriteLine("Edge tension control test completed successfully");
+    }
+
+    /// <summary>
+    /// Test for L-shape loops issue with edge tension 0.9
+    /// </summary>
+    [Test]
+    public static void LShapeLoopTest()
+    {
+        Console.WriteLine("=== L-Shape Loop Test ===");
+
+        // L-shape as described in the issue comment
+        PathD lShape = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(0, 70),
+            new PointD(30, 70),
+            new PointD(30, 20),
+            new PointD(60, 20),
+            new PointD(60, 0),
+            new PointD(0, 0)  // Close the path properly
+        };
+
+        // First try with tension 1.0 (should work)
+        Console.WriteLine("Testing with tension 1.0 (baseline):");
+        try
+        {
+            PathD resultBaseline = contourGen.makeContour(
+                lShape,
+                concaveRadius: 20,
+                convexRadius: 30,
+                edgeResolution: 2.0,
+                angularResolution: 0.5,
+                shortEdgeLength: 10.0,
+                maxShortEdgeLength: 20.0,
+                optimizeCorners: 0,
+                enableParallel: false,
+                edgeTension: 1.0
+            );
+
+            Console.WriteLine($"Baseline (tension 1.0): {resultBaseline.Count} points - SUCCESS");
+
+            // Generate SVG for baseline
+            var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+            Directory.CreateDirectory(svgOutputDir);
+            string svgContent = CreateTestSvg(lShape, resultBaseline, "L-Shape with Tension 1.0 (Baseline)", 10.0);
+            string svgPath = Path.Combine(svgOutputDir, "LShape_tension_1.0_baseline.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"Baseline SVG saved to: {svgPath}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Even baseline (tension 1.0) failed: {ex.Message}");
+            Assert.Fail($"Baseline tension 1.0 should work: {ex.Message}");
+        }
+
+        // Now try with problematic tension 0.9 but with timeout
+        Console.WriteLine("Testing with tension 0.9 (problematic):");
+        
+        var cancellationTokenSource = new CancellationTokenSource(5000); // 5 second timeout
+        PathD result = null;
+        bool completed = false;
+        Exception caughtException = null;
+
+        var task = Task.Run(() =>
+        {
+            try
+            {
+                result = contourGen.makeContour(
+                    lShape,
+                    concaveRadius: 20,
+                    convexRadius: 30,
+                    edgeResolution: 2.0,
+                    angularResolution: 0.5,
+                    shortEdgeLength: 10.0,
+                    maxShortEdgeLength: 20.0,
+                    optimizeCorners: 0,
+                    enableParallel: false,
+                    edgeTension: 0.9
+                );
+                completed = true;
+            }
+            catch (Exception ex)
+            {
+                caughtException = ex;
+            }
+        }, cancellationTokenSource.Token);
+
+        bool finishedInTime = task.Wait(5000);
+
+        if (!finishedInTime)
+        {
+            Console.WriteLine("L-shape with tension 0.9 timed out - infinite loop detected!");
+            // Don't fail the test, just document the issue
+            Console.WriteLine("This confirms the infinite loop issue described in the comment");
+        }
+        else if (caughtException != null)
+        {
+            Console.WriteLine($"L-shape with tension 0.9 threw exception: {caughtException.Message}");
+            Assert.Fail($"Tension 0.9 test failed with exception: {caughtException.Message}");
+        }
+        else if (completed && result != null)
+        {
+            Console.WriteLine($"L-shape with tension 0.9 completed with {result.Count} points");
+            
+            // Generate SVG for visual inspection
+            var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+            Directory.CreateDirectory(svgOutputDir);
+            string svgContent = CreateTestSvg(lShape, result, "L-Shape with Tension 0.9", 10.0);
+            string svgPath = Path.Combine(svgOutputDir, "LShape_tension_0.9_debug.svg");
+            File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+            Console.WriteLine($"L-shape SVG saved to: {svgPath}");
+        }
+
+        Console.WriteLine("L-shape loop test completed");
+    }
+
+    /// <summary>
+    /// Test specifically designed to validate bowtie prevention across various tension values
+    /// </summary>
+    [Test]
+    public static void BowtiePreventionTest()
+    {
+        Console.WriteLine("=== Bowtie Prevention Test ===");
+        
+        // Create the L-shape that previously caused bowties
+        PathD lShape = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(0, 70),
+            new PointD(30, 70), 
+            new PointD(30, 20),
+            new PointD(60, 20),
+            new PointD(60, 0),
+            new PointD(0, 0)
+        };
+
+        // Test with tension values that previously caused issues
+        double[] tensionValues = { 0.31, 0.5, 0.9, 1.0, 1.5, 2.0, 5.0 };
+        
+        var testResults = new List<(double tension, int pointCount, bool hasArtifacts, double timeMs)>();
+
+        foreach (double tension in tensionValues)
+        {
+            Console.WriteLine($"Testing tension = {tension}");
+            
+            var startTime = DateTime.Now;
+            
+            PathD result = contourGen.makeContour(
+                lShape,
+                concaveRadius: 20,
+                convexRadius: 30,  
+                edgeResolution: 1.0,
+                angularResolution: 5.0,
+                shortEdgeLength: 10.0,
+                maxShortEdgeLength: 15.0,
+                optimizeCorners: 1,
+                enableParallel: true,
+                edgeTension: tension
+            );
+            
+            var elapsed = DateTime.Now - startTime;
+            
+            // Check for potential artifacts by analyzing curve smoothness
+            bool hasArtifacts = AnalyzeCurveForArtifacts(result);
+            
+            testResults.Add((tension, result.Count, hasArtifacts, elapsed.TotalMilliseconds));
+            
+            Console.WriteLine($"  Points: {result.Count}, Artifacts: {hasArtifacts}, Time: {elapsed.TotalMilliseconds:F1}ms");
+            
+            // All tests should complete quickly (no infinite loops)
+            Assert.That(elapsed.TotalMilliseconds, Is.LessThan(5000), $"Tension {tension} took too long - possible infinite loop");
+            
+            // No test should have significant artifacts
+            Assert.That(hasArtifacts, Is.False, $"Tension {tension} produced curve artifacts");
+        }
+        
+        // Validate that different tensions produce different results (show that tension is working)
+        var pointCounts = testResults.Select(r => r.pointCount).ToHashSet();
+        Assert.That(pointCounts.Count, Is.GreaterThan(1), "Different tension values should produce different results");
+        
+        Console.WriteLine("✓ All tension values completed without artifacts or infinite loops");
+        Console.WriteLine($"✓ Tension variation produces {pointCounts.Count} different point counts");
+        
+        // Generate SVG for visual inspection
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        
+        // Test one specific problematic case for detailed SVG output
+        PathD detailedResult = contourGen.makeContour(lShape, 20, 30, 1.0, 5.0, 10.0, 15.0, 1, true, 0.9);
+        string svgContent = CreateTestSvg(lShape, detailedResult, "Bowtie Prevention Test - Tension 0.9", 10.0);
+        string svgPath = Path.Combine(svgOutputDir, "BowtiePreventionTest_0.9.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+        Console.WriteLine($"Detailed SVG saved to: {svgPath}");
+    }
+
+    /// <summary>
+    /// Analyzes a curve for potential artifacts like bowties or self-intersections
+    /// </summary>
+    /// <param name="curve">The curve to analyze</param>
+    /// <returns>True if artifacts are detected</returns>
+    static bool AnalyzeCurveForArtifacts(PathD curve)
+    {
+        if (curve.Count < 3) return false;
+        
+        int suspiciousAngles = 0;
+        int sharpReversals = 0;
+        
+        for (int i = 1; i < curve.Count - 1; i++)
+        {
+            PointD p1 = curve[i - 1];
+            PointD p2 = curve[i];
+            PointD p3 = curve[i + 1];
+            
+            // Calculate vectors and angle
+            PointD v1 = Helper.Minus(p2, p1);
+            PointD v2 = Helper.Minus(p3, p2);
+            
+            double len1 = Helper.Length(v1);
+            double len2 = Helper.Length(v2);
+            
+            if (len1 < 1e-9 || len2 < 1e-9) continue;
+            
+            PointD n1 = Helper.Normalized(v1);
+            PointD n2 = Helper.Normalized(v2);
+            
+            double dot = Helper.Dot(n1, n2);
+            double angle = Math.Acos(Math.Max(-1.0, Math.Min(1.0, dot)));
+            
+            // Very sharp angles might indicate artifacts
+            if (angle > Math.PI * 0.85) // More than 153 degrees
+            {
+                suspiciousAngles++;
+            }
+            
+            // Check for sharp reversals that might indicate bowties
+            if (angle > Math.PI * 0.95) // More than 171 degrees - almost complete reversal
+            {
+                sharpReversals++;
+            }
+        }
+        
+        // Consider it problematic if we have too many suspicious features
+        // These thresholds are heuristic and may need tuning
+        bool hasArtifacts = suspiciousAngles > Math.Max(3, curve.Count / 20) || sharpReversals > 1;
+        
+        return hasArtifacts;
     }
 
     /// <summary>

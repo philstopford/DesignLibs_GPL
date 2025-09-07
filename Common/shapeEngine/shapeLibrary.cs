@@ -2581,8 +2581,14 @@ public class ShapeLibrary
             concave_corner_radius = iCR + (iCVariation_scalar * iCV);
             convex_corner_radius = oCR + (oCVariation_scalar * oCV);
         }
-        
-        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, shortEdgeLength, maxShortEdgeLength, optimizeCorners);
+
+        double eTension = 0;
+        if (LayerSettings.getInt(ShapeSettings.properties_i.edgeSlide) == 1)
+        {
+            eTension = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.eTension));
+        }
+
+        PathD contoured_path = contourGen.makeContour(init_path, concave_corner_radius, convex_corner_radius, resolution, 90.0f/cornerSegments, shortEdgeLength, maxShortEdgeLength, optimizeCorners, enableParallel: true, edgeTension: eTension);
 
         PathD clockwise_path = GeoWrangler.clockwiseAndReorderXY(GeoWrangler.close(contoured_path));
         

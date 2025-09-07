@@ -2198,6 +2198,138 @@ public class ShapeEngineTests
     }
 
     /// <summary>
+    /// Test specifically designed to validate bowtie prevention across various tension values
+    /// </summary>
+    [Test]
+    public static void BowtiePreventionTest()
+    {
+        Console.WriteLine("=== Bowtie Prevention Test ===");
+        
+        // Create the L-shape that previously caused bowties
+        PathD lShape = new PathD
+        {
+            new PointD(0, 0),
+            new PointD(0, 70),
+            new PointD(30, 70), 
+            new PointD(30, 20),
+            new PointD(60, 20),
+            new PointD(60, 0),
+            new PointD(0, 0)
+        };
+
+        // Test with tension values that previously caused issues
+        double[] tensionValues = { 0.31, 0.5, 0.9, 1.0, 1.5, 2.0, 5.0 };
+        
+        var testResults = new List<(double tension, int pointCount, bool hasArtifacts, double timeMs)>();
+
+        foreach (double tension in tensionValues)
+        {
+            Console.WriteLine($"Testing tension = {tension}");
+            
+            var startTime = DateTime.Now;
+            
+            PathD result = contourGen.makeContour(
+                lShape,
+                concaveRadius: 20,
+                convexRadius: 30,  
+                edgeResolution: 1.0,
+                angularResolution: 5.0,
+                shortEdgeLength: 10.0,
+                maxShortEdgeLength: 15.0,
+                optimizeCorners: 1,
+                enableParallel: true,
+                edgeTension: tension
+            );
+            
+            var elapsed = DateTime.Now - startTime;
+            
+            // Check for potential artifacts by analyzing curve smoothness
+            bool hasArtifacts = AnalyzeCurveForArtifacts(result);
+            
+            testResults.Add((tension, result.Count, hasArtifacts, elapsed.TotalMilliseconds));
+            
+            Console.WriteLine($"  Points: {result.Count}, Artifacts: {hasArtifacts}, Time: {elapsed.TotalMilliseconds:F1}ms");
+            
+            // All tests should complete quickly (no infinite loops)
+            Assert.That(elapsed.TotalMilliseconds, Is.LessThan(5000), $"Tension {tension} took too long - possible infinite loop");
+            
+            // No test should have significant artifacts
+            Assert.That(hasArtifacts, Is.False, $"Tension {tension} produced curve artifacts");
+        }
+        
+        // Validate that different tensions produce different results (show that tension is working)
+        var pointCounts = testResults.Select(r => r.pointCount).ToHashSet();
+        Assert.That(pointCounts.Count, Is.GreaterThan(1), "Different tension values should produce different results");
+        
+        Console.WriteLine("✓ All tension values completed without artifacts or infinite loops");
+        Console.WriteLine($"✓ Tension variation produces {pointCounts.Count} different point counts");
+        
+        // Generate SVG for visual inspection
+        var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
+        Directory.CreateDirectory(svgOutputDir);
+        
+        // Test one specific problematic case for detailed SVG output
+        PathD detailedResult = contourGen.makeContour(lShape, 20, 30, 1.0, 5.0, 10.0, 15.0, 1, true, 0.9);
+        string svgContent = CreateTestSvg(lShape, detailedResult, "Bowtie Prevention Test - Tension 0.9", 10.0);
+        string svgPath = Path.Combine(svgOutputDir, "BowtiePreventionTest_0.9.svg");
+        File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
+        Console.WriteLine($"Detailed SVG saved to: {svgPath}");
+    }
+
+    /// <summary>
+    /// Analyzes a curve for potential artifacts like bowties or self-intersections
+    /// </summary>
+    /// <param name="curve">The curve to analyze</param>
+    /// <returns>True if artifacts are detected</returns>
+    static bool AnalyzeCurveForArtifacts(PathD curve)
+    {
+        if (curve.Count < 3) return false;
+        
+        int suspiciousAngles = 0;
+        int sharpReversals = 0;
+        
+        for (int i = 1; i < curve.Count - 1; i++)
+        {
+            PointD p1 = curve[i - 1];
+            PointD p2 = curve[i];
+            PointD p3 = curve[i + 1];
+            
+            // Calculate vectors and angle
+            PointD v1 = Helper.Minus(p2, p1);
+            PointD v2 = Helper.Minus(p3, p2);
+            
+            double len1 = Helper.Length(v1);
+            double len2 = Helper.Length(v2);
+            
+            if (len1 < 1e-9 || len2 < 1e-9) continue;
+            
+            PointD n1 = Helper.Normalized(v1);
+            PointD n2 = Helper.Normalized(v2);
+            
+            double dot = Helper.Dot(n1, n2);
+            double angle = Math.Acos(Math.Max(-1.0, Math.Min(1.0, dot)));
+            
+            // Very sharp angles might indicate artifacts
+            if (angle > Math.PI * 0.85) // More than 153 degrees
+            {
+                suspiciousAngles++;
+            }
+            
+            // Check for sharp reversals that might indicate bowties
+            if (angle > Math.PI * 0.95) // More than 171 degrees - almost complete reversal
+            {
+                sharpReversals++;
+            }
+        }
+        
+        // Consider it problematic if we have too many suspicious features
+        // These thresholds are heuristic and may need tuning
+        bool hasArtifacts = suspiciousAngles > Math.Max(3, curve.Count / 20) || sharpReversals > 1;
+        
+        return hasArtifacts;
+    }
+
+    /// <summary>
     /// Performance test to ensure contour generation completes in reasonable time
     /// for various polygon complexities with mixed short/long edges.
     /// </summary>

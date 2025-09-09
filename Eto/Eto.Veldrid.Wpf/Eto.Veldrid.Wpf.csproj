@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.9.0-ci-20250329.14150108340" />
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.9.0-ci-20250907.17522966854" />
 
     <!-- Please note that version 3.6.0 is the newest version of this toolkit
     that has licensing terms permitting use in commercial projects.

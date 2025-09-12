@@ -13,19 +13,24 @@ internal partial class oasReader
         byte help;
         int result = 0;
         int pos = 0;
+        
         do
         {
             help = readRaw();
-            int h = help & 127;
+            int h = help & 127; // Remove continuation bit
             result += h << pos;
             pos += 7;
+            
+            // Check for overflow (32-bit unsigned integer limit)
+            if (pos > 32)
+            {
+                string errorMsg = $"Unsigned integer overflow: more than 32 bits of data (pos={pos})";
+                error_msgs.Add(errorMsg);
+                throw new OverflowException(errorMsg);
+            }
         }
-        while (help >= 128);
+        while (help >= 128); // Continue while continuation bit is set
 
-        /*
-        if (pos > 35)
-            throw new Exception("Integer with more than 32 Bits.");
-            */
         return result;
     }
 
@@ -45,158 +50,235 @@ internal partial class oasReader
 
     private void readProperty()
     {
-        switch (readUnsignedInteger())
+        int valueType = readUnsignedInteger();
+        
+        try
         {
-            case 0:
-                readUnsignedInteger();
-                break;
-            case 1:
-                readUnsignedInteger();
-                break;
-            case 2:
-                readUnsignedInteger();
-                break;
-            case 3:
-                readUnsignedInteger();
-                break;
-            case 4:
-                readUnsignedInteger();
-                readUnsignedInteger();
-                break;
-            case 5:
-                readUnsignedInteger();
-                readUnsignedInteger();
-                break;
-            case 6:
+            switch (valueType)
             {
-                //union {
-                //float d;
-                byte[] a = new byte[4];
-                //};
-                for (uint z = 0; z < 4; z++)
+                case 0: // Real (positive)
+                    uint realValue0 = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 1: // Real (negative)
+                    uint realValue1 = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 2: // Real (positive reciprocal)
+                    uint realValue2 = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 3: // Real (negative reciprocal) 
+                    uint realValue3 = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 4: // Real (positive ratio)
+                    uint numerator4 = (uint)readUnsignedInteger();
+                    uint denominator4 = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 5: // Real (negative ratio)
+                    uint numerator5 = (uint)readUnsignedInteger();
+                    uint denominator5 = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 6: // Single-precision float
                 {
-                    a[z] = readRaw();
+                    byte[] a = new byte[4];
+                    for (uint z = 0; z < 4; z++)
+                    {
+                        a[z] = readRaw();
+                    }
+                    float floatValue = BitConverter.ToSingle(a, 0);
+                    // Store property value for potential later processing
                 }
-            }
-                break;
-            case 7:
-            {
-                //union {
-                //double d;
-                byte[] a = new byte[8];
-                //};
-                for (uint z = 0; z < 8; z++)
+                    break;
+                case 7: // Double-precision float
                 {
-                    a[z] = readRaw();
+                    byte[] a = new byte[8];
+                    for (uint z = 0; z < 8; z++)
+                    {
+                        a[z] = readRaw();
+                    }
+                    double doubleValue = BitConverter.ToDouble(a, 0);
+                    // Store property value for potential later processing
                 }
+                    break;
+                case 8: // Unsigned integer
+                    uint uintValue = (uint)readUnsignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                case 9: // Signed integer
+                    int sintValue = readSignedInteger();
+                    // Store property value for potential later processing
+                    break;
+                default: // String or reference
+                    string stringValue = readString();
+                    // Store property value for potential later processing
+                    break;
             }
-                break;
-            case 8:
-                readUnsignedInteger();
-                break;
-            case 9:
-                readSignedInteger();
-                break;
-            default:
-                readString();
-                break;
+        }
+        catch (Exception ex)
+        {
+            string errorMsg = $"Error reading property value type {valueType}: {ex.Message}";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg, ex);
         }
     }
 
     private double readReal()
     {
-        int i = readUnsignedInteger();
-        switch (i)
+        int formatType = readUnsignedInteger();
+        
+        try
         {
-            case 0:
-                return readUnsignedInteger();
-            case 1:
-                return -readUnsignedInteger();
-            case 2:
-                return (double)1 / readUnsignedInteger();
-            case 3:
-                return -(double)1 / readUnsignedInteger();
-            case 4:
-                return (double)readUnsignedInteger() / readUnsignedInteger();
-            case 5:
-                return -(double)readUnsignedInteger() / readUnsignedInteger();
-            case 6:
+            switch (formatType)
             {
-                byte[] a = new byte[4];
-
-                for (uint z = 0; z < 4; z++)
+                case 0: // Positive integer
+                    return readUnsignedInteger();
+                case 1: // Negative integer
+                    return -readUnsignedInteger();
+                case 2: // Positive reciprocal
                 {
-                    a[z] = readRaw();
+                    uint denominator = (uint)readUnsignedInteger();
+                    if (denominator == 0)
+                    {
+                        throw new DivideByZeroException("Reciprocal with zero denominator");
+                    }
+                    return 1.0 / denominator;
                 }
-                double d = BitConverter.ToDouble(a, 0);
-                return d;
-            }
-            case 7:
-            {
-                byte[] a = new byte[8];
-
-                for (uint z = 0; z < 8; z++)
+                case 3: // Negative reciprocal
                 {
-                    a[z] = readRaw();
+                    uint denominator = (uint)readUnsignedInteger();
+                    if (denominator == 0)
+                    {
+                        throw new DivideByZeroException("Reciprocal with zero denominator");
+                    }
+                    return -1.0 / denominator;
                 }
-                double d = BitConverter.ToDouble(a, 0);
-                return d;
+                case 4: // Positive ratio
+                {
+                    uint numerator = (uint)readUnsignedInteger();
+                    uint denominator = (uint)readUnsignedInteger();
+                    if (denominator == 0)
+                    {
+                        throw new DivideByZeroException("Ratio with zero denominator");
+                    }
+                    return (double)numerator / denominator;
+                }
+                case 5: // Negative ratio
+                {
+                    uint numerator = (uint)readUnsignedInteger();
+                    uint denominator = (uint)readUnsignedInteger();
+                    if (denominator == 0)
+                    {
+                        throw new DivideByZeroException("Ratio with zero denominator");
+                    }
+                    return -(double)numerator / denominator;
+                }
+                case 6: // Single-precision IEEE float
+                {
+                    byte[] a = new byte[4];
+                    for (uint z = 0; z < 4; z++)
+                    {
+                        a[z] = readRaw();
+                    }
+                    return BitConverter.ToSingle(a, 0);
+                }
+                case 7: // Double-precision IEEE float
+                {
+                    byte[] a = new byte[8];
+                    for (uint z = 0; z < 8; z++)
+                    {
+                        a[z] = readRaw();
+                    }
+                    return BitConverter.ToDouble(a, 0);
+                }
+                default:
+                    string errorMsg = $"Unknown real format type: {formatType}";
+                    error_msgs.Add(errorMsg);
+                    throw new Exception(errorMsg);
             }
-            default:
-                throw new Exception("Unknown real Format.");
+        }
+        catch (Exception ex) when (!(ex is DivideByZeroException))
+        {
+            string errorMsg = $"Error reading real value with format type {formatType}: {ex.Message}";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg, ex);
         }
     }
 
     private string readString()
     {
-        int items = readUnsignedInteger();
-        uint i;
-        string s1 = "";
-        for (i = 0; i < items; i++)
+        int length = readUnsignedInteger();
+        
+        if (length == 0)
         {
-            byte help = readRaw();
-            if (help == 0)
-            {
-                continue;
-            }
-
-            string s = Encoding.UTF8.GetString(new [] { help });
-            s1 += s;
+            return string.Empty;
         }
-        return s1;
+        
+        if (length < 0)
+        {
+            string errorMsg = $"Invalid string length: {length}";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg);
+        }
+        
+        try
+        {
+            byte[] buffer = new byte[length];
+            for (int i = 0; i < length; i++)
+            {
+                buffer[i] = readRaw();
+            }
+            
+            // OASIS strings are null-terminated, so we need to handle that properly
+            int actualLength = Array.IndexOf(buffer, (byte)0);
+            if (actualLength >= 0)
+            {
+                byte[] trimmedBuffer = new byte[actualLength];
+                Array.Copy(buffer, trimmedBuffer, actualLength);
+                return Encoding.UTF8.GetString(trimmedBuffer);
+            }
+            
+            return Encoding.UTF8.GetString(buffer);
+        }
+        catch (Exception ex)
+        {
+            string errorMsg = $"Error reading string of length {length}: {ex.Message}";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg, ex);
+        }
     }
 
     private int readSignedInteger()
     {
         int pos = 0;
         byte help = readRaw();
-        bool sig = false;
+        bool negative = false;
         int h = help & 127;
-        sig = (h % 2) switch
-        {
-            1 => true,
-            _ => sig
-        };
-        int result = h >> 1;
-        pos += 6;
-        while (help >= 128)
+        
+        // Check sign bit (LSB)
+        negative = (h & 1) == 1;
+        int result = h >> 1; // Remove sign bit
+        pos += 6; // 7 bits total, minus 1 sign bit
+        
+        while (help >= 128) // Continue bit set
         {
             help = readRaw();
             h = help & 127;
             result += h << pos;
             pos += 7;
         }
-        switch (pos)
+        
+        if (pos > 31) // Check for overflow (32-bit signed integer limit)
         {
-            case > 34:
-                throw new Exception("Integer with more then 32 Bits.");
+            string errorMsg = $"Signed integer overflow: more than 31 bits of data (pos={pos})";
+            error_msgs.Add(errorMsg);
+            throw new OverflowException(errorMsg);
         }
 
-        return sig switch
-        {
-            true => -result,
-            _ => result
-        };
+        return negative ? -result : result;
     }
 
     private Point64 read1Delta(bool dir)
@@ -334,105 +416,182 @@ internal partial class oasReader
     private void readRepetition()
     {
         modal.repetition = new Repetition();
-        int i = readUnsignedInteger();
-        switch (i)
+        int repetitionType = readUnsignedInteger();
+        
+        try
         {
-            case 0:
-                break;
-            case 1:
-                modal.repetition.type = Repetition.RepetitionType.Rectangular;
-                modal.repetition.columns = readUnsignedInteger() + 2;
-                modal.repetition.rows = readUnsignedInteger() + 2;
-                modal.repetition.spacing.X = readUnsignedInteger();
-                modal.repetition.spacing.Y = readUnsignedInteger();
-                break;
-            case 2:
-                modal.repetition.type = Repetition.RepetitionType.Rectangular;
-                modal.repetition.columns = readUnsignedInteger() + 2;
-                modal.repetition.rows = 1;
-                modal.repetition.spacing.X = readUnsignedInteger();
-                modal.repetition.spacing.Y = 0;
-                break;
-            case 3:
-                modal.repetition.type = Repetition.RepetitionType.Rectangular;
-                modal.repetition.columns = 1;
-                modal.repetition.rows = readUnsignedInteger() + 2;
-                modal.repetition.spacing.X = 0;
-                modal.repetition.spacing.Y = readUnsignedInteger();
-                break;
-            case 4:
-            case 5:
+            switch (repetitionType)
             {
-                modal.repetition.type = Repetition.RepetitionType.ExplicitX;
-                int count = readUnsignedInteger() + 1;
-                double grid_factor = 1.0; // REVIEW: scaling
-                if (i == 5)
+                case 0: // No repetition
+                    modal.repetition.type = Repetition.RepetitionType.None;
+                    break;
+                    
+                case 1: // Rectangular array, regular spacing
+                    modal.repetition.type = Repetition.RepetitionType.Rectangular;
+                    modal.repetition.columns = readUnsignedInteger() + 2;
+                    modal.repetition.rows = readUnsignedInteger() + 2;
+                    modal.repetition.spacing.X = readUnsignedInteger();
+                    modal.repetition.spacing.Y = readUnsignedInteger();
+                    
+                    if (modal.repetition.columns < 2 || modal.repetition.rows < 2)
+                    {
+                        throw new Exception($"Invalid repetition dimensions: {modal.repetition.columns}x{modal.repetition.rows}");
+                    }
+                    break;
+                    
+                case 2: // One-dimensional array, X-axis spacing
+                    modal.repetition.type = Repetition.RepetitionType.Rectangular;
+                    modal.repetition.columns = readUnsignedInteger() + 2;
+                    modal.repetition.rows = 1;
+                    modal.repetition.spacing.X = readUnsignedInteger();
+                    modal.repetition.spacing.Y = 0;
+                    
+                    if (modal.repetition.columns < 2)
+                    {
+                        throw new Exception($"Invalid repetition columns: {modal.repetition.columns}");
+                    }
+                    break;
+                    
+                case 3: // One-dimensional array, Y-axis spacing
+                    modal.repetition.type = Repetition.RepetitionType.Rectangular;
+                    modal.repetition.columns = 1;
+                    modal.repetition.rows = readUnsignedInteger() + 2;
+                    modal.repetition.spacing.X = 0;
+                    modal.repetition.spacing.Y = readUnsignedInteger();
+                    
+                    if (modal.repetition.rows < 2)
+                    {
+                        throw new Exception($"Invalid repetition rows: {modal.repetition.rows}");
+                    }
+                    break;
+                    
+                case 4: // One-dimensional array, explicit X coordinates
+                case 5: // One-dimensional array, explicit X coordinates with grid
                 {
-                    grid_factor *= readUnsignedInteger();
-                }
+                    modal.repetition.type = Repetition.RepetitionType.ExplicitX;
+                    int count = readUnsignedInteger() + 1;
+                    
+                    if (count <= 0 || count > 100000) // Sanity check
+                    {
+                        throw new Exception($"Invalid repetition count: {count}");
+                    }
+                    
+                    double grid_factor = 1.0;
+                    if (repetitionType == 5)
+                    {
+                        grid_factor = readUnsignedInteger();
+                        if (grid_factor <= 0)
+                        {
+                            throw new Exception($"Invalid grid factor: {grid_factor}");
+                        }
+                    }
 
-                while (count > 0)
+                    modal.repetition.coords.Clear();
+                    for (int i = 0; i < count; i++)
+                    {
+                        double coord = grid_factor * readUnsignedInteger();
+                        modal.repetition.coords.Add(coord);
+                    }
+                    break;
+                }
+                
+                case 6: // One-dimensional array, explicit Y coordinates
+                case 7: // One-dimensional array, explicit Y coordinates with grid
                 {
-                    modal.repetition.coords.Add(grid_factor + readUnsignedInteger());
-                    count--;
-                }
+                    modal.repetition.type = Repetition.RepetitionType.ExplicitY;
+                    int count = readUnsignedInteger() + 1;
+                    
+                    if (count <= 0 || count > 100000) // Sanity check
+                    {
+                        throw new Exception($"Invalid repetition count: {count}");
+                    }
+                    
+                    double grid_factor = 1.0;
+                    if (repetitionType == 7)
+                    {
+                        grid_factor = readUnsignedInteger();
+                        if (grid_factor <= 0)
+                        {
+                            throw new Exception($"Invalid grid factor: {grid_factor}");
+                        }
+                    }
 
-                break;
+                    modal.repetition.coords.Clear();
+                    for (int i = 0; i < count; i++)
+                    {
+                        double coord = grid_factor * readUnsignedInteger();
+                        modal.repetition.coords.Add(coord);
+                    }
+                    break;
+                }
+                
+                case 8: // Two-dimensional array, arbitrary vectors
+                    modal.repetition.type = Repetition.RepetitionType.Regular;
+                    modal.repetition.columns = readUnsignedInteger() + 2;
+                    modal.repetition.rows = readUnsignedInteger() + 2;
+                    modal.repetition.colVector = readGDelta();
+                    modal.repetition.rowVector = readGDelta();
+                    
+                    if (modal.repetition.columns < 2 || modal.repetition.rows < 2)
+                    {
+                        throw new Exception($"Invalid repetition dimensions: {modal.repetition.columns}x{modal.repetition.rows}");
+                    }
+                    break;
+                    
+                case 9: // One-dimensional array with vector
+                    modal.repetition.type = Repetition.RepetitionType.Regular;
+                    modal.repetition.columns = readUnsignedInteger() + 2;
+                    modal.repetition.rows = 1;
+                    modal.repetition.colVector = readGDelta();
+                    modal.repetition.rowVector = new Point64(modal.repetition.colVector.Y, modal.repetition.colVector.X);
+                    
+                    if (modal.repetition.columns < 2)
+                    {
+                        throw new Exception($"Invalid repetition columns: {modal.repetition.columns}");
+                    }
+                    break;
+                    
+                case 10: // Arbitrary array, explicit coordinate pairs
+                case 11: // Arbitrary array, explicit coordinate pairs with grid
+                {
+                    modal.repetition.type = Repetition.RepetitionType.Explicit;
+                    int count = readUnsignedInteger() + 1;
+                    
+                    if (count <= 0 || count > 100000) // Sanity check
+                    {
+                        throw new Exception($"Invalid repetition count: {count}");
+                    }
+                    
+                    int grid_factor = 1;
+                    if (repetitionType == 11)
+                    {
+                        grid_factor = readUnsignedInteger();
+                        if (grid_factor <= 0)
+                        {
+                            throw new Exception($"Invalid grid factor: {grid_factor}");
+                        }
+                    }
+
+                    modal.repetition.offsets.Clear();
+                    for (int i = 0; i < count; i++)
+                    {
+                        Point64 p = readGDelta();
+                        modal.repetition.offsets.Add(new Point64(p.X * grid_factor, p.Y * grid_factor));
+                    }
+                    break;
+                }
+                
+                default:
+                    string errorMsg = $"Unknown repetition type: {repetitionType}";
+                    error_msgs.Add(errorMsg);
+                    throw new Exception(errorMsg);
             }
-            case 6:
-            case 7:
-            {
-                modal.repetition.type = Repetition.RepetitionType.ExplicitY;
-                int count = readUnsignedInteger() + 1;
-                int grid_factor = 1; // REVIEW: scaling
-                if (i == 7)
-                {
-                    grid_factor *= readUnsignedInteger();
-                }
-
-                while (count > 0)
-                {
-                    modal.repetition.coords.Add(grid_factor + readUnsignedInteger());
-                    count--;
-                }
-
-                break;
-            }
-            case 8:
-                modal.repetition.type = Repetition.RepetitionType.Regular;
-                modal.repetition.columns = readUnsignedInteger() + 2;
-                modal.repetition.rows = readUnsignedInteger() + 2;
-                modal.repetition.colVector = readGDelta();
-                modal.repetition.rowVector = readGDelta();
-                break;
-            case 9:
-                modal.repetition.type = Repetition.RepetitionType.Regular;
-                modal.repetition.columns = readUnsignedInteger() + 2;
-                modal.repetition.rows = 1;
-                modal.repetition.colVector = readGDelta();
-                modal.repetition.rowVector = new Point64(modal.repetition.colVector.Y, modal.repetition.colVector.X);
-                break;
-            case 10:
-            case 11:
-            {
-                modal.repetition.type = Repetition.RepetitionType.Explicit;
-                int count = readUnsignedInteger() + 1;
-                int grid_factor = 1;
-                if (i == 11)
-                {
-                    grid_factor = readUnsignedInteger();
-                }
-
-                while (count > 0)
-                {
-                    Point64 p = readGDelta();
-                    modal.repetition.offsets.Add(new Point64(p.X * grid_factor, p.Y * grid_factor));
-                    count--;
-                }
-                break;
-            }
-            default:
-                throw new Exception("Repetition unknown.");
+        }
+        catch (Exception ex)
+        {
+            string errorMsg = $"Error reading repetition type {repetitionType}: {ex.Message}";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg, ex);
         }
     }
 
@@ -584,32 +743,72 @@ internal partial class oasReader
 
     private void zLibInit(uint before, uint after)
     {
-        zLibUsed = true;
-        byte[] data = br.ReadBytes((int)before);
+        if (before == 0)
+        {
+            string errorMsg = "Invalid compressed data size: 0 bytes";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg);
+        }
+        
+        if (after == 0)
+        {
+            string errorMsg = "Invalid uncompressed data size: 0 bytes";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg);
+        }
+        
         try
         {
-            zLibOut = utility.Utils.decompress(data);
+            zLibUsed = true;
+            byte[] compressedData = br.ReadBytes((int)before);
+            
+            if (compressedData.Length != before)
+            {
+                string errorMsg = $"Could not read expected {before} bytes of compressed data, got {compressedData.Length} bytes";
+                error_msgs.Add(errorMsg);
+                throw new Exception(errorMsg);
+            }
+            
+            zLibOut = utility.Utils.decompress(compressedData);
+            
             if (zLibOut.Length != after)
             {
-                throw new Exception("Incorrect number of bytes after decompression");
+                string errorMsg = $"Decompressed data size mismatch: expected {after} bytes, got {zLibOut.Length} bytes";
+                error_msgs.Add(errorMsg);
+                throw new Exception(errorMsg);
             }
+            
+            zlibOutPos = 0;
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            Console.WriteLine(e);
-            throw;
+            zLibUsed = false;
+            string errorMsg = $"Failed to initialize zlib decompression (before={before}, after={after}): {ex.Message}";
+            error_msgs.Add(errorMsg);
+            throw new Exception(errorMsg, ex);
         }
-        zlibOutPos = 0;
     }
 
     private byte zLibReadRaw()
     {
-        byte get = zLibOut[zlibOutPos];
+        if (!zLibUsed)
+        {
+            throw new InvalidOperationException("Attempting to read from zlib when not initialized");
+        }
+        
+        if (zlibOutPos >= zLibOut.Length)
+        {
+            throw new InvalidOperationException("Attempting to read beyond end of zlib data");
+        }
+        
+        byte result = zLibOut[zlibOutPos];
         zlibOutPos++;
-        if (zlibOutPos == zLibOut.Length)
+        
+        if (zlibOutPos >= zLibOut.Length)
         {
             zLibUsed = false;
         }
-        return get;
+        
+        return result;
     }
 }

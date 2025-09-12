@@ -1,16 +1,41 @@
-﻿using geoCoreLib;
+using System;
+using geoCoreLib;
 
-namespace oasisTest;
-
-internal class Program
+class Program 
 {
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
-        // string filename = "C:\\Users\\phil\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\MonteCarlo_Csharp\\oasTest\\test.oas";
-        string filename = "C:\\Users\\phil\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\MonteCarlo_Csharp\\geoCore\\oasTest\\clip2.oas";
-        // string filename = "C:\\Users\\phil\\OneDrive\\Documents\\Visual Studio 2015\\Projects\\MonteCarlo_Csharp\\gdsFiles\\doetest.oas";
-
-        GeoCore g = new();
-        g.updateGeoCore(filename, GeoCore.fileType.oasis);
+        try
+        {
+            string testFile = "/home/runner/work/DesignLibs_GPL/DesignLibs_GPL/geocore_test/cellref_array_irregular.oas";
+            Console.WriteLine($"Testing OASIS file: {testFile}");
+            
+            GeoCoreHandler gH = new GeoCoreHandler();
+            gH.updateGeoCoreHandler(testFile, GeoCore.fileType.oasis);
+            GeoCore gc = gH.getGeo();
+            
+            if (gc.isValid())
+            {
+                Console.WriteLine("✅ OASIS file loaded successfully!");
+                GCDrawingfield drawing = gc.getDrawing();
+                Console.WriteLine($"Drawing has {drawing.cellList.Count} cells");
+                foreach (var cell in drawing.cellList)
+                {
+                    Console.WriteLine($"  Cell: {cell.cellName} with {cell.elementList.Count} elements");
+                }
+            }
+            else
+            {
+                Console.WriteLine("❌ OASIS file failed to load");
+                foreach (string error in gc.error_msgs)
+                {
+                    Console.WriteLine($"Error: {error}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"❌ Exception: {ex.Message}");
+        }
     }
 }

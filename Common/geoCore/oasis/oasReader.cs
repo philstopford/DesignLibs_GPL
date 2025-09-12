@@ -254,22 +254,101 @@ internal partial class oasReader
 
                         break;
                     case oasValues.CELLNAME_IMPLICIT:
-                        cellNames[cellNameCount] = readString();
-                        cellNameCount++;
+                        try
+                        {
+                            string cellName = readString();
+                            if (string.IsNullOrEmpty(cellName))
+                            {
+                                string errorMsg = $"Invalid empty cell name at index {cellNameCount}";
+                                error_msgs.Add(errorMsg);
+                                throw new Exception(errorMsg);
+                            }
+                            if (cellNameCount >= cellNames.Length)
+                            {
+                                string errorMsg = $"Cell name table overflow: index {cellNameCount} >= {cellNames.Length}";
+                                error_msgs.Add(errorMsg);
+                                throw new Exception(errorMsg);
+                            }
+                            cellNames[cellNameCount] = cellName;
+                            cellNameCount++;
+                        }
+                        catch (Exception ex)
+                        {
+                            string errorMsg = $"Error reading implicit cell name at index {cellNameCount}: {ex.Message}";
+                            error_msgs.Add(errorMsg);
+                            throw new Exception(errorMsg, ex);
+                        }
                         break;
+                        
                     case oasValues.CELLNAME:
-                        modal.s = readString();
-                        i = readUnsignedInteger();
-                        cellNames[i] = modal.s;
+                        try
+                        {
+                            string cellName = readString();
+                            int cellIndex = readUnsignedInteger();
+                            
+                            if (string.IsNullOrEmpty(cellName))
+                            {
+                                string errorMsg = $"Invalid empty cell name for index {cellIndex}";
+                                error_msgs.Add(errorMsg);
+                                throw new Exception(errorMsg);
+                            }
+                            if (cellIndex >= cellNames.Length)
+                            {
+                                string errorMsg = $"Cell name index out of bounds: {cellIndex} >= {cellNames.Length}";
+                                error_msgs.Add(errorMsg);
+                                throw new Exception(errorMsg);
+                            }
+                            cellNames[cellIndex] = cellName;
+                        }
+                        catch (Exception ex)
+                        {
+                            string errorMsg = $"Error reading explicit cell name: {ex.Message}";
+                            error_msgs.Add(errorMsg);
+                            throw new Exception(errorMsg, ex);
+                        }
                         break;
+                        
                     case oasValues.TEXTSTRING_IMPLICIT:
-                        textNames[textNameCount] = readString();
-                        textNameCount++;
+                        try
+                        {
+                            string textString = readString();
+                            if (textNameCount >= textNames.Length)
+                            {
+                                string errorMsg = $"Text string table overflow: index {textNameCount} >= {textNames.Length}";
+                                error_msgs.Add(errorMsg);
+                                throw new Exception(errorMsg);
+                            }
+                            textNames[textNameCount] = textString ?? string.Empty; // Allow empty text strings
+                            textNameCount++;
+                        }
+                        catch (Exception ex)
+                        {
+                            string errorMsg = $"Error reading implicit text string at index {textNameCount}: {ex.Message}";
+                            error_msgs.Add(errorMsg);
+                            throw new Exception(errorMsg, ex);
+                        }
                         break;
+                        
                     case oasValues.TEXTSTRING:
-                        modal.s = readString();
-                        i = readUnsignedInteger();
-                        textNames[i] = modal.s;
+                        try
+                        {
+                            string textString = readString();
+                            int textIndex = readUnsignedInteger();
+                            
+                            if (textIndex >= textNames.Length)
+                            {
+                                string errorMsg = $"Text string index out of bounds: {textIndex} >= {textNames.Length}";
+                                error_msgs.Add(errorMsg);
+                                throw new Exception(errorMsg);
+                            }
+                            textNames[textIndex] = textString ?? string.Empty; // Allow empty text strings
+                        }
+                        catch (Exception ex)
+                        {
+                            string errorMsg = $"Error reading explicit text string: {ex.Message}";
+                            error_msgs.Add(errorMsg);
+                            throw new Exception(errorMsg, ex);
+                        }
                         break;
                     case oasValues.PROPNAME_IMPLICIT:
                         modal.s = readString();

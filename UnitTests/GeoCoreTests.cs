@@ -12,8 +12,8 @@ namespace UnitTests;
 /// </summary>
 public class GeoCoreTests
 {
-    static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
-    static string outDir = "/d/development/geocore_out/";
+    static string baseDir = "../../../../../geocore_test/";
+    static string outDir = "../../../../../geocore_out/";
 
     #region GeoCore Basic Unit Tests
 

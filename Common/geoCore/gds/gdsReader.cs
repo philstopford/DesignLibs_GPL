@@ -555,25 +555,42 @@ internal partial class gdsReader
 
     private double read8ByteReal()
     {
-        int sig; // help
-        int i;
-        help = br.ReadByte();
-        int exp = help & 0x7f;
-        if ((help & 0x80) != 0)
+        // Read all 8 bytes
+        byte[] bytes = br.ReadBytes(8);
+        
+        // Check for zero value (all bits zero)
+        bool isZero = true;
+        for (int i = 0; i < 8; i++)
         {
-            sig = -1;
+            if (bytes[i] != 0)
+            {
+                isZero = false;
+                break;
+            }
         }
-        else
+        if (isZero) return 0.0;
+        
+        // Extract sign bit (bit 0)
+        bool negative = (bytes[0] & 0x80) != 0;
+        
+        // Extract exponent (bits 1-7) - excess-64 format
+        int exponent = bytes[0] & 0x7f;
+        int actualExponent = exponent - 64;
+        
+        // Extract mantissa (bits 8-63) - 7 bytes
+        ulong mantissaBits = 0;
+        for (int i = 1; i < 8; i++)
         {
-            sig = 1;
+            mantissaBits = (mantissaBits << 8) | bytes[i];
         }
-        double_ = 0;
-        for (i = 0; i < 7; i++)
-        {
-            help = br.ReadByte();
-            double_ = double_ * 256 + help;
-        }
-        double_ = sig * double_ * Utils.myPow(16.0, exp - 64) / 256 / 256 / 256 / 256 / 256 / 256 / 256;
-        return double_;
+        
+        // Convert mantissa to fraction in range [0, 1)
+        // Since the binary point is to the left of bit 8, we divide by 2^56
+        double mantissa = (double)mantissaBits / (1UL << 56);
+        
+        // Calculate final value: (sign) * mantissa * 16^(actualExponent)
+        double result = mantissa * Utils.myPow(16.0, actualExponent);
+        
+        return negative ? -result : result;
     }
 }

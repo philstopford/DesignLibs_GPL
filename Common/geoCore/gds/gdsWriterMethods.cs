@@ -14,40 +14,60 @@ public partial class gdsWriter
     {
         byte[] b = new byte[8];
 
-        b[0] = 0;
-        if (d < 0)
+        // Handle zero as special case
+        if (d == 0.0)
         {
-            b[0] = 0x80;
+            bw.Write(b); // All zeros
+            return;
+        }
+
+        // Extract sign and work with absolute value
+        bool negative = d < 0;
+        if (negative)
+        {
             d = -d;
         }
 
-        //  compute the next power of 16 that that value will fit in
-        int e = 0;
-        if (d <
-            /*~16^-64*/
-            1e-77)
+        // Find the exponent such that mantissa is in range [1/16, 1)
+        // We want: 1/16 <= d * 16^(-exponent) < 1
+        // This means: log16(d) - 1 < exponent <= log16(d) + 4
+        double log16d = Math.Log(d) / Math.Log(16.0);
+        int exponent = (int)Math.Floor(log16d + 4);
+        
+        // Ensure mantissa is in proper range [1/16, 1)
+        double mantissa = d / Math.Pow(16.0, exponent);
+        while (mantissa >= 1.0)
         {
-            d = 0;
+            exponent++;
+            mantissa = d / Math.Pow(16.0, exponent);
         }
-        else
+        while (mantissa < 1.0/16.0 && exponent > -64)
         {
-            double lg16 = Math.Log(d) / Math.Log(16.0);
-            e = (int)Math.Ceiling(Math.Log(d) / Math.Log(16.0));
-            if (Math.Abs(e - lg16) <= double.Epsilon)
-            {
-                ++e;
-            }
+            exponent--;
+            mantissa = d / Math.Pow(16.0, exponent);
         }
 
-        d /= Math.Pow(16.0, e - 14);
+        // Convert to excess-64 format
+        int excessExponent = exponent + 64;
+        if (excessExponent < 0) excessExponent = 0;
+        if (excessExponent > 127) excessExponent = 127;
 
-        b[0] |= (byte)((e + 64) & 0x7f);
-
-        ulong m = (ulong)(d + 0.5);
-        for (int i = 7; i > 0; --i)
+        // Set sign and exponent in first byte
+        b[0] = (byte)(excessExponent & 0x7f);
+        if (negative)
         {
-            b[i] = (byte)(m & 0xff);
-            m >>= 8;
+            b[0] |= 0x80;
+        }
+
+        // Convert mantissa to 56-bit integer (7 bytes)
+        // Binary point is to the left of bit 8, so multiply by 2^56
+        ulong mantissaBits = (ulong)(mantissa * (1UL << 56) + 0.5);
+        
+        // Store mantissa in bytes 1-7 (big-endian)
+        for (int i = 7; i > 0; i--)
+        {
+            b[i] = (byte)(mantissaBits & 0xff);
+            mantissaBits >>= 8;
         }
 
         bw.Write(b);

@@ -117,8 +117,8 @@ public partial class gdsWriter
         //units
         bw.Write((ushort)20);
         bw.Write(gdsValues.sUNITS);
-        write8ByteReal(drawing_.userunits * 1E-16);
-        write8ByteReal(drawing_.databaseunits * 1E-16);
+        write8ByteReal(drawing_.userunits);
+        write8ByteReal(drawing_.databaseunits);
 
         int cellCount = 0;
         foreach (GCCell t in drawing_.cellList)

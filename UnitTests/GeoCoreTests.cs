@@ -5177,7 +5177,6 @@ public class GeoCoreTests
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.That(gcGDS.isValid(), Is.True);
 
-        gcGDS.getDrawing().resize(1.0 / gcGDS.getDrawing().getDrawingScale());
         List<List<GCPolygon>> gds = gcGDS.getDrawing().convertToPolygons();
         string gds_hash = Utils.GetSHA1Hash(gds);
 
@@ -5227,7 +5226,6 @@ public class GeoCoreTests
         GeoCore gcGDS2 = gH_GDS2.getGeo();
         Assert.That(gcGDS2.isValid(), Is.True);
 
-        gcGDS2.getDrawing().resize(1.0 / gcGDS2.getDrawing().getDrawingScale());
         List<List<GCPolygon>> gds = gcGDS2.getDrawing().convertToPolygons();
         string gds_hash = Utils.GetSHA1Hash(gds);
 

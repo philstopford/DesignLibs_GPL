@@ -101,6 +101,14 @@ public partial class oasWriter
             throw new Exception("Provided GeoCore instance is not marked as valid");
         }
         drawing_ = gc.getDrawing();
+        /*
+        drawing_.resize(0.01); // Fudging to get correct output sizing.
+        double tmp = drawing_.userunits;
+        double tmp2 = drawing_.databaseunits;
+        drawing_.resize(10); // Fudging to get correct output sizing.
+        */
+        drawing_.userunits *= .1;
+        drawing_.databaseunits *= .1;
         filename_ = filename;
         namedLayers = gc.getLayerNames();
     }

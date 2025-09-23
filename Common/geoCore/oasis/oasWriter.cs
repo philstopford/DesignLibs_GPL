@@ -177,8 +177,8 @@ public partial class oasWriter
         bw.Write((byte)1);
         writeString("1.0");
         // Write the OASIS-specific database unit value
-        // For our standardized 1E-11 database units: 1E-6 / 1E-11 = 1E5
-        double tmp = 1E-6 / drawing_.databaseunits;
+        // Use original formula that works with KLayout: getDrawingScale() * 1E-08  
+        double tmp = drawing_.getDrawingScale() * 1E-08;
         writeReal(tmp);
 
         //  offset table:

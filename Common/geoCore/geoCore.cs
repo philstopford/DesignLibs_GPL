@@ -1057,8 +1057,8 @@ public class GeoCore
 
         double resizeFactor = fileFormat switch
         {
-            (int)fileType.gds => drawingField.userunits / 1E-3,
-            (int)fileType.oasis => 1000.0 / drawingField.databaseunits,
+            (int)fileType.gds => drawingField.databaseunits / GCDrawingfield.default_databaseunits,
+            (int)fileType.oasis => drawingField.databaseunits / GCDrawingfield.default_databaseunits,
             _ => 1.0
         };
 

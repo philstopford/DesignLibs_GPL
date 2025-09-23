@@ -101,14 +101,6 @@ public partial class oasWriter
             throw new Exception("Provided GeoCore instance is not marked as valid");
         }
         drawing_ = gc.getDrawing();
-        /*
-        drawing_.resize(0.01); // Fudging to get correct output sizing.
-        double tmp = drawing_.userunits;
-        double tmp2 = drawing_.databaseunits;
-        drawing_.resize(10); // Fudging to get correct output sizing.
-        */
-        drawing_.userunits *= .1;
-        drawing_.databaseunits *= .1;
         filename_ = filename;
         namedLayers = gc.getLayerNames();
     }
@@ -165,7 +157,7 @@ public partial class oasWriter
         // start record
         bw.Write((byte)1);
         writeString("1.0");
-        double tmp = drawing_.getDrawingScale() * 1E-08;
+        double tmp = 1E-6 / drawing_.databaseunits;
         writeReal(tmp);
 
         //  offset table:

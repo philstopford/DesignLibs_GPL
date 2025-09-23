@@ -32,13 +32,21 @@ public partial class gdsWriter
             throw new Exception("Provided GeoCore instance is not marked as valid");
         }
         drawing_ = gc.getDrawing();
-        /*
-        double tmp = drawing_.userunits;
-        double tmp2 = drawing_.databaseunits;
-        drawing_.resize(100);
-        drawing_.userunits = tmp;
-        drawing_.databaseunits = tmp2;
-        */
+        
+        // Calculate scaling needed to convert to standardized 1E-11 database units
+        double targetDbUnits = 1E-11; // 0.01 nm in meters
+        double scaleFactor = drawing_.databaseunits / targetDbUnits;
+        
+        // Apply scaling to coordinates if needed
+        if (Math.Abs(scaleFactor - 1.0) > 1E-15) // Only scale if significantly different
+        {
+            drawing_.resize(scaleFactor);
+        }
+        
+        // Set standardized units
+        drawing_.userunits = 1E-3;   // 1 mm in meters  
+        drawing_.databaseunits = 1E-11; // 0.01 nm in meters
+        
         filename_ = filename;
     }
 
@@ -117,8 +125,9 @@ public partial class gdsWriter
         //units
         bw.Write((ushort)20);
         bw.Write(gdsValues.sUNITS);
-        write8ByteReal(drawing_.userunits * 1E-16);
-        write8ByteReal(drawing_.databaseunits * 1E-16);
+        // Standardize to 0.01 nm (1E-11 m) database units for consistency and 3rd party compatibility
+        write8ByteReal(1E-3);  // userunits: 1 mm in meters
+        write8ByteReal(1E-11); // databaseunits: 0.01 nm in meters
 
         int cellCount = 0;
         foreach (GCCell t in drawing_.cellList)

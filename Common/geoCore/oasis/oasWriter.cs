@@ -107,8 +107,19 @@ public partial class oasWriter
         double tmp2 = drawing_.databaseunits;
         drawing_.resize(10); // Fudging to get correct output sizing.
         */
-        drawing_.userunits *= .1;
-        drawing_.databaseunits *= .1;
+        // Calculate scaling needed to convert to standardized 1E-11 database units
+        double targetDbUnits = 1E-11; // 0.01 nm in meters
+        double scaleFactor = drawing_.databaseunits / targetDbUnits;
+        
+        // Apply scaling to coordinates if needed
+        if (Math.Abs(scaleFactor - 1.0) > 1E-15) // Only scale if significantly different
+        {
+            drawing_.resize(scaleFactor);
+        }
+        
+        // Set standardized units
+        drawing_.userunits = 1E-3;   // 1 mm in meters  
+        drawing_.databaseunits = 1E-11; // 0.01 nm in meters
         filename_ = filename;
         namedLayers = gc.getLayerNames();
     }
@@ -165,6 +176,8 @@ public partial class oasWriter
         // start record
         bw.Write((byte)1);
         writeString("1.0");
+        // Write the OASIS-specific database unit value
+        // For our standardized 1E-11 database units: 1E-6 / 1E-11 = 1E5
         double tmp = 1E-6 / drawing_.databaseunits;
         writeReal(tmp);
 

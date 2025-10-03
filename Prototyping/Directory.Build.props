@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <PackageVeldrid>false</PackageVeldrid>
+    <NoPackageVeldrid>true</NoPackageVeldrid>
+    <SkipVeldrid>true</SkipVeldrid>
+  </PropertyGroup>
+</Project>

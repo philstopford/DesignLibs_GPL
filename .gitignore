@@ -10,6 +10,11 @@
 *.userosscache
 *.sln.docstates
 
+# Ignore generated CI/test artifacts
+/artifacts/
+/artifacts/**
+
+# Decomposition outputs
 decomposition_out/
 geocore_test/out/
 geowrangler_out/

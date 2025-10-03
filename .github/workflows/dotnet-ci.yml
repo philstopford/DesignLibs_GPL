@@ -20,7 +20,8 @@ permissions:
 
 jobs:
   test:
-    name: Test: ${{ matrix.os }} / .NET ${{ matrix.dotnet-version }}
+    # Quote this scalar because it contains colons and slashes which can confuse YAML parsers
+    name: "Test: ${{ matrix.os }} / .NET ${{ matrix.dotnet-version }}"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

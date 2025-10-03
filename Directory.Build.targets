@@ -1,10 +1,13 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- Default flags (defensive) - do not override values set by Directory.Build.props in subfolders -->
+  <!-- Default flags (defensive) - preserve values set by Directory.Build.props in subfolders -->
   <PropertyGroup>
     <SkipVeldrid Condition="'$(SkipVeldrid)' == ''">false</SkipVeldrid>
-    <PackageVeldrid Condition="'$(PackageVeldrid)' == ''">true</PackageVeldrid>
     <NoPackageVeldrid Condition="'$(NoPackageVeldrid)' == ''">false</NoPackageVeldrid>
+
+    <!-- Only enable PackageVeldrid by default for non-Library projects -->
+    <PackageVeldrid Condition="'$(PackageVeldrid)' == '' and '$(OutputType)' != 'Library'">true</PackageVeldrid>
+    <PackageVeldrid Condition="'$(PackageVeldrid)' == ''">false</PackageVeldrid>
   </PropertyGroup>
 
   <Target Name="RemoveSupportDirectories" BeforeTargets="Clean">
@@ -16,6 +19,7 @@
   <Target Name="DisplayVeldridFlags" BeforeTargets="CopyVeldridSpirvNative;CopyShaders">
     <Message Importance="high" Text="--- Veldrid flags for project: $(MSBuildProjectName) ---"/>
     <Message Text="Project Dir = $(MSBuildProjectDirectory)"/>
+    <Message Text="OutputType = $(OutputType)"/>
     <Message Text="PackageVeldrid = $(PackageVeldrid)"/>
     <Message Text="NoPackageVeldrid = $(NoPackageVeldrid)"/>
     <Message Text="SkipVeldrid = $(SkipVeldrid)"/>
@@ -34,16 +38,10 @@
     </PropertyGroup>
   </Target>
 
-  <!--
-    Guard the Veldrid copy/shader targets.
-    We only run them when:
-      - SkipVeldrid is not true (explicit opt-out),
-      - PackageVeldrid is true, and
-      - NoPackageVeldrid is not true.
-    This combination handles both conventions used in the repo.
-  -->
+  <!-- Guarded copy: only when Veldrid packaging is enabled AND the native file actually exists -->
   <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup"
-          Condition="'$(SkipVeldrid)' != 'true' AND '$(PackageVeldrid)' == 'true' AND '$(NoPackageVeldrid)' != 'true'">
+          Condition="'$(SkipVeldrid)' != 'true' and '$(PackageVeldrid)' == 'true' and '$(NoPackageVeldrid)' != 'true'
+                     and Exists('$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)')">
     <Copy
       SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
       DestinationFolder="$(OutputPath)"/>
@@ -59,7 +57,8 @@
   </Target>
 
   <Target Name="CopyShaders" AfterTargets="Cleanup"
-          Condition="'$(SkipVeldrid)' != 'true' AND '$(PackageVeldrid)' == 'true' AND '$(NoPackageVeldrid)' != 'true'">
+          Condition="'$(SkipVeldrid)' != 'true' and '$(PackageVeldrid)' == 'true' and '$(NoPackageVeldrid)' != 'true'
+                     and Exists('$(TopLevelDirectory)..\\DesignLibs_GPL\\Eto\\shaders')">
     <ItemGroup>
       <Shaders Include="$(TopLevelDirectory)..\DesignLibs_GPL\Eto\shaders\**\*"/>
     </ItemGroup>

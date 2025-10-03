@@ -5,6 +5,10 @@
         <RemoveDir Directories="$(OutputPath)shaders"/>
     </Target>
 
+  <PropertyGroup>
+    <PackageVeldrid Condition="'$(PackageVeldrid)' == ''">true</PackageVeldrid>
+  </PropertyGroup>
+
     <Target Name="SetPaths" AfterTargets="Build" BeforeTargets="CopyVeldridSpirvNative">
         <PropertyGroup>
             <UsingMacAppBundle>false</UsingMacAppBundle>
@@ -15,12 +19,14 @@
         </PropertyGroup>
     </Target>
 
+    <!--
     <PropertyGroup>
         <PackageVeldrid Condition="$(OutputType) != 'Library'">true</PackageVeldrid>
         <NoPackageVeldrid Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*NOVELDRID(;.*)*$'))">true</NoPackageVeldrid>
     </PropertyGroup>
+    -->
 
-    <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
+    <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(PackageVeldrid) == 'true'">
         <Copy
                 SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
                 DestinationFolder="$(OutputPath)"/>
@@ -37,7 +43,7 @@
         <Delete Files="@(_DelItems4)"/>
     </Target>
 
-    <Target Name="CopyShaders" AfterTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
+    <Target Name="CopyShaders" AfterTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(PackageVeldrid) == 'true'">
         <ItemGroup>
             <Shaders Include="$(TopLevelDirectory)..\DesignLibs_GPL\Eto\shaders\**\*"/>
         </ItemGroup>

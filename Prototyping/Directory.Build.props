@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
     <!-- Setting this to true for projects under Prototyping disables the guarded bits in the root targets -->
-    <NoPackageVeldrid>true</NoPackageVeldrid>
+    <PackageVeldrid>false</PackageVeldrid>
   </PropertyGroup>
 </Project>

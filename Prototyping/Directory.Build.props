@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
-    <!-- Setting this to true for projects under Prototyping disables the guarded bits in the root targets -->
+    <!-- Explicitly turn off Veldrid packaging for all projects in this subtree -->
     <PackageVeldrid>false</PackageVeldrid>
+    <NoPackageVeldrid>true</NoPackageVeldrid>
+    <SkipVeldrid>true</SkipVeldrid>
   </PropertyGroup>
 </Project>

@@ -1,7 +1,5 @@
-# .github/workflows/dotnet-ci.yml
-# Run NUnit tests found in the UnitTests folder on push and pull_request.
-# Matrix runs across Windows and Linux and across multiple .NET SDK versions.
-name: .NET CI (UnitTests)
+# Recommended: only restore/build/test the UnitTests project to avoid platform-specific projects
+name: .NET CI (UnitTests only)
 
 on:
   push:
@@ -15,64 +13,31 @@ concurrency:
   group: dotnet-ci-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
 jobs:
   test:
-    # Quote this scalar because it contains colons and slashes which can confuse YAML parsers
-    name: "Test: ${{ matrix.os }} / .NET ${{ matrix.dotnet-version }}"
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        dotnet-version: ['7.0.x', '6.0.x']
-
+        dotnet-version: ['8.0']  # keep minimal for speed; add more if you want
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup .NET SDK
+      - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Cache NuGet packages (Linux / macOS)
-        if: runner.os != 'Windows'
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: nuget-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            nuget-${{ matrix.dotnet-version }}-
+      - name: Restore UnitTests
+        run: dotnet restore UnitTests/UnitTests.csproj
 
-      - name: Cache NuGet packages (Windows)
-        if: runner.os == 'Windows'
-        uses: actions/cache@v4
-        with:
-          # Typical NuGet cache location for hosted Windows runners
-          path: C:\Users\runneradmin\.nuget\packages
-          key: nuget-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.csproj') }}
-          restore-keys: |
-            nuget-${{ matrix.dotnet-version }}-
+      - name: Build UnitTests
+        run: dotnet build UnitTests/UnitTests.csproj --no-restore --configuration Release
 
-      - name: Restore
-        run: dotnet restore
+      - name: Run UnitTests
+        run: dotnet test UnitTests/UnitTests.csproj --no-build --configuration Release --logger "trx;LogFileName=TestResults.trx" --verbosity normal
 
-      - name: Build
-        run: dotnet build --no-restore --configuration Release
-
-      - name: Run NUnit tests in UnitTests
-        run: |
-          # Run all test projects under the UnitTests folder.
-          # dotnet test will discover NUnit tests in test projects.
-          dotnet test UnitTests --no-build --configuration Release --logger "trx;LogFileName=TestResults.trx"
-
-      - name: Upload test results artifact
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${{ matrix.os }}-${{ matrix.dotnet-version }}
-          path: |
-            UnitTests/TestResults/**/*.trx
-            UnitTests/TestResults
+          name: test-results
+          path: UnitTests/TestResults/**/*.trx

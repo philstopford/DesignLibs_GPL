@@ -8,6 +8,11 @@
     <!-- Only enable PackageVeldrid by default for non-Library projects -->
     <PackageVeldrid Condition="'$(PackageVeldrid)' == '' and '$(OutputType)' != 'Library'">true</PackageVeldrid>
     <PackageVeldrid Condition="'$(PackageVeldrid)' == ''">false</PackageVeldrid>
+
+    <!-- Compute the expected native file path for Veldrid SPIRV.
+         We avoid nested function calls inside a Condition to prevent MSBuild parsing issues.
+         NOTE: $(NuGetPackageRoot) usually ends with a trailing slash on SDK hosts; if not, fine — Exists will still work. -->
+    <_VeldridNativePath>$(NuGetPackageRoot)veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)</_VeldridNativePath>
   </PropertyGroup>
 
   <Target Name="RemoveSupportDirectories" BeforeTargets="Clean">
@@ -23,6 +28,7 @@
     <Message Text="PackageVeldrid = $(PackageVeldrid)"/>
     <Message Text="NoPackageVeldrid = $(NoPackageVeldrid)"/>
     <Message Text="SkipVeldrid = $(SkipVeldrid)"/>
+    <Message Text="Veldrid native path = $(_VeldridNativePath)"/>
     <Message Text="Configuration = $(Configuration)"/>
     <Message Text="OutputPath = $(OutputPath)"/>
     <Message Importance="high" Text="---------------------------------------------"/>
@@ -38,12 +44,12 @@
     </PropertyGroup>
   </Target>
 
-  <!-- Guarded copy: only when Veldrid packaging is enabled AND the native file actually exists -->
+  <!-- Guarded copy: only when Veldrid packaging is enabled AND the native file actually exists.
+       Use the precomputed _VeldridNativePath to avoid nested-quote parsing issues. -->
   <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup"
-          Condition="'$(SkipVeldrid)' != 'true' and '$(PackageVeldrid)' == 'true' and '$(NoPackageVeldrid)' != 'true'
-                     and Exists('$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)')">
+          Condition="'$(SkipVeldrid)' != 'true' and '$(PackageVeldrid)' == 'true' and '$(NoPackageVeldrid)' != 'true' and Exists('$(_VeldridNativePath)')">
     <Copy
-      SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
+      SourceFiles="$(_VeldridNativePath)"
       DestinationFolder="$(OutputPath)"/>
   </Target>
 

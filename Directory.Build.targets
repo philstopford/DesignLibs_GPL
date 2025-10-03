@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <!-- Default flags (defensive) -->
+  <!-- Default flags (defensive) - do not override values set by Directory.Build.props in subfolders -->
   <PropertyGroup>
     <SkipVeldrid Condition="'$(SkipVeldrid)' == ''">false</SkipVeldrid>
     <PackageVeldrid Condition="'$(PackageVeldrid)' == ''">true</PackageVeldrid>
@@ -12,8 +12,8 @@
     <RemoveDir Directories="$(OutputPath)shaders"/>
   </Target>
 
+  <!-- Diagnostics so we can see which projects have which flags when running CI -->
   <Target Name="DisplayVeldridFlags" BeforeTargets="CopyVeldridSpirvNative;CopyShaders">
-    <!-- Diagnostic messages to show what each project sees at build time -->
     <Message Importance="high" Text="--- Veldrid flags for project: $(MSBuildProjectName) ---"/>
     <Message Text="Project Dir = $(MSBuildProjectDirectory)"/>
     <Message Text="PackageVeldrid = $(PackageVeldrid)"/>
@@ -35,17 +35,15 @@
   </Target>
 
   <!--
-    CopyVeldridSpirvNative guarded by:
-      - explicit SkipVeldrid
-      - PackageVeldrid/NoPackageVeldrid semantics
-      - defensive check: do not run if project directory contains "Prototyping"
-    The IndexOf(...) call returns "-1" if substring not found; we compare against that string.
+    Guard the Veldrid copy/shader targets.
+    We only run them when:
+      - SkipVeldrid is not true (explicit opt-out),
+      - PackageVeldrid is true, and
+      - NoPackageVeldrid is not true.
+    This combination handles both conventions used in the repo.
   -->
   <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup"
-          Condition="'$(SkipVeldrid)' != 'true' 
-                     AND '$(PackageVeldrid)' == 'true' 
-                     AND '$(NoPackageVeldrid)' != 'true'
-                     AND $([System.String]::IndexOf('$(MSBuildProjectDirectory)','Prototyping')) == '-1'">
+          Condition="'$(SkipVeldrid)' != 'true' AND '$(PackageVeldrid)' == 'true' AND '$(NoPackageVeldrid)' != 'true'">
     <Copy
       SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
       DestinationFolder="$(OutputPath)"/>
@@ -61,10 +59,7 @@
   </Target>
 
   <Target Name="CopyShaders" AfterTargets="Cleanup"
-          Condition="'$(SkipVeldrid)' != 'true' 
-                     AND '$(PackageVeldrid)' == 'true' 
-                     AND '$(NoPackageVeldrid)' != 'true'
-                     AND $([System.String]::IndexOf('$(MSBuildProjectDirectory)','Prototyping')) == '-1'">
+          Condition="'$(SkipVeldrid)' != 'true' AND '$(PackageVeldrid)' == 'true' AND '$(NoPackageVeldrid)' != 'true'">
     <ItemGroup>
       <Shaders Include="$(TopLevelDirectory)..\DesignLibs_GPL\Eto\shaders\**\*"/>
     </ItemGroup>

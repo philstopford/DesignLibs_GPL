@@ -1,6 +1,5 @@
 # .github/workflows/dotnet-ci.yml
-# Run UnitTests only and capture diagnostic logs so we can see why Veldrid-related copy/complaints still occur.
-name: .NET CI (UnitTests – diagnostic)
+name: .NET CI (UnitTests)
 
 on:
   push:
@@ -9,10 +8,6 @@ on:
   pull_request:
     branches:
       - '**'
-
-concurrency:
-  group: dotnet-ci-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   test:
@@ -29,45 +24,44 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
 
-      - name: Restore UnitTests (diagnostic)
-        run: |
-          dotnet restore UnitTests/UnitTests.csproj --verbosity minimal
+      - name: Restore UnitTests
+        run: dotnet restore UnitTests/UnitTests.csproj
 
-      - name: Build UnitTests (diagnostic)
-        # produce detailed msbuild logs and a binary log (.binlog) we can download and inspect
-        run: |
-          dotnet build UnitTests/UnitTests.csproj --no-restore --configuration Release -v:detailed -clp:Summary -bl:build.UnitTests.binlog
-        continue-on-error: true
+      - name: Build UnitTests (no tests)
+        # Build but avoid any test-run-on-build surprises; do not run VSTest from msbuild
+        run: dotnet build UnitTests/UnitTests.csproj --no-restore --configuration Release -v:minimal
 
-      - name: Dump DisplayVeldridFlags messages (quick grep)
-        # show only the diagnostic lines we added to Directory.Build.targets (if present)
+      - name: Show test output directory (diagnostic)
         run: |
-          echo "---- Begin searching for Veldrid flags / copy actions in build output ----"
-          # The build stdout is printed above by the previous step; also attempt to show a small slice of the binlog as text if possible
-          if [ -f build.UnitTests.binlog ]; then
-            # msbuild/binlog requires msbuild or MSBuild.StructuredLogger to parse; try using 'strings' as a best-effort fallback
-            echo "Binary build log exists: build.UnitTests.binlog (uploaded later)."
-          fi
-          # attempt to show lines printed from Directory.Build.targets (our Message tasks)
-          # Build output above may be long; search the workflow run's logs for 'Veldrid flags for project' or 'PackageVeldrid'
-          true
+          echo "Listing artifacts/bin/UnitTests/Release/net8.0/"
+          ls -la artifacts/bin/UnitTests/Release/net8.0/ || true
 
-      - name: Run UnitTests (diagnostic)
-        # Run tests with detailed verbosity and create trx results; continue-on-error so diagnostics get uploaded even if tests fail
+      - name: Run UnitTests (explicit dotnet test)
+        # dotnet test will run vstest correctly; -v:detailed helps capture the command-line
         run: |
           dotnet test UnitTests/UnitTests.csproj --no-build --configuration Release --logger "trx;LogFileName=TestResults.trx" -v:detailed
         continue-on-error: true
 
-      - name: Collect msbuild / test artifacts
+      - name: Fail on test failures
+        if: always()
+        run: |
+          echo "Checking test TRX files for failures..."
+          TRX_FILES=$(find UnitTests/TestResults -name '*.trx' -print 2>/dev/null || true)
+          if [ -z "$TRX_FILES" ]; then
+            echo "No TRX test results found under UnitTests/TestResults — failing to avoid silent success."
+            exit 1
+          fi
+          if grep -R 'outcome=\"Failed\"' UnitTests/TestResults/*.trx >/dev/null 2>&1; then
+            echo "One or more tests failed (found outcome=\"Failed\" in TRX)."
+            grep -R -n '<UnitTestResult' UnitTests/TestResults/*.trx | sed -n '1,200p'
+            exit 1
+          fi
+          echo "No test failures found in TRX files."
+
+      - name: Upload diagnostics
         uses: actions/upload-artifact@v4
         with:
           name: dotnet-diagnostics
           path: |
-            build.UnitTests.binlog
             UnitTests/TestResults/**/*.trx
             UnitTests/TestResults
-            UnitTests/**/bin/**/Release/**/build.log
-
-      - name: Print short guidance
-        run: |
-          echo "If the build still copies Veldrid files, please paste the 'Veldrid flags' messages from the build logs (look for the lines 'PackageVeldrid =', 'NoPackageVeldrid =', 'SkipVeldrid =', and Project Dir)."

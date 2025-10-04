@@ -15,7 +15,7 @@ namespace UnitTests;
 /// </summary>
 public class ShapeEngineTests
 {
-    private static string root_loc = "/d/development/DesignLibs_GPL/shapeengine_out/";
+    private static string root_loc = TestHelpers.TestPath.Get("shapeengine_out") + Path.DirectorySeparatorChar;
 
     // Copied from the private content of ShapeLibrary, for testing.
     private static readonly List<string> availableShapes_all = new()

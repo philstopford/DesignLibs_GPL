@@ -5539,68 +5539,70 @@ public class GeoCoreTests
         PathsD geo = gcGDS.points(flatten: true);
         Assert.That(geo.Count, Is.EqualTo(4));
 
+        double tolerance = 1E-11;
+
         // We have floats, so this gets a little more awkward.
-        Assert.That(Math.Abs(geo[0][0].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][0].y - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][1].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][1].y - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][2].x - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][2].y - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][3].x - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][3].y - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][4].x - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][4].y - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][5].x - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][5].y - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][6].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[0][6].y - 0), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[0][0].x - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][0].y - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][1].x - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][1].y - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][2].x - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][2].y - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][3].x - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][3].y - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][4].x - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][4].y - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][5].x - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][5].y - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][6].x - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[0][6].y - 0), Is.LessThanOrEqualTo(tolerance));
 
-        int x_adjust = 110;
-        Assert.That(Math.Abs(geo[1][0].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][0].y - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][1].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][1].y - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][2].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][2].y - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][3].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][3].y - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][4].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][4].y - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][5].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][5].y - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][6].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[1][6].y - 0), Is.LessThanOrEqualTo(1E-13));
+        int x_adjust = 11000;
+        Assert.That(Math.Abs(geo[1][0].x - (0 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][0].y - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][1].x - (0 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][1].y - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][2].x - (4000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][2].y - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][3].x - (4000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][3].y - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][4].x - (10000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][4].y - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][5].x - (10000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][5].y - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][6].x - (0 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[1][6].y - 0), Is.LessThanOrEqualTo(tolerance));
 
-        int y_adjust = 110;
-        Assert.That(Math.Abs(geo[2][0].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][0].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][1].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][1].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][2].x - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][2].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][3].x - 40), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][3].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][4].x - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][4].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][5].x - 100), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][5].y - 0 - y_adjust), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][6].x - 0), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[2][6].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        int y_adjust = 11000;
+        Assert.That(Math.Abs(geo[2][0].x - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][0].y - (0 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][1].x - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][1].y - (10000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][2].x - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][2].y - (10000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][3].x - 4000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][3].y - (4000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][4].x - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][4].y - (4000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][5].x - 10000), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][5].y - 0 - y_adjust), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][6].x - 0), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[2][6].y - (0 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
 
-        Assert.That(Math.Abs(geo[3][0].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][1].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][2].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][3].x - (40 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][4].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][5].x - (100 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][6].x - (0 + x_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][0].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][1].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][2].y - (100 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][3].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][4].y - (40 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][5].y - 0 - y_adjust), Is.LessThanOrEqualTo(1E-13));
-        Assert.That(Math.Abs(geo[3][6].y - (0 + y_adjust)), Is.LessThanOrEqualTo(1E-13));
+        Assert.That(Math.Abs(geo[3][0].x - (0 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][1].x - (0 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][2].x - (4000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][3].x - (4000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][4].x - (10000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][5].x - (10000 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][6].x - (0 + x_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][0].y - (0 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][1].y - (10000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][2].y - (10000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][3].y - (4000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][4].y - (4000 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][5].y - 0 - y_adjust), Is.LessThanOrEqualTo(tolerance));
+        Assert.That(Math.Abs(geo[3][6].y - (0 + y_adjust)), Is.LessThanOrEqualTo(tolerance));
     }
 
     [Test]
@@ -5622,7 +5624,7 @@ public class GeoCoreTests
 
         PathsD geo2 = gcGDS.points(flatten: true);
         // Use previously computed hash to check that our long list is aligned with expectations.
-        Assert.That(Utils.GetSHA256Hash(geo2), Is.EqualTo("vZoyBBGchu/u+LChif6g6kzH6nGSVj6XHD/GdPwfT7g="));
+        Assert.That(Utils.GetSHA256Hash(geo2), Is.EqualTo("uX5NhUuw3OEr5gmk8FFQUb2gsNZt9GBh9BnLtCYU+eQ="));
     }
 
     [Test]

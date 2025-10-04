@@ -708,7 +708,7 @@ public class GeoCoreTests
         Assert.That(cell_gds2.elementList[0].isCellref(), Is.True);
         Assert.That(cell_gds2.elementList[1].isCellrefArray(), Is.True);
         Assert.That(cell_gds2.elementList[2].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds2 = cell_gds2.convertToPolygons(1.0);
         // 3 instances of A cell and 1 polygon
         int b_poly_count = (3 * a_poly_count) + 1;
         Assert.That(polys_gds2.Count, Is.EqualTo(b_poly_count));
@@ -746,7 +746,7 @@ public class GeoCoreTests
         Assert.That(cell_gds3.elementList[0].isCellrefArray(), Is.True);
         Assert.That(cell_gds3.elementList[1].isCellref(), Is.True);
         Assert.That(cell_gds3.elementList[2].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds3 = cell_gds3.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds3 = cell_gds3.convertToPolygons(1.0);
         // 3 instances of B cell and 1 polygon
         int c_poly_count = (3 * 4) + 1;
         Assert.That(polys_gds3.Count, Is.EqualTo(c_poly_count));
@@ -885,7 +885,7 @@ public class GeoCoreTests
         Assert.That(cell_gds4.elementList[3].isPolygon(), Is.True);
         Assert.That(cell_gds4.elementList[4].isPolygon(), Is.True);
         Assert.That(cell_gds4.elementList[5].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds4 = cell_gds4.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds4 = cell_gds4.convertToPolygons(1.0);
         // 3 instances of the C cell and 4 polygons.
         int top_poly_count = (3 * c_poly_count) + 4;
         Assert.That(polys_gds4.Count, Is.EqualTo(top_poly_count));
@@ -1398,7 +1398,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isPolygon(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -1523,7 +1523,7 @@ public class GeoCoreTests
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
         Assert.That(cell_gds.elementList.Count, Is.EqualTo(2));
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -1586,7 +1586,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -1652,7 +1652,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
 
         int polyIndex = 0;
         int x_pitch = 5000;
@@ -1698,7 +1698,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
 
         polyIndex = 0;
         for (int row = 0; row < 3; row++)
@@ -1746,7 +1746,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
 
         int polyIndex = 0;
         Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
@@ -1862,7 +1862,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
 
         polyIndex = 0;
         Assert.That(polys_oas[polyIndex].pointarray.Count, Is.EqualTo(11));
@@ -1982,7 +1982,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_gds = gcGDS.getDrawing();
         GCCell cell_gds = drawing_gds.findCell("Base");
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
 
         int polyIndex = 0;
         Assert.That(polys_gds[polyIndex].pointarray.Count, Is.EqualTo(11));
@@ -2044,7 +2044,7 @@ public class GeoCoreTests
 
         GCDrawingfield drawing_oas = gcOAS.getDrawing();
         GCCell cell_oas = drawing_oas.findCell("Base");
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
 
         polyIndex = 0;
         x_offset = 0;
@@ -2117,7 +2117,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isPolygon(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2254,7 +2254,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2328,7 +2328,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -2408,7 +2408,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -2452,7 +2452,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -2502,7 +2502,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(6));
 
         int polyIndex = 0;
@@ -2542,7 +2542,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(6));
 
         polyIndex = 0;
@@ -2584,7 +2584,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2660,7 +2660,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -2740,7 +2740,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -2786,7 +2786,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isBox(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -2836,7 +2836,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -2960,7 +2960,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -3088,7 +3088,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -3160,7 +3160,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -3306,7 +3306,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(6));
 
         int polyIndex = 0;
@@ -3358,7 +3358,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(6));
 
         polyIndex = 0;
@@ -3412,7 +3412,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -3536,7 +3536,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -3664,7 +3664,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -3735,7 +3735,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -3809,7 +3809,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -3933,7 +3933,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -4061,7 +4061,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -4137,7 +4137,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -4217,7 +4217,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -4263,7 +4263,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -4313,7 +4313,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(6));
 
         int polyIndex = 0;
@@ -4353,7 +4353,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(6));
 
         polyIndex = 0;
@@ -4395,7 +4395,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -4471,7 +4471,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -4551,7 +4551,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(2));
 
         int polyIndex = 0;
@@ -4597,7 +4597,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellrefArray(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(2));
 
         polyIndex = 0;
@@ -4647,7 +4647,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_gds.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(4));
 
         int polyIndex = 0;
@@ -4723,7 +4723,7 @@ public class GeoCoreTests
         {
             Assert.That(cell_oas.elementList[i].isCellref(), Is.True);
         }
-        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(4));
 
         polyIndex = 0;
@@ -5735,7 +5735,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[0].layer_nr, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[0].datatype_nr, Is.EqualTo(0));
-        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
@@ -5757,7 +5757,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[1].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[1].layer_nr, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[1].datatype_nr, Is.EqualTo(0));
-        polys_gds = cell_gds.elementList[1].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
@@ -5771,7 +5771,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[2].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[2].layer_nr, Is.EqualTo(3));
         Assert.That(cell_gds.elementList[2].datatype_nr, Is.EqualTo(0));
-        polys_gds = cell_gds.elementList[2].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[2].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(6));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(5));
@@ -5791,7 +5791,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[3].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[3].layer_nr, Is.EqualTo(4));
         Assert.That(cell_gds.elementList[3].datatype_nr, Is.EqualTo(0));
-        polys_gds = cell_gds.elementList[3].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[3].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
@@ -5809,7 +5809,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[4].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[4].layer_nr, Is.EqualTo(5));
         Assert.That(cell_gds.elementList[4].datatype_nr, Is.EqualTo(0));
-        polys_gds = cell_gds.elementList[4].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[4].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(0));
@@ -5843,7 +5843,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[0].isPolygon(), Is.True);
         Assert.That(cell_oas.elementList[0].layer_nr, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[0].datatype_nr, Is.EqualTo(0));
-        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(0));
@@ -5865,7 +5865,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[1].isPolygon(), Is.True);
         Assert.That(cell_oas.elementList[1].layer_nr, Is.EqualTo(2));
         Assert.That(cell_oas.elementList[1].datatype_nr, Is.EqualTo(0));
-        polys_oas = cell_oas.elementList[1].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(4));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(0));
@@ -5879,7 +5879,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[2].isPolygon(), Is.True);
         Assert.That(cell_oas.elementList[2].layer_nr, Is.EqualTo(3));
         Assert.That(cell_oas.elementList[2].datatype_nr, Is.EqualTo(0));
-        polys_oas = cell_oas.elementList[2].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[2].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(6));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(5));
@@ -5899,7 +5899,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[3].isPolygon(), Is.True);
         Assert.That(cell_oas.elementList[3].layer_nr, Is.EqualTo(4));
         Assert.That(cell_oas.elementList[3].datatype_nr, Is.EqualTo(0));
-        polys_oas = cell_oas.elementList[3].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[3].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(0));
@@ -5917,7 +5917,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[4].isPolygon(), Is.True);
         Assert.That(cell_oas.elementList[4].layer_nr, Is.EqualTo(5));
         Assert.That(cell_oas.elementList[4].datatype_nr, Is.EqualTo(0));
-        polys_oas = cell_oas.elementList[4].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[4].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(5));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(0));
@@ -6018,7 +6018,7 @@ public class GeoCoreTests
         Assert.That(path_[3].Y, Is.EqualTo(40));
         Assert.That(path_[4].X, Is.EqualTo(0));
         Assert.That(path_[4].Y, Is.EqualTo(40));
-        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(11));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(-3));
@@ -6075,7 +6075,7 @@ public class GeoCoreTests
         Assert.That(path_[3].Y, Is.EqualTo(40));
         Assert.That(path_[4].X, Is.EqualTo(0));
         Assert.That(path_[4].Y, Is.EqualTo(40));
-        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(11));
 
@@ -6170,7 +6170,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[0].isPolygon(), Is.True);
         Assert.That(cell_gds.elementList[0].layer_nr, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[0].datatype_nr, Is.EqualTo(0));
-        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(3600));
 
@@ -6193,7 +6193,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[0].isPolygon(), Is.True);
         Assert.That(cell_oas.elementList[0].layer_nr, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[0].datatype_nr, Is.EqualTo(0));
-        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(3600));
     }
@@ -6337,7 +6337,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(pos.X + 0));
@@ -6363,7 +6363,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(pos.X + 0));
@@ -6389,7 +6389,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(pos.X));
@@ -6415,7 +6415,7 @@ public class GeoCoreTests
         Assert.That(cell_gds.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(270));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_gds[0].pointarray[0].X, Is.EqualTo(pos.X));
@@ -6454,7 +6454,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(pos.X + 0));
@@ -6479,7 +6479,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(pos.X + 0));
@@ -6505,7 +6505,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(pos.X));
@@ -6531,7 +6531,7 @@ public class GeoCoreTests
         Assert.That(cell_oas.elementList[^1].getScale(), Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(270));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(7));
         Assert.That(polys_oas[0].pointarray[0].X, Is.EqualTo(pos.X));
@@ -6655,7 +6655,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -6713,7 +6713,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -6847,7 +6847,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -6905,7 +6905,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -7038,7 +7038,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -7096,7 +7096,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -7225,7 +7225,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         int polyIndex = 0;
@@ -7285,7 +7285,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -7414,7 +7414,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         int polyIndex = 0;
@@ -7473,7 +7473,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.False);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -7606,7 +7606,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -7665,7 +7665,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -7798,7 +7798,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -7856,7 +7856,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -7989,7 +7989,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -8047,7 +8047,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(1));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -8180,7 +8180,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -8238,7 +8238,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(0));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -8371,7 +8371,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_gds.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_gds.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(16));
 
         for (int rowIndex = 0; rowIndex < count.Y; rowIndex++)
@@ -8429,7 +8429,7 @@ public class GeoCoreTests
         Assert.That(scale, Is.EqualTo(2));
         Assert.That(cell_oas.elementList[^1].getAngle(), Is.EqualTo(90));
         Assert.That(cell_oas.elementList[^1].getMirrorX(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[^1].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(16));
 
         polyIndex = 0;
@@ -8947,7 +8947,7 @@ public class GeoCoreTests
         GCCell cell_gds = drawing_gds.findCell("test");
 
         Assert.That(cell_gds.elementList[^1].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(5));
 
@@ -8968,7 +8968,7 @@ public class GeoCoreTests
         GCCell cell_oas = drawing_oas.findCell("test");
 
         Assert.That(cell_oas.elementList[^1].isPolygon(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(5));
     }
@@ -9091,7 +9091,7 @@ public class GeoCoreTests
         GCCell cell_gds = drawing_gds.findCell("test");
 
         Assert.That(cell_gds.elementList[^1].isPolygon(), Is.True);
-        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+        List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_gds.Count, Is.EqualTo(1));
         Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(5));
 
@@ -9112,7 +9112,7 @@ public class GeoCoreTests
         GCCell cell_oas = drawing_oas.findCell("test");
 
         Assert.That(cell_oas.elementList[^1].isPolygon(), Is.True);
-        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+        List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
         Assert.That(polys_oas.Count, Is.EqualTo(1));
         Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(5));
     }
@@ -9210,7 +9210,7 @@ public class GeoCoreTests
             GCCell cell_gds = drawing_gds.findCell("test" + i);
 
             Assert.That(cell_gds.elementList[^1].isPolygon(), Is.True);
-            List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(drawing_gds.getDrawingScale());
+            List<GCPolygon> polys_gds = cell_gds.elementList[0].convertToPolygons(1.0);
             Assert.That(polys_gds.Count, Is.EqualTo(1));
             Assert.That(polys_gds[0].pointarray.Count, Is.EqualTo(7));
         }
@@ -9234,7 +9234,7 @@ public class GeoCoreTests
             GCCell cell_oas = drawing_oas.findCell("test" + i);
 
             Assert.That(cell_oas.elementList[^1].isPolygon(), Is.True);
-            List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(drawing_oas.getDrawingScale());
+            List<GCPolygon> polys_oas = cell_oas.elementList[0].convertToPolygons(1.0);
             Assert.That(polys_oas.Count, Is.EqualTo(1));
             Assert.That(polys_oas[0].pointarray.Count, Is.EqualTo(7));
         }

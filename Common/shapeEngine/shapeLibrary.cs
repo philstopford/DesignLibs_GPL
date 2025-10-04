@@ -2395,7 +2395,7 @@ public class ShapeLibrary
                     computeCage();
                     computeTips(0, 0);
                     processEdgesForRounding();
-                    return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                    return legacy_processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
                 }
 

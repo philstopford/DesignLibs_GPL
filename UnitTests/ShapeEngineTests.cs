@@ -1597,28 +1597,16 @@ public class ShapeEngineTests
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex), customShape);
         // Check the shape settings are in the shape.
         Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.GEOCORE));
-        PathD out_ = shape.processCorners(false, false, 90, 1, .01);
+        PathD out_ = shape.processCorners(false, false, 90, 1, .5);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customortho_outer.svg", FillRule.NonZero, 800, 800, 10);
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
-        // Assert.That(clean.Count, Is.EqualTo(115));
+        Assert.That(clean.Count, Is.EqualTo(121));
         // Check expected area
         double area = Clipper.Area(out_);
-        // Call the private legacy routine directly
-        var (legacyPath, legacyArea) = LegacyReflectionHelper.InvokeLegacy(
-            shape,
-            previewMode: false,
-            cornerCheck: false,
-            cornerSegments: 90,
-            optimizeCorners: 0,    // optimization off
-            resolution: 0.01,
-            iCPA: false,
-            oCPA: false,
-            iCV: 0, iCVariation_scalar: 0, oCV: 0, oCVariation_scalar: 0
-        );
-        // Assert.That(Math.Abs(-(Math.PI * 10 * 10) - area), Is.LessThanOrEqualTo(0.15));
+        Assert.That(Math.Abs(-(Math.PI * 10 * 10) - area), Is.LessThanOrEqualTo(0.15));
         RectD bounds = Clipper.GetBounds(clean);
         Assert.That(bounds.Width, Is.GreaterThanOrEqualTo(19.99));
         Assert.That(bounds.Height, Is.GreaterThanOrEqualTo(19.99));
@@ -1651,10 +1639,10 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.That(clean.Count, Is.EqualTo(69));
+        Assert.That(clean.Count, Is.EqualTo(68));
         // Check expected area
         double area = Clipper.Area(out_);
-        Assert.That(Math.Abs(-252.23 - area), Is.LessThanOrEqualTo(0.01));
+        Assert.That(Math.Abs(-252.8 - area), Is.LessThanOrEqualTo(0.01));
         RectD bounds = Clipper.GetBounds(out_);
         Assert.That(bounds.Width, Is.EqualTo(15));
         Assert.That(bounds.Height, Is.EqualTo(20));
@@ -1687,7 +1675,7 @@ public class ShapeEngineTests
         // Corners can have duplicate points.
         PathD clean = GeoWrangler.removeDuplicates(out_);
         // Check point count - start and end points are the same.
-        Assert.That(clean.Count, Is.EqualTo(85));
+        Assert.That(clean.Count, Is.EqualTo(83));
         // Check expected area
         double area = Clipper.Area(out_);
         Assert.That(Math.Abs(-((10 + 5) * (20 + 7)) - area), Is.LessThanOrEqualTo(0.001));

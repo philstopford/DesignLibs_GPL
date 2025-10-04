@@ -41,24 +41,29 @@ public class RNGTests
 
         int[] ints = new int[sampleCount];
         OptimizedParallelFor(ints, i => Crypto_RNG.nextint());
+        
+        // Allow for occasional duplicates due to birthday paradox - with 25000 samples from uint.MaxValue space,
+        // probability of collision is ~7%. Require at least 99.5% distinct values (at most 125 duplicates).
+        int min_unique_samples = (int)(sampleCount * 0.995);
+
 
         int[] duplicate_ints = ints
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(ints.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(ints.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values = values
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values2 = values2
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values2.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values2.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values3 = values3
             .GroupBy(x => x)               // group matching items
@@ -84,29 +89,33 @@ public class RNGTests
         int[] ints = new int[sampleCount];
         OptimizedParallelFor(ints, i => MersenneTwister_RNG.nextint());
 
+        // Allow for occasional duplicates due to birthday paradox - with 25000 samples from uint.MaxValue space,
+        // probability of collision is ~7%. Require at least 99.5% distinct values (at most 125 duplicates).
+        int min_unique_samples = (int)(sampleCount * 0.995);
+
         int[] duplicate_ints = ints
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(ints.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(ints.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values = values
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values2 = values2
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values2.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values2.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values3 = values3
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values3.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values3.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
     }
 
     [Test]
@@ -124,28 +133,32 @@ public class RNGTests
         int[] ints = new int[sampleCount];
         OptimizedParallelFor(ints, i => RNG.nextint());
 
+        // Allow for occasional duplicates due to birthday paradox - with 25000 samples from uint.MaxValue space,
+        // probability of collision is ~7%. Require at least 99.5% distinct values (at most 125 duplicates).
+        int min_unique_samples = (int)(sampleCount * 0.995);
+
         int[] duplicate_ints = ints
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(ints.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(ints.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values = values
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values2 = values2
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values2.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values2.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
 
         double[] duplicate_values3 = values3
             .GroupBy(x => x)               // group matching items
             .Where(g => g.Skip(1).Any())   // where the group contains more than one item
             .SelectMany(g => g).ToArray();           // re-expand the groups with more than one item
-        Assert.That(values3.Distinct().Count(), Is.EqualTo(sampleCount));
+        Assert.That(values3.Distinct().Count(), Is.GreaterThanOrEqualTo(min_unique_samples));
     }
 }

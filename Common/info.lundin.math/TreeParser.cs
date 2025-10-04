@@ -543,7 +543,7 @@ public class TreeParser
     private bool
         isConstant(string exp)
     {
-        bool ok = double.TryParse(exp, NumberStyles.Any, culture, out double val);
+        bool ok = double.TryParse(exp, NumberStyles.Float, culture, out double val);
         return ok && !double.IsNaN(val);
     }
 

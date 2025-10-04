@@ -13,7 +13,7 @@ namespace UnitTests;
 public class GeoCoreTests
 {
     static string baseDir = "../../../../../geocore_test/";
-    static string outDir = "../../../../../geocore_out/";
+    static string outDir = TestHelpers.TestPath.Get("geocore_out") + Path.DirectorySeparatorChar;
 
     #region GeoCore Basic Unit Tests
 

@@ -9,7 +9,7 @@ namespace UnitTests;
 
 public class DecompositionTests
 {
-    private static string root_loc = TestHelpers.DecompositionOutput.GetPath() + Path.DirectorySeparatorChar;
+    private static string root_loc = TestHelpers.TestPath.Get("decomposition_out") + Path.DirectorySeparatorChar;
     // [SetUp]
     public static void DecompositionSetup()
     {

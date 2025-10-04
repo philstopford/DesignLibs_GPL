@@ -19,7 +19,7 @@ public static class Crypto_RNG
         new(() => RandomNumberGenerator.Create());
     
     private static readonly ThreadLocal<byte[]> _threadLocalBuffer = 
-        new(() => new byte[sizeof(long)]); // Use long buffer for efficiency
+        new(() => new byte[sizeof(uint)]); // Buffer for uint conversion
 
     // Performance optimization: Box-Muller cached value for better efficiency
     [ThreadStatic] private static double _cachedGaussian;
@@ -60,16 +60,19 @@ public static class Crypto_RNG
         double U1, U2;
         
         // Performance optimization: Use do-while for better branch prediction
+        // Use uint to avoid Math.Abs overflow issue with int.MinValue
         do
         {
-            random.GetBytes(tmp.AsSpan(0, sizeof(int)));
-            U1 = Math.Abs(BitConverter.ToInt32(tmp, 0)) / maxInt;
+            random.GetBytes(tmp.AsSpan(0, sizeof(uint)));
+            uint value1 = BitConverter.ToUInt32(tmp, 0);
+            U1 = value1 / (double)uint.MaxValue;
         } while (U1 < MIN_RANDOM_VALUE);
         
         do
         {
-            random.GetBytes(tmp.AsSpan(0, sizeof(int)));
-            U2 = Math.Abs(BitConverter.ToInt32(tmp, 0)) / maxInt;
+            random.GetBytes(tmp.AsSpan(0, sizeof(uint)));
+            uint value2 = BitConverter.ToUInt32(tmp, 0);
+            U2 = value2 / (double)uint.MaxValue;
         } while (U2 < MIN_RANDOM_VALUE);
 
         // Performance optimization: Pre-calculate common sub-expressions
@@ -90,7 +93,9 @@ public static class Crypto_RNG
         var tmp = _threadLocalBuffer.Value!;
 
         random.GetBytes(tmp.AsSpan(0, sizeof(int)));
-        return Math.Abs(BitConverter.ToInt32(tmp, 0)) / maxInt;
+        // Use uint to avoid Math.Abs overflow issue with int.MinValue
+        uint value = BitConverter.ToUInt32(tmp, 0);
+        return value / (double)uint.MaxValue;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

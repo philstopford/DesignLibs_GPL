@@ -1,6 +1,7 @@
 using Clipper2Lib;
 using geoWrangler;
 using utility;
+using TestHelpers;
 
 namespace UnitTests;
 
@@ -56,7 +57,8 @@ public class KeyholerTests
      * TODO:
      */
 
-    private static string root_loc = "/d/development/DesignLibs_GPL/keyhole_out/";
+    // private static string root_loc = "/d/development/DesignLibs_GPL/keyhole_out/";
+    private static string root_loc = TestOutput.GetPath("keyhole_out");
 
     // [SetUp]
     public static void KeyholerSetup()

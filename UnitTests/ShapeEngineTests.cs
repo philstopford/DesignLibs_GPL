@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Text;
 using System.IO;
+using TestHelpers;
 
 namespace UnitTests;
 
@@ -15,7 +16,7 @@ namespace UnitTests;
 /// </summary>
 public class ShapeEngineTests
 {
-    private static string root_loc = "/d/development/DesignLibs_GPL/shapeengine_out/";
+    private static string root_loc = TestOutput.GetPath("shapeengine_out");
 
     // Copied from the private content of ShapeLibrary, for testing.
     private static readonly List<string> availableShapes_all = new()

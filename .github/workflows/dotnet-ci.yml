@@ -16,6 +16,23 @@ jobs:
       matrix:
         dotnet-version: ['8.0']
     steps:
+      - name: Prepare test output directories (CI)
+        run: |
+          mkdir -p "${{ github.workspace }}/artifacts/decomposition_out"
+          mkdir -p "${{ github.workspace }}/artifacts/geocore_test_out"
+          mkdir -p "${{ github.workspace }}/artifacts/geowrangler_out"
+          mkdir -p "${{ github.workspace }}/artifacts/keyhole_out"
+          mkdir -p "${{ github.workspace }}/artifacts/shapeengine_out"
+          mkdir -p "${{ github.workspace }}/artifacts/shapeanalysis_out"
+          mkdir -p "${{ github.workspace }}/artifacts/contour_gen_analysis"
+
+          echo "DECOMPOSITION_OUTPUT=${{ github.workspace }}/artifacts/decomposition_out" >> $GITHUB_ENV
+          echo "GEOCORE_TEST_OUT=${{ github.workspace }}/artifacts/geocore_test_out" >> $GITHUB_ENV
+          echo "GEOWRANGLER_OUT=${{ github.workspace }}/artifacts/geowrangler_out" >> $GITHUB_ENV
+          echo "KEYHOLE_OUT=${{ github.workspace }}/artifacts/keyhole_out" >> $GITHUB_ENV
+          echo "SHAPEENGINE_OUT=${{ github.workspace }}/artifacts/shapeengine_out" >> $GITHUB_ENV
+          echo "SHAPEANALYSIS_OUT=${{ github.workspace }}/artifacts/shapeanalysis_out" >> $GITHUB_ENV
+          echo "CONTOUR_GEN_ANALYSIS=${{ github.workspace }}/artifacts/contour_gen_analysis" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v4
 

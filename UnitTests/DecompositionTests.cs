@@ -3,12 +3,13 @@ using Clipper2Lib;
 using geoCoreLib;
 using geoWrangler;
 using PartitionTestGeometrySource;
+using TestHelpers;
 
 namespace UnitTests;
 
 public class DecompositionTests
 {
-    private static string root_loc = "/d/development/decomposition_out/";
+    private static string root_loc = TestOutput.GetPath("decomposition_output");
     // [SetUp]
     public static void DecompositionSetup()
     {

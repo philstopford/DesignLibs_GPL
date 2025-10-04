@@ -2,6 +2,7 @@ using System.Buffers.Binary;
 using Clipper2Lib;
 using geoCoreLib;
 using utility;
+using TestHelpers;
 
 namespace UnitTests;
 
@@ -12,8 +13,9 @@ namespace UnitTests;
 /// </summary>
 public class GeoCoreTests
 {
-    static string baseDir = "../../../../../geocore_test/";
-    static string outDir = "../../../../../geocore_out/";
+    // static string baseDir = "../../../../../geocore_test/";
+    private static string baseDir = TestOutput.GetPath("geocore_test");
+    private static string outDir = TestOutput.GetPath("geocore_out");
 
     #region GeoCore Basic Unit Tests
 

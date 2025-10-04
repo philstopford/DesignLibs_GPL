@@ -1,5 +1,6 @@
 using Clipper2Lib;
 using geoWrangler;
+using TestHelpers;
 
 namespace UnitTests;
 
@@ -10,7 +11,7 @@ namespace UnitTests;
 /// </summary>
 public class GeoWranglerTests
 {
-    private static string root_loc = "/d/development/DesignLibs_GPL/geowrangler_out/";
+    private static string root_loc = TestOutput.GetPath("geowrangler_out");
 
     // [SetUp]
     public static void GeoWranglerSetup()

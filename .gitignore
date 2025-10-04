@@ -10,14 +10,19 @@
 *.userosscache
 *.sln.docstates
 
+# Ignore generated CI/test artifacts
+/artifacts/
+/artifacts/**
+
+# Test output folders (CI and local)
 decomposition_out/
-geocore_test/out/
+geocore_test_out/
 geowrangler_out/
 keyhole_out/
 shapeengine_out/
 shapeanalysis_out/
 # ContourGen performance analysis outputs
-**/contour_gen_analysis/
+contour_gen_analysis/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

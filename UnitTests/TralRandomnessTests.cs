@@ -145,7 +145,7 @@ public class TralRandomnessTests
     {
         var algorithm = new Xoshiro256pp();
 
-        Assert.That(algorithm.AlgorithmName, Is.EqualTo("Xoshiro256++"));
+        Assert.That(algorithm.AlgorithmName, Is.EqualTo("xoshiro256++ 1.0"));
         Assert.That(algorithm.MaxNext, Is.EqualTo(ulong.MaxValue));
     }
 

@@ -1,6 +1,7 @@
 using Clipper2Lib;
 using geoAnalysis;
 using geoWrangler;
+using TestHelpers;
 
 namespace UnitTests;
 
@@ -11,7 +12,7 @@ namespace UnitTests;
 /// </summary>
 public class GeoAnalysisTests
 {
-    private static string root_loc = "/d/development/DesignLibs_GPL/shapeanalysis_out/";
+    static string root_loc = TestPath.Get("shapeanalysis_out") + Path.DirectorySeparatorChar;
 
     // [SetUp]
     public static void GeoAnalysisSetup()

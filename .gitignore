@@ -10,7 +10,13 @@
 *.userosscache
 *.sln.docstates
 
+# Ignore generated CI/test artifacts
+/artifacts/
+/artifacts/**
+
+# Test output directories
 decomposition_out/
+geocore_out/
 geocore_test/out/
 geowrangler_out/
 keyhole_out/

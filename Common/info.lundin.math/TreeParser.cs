@@ -454,6 +454,9 @@ public class TreeParser
 
     public Expression Parse(string expression)
     {
+        // Check for consecutive numbers separated by whitespace before removing spaces
+        CheckConsecutiveNumbers(expression);
+        
         string tmp = skipSpaces(expression.ToLower());
 
         SyntaxCheck(tmp);
@@ -461,6 +464,43 @@ public class TreeParser
         Node tree = ParseInfix(ParseImplicit(ParseE(tmp)));
 
         return new Expression(tree);
+    }
+    
+    /// <summary>Checks for consecutive numbers separated by whitespace which is invalid syntax</summary>
+    /// <param name="exp">Expression to check with spaces intact</param>
+    private static void CheckConsecutiveNumbers(string exp)
+    {
+        bool inNumber = false;
+        bool foundWhitespace = false;
+        
+        for (int i = 0; i < exp.Length; i++)
+        {
+            char c = exp[i];
+            
+            if (char.IsDigit(c) || c == '.')
+            {
+                if (inNumber && foundWhitespace)
+                {
+                    // We found a number, then whitespace, then another number - this is invalid
+                    throw new ParserException("No operator between numbers");
+                }
+                inNumber = true;
+                foundWhitespace = false;
+            }
+            else if (char.IsWhiteSpace(c))
+            {
+                if (inNumber)
+                {
+                    foundWhitespace = true;
+                }
+            }
+            else
+            {
+                // Any other character (operator, letter, etc.) resets the state
+                inNumber = false;
+                foundWhitespace = false;
+            }
+        }
     }
 
     /// <summary>Matches all paranthesis and returns true if they all match or false if they do not.</summary>
@@ -543,7 +583,7 @@ public class TreeParser
     private bool
         isConstant(string exp)
     {
-        bool ok = double.TryParse(exp, NumberStyles.Any, culture, out double val);
+        bool ok = double.TryParse(exp, NumberStyles.Float, culture, out double val);
         return ok && !double.IsNaN(val);
     }
 

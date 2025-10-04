@@ -1,0 +1,60 @@
+name: .NET CI (UnitTests)
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Prepare decomposition output directory (CI)
+        run: |
+          mkdir -p "${{ github.workspace }}/artifacts/decomposition_out"
+          echo "DECOMPOSITION_OUTPUT=${{ github.workspace }}/artifacts/decomposition_out" >> $GITHUB_ENV
+
+      - name: Restore UnitTests
+        run: dotnet restore UnitTests/UnitTests.csproj
+
+      - name: Build UnitTests (no tests)
+        run: dotnet build UnitTests/UnitTests.csproj --no-restore --configuration Release -v:minimal
+
+      - name: Run UnitTests
+        run: |
+          dotnet test UnitTests/UnitTests.csproj --no-build --configuration Release --logger "trx;LogFileName=TestResults.trx" -v:detailed
+        continue-on-error: true
+
+      - name: Fail on test failures
+        if: always()
+        run: |
+          echo "Checking test TRX files for failures..."
+          TRX_FILES=$(find UnitTests/TestResults -name '*.trx' -print 2>/dev/null || true)
+          if [ -z "$TRX_FILES" ]; then
+            echo "No TRX test results found under UnitTests/TestResults — failing to avoid silent success."
+            exit 1
+          fi
+          if grep -R 'outcome="Failed"' UnitTests/TestResults/*.trx >/dev/null 2>&1; then
+            echo "One or more tests failed (found outcome=\"Failed\" in TRX)."
+            grep -R -n '<UnitTestResult' UnitTests/TestResults/*.trx | sed -n '1,200p'
+            exit 1
+          fi
+          echo "No test failures found in TRX files."
+
+      - name: Upload diagnostics
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotnet-diagnostics
+          path: |
+            UnitTests/TestResults/**/*.trx
+            UnitTests/TestResults

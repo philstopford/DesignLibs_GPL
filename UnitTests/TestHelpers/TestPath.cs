@@ -43,7 +43,7 @@ namespace TestHelpers
             var gh = Environment.GetEnvironmentVariable("GITHUB_WORKSPACE");
             if (!string.IsNullOrWhiteSpace(gh))
             {
-                var p = Path.Combine(gh, "artifacts", subdirectory);
+                var p = Path.Combine(gh, subdirectory);
                 Directory.CreateDirectory(p);
                 return Path.GetFullPath(p);
             }
@@ -58,14 +58,14 @@ namespace TestHelpers
                     if (dir.EnumerateFileSystemInfos().Any(fi => RepoMarkers.Any(marker =>
                         marker.StartsWith("*.") ? fi.Extension.Equals(marker.Substring(1), StringComparison.OrdinalIgnoreCase) : fi.Name.Equals(marker, StringComparison.OrdinalIgnoreCase))))
                     {
-                        var p = Path.Combine(dir.FullName, "artifacts", subdirectory);
+                        var p = Path.Combine(dir.FullName, subdirectory);
                         Directory.CreateDirectory(p);
                         return Path.GetFullPath(p);
                     }
 
                     if (Directory.Exists(Path.Combine(dir.FullName, ".git")))
                     {
-                        var p = Path.Combine(dir.FullName, "artifacts", subdirectory);
+                        var p = Path.Combine(dir.FullName, subdirectory);
                         Directory.CreateDirectory(p);
                         return Path.GetFullPath(p);
                     }
@@ -79,12 +79,7 @@ namespace TestHelpers
             Directory.CreateDirectory(tmp);
             return Path.GetFullPath(tmp);
         }
-
-        /// <summary>
-        /// Backward compatibility method for decomposition tests
-        /// </summary>
-        public static string GetDecompositionPath() => Get("decomposition_out");
-
+        
         private static string GetTestAssemblyDirectory()
         {
             try
@@ -113,14 +108,5 @@ namespace TestHelpers
 
             return null;
         }
-    }
-
-    /// <summary>
-    /// Backward compatibility - use TestPath instead
-    /// </summary>
-    [Obsolete("Use TestPath.GetDecompositionPath() or TestPath.Get(\"decomposition_out\") instead")]
-    public static class DecompositionOutput
-    {
-        public static string GetPath() => TestPath.GetDecompositionPath();
     }
 }

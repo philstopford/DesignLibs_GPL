@@ -128,8 +128,7 @@ public partial class VeldridDriver
 				{
 					float alpha = ovpSettings.tessPolyList[poly].alpha;
 					float polyZ = poly * polyZStep;
-					Parallel.For(0, 3, pt =>
-					// for(int pt = 0; pt < 3; pt++)
+					for (int pt = 0; pt < 3; pt++)
 					{
 						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
 							new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X,
@@ -137,7 +136,7 @@ public partial class VeldridDriver
 							new RgbaFloat(ovpSettings.tessPolyList[poly].color.R,
 								ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
 								alpha));
-					});
+					}
 				});
 				
 				tessIndices = new uint[tessPolyListCount * 3];

@@ -1,6 +1,7 @@
 using Eto.Drawing;
 using System.Numerics;
 using Veldrid;
+using System.Diagnostics;
 
 namespace VeldridEto;
 
@@ -13,14 +14,66 @@ public partial class VeldridDriver
 		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
 		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
 		{
+			if (EnableDiagnostics)
+			{
+				Console.WriteLine($"[VIEWPORT DIAG] pUpdateViewportAsync early return: changed={ovpSettings.changed}, GraphicsDevice={(Surface?.GraphicsDevice != null)}, Visible={Surface?.Visible}, Width={Surface?.Width}, Height={Surface?.Height}, drawing={drawing}");
+			}
 			return;
 		}
 
 		drawing = true;
 		done_drawing = false;
 		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] Starting geometry processing...");
+			Console.WriteLine($"[VIEWPORT DIAG]   Polygons: fg={ovpSettings.polyList?.Count ?? 0}, bg={ovpSettings.bgPolyList?.Count ?? 0}, tess={ovpSettings.tessPolyList?.Count ?? 0}");
+			Console.WriteLine($"[VIEWPORT DIAG]   Lines: {ovpSettings.lineList?.Count ?? 0}");
+		}
+		
+		var taskTimer = Stopwatch.StartNew();
+		
 		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
-		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
+		var axesTask = Task.Run(async () =>
+		{
+			var timer = Stopwatch.StartNew();
+			await drawAxes();
+			timer.Stop();
+			if (EnableDiagnostics) Console.WriteLine($"[VIEWPORT DIAG]   drawAxes() took {timer.ElapsedMilliseconds}ms");
+		});
+		
+		var gridTask = Task.Run(async () =>
+		{
+			var timer = Stopwatch.StartNew();
+			await drawGrid();
+			timer.Stop();
+			if (EnableDiagnostics) Console.WriteLine($"[VIEWPORT DIAG]   drawGrid() took {timer.ElapsedMilliseconds}ms");
+		});
+		
+		var linesTask = Task.Run(async () =>
+		{
+			var timer = Stopwatch.StartNew();
+			await drawLines();
+			timer.Stop();
+			if (EnableDiagnostics) Console.WriteLine($"[VIEWPORT DIAG]   drawLines() took {timer.ElapsedMilliseconds}ms");
+		});
+		
+		var polygonsTask = Task.Run(async () =>
+		{
+			var timer = Stopwatch.StartNew();
+			await drawPolygons();
+			timer.Stop();
+			if (EnableDiagnostics) Console.WriteLine($"[VIEWPORT DIAG]   drawPolygons() took {timer.ElapsedMilliseconds}ms");
+		});
+		
+		await Task.WhenAll(axesTask, gridTask, linesTask, polygonsTask);
+		
+		taskTimer.Stop();
+		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] All drawing tasks completed in {taskTimer.ElapsedMilliseconds}ms");
+		}
 		
 		done_drawing = true;
 	}

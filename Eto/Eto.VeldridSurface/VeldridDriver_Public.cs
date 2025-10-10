@@ -1,6 +1,8 @@
+using Eto;
 using Eto.Drawing;
 using Eto.Forms;
 using VeldridEto;
+using System.Diagnostics;
 
 namespace VeldridEto;
 
@@ -24,16 +26,65 @@ public partial class VeldridDriver
 	// Is saved location valid?
 	public bool savedLocation_valid { get; private set; }
 
+	// Diagnostic flag to enable/disable performance logging
+	private bool _enableDiagnostics = false;
+	public bool EnableDiagnostics 
+	{ 
+		get => _enableDiagnostics || Environment.GetEnvironmentVariable("VIEWPORT_DIAGNOSTICS") == "1";
+		set => _enableDiagnostics = value;
+	}
+
 	public void updateViewport()
 	{
+		var totalTimer = Stopwatch.StartNew();
+		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] updateViewport() called on {(Platform.Instance.IsGtk ? "GTK" : Platform.Instance.IsWpf ? "WPF" : "Other")} platform");
+			Console.WriteLine($"[VIEWPORT DIAG] ovpSettings.changed={ovpSettings.changed}, drawing={drawing}, done_drawing={done_drawing}");
+		}
+		
+		var asyncTimer = Stopwatch.StartNew();
 		pUpdateViewportAsync().GetAwaiter().GetResult();
+		asyncTimer.Stop();
+		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] pUpdateViewportAsync completed in {asyncTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG] After async: done_drawing={done_drawing}");
+		}
+		
 		if (done_drawing)
 		{
+			var callbackTimer = Stopwatch.StartNew();
 			updateHostFunc?.Invoke();
+			callbackTimer.Stop();
+			
+			if (EnableDiagnostics && callbackTimer.ElapsedMilliseconds > 0)
+			{
+				Console.WriteLine($"[VIEWPORT DIAG] updateHostFunc callback took {callbackTimer.ElapsedMilliseconds}ms");
+			}
+			
+			var invalidateTimer = Stopwatch.StartNew();
 			Surface!.Invalidate();
+			invalidateTimer.Stop();
+			
+			if (EnableDiagnostics)
+			{
+				Console.WriteLine($"[VIEWPORT DIAG] Surface.Invalidate() took {invalidateTimer.ElapsedMilliseconds}ms");
+			}
+			
 			ovpSettings.changed = false;
 			drawing = false;
 			done_drawing = false;
+		}
+		
+		totalTimer.Stop();
+		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] Total updateViewport() time: {totalTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG] ----------------------------------------");
 		}
 	}
 

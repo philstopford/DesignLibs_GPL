@@ -87,3 +87,33 @@ Parallel.For(0, tessPolyListCount, poly => {
 
 ## Expected Performance Improvement
 The viewport should now update immediately after client tools call `updateViewport()` on Linux/GTK, matching Windows performance. The method now blocks until the update is complete, ensuring proper sequencing and eliminating the 10-20 second delays caused by the async void pattern.
+
+## Diagnostics
+
+Comprehensive diagnostic logging has been added to help troubleshoot performance issues. See [VIEWPORT_DIAGNOSTICS_GUIDE.md](VIEWPORT_DIAGNOSTICS_GUIDE.md) for complete documentation.
+
+### Quick Start
+
+Enable diagnostics by setting an environment variable:
+
+```bash
+export VIEWPORT_DIAGNOSTICS=1
+./your_application
+```
+
+This will output detailed timing information for:
+- Overall viewport update time
+- Individual drawing tasks (axes, grid, lines, polygons)
+- GTK-specific rendering pipeline events
+- State and platform information
+
+Example output:
+```
+[VIEWPORT DIAG] updateViewport() called on GTK platform
+[VIEWPORT DIAG] pUpdateViewportAsync completed in 48ms
+[GTK DIAG] Invalidate() called, skipDraw=False
+[GTK DIAG] OnDraw callback completed in 25ms
+[VIEWPORT DIAG] Total updateViewport() time: 50ms
+```
+
+Use this to identify bottlenecks and compare performance between Windows and Linux/GTK.

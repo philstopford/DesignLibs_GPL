@@ -36,33 +36,32 @@ public partial class VeldridDriver
 		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
 		if (EnableDiagnostics)
 		{
-			// With diagnostics, track individual task times
+			// With diagnostics, time each task individually
 			var axesTimer = Stopwatch.StartNew();
+			var axesTask = drawAxes();
+			
 			var gridTimer = Stopwatch.StartNew();
+			var gridTask = drawGrid();
+			
 			var linesTimer = Stopwatch.StartNew();
+			var linesTask = drawLines();
+			
 			var polygonsTimer = Stopwatch.StartNew();
+			var polygonsTask = drawPolygons();
 			
-			var axesTask = drawAxes().ContinueWith(_ => {
-				axesTimer.Stop();
-				Console.WriteLine($"[VIEWPORT DIAG]   drawAxes() took {axesTimer.ElapsedMilliseconds}ms");
-			});
-			
-			var gridTask = drawGrid().ContinueWith(_ => {
-				gridTimer.Stop();
-				Console.WriteLine($"[VIEWPORT DIAG]   drawGrid() took {gridTimer.ElapsedMilliseconds}ms");
-			});
-			
-			var linesTask = drawLines().ContinueWith(_ => {
-				linesTimer.Stop();
-				Console.WriteLine($"[VIEWPORT DIAG]   drawLines() took {linesTimer.ElapsedMilliseconds}ms");
-			});
-			
-			var polygonsTask = drawPolygons().ContinueWith(_ => {
-				polygonsTimer.Stop();
-				Console.WriteLine($"[VIEWPORT DIAG]   drawPolygons() took {polygonsTimer.ElapsedMilliseconds}ms");
-			});
-			
+			// Wait for all tasks to complete
 			await Task.WhenAll(axesTask, gridTask, linesTask, polygonsTask);
+			
+			// Stop timers and report (all tasks are complete at this point)
+			axesTimer.Stop();
+			gridTimer.Stop();
+			linesTimer.Stop();
+			polygonsTimer.Stop();
+			
+			Console.WriteLine($"[VIEWPORT DIAG]   drawAxes() took {axesTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG]   drawGrid() took {gridTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG]   drawLines() took {linesTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG]   drawPolygons() took {polygonsTimer.ElapsedMilliseconds}ms");
 		}
 		else
 		{

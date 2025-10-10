@@ -234,5 +234,9 @@ driver.EnableDiagnostics = false;
 - Diagnostics use `System.Diagnostics.Stopwatch` for high-precision timing
 - Output goes to `Console.WriteLine` (stderr by default)
 - Minimal performance impact when disabled
-- Thread-safe (diagnostics from parallel tasks are serialized)
+- Per-task timing: All timers start when tasks are created, stop after `Task.WhenAll` completes
+  - Provides accurate wall-clock time for each task
+  - Tasks run in parallel, so individual times may overlap
+  - Total time shows actual elapsed time for all tasks
 - Environment variable checked on each access (can enable/disable without restart)
+- No threading issues or deadlocks - all diagnostic output happens after tasks complete

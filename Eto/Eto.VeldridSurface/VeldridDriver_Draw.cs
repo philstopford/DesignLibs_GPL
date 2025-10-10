@@ -8,7 +8,7 @@ public partial class VeldridDriver
 {
 	private bool drawing = false;
 	private bool done_drawing = false;
-	private async void pUpdateViewport()
+	private async Task pUpdateViewportAsync()
 	{
 		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
 		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
@@ -23,6 +23,19 @@ public partial class VeldridDriver
 		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
 		
 		done_drawing = true;
+	}
+	
+	private async void pUpdateViewport()
+	{
+		await pUpdateViewportAsync();
+		if (done_drawing)
+		{
+			updateHostFunc?.Invoke();
+			Surface!.Invalidate();
+			ovpSettings.changed = false;
+			drawing = false;
+			done_drawing = false;
+		}
 	}
 
 	private int fgPolyListCount;

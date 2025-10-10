@@ -24,15 +24,16 @@ public partial class VeldridDriver
 	// Is saved location valid?
 	public bool savedLocation_valid { get; private set; }
 
-	public void updateViewport()
+	public async void updateViewport()
 	{
-		pUpdateViewport();
+		await pUpdateViewportAsync();
 		if (done_drawing)
 		{
 			updateHostFunc?.Invoke();
 			Surface!.Invalidate();
 			ovpSettings.changed = false;
 			drawing = false;
+			done_drawing = false;
 		}
 	}
 

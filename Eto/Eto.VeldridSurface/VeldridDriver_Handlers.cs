@@ -209,9 +209,9 @@ public partial class VeldridDriver
 		hasFocus = true;
 	}
 
-	private async void Clock_Elapsed(object sender, EventArgs e)
+	private void Clock_Elapsed(object sender, EventArgs e)
 	{
-		await pUpdateViewportAsync();
+		pUpdateViewportAsync().GetAwaiter().GetResult();
 		if (done_drawing)
 		{
 			updateHostFunc?.Invoke();

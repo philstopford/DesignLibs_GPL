@@ -24,19 +24,6 @@ public partial class VeldridDriver
 		
 		done_drawing = true;
 	}
-	
-	private async void pUpdateViewport()
-	{
-		await pUpdateViewportAsync();
-		if (done_drawing)
-		{
-			updateHostFunc?.Invoke();
-			Surface!.Invalidate();
-			ovpSettings.changed = false;
-			drawing = false;
-			done_drawing = false;
-		}
-	}
 
 	private int fgPolyListCount;
 	private int bgPolyListCount;

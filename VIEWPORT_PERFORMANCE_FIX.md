@@ -41,7 +41,9 @@ Parallel.For(0, tessPolyListCount, poly => {
 
 ## Solution
 
-### Fix 1: Proper Async/Await Pattern
+### Fix 1: Synchronous Completion Pattern
+The initial async void approach still had issues because client tools couldn't wait for completion. Changed to use `.GetAwaiter().GetResult()` to force synchronous completion:
+
 ```csharp
 // AFTER (FIXED):
 private async Task pUpdateViewportAsync() {
@@ -49,13 +51,19 @@ private async Task pUpdateViewportAsync() {
     done_drawing = true;
 }
 
-public async void updateViewport() {
-    await pUpdateViewportAsync();  // Actually waits for completion!
-    if (done_drawing) {  // Now true when async work is done
-        Surface!.Invalidate();  // GETS CALLED
+public void updateViewport() {
+    pUpdateViewportAsync().GetAwaiter().GetResult();  // Blocks until complete!
+    if (done_drawing) {
+        updateHostFunc?.Invoke();
+        Surface!.Invalidate();
+        ovpSettings.changed = false;
+        drawing = false;
+        done_drawing = false;
     }
 }
 ```
+
+This ensures that when client tools call `updateViewport()`, the method doesn't return until all geometry processing is complete and the viewport is invalidated.
 
 ### Fix 2: Sequential Inner Loop
 ```csharp
@@ -78,4 +86,4 @@ Parallel.For(0, tessPolyListCount, poly => {
 - GTK test application builds successfully
 
 ## Expected Performance Improvement
-The viewport should now update immediately after geometry changes on Linux/GTK, matching Windows performance. The 10-20 second delay should be completely eliminated as `Surface.Invalidate()` is now called correctly after geometry processing completes.
+The viewport should now update immediately after client tools call `updateViewport()` on Linux/GTK, matching Windows performance. The method now blocks until the update is complete, ensuring proper sequencing and eliminating the 10-20 second delays caused by the async void pattern.

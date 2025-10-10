@@ -24,9 +24,9 @@ public partial class VeldridDriver
 	// Is saved location valid?
 	public bool savedLocation_valid { get; private set; }
 
-	public async void updateViewport()
+	public void updateViewport()
 	{
-		await pUpdateViewportAsync();
+		pUpdateViewportAsync().GetAwaiter().GetResult();
 		if (done_drawing)
 		{
 			updateHostFunc?.Invoke();

@@ -211,7 +211,7 @@ public partial class VeldridDriver
 
 	private void Clock_Elapsed(object sender, EventArgs e)
 	{
-		pUpdateViewport();
+		pUpdateViewportAsync().GetAwaiter().GetResult();
 		if (done_drawing)
 		{
 			updateHostFunc?.Invoke();

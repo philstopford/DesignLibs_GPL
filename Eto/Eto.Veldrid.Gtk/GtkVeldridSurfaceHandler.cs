@@ -96,6 +96,12 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	private void glArea_Render(object o, RenderArgs args)
 	{
+		var enableDiag = Environment.GetEnvironmentVariable("VIEWPORT_DIAGNOSTICS") == "1";
+		if (enableDiag)
+		{
+			Console.WriteLine($"[GTK DIAG] glArea_Render called, skipDraw={skipDraw}");
+		}
+		
 		if (!skipDraw)
 		{
 			skipDraw = true;
@@ -114,7 +120,19 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 			// It's important to only issue Veldrid commands in OnDraw,
 			// since we only have a GL context current in the worker here.
+			if (enableDiag)
+			{
+				Console.WriteLine($"[GTK DIAG] Calling OnDraw callback");
+			}
+			
+			var drawTimer = System.Diagnostics.Stopwatch.StartNew();
 			Callback.OnDraw(Widget, EventArgs.Empty);
+			drawTimer.Stop();
+			
+			if (enableDiag)
+			{
+				Console.WriteLine($"[GTK DIAG] OnDraw callback completed in {drawTimer.ElapsedMilliseconds}ms");
+			}
 
 			// Clear the context from the worker so GTK can use it again.
 			// This action needs to wait so the context is cleared before we continue
@@ -126,6 +144,11 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 			glArea?.MakeCurrent();
 		}
 		skipDraw = false;
+		
+		if (enableDiag)
+		{
+			Console.WriteLine($"[GTK DIAG] glArea_Render completed");
+		}
 	}
 
 	private void MakeCurrent()
@@ -177,12 +200,22 @@ public class GtkVeldridSurfaceHandler : GtkControl<global::Gtk.Widget, VeldridSu
 
 	void Forms.Control.IHandler.Invalidate(Rectangle rect, bool invalidateChildren)
 	{
+		var enableDiag = Environment.GetEnvironmentVariable("VIEWPORT_DIAGNOSTICS") == "1";
+		if (enableDiag)
+		{
+			Console.WriteLine($"[GTK DIAG] Invalidate(rect) called, skipDraw={skipDraw}");
+		}
 		skipDraw = false;
 		glArea?.QueueRender();
 	}
 
 	void Forms.Control.IHandler.Invalidate(bool invalidateChildren)
 	{
+		var enableDiag = Environment.GetEnvironmentVariable("VIEWPORT_DIAGNOSTICS") == "1";
+		if (enableDiag)
+		{
+			Console.WriteLine($"[GTK DIAG] Invalidate() called, skipDraw={skipDraw}");
+		}
 		skipDraw = false;
 		glArea?.QueueRender();
 	}

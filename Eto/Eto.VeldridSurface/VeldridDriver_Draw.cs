@@ -1,6 +1,7 @@
 using Eto.Drawing;
 using System.Numerics;
 using Veldrid;
+using System.Diagnostics;
 
 namespace VeldridEto;
 
@@ -8,19 +9,72 @@ public partial class VeldridDriver
 {
 	private bool drawing = false;
 	private bool done_drawing = false;
-	private async void pUpdateViewport()
+	private async Task pUpdateViewportAsync()
 	{
 		if ((!ovpSettings.changed) || (Surface!.GraphicsDevice == null) ||
 		    (!Surface.Visible) || (Surface.Width <= 0) || (Surface.Height <= 0) || drawing)
 		{
+			if (EnableDiagnostics)
+			{
+				Console.WriteLine($"[VIEWPORT DIAG] pUpdateViewportAsync early return: changed={ovpSettings.changed}, GraphicsDevice={(Surface?.GraphicsDevice != null)}, Visible={Surface?.Visible}, Width={Surface?.Width}, Height={Surface?.Height}, drawing={drawing}");
+			}
 			return;
 		}
 
 		drawing = true;
 		done_drawing = false;
 		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] Starting geometry processing...");
+			Console.WriteLine($"[VIEWPORT DIAG]   Polygons: fg={ovpSettings.polyList?.Count ?? 0}, bg={ovpSettings.bgPolyList?.Count ?? 0}, tess={ovpSettings.tessPolyList?.Count ?? 0}");
+			Console.WriteLine($"[VIEWPORT DIAG]   Lines: {ovpSettings.lineList?.Count ?? 0}");
+		}
+		
+		var taskTimer = Stopwatch.StartNew();
+		
 		// Trying to push things into tasks to speed up the computation. Not sure if this is entirely robust.
-		await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
+		if (EnableDiagnostics)
+		{
+			// With diagnostics, time each task individually
+			var axesTimer = Stopwatch.StartNew();
+			var axesTask = drawAxes();
+			
+			var gridTimer = Stopwatch.StartNew();
+			var gridTask = drawGrid();
+			
+			var linesTimer = Stopwatch.StartNew();
+			var linesTask = drawLines();
+			
+			var polygonsTimer = Stopwatch.StartNew();
+			var polygonsTask = drawPolygons();
+			
+			// Wait for all tasks to complete
+			await Task.WhenAll(axesTask, gridTask, linesTask, polygonsTask);
+			
+			// Stop timers and report (all tasks are complete at this point)
+			axesTimer.Stop();
+			gridTimer.Stop();
+			linesTimer.Stop();
+			polygonsTimer.Stop();
+			
+			Console.WriteLine($"[VIEWPORT DIAG]   drawAxes() took {axesTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG]   drawGrid() took {gridTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG]   drawLines() took {linesTimer.ElapsedMilliseconds}ms");
+			Console.WriteLine($"[VIEWPORT DIAG]   drawPolygons() took {polygonsTimer.ElapsedMilliseconds}ms");
+		}
+		else
+		{
+			// Without diagnostics, run tasks normally
+			await Task.WhenAll(drawAxes(), drawGrid(), drawLines(), drawPolygons());
+		}
+		
+		taskTimer.Stop();
+		
+		if (EnableDiagnostics)
+		{
+			Console.WriteLine($"[VIEWPORT DIAG] All drawing tasks completed in {taskTimer.ElapsedMilliseconds}ms");
+		}
 		
 		done_drawing = true;
 	}
@@ -115,8 +169,7 @@ public partial class VeldridDriver
 				{
 					float alpha = ovpSettings.tessPolyList[poly].alpha;
 					float polyZ = poly * polyZStep;
-					Parallel.For(0, 3, pt =>
-					// for(int pt = 0; pt < 3; pt++)
+					for (int pt = 0; pt < 3; pt++)
 					{
 						tessPolyList[(poly * 3) + pt] = new VertexPositionColor(
 							new Vector3(ovpSettings.tessPolyList[poly].poly[pt].X,
@@ -124,7 +177,7 @@ public partial class VeldridDriver
 							new RgbaFloat(ovpSettings.tessPolyList[poly].color.R,
 								ovpSettings.tessPolyList[poly].color.G, ovpSettings.tessPolyList[poly].color.B,
 								alpha));
-					});
+					}
 				});
 				
 				tessIndices = new uint[tessPolyListCount * 3];

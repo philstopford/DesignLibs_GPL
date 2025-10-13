@@ -125,7 +125,8 @@ public partial class VeldridDriver
 			{
 				case MouseButtons.Primary:
 				{
-					PointF scaledLocation = e.Location * Surface!.ParentWindow.LogicalPixelSize;
+					// Since we now use logical dimensions throughout, no need to scale mouse coordinates
+					PointF scaledLocation = e.Location;
 
 					switch (dragging)
 					{
@@ -255,8 +256,9 @@ public partial class VeldridDriver
 	private void selectByClick(float x, float y)
 	{
 		// Where did we click?
+		// Since we now use logical dimensions throughout, no need to scale mouse coordinates
 		PointF scaledLocation = new(x, y);
-		scaledLocation = ScreenToWorld(scaledLocation.X * Surface!.ParentWindow.LogicalPixelSize, scaledLocation.Y * Surface!.ParentWindow.LogicalPixelSize);
+		scaledLocation = ScreenToWorld(scaledLocation.X, scaledLocation.Y);
 
 		PointF cPos = ovpSettings.getCameraPos();
 

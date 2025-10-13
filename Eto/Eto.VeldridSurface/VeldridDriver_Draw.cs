@@ -477,7 +477,8 @@ public partial class VeldridDriver
 		if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
 		{
 			int k = 0;
-			for (float i = 0; i > -(Surface!.RenderWidth * zoom) + x; i -= spacing)
+			// Use logical size for grid extent calculations
+			for (float i = 0; i > -(Surface!.Width * zoom) + x; i -= spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -498,14 +499,14 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface!.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface!.Height, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface!.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface!.Height, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 
 			k = 0;
-			for (float i = 0; i < Surface!.RenderWidth * zoom + x; i += spacing)
+			for (float i = 0; i < Surface!.Width * zoom + x; i += spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -526,14 +527,14 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface!.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface!.Height, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface!.RenderHeight, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface!.Height, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 
 			k = 0;
-			for (float i = 0; i > -(Surface!.RenderHeight * zoom) + y; i -= spacing)
+			for (float i = 0; i > -(Surface!.Height * zoom) + y; i -= spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -554,14 +555,14 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface!.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface!.Width, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface!.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface!.Width, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 
 			k = 0;
-			for (float i = 0; i < Surface!.RenderHeight * zoom + y; i += spacing)
+			for (float i = 0; i < Surface!.Height * zoom + y; i += spacing)
 			{
 				float r = 0.0f;
 				float g = 0.0f;
@@ -582,9 +583,9 @@ public partial class VeldridDriver
 				}
 
 				k++;
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface!.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface!.Width, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
-				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface!.RenderWidth, i, gridZ),
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface!.Width, i, gridZ),
 					new RgbaFloat(r, g, b, 1.0f)));
 			}
 		}
@@ -631,20 +632,21 @@ public partial class VeldridDriver
 		}
 
 		float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
+		// Use logical size for axis extent calculations
 		axesArray = new VertexPositionColor[4];
 		axesArray[0] =
 			new VertexPositionColor(
-				new Vector3(0.0f, ovpSettings.getCameraY() + Surface!.RenderHeight * zoom, axisZ),
+				new Vector3(0.0f, ovpSettings.getCameraY() + Surface!.Height * zoom, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 		axesArray[1] =
 			new VertexPositionColor(
-				new Vector3(0.0f, ovpSettings.getCameraY() - Surface!.RenderHeight * zoom, axisZ),
+				new Vector3(0.0f, ovpSettings.getCameraY() - Surface!.Height * zoom, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 		axesArray[2] =
-			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface!.RenderWidth * zoom, 0.0f, axisZ),
+			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface!.Width * zoom, 0.0f, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 		axesArray[3] =
-			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface!.RenderWidth * zoom, 0.0f, axisZ),
+			new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface!.Width * zoom, 0.0f, axisZ),
 				new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
 
 		axesIndices = [0, 1, 2, 3];
@@ -673,10 +675,12 @@ public partial class VeldridDriver
 
 		float zoom = ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom();
 
-		float left = ovpSettings.getCameraX() - (float)Surface!.RenderWidth / 2 * zoom;
-		float right = ovpSettings.getCameraX() + (float)Surface!.RenderWidth / 2 * zoom;
-		float bottom = ovpSettings.getCameraY() + (float)Surface!.RenderHeight / 2 * zoom;
-		float top = ovpSettings.getCameraY() - (float)Surface!.RenderHeight / 2 * zoom;
+		// Use logical size (Width/Height) instead of physical pixels (RenderWidth/RenderHeight)
+		// to ensure consistent viewport behavior across different DPI settings
+		float left = ovpSettings.getCameraX() - (float)Surface!.Width / 2 * zoom;
+		float right = ovpSettings.getCameraX() + (float)Surface!.Width / 2 * zoom;
+		float bottom = ovpSettings.getCameraY() + (float)Surface!.Height / 2 * zoom;
+		float top = ovpSettings.getCameraY() - (float)Surface!.Height / 2 * zoom;
 
 		ViewMatrix = Matrix4x4.CreateOrthographicOffCenter(left, right, bottom, top, 0.0f, 1.0f);
 		CommandList.UpdateBuffer(ViewBuffer, 0, ViewMatrix);

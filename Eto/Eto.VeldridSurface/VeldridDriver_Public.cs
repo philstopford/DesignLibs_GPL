@@ -124,8 +124,8 @@ public partial class VeldridDriver
 		float cY = dY / 2.0f + ovpSettings.minY;
 
 		// Now need to get the zoom level organized.
-		float zoomLevel_x = dX / Surface!.Width;
-		float zoomLevel_y = dY / Surface!.Height;
+		float zoomLevel_x = dX / Surface!.RenderWidth;
+		float zoomLevel_y = dY / Surface!.RenderHeight;
 
 		if (zoomLevel_x > zoomLevel_y)
 		{

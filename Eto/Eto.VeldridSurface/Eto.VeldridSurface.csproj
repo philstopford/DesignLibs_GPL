@@ -13,7 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-    <PackageReference Include="ppy.Veldrid" Version="4.9.62-gca0239da6b" />
+    <PackageReference Include="ppy.Veldrid" Version="4.9.69-ga405fe8484" />
       <PackageReference Include="ppy.Veldrid.SPIRV" Version="1.0.15-gfbb03d21c2" />
     </ItemGroup>
 

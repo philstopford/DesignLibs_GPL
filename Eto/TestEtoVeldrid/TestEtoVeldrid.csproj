@@ -4,12 +4,12 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <RootNamespace>TestEtoVeldrid</RootNamespace>
     <Title>TestEtoVeldrid</Title>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <LangVersion>12</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.10.2" />
+    <PackageReference Include="Eto.Forms" Version="2.11.0" />
       <PackageReference Include="ppy.Veldrid.SPIRV" Version="1.0.15-gfbb03d21c2" />
   </ItemGroup>
 

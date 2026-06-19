@@ -364,7 +364,7 @@ public static class contourGen
     {
         SmoothStepMode smoothMode = SmoothStepMode.Quintic;
 
-        int[] corner_types = CategorizeCorners(original_path, shortEdgeLength);
+        int[] corner_types = CategorizeCorners(original_path, shortEdgeLength, maxShortEdgeLength);
         
         PathsD processed = new PathsD();
         List<PointD> cornerMidpoints = new List<PointD>();
@@ -540,7 +540,7 @@ public static class contourGen
 
         return decimated;
     }
-    static int[] CategorizeCorners(PathD path_, double short_edge_length)
+    static int[] CategorizeCorners(PathD path_, double short_edge_length, double max_short_edge_length)
     {
         int[] status = new int[path_.Count];
 
@@ -575,7 +575,8 @@ public static class contourGen
 
             double len1Sq = vx1 * vx1 + vy1 * vy1;
             double len2Sq = vx2 * vx2 + vy2 * vy2;
-            double shortEdgeLengthSq = short_edge_length * short_edge_length;
+            double runEdgeLength = max_short_edge_length > short_edge_length ? max_short_edge_length : short_edge_length;
+            double shortEdgeLengthSq = runEdgeLength * runEdgeLength;
 
             if (len1Sq <= shortEdgeLengthSq && len2Sq <= shortEdgeLengthSq)
             {
@@ -610,6 +611,8 @@ public static class contourGen
         PointD endLength = Helper.Minus(endLineEnd, endLineStart);
         PointD endDir = Helper.Normalized(endLength);
 
+        // Clamp each side independently so a constrained edge on one side does not
+        // reduce the radius fit available on the other side of the corner.
         double start_radius = radius;
         double startLengthSq = startLength.x * startLength.x + startLength.y * startLength.y;
         double half_edge_length = Math.Sqrt(startLengthSq);
@@ -709,6 +712,12 @@ public static class contourGen
                 _ => Math.Clamp(t, 0.0, 1.0)
             };
 
+        static PointD Lerp(PointD a, PointD b, double t)
+        {
+            t = Math.Clamp(t, 0.0, 1.0);
+            return new PointD(a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t);
+        }
+
         // Spherical linear interpolation between two unit direction vectors.
         static PointD SlerpDir(PointD a, PointD b, double t)
         {
@@ -729,7 +738,9 @@ public static class contourGen
 
         bool[] isShort = new bool[n];
         for (int i = 0; i < n; i++)
+        {
             isShort[i] = (i < corner_types.Length && corner_types[i] == (int)CornerType.ShortEdge);
+        }
 
         // Special case: all edges are short - connect midpoints to avoid infinite loops
         bool allShort = isShort.All(x => x);
@@ -772,25 +783,34 @@ public static class contourGen
             int nextIdx = (runEnd + 1) % n;
             while (isShort[nextIdx]) nextIdx = (nextIdx + 1) % n;
 
-            PointD processedStartPt = processedCorners[prevIdx].Last();
-            PointD processedEndPt = processedCorners[nextIdx].First();
+            PointD cornerStartPt = processedCorners[prevIdx].Last();
+            PointD cornerEndPt = processedCorners[nextIdx].First();
 
             PointD diagStartMid = cornerMidpoints[prevIdx];
-            PointD diagEndMid = cornerMidpoints[nextIdx];
+            PointD diagEndMid = Helper.Mid(cornerVertices[runEnd], cornerVertices[nextIdx]);
             PointD vertexPrev = cornerVertices[prevIdx];
             PointD vertexNext = cornerVertices[nextIdx];
 
-            double dPrev = Helper.Length(Helper.Minus(diagStartMid, vertexPrev));
-            double dNext = Helper.Length(Helper.Minus(diagEndMid, vertexNext));
+            double originalPrevInvolvedEdgeLength = Helper.Length(Helper.Minus(cornerVertices[(prevIdx + 1) % n], vertexPrev));
+            double originalNextInvolvedEdgeLength = Helper.Length(Helper.Minus(vertexNext, cornerVertices[runEnd]));
+            double firstRunEdgeLength = Helper.Length(Helper.Minus(cornerVertices[runStart], cornerVertices[prevIdx]));
+            double nextOutsideEdgeLength = Helper.Length(Helper.Minus(cornerVertices[(nextIdx + 1) % n], vertexNext));
+            double startJoinEffectiveLength = Math.Max(originalPrevInvolvedEdgeLength, firstRunEdgeLength);
+            double endJoinEffectiveLength = Math.Max(originalNextInvolvedEdgeLength, nextOutsideEdgeLength);
 
             double denom = (max_short_edge_length - short_edge_length);
-            double tPrev = denom == 0 ? 0.0 : Math.Clamp((dPrev - short_edge_length) / denom, 0.0, 1.0);
-            double tNext = denom == 0 ? 0.0 : Math.Clamp((dNext - short_edge_length) / denom, 0.0, 1.0);
+            double tPrev = denom == 0 ? 0.0 : Math.Clamp((startJoinEffectiveLength - short_edge_length) / denom, 0.0, 1.0);
+            double tNext = denom == 0 ? 0.0 : Math.Clamp((endJoinEffectiveLength - short_edge_length) / denom, 0.0, 1.0);
 
-            double blendPrev = ApplySmooth(smoothMode, tPrev);
-            double blendNext = ApplySmooth(smoothMode, tNext);
+            double cornerBlendPrev = tPrev;
+            double cornerBlendNext = tNext;
+            double joinEasePrev = ApplySmooth(smoothMode, cornerBlendPrev);
+            double joinEaseNext = ApplySmooth(smoothMode, cornerBlendNext);
 
-            if (blendPrev <= 1e-9 && blendNext <= 1e-9)
+            PointD processedStartPt = Lerp(diagStartMid, cornerStartPt, cornerBlendPrev);
+            PointD processedEndPt = Lerp(diagEndMid, cornerEndPt, cornerBlendNext);
+
+            if (cornerBlendPrev <= 1e-9 && cornerBlendNext <= 1e-9)
             {
                 if (outPts.Count == 0) outPts.Add(processedStartPt);
                 else if (!Helper.PointsEqual(outPts[^1], processedStartPt)) outPts.Add(processedStartPt);
@@ -839,14 +859,10 @@ public static class contourGen
             PointD prevDirUnit = Helper.Normalized(prevTangent);
             PointD nextDirUnit = Helper.Normalized(nextTangent);
 
-            // previous code applied ApplySmooth twice — keep that behavior but then use slerp
-            double tPrevBlend = ApplySmooth(smoothMode, blendPrev);
-            double tNextBlend = ApplySmooth(smoothMode, blendNext);
-
-            // Use slerp with S-curve easing instead of linear mixing for direction blending.
-            // blendedPrevDir rotates from prevDirUnit -> diagDir using S-curve tPrevBlend.
-            PointD blendedPrevDir = SlerpDir(prevDirUnit, diagDir, tPrevBlend);
-            PointD blendedNextDir = SlerpDir(nextDirUnit, diagDir, tNextBlend);
+            // The corner-effect strength is linear over the short->transition range.
+            // Smoothstep is used only to ease the local tangent rotation where the corner effect meets the diagonal.
+            PointD blendedPrevDir = SlerpDir(prevDirUnit, diagDir, joinEasePrev);
+            PointD blendedNextDir = SlerpDir(nextDirUnit, diagDir, joinEaseNext);
 
             // Hermite magnitudes
             double Lstart = Math.Max(1e-9, Helper.Length(Helper.Minus(S, processedStartPt)));
@@ -860,8 +876,8 @@ public static class contourGen
 
             // Ensure tangent-matching to the diagonal uses an S-curve rotation (not linear).
             // Rotate blendedPrevDir -> diagDir by eased blend again to get final directions at S/E.
-            PointD finalDirAtS = SlerpDir(blendedPrevDir, diagDir, tPrevBlend);
-            PointD finalDirAtE = SlerpDir(blendedNextDir, Helper.Neg(diagDir), tNextBlend);
+            PointD finalDirAtS = SlerpDir(blendedPrevDir, diagDir, joinEasePrev);
+            PointD finalDirAtE = SlerpDir(blendedNextDir, Helper.Neg(diagDir), joinEaseNext);
 
             PointD finalDerivAtS = Helper.Mul(finalDirAtS, magStart);
             PointD finalDerivAtE = Helper.Mul(finalDirAtE, magEnd);

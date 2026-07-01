@@ -459,7 +459,7 @@ public static class contourGen
         }
         
         EasingStrategy easingMode = EasingStrategy.QuinticC2; // try the new C2 option
-        double insetFraction = 0.12;
+        double insetFraction = 0.22;
         double minInset = 2.0;
         double maxInset = 40.0;
         int diagStraightSample = 10;
@@ -540,6 +540,18 @@ public static class contourGen
 
         return decimated;
     }
+    static bool IsShortEdgeDiagonalCandidate(double edgeLength, double shortEdgeLength, double maxShortEdgeLength)
+    {
+        const double epsilon = 1e-9;
+        if (shortEdgeLength <= epsilon)
+            return false;
+
+        if (maxShortEdgeLength <= shortEdgeLength + epsilon)
+            return edgeLength <= shortEdgeLength + epsilon;
+
+        return edgeLength < maxShortEdgeLength - epsilon;
+    }
+
     static int[] CategorizeCorners(PathD path_, double short_edge_length, double max_short_edge_length)
     {
         int[] status = new int[path_.Count];
@@ -573,12 +585,11 @@ public static class contourGen
             double vx2 = next.x - curr.x;
             double vy2 = next.y - curr.y;
 
-            double len1Sq = vx1 * vx1 + vy1 * vy1;
-            double len2Sq = vx2 * vx2 + vy2 * vy2;
-            double runEdgeLength = max_short_edge_length > short_edge_length ? max_short_edge_length : short_edge_length;
-            double shortEdgeLengthSq = runEdgeLength * runEdgeLength;
+            double len1 = Math.Sqrt(vx1 * vx1 + vy1 * vy1);
+            double len2 = Math.Sqrt(vx2 * vx2 + vy2 * vy2);
 
-            if (len1Sq <= shortEdgeLengthSq && len2Sq <= shortEdgeLengthSq)
+            if (IsShortEdgeDiagonalCandidate(len1, short_edge_length, max_short_edge_length) &&
+                IsShortEdgeDiagonalCandidate(len2, short_edge_length, max_short_edge_length))
             {
                 status[i] = (int)CornerType.ShortEdge;
                 continue;

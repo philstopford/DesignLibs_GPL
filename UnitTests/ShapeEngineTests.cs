@@ -25,7 +25,8 @@ public class ShapeEngineTests
         "Text", "Bounding", "Layout"
     };
 
-    static int[] shapeTable = {
+    static int[] shapeTable =
+    {
         (int)ShapeLibrary.shapeNames_all.none,
         (int)ShapeLibrary.shapeNames_all.rect,
         (int)ShapeLibrary.shapeNames_all.Lshape,
@@ -122,7 +123,7 @@ public class ShapeEngineTests
         int[] tooManyShapes = new int[20]; // More than available shapes
 
         // Act & Assert
-        Assert.Throws<Exception>(() => shapeLib.shapesForClient(tooManyShapes));
+        Assert.Throws<Exception>((Action)(() => shapeLib.shapesForClient(tooManyShapes)));
     }
 
     /// <summary>
@@ -185,11 +186,16 @@ public class ShapeEngineTests
     public static void ShapeSettings_SubShapeLocations_ContainsExpectedValues()
     {
         // Assert: All expected sub-shape locations are available
-        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.TL), Is.True);
-        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.TR), Is.True);
-        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.BL), Is.True);
-        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.BR), Is.True);
-        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.C), Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.TL),
+            Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.TR),
+            Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.BL),
+            Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.BR),
+            Is.True);
+        Assert.That(Enum.IsDefined(typeof(ShapeSettings.subShapeLocations), ShapeSettings.subShapeLocations.C),
+            Is.True);
     }
 
     #endregion
@@ -683,7 +689,8 @@ public class ShapeEngineTests
         shape.setShape(shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex));
         // Check the shape settings are in the shape.
         Assert.That(shape.shapeIndex, Is.EqualTo((int)ShapeLibrary.shapeNames_all.Lshape));
-        PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV: 5, oCVariation_scalar: 1.0, iCV: 10, iCVariation_scalar: 1.0);
+        PathD out_ = shape.processCorners(false, false, 90, 1, 1, oCV: 5, oCVariation_scalar: 1.0, iCV: 10,
+            iCVariation_scalar: 1.0);
         SvgWriter svgSrc = new SvgWriter();
         SvgUtils.AddClip(svgSrc, out_ref);
         SvgUtils.AddSolution(svgSrc, new() { out_ }, true);
@@ -1401,7 +1408,6 @@ public class ShapeEngineTests
         RectD bounds_2 = Clipper.GetBounds(clean_2);
         Assert.That(bounds_2.Width, Is.EqualTo(60));
         Assert.That(bounds_2.Height, Is.EqualTo(60));
-
     }
 
     [Test]
@@ -1694,10 +1700,10 @@ public class ShapeEngineTests
         var square = new PathD
         {
             new PointD(0, 0),
-            new PointD(10, 0),     // Short horizontal edge (10 units)
-            new PointD(10, 10),    // Short vertical edge (10 units)  
-            new PointD(0, 10),     // Short horizontal edge (10 units)
-            new PointD(0, 0)       // Short vertical edge (10 units) - close the path
+            new PointD(10, 0), // Short horizontal edge (10 units)
+            new PointD(10, 10), // Short vertical edge (10 units)  
+            new PointD(0, 10), // Short horizontal edge (10 units)
+            new PointD(0, 0) // Short vertical edge (10 units) - close the path
         };
 
         double short_edge_threshold = 15.0; // All edges (10 units) are below this threshold
@@ -1708,10 +1714,10 @@ public class ShapeEngineTests
         // For this test, we'll test the direct midpoint connection logic
         var cornerMidpoints = new List<PointD>
         {
-            new PointD(5, 0),   // Midpoint of bottom edge
-            new PointD(10, 5),  // Midpoint of right edge  
-            new PointD(5, 10),  // Midpoint of top edge
-            new PointD(0, 5)    // Midpoint of left edge
+            new PointD(5, 0), // Midpoint of bottom edge
+            new PointD(10, 5), // Midpoint of right edge  
+            new PointD(5, 10), // Midpoint of top edge
+            new PointD(0, 5) // Midpoint of left edge
         };
 
         // Test the helper function directly using reflection to access the private method
@@ -1774,15 +1780,15 @@ public class ShapeEngineTests
         // This was specifically mentioned in the user's request
         var tShape = new PathD
         {
-            new PointD(0, 0),    // Bottom left of vertical part
-            new PointD(5, 0),    // Bottom right of vertical part
-            new PointD(5, 15),   // Top of vertical part (short edge: 5 units)
-            new PointD(25, 15),  // Right end of top horizontal (long edge: 20 units)
-            new PointD(25, 20),  // Top right corner
+            new PointD(0, 0), // Bottom left of vertical part
+            new PointD(5, 0), // Bottom right of vertical part
+            new PointD(5, 15), // Top of vertical part (short edge: 5 units)
+            new PointD(25, 15), // Right end of top horizontal (long edge: 20 units)
+            new PointD(25, 20), // Top right corner
             new PointD(-15, 20), // Top left corner (long edge: 40 units)
             new PointD(-15, 15), // Left end of top horizontal
-            new PointD(0, 15),   // Back to vertical part (short edge: 15 units)
-            new PointD(0, 0)     // Close the path (short edge: 15 units)
+            new PointD(0, 15), // Back to vertical part (short edge: 15 units)
+            new PointD(0, 0) // Close the path (short edge: 15 units)
         };
         testConfigurations.Add(("T-shape: top long, rest short", tShape, 10.0));
 
@@ -1790,11 +1796,11 @@ public class ShapeEngineTests
         var singleLongEdge = new PathD
         {
             new PointD(0, 0),
-            new PointD(5, 0),    // Short: 5 units
-            new PointD(5, 5),    // Short: 5 units
-            new PointD(30, 5),   // Long: 25 units
-            new PointD(30, 0),   // Short: 5 units
-            new PointD(0, 0)     // Short: 30 units - wait, this might be long too!
+            new PointD(5, 0), // Short: 5 units
+            new PointD(5, 5), // Short: 5 units
+            new PointD(30, 5), // Long: 25 units
+            new PointD(30, 0), // Short: 5 units
+            new PointD(0, 0) // Short: 30 units - wait, this might be long too!
         };
         testConfigurations.Add(("Single long edge", singleLongEdge, 10.0));
 
@@ -1802,12 +1808,12 @@ public class ShapeEngineTests
         var twoAdjacentLong = new PathD
         {
             new PointD(0, 0),
-            new PointD(3, 0),    // Short: 3 units
-            new PointD(3, 3),    // Short: 3 units
-            new PointD(20, 3),   // Long: 17 units
-            new PointD(20, 20),  // Long: 17 units
-            new PointD(0, 20),   // Short: 20 units - actually this could be long too
-            new PointD(0, 0)     // Short: 20 units - this too
+            new PointD(3, 0), // Short: 3 units
+            new PointD(3, 3), // Short: 3 units
+            new PointD(20, 3), // Long: 17 units
+            new PointD(20, 20), // Long: 17 units
+            new PointD(0, 20), // Short: 20 units - actually this could be long too
+            new PointD(0, 0) // Short: 20 units - this too
         };
         testConfigurations.Add(("Two adjacent long edges", twoAdjacentLong, 10.0));
 
@@ -1815,13 +1821,13 @@ public class ShapeEngineTests
         var twoNonAdjacentLong = new PathD
         {
             new PointD(0, 0),
-            new PointD(5, 0),    // Short: 5 units
-            new PointD(25, 0),   // Long: 20 units
-            new PointD(25, 5),   // Short: 5 units
-            new PointD(20, 5),   // Short: 5 units
-            new PointD(20, 25),  // Long: 20 units
-            new PointD(0, 25),   // Short: 20 units - could be long
-            new PointD(0, 0)     // Short: 25 units - could be long
+            new PointD(5, 0), // Short: 5 units
+            new PointD(25, 0), // Long: 20 units
+            new PointD(25, 5), // Short: 5 units
+            new PointD(20, 5), // Short: 5 units
+            new PointD(20, 25), // Long: 20 units
+            new PointD(0, 25), // Short: 20 units - could be long
+            new PointD(0, 0) // Short: 25 units - could be long
         };
         testConfigurations.Add(("Two non-adjacent long edges", twoNonAdjacentLong, 10.0));
 
@@ -1829,14 +1835,14 @@ public class ShapeEngineTests
         var complexLShape = new PathD
         {
             new PointD(0, 0),
-            new PointD(3, 0),    // Short: 3 units
-            new PointD(3, 3),    // Short: 3 units
-            new PointD(25, 3),   // Long: 22 units
-            new PointD(25, 6),   // Short: 3 units
-            new PointD(6, 6),    // Long: 19 units
-            new PointD(6, 25),   // Long: 19 units
-            new PointD(0, 25),   // Short: 6 units
-            new PointD(0, 0)     // Short: 25 units - could be long
+            new PointD(3, 0), // Short: 3 units
+            new PointD(3, 3), // Short: 3 units
+            new PointD(25, 3), // Long: 22 units
+            new PointD(25, 6), // Short: 3 units
+            new PointD(6, 6), // Long: 19 units
+            new PointD(6, 25), // Long: 19 units
+            new PointD(0, 25), // Short: 6 units
+            new PointD(0, 0) // Short: 25 units - could be long
         };
         testConfigurations.Add(("Complex L-shape", complexLShape, 10.0));
 
@@ -1844,15 +1850,15 @@ public class ShapeEngineTests
         var complexUShape = new PathD
         {
             new PointD(0, 0),
-            new PointD(3, 0),    // Short: 3 units
-            new PointD(3, 20),   // Long: 20 units
-            new PointD(6, 20),   // Short: 3 units
-            new PointD(6, 3),    // Long: 17 units
-            new PointD(24, 3),   // Long: 18 units
-            new PointD(24, 20),  // Long: 17 units
-            new PointD(27, 20),  // Short: 3 units
-            new PointD(27, 0),   // Long: 20 units
-            new PointD(0, 0)     // Long: 27 units
+            new PointD(3, 0), // Short: 3 units
+            new PointD(3, 20), // Long: 20 units
+            new PointD(6, 20), // Short: 3 units
+            new PointD(6, 3), // Long: 17 units
+            new PointD(24, 3), // Long: 18 units
+            new PointD(24, 20), // Long: 17 units
+            new PointD(27, 20), // Short: 3 units
+            new PointD(27, 0), // Long: 20 units
+            new PointD(0, 0) // Long: 27 units
         };
         testConfigurations.Add(("Complex U-shape", complexUShape, 10.0));
 
@@ -1860,14 +1866,14 @@ public class ShapeEngineTests
         var alternatingPattern = new PathD
         {
             new PointD(0, 0),
-            new PointD(5, 0),    // Short: 5 units
-            new PointD(20, 0),   // Long: 15 units
-            new PointD(25, 0),   // Short: 5 units
-            new PointD(40, 0),   // Long: 15 units
-            new PointD(45, 0),   // Short: 5 units
-            new PointD(45, 5),   // Short: 5 units
-            new PointD(0, 5),    // Long: 45 units
-            new PointD(0, 0)     // Short: 5 units
+            new PointD(5, 0), // Short: 5 units
+            new PointD(20, 0), // Long: 15 units
+            new PointD(25, 0), // Short: 5 units
+            new PointD(40, 0), // Long: 15 units
+            new PointD(45, 0), // Short: 5 units
+            new PointD(45, 5), // Short: 5 units
+            new PointD(0, 5), // Long: 45 units
+            new PointD(0, 0) // Short: 5 units
         };
         testConfigurations.Add(("Alternating short-long", alternatingPattern, 10.0));
 
@@ -1875,15 +1881,15 @@ public class ShapeEngineTests
         var manyShortOneLong = new PathD
         {
             new PointD(0, 0),
-            new PointD(2, 0),    // Short: 2 units
-            new PointD(2, 2),    // Short: 2 units
-            new PointD(4, 2),    // Short: 2 units
-            new PointD(4, 4),    // Short: 2 units
-            new PointD(6, 4),    // Short: 2 units
-            new PointD(6, 6),    // Short: 2 units
-            new PointD(30, 6),   // Long: 24 units
-            new PointD(30, 0),   // Short: 6 units
-            new PointD(0, 0)     // Long: 30 units
+            new PointD(2, 0), // Short: 2 units
+            new PointD(2, 2), // Short: 2 units
+            new PointD(4, 2), // Short: 2 units
+            new PointD(4, 4), // Short: 2 units
+            new PointD(6, 4), // Short: 2 units
+            new PointD(6, 6), // Short: 2 units
+            new PointD(30, 6), // Long: 24 units
+            new PointD(30, 0), // Short: 6 units
+            new PointD(0, 0) // Long: 30 units
         };
         testConfigurations.Add(("Many short, one long", manyShortOneLong, 10.0));
 
@@ -1891,12 +1897,12 @@ public class ShapeEngineTests
         var nearlyAllShort = new PathD
         {
             new PointD(0, 0),
-            new PointD(9, 0),    // Short: 9 units (just under 10)
-            new PointD(9, 9),    // Short: 9 units
-            new PointD(10, 9),   // Short: 1 unit
-            new PointD(10, 10),  // Short: 1 unit
-            new PointD(0, 10),   // Long: 10 units (exactly at threshold)
-            new PointD(0, 0)     // Long: 10 units
+            new PointD(9, 0), // Short: 9 units (just under 10)
+            new PointD(9, 9), // Short: 9 units
+            new PointD(10, 9), // Short: 1 unit
+            new PointD(10, 10), // Short: 1 unit
+            new PointD(0, 10), // Long: 10 units (exactly at threshold)
+            new PointD(0, 0) // Long: 10 units
         };
         testConfigurations.Add(("Nearly all short edges", nearlyAllShort, 10.0));
 
@@ -1904,15 +1910,15 @@ public class ShapeEngineTests
         var irregularMix = new PathD
         {
             new PointD(0, 0),
-            new PointD(8, 2),    // Short: ~8.2 units
-            new PointD(12, 8),   // Short: ~7.2 units  
-            new PointD(20, 10),  // Short: ~8.2 units
-            new PointD(35, 12),  // Long: 15.1 units
-            new PointD(40, 20),  // Short: ~9.4 units
-            new PointD(30, 30),  // Long: ~14.1 units
-            new PointD(15, 25),  // Long: ~18 units
-            new PointD(5, 15),   // Long: ~14.1 units
-            new PointD(0, 0)     // Long: ~18 units
+            new PointD(8, 2), // Short: ~8.2 units
+            new PointD(12, 8), // Short: ~7.2 units  
+            new PointD(20, 10), // Short: ~8.2 units
+            new PointD(35, 12), // Long: 15.1 units
+            new PointD(40, 20), // Short: ~9.4 units
+            new PointD(30, 30), // Long: ~14.1 units
+            new PointD(15, 25), // Long: ~18 units
+            new PointD(5, 15), // Long: ~14.1 units
+            new PointD(0, 0) // Long: ~18 units
         };
         testConfigurations.Add(("Irregular mixed polygon", irregularMix, 10.0));
 
@@ -1979,15 +1985,15 @@ public class ShapeEngineTests
         // Test the specific T-shape mentioned by the user
         var tShapeTopLong = new PathD
         {
-            new PointD(10, 0),   // Start at bottom of vertical stem
-            new PointD(15, 0),   // Short edge: 5 units (bottom of stem)
-            new PointD(15, 10),  // Short edge: 10 units (right side of stem)  
-            new PointD(30, 10),  // Long edge: 15 units (right side of top)
-            new PointD(30, 15),  // Short edge: 5 units (top right)
-            new PointD(5, 15),   // Long edge: 25 units (TOP - the long edge)
-            new PointD(5, 10),   // Short edge: 5 units (top left)
-            new PointD(10, 10),  // Short edge: 5 units (left side of stem)
-            new PointD(10, 0)    // Short edge: 10 units (close the path)
+            new PointD(10, 0), // Start at bottom of vertical stem
+            new PointD(15, 0), // Short edge: 5 units (bottom of stem)
+            new PointD(15, 10), // Short edge: 10 units (right side of stem)  
+            new PointD(30, 10), // Long edge: 15 units (right side of top)
+            new PointD(30, 15), // Short edge: 5 units (top right)
+            new PointD(5, 15), // Long edge: 25 units (TOP - the long edge)
+            new PointD(5, 10), // Short edge: 5 units (top left)
+            new PointD(10, 10), // Short edge: 5 units (left side of stem)
+            new PointD(10, 0) // Short edge: 10 units (close the path)
         };
 
         // Use timeout to detect infinite loops
@@ -2021,7 +2027,8 @@ public class ShapeEngineTests
         if (!finishedInTime)
         {
             Console.WriteLine("T-shape test timed out - likely infinite loop detected!");
-            Assert.Fail("T-shape with top long edge timed out, indicating an infinite loop in the contour generation algorithm");
+            Assert.Fail(
+                "T-shape with top long edge timed out, indicating an infinite loop in the contour generation algorithm");
         }
         else if (caughtException != null)
         {
@@ -2059,11 +2066,11 @@ public class ShapeEngineTests
         PathD testPolygon = new PathD
         {
             new PointD(0, 0),
-            new PointD(100, 0),     // Long edge: 100
-            new PointD(110, 10),    // Short edge: ~14
-            new PointD(100, 20),    // Short edge: ~14  
-            new PointD(0, 20),      // Long edge: 100
-            new PointD(0, 0)        // Medium edge: 20
+            new PointD(100, 0), // Long edge: 100
+            new PointD(110, 10), // Short edge: ~14
+            new PointD(100, 20), // Short edge: ~14  
+            new PointD(0, 20), // Long edge: 100
+            new PointD(0, 0) // Medium edge: 20
         };
 
         double radius = 5.0;
@@ -2099,7 +2106,8 @@ public class ShapeEngineTests
             Console.WriteLine($"Tension {tension}: {result.Count} points");
 
             // Generate SVG for each tension value
-            string svgContent = CreateTestSvg(testPolygon, result, $"Edge Tension Test: Tension = {tension}", shortEdgeThresh);
+            string svgContent = CreateTestSvg(testPolygon, result, $"Edge Tension Test: Tension = {tension}",
+                shortEdgeThresh);
             string svgPath = Path.Combine(svgOutputDir, $"EdgeTension_{tension:F1}.svg");
             File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
             Console.WriteLine($"  SVG saved to: {svgPath}");
@@ -2108,16 +2116,16 @@ public class ShapeEngineTests
         // Validate that tension parameter affects the output
         // (Different tension values should produce different point counts)
         var pointCounts = tensionResults.Select(r => r.pointCount).ToHashSet();
-        
+
         // We expect at least some variation in point counts with different tensions
         // For shapes with varying edge lengths, different tensions should produce different results
-        Assert.That(pointCounts.Count, Is.GreaterThan(1), 
+        Assert.That(pointCounts.Count, Is.GreaterThan(1),
             "Edge tension should affect the contour generation output");
 
         // Verify all results are valid (non-empty paths)
         foreach (var (tension, pointCount) in tensionResults)
         {
-            Assert.That(pointCount, Is.GreaterThan(10), 
+            Assert.That(pointCount, Is.GreaterThan(10),
                 $"Tension {tension} should produce a valid contour with reasonable point count");
         }
 
@@ -2141,7 +2149,7 @@ public class ShapeEngineTests
             new PointD(30, 20),
             new PointD(60, 20),
             new PointD(60, 0),
-            new PointD(0, 0)  // Close the path properly
+            new PointD(0, 0) // Close the path properly
         };
 
         // First try with tension 1.0 (should work)
@@ -2179,7 +2187,7 @@ public class ShapeEngineTests
 
         // Now try with problematic tension 0.9 but with timeout
         Console.WriteLine("Testing with tension 0.9 (problematic):");
-        
+
         var cancellationTokenSource = new CancellationTokenSource(5000); // 5 second timeout
         PathD result = null;
         bool completed = false;
@@ -2225,7 +2233,7 @@ public class ShapeEngineTests
         else if (completed && result != null)
         {
             Console.WriteLine($"L-shape with tension 0.9 completed with {result.Count} points");
-            
+
             // Generate SVG for visual inspection
             var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
             Directory.CreateDirectory(svgOutputDir);
@@ -2245,13 +2253,13 @@ public class ShapeEngineTests
     public static void BowtiePreventionTest()
     {
         Console.WriteLine("=== Bowtie Prevention Test ===");
-        
+
         // Create the L-shape that previously caused bowties
         PathD lShape = new PathD
         {
             new PointD(0, 0),
             new PointD(0, 70),
-            new PointD(30, 70), 
+            new PointD(30, 70),
             new PointD(30, 20),
             new PointD(60, 20),
             new PointD(60, 0),
@@ -2260,19 +2268,19 @@ public class ShapeEngineTests
 
         // Test with tension values that previously caused issues
         double[] tensionValues = { 0.31, 0.5, 0.9, 1.0, 1.5, 2.0, 5.0 };
-        
+
         var testResults = new List<(double tension, int pointCount, bool hasArtifacts, double timeMs)>();
 
         foreach (double tension in tensionValues)
         {
             Console.WriteLine($"Testing tension = {tension}");
-            
+
             var startTime = DateTime.Now;
-            
+
             PathD result = contourGen.makeContour(
                 lShape,
                 concaveRadius: 20,
-                convexRadius: 30,  
+                convexRadius: 30,
                 edgeResolution: 1.0,
                 angularResolution: 5.0,
                 shortEdgeLength: 10.0,
@@ -2281,34 +2289,36 @@ public class ShapeEngineTests
                 enableParallel: true,
                 edgeTension: tension
             );
-            
+
             var elapsed = DateTime.Now - startTime;
-            
+
             // Check for potential artifacts by analyzing curve smoothness
             bool hasArtifacts = AnalyzeCurveForArtifacts(result);
-            
+
             testResults.Add((tension, result.Count, hasArtifacts, elapsed.TotalMilliseconds));
-            
-            Console.WriteLine($"  Points: {result.Count}, Artifacts: {hasArtifacts}, Time: {elapsed.TotalMilliseconds:F1}ms");
-            
+
+            Console.WriteLine(
+                $"  Points: {result.Count}, Artifacts: {hasArtifacts}, Time: {elapsed.TotalMilliseconds:F1}ms");
+
             // All tests should complete quickly (no infinite loops)
-            Assert.That(elapsed.TotalMilliseconds, Is.LessThan(5000), $"Tension {tension} took too long - possible infinite loop");
-            
+            Assert.That(elapsed.TotalMilliseconds, Is.LessThan(5000),
+                $"Tension {tension} took too long - possible infinite loop");
+
             // No test should have significant artifacts
             Assert.That(hasArtifacts, Is.False, $"Tension {tension} produced curve artifacts");
         }
-        
+
         // Validate that different tensions produce different results (show that tension is working)
         var pointCounts = testResults.Select(r => r.pointCount).ToHashSet();
         Assert.That(pointCounts.Count, Is.GreaterThan(1), "Different tension values should produce different results");
-        
+
         Console.WriteLine("✓ All tension values completed without artifacts or infinite loops");
         Console.WriteLine($"✓ Tension variation produces {pointCounts.Count} different point counts");
-        
+
         // Generate SVG for visual inspection
         var svgOutputDir = Path.Combine(Path.GetTempPath(), "comprehensive_edge_tests");
         Directory.CreateDirectory(svgOutputDir);
-        
+
         // Test one specific problematic case for detailed SVG output
         PathD detailedResult = contourGen.makeContour(lShape, 20, 30, 1.0, 5.0, 10.0, 15.0, 1, true, 0.9);
         string svgContent = CreateTestSvg(lShape, detailedResult, "Bowtie Prevention Test - Tension 0.9", 10.0);
@@ -2325,48 +2335,48 @@ public class ShapeEngineTests
     static bool AnalyzeCurveForArtifacts(PathD curve)
     {
         if (curve.Count < 3) return false;
-        
+
         int suspiciousAngles = 0;
         int sharpReversals = 0;
-        
+
         for (int i = 1; i < curve.Count - 1; i++)
         {
             PointD p1 = curve[i - 1];
             PointD p2 = curve[i];
             PointD p3 = curve[i + 1];
-            
+
             // Calculate vectors and angle
             PointD v1 = Helper.Minus(p2, p1);
             PointD v2 = Helper.Minus(p3, p2);
-            
+
             double len1 = Helper.Length(v1);
             double len2 = Helper.Length(v2);
-            
+
             if (len1 < 1e-9 || len2 < 1e-9) continue;
-            
+
             PointD n1 = Helper.Normalized(v1);
             PointD n2 = Helper.Normalized(v2);
-            
+
             double dot = Helper.Dot(n1, n2);
             double angle = Math.Acos(Math.Max(-1.0, Math.Min(1.0, dot)));
-            
+
             // Very sharp angles might indicate artifacts
             if (angle > Math.PI * 0.85) // More than 153 degrees
             {
                 suspiciousAngles++;
             }
-            
+
             // Check for sharp reversals that might indicate bowties
             if (angle > Math.PI * 0.95) // More than 171 degrees - almost complete reversal
             {
                 sharpReversals++;
             }
         }
-        
+
         // Consider it problematic if we have too many suspicious features
         // These thresholds are heuristic and may need tuning
         bool hasArtifacts = suspiciousAngles > Math.Max(3, curve.Count / 20) || sharpReversals > 1;
-        
+
         return hasArtifacts;
     }
 
@@ -2400,6 +2410,7 @@ public class ShapeEngineTests
                 Math.Cos(angle) * radius,
                 Math.Sin(angle) * radius));
         }
+
         complexShape.Add(complexShape[0]); // Close the path
         testCases.Add(("Complex 20-sided star", complexShape, 15.0, 3000));
 
@@ -2462,17 +2473,17 @@ public class ShapeEngineTests
             // Low quality, fast
             ("Fast_Low", 1.0, 1.0, 5.0, 10.0, 3.0, 6.0, 0),
             ("Fast_High", 1.0, 1.0, 2.0, 5.0, 3.0, 6.0, 0),
-            
+
             // Medium quality
             ("Medium_Low", 2.0, 2.0, 2.0, 5.0, 5.0, 10.0, 0),
             ("Medium_High", 2.0, 2.0, 1.0, 2.0, 5.0, 10.0, 0),
             ("Medium_Optimized", 2.0, 2.0, 1.0, 2.0, 5.0, 10.0, 1),
-            
+
             // High quality, slower
             ("High_Standard", 3.0, 3.0, 0.5, 1.0, 8.0, 16.0, 0),
             ("High_Fine", 3.0, 3.0, 0.2, 0.5, 8.0, 16.0, 0),
             ("High_Optimized", 3.0, 3.0, 0.5, 1.0, 8.0, 16.0, 1),
-            
+
             // Ultra-high quality, very slow
             ("Ultra_Detail", 5.0, 5.0, 0.1, 0.25, 15.0, 30.0, 0),
             ("Ultra_Optimized", 5.0, 5.0, 0.1, 0.25, 15.0, 30.0, 1)
@@ -2489,7 +2500,7 @@ public class ShapeEngineTests
             foreach (var paramSet in parameterSets)
             {
                 var (paramName, concaveRadius, convexRadius, edgeResolution, angularResolution,
-                     shortEdgeLength, maxShortEdgeLength, optimizeCorners) = paramSet;
+                    shortEdgeLength, maxShortEdgeLength, optimizeCorners) = paramSet;
 
                 Console.Write($"  {paramName}: ");
 
@@ -2539,7 +2550,8 @@ public class ShapeEngineTests
                     string svgPath = Path.Combine(svgOutputDir, $"{safeShapeName}_{paramName}.svg");
                     File.WriteAllText(svgPath, svgContent, Encoding.UTF8);
 
-                    Console.WriteLine($"{stopwatch.ElapsedMilliseconds}ms, {result?.Count ?? 0} pts, Quality: {metrics.OverallQuality:F2} (SVG: {svgPath})");
+                    Console.WriteLine(
+                        $"{stopwatch.ElapsedMilliseconds}ms, {result?.Count ?? 0} pts, Quality: {metrics.OverallQuality:F2} (SVG: {svgPath})");
 
                     Assert.That(result, Is.Not.Null, $"Result should not be null for {shapeName} with {paramName}");
                     Assert.That(stopwatch.ElapsedMilliseconds, Is.LessThan(30000),
@@ -2600,7 +2612,8 @@ public class ShapeEngineTests
         double height = maxY - minY;
 
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
+        sb.AppendLine(
+            $"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"600\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
 
         // Title
         sb.AppendLine($"  <title>{title}</title>");
@@ -2619,6 +2632,7 @@ public class ShapeEngineTests
         {
             sb.Append($"{inputPath[i].x},{-inputPath[i].y} ");
         }
+
         sb.AppendLine("\"/>");
 
         // Mark short vs long edges with colors
@@ -2630,12 +2644,14 @@ public class ShapeEngineTests
             string color = edgeLength <= shortEdgeThreshold ? "#ff6b6b" : "#4ecdc4";
             double strokeWidth = edgeLength <= shortEdgeThreshold ? 3 : 2;
 
-            sb.AppendLine($"  <line x1=\"{p1.x}\" y1=\"{-p1.y}\" x2=\"{p2.x}\" y2=\"{-p2.y}\" stroke=\"{color}\" stroke-width=\"{strokeWidth}\" stroke-opacity=\"0.7\"/>");
+            sb.AppendLine(
+                $"  <line x1=\"{p1.x}\" y1=\"{-p1.y}\" x2=\"{p2.x}\" y2=\"{-p2.y}\" stroke=\"{color}\" stroke-width=\"{strokeWidth}\" stroke-opacity=\"0.7\"/>");
 
             // Label edge length
             double midX = (p1.x + p2.x) / 2;
             double midY = -(p1.y + p2.y) / 2;
-            sb.AppendLine($"  <text x=\"{midX}\" y=\"{midY}\" font-size=\"8\" fill=\"{color}\" text-anchor=\"middle\">{edgeLength:F1}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{midX}\" y=\"{midY}\" font-size=\"8\" fill=\"{color}\" text-anchor=\"middle\">{edgeLength:F1}</text>");
         }
 
         // Output contour (red)
@@ -2646,11 +2662,14 @@ public class ShapeEngineTests
             {
                 sb.Append($"{p.x},{-p.y} ");
             }
+
             // Close the path if not already closed
-            if (outputPath.Count > 0 && (Math.Abs(outputPath[0].x - outputPath[^1].x) > 1e-9 || Math.Abs(outputPath[0].y - outputPath[^1].y) > 1e-9))
+            if (outputPath.Count > 0 && (Math.Abs(outputPath[0].x - outputPath[^1].x) > 1e-9 ||
+                                         Math.Abs(outputPath[0].y - outputPath[^1].y) > 1e-9))
             {
                 sb.Append($"{outputPath[0].x},{-outputPath[0].y} ");
             }
+
             sb.AppendLine("\"/>");
 
             // Mark output vertices
@@ -2668,12 +2687,17 @@ public class ShapeEngineTests
 
         // Legend
         double legendY = -maxY + 20;
-        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{title}</text>");
-        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 18}\" font-size=\"12\" fill=\"blue\">Input Polygon</text>");
+        sb.AppendLine(
+            $"  <text x=\"{minX + 5}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{title}</text>");
+        sb.AppendLine(
+            $"  <text x=\"{minX + 5}\" y=\"{legendY + 18}\" font-size=\"12\" fill=\"blue\">Input Polygon</text>");
         if (outputPath != null && outputPath.Count > 0)
-            sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 35}\" font-size=\"12\" fill=\"red\">Generated Contour</text>");
-        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 52}\" font-size=\"12\" fill=\"#ff6b6b\">Short Edges (≤{shortEdgeThreshold})</text>");
-        sb.AppendLine($"  <text x=\"{minX + 5}\" y=\"{legendY + 69}\" font-size=\"12\" fill=\"#4ecdc4\">Long Edges (>{shortEdgeThreshold})</text>");
+            sb.AppendLine(
+                $"  <text x=\"{minX + 5}\" y=\"{legendY + 35}\" font-size=\"12\" fill=\"red\">Generated Contour</text>");
+        sb.AppendLine(
+            $"  <text x=\"{minX + 5}\" y=\"{legendY + 52}\" font-size=\"12\" fill=\"#ff6b6b\">Short Edges (≤{shortEdgeThreshold})</text>");
+        sb.AppendLine(
+            $"  <text x=\"{minX + 5}\" y=\"{legendY + 69}\" font-size=\"12\" fill=\"#4ecdc4\">Long Edges (>{shortEdgeThreshold})</text>");
 
         sb.AppendLine("</svg>");
         return sb.ToString();
@@ -2682,7 +2706,8 @@ public class ShapeEngineTests
     /// <summary>
     /// Test function that runs contour generation with timeout and returns both success status and result
     /// </summary>
-    static (bool success, PathD result) TestWithTimeoutAndResult(PathD path, double shortEdgeThreshold, int timeoutMs = 5000)
+    static (bool success, PathD result) TestWithTimeoutAndResult(PathD path, double shortEdgeThreshold,
+        int timeoutMs = 5000)
     {
         var cancellationTokenSource = new CancellationTokenSource(timeoutMs);
         PathD result = null;
@@ -2801,6 +2826,7 @@ public class ShapeEngineTests
                 Math.Cos(angle) * radius,
                 Math.Sin(angle) * radius));
         }
+
         star.Add(star[0]); // Close the path
         return star;
     }
@@ -2832,6 +2858,7 @@ public class ShapeEngineTests
             double y = Math.Sin(angle) * radius;
             shape.Add(new PointD(x, y));
         }
+
         shape.Add(shape[0]); // Close the path
         return shape;
     }
@@ -2875,8 +2902,9 @@ public class ShapeEngineTests
         double maxAngular = angularChanges.Count > 0 ? angularChanges.Max() : 0;
 
         // Smoothness metric (lower variance in angular changes = smoother)
-        double smoothness = angularChanges.Count > 0 ?
-            1.0 / (1.0 + angularChanges.Select(x => (x - avgAngular) * (x - avgAngular)).Average()) : 1.0;
+        double smoothness = angularChanges.Count > 0
+            ? 1.0 / (1.0 + angularChanges.Select(x => (x - avgAngular) * (x - avgAngular)).Average())
+            : 1.0;
 
         // Point density ratio (output points / input points)
         double densityRatio = (double)output.Count / input.Count;
@@ -2922,7 +2950,8 @@ public class ShapeEngineTests
         double height = maxY - minY;
 
         StringBuilder sb = new StringBuilder();
-        sb.AppendLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
+        sb.AppendLine(
+            $"<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"{minX} {-maxY} {width} {height}\">");
 
         // Title
         sb.AppendLine($"  <title>{result.ShapeName} - {result.ParameterSetName}</title>");
@@ -2941,6 +2970,7 @@ public class ShapeEngineTests
         {
             sb.Append($"{p.x},{-p.y} ");
         }
+
         sb.AppendLine("\"/>");
 
         // Output contour (red)
@@ -2951,6 +2981,7 @@ public class ShapeEngineTests
             {
                 sb.Append($"{p.x},{-p.y} ");
             }
+
             sb.AppendLine("\"/>");
 
             // Mark output vertices with small circles
@@ -2970,26 +3001,38 @@ public class ShapeEngineTests
         double legendX = minX + 5;
         double legendY = -maxY + 20;
 
-        sb.AppendLine($"  <rect x=\"{legendX - 3}\" y=\"{legendY - 15}\" width=\"300\" height=\"200\" fill=\"white\" fill-opacity=\"0.9\" stroke=\"black\" stroke-width=\"1\"/>");
+        sb.AppendLine(
+            $"  <rect x=\"{legendX - 3}\" y=\"{legendY - 15}\" width=\"300\" height=\"200\" fill=\"white\" fill-opacity=\"0.9\" stroke=\"black\" stroke-width=\"1\"/>");
 
-        sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{result.ShapeName} - {result.ParameterSetName}</text>");
-        sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 20}\" font-size=\"11\" fill=\"black\">Runtime: {result.RuntimeMs}ms</text>");
-        sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 35}\" font-size=\"11\" fill=\"black\">Points: {result.InputPointCount} → {result.OutputPointCount}</text>");
+        sb.AppendLine(
+            $"  <text x=\"{legendX}\" y=\"{legendY}\" font-size=\"14\" font-weight=\"bold\" fill=\"black\">{result.ShapeName} - {result.ParameterSetName}</text>");
+        sb.AppendLine(
+            $"  <text x=\"{legendX}\" y=\"{legendY + 20}\" font-size=\"11\" fill=\"black\">Runtime: {result.RuntimeMs}ms</text>");
+        sb.AppendLine(
+            $"  <text x=\"{legendX}\" y=\"{legendY + 35}\" font-size=\"11\" fill=\"black\">Points: {result.InputPointCount} → {result.OutputPointCount}</text>");
 
         if (result.QualityMetrics != null)
         {
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 50}\" font-size=\"11\" fill=\"black\">Quality Score: {result.QualityMetrics.OverallQuality:F3}</text>");
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 65}\" font-size=\"10\" fill=\"darkblue\">Avg Segment: {result.QualityMetrics.AverageSegmentLength:F2}</text>");
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 80}\" font-size=\"10\" fill=\"darkblue\">Smoothness: {result.QualityMetrics.Smoothness:F3}</text>");
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 95}\" font-size=\"10\" fill=\"darkblue\">Density Ratio: {result.QualityMetrics.PointDensityRatio:F2}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 50}\" font-size=\"11\" fill=\"black\">Quality Score: {result.QualityMetrics.OverallQuality:F3}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 65}\" font-size=\"10\" fill=\"darkblue\">Avg Segment: {result.QualityMetrics.AverageSegmentLength:F2}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 80}\" font-size=\"10\" fill=\"darkblue\">Smoothness: {result.QualityMetrics.Smoothness:F3}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 95}\" font-size=\"10\" fill=\"darkblue\">Density Ratio: {result.QualityMetrics.PointDensityRatio:F2}</text>");
         }
 
         if (result.Parameters != null)
         {
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 115}\" font-size=\"10\" fill=\"darkgreen\">EdgeRes: {result.Parameters.EdgeResolution}, AngRes: {result.Parameters.AngularResolution}</text>");
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 130}\" font-size=\"10\" fill=\"darkgreen\">Radii: C{result.Parameters.ConcaveRadius}, X{result.Parameters.ConvexRadius}</text>");
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 145}\" font-size=\"10\" fill=\"darkgreen\">ShortEdge: {result.Parameters.ShortEdgeLength}-{result.Parameters.MaxShortEdgeLength}</text>");
-            sb.AppendLine($"  <text x=\"{legendX}\" y=\"{legendY + 160}\" font-size=\"10\" fill=\"darkgreen\">Optimize: {(result.Parameters.OptimizeCorners == 1 ? "Yes" : "No")}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 115}\" font-size=\"10\" fill=\"darkgreen\">EdgeRes: {result.Parameters.EdgeResolution}, AngRes: {result.Parameters.AngularResolution}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 130}\" font-size=\"10\" fill=\"darkgreen\">Radii: C{result.Parameters.ConcaveRadius}, X{result.Parameters.ConvexRadius}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 145}\" font-size=\"10\" fill=\"darkgreen\">ShortEdge: {result.Parameters.ShortEdgeLength}-{result.Parameters.MaxShortEdgeLength}</text>");
+            sb.AppendLine(
+                $"  <text x=\"{legendX}\" y=\"{legendY + 160}\" font-size=\"10\" fill=\"darkgreen\">Optimize: {(result.Parameters.OptimizeCorners == 1 ? "Yes" : "No")}</text>");
         }
 
         sb.AppendLine("</svg>");
@@ -3017,7 +3060,8 @@ public class ShapeEngineTests
         html.AppendLine("    .medium { background-color: #fff3cd; }");
         html.AppendLine("    .slow { background-color: #f8d7da; }");
         html.AppendLine("    .failed { background-color: #ffcccc; }");
-        html.AppendLine("    .summary { background-color: #e9ecef; padding: 15px; margin: 20px 0; border-radius: 5px; }");
+        html.AppendLine(
+            "    .summary { background-color: #e9ecef; padding: 15px; margin: 20px 0; border-radius: 5px; }");
         html.AppendLine("  </style>");
         html.AppendLine("</head>");
         html.AppendLine("<body>");
@@ -3038,8 +3082,10 @@ public class ShapeEngineTests
             html.AppendLine($"<p>Average runtime: {successfulResults.Average(r => r.RuntimeMs):F1}ms</p>");
             html.AppendLine($"<p>Fastest: {successfulResults.Min(r => r.RuntimeMs)}ms</p>");
             html.AppendLine($"<p>Slowest: {successfulResults.Max(r => r.RuntimeMs)}ms</p>");
-            html.AppendLine($"<p>Average quality score: {successfulResults.Where(r => r.QualityMetrics != null).Average(r => r.QualityMetrics.OverallQuality):F3}</p>");
+            html.AppendLine(
+                $"<p>Average quality score: {successfulResults.Where(r => r.QualityMetrics != null).Average(r => r.QualityMetrics.OverallQuality):F3}</p>");
         }
+
         html.AppendLine("</div>");
 
         // Detailed results table
@@ -3054,8 +3100,8 @@ public class ShapeEngineTests
         foreach (var result in results.OrderBy(r => r.ShapeName).ThenBy(r => r.RuntimeMs))
         {
             string rowClass = result.Failed ? "failed" :
-                             result.RuntimeMs < 50 ? "fast" :
-                             result.RuntimeMs < 500 ? "medium" : "slow";
+                result.RuntimeMs < 50 ? "fast" :
+                result.RuntimeMs < 500 ? "medium" : "slow";
 
             html.AppendLine($"<tr class='{rowClass}'>");
             html.AppendLine($"  <td>{result.ShapeName}</td>");
@@ -3063,9 +3109,12 @@ public class ShapeEngineTests
             html.AppendLine($"  <td>{result.RuntimeMs}</td>");
             html.AppendLine($"  <td>{result.InputPointCount}</td>");
             html.AppendLine($"  <td>{result.OutputPointCount}</td>");
-            html.AppendLine($"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.OverallQuality.ToString("F3") : "N/A")}</td>");
-            html.AppendLine($"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.AverageSegmentLength.ToString("F2") : "N/A")}</td>");
-            html.AppendLine($"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.Smoothness.ToString("F3") : "N/A")}</td>");
+            html.AppendLine(
+                $"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.OverallQuality.ToString("F3") : "N/A")}</td>");
+            html.AppendLine(
+                $"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.AverageSegmentLength.ToString("F2") : "N/A")}</td>");
+            html.AppendLine(
+                $"  <td>{(result.QualityMetrics != null ? result.QualityMetrics.Smoothness.ToString("F3") : "N/A")}</td>");
             html.AppendLine($"  <td>{(result.Failed ? result.FailureMessage : "Success")}</td>");
             html.AppendLine("</tr>");
         }
@@ -3083,16 +3132,21 @@ public class ShapeEngineTests
 
             var sortedByRuntime = shapeGroup.OrderBy(r => r.RuntimeMs).ToList();
             var sortedByQuality = shapeGroup.Where(r => r.QualityMetrics != null)
-                                            .OrderByDescending(r => r.QualityMetrics.OverallQuality).ToList();
+                .OrderByDescending(r => r.QualityMetrics.OverallQuality).ToList();
 
-            html.AppendLine($"<li>Fastest: {sortedByRuntime.First().ParameterSetName} ({sortedByRuntime.First().RuntimeMs}ms)</li>");
-            html.AppendLine($"<li>Slowest: {sortedByRuntime.Last().ParameterSetName} ({sortedByRuntime.Last().RuntimeMs}ms)</li>");
+            html.AppendLine(
+                $"<li>Fastest: {sortedByRuntime.First().ParameterSetName} ({sortedByRuntime.First().RuntimeMs}ms)</li>");
+            html.AppendLine(
+                $"<li>Slowest: {sortedByRuntime.Last().ParameterSetName} ({sortedByRuntime.Last().RuntimeMs}ms)</li>");
 
             if (sortedByQuality.Any())
             {
-                html.AppendLine($"<li>Highest Quality: {sortedByQuality.First().ParameterSetName} (Score: {sortedByQuality.First().QualityMetrics.OverallQuality:F3})</li>");
-                html.AppendLine($"<li>Lowest Quality: {sortedByQuality.Last().ParameterSetName} (Score: {sortedByQuality.Last().QualityMetrics.OverallQuality:F3})</li>");
+                html.AppendLine(
+                    $"<li>Highest Quality: {sortedByQuality.First().ParameterSetName} (Score: {sortedByQuality.First().QualityMetrics.OverallQuality:F3})</li>");
+                html.AppendLine(
+                    $"<li>Lowest Quality: {sortedByQuality.Last().ParameterSetName} (Score: {sortedByQuality.Last().QualityMetrics.OverallQuality:F3})</li>");
             }
+
             html.AppendLine("</ul>");
         }
 

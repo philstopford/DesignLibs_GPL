@@ -18,13 +18,19 @@ namespace UnitTests
         public struct Point
         {
             public double X, Y;
-            public Point(double x, double y) { X = x; Y = y; }
+
+            public Point(double x, double y)
+            {
+                X = x;
+                Y = y;
+            }
 
             public static Point operator +(Point a, Point b) => new Point(a.X + b.X, a.Y + b.Y);
             public static Point operator -(Point a, Point b) => new Point(a.X - b.X, a.Y - b.Y);
             public static Point operator *(Point a, double s) => new Point(a.X * s, a.Y * s);
 
             public double Length() => Math.Sqrt(X * X + Y * Y);
+
             public Point Normalized()
             {
                 double len = Length();
@@ -280,7 +286,7 @@ namespace UnitTests
                 new(0, 0),
                 new(2, 0),
                 new(2, 1),
-                new(1, 1),  // This creates the concave corner
+                new(1, 1), // This creates the concave corner
                 new(1, 2),
                 new(0, 2)
             };
@@ -346,16 +352,16 @@ namespace UnitTests
             Assert.That(result.Length, Is.EqualTo(3));
 
             // Test with null input
-            Assert.Throws<ArgumentException>(() =>
-                PrototypeTestHelpers.CornerClassification.ClassifyVertices(null));
+            Assert.Throws<ArgumentException>((Action)(() =>
+                PrototypeTestHelpers.CornerClassification.ClassifyVertices(null!)));
 
             // Test with insufficient vertices
-            Assert.Throws<ArgumentException>(() =>
+            Assert.Throws<ArgumentException>((Action)(() =>
                 PrototypeTestHelpers.CornerClassification.ClassifyVertices(new List<PrototypeTestHelpers.Point>
                 {
                     new(0, 0),
                     new(1, 0)
-                }));
+                })));
         }
 
         #endregion
@@ -370,8 +376,8 @@ namespace UnitTests
             {
                 new(0, 0),
                 new(0, 0.1),
-                new(0.005, 0.1),    // Short horizontal edge
-                new(0.005, 0.105),  // Short vertical edge  
+                new(0.005, 0.1), // Short horizontal edge
+                new(0.005, 0.105), // Short vertical edge  
                 new(0.05, 0.105),
                 new(0.05, 0)
             };
@@ -395,8 +401,8 @@ namespace UnitTests
             var nonOrthoShort = new List<PrototypeTestHelpers.Point>
             {
                 new(0, 0),
-                new(0.005, 0),      // Short edge
-                new(0.01, 0.005),   // Short edge but not orthogonal
+                new(0.005, 0), // Short edge
+                new(0.01, 0.005), // Short edge but not orthogonal
                 new(0.1, 0.005),
                 new(0.1, 0.1),
                 new(0, 0.1)
@@ -425,7 +431,7 @@ namespace UnitTests
             var start = new PrototypeTestHelpers.Point(0, 0);
             var startDir = new PrototypeTestHelpers.Point(1, 0); // Horizontal
             var end = new PrototypeTestHelpers.Point(2, 2);
-            var endDir = new PrototypeTestHelpers.Point(0, 1);   // Vertical
+            var endDir = new PrototypeTestHelpers.Point(0, 1); // Vertical
 
             // Act
             var control = PrototypeTestHelpers.BezierSampling.ComputeControlPoint(
@@ -446,8 +452,8 @@ namespace UnitTests
             var endDir = new PrototypeTestHelpers.Point(1, 0); // Same direction
 
             // Act & Assert
-            Assert.Throws<Exception>(() =>
-                PrototypeTestHelpers.BezierSampling.ComputeControlPoint(start, startDir, end, endDir));
+            Assert.Throws<Exception>((Action)(() =>
+                PrototypeTestHelpers.BezierSampling.ComputeControlPoint(start, startDir, end, endDir)));
         }
 
         [Test]
@@ -537,9 +543,9 @@ namespace UnitTests
             var control = new PrototypeTestHelpers.Point(1, 1);
             var end = new PrototypeTestHelpers.Point(2, 0);
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>((Action)(() =>
                 PrototypeTestHelpers.BezierSampling.SampleCurve(start, control, end,
-                    (PrototypeTestHelpers.BezierSampling.SamplingMode)999, 1.0));
+                    (PrototypeTestHelpers.BezierSampling.SamplingMode)999, 1.0)));
         }
 
         #endregion
@@ -553,8 +559,8 @@ namespace UnitTests
             var testVertices = new List<PrototypeTestHelpers.Point>
             {
                 new(0, 0),
-                new(1, 0),  // Horizontal segment
-                new(1, 1)   // Vertical segment
+                new(1, 0), // Horizontal segment
+                new(1, 1) // Vertical segment
             };
 
             // Simulate the algorithm with test data
@@ -591,8 +597,10 @@ namespace UnitTests
             Assert.That(result[0].Y, Is.EqualTo(testVertices[0].Y).Within(1e-10));
 
             // For L-shaped path, the final point should be reachable via rectilinear path
-            Assert.That(result[^1].X, Is.EqualTo(testVertices[^1].X).Within(1e-10).Or.EqualTo(result[^2].X).Within(1e-10));
-            Assert.That(result[^1].Y, Is.EqualTo(testVertices[^1].Y).Within(1e-10).Or.EqualTo(result[^2].Y).Within(1e-10));
+            Assert.That(result[^1].X,
+                Is.EqualTo(testVertices[^1].X).Within(1e-10).Or.EqualTo(result[^2].X).Within(1e-10));
+            Assert.That(result[^1].Y,
+                Is.EqualTo(testVertices[^1].Y).Within(1e-10).Or.EqualTo(result[^2].Y).Within(1e-10));
         }
 
         [Test]
@@ -602,9 +610,9 @@ namespace UnitTests
             var rectPath = new List<PrototypeTestHelpers.Point>
             {
                 new(0, 0),
-                new(1, 0),  // Horizontal
-                new(1, 1),  // Vertical
-                new(0, 1)   // Horizontal
+                new(1, 0), // Horizontal
+                new(1, 1), // Vertical
+                new(0, 1) // Horizontal
             };
 
             // Act: Compute angles
@@ -641,8 +649,8 @@ namespace UnitTests
                 var delta = r2 - r1;
 
                 // For rectilinear approximation, prefer segments aligned with axes
-                double errorX = Math.Abs(delta.Y);  // Error if treated as horizontal
-                double errorY = Math.Abs(delta.X);  // Error if treated as vertical
+                double errorX = Math.Abs(delta.Y); // Error if treated as horizontal
+                double errorY = Math.Abs(delta.X); // Error if treated as vertical
                 totalError += Math.Min(errorX, errorY);
             }
 

@@ -97,7 +97,7 @@ public class InfoLundinMathTests
         parser.Values.Add("x", 3.0);
 
         Assert.That(parser.Parse("2*x"), Is.EqualTo(6.0).Within(1e-10));
-        Assert.Throws<ParserException>(() => parser.Parse("2x"));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("2x")));
     }
 
     [Test]
@@ -106,7 +106,7 @@ public class InfoLundinMathTests
         parser.RequireParentheses = true;
 
         Assert.That(parser.Parse("sin(0)"), Is.EqualTo(0.0).Within(1e-10));
-        Assert.Throws<ParserException>(() => parser.Parse("sin0"));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("sin0")));
     }
 
     [Test]
@@ -121,31 +121,31 @@ public class InfoLundinMathTests
     [Test]
     public void Parse_NullOrEmptyExpression_ShouldThrowException()
     {
-        Assert.Throws<ParserException>(() => parser.Parse(null));
-        Assert.Throws<ParserException>(() => parser.Parse(""));
-        Assert.Throws<ParserException>(() => parser.Parse("   "));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse(null)));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("")));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("   ")));
     }
 
     [Test]
     public void Parse_InvalidExpression_ShouldThrowException()
     {
         // Some expressions that should be invalid
-        Assert.Throws<ParserException>(() => parser.Parse("2 +"));
-        Assert.Throws<ParserException>(() => parser.Parse("* 3"));
-        Assert.Throws<ParserException>(() => parser.Parse("((2 + 3)"));
-        Assert.Throws<ParserException>(() => parser.Parse("2 3"));  // No operator between numbers
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("2 +")));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("* 3")));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("((2 + 3)")));
+        Assert.Throws<ParserException>((Action)(() => parser.Parse("2 3"))); // No operator between numbers
     }
 
     [Test]
     public void Culture_SetInvalidCulture_ShouldThrowException()
     {
-        Assert.Throws<ArgumentNullException>(() => parser.Culture = null);
+        Assert.Throws<ArgumentNullException>((Action)(() => parser.Culture = null!));
 
         // Test culture with division as decimal separator
         var persianCulture = new CultureInfo("fa-IR");
         if (persianCulture.NumberFormat.NumberDecimalSeparator == "/")
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => parser.Culture = persianCulture);
+            Assert.Throws<ArgumentOutOfRangeException>((Action)(() => parser.Culture = persianCulture));
         }
     }
 

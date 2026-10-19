@@ -79,8 +79,8 @@ public class MiscUtilTests
     {
         var range = new Range<int>(1, 10);
 
-        Assert.That(range.Contains(1), Is.True);  // Start value
-        Assert.That(range.Contains(5), Is.True);  // Middle value
+        Assert.That(range.Contains(1), Is.True); // Start value
+        Assert.That(range.Contains(5), Is.True); // Middle value
         Assert.That(range.Contains(10), Is.True); // End value
         Assert.That(range.Contains(0), Is.False); // Below range
         Assert.That(range.Contains(11), Is.False); // Above range
@@ -169,7 +169,7 @@ public class MiscUtilTests
     [Test]
     public void SmartEnumerable_Constructor_WithNullSource_ShouldThrowArgumentNullException()
     {
-        Assert.Throws<ArgumentNullException>(() => new SmartEnumerable<string>(null));
+        Assert.Throws<ArgumentNullException>((Action)(() => new SmartEnumerable<string>(null!)));
     }
 
     #endregion

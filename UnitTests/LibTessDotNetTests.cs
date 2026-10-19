@@ -47,7 +47,7 @@ public class LibTessDotNetTests
             new ContourVertex(new Vec3(0.5, 1.0, 0.0))
         };
 
-        Assert.DoesNotThrow(() => tess.AddContour(vertices));
+        Assert.That((Action)(() => tess.AddContour(vertices)), Throws.Nothing);
     }
 
     [Test]
@@ -61,7 +61,7 @@ public class LibTessDotNetTests
             new ContourVertex(new Vec3(0.5, 1.0, 0.0))
         };
 
-        Assert.DoesNotThrow(() => tess.AddContour(vertices));
+        Assert.That((Action)(() => tess.AddContour(vertices)), Throws.Nothing);
     }
 
     [Test]
@@ -118,11 +118,11 @@ public class LibTessDotNetTests
         tess.AddContour(vertices);
 
         // Test different winding rules
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3));
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.NonZero, ElementType.Polygons, 3));
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.Positive, ElementType.Polygons, 3));
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.Negative, ElementType.Polygons, 3));
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.AbsGeqTwo, ElementType.Polygons, 3));
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3)), Throws.Nothing);
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.NonZero, ElementType.Polygons, 3)), Throws.Nothing);
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.Positive, ElementType.Polygons, 3)), Throws.Nothing);
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.Negative, ElementType.Polygons, 3)), Throws.Nothing);
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.AbsGeqTwo, ElementType.Polygons, 3)), Throws.Nothing);
     }
 
     [Test]
@@ -140,9 +140,10 @@ public class LibTessDotNetTests
         tess.AddContour(vertices);
 
         // Test different element types
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3));
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.ConnectedPolygons, 3));
-        Assert.DoesNotThrow(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.BoundaryContours));
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3)), Throws.Nothing);
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.ConnectedPolygons, 3)),
+            Throws.Nothing);
+        Assert.That((Action)(() => tess.Tessellate(WindingRule.EvenOdd, ElementType.BoundaryContours)), Throws.Nothing);
     }
 
     [Test]
@@ -317,24 +318,24 @@ public class LibTessDotNetTests
         };
 
         // Test different orientations
-        Assert.DoesNotThrow(() =>
+        Assert.That((Action)(() =>
         {
             tess.AddContour(vertices, ContourOrientation.Original);
             tess.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);
-        });
+        }), Throws.Nothing);
 
         var tess2 = new Tess();
-        Assert.DoesNotThrow(() =>
+        Assert.That((Action)(() =>
         {
             tess2.AddContour(vertices, ContourOrientation.Clockwise);
             tess2.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);
-        });
+        }), Throws.Nothing);
 
         var tess3 = new Tess();
-        Assert.DoesNotThrow(() =>
+        Assert.That((Action)(() =>
         {
             tess3.AddContour(vertices, ContourOrientation.CounterClockwise);
             tess3.Tessellate(WindingRule.EvenOdd, ElementType.Polygons, 3);
-        });
+        }), Throws.Nothing);
     }
 }

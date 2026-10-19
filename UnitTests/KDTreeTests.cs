@@ -34,7 +34,7 @@ public class KDTreeTests
         var tree = new KDTree<string>(2);
         double[] point = { 1.0, 2.0 };
 
-        Assert.DoesNotThrow(() => tree.AddPoint(point, "TestData"));
+        Assert.That((Action)(() => tree.AddPoint(point, "TestData")), Throws.Nothing);
         Assert.That(tree.Size, Is.EqualTo(1));
     }
 
@@ -135,7 +135,8 @@ public class KDTreeTests
     }
 
     [Test]
-    public void SquareEuclideanDistanceFunction_DistanceToRectangle_WithPointOutsideRectangle_ShouldCalculateCorrectDistance()
+    public void
+        SquareEuclideanDistanceFunction_DistanceToRectangle_WithPointOutsideRectangle_ShouldCalculateCorrectDistance()
     {
         var distanceFunction = new SquareEuclideanDistanceFunction();
         var point = new double[] { 0.0, 0.0 };

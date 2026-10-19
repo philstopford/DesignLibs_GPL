@@ -32,7 +32,7 @@ public partial class VeldridDriver
 
 	private void keyHandler(object sender, KeyEventArgs e)
 	{
-		//e.Handled = true;
+		e.Handled = true;
 
 		if (ovpSettings.isLocked())
 		{
@@ -83,6 +83,9 @@ public partial class VeldridDriver
 				zoomExtents(ovpSettings.selectedIndex);
 				doUpdate = false; // update performed in extents
 				break;
+			default:
+				doUpdate = false;
+				break;
 		}
 
 		switch (doUpdate)
@@ -114,7 +117,7 @@ public partial class VeldridDriver
 			updateViewport();
 		}
 
-		// e.Handled = true;
+		e.Handled = true;
 	}
 
 	private void dragHandler(object sender, MouseEventArgs e)
@@ -153,7 +156,7 @@ public partial class VeldridDriver
 			updateViewport();
 		}
 
-		// e.Handled = true;
+		e.Handled = true;
 	}
 
 	private void upHandler(object sender, MouseEventArgs e)
@@ -178,7 +181,7 @@ public partial class VeldridDriver
 			MouseButtons.Primary => false,
 			_ => dragging
 		};
-		// e.Handled = true;
+		e.Handled = true;
 	}
 
 	private void downHandler(object sender, MouseEventArgs e)
@@ -195,7 +198,7 @@ public partial class VeldridDriver
 			selectByClick(e.Location.X, e.Location.Y);
 		}
 
-		// e.Handled = true;
+		e.Handled = true;
 	}
 
 	private void setFocus(object sender, EventArgs e)

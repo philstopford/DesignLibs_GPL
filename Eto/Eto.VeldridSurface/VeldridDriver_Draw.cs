@@ -931,7 +931,7 @@ public partial class VeldridDriver
 
 				ResourceFactory factory = Surface!.GraphicsDevice!.ResourceFactory;
 
-				buffer = factory.CreateBuffer(new BufferDescription(elementSize * (uint)data.Length, usage));
+				buffer = factory.CreateBuffer(new BufferDescription(elementSize * (uint)data.Length, usage | BufferUsage.Dynamic));
 
 				Surface.GraphicsDevice.UpdateBuffer(buffer, 0, data);
 				break;

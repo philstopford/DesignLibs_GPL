@@ -55,9 +55,6 @@ public partial class MainForm : Form
 			ResourceBindingModel.Improved);
 
 		Surface = new VeldridSurface(backend, options);
-		Surface.VeldridInitialized += (sender, e) => VeldridReady = true;
-
-		Content = Surface;
 
 		ovpSettings = new OVPSettings();
 		ovpSettings.drawFilled(true);
@@ -74,9 +71,16 @@ public partial class MainForm : Form
 		Surface.VeldridInitialized += (sender, e) =>
 		{
 			Driver.SetUpVeldrid();
-			
-			_veldridReady = true;
+			VeldridReady = true;
 		};
+
+		Content = Surface;
+
+		if (Surface.GraphicsDevice != null && !VeldridReady)
+		{
+			Driver.SetUpVeldrid();
+			VeldridReady = true;
+		}
 		
 		// TODO: Make this binding actually work both ways.
 		// CmdAnimate.Bind<bool>("Checked", Driver, "Animate");

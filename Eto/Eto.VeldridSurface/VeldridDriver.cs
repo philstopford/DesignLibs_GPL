@@ -101,7 +101,7 @@ namespace VeldridEto;
 						ShaderStages.Vertex)));
 
 			ViewBuffer = factory.CreateBuffer(
-				new BufferDescription(64, BufferUsage.UniformBuffer));
+				new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
 
 			ViewMatrixSet = factory.CreateResourceSet(new ResourceSetDescription(
 				viewMatrixLayout, ViewBuffer));
@@ -118,15 +118,15 @@ namespace VeldridEto;
 						ShaderStages.Vertex)));
 
 			ModelBuffer = factory.CreateBuffer(
-				new BufferDescription(64, BufferUsage.UniformBuffer));
+				new BufferDescription(64, BufferUsage.UniformBuffer | BufferUsage.Dynamic));
 
 			ModelMatrixSet = factory.CreateResourceSet(new ResourceSetDescription(
 				modelMatrixLayout, ModelBuffer));
 
 			VertexBuffer =
 				factory.CreateBuffer(new BufferDescription(4 * VertexPositionColor.SizeInBytes,
-					BufferUsage.VertexBuffer));
-			IndexBuffer = factory.CreateBuffer(new BufferDescription(4 * sizeof(ushort), BufferUsage.IndexBuffer));
+					BufferUsage.VertexBuffer | BufferUsage.Dynamic));
+			IndexBuffer = factory.CreateBuffer(new BufferDescription(4 * sizeof(ushort), BufferUsage.IndexBuffer | BufferUsage.Dynamic));
 
 			// Veldrid.SPIRV, when cross-compiling to HLSL, will always produce
 			// TEXCOORD semantics; VertexElementSemantic.TextureCoordinate thus

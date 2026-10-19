@@ -61,18 +61,22 @@ namespace TestEtoVeldrid
 			Surface = new VeldridSurface(backend, options);
 			Surface.Size = new Eto.Drawing.Size(200, 200);
 
-			Content = Surface;
 			OVPSettings unused = new();
 			Driver = new VeldridDriver(ref unused, ref Surface);
 
 			Surface.VeldridInitialized += (sender, e) =>
 			{
-				//Driver.ExecutableDirectory = AppContext.BaseDirectory;
-				// Driver.ShaderSubdirectory = "shaders";
 				Driver.SetUpVeldrid();
-
-				_veldridReady = true;
+				VeldridReady = true;
 			};
+
+			Content = Surface;
+
+			if (Surface.GraphicsDevice != null && !VeldridReady)
+			{
+				Driver.SetUpVeldrid();
+				VeldridReady = true;
+			}
 			
 			// TODO: Make this binding actually work both ways.
 			CmdAnimate.Bind<bool>("Checked", Driver, "Animate");

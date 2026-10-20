@@ -365,3 +365,4 @@ MigrationBackup/
 .ionide/
 .idea/
 geocore_out/
+.DS_Store

@@ -665,6 +665,11 @@ public partial class VeldridDriver
 			return;
 		}
 
+		if (Surface?.Swapchain?.Framebuffer == null || Surface.RenderWidth <= 0 || Surface.RenderHeight <= 0)
+		{
+			return;
+		}
+
 		CommandList!.Begin();
 
 		ModelMatrix *= Matrix4x4.CreateFromAxisAngle(
@@ -694,7 +699,10 @@ public partial class VeldridDriver
 		RgbaFloat bgColor = new(ovpSettings.backColor.R, ovpSettings.backColor.G, ovpSettings.backColor.B, 1.0f);
 
 		CommandList.ClearColorTarget(0, bgColor);
-		CommandList.ClearDepthStencil(1.0f);
+		if (Surface.Swapchain.Framebuffer.DepthTarget != null)
+		{
+			CommandList.ClearDepthStencil(1.0f);
+		}
 
 		populate_command_list();
 

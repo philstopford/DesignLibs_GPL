@@ -17,18 +17,27 @@ namespace Eto.Veldrid.Mac64
 		public WeakReference? WeakHandler { get; set; }
 
 		public event EventHandler? DrawRectCalled;
+		public event EventHandler? FrameSizeChanged;
 
 		public MacVeldridView()
 		{
 			WantsLayer = true;
+			PostsFrameChangedNotifications = true;
 		}
 
 		public MacVeldridView(IntPtr handle) : base(handle)
 		{
 			WantsLayer = true;
+			PostsFrameChangedNotifications = true;
 		}
 
 		public override bool AcceptsFirstResponder() => true;
+
+		public override void SetFrameSize(CGSize newSize)
+		{
+			base.SetFrameSize(newSize);
+			FrameSizeChanged?.Invoke(this, EventArgs.Empty);
+		}
 
 		public override void DrawRect(CGRect dirtyRect)
 		{
@@ -69,7 +78,15 @@ namespace Eto.Veldrid.Mac64
 
 		protected override MacVeldridView CreateControl()
 		{
-			return new MacVeldridView();
+			var view = new MacVeldridView();
+			view.FrameSizeChanged += (sender, e) =>
+			{
+				if (Widget != null && Widget.Loaded)
+				{
+					Callback.OnResize(Widget, new ResizeEventArgs(RenderSize));
+				}
+			};
+			return view;
 		}
 
 		public Swapchain? CreateSwapchain()
@@ -84,14 +101,17 @@ namespace Eto.Veldrid.Mac64
 			{
 				var source = SwapchainSource.CreateNSView(Control.Handle);
 				var renderSize = RenderSize;
+				var width = (uint)Math.Max(1, renderSize.Width);
+				var height = (uint)Math.Max(1, renderSize.Height);
 				swapchain = Widget.GraphicsDevice?.ResourceFactory.CreateSwapchain(
 					new SwapchainDescription(
 						source,
-						(uint)Math.Max(1, renderSize.Width),
-						(uint)Math.Max(1, renderSize.Height),
+						width,
+						height,
 						Widget.GraphicsDeviceOptions.SwapchainDepthFormat,
 						Widget.GraphicsDeviceOptions.SyncToVerticalBlank,
 						Widget.GraphicsDeviceOptions.SwapchainSrgbFormat));
+				swapchain?.Resize(width, height);
 			}
 
 			return swapchain;
@@ -101,6 +121,13 @@ namespace Eto.Veldrid.Mac64
 		{
 			base.OnLoad(e);
 			Callback.OnInitializeBackend(Widget, new InitializeEventArgs(RenderSize));
+			Widget.SizeChanged += (sender, args) =>
+			{
+				if (Widget.Loaded)
+				{
+					Callback.OnResize(Widget, new ResizeEventArgs(RenderSize));
+				}
+			};
 		}
 
 		public override void OnSizeChanged(EventArgs e)
@@ -115,13 +142,19 @@ namespace Eto.Veldrid.Mac64
 		public override void Invalidate(bool invalidateChildren)
 		{
 			base.Invalidate(invalidateChildren);
-			Callback.OnDraw(Widget, EventArgs.Empty);
+			if (Widget != null && Widget.Loaded)
+			{
+				Callback.OnDraw(Widget, EventArgs.Empty);
+			}
 		}
 
 		public override void Invalidate(Rectangle rect, bool invalidateChildren)
 		{
 			base.Invalidate(rect, invalidateChildren);
-			Callback.OnDraw(Widget, EventArgs.Empty);
+			if (Widget != null && Widget.Loaded)
+			{
+				Callback.OnDraw(Widget, EventArgs.Empty);
+			}
 		}
 
 		public override void AttachEvent(string id)

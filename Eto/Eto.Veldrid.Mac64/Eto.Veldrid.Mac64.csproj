@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Mac64" Version="2.11.0" />
+    <PackageReference Include="Eto.Platform.Mac64" Version="2.13.0" />
   </ItemGroup>
 
   <ItemGroup>

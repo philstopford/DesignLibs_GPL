@@ -415,17 +415,18 @@ internal partial class oasReader
 
     private void readRepetition()
     {
-        modal.repetition = new Repetition();
         int repetitionType = readUnsignedInteger();
+        // Type 0 reuses the previous repetition modal (OASIS specification).
+        if (repetitionType == 0)
+        {
+            return;
+        }
+        modal.repetition = new Repetition();
         
         try
         {
             switch (repetitionType)
             {
-                case 0: // No repetition
-                    modal.repetition.type = Repetition.RepetitionType.None;
-                    break;
-                    
                 case 1: // Rectangular array, regular spacing
                     modal.repetition.type = Repetition.RepetitionType.Rectangular;
                     modal.repetition.columns = readUnsignedInteger() + 2;

@@ -2380,21 +2380,26 @@ public class ShapeLibrary
             case (int)shapeNames_all.complex:
 
                 // Improved contouring uses sliver-gap removal to find fully enclosed holes.
-                // If there are none, we can use the classical rounding, which is cheaper.
+                // A hole-free contour can be processed directly. The cheaper
+                // legacy path does not implement short-edge transitions.
                 PathsD cleaned = null;
                 if (!useLegacyRounding)
                 {
                     cleaned = GeoWrangler.sliverGapRemoval(original_custom_geometry);
-                    useLegacyRounding = cleaned.Count == 1;
+                    useLegacyRounding = cleaned.Count == 1 && shortEdgeLength <= 0;
                 }
 
-                // This returns the rounded shape using the cheap, single polygon approach.
-                if (useLegacyRounding)
+                // Explicit legacy mode retains its original behavior. Modern
+                // short-edge requests must reach the modern contour generator.
+                if (useLegacyRounding || cleaned?.Count == 1)
                 {
                     setShape(shapeIndex, original_custom_geometry);
                     computeCage();
                     computeTips(0, 0);
                     processEdgesForRounding();
+                    if (!useLegacyRounding)
+                        return processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
+                            iCV, iCVariation_scalar, oCV, oCVariation_scalar, shortEdgeLength, maxShortEdgeLength);
                     return legacy_processCorners_actual(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA, oCPA,
                         iCV, iCVariation_scalar, oCV, oCVariation_scalar);
                 }
@@ -2428,7 +2433,7 @@ public class ShapeLibrary
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, iCPA,
                         oCPA,
-                        iCV, iCVariation_scalar, oCV, oCVariation_scalar);
+                        iCV, iCVariation_scalar, oCV, oCVariation_scalar, shortEdgeLength, maxShortEdgeLength);
                     rounded = GeoWrangler.close(rounded);
                     outers.Add(rounded);
                 }
@@ -2491,7 +2496,7 @@ public class ShapeLibrary
                     tmp.processEdgesForRounding();
                     PathD rounded = tmp.processCorners(previewMode, cornerCheck, cornerSegments, optimizeCorners, resolution, oCPA,
                         iCPA,
-                        oCV, oCVariation_scalar, iCV, iCVariation_scalar);
+                        oCV, oCVariation_scalar, iCV, iCVariation_scalar, shortEdgeLength, maxShortEdgeLength);
                     rounded = GeoWrangler.close(rounded);
                     inners.Add(rounded);
                 }

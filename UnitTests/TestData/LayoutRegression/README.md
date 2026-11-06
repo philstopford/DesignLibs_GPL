@@ -17,3 +17,8 @@ dependency on Variance project loading, UI, or a sibling checkout.
 The tests exercise ShapeLibrary rounding and rotation, overlap processing,
 proximity bias, and the layer 7 Boolean directly, retaining area, topology,
 spike, input-preservation, and seam-relocation assertions.
+
+`stair.GDS` is the supplied 350 nm staircase layout (1 nm database units).
+Its step edges range from 50 to 100 nm. GEOCORE short-edge regressions compare
+modern contouring with the direct contour generator, including the hole path,
+and verify that 0.05/2 nm thresholds leave the larger steps intact.

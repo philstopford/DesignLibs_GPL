@@ -953,8 +953,10 @@ public class DecompositionTests
         Console.WriteLine("  Writing....");
         writeToLayout(baseString, points, decompOut);
 
-        Assert.That(decompOut.Count, Is.EqualTo(481));
-        Assert.That(Clipper.Area(decompOut), Is.EqualTo(147399));
+        // Equivalent shortest cuts can meet opposite sides of a corner,
+        // changing the rectangle partition while preserving its exact area.
+        Assert.That(decompOut.Count, Is.EqualTo(483));
+        Assert.That(Clipper.Area(decompOut), Is.EqualTo(Math.Abs(Clipper.Area(toDecomp))).Within(0.0001));
 
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -967,7 +969,7 @@ public class DecompositionTests
         writeToLayout(baseString + "_horizontal", points, decompOut);
 
         Assert.That(decompOut.Count, Is.EqualTo(482));
-        Assert.That(Clipper.Area(decompOut), Is.EqualTo(147399));
+        Assert.That(Clipper.Area(decompOut), Is.EqualTo(Math.Abs(Clipper.Area(toDecomp))).Within(0.0001));
         Console.WriteLine("  Done.");
 
         sw.Stop();

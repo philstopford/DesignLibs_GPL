@@ -44,4 +44,8 @@
       <ProjectReference Include="..\Common\utility\utility.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Update="TestData\LayoutRegression\**\*" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
 </Project>

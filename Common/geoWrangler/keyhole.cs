@@ -1,4 +1,4 @@
-﻿using Clipper2Lib;
+using Clipper2Lib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,15 +44,25 @@ public static partial class GeoWrangler
             _ => customSizing
         };
 
-        // Limit the offset used in the removal otherwise we can cause self-intersections that
-        // result in lots of artifacts and trouble.
-        PathsD input = pRemoveFragments(source, 0.5 * customSizing, extension);
+        // pInflateEdge cuts a corridor with half-width 2 * customSizing
+        // on a 1E2 grid. Collapse at least that half-width before rekeyholing;
+        // the old half-size offset left existing corridors open.
+        double collapseExtension = extension == 0 ? keyhole_extension_default : Math.Max(2.0, extension);
+        PathsD input = pRemoveFragments(source, customSizing, collapseExtension);
         input = pStripCollinear(input);
 
         switch (input.Count)
         {
             case < 2:
                 return pClose(input);
+        }
+
+        // Directional callers (rectangular decomposition) retain their ray policy.
+        if (biDirectionalEval)
+        {
+            // Preserve the established winding for ordinary hole-free input.
+            if (input.All(Clipper.IsPositive)) return pClose(input);
+            return pPlanKeyholes(input, customSizing);
         }
 
         PathsD[] decomp = pGetDecomposed(input);
@@ -273,6 +283,33 @@ public static partial class GeoWrangler
     
     private static PathsD pMakeKeyHole(PathsD outers_, PathsD cutters_, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
+        if (biDirectionalEval)
+        {
+            // Construct each physical outer independently. A containing cutter
+            // belongs to its parent donut, not to an island inside that donut.
+            // Union overlapping cutters before subtraction so their overlap
+            // cannot reappear as material through winding cancellation.
+            PathsD material = [];
+            foreach (PathD outer in outers_)
+            {
+                bool nestedIsland = outers_.Any(parent => !ReferenceEquals(parent, outer) &&
+                    Math.Abs(Clipper.Area(parent)) > Math.Abs(Clipper.Area(outer)) &&
+                    Clipper.Difference(new PathsD { outer }, new PathsD { parent },
+                        FillRule.EvenOdd, Constants.roundingDecimalPrecision).Count == 0);
+                PathsD holes = [];
+                foreach (PathD cutter in cutters_)
+                {
+                    PathsD remaining = Clipper.Difference(new PathsD { outer }, new PathsD { cutter },
+                        FillRule.EvenOdd, Constants.roundingDecimalPrecision);
+                    if (remaining.Count == 0 && nestedIsland) continue;
+                    holes.Add(Clipper.IsPositive(cutter) ? new PathD(cutter) : Clipper.ReversePath(cutter));
+                }
+                holes = Clipper.Union(holes, new PathsD(), FillRule.NonZero, Constants.roundingDecimalPrecision);
+                material.AddRange(Clipper.Difference(new PathsD { outer }, holes,
+                    FillRule.NonZero, Constants.roundingDecimalPrecision));
+            }
+            return pPlanKeyholes(material, customSizing == 0 ? keyhole_sizing : customSizing);
+        }
         PathsD outers = new(outers_);
         PathsD cutters = new(cutters_);
         customSizing = customSizing switch
@@ -297,6 +334,17 @@ public static partial class GeoWrangler
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
             foreach (PathD t1 in cutters)
             {
+                PathsD currentCutter = [t1];
+                // An earlier keyhole may already cross this cutter. In that case
+                // subtracting it opens it to the exterior, and another cut would
+                // split off material between the two keyholes.
+                PathsD withoutCutter = pCutKeyHole(outers, currentCutter, []);
+                if (withoutCutter.All(path => Clipper.IsPositive(path) == outerOrient))
+                {
+                    outers = withoutCutter;
+                    continue;
+                }
+
                 PathsD clipped = pClipRays(outers, t1, reverseEval, biDirectionalEval, invert, angularTolerance);
 
                 PathD insertionCandidate = pFindInsertionCandidate(clipped, orthogonalInput);
@@ -319,7 +367,7 @@ public static partial class GeoWrangler
                     }
                 }
 
-                PathsD new_outers = pCutKeyHole(outers, cutters, extraCutters);
+                PathsD new_outers = pCutKeyHole(outers, currentCutter, extraCutters);
                 new_outers = Clipper.SimplifyPaths(new_outers, 0);
 
                 outers.Clear();

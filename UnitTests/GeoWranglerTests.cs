@@ -706,9 +706,16 @@ public class GeoWranglerTests
         double ibxclb_area = Clipper.Area(inverted_boxes_cl_bounds);
         Assert.That(ibxclb_area, Is.EqualTo((40 * 40) - area_reduction));
         double ibx_area_tri = Clipper.Area(inverted_boxes_tri);
-        Assert.That(ibx_area_tri, Is.EqualTo(-unbounded_area - area_reduction));
+        // The global planner now reaches the unbounded perimeter (the old
+        // raycaster stopped at 1e6). Account for the 0.1 nm wide outer cut
+        // and the short diagonal between the two boxes. At this area double
+        // precision has a 4096 nm² ULP.
+        double slitArea = 0.1 * (Int32.MaxValue - 10 + Math.Sqrt(800));
+        Assert.That(inverted_boxes_tri.Count, Is.EqualTo(1));
+        Assert.That(ibx_area_tri, Is.EqualTo(-unbounded_area + area_reduction + slitArea).Within(8192));
         double ibxcl_area_tri = Clipper.Area(inverted_boxes_cl_tri);
-        Assert.That(ibxcl_area_tri, Is.EqualTo(-unbounded_area - area_reduction));
+        Assert.That(inverted_boxes_cl_tri.Count, Is.EqualTo(1));
+        Assert.That(ibxcl_area_tri, Is.EqualTo(ibx_area_tri));
         double ibxb_area_tri = Clipper.Area(inverted_boxes_bounds_tri);
         Assert.That(ibxb_area_tri, Is.EqualTo((40 * 40) - area_reduction));
         double ibxclb_area_tri = Clipper.Area(inverted_boxes_cl_bounds_tri);
@@ -3787,7 +3794,8 @@ public class GeoWranglerTests
         SvgUtils.AddSolution(svgSrc, booleanPaths, true);
         SvgUtils.SaveToFile(svgSrc, root_loc + "customboolean_not3.svg", FillRule.NonZero, 800, 800, 10);
 
-        double notArea_expected = -6195.989;
+        // Four 10 nm slits replace the longer sequential connections.
+        double notArea_expected = -6196.985;
         double notArea = Clipper.Area(booleanPaths);
         Assert.That(booleanPaths.Count, Is.EqualTo(1));
         Assert.That(Math.Abs(notArea_expected - notArea), Is.LessThanOrEqualTo(0.0011));

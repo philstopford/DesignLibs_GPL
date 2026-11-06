@@ -51,21 +51,55 @@ public static class Proximity
 
         // Ensure geometry meets our needs. This is important for the normal computation and calculations.
         // If this is not done, sawtooth profiles are seen due to problematic ray casts.
-        foreach (PathD t in sourceGeometry.Where(Clipper.IsPositive))
+        Fragmenter f = new(fragmenterResolution);
+        List<bool> sourceDrawn = [];
+        PathsD physicalGeometry = [];
+        for (int i = 0; i < sourceGeometry.Count; i++)
         {
-            t.Reverse();
+            // Keyholes are construction cuts, not physical edges. Close them before
+            // casting proximity rays, preserving opposite normals on enclosed holes.
+            if (drawnPoly_[i] || sourceGeometry[i].Count <= 1)
+            {
+                physicalGeometry.Add(new PathD(sourceGeometry[i]));
+                sourceDrawn.Add(drawnPoly_[i]);
+                continue;
+            }
+            PathsD contours = GeoWrangler.sliverGapRemoval(sourceGeometry[i], customSizing: 2 * GeoWrangler.keyhole_sizing);
+            if (contours.Count > 1)
+            {
+                // Normalize the outer clockwise while retaining the holes
+                // with the opposite winding so all rays enter free space.
+                bool reverse = Clipper.IsPositive(contours.MaxBy(p => Math.Abs(Clipper.Area(p))));
+                foreach (PathD contour in contours)
+                {
+                    // Closing a narrow cut can leave sub-grid vertices at
+                    // its endpoints; remove those before computing normals.
+                    PathD physical = Clipper.RamerDouglasPeucker(GeoWrangler.close(contour), Constants.scalar_1E2_inv);
+                    if (reverse) physical.Reverse();
+                    physicalGeometry.Add(f.fragmentPath(physical));
+                    sourceDrawn.Add(drawnPoly_[i]);
+                }
+            }
+            else
+            {
+                physicalGeometry.Add(GeoWrangler.clockwise(new PathD(sourceGeometry[i])));
+                sourceDrawn.Add(drawnPoly_[i]);
+            }
         }
-        sourceGeometry = GeoWrangler.close(sourceGeometry);
+        sourceGeometry = GeoWrangler.close(physicalGeometry);
 
         int sCount = sourceGeometry.Count;
 
-        Fragmenter f = new(fragmenterResolution);
-
         for (int poly = 0; poly < sCount; poly++)
         {
-            if (sourceGeometry[poly].Count <= 1 || drawnPoly_[poly])
+            if (sourceDrawn[poly])
             {
-                // Nothing to do with drawn or zero count entries.
+                preOverlapMergePolys.Add(new PathD(sourceGeometry[poly]));
+                overlapDrawnList.Add(true);
+                continue;
+            }
+            if (sourceGeometry[poly].Count <= 1)
+            {
                 continue;
             }
             

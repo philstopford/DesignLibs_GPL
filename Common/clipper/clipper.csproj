@@ -8,14 +8,11 @@
 
     <PropertyGroup>
         <LangVersion>12</LangVersion>
-
+        <!-- Consumers require Z coordinates for every configuration and platform. -->
+        <DefineConstants>$(DefineConstants);USINGZ</DefineConstants>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-      <DefineConstants>USINGZ;TRACE</DefineConstants>
-    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <Optimize>true</Optimize>
-        <DefineConstants>USINGZ</DefineConstants>
     </PropertyGroup>
 </Project>

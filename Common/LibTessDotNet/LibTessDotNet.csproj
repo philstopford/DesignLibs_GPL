@@ -7,16 +7,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-
-
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DefineConstants>TRACE;DOUBLE</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DOUBLE</DefineConstants>
+    <!-- The sources use double precision for every configuration and platform. -->
+    <DefineConstants>$(DefineConstants);DOUBLE</DefineConstants>
   </PropertyGroup>
 
 </Project>

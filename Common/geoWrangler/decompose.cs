@@ -290,10 +290,7 @@ public static partial class GeoWrangler
                 return [_poly];
         }
 
-        // dirOverride switches from a horizontally-biased raycast to vertical in this case.
-        RayCast rc = new(lPoly, lPoly, maxRayLength, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
-
-        PathsD rays = rc.getRays();
+        var rays = RayCast.decompositionRays(lPoly, maxRayLength, vertical);
 
         // Contains edges from ray intersections that are not part of the original geometry.
         PathsD newEdges = [];

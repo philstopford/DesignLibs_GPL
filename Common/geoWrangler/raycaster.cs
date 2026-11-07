@@ -41,6 +41,23 @@ public class RayCast
         return pGetRays();
     }
 
+    // Decomposition only consumes the uncut rays, and stops after the first
+    // usable cut. Reuse exactly the same normal/ray calculations, without
+    // computing collision results for every vertex that the caller discards.
+    internal static IEnumerable<PathD> decompositionRays(PathD path, long maxRayLength, bool vertical)
+    {
+        bool closed = path.Count > 3 &&
+                      Math.Abs(path[0].x - path[^1].x) < Constants.tolerance &&
+                      Math.Abs(path[0].y - path[^1].y) < Constants.tolerance;
+        NormalsData normals = pCalculateNormalsData(path, closed, new PointD(), new PointD());
+        for (int i = 0; i < path.Count; i++)
+        {
+            yield return pGenerateRays(path, i, maxRayLength, true, inversionMode.x,
+                0, Falloff.none, 1.0, normals,
+                vertical ? forceSingleDirection.vertical : forceSingleDirection.horizontal)[0];
+        }
+    }
+
     private PathsD pGetRays()
     {
         return new PathsD(castLines);

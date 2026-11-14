@@ -99,7 +99,7 @@ public partial class VeldridDriver
 		{
 			pointCountBeforeCurrentPolygon_fg = new int[fgPolyListCount];
 			pointCountBeforeCurrentPolygon_fg[0] = 0;
-			totalPointCount_fg = ovpSettings.polyList[0].poly.Length;
+			totalPointCount_fg = Math.Max(0, ovpSettings.polyList[0].poly.Length - 1);
 		}
 		else
 		{
@@ -109,9 +109,9 @@ public partial class VeldridDriver
 
 		for (int i = 1; i < fgPolyListCount; i++)
 		{
-			int previousPolygonPointCount = ovpSettings.polyList[i - 1].poly.Length;
+			int previousPolygonPointCount = Math.Max(0, ovpSettings.polyList[i - 1].poly.Length - 1);
 			pointCountBeforeCurrentPolygon_fg[i] = pointCountBeforeCurrentPolygon_fg[i-1] + previousPolygonPointCount;
-			totalPointCount_fg += ovpSettings.polyList[i].poly.Length;
+			totalPointCount_fg += Math.Max(0, ovpSettings.polyList[i].poly.Length - 1);
 		}
 
 		int[] pointCountBeforeCurrentPolygon_bg;
@@ -120,7 +120,7 @@ public partial class VeldridDriver
 		{
 			pointCountBeforeCurrentPolygon_bg = new int[bgPolyListCount];
 			pointCountBeforeCurrentPolygon_bg[0] = 0;
-			totalPointCount_bg = ovpSettings.bgPolyList[0].poly.Length;
+			totalPointCount_bg = Math.Max(0, ovpSettings.bgPolyList[0].poly.Length - 1);
 		}
 		else
 		{
@@ -130,12 +130,12 @@ public partial class VeldridDriver
 
 		for (int i = 1; i < bgPolyListCount; i++)
 		{
-			int previousPolygonPointCount = ovpSettings.bgPolyList[i - 1].poly.Length;
+			int previousPolygonPointCount = Math.Max(0, ovpSettings.bgPolyList[i - 1].poly.Length - 1);
 			pointCountBeforeCurrentPolygon_bg[i] = pointCountBeforeCurrentPolygon_bg[i-1] + previousPolygonPointCount;
-			totalPointCount_bg += ovpSettings.bgPolyList[i].poly.Length;
+			totalPointCount_bg += Math.Max(0, ovpSettings.bgPolyList[i].poly.Length - 1);
 		}
 
-		// Start and end points for each polygon are not duplicated.
+		// Counts and offsets are in segments; each segment contributes two vertices.
 		int totalPolyListCount = ((totalPointCount_fg) + (totalPointCount_bg)) * 2;
 		polyList = new VertexPositionColor[totalPolyListCount];
 		// Two triangles per point in foreground polygon.
@@ -201,9 +201,9 @@ public partial class VeldridDriver
 				int point_index_offset = 0;
 				if (poly > 0)
 				{
-					// Start and end points for each polygon are not duplicated.
-					poly_index_offset = ((pointCountBeforeCurrentPolygon_fg[poly] * 2) - 2);
-					point_index_offset = ((pointCountBeforeCurrentPolygon_fg[poly] * 6) - 6);
+					// Counts and offsets are in segments; each segment contributes two vertices.
+					poly_index_offset = (pointCountBeforeCurrentPolygon_fg[poly] * 2);
+					point_index_offset = (pointCountBeforeCurrentPolygon_fg[poly] * 6);
 				}
 
 				for (int pt = 0; pt < polyLength; pt++)
@@ -268,7 +268,7 @@ public partial class VeldridDriver
 				float alpha = ovpSettings.bgPolyList[poly].alpha;
 				float polyZ = poly * polyZStep;
 
-				int fg_poly_index_offset = (totalPointCount_fg - 2) * 2;
+				int fg_poly_index_offset = totalPointCount_fg * 2;
 				if (fg_poly_index_offset < 0)
 				{
 					fg_poly_index_offset = 0;
@@ -277,8 +277,8 @@ public partial class VeldridDriver
 				int poly_index_offset = 0;
 				if (poly > 0)
 				{
-					// Start and end points for each polygon are not duplicated.
-					poly_index_offset = ((pointCountBeforeCurrentPolygon_bg[poly] * 2) - 2);
+					// Counts and offsets are in segments; each segment contributes two vertices.
+					poly_index_offset = (pointCountBeforeCurrentPolygon_bg[poly] * 2);
 				}
 
 				int bgPolyLength = ovpSettings.bgPolyList[poly].poly.Length - 1;

@@ -45,6 +45,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Update="TestData\Clipper2\**\*" CopyToOutputDirectory="PreserveNewest" />
         <None Update="TestData\LayoutRegression\**\*" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 

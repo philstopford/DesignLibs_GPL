@@ -743,7 +743,7 @@ namespace Clipper2Lib
           lastPt = path[i];
           result.Add(lastPt);
         }
-      if (isClosedPath && lastPt == result[0])
+      if (isClosedPath && result.Count > 1 && lastPt == result[0])
         result.RemoveAt(result.Count - 1);
       return result;
     }

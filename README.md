@@ -33,7 +33,9 @@ This provides Perlin, Simplex and OpenSimplex noise functions.
 
 ### Clipper:
 
-This is a copy of the C# library from github.com/AngusJohnson/Clipper2. This is heavily used for polygon clipping, including raycasting.
+See the [Clipper2 learning guide](Common/clipper/GUIDE.md) for concepts, examples, engine internals, and compatibility, the [source-level developer guide](Common/clipper/DEVELOPER_GUIDE.md) for module interoperation and debugging, and the [upstream maintenance record](Common/clipper/upstream/README.md) for the tracked C++ revision and validation workflow.
+
+This is a maintained C# port aligned with [PolyClipping/Clipper2](https://github.com/PolyClipping/Clipper2), with compatibility defaults for existing Variance and Quilt geometry workflows.
 
 ### info.lundin.math
 

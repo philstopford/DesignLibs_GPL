@@ -1,6 +1,6 @@
-﻿/*******************************************************************************
+/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  22 January 2025                                                 *
+* Date      :  12 December 2025                                                *
 * Website   :  https://www.angusj.com                                          *
 * Copyright :  Angus Johnson 2010-2025                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -14,6 +14,13 @@ using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
 {
+  /// <summary>Controls coordinate-changing behavior when migrating existing designs.</summary>
+  public enum ClipperCompatibility
+  {
+    Legacy,
+    Upstream
+  }
+
   public struct Point64
   {
     public long X;
@@ -429,11 +436,7 @@ namespace Clipper2Lib
     public Path64(IEnumerable<Point64> path) : base(path) { }
     public override string ToString()
     {
-      string s = "";
-      foreach (Point64 p in this)
-        s = s + p.ToString() + ", ";
-      if (s != "") s = s.Remove(s.Length - 2);
-      return s;
+      return string.Join(", ", this);
     }
   }
 
@@ -444,10 +447,7 @@ namespace Clipper2Lib
     public Paths64(IEnumerable<Path64> paths) : base(paths) { }
     public override string ToString()
     {
-      string s = "";
-      foreach (Path64 p in this)
-        s = s + p + "\n";
-      return s;
+      return Count == 0 ? "" : string.Join("\n", this) + "\n";
     }
   }
 
@@ -458,11 +458,7 @@ namespace Clipper2Lib
     public PathD(IEnumerable<PointD> path) : base(path) { }
     public string ToString(int precision = 2)
     {
-      string s = "";
-      foreach (PointD p in this)
-        s = s + p.ToString(precision) + ", ";
-      if (s != "") s = s.Remove(s.Length - 2);
-      return s;
+      return string.Join(", ", ConvertAll(x => x.ToString(precision)));
     }
   }
 
@@ -473,10 +469,7 @@ namespace Clipper2Lib
     public PathsD(IEnumerable<PathD> paths) : base(paths) { }
     public string ToString(int precision = 2)
     {
-      string s = "";
-      foreach (PathD p in this)
-        s = s + p.ToString(precision) + "\n";
-      return s;
+      return Count == 0 ? "" : string.Join("\n", ConvertAll(x => x.ToString(precision))) + "\n";
     }
   }
 
@@ -507,14 +500,6 @@ namespace Clipper2Lib
     Negative
   }
 
-  // PointInPolygon
-  internal enum PipResult
-  {
-    Inside,
-    Outside,
-    OnEdge
-  }
-
   public static class InternalClipper
   {
     internal const long MaxInt64 = 9223372036854775807;
@@ -534,6 +519,12 @@ namespace Clipper2Lib
       // typecast to double to avoid potential int overflow
       return ((double) (pt2.X - pt1.X) * (pt3.Y - pt2.Y) -
               (double) (pt2.Y - pt1.Y) * (pt3.X - pt2.X));
+    }
+
+    public static int CrossProductSign(Point64 pt1, Point64 pt2, Point64 pt3)
+    {
+      return CompareProducts(pt2.X - pt1.X, pt3.Y - pt2.Y,
+        pt2.Y - pt1.Y, pt3.X - pt2.X);
     }
 
 #if USINGZ
@@ -561,8 +552,7 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static int TriSign(long x) // returns 0, 1 or -1
     {
-      if (x < 0) return -1;
-      return x > 1 ? 1 : 0;
+      return (x < 0) ? -1 : (x > 0) ? 1 : 0;
     }
 
     public struct MultiplyUInt64Result
@@ -583,23 +573,15 @@ namespace Clipper2Lib
       return result;
     }
 
-    // returns true if (and only if) a * b == c * d
+    // Compare the exact signed 128-bit products without subtracting (which could overflow).
+    public static int CompareProducts(long a, long b, long c, long d)
+    {
+      return ((Int128)a * b).CompareTo((Int128)c * d);
+    }
+
     internal static bool ProductsAreEqual(long a, long b, long c, long d)
     {
-      // nb: unsigned values will be needed for CalcOverflowCarry()
-      ulong absA = (ulong) Math.Abs(a);
-      ulong absB = (ulong) Math.Abs(b);
-      ulong absC = (ulong) Math.Abs(c);
-      ulong absD = (ulong) Math.Abs(d);
-
-      MultiplyUInt64Result mul_ab = MultiplyUInt64(absA, absB);
-      MultiplyUInt64Result mul_cd = MultiplyUInt64(absC, absD);
-
-      // nb: it's important to differentiate 0 values here from other values
-      int sign_ab = TriSign(a) * TriSign(b);
-      int sign_cd = TriSign(c) * TriSign(d);
-
-      return mul_ab.lo64 == mul_cd.lo64 && mul_ab.hi64 == mul_cd.hi64 && sign_ab == sign_cd;
+      return CompareProducts(a, b, c, d) == 0;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -641,11 +623,27 @@ namespace Clipper2Lib
       return (long)Math.Round(val, MidpointRounding.AwayFromZero);
     }
 
+    // GetLineIntersectPt - a 'true' result is non-parallel. The 'ip' will also
+    // be constrained to seg1. However, it's possible that 'ip' won't be inside
+    // seg2, even when 'ip' hasn't been constrained (ie 'ip' is inside seg1).
+
+    // Compatibility alias for consumers of the earlier C# port.
+    public static bool GetSegmentIntersectPt(Point64 a, Point64 b, Point64 c,
+      Point64 d, out Point64 ip) => GetLineIntersectPt(a, b, c, d, out ip, true);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool GetSegmentIntersectPt(Point64 ln1a,
+    public static bool GetLineIntersectPt(Point64 ln1a,
       Point64 ln1b, Point64 ln2a, Point64 ln2b, out Point64 ip)
+      => GetLineIntersectPt(ln1a, ln1b, ln2a, ln2b, out ip, false);
+
+    internal static bool GetLineIntersectPt(Point64 ln1a, Point64 ln1b,
+      Point64 ln2a, Point64 ln2b, out Point64 ip, bool legacy)
     {
+      // Evaluate from the bottom end, matching the sweep regardless of input direction.
+      if (!legacy && (ln1b.Y > ln1a.Y || (ln1b.Y == ln1a.Y && ln1b.X < ln1a.X)))
+        (ln1a, ln1b) = (ln1b, ln1a);
+      if (!legacy && (ln2b.Y > ln2a.Y || (ln2b.Y == ln2a.Y && ln2b.X < ln2a.X)))
+        (ln2a, ln2b) = (ln2b, ln2a);
       double dy1 = (ln1b.Y - ln1a.Y);
       double dx1 = (ln1b.X - ln1a.X);
       double dy2 = (ln2b.Y - ln2a.Y);
@@ -660,12 +658,43 @@ namespace Clipper2Lib
       double t = ((ln1a.X - ln2a.X) * dy2 - (ln1a.Y - ln2a.Y) * dx2) / det;
       if (t <= 0.0) ip = ln1a;
       else if (t >= 1.0) ip = ln1b;
-      else {
-        // avoid using constructor (and rounding too) as they affect performance //664
-        ip.X = (long) (ln1a.X + t * dx1);
-        ip.Y = (long) (ln1a.Y + t * dy1);
+      else
+      {
+        // Upstream uses nearbyint (ties to even), not truncation.
+        ip.X = legacy ? (long)(ln1a.X + t * dx1) : (long)Math.Round(ln1a.X + t * dx1);
+        ip.Y = legacy ? (long)(ln1a.Y + t * dy1) : (long)Math.Round(ln1a.Y + t * dy1);
 #if USINGZ
         ip.Z = 0;
+#endif
+      }
+      return true;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool GetLineIntersectPt(PointD ln1a,
+      PointD ln1b, PointD ln2a, PointD ln2b, out PointD ip)
+    {
+      double dy1 = (ln1b.y - ln1a.y);
+      double dx1 = (ln1b.x - ln1a.x);
+      double dy2 = (ln2b.y - ln2a.y);
+      double dx2 = (ln2b.x - ln2a.x);
+      double det = dy1 * dx2 - dy2 * dx1;
+      if (det == 0.0)
+      {
+        ip = new PointD();
+        return false;
+      }
+
+      double t = ((ln1a.x - ln2a.x) * dy2 - (ln1a.y - ln2a.y) * dx2) / det;
+      if (t <= 0.0) ip = ln1a;
+      else if (t >= 1.0) ip = ln1b;
+      else
+      {
+        // avoid using constructor (and rounding too) as they affect performance //664
+        ip.x = (ln1a.x + t * dx1);
+        ip.y = (ln1a.y + t * dy1);
+#if USINGZ
+        ip.z = 0;
 #endif
       }
       return true;
@@ -674,20 +703,61 @@ namespace Clipper2Lib
     internal static bool SegsIntersect(Point64 seg1a, 
       Point64 seg1b, Point64 seg2a, Point64 seg2b, bool inclusive = false)
     {
-      if (!inclusive)
-        return (CrossProduct(seg1a, seg2a, seg2b) *
-                 CrossProduct(seg1b, seg2a, seg2b) < 0) &&
-               (CrossProduct(seg2a, seg1a, seg1b) *
-                 CrossProduct(seg2b, seg1a, seg1b) < 0);
-      double res1 = CrossProduct(seg1a, seg2a, seg2b);
-      double res2 = CrossProduct(seg1b, seg2a, seg2b);
-      if (res1 * res2 > 0) return false;
-      double res3 = CrossProduct(seg2a, seg1a, seg1b);
-      double res4 = CrossProduct(seg2b, seg1a, seg1b);
-      if (res3 * res4 > 0) return false;
-      // ensure NOT collinear
-      return (res1 != 0 || res2 != 0 || res3 != 0 || res4 != 0);
+      double dy1 = (seg1b.Y - seg1a.Y);
+      double dx1 = (seg1b.X - seg1a.X);
+      double dy2 = (seg2b.Y - seg2a.Y);
+      double dx2 = (seg2b.X - seg2a.X);
+      double cp = dy1 * dx2 - dy2 * dx1;
+      if (cp == 0) return false; // ie parallel segments
+
+      if (inclusive)
+      {
+        //result **includes** segments that touch at an end point
+        double t = ((seg1a.X - seg2a.X) * dy2 - (seg1a.Y - seg2a.Y) * dx2);
+        if (t == 0) return true;
+        if (t > 0)
+        {
+          if (cp < 0 || t > cp) return false;
+        }
+        else if (cp > 0 || t < cp) return false; // false when t more neg. than cp
+
+        t = ((seg1a.X - seg2a.X) * dy1 - (seg1a.Y - seg2a.Y) * dx1);
+        if (t == 0) return true;
+        if (t > 0) return (cp > 0 && t <= cp);
+        else return (cp < 0 && t >= cp);        // true when t less neg. than cp
+      }
+      else
+      {
+        //result **excludes** segments that touch at an end point
+        double t = ((seg1a.X - seg2a.X) * dy2 - (seg1a.Y - seg2a.Y) * dx2);
+        if (t == 0) return false;
+        if (t > 0)
+        {
+          if (cp < 0 || t >= cp) return false;
+        }
+        else if (cp > 0 || t <= cp) return false; // false when t more neg. than cp
+
+        t = ((seg1a.X - seg2a.X) * dy1 - (seg1a.Y - seg2a.Y) * dx1);
+        if (t == 0) return false;
+        if (t > 0) return (cp > 0 && t < cp);
+        else return (cp < 0 && t > cp); // true when t less neg. than cp
+      }
     }
+
+    public static Rect64 GetBounds(Path64 path)
+    {
+      if (path.Count == 0) return new Rect64();
+      Rect64 result = Clipper.InvalidRect64;
+      foreach (Point64 pt in path)
+      {
+        if (pt.X < result.left) result.left = pt.X;
+        if (pt.X > result.right) result.right = pt.X;
+        if (pt.Y < result.top) result.top = pt.Y;
+        if (pt.Y > result.bottom) result.bottom = pt.Y;
+      }
+      return result;
+    }
+
     public static Point64 GetClosestPtOnSegment(Point64 offPt,
     Point64 seg1, Point64 seg2)
     {
@@ -699,8 +769,8 @@ namespace Clipper2Lib
       if (q < 0) q = 0; else if (q > 1) q = 1;
       return new Point64(
         // use MidpointRounding.ToEven in order to explicitly match the nearbyint behaviour on the C++ side
-        seg1.X + Math.Round(q * dx, MidpointRounding.ToEven),
-        seg1.Y + Math.Round(q * dy, MidpointRounding.ToEven)
+        seg1.X + (long)Math.Round(q * dx, MidpointRounding.ToEven),
+        seg1.Y + (long)Math.Round(q * dy, MidpointRounding.ToEven)
       );
     }
 
@@ -712,7 +782,6 @@ namespace Clipper2Lib
       while (start < len && polygon[start].Y == pt.Y) start++;
       if (start == len) return PointInPolygonResult.IsOutside;
 
-      double d;
       bool isAbove = polygon[start].Y < pt.Y, startingAbove = isAbove;
       int val = 0, i = start + 1, end = len;
       while (true)
@@ -759,22 +828,50 @@ namespace Clipper2Lib
         }
         else
         {
-          d = CrossProduct(prev, curr, pt);
-          if (d == 0) return PointInPolygonResult.IsOn;
-          if ((d < 0) == isAbove) val = 1 - val;
+          int cps2 = CrossProductSign(prev, curr, pt);
+          if (cps2 == 0) return PointInPolygonResult.IsOn;
+          if ((cps2 < 0) == isAbove) val = 1 - val;
         }
         isAbove = !isAbove;
         i++;
       }
 
       if (isAbove == startingAbove) return val == 0 ? PointInPolygonResult.IsOutside : PointInPolygonResult.IsInside;
-      if (i == len) i = 0;  
-      d = i == 0 ? CrossProduct(polygon[len - 1], polygon[0], pt) : CrossProduct(polygon[i - 1], polygon[i], pt);
-      if (d == 0) return PointInPolygonResult.IsOn;
-      if ((d < 0) == isAbove) val = 1 - val;
+      if (i == len) i = 0;
+      int cps = (i == 0) ?
+        CrossProductSign(polygon[len - 1], polygon[0], pt) :
+        CrossProductSign(polygon[i - 1], polygon[i], pt);
 
+      if (cps == 0) return PointInPolygonResult.IsOn;
+      if ((cps < 0) == isAbove) val = 1 - val;
       return val == 0 ? PointInPolygonResult.IsOutside : PointInPolygonResult.IsInside;
     }
+
+    public static bool Path2ContainsPath1(Path64 path1, Path64 path2)
+    {
+      // we need to make some accommodation for rounding errors
+      // so we won't jump if the first vertex is found outside
+      PointInPolygonResult pip = PointInPolygonResult.IsOn;
+      foreach (Point64 pt in path1)
+      {
+        switch (PointInPolygon(pt, path2))
+        {
+          case PointInPolygonResult.IsOutside:
+            if (pip == PointInPolygonResult.IsOutside) return false;
+            pip = PointInPolygonResult.IsOutside;
+            break;
+          case PointInPolygonResult.IsInside:
+            if (pip == PointInPolygonResult.IsInside) return true;
+            pip = PointInPolygonResult.IsInside;
+            break;
+          default: break;
+        }
+      }
+      // since path1's location is still equivocal, check its midpoint
+      Point64 mp = GetBounds(path1).MidPoint();
+      return InternalClipper.PointInPolygon(mp, path2) != PointInPolygonResult.IsOutside;
+    }
+
 
   } // InternalClipper
 
